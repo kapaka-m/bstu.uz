@@ -104,6 +104,7 @@ function fromRecord(record) {
           ...emptyTranslation,
           title: existing?.title || "",
           author: existing?.author || "",
+          category_label: existing?.category_label || "",
           summary: existing?.summary || "",
           content: existing?.content || "",
           meta_title: existing?.meta_title || "",
@@ -136,6 +137,8 @@ function toPayload(form) {
         {
           title: current.title || fallback.title || form.slug,
           author: current.author || fallback.author || form.author || "",
+          category_label:
+            current.category_label || fallback.category_label || form.category || "",
           summary: current.summary || fallback.summary || "",
           content: current.content || fallback.content || "",
           meta_title: current.meta_title || current.title || fallback.title || form.slug,

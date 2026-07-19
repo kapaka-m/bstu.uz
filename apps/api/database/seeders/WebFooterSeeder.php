@@ -8,6 +8,5 @@ class WebFooterSeeder extends Seeder
 {
     public function run(): void
     {
-        // Footer content is managed only through /apanel/cms/footer-web.
     }
 }

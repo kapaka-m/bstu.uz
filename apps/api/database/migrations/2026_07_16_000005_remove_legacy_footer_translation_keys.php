@@ -12,6 +12,5 @@ return new class extends Migration
 
     public function down(): void
     {
-        // Footer content is managed by web_footers and web_footer_translations.
     }
 };

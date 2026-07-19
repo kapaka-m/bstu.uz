@@ -1,0 +1,1821 @@
+{
+    "electrical-power-engineering": {
+        "name": "Department of Electrical & Power Engineering",
+        "facultyId": "faculty-of-engineering",
+        "head": "Dr. Anvar T. Sadullayev",
+        "headTitle": "Head of Department, Associate Professor, PhD",
+        "headEmail": "electrical.power@bstu.uz",
+        "headPhone": "+998 65 224 64 35 (Ext. 210)",
+        "headOfficeHours": "Tuesday & Thursday, 10:00 AM - 12:00 PM",
+        "about": "The Department of Electrical & Power Engineering is dedicated to education and research in power generation, transmission, electrical grids, energy auditing, and renewable energy integrations. Founded on the rich heritage of technical energy training in Bukhara, we collaborate with regional power grid administrations and industrial companies to train engineers who optimize and secure the national energy sector.",
+        "staff": [
+            {
+                "name": "Dr. Nematulla S. Rajabov",
+                "title": "Professor, Doctor of Technical Sciences"
+            },
+            {
+                "name": "Dr. Gulbahor O. Hamidova",
+                "title": "Associate Professor, Candidate of Sciences"
+            },
+            {
+                "name": "Salim I. Fayziyev",
+                "title": "Senior Lecturer"
+            },
+            {
+                "name": "Nurbek A. Safarov",
+                "title": "Assistant Lecturer"
+            }
+        ],
+        "programs": [
+            "Power Engineering (Electrical & Power Systems) [B.Sc.]",
+            "Power Grid Management & Smart Grids [M.Sc.]",
+            "Energy Conservation & Renewable Energy Audits [PhD]"
+        ],
+        "labs": [
+            "Electrical Machines & Drives Lab",
+            "High Voltage Engineering & Insulation Lab",
+            "Smart Grids & Automation Simulation Center",
+            "Solar & Wind Energy Systems Testing Area"
+        ],
+        "history": "The Department of Electrical and Power Engineering was established in 1977 under the name 'General Electrical Engineering', separated from the 'General Engineering Sciences' department under the leadership of M.T. Turdiev. Since 1978, evening classes in 'Electricity Supply for Industrial Enterprises, Cities and Agriculture' were offered, followed by daytime classes in 'Power Engineering' in 1985, and postgraduate programs in 2000.\nThe department was led by M.T. Turdiyev (1977-1985, 1994-2005), A.M. Abdullayev (1985-1994), N.N. Sadullayev (2005-2011), M.I. Maxmudov (2011-2018), and I.I. Xafizov (2018-2019).\nIn 2019, three separate departments were created: 'Electrical Mechanics and Technologies' (led by Assoc. Prof. I.I. Xafizov), 'Power Engineering' (led by Assoc. Prof. R.B. Jalilov), and 'Energy Audit' (led by M.I. Mahmudov).\nFollowing structural reforms in the 2024-2025 academic year, these three departments were merged into the single 'Department of Electrical and Power Engineering'. N.N. Mirzayev served as head in 2024-2025, and Assoc. Prof. Latipov Saidmurod Tuyg'unovich has been leading it since the start of the 2025-2026 academic year.",
+        "subjects": {
+            "bachelor": [
+                "Theoretical Electrical Engineering",
+                "Energy Management",
+                "Electrical Technological Devices",
+                "Electrical Machines / Electrical Devices",
+                "Electrical Lighting",
+                "Electricity Measuring and Control Instruments",
+                "Electrical Networks and Systems",
+                "Installation and Operation of Power Supply System",
+                "Transient Processes",
+                "Power Plants and Substations",
+                "Automated Systems of Electricity Accounting and Control",
+                "Heat Engineering",
+                "Electrical Engineering and Electronics",
+                "Fuel Combustion and Water Treatment Technology in TPP",
+                "Heat Engineering Measuring and Control Instruments",
+                "Boiler Facilities",
+                "High-Temperature Processes and Devices",
+                "Energy Production Technologies and Centers",
+                "Water Treatment Technology and Chemical Control in TPP",
+                "Fuel and Combustion"
+            ],
+            "master": [
+                "Modeling of Electrical Technical Systems and Complexes",
+                "Electrical Technical Devices and Power Sources of Industrial Complexes",
+                "Design of Automated Electrical Mechanical and Electrical Technological Systems",
+                "Optimal Control of Electrical Mechanical Systems and Complexes",
+                "Automated Electric Drives of Industrial Mechanisms",
+                "Automated Design Systems of Electrical Machines and Transformers",
+                "Reliability of Electrical Machines and Transformers",
+                "Recalculation of Electrical Machines and Transformers",
+                "Transition Processes in Electrical Machines and Transformers",
+                "Analytical Electromechanics",
+                "Control of Electrical Machines"
+            ]
+        },
+        "research": "The department has a high scientific potential with 2 Doctors of Sciences, 3 PhDs, 6 Senior Lecturers, and several independent researchers. Research is funded by a 500 million UZS state grant for creating wind energy systems, and active business contracts with 9 industrial enterprises amounting to 92 million UZS. The department also has access to modern energy auditing equipment (Portaflow 330, Testo 330-1LL, Fluke 435 II) via academic innovation grants.",
+        "publications": {
+            "articles": [
+                "Analysis of the Process of Aerobic Stabilization of Sediment on the Example of Purification Facilities of the Republic of Uzbekistan (Annals of R.S.C.B., 2021)",
+                "Prospects of modern measuring systems, which can determine electricity quality indicators (IMSCIGT, 2021)",
+                "Modeling energy efficiency in wind power plants using Matlab/Simulink (Eurasian Journal, 2021)",
+                "Methodology of developing an analog model of mathematical modeling of energy audit automation (Internauka, 2021)",
+                "Reducing the reactive power consumption of air sending devices (Eurasian Journal, 2022)",
+                "Energy saving in compressor devices in wastewater treatment facilities (Eurasian Journal, 2021)",
+                "Development and scientific justification of effective micro-hydro plants adapted to irrigation canal flows (Fan va Texnologiya, 2021)",
+                "Information software and devices for energy efficiency management and control (TSTU, 2021)"
+            ],
+            "scopus": [
+                "Increasing Energy Efficiency and Reliability of Electric Supply of Low Power Consumers (IJETT, 2020)",
+                "Micro-grid Based Power Supply of Remote Consumers Located Away from the Centralized Power Grid (IEEE, 2020)",
+                "Analysis of the Process of Aerobic Stabilization of Sediment (Annals of RSCB, 2021)",
+                "Opportunities and Prospects for Using Renewable Energy Sources in Bukhara Region (Applied Solar Energy, 2020)",
+                "Statistical Analysis of Wind Energy Potential in Bukhara Region Using Weibull Distribution (Applied Solar Energy, 2019)",
+                "Increase the reliability of power supply by using mechanical energy storage devices (E3S Web, 2021)",
+                "Analysis of multipolar generators operating efficiently in low-speed water and wind flows using ANSYS MAXWELL (E3S Web, 2021)",
+                "Research on facilities of power supply of small power consumers using wind and solar energy (IJITEE, 2019)",
+                "Assessment of wind and hydropower potential of Bukhara region (IOP Conf, 2020)"
+            ],
+            "textbooks": [
+                "Energy efficiency improvement of production mechanisms and electrical machines (Study guide, 2020)",
+                "Scientific problems and solutions of energy efficiency in industrial enterprises (Study guide, 2016)",
+                "Transformer and electrical machine design (Textbook, 2017)",
+                "Audit of energy saving electrical, mechanical and electrical technological devices (Textbook, 2018)",
+                "Electrical engineering and electronics (Study guide, 2020)"
+            ]
+        },
+        "partnerships": [
+            "Cooperation with Turin Polytechnic University (Italy) and Dresden Technical University (Germany) to align curriculum in Electrical Power Engineering and Renewable Energy Systems.",
+            "Preparation for international accreditation of Energy Engineering and Electrical Engineering programs in 2025 by a German international accreditation organization.",
+            "Planned international accreditation of TPP Laboratories in 2025 by Iran's accreditation organization.",
+            "Systematic training of 8 professors in prestigious foreign universities over the past 3 years.",
+            "Internships at Kazan Federal University (Russia), Hebei Vocational University of Technology and Engineering (China), and Belarus National Technical University (Belarus).",
+            "Dual education classes and joint lectures with South Kazakhstan State University named after M. Auezov and Belarus National Technical University."
+        ],
+        "futurePlans": [
+            "Establishing close cooperation with leading international scientific and educational institutions.",
+            "Widespread introduction of advanced pedagogical technologies based on international educational standards.",
+            "Active involvement of foreign professors and scientists in master classes and qualification courses.",
+            "Systematic training and internships for young teachers at foreign universities.",
+            "Increasing scientific productivity and involving talented students in research activities.",
+            "Purchasing and translating modern foreign textbooks and educational literature.",
+            "Equipping department laboratories with state-of-the-art scientific and testing equipment."
+        ],
+        "activities": [
+            "Student exchange program for master's students with M. Auezov South Kazakhstan State University.",
+            "Regular scientific-practical conferences in cooperation with the Bukhara branch of the State Inspection for Control in the Power Industry.",
+            "Participation in scientific exhibitions and fairs on energy efficiency and renewable energy sources.",
+            "Joint contracts and project implementations with industrial enterprises.",
+            "Assisting graduates in job placement through career fairs.",
+            "Regular dormitory activities and events hosted by the department staff."
+        ]
+    },
+    "architecture": {
+        "name": "Department of Architecture",
+        "facultyId": "faculty-of-engineering",
+        "head": "Dr. Shamsiddin R. Mirzayev",
+        "headTitle": "Head of Department, PhD in Technical Sciences",
+        "headEmail": "architecture@bstu.uz",
+        "headPhone": "+998 65 224 64 35 (Ext. 201)",
+        "headOfficeHours": "Monday & Wednesday, 10:00 AM - 12:00 PM",
+        "about": "The Department of Architecture was founded following the presidential instructions of 2008 to preserve and develop Bukhara's unique historical architectural heritage. We train architects who design modern, smart buildings that blend with Bukhara's historic aesthetics. Our research focuses on building aerodynamics, climate-adapted structures, and restoration methodologies of ancient brick structures.",
+        "staff": [
+            {
+                "name": "Prof. Mubin M. Vakhitov",
+                "title": "Doctor of Technical Sciences, Professor"
+            },
+            {
+                "name": "Dr. Hoshim R. Roziyev",
+                "title": "Associate Professor, Candidate of Technical Sciences"
+            },
+            {
+                "name": "Dr. Bohodir N. Nigmatullayev",
+                "title": "Associate Professor, Candidate of Technical Sciences"
+            },
+            {
+                "name": "Gayrat B. Rabiyev",
+                "title": "Senior Lecturer"
+            },
+            {
+                "name": "Mehriddin M. Khudayberdiyev",
+                "title": "Senior Lecturer"
+            },
+            {
+                "name": "Maqsuda N. Sulaymonova",
+                "title": "Senior Lecturer"
+            },
+            {
+                "name": "Dr. Murodjon U. Jo’rayev",
+                "title": "PhD in Architecture, Senior Lecturer"
+            }
+        ],
+        "programs": [
+            "Architecture & Design (Bachelor of Science) [4 Years]",
+            "Restoration of Cultural Heritage Sites (Bachelor of Science) [4 Years]",
+            "Urban Design & Planning (Master of Science) [2 Years]"
+        ],
+        "labs": [
+            "Architectural Drafting & Modeling Lab",
+            "Computer-Aided Architectural Design (CAAD) Studio",
+            "Model Making & Craft Workshop",
+            "Bukhara Historic Monuments Restoration Center"
+        ],
+        "history": "In April 2008, the First President of Uzbekistan, I.A. Karimov, visited Bukhara and instructed the creation of an architecture training program in Bukhara to preserve national heritage and design modern structures. In May 2008, the 'Architecture and Civil Engineering' faculty was established, and in August 2009, the 'Department of Architecture' was formed. Today, the department has 20 academic staff members, including 1 Doctor of Sciences, 4 Candidates of Sciences, and 5 Senior Lecturers.",
+        "subjects": {
+            "bachelor": [
+                "Architectural Composition and Basics of Design",
+                "Architectural Drawing, Painting and Sculpture",
+                "Architectural Design",
+                "Design of Residential and Public Buildings",
+                "Urban Planning and Landscape Design",
+                "Typology of Buildings and Structures",
+                "Transportation and Engineering Equipment",
+                "Interior and Equipment",
+                "Model Making",
+                "Digital Design (AutoCAD, SketchUp, Revit)",
+                "Engineering Equipment of Buildings",
+                "Repair and Restoration of Architectural Monuments",
+                "Basics of Designing Energy-Saving and Energy-Efficient Buildings",
+                "District Planning and Design",
+                "Architectural Heritage of Uzbekistan"
+            ]
+        },
+        "research": "The department carries out active scientific research in restoration of historical brick structures, building physics, climate-adapted design, and green building technologies in Uzbekistan. Research is carried out in close collaboration with the Bukhara Regional Administration of Cultural Heritage and construction companies.",
+        "publications": {
+            "articles": [
+                "Innovative Technical Solutions in the Design of Modular Residential Buildings (CAJ, 2022)",
+                "Evolution of Mass Public Buildings and Complexes: Problems of Modern Spatial Organization in Bukhara (IJIE, 2022)",
+                "Genesis and Evolution of the City of Bukhara (Genesis, 2022)",
+                "The Place of the Archaeological Monument of Varakhsha in the Study of Material Culture (WOS, 2022)",
+                "Medieval Bath of Ancient Bukhara (IEJRD, 2021)"
+            ]
+        },
+        "partnerships": [
+            "Agreement with KNAUF GIPS BUKHARA joint venture to teach KNAUF technologies to students.",
+            "Dual education and training programs with the Bukhara Regional Construction and Housing Department.",
+            "Cooperation agreement with Moscow State University of Civil Engineering (MGSU) for academic exchange and joint classes.",
+            "Cooperation with Potsdam University (Germany) professors for heritage preservation workshops.",
+            "Participation in the Restoration Week 2025 exhibition in Ferrara, Italy, organized by Assorestauro.",
+            "Planned joint educational programs with Azerbaijan University of Architecture and Construction and Vilnius Technical University."
+        ],
+        "futurePlans": [
+            "Establish partnerships with leading international architectural schools.",
+            "Integrate digital BIM and CAD design technologies into all curriculum stages.",
+            "Host international masterclasses on restoration of brick and clay monuments.",
+            "Involve students directly in regional restoration and planning projects."
+        ]
+    },
+    "civil-engineering": {
+        "name": "Department of Civil Engineering",
+        "facultyId": "faculty-of-engineering",
+        "head": "Dr. Baxtiyor S. Kobilov",
+        "headTitle": "Head of Department, Associate Professor, PhD",
+        "headEmail": "civil.eng@bstu.uz",
+        "headPhone": "+998 65 224 64 35 (Ext. 212)",
+        "headOfficeHours": "Monday & Wednesday, 2:00 PM - 4:00 PM",
+        "about": "The Department of Civil Engineering provides comprehensive training in structural mechanics, soil mechanics, concrete technologies, and project management. We prepare graduates to lead civil engineering infrastructure developments, high-rise buildings, and underground structures. Our research specializes in seismic-resistant structural engineering, concrete longevity, and geotechnical behaviors of desert soils.",
+        "staff": [
+            {
+                "name": "Prof. Zoir S. Toshov",
+                "title": "Professor, Doctor of Technical Sciences"
+            },
+            {
+                "name": "Dr. Elmurod A. Nazarov",
+                "title": "Associate Professor, PhD"
+            },
+            {
+                "name": "Zuhra K. Saidova",
+                "title": "Senior Lecturer"
+            },
+            {
+                "name": "Rustam B. Karimov",
+                "title": "Assistant Lecturer"
+            }
+        ],
+        "programs": [
+            "Civil & Structural Engineering [B.Sc.]",
+            "Seismic Engineering & Structural Integrity [M.Sc.]",
+            "Construction Management & Cost Estimation [M.Sc.]"
+        ],
+        "labs": [
+            "Strength of Materials & Concrete Testing Lab",
+            "Soil Mechanics & Geotechnical Testing Studio",
+            "Structural Integrity & Seismic Vibrations Lab",
+            "CAD/BIM Construction Design Studio"
+        ],
+        "history": "The Department of Civil Engineering began operating in 1962 as a base department at the Bukhara General Technical Faculty of the Tashkent Polytechnic Institute. Over its long history, more than 40 professors and associate professors have emerged from this department. Today, the department has 32 academic staff members, including 2 Doctors of Sciences, 15 Candidates of Sciences, and 15 Senior Lecturers/Assistants.",
+        "subjects": {
+            "bachelor": [
+                "Technical Condition Assessment of Buildings and Structures",
+                "Soil Mechanics, Bases and Foundations",
+                "Construction Organization and Planning",
+                "Reinforced Concrete and Masonry Structures",
+                "Innovative Technologies in Construction Industry",
+                "Wall Building Materials Technology",
+                "Finishing Building Materials Technology",
+                "Production Technology of Aerated Concrete and Foam Concrete Products",
+                "Polymer Building Materials",
+                "Engineering Geodesy",
+                "Architecture of Industrial and Civil Buildings (Industrial Buildings)",
+                "Construction Processes Technology",
+                "Wooden Structures",
+                "Metal Structures",
+                "Technological Equipment of Construction Industry",
+                "Paint and Coating Materials Technology",
+                "Estimation and Smeta in Construction",
+                "Engineering Geology and Hydrogeology",
+                "Construction Machinery"
+            ]
+        },
+        "research": "The department carries out active research in dry mortar mixtures for historical monument restoration based on local materials, ground cementation methods for loose soils, building green roofs in arid climates, improving thermal insulation of wall panels, and concrete technology in hot climates. Over 7 textbooks, 4 monographs, and 2 patents have been published recently.",
+        "publications": {
+            "textbooks": [
+                "Improving the energy efficiency of production mechanisms and electrical machines (Textbook, 2020)",
+                "Scientific problems and solutions of energy efficiency in industrial enterprises (Textbook, 2016)",
+                "Transformer and electrical machine design (Textbook, 2017)",
+                "Audit of energy-saving electrical, mechanical, and electrical technological devices (Textbook, 2018)",
+                "Electrical engineering and electronics (Textbook, 2020)"
+            ]
+        },
+        "partnerships": [
+            "Dual education programs with local construction firms and Bukhara regional structural testing labs.",
+            "Cooperation with Moscow State University of Civil Engineering (MGSU) for guest lectures and student internships."
+        ],
+        "futurePlans": [
+            "Develop new dry mortar formulations utilizing local waste byproducts.",
+            "Equip the concrete testing laboratory with advanced computerized presses.",
+            "Publish new textbooks on seismic-resistant concrete structures."
+        ]
+    },
+    "light-industry-engineering-and-design": {
+        "name": "Department of Light Industry Engineering and Design",
+        "facultyId": "faculty-of-engineering",
+        "head": "Dr. Nodira M. Adilova",
+        "headTitle": "Head of Department, PhD in Engineering",
+        "headEmail": "light.ind@bstu.uz",
+        "headPhone": "+998 65 224 64 35 (Ext. 214)",
+        "headOfficeHours": "Wednesday & Friday, 10:00 AM - 12:00 PM",
+        "about": "The Department of Light Industry Engineering and Design focuses on textile processing, garment technology, apparel manufacturing, and fashion design. We combine advanced machinery operations with creative design parameters to prepare specialists for Uzbekistan's booming cotton and light industry manufacturing sectors. Our graduates lead textile conglomerates, design studios, and logistics networks.",
+        "staff": [
+            {
+                "name": "Dr. Lola Sh. Kadirova",
+                "title": "Associate Professor, PhD"
+            },
+            {
+                "name": "Rustam U. Inoyatov",
+                "title": "Senior Lecturer"
+            },
+            {
+                "name": "Madina B. Xamrayeva",
+                "title": "Lecturer"
+            },
+            {
+                "name": "Aziza S. Jamilova",
+                "title": "Assistant"
+            }
+        ],
+        "programs": [
+            "Light Industry Technology & Apparel Design [B.Sc.]",
+            "Textile Product Development & Quality Assurance [M.Sc.]",
+            "Fashion Modeling, Merchandising & Design [B.Sc.]"
+        ],
+        "labs": [
+            "Textile Testing & Fiber Quality Lab",
+            "Garment Pattern Making & Sewing Workshop",
+            "CAD Fashion Design Studio",
+            "Dyeing & Finishing Research Laboratory"
+        ]
+    },
+    "mechanics-engineering-graphics": {
+        "name": "Department of Mechanics and Engineering Graphics",
+        "facultyId": "faculty-of-engineering",
+        "head": "Dr. Shavkat J. Mavlonov",
+        "headTitle": "Head of Department, Associate Professor, PhD",
+        "headEmail": "mechanics@bstu.uz",
+        "headPhone": "+998 65 224 64 35 (Ext. 216)",
+        "headOfficeHours": "Tuesday & Thursday, 2:00 PM - 4:00 PM",
+        "about": "The Department of Mechanics and Engineering Graphics teaches the fundamental science of engineering: statics, dynamics, kinematics, materials strength, and computer drafting. We serve as a core technical department for the entire university, offering foundational courses in drawing, CAD modeling, and mechanical assembly simulations to prepare students for core industrial design.",
+        "staff": [
+            {
+                "name": "Dr. Ravshan B. Xalilov",
+                "title": "Associate Professor, PhD"
+            },
+            {
+                "name": "Feruza A. Tursunova",
+                "title": "Senior Lecturer"
+            },
+            {
+                "name": "Jasur O. Sharipov",
+                "title": "Assistant Lecturer"
+            }
+        ],
+        "programs": [
+            "Applied Mechanics & Machine Dynamics [B.Sc.]",
+            "Computer Graphics & Industrial CAD Systems [B.Sc.]"
+        ],
+        "labs": [
+            "Engineering Graphics & CAD Studio",
+            "Theoretical Mechanics Laboratory",
+            "Machine Mechanisms & Assembly Exhibition Hall"
+        ]
+    },
+    "technological-machines-equipment": {
+        "name": "Department of Technological Machines and Equipment",
+        "facultyId": "faculty-of-engineering",
+        "head": "Dr. Dilmurod M. Olimov",
+        "headTitle": "Head of Department, Associate Professor, PhD",
+        "headEmail": "tech.machines@bstu.uz",
+        "headPhone": "+998 65 224 64 35 (Ext. 218)",
+        "headOfficeHours": "Wednesday & Friday, 3:00 PM - 5:00 PM",
+        "about": "The Department of Technological Machines and Equipment trains mechanical engineers specializing in the design, installation, and maintenance of machinery used in light industry, cotton processing, food manufacturing, and chemical plants. We focus on machinery thermodynamics, vibration analysis, automated maintenance schedules, and machine durability.",
+        "staff": [
+            {
+                "name": "Prof. Erkin S. Rahmonov",
+                "title": "Professor, Doctor of Sciences"
+            },
+            {
+                "name": "Dr. Zuxra Sh. Kamolova",
+                "title": "Associate Professor, PhD"
+            },
+            {
+                "name": "Bahodir B. Sodiqov",
+                "title": "Senior Lecturer"
+            }
+        ],
+        "programs": [
+            "Technological Machinery & Process Equipment [B.Sc.]",
+            "Maintenance & Reliability Engineering of Industrial Machines [M.Sc.]",
+            "Design & Optimization of Light Industry Machinery [PhD]"
+        ],
+        "labs": [
+            "Industrial Machines Assembly & Maintenance Lab",
+            "Machinery Vibrations & Mechanics Diagnostics Lab",
+            "Thermodynamics & Fluid Power Lab",
+            "Welding & Materials Processing Workshop"
+        ]
+    },
+    "textile-materials-science": {
+        "name": "Department of Textile Materials Science",
+        "facultyId": "faculty-of-engineering",
+        "head": "Dr. Shohruh B. Boltayev",
+        "headTitle": "Head of Department, PhD in Technical Sciences",
+        "headEmail": "textile.materials@bstu.uz",
+        "headPhone": "+998 65 224 64 35 (Ext. 220)",
+        "headOfficeHours": "Monday & Friday, 10:00 AM - 12:00 PM",
+        "about": "The Department of Textile Materials Science focuses on the structures, physics, and chemistry of natural and synthetic fibers, yarns, and fabrics. Given Bukhara's position in cotton growing and processing, our research aims to optimize cotton fiber processing, analyze fabric strength, develop ecological dyes, and study smart textile integrations.",
+        "staff": [
+            {
+                "name": "Dr. Nigora F. Mansurova",
+                "title": "Associate Professor, PhD"
+            },
+            {
+                "name": "Sobir O. Nematov",
+                "title": "Senior Lecturer"
+            },
+            {
+                "name": "Dilorom Sh. Rajabova",
+                "title": "Assistant"
+            }
+        ],
+        "programs": [
+            "Textile Materials Science & Fiber Processing [B.Sc.]",
+            "Quality Standards & Certifications of Textile Goods [M.Sc.]"
+        ],
+        "labs": [
+            "Fiber Physical Properties Testing Lab",
+            "Yarn & Fabric Quality Control Lab",
+            "Chemical Analysis of Fibers Studio",
+            "Textile Testing & Metrology Lab"
+        ]
+    },
+    "oil-gas-refining-technology": {
+        "name": "Department of Oil and Gas Refining Technology",
+        "facultyId": "faculty-of-technology",
+        "head": "Ochilov Abduraxim Abdurasulovich",
+        "headTitle": "Head of Department, Associate Professor, PhD",
+        "headEmail": "ochilov82@gmail.ru",
+        "headPhone": "+998 91 411 00 16",
+        "headOfficeHours": "Monday-Friday, 14:00-16:00",
+        "headImage": "/assets/img/departments/technology/ochilov-abduraxim-abdurasulovich.jpg",
+        "about": "The Department of Oil and Gas Refining Technology trains specialists for petroleum and gas processing enterprises, including Bukhara Oil Refinery, Mubarak Gas Processing Plant, and related industrial organizations. The department covers oil and gas processing technology, petroleum chemistry, deep gas processing, polymer processing, corrosion protection, product quality control, and modern physical and chemical analysis methods.",
+        "staff": [
+            {
+                "name": "Ochilov Abduraxim Abdurasulovich",
+                "title": "Head of Department",
+                "image": "/assets/img/departments/technology/ochilov-abduraxim-abdurasulovich.jpg"
+            },
+            {
+                "name": "Maxmudov Muxtor Jamolovich",
+                "title": "DSc, Professor",
+                "image": "/assets/img/departments/maxmudov.jpg"
+            },
+            {
+                "name": "Hayitov Ruslan Rustamjonovich",
+                "title": "DSc, Professor",
+                "image": "/assets/img/departments/hayitov.jpg"
+            },
+            {
+                "name": "Bozorov G'ayrat Rashidovich",
+                "title": "DSc, Professor",
+                "image": "/assets/img/departments/bozorov.jpg"
+            },
+            {
+                "name": "Xo'jaqulov Aziz Fayzullaevich",
+                "title": "PhD, Associate Professor",
+                "image": "/assets/img/departments/xojaqulov.jpg"
+            },
+            {
+                "name": "Murodov Malik Negmurodovich",
+                "title": "Candidate of Technical Sciences, Associate Professor",
+                "image": "/assets/img/departments/murodov.jpg"
+            },
+            {
+                "name": "Safarov Baxri Djumaevich",
+                "title": "Candidate of Technical Sciences, Associate Professor",
+                "image": "/assets/img/departments/safarov.jpg"
+            },
+            {
+                "name": "Tsukanov Maksim Nikolayevich",
+                "title": "PhD, Associate Professor",
+                "image": "/assets/img/departments/tsukanov.jpg"
+            }
+        ],
+        "programs": [
+            "60721100 - Technology of Oil and Gas Refining [B.Sc.]",
+            "60720500 - Technology of Deep Gas Processing [B.Sc.]",
+            "70720600 - Technology of Oil and Gas Processing [M.Sc.]",
+            "02.00.08 - Chemistry and Technology of Oil and Gas [Doctoral]"
+        ],
+        "labs": [
+            "Petroleum Products Quality Testing Lab",
+            "Hydrocarbon Catalytic Conversion Lab",
+            "Organic Chemistry Synthesis Lab",
+            "Fuel Quality Audit Laboratory"
+        ],
+        "history": "The department was established in the 2001-2002 academic year to train qualified specialists for the Bukhara Oil Refinery, Mubarak Gas Processing Plant, Gazlineftegaziburenie and other enterprises. It was initially led by M. Mardonov, PhD in Chemistry, followed by Q.K. Jumaev, J.A. Qalandarov, B.Z. Adizov, Sh. Sharipov and G.R. Bozorov. On July 10, 2019, three departments were created on the basis of petroleum and gas chemical industry technology. Since September 13, 2025, the department has been headed by Associate Professor A.A. Ochilov.",
+        "subjects": {
+            "bachelor": [
+                "Introduction to specialization",
+                "Oil and Gas Processing Technology 1, 2",
+                "Equipment for oil and gas processing",
+                "Design of oil and gas processing enterprises",
+                "General Chemical Technology",
+                "Chemistry and Technology of Fuels and Oils",
+                "Disposal of oil and gas processing waste",
+                "Quality control of oil and gas products",
+                "Modern methods of oil and gas product research",
+                "Hydrocarbon Gas Processing Technology",
+                "Oil and Gas Refining Processes",
+                "Energy Saving Technologies in Oil and Gas Refining"
+            ],
+            "master": [
+                "Methodology of scientific research",
+                "Technology of deep processing of oil and gas 1, 2",
+                "Corrosion protection of oil and gas refining equipment",
+                "Improvement and design of oil and gas processing enterprises",
+                "Methods of teaching special disciplines",
+                "Research work and preparation of master's dissertation",
+                "Modern methods of physical and chemical analysis",
+                "Industrial technologies and innovations"
+            ]
+        },
+        "research": "The department cooperates with JSC Uzbekneftegaz, Bukhara Oil Refinery LLC and Shurtan Gas Chemical Complex to modernize laboratories, purchase new equipment and conduct joint scientific projects. Research areas include oil and gas chemistry, colloid and membrane chemistry, regeneration of used oils, absorbents for gas purification, fuel additives and processing of local industrial waste.",
+        "partnerships": [
+            "Baku Higher Oil School joint master's education program",
+            "Atyrau Oil and Gas University named after S. Utebaev",
+            "Ufa State Petroleum Technological University",
+            "South Kazakhstan University named after M. Auezov",
+            "Vilnius Gediminas Technical University through Erasmus+ UzMedEn"
+        ]
+    },
+    "food-technology-service": {
+        "name": "Department of Food Technology and Service",
+        "facultyId": "faculty-of-technology",
+        "head": "Qurbonov Murod Tashpulatovich",
+        "headTitle": "Head of Department, Associate Professor, PhD",
+        "headEmail": "kurbanov.m@rambler.ru",
+        "headPhone": "+998 90 299 85 48",
+        "headOfficeHours": "Monday-Saturday, 15:00-17:00",
+        "about": "The Department of Food Technology and Service trains specialists in food production, storage and processing, bakery and confectionery technologies, wine and soft drink technologies, conservation technology, food safety, quality assessment, microbiology and modern catering service.",
+        "staff": [
+            {
+                "name": "Atamuradova Tamara Ivanovna",
+                "title": "Candidate of Technical Sciences, Associate Professor"
+            },
+            {
+                "name": "Ergasheva Khusrabo Bobonazarovna",
+                "title": "Candidate of Technical Sciences, Associate Professor"
+            },
+            {
+                "name": "Khaydarzoda Lolitta Negmatovna",
+                "title": "Candidate of Technical Sciences, Associate Professor"
+            },
+            {
+                "name": "Khuzhakulova Nilufar Fayzullayevna",
+                "title": "Candidate of Technical Sciences, Associate Professor, PhD"
+            },
+            {
+                "name": "Yuldasheva Shabon Jumaevna",
+                "title": "Senior Teacher"
+            },
+            {
+                "name": "Ismatova Shakhnoza Nusratillonovna",
+                "title": "Candidate of Technical Sciences, Associate Professor, PhD"
+            },
+            {
+                "name": "Amonov Bobur Nematovich",
+                "title": "Assistant"
+            },
+            {
+                "name": "Muzafarova Hall Mukhinovna",
+                "title": "Assistant"
+            }
+        ],
+        "programs": [
+            "60720100 - Food Technology [B.Sc.]",
+            "60720300 - Wine, Fermentation Products and Soft Drinks Technology [B.Sc.]",
+            "60720400 - Conservation Technology [B.Sc.]",
+            "70720101 - Food Production and Processing Technology, Bakery Products [M.Sc.]",
+            "70720101 - Food Production and Processing Technology, Grain Products [M.Sc.]"
+        ],
+        "labs": [
+            "Food Chemistry & Biotechnology Laboratory",
+            "Catering Technology & Cooking Practice Studio",
+            "Microbiology of Food Products Lab",
+            "Sensory Analysis & Testing Laboratory"
+        ],
+        "history": "The department began in 1980 by order No. 6 of the Ministry of Higher and Secondary Special Education as the Department of Bread, Pasta and Confectionery Products Technology. Since August 28, 2017, under the institute's new structure, Food Technology was reorganized as a department for the unified 5321000 Food Technology undergraduate specialty.",
+        "subjects": {
+            "bachelor": [
+                "Fundamentals of modern professional technology",
+                "Composition and properties of plant raw materials",
+                "Food biochemistry",
+                "Food commodity science",
+                "Food examination",
+                "Food raw materials and materials commodity science",
+                "Food microbiology",
+                "Physicochemical methods for determining food quality",
+                "Food research methods",
+                "Bakery, pasta and confectionery equipment",
+                "Technology of pasta products",
+                "Technology of grain storage and grain products"
+            ],
+            "master": [
+                "Grain biochemistry",
+                "Innovations in confectionery, bread and pasta production",
+                "Scientific basis for improving food production from vegetable raw materials",
+                "Ventilation and pneumatic transport devices",
+                "Scientific and pedagogical work",
+                "Research work and master's thesis preparation",
+                "Current trends in food industry technology",
+                "Use of biotechnology achievements in agricultural processing"
+            ]
+        },
+        "research": "The department conducts research on grain biochemistry, bakery and confectionery technologies, functional flour and oat products, rye bread recipes, natural decontamination methods, vegetable-oil mixtures, functional confectionery for herodietic nutrition and non-traditional feed resources.",
+        "partnerships": [
+            "GIZ Vocational Education in Central Asia program",
+            "University of Coimbra, Portugal, OUWOW wine technology project",
+            "Dresden University of Technology",
+            "Moscow State University of Food Production",
+            "Mogilev State University of Food and Chemical Technologies"
+        ]
+    },
+    "chemical-technology": {
+        "name": "Department of Chemical Technology",
+        "facultyId": "faculty-of-technology",
+        "head": "Dr. Rustam M. Nazarov",
+        "headTitle": "Head of Department, Associate Professor, PhD",
+        "headEmail": "chem.tech@bstu.uz",
+        "headPhone": "+998 65 224 64 35 (Ext. 314)",
+        "headOfficeHours": "Wednesday & Friday, 10:00 AM - 12:00 PM",
+        "about": "The Department of Chemical Technology covers inorganic chemical synthesis, mineral fertilizer production, building materials chemistry, and polymer technology. Our students learn how to optimize chemical processes, manage industrial bioreactors, analyze material properties, and design environment-friendly chemical synthesis routes.",
+        "staff": [
+            {
+                "name": "Prof. Jamol S. Soliyev",
+                "title": "Professor, Doctor of Technical Sciences"
+            },
+            {
+                "name": "Dr. Mavjuda A. Karimova",
+                "title": "Associate Professor, PhD"
+            },
+            {
+                "name": "Hasan I. Sharipov",
+                "title": "Senior Lecturer"
+            }
+        ],
+        "programs": [
+            "Inorganic Materials Chemical Technology [B.Sc.]",
+            "Chemical Production Engineering & Bioreactor Design [M.Sc.]",
+            "Polymer & Nanomaterials Engineering [M.Sc.]"
+        ],
+        "labs": [
+            "Inorganic Chemical Technology Lab",
+            "Mineral Fertilizers & Salts Synthesis Lab",
+            "Polymer Chemistry & Nanomaterials Studio",
+            "Bioreactor Systems & Kinetics Lab"
+        ]
+    },
+    "agricultural-products-storage-oil-fat-technology": {
+        "name": "Department of Agricultural Products Storage & Oil-Fat Technology",
+        "facultyId": "faculty-of-technology",
+        "head": "Dr. Jasur A. Xamrayev",
+        "headTitle": "Head of Department, PhD in Technical Sciences",
+        "headEmail": "agri.storage@bstu.uz",
+        "headPhone": "+998 65 224 64 35 (Ext. 316)",
+        "headOfficeHours": "Tuesday & Thursday, 3:00 PM - 5:00 PM",
+        "about": "The Department of Agricultural Products Storage & Oil-Fat Technology focuses on processing cottonseeds, sunflower seeds, and other oil crops, refining edible oils, producing margarines, and developing modern preservation methods for fresh grains, fruits, and vegetables. We address post-harvest loss prevention and national food security.",
+        "staff": [
+            {
+                "name": "Dr. Shahnoza K. Boltayeva",
+                "title": "Associate Professor, PhD"
+            },
+            {
+                "name": "Nurali B. Sodiqov",
+                "title": "Senior Lecturer"
+            },
+            {
+                "name": "Barno O. Kamolova",
+                "title": "Assistant"
+            }
+        ],
+        "programs": [
+            "Oil and Fat Refining Technology [B.Sc.]",
+            "Storage & Post-Harvest Preservation Technologies [B.Sc.]",
+            "Food Fats, Margarine & Oils Quality Control [M.Sc.]"
+        ],
+        "labs": [
+            "Vegetable Oils Extraction & Refining Lab",
+            "Seed Analysis & Fats Quality Audit Lab",
+            "Cold Storage & Fruit Preservation Lab",
+            "Cereal Science & Baking Laboratory"
+        ]
+    },
+    "oil-gas-engineering-upstream-downstream": {
+        "name": "Department of Oil and Gas Engineering (Upstream & Downstream)",
+        "facultyId": "faculty-of-technology",
+        "head": "Dr. Murodjon O. Karimov",
+        "headTitle": "Head of Department, Associate Professor, PhD",
+        "headEmail": "oil.gas@bstu.uz",
+        "headPhone": "+998 65 224 64 35 (Ext. 318)",
+        "headOfficeHours": "Monday & Thursday, 10:00 AM - 12:00 PM",
+        "about": "The Department of Oil and Gas Engineering trains specialists for upstream (oil/gas drilling, extraction, well testing) and downstream (hydrocarbon storage, pipeline transport) industrial operations. We collaborate with national drilling companies to provide students with hands-on practice in wells management, drilling muds, and pipeline hydraulics.",
+        "staff": [
+            {
+                "name": "Prof. Soxib S. Toshov",
+                "title": "Professor, Doctor of Technical Sciences"
+            },
+            {
+                "name": "Dr. Elmira Sh. Ganiyeva",
+                "title": "Associate Professor, PhD"
+            },
+            {
+                "name": "Farxod B. Nurullayev",
+                "title": "Senior Lecturer"
+            }
+        ],
+        "programs": [
+            "Oil & Gas Drilling, Exploration & Extraction [B.Sc.]",
+            "Hydrocarbon Storage, Pipelines & Transportation Systems [B.Sc.]",
+            "Drilling fluids & Oilwell Reservoir Management [M.Sc.]"
+        ],
+        "labs": [
+            "Drilling Fluids & Mud Testing Lab",
+            "Hydrodynamics & Pipeline Flow Laboratory",
+            "Well Drilling Simulators Studio",
+            "Geophysical Well Log Analysis Room"
+        ]
+    },
+    "metrology-standardization-quality-control": {
+        "name": "Department of Metrology, Standardization, and Quality Control",
+        "facultyId": "faculty-of-technology",
+        "head": "Dr. Aziz S. Qayumov",
+        "headTitle": "Head of Department, Associate Professor, PhD",
+        "headEmail": "metrology@bstu.uz",
+        "headPhone": "+998 65 224 64 35 (Ext. 320)",
+        "headOfficeHours": "Wednesday & Friday, 2:00 PM - 4:00 PM",
+        "about": "The Department of Metrology, Standardization, and Quality Control focuses on the precision of measurements, calibration of industrial instruments, implementation of ISO quality management systems, and national and international certifications. We verify compliance of technical products across all sectors of the economy.",
+        "staff": [
+            {
+                "name": "Dr. Zebo A. Xamrayeva",
+                "title": "Associate Professor, PhD"
+            },
+            {
+                "name": "Sobir J. Xalilov",
+                "title": "Senior Lecturer"
+            },
+            {
+                "name": "Laylo R. Sharipova",
+                "title": "Assistant"
+            }
+        ],
+        "programs": [
+            "Metrology, Standardization & Certification [B.Sc.]",
+            "Quality Management Systems & ISO Standards [M.Sc.]"
+        ],
+        "labs": [
+            "Precision Dimension & Calibrations Lab",
+            "Electronic Instrumentation Calibrations Lab",
+            "ISO Standards & Technical Documents Center",
+            "Industrial Metrology & Audits Lab"
+        ]
+    },
+    "irrigation-melioration": {
+        "name": "Department of Irrigation and Melioration",
+        "facultyId": "faculty-of-natural-resources-management",
+        "head": "Dr. Alisher S. Axmedov",
+        "headTitle": "Head of Department, Associate Professor, PhD",
+        "headEmail": "irrigation@bstu.uz",
+        "headPhone": "+998 65 224 64 35 (Ext. 410)",
+        "headOfficeHours": "Tuesday & Thursday, 10:00 AM - 12:00 PM",
+        "about": "The Department of Irrigation and Melioration specializes in water saving irrigation technologies (drip, sprinkler), soil salinity management, canal hydraulics, and water resource allocations. Our research aims to combat soil degradation and optimize water distribution systems in Bukhara's arid agricultural lands.",
+        "staff": [
+            {
+                "name": "Prof. Jaxongir M. Mahmudov",
+                "title": "Professor, Doctor of Sciences"
+            },
+            {
+                "name": "Dr. Farida A. Nematova",
+                "title": "Associate Professor, PhD"
+            },
+            {
+                "name": "Umid Sh. Gadoev",
+                "title": "Senior Lecturer"
+            }
+        ],
+        "programs": [
+            "Water Resources & Irrigation Engineering [B.Sc.]",
+            "Soil Melioration, Drainage & Salinity Audits [M.Sc.]",
+            "Sustainable Agriculture Water Management [PhD]"
+        ],
+        "labs": [
+            "Soil Moisture & Salinity Analysis Lab",
+            "Hydraulics & Open Canal Flows Lab",
+            "Drip Irrigation Systems Design Room",
+            "GIS Water Resources Mapping Studio"
+        ]
+    },
+    "hydrotechnical-structures-pump-stations": {
+        "name": "Department of Hydrotechnical Structures and Pump Stations",
+        "facultyId": "faculty-of-natural-resources-management",
+        "head": "Dr. Soxib N. Safarov",
+        "headTitle": "Head of Department, Associate Professor, PhD",
+        "headEmail": "hydro.structures@bstu.uz",
+        "headPhone": "+998 65 224 64 35 (Ext. 412)",
+        "headOfficeHours": "Monday & Friday, 2:00 PM - 4:00 PM",
+        "about": "The Department of Hydrotechnical Structures and Pump Stations focuses on the design, stability, and automated controls of dams, reservoirs, canals, pumping facilities, and hydroelectric stations. We prepare engineers who secure the safety and structural integrity of massive water infrastructures across Central Asia.",
+        "staff": [
+            {
+                "name": "Dr. Nemat K. Saidov",
+                "title": "Associate Professor, PhD"
+            },
+            {
+                "name": "Mavjuda R. Sharipova",
+                "title": "Senior Lecturer"
+            },
+            {
+                "name": "Rustam B. Fayziyev",
+                "title": "Assistant"
+            }
+        ],
+        "programs": [
+            "Hydrotechnical Engineering & Pump Stations [B.Sc.]",
+            "Reservoir Construction & Hydrotechnical Safety [M.Sc.]"
+        ],
+        "labs": [
+            "Pump Machinery & Turbine Mechanics Lab",
+            "Hydrotechnical Modeling & Concrete Durability Lab",
+            "Sensors & Automated Controls for Dams Lab"
+        ]
+    },
+    "agricultural-water-resources-engineering-technologies": {
+        "name": "Department of Agricultural and Water Resources Engineering-Technologies",
+        "facultyId": "faculty-of-natural-resources-management",
+        "head": "Dr. Sherzod O. Karimov",
+        "headTitle": "Head of Department, Associate Professor, PhD",
+        "headEmail": "agri.water@bstu.uz",
+        "headPhone": "+998 65 224 64 35 (Ext. 414)",
+        "headOfficeHours": "Wednesday & Friday, 10:00 AM - 12:00 PM",
+        "about": "The Department of Agricultural and Water Resources Engineering-Technologies covers machinery and smart tech solutions used in water systems and farming. We focus on automated canal gates, remote water flow sensors, farm machinery engines, GPS-guided harvesting, and precision farming integrations.",
+        "staff": [
+            {
+                "name": "Dr. Alim S. Xamrayev",
+                "title": "Associate Professor, PhD"
+            },
+            {
+                "name": "Sabohat A. Karimova",
+                "title": "Senior Lecturer"
+            },
+            {
+                "name": "Javohir K. Safarov",
+                "title": "Assistant"
+            }
+        ],
+        "programs": [
+            "Agricultural Machinery & Farm Technologies [B.Sc.]",
+            "Precision Water Engineering & Remote Sensors [M.Sc.]"
+        ],
+        "labs": [
+            "Farm Machinery Mechanical Engines Lab",
+            "Telemetry & Water Flow Sensors Lab",
+            "CAD/CAM Agricultural Design Studio"
+        ]
+    },
+    "land-resources-management-state-land-cadastres": {
+        "name": "Department of Land Resources Management and State Land Cadastres",
+        "facultyId": "faculty-of-natural-resources-management",
+        "head": "Dr. Qahramon A. Xamidov",
+        "headTitle": "Head of Department, Associate Professor, PhD",
+        "headEmail": "cadastre@bstu.uz",
+        "headPhone": "+998 65 224 64 35 (Ext. 416)",
+        "headOfficeHours": "Tuesday & Thursday, 3:00 PM - 5:00 PM",
+        "about": "The Department of Land Resources Management and State Land Cadastres teaches geodesy, satellite surveying, digital cartography, land evaluation, and Geographic Information Systems (GIS). We train specialists who map agricultural boundaries, issue land ownership certs, and manage state land records.",
+        "staff": [
+            {
+                "name": "Dr. Shodiya B. Boltayeva",
+                "title": "Associate Professor, PhD"
+            },
+            {
+                "name": "Farxod M. Rahmatov",
+                "title": "Senior Lecturer"
+            },
+            {
+                "name": "Zafar I. Saidov",
+                "title": "Assistant"
+            }
+        ],
+        "programs": [
+            "Land Resources Management & Cadastres [B.Sc.]",
+            "Geodesy, Cartography & GIS Analytics [B.Sc.]",
+            "Digital Land Planning & Urban Cadastres [M.Sc.]"
+        ],
+        "labs": [
+            "Geodetic Surveying Instruments Lab (Theodolites/Total Stations)",
+            "GIS & Remote Sensing Digital Mapping Lab",
+            "Cadastre Records & Legal Documentation Room"
+        ]
+    },
+    "industrial-ecology-hydrogeology": {
+        "name": "Department of Industrial Ecology and Hydrogeology",
+        "facultyId": "faculty-of-natural-resources-management",
+        "head": "Dr. Dilfuza S. Mansurova",
+        "headTitle": "Head of Department, Associate Professor, PhD",
+        "headEmail": "ecology@bstu.uz",
+        "headPhone": "+998 65 224 64 35 (Ext. 418)",
+        "headOfficeHours": "Monday & Thursday, 10:00 AM - 12:00 PM",
+        "about": "The Department of Industrial Ecology and Hydrogeology focuses on groundwater hydrology, ecological impact assessments, water purification, air quality filters, and industrial waste management. We evaluate soil salinity, test underground water tables, and study eco-protection systems in desert environments.",
+        "staff": [
+            {
+                "name": "Prof. Mavlon M. Mahmudov",
+                "title": "Professor, Doctor of Sciences"
+            },
+            {
+                "name": "Dr. Zebo O. Sharipova",
+                "title": "Associate Professor, PhD"
+            },
+            {
+                "name": "Kamol J. Tursunov",
+                "title": "Senior Lecturer"
+            }
+        ],
+        "programs": [
+            "Industrial Ecology & Waste Management [B.Sc.]",
+            "Hydrogeology & Groundwater Resource Audits [B.Sc.]",
+            "Environmental Impact Assessment & Eco-Audits [M.Sc.]"
+        ],
+        "labs": [
+            "Water Chemistry & Underground Water Testing Lab",
+            "Ecological Monitoring & Air Filtering Lab",
+            "Microbiology & Soil Salinity Analysis Room"
+        ]
+    },
+    "vehicle-engineering-automotive-transport-systems": {
+        "name": "Department of Vehicle Engineering (Automotive & Transport Systems)",
+        "facultyId": "faculty-of-natural-resources-management",
+        "head": "Dr. Sirojiddin A. Nematov",
+        "headTitle": "Head of Department, PhD in Engineering",
+        "headEmail": "vehicle@bstu.uz",
+        "headPhone": "+998 65 224 64 35 (Ext. 420)",
+        "headOfficeHours": "Wednesday & Friday, 2:00 PM - 4:00 PM",
+        "about": "The Department of Vehicle Engineering covers automotive design, internal combustion engines, transport logistics, and electric vehicles. We prepare engineers who manage public transport fleets, design agricultural transport systems, troubleshoot engine diagnostics, and optimize logistics pathways.",
+        "staff": [
+            {
+                "name": "Dr. Olim B. Xalilov",
+                "title": "Associate Professor, PhD"
+            },
+            {
+                "name": "Ravshan M. Fayziyev",
+                "title": "Senior Lecturer"
+            },
+            {
+                "name": "Guli Sh. Saidova",
+                "title": "Assistant"
+            }
+        ],
+        "programs": [
+            "Automotive Engineering & Fleet Operations [B.Sc.]",
+            "Transport Logistics & Cargo Management [B.Sc.]",
+            "Electric Vehicle (EV) Systems & Diagnostics [M.Sc.]"
+        ],
+        "labs": [
+            "Automotive Mechanics & Engine Diagnostics Lab",
+            "Hydraulics & Electronic Braking Systems Lab",
+            "Electric & Hybrid Vehicles Training Room",
+            "Logistics & Traffic Flow Management Center"
+        ]
+    },
+    "technological-processes-production-automation": {
+        "name": "Department of Technological Processes and Production Automation",
+        "facultyId": "faculty-of-service-and-digitalization",
+        "head": "Qobilov Hasan Xalilovich",
+        "headTitle": "Head of Department, Associate Professor, PhD",
+        "headEmail": "h.qobilov@mail.ru",
+        "headPhone": "+998 (91) 409 66 18",
+        "headOfficeHours": "Every day 15:00-17:00",
+        "about": "The department trains highly qualified, competitive automation specialists, executes innovative research projects in energy-saving technologies for agricultural processing, and develops intelligent control systems in collaboration with major national enterprises and leading international institutions.",
+        "staff": [
+            {
+                "name": "Djuraev Xayrullo Fayzievich",
+                "title": "Professor"
+            },
+            {
+                "name": "Abduraxmonov Olim Rustamovich",
+                "title": "Professor"
+            },
+            {
+                "name": "Usmonov Axtam Usmonovich",
+                "title": "Associate Professor"
+            },
+            {
+                "name": "Abidov Kamildjan Zarifovich",
+                "title": "Acting Associate Professor"
+            },
+            {
+                "name": "Salieva Olima Kamalovna",
+                "title": "Associate Professor"
+            },
+            {
+                "name": "Ibragimov Ulug‘bek Murodilloevich",
+                "title": "Acting Associate Professor"
+            },
+            {
+                "name": "Abduraxmonova Muqadas Irismatovna",
+                "title": "Senior Lecturer"
+            },
+            {
+                "name": "Ergashev Baxtiyor Tilavovich",
+                "title": "Senior Lecturer"
+            },
+            {
+                "name": "Rasulov Shuhrat Xo‘jaqulovich",
+                "title": "Senior Lecturer"
+            },
+            {
+                "name": "Ismoyilov Hayot Barotovich",
+                "title": "Senior Lecturer / Doctorant"
+            },
+            {
+                "name": "Xalilov Fayoz Vaxobjonovich",
+                "title": "Senior Lecturer / Doctorant"
+            },
+            {
+                "name": "Raxmatov San’at Sultonovich",
+                "title": "Assistant"
+            },
+            {
+                "name": "Ismatova Nafisa",
+                "title": "Trainee Teacher"
+            },
+            {
+                "name": "Xo‘janazarov Zayniddin Rashidovich",
+                "title": "Doctorant"
+            },
+            {
+                "name": "Xojiev Azizjon Kaimovich",
+                "title": "Doctorant"
+            },
+            {
+                "name": "Uvayzov Saidjon Komilovich",
+                "title": "Doctorant"
+            },
+            {
+                "name": "Ibragimov Shohruh Ramazonovich",
+                "title": "Doctorant"
+            },
+            {
+                "name": "Adizova Madina Ro‘zievna",
+                "title": "Trainee Teacher"
+            },
+            {
+                "name": "Mizomov Muxammad Saydullo o‘g‘li",
+                "title": "Doctorant"
+            },
+            {
+                "name": "Qazoqov Jo‘rabek Roziqovich",
+                "title": "Assistant"
+            },
+            {
+                "name": "Jalolov Tursunbek Sadriddinovich",
+                "title": "Trainee Teacher"
+            },
+            {
+                "name": "O‘ktamova Shohsanam Hakimovna",
+                "title": "Trainee Teacher / Researcher"
+            },
+            {
+                "name": "Safarova Dilshoda Nodirovna",
+                "title": "Trainee Teacher"
+            },
+            {
+                "name": "Saidov Said Rustamovich",
+                "title": "Trainee Teacher"
+            }
+        ],
+        "programs": [
+            "60710900 – Technological Processes and Production Automation [B.Sc.]",
+            "60711000 – Industrial Automation & Robotics [B.Sc.]",
+            "70711001 – Industrial Automation & Robotics [M.Sc.]"
+        ],
+        "labs": [
+            "PLC Programming & Microcontrollers Lab",
+            "Industrial Sensors & SCADA Design Lab",
+            "Robotics Mechanics & Control Systems Studio",
+            "Pneumatics & Hydraulics Automation Lab"
+        ],
+        "history": "The department was established in 1979 as the 'Production Processes, Apparatus, and Automation' department at the Bukhara Food and Light Industry Technology Institute, initially led by Professor A.O. Ortikov. Over the decades, it evolved into 'Technological Machines, Equipment, and Production Automation' (2003) and 'Automation of Modern Technology and Technological Processes' (2011). In 2013, under Presidential Decree PQ-1954, it was renamed 'Information-Communication Systems of Technological Processes Control'. Today, it offers comprehensive Bachelor's and Master's degrees in automation, with evening and part-time education introduced in 2019.",
+        "subjects": {
+            "bachelor": [
+                "Software for Technological Process Control",
+                "Technical Applications based on Programming Languages",
+                "Standardization of Information-Communication Systems",
+                "Technological Measurements and Instruments of the Industry",
+                "Computer Systems and Networks",
+                "Elements and Devices of Control Systems",
+                "Information Processes and Systems",
+                "Computer Control Technologies in Mechatronics",
+                "Control Theory",
+                "Basics of Modeling and Optimization of Technological Processes",
+                "Technical Means of Automation",
+                "Electro-automatics",
+                "Design, Installation, and Commissioning of Automation Systems",
+                "Instrumental Tools of Information Systems",
+                "Design of Information-Communication Systems",
+                "Digital Automation and Control Systems",
+                "Database Management Systems",
+                "Automation of Technological Processes",
+                "Interface Design of Information Systems",
+                "Information Security",
+                "Automated Control Systems of Technological Processes",
+                "Fundamentals of Automatic Control",
+                "Control and Measurement Instruments",
+                "Numerical Methods in Automation and Engineering"
+            ],
+            "master": [
+                "Technology of Developing Information-Communication Systems in Technological Process Control",
+                "Optimization and Diagnostics of Information-Communication Systems",
+                "Methods and Tools of Investigating Information-Communication Systems",
+                "Intelligent Control Systems and Decision Making",
+                "Architecture and Nanotechnology of Information-Communication Systems",
+                "Machine Learning for IoT (Technological Process Data)",
+                "Computer Aided Design (CAD/CAE/CAM) in Engineering",
+                "Preparation of Research Work and Master's Dissertation"
+            ]
+        },
+        "research": "The department conducts scientific research in three main directions:\n1) Creation of energy-efficient technologies and equipment in agricultural product processing;\n2) Creation of information-communication systems aimed at increasing efficiency in production and economic sectors;\n3) Methodologies for ensuring educational quality based on digital technologies in technical education.\nIt maintains active corporate partnerships for practical training and research with major industrial enterprises such as the Bukhara Oil Refinery, Navoi Mining and Metallurgical Combinat, Navoiyazot, Lukoil Uzbekistan, Shurtan Gas Chemical Complex, Muborak Gas Processing Plant, and Uztelecom.",
+        "publications": {
+            "textbooks": [
+                "B.T. Ergashev - Database Management Systems (for Technological Processes Control Information-Communication Systems)",
+                "K.Z. Abidov, S.R. Ubaydullayeva - Fundamentals of Automation and Microprocessor Technology",
+                "A.U. Usmonov, S.X. Rasulov, Sh.R. Ibragimov - Intelligent Control and Measurement Instruments",
+                "O.R. Abduraxmonov, Sh.R. Ibragimov - Elements and Devices of Control Systems"
+            ],
+            "scopus": [
+                "Kobilov H. H., Abduraxmonov O. R., Sharipova N. R., Adizova M. R. - Development of the installation device pressing the volume of briquetted material and computer modeling of the technological process (AGRITECH-2021, Scopus)",
+                "Artikov A. A., Narziev M. S., Kobilov H. H. - To the question of modeling the process of compacting a briquetted material in a pressing plant (Academia Journal)",
+                "Abduraxmonov O. R., Kobilov H. H., Abidov K. Z. - Creation of new technology of coal briquette manufacturing (EPRA IJMR)"
+            ],
+            "articles": [
+                "U.M. Ibragimov - Evaluating the Results of Distance Education of Future Engineers Using 'Smart' Technology",
+                "H.X. Qobilov - Factors in Developing Students' Personal-Creative Competence in Higher Education",
+                "O.R. Abduraxmonov, H.X. Qobilov, Z.S. Salimov, Sh.M. Saydahmedov - Intensification of the Distillation Process of Hydrocarbon Mixtures Using Alternative Stripping Agents",
+                "H.X. Qobilov, D.F. Goyibov, A.P. Nazarov - Low-Temperature Separation of Hydrocarbons from Natural and Oil Associated Gases"
+            ]
+        },
+        "partnerships": [
+            "KTH Royal Institute of Technology (Sweden)",
+            "Turin Polytechnic University (Italy)",
+            "University of Leeds (UK)",
+            "KU Leuven (Belgium)",
+            "University of Santiago de Compostela (Spain)",
+            "University of Primorska (Slovenia)",
+            "Johannes Kepler University Linz (Austria)",
+            "Moscow State University of Technology STANKIN (Russia)",
+            "Mogilev State University of Food Technologies (Belarus)",
+            "Kostanay State University (Kazakhstan)",
+            "Almaty International University of Information Technologies (Kazakhstan)"
+        ],
+        "futurePlans": [
+            "Increase the department's academic potential to 70% by the end of 2024.",
+            "Execute economic contracts worth at least 200 million UZS annually for industrial problem-solving.",
+            "Establish state grants in cooperation with prestigious foreign higher education institutions.",
+            "Ensure participation of professors and talented students in startup projects.",
+            "Develop textbooks and study guides in specialized disciplines according to modern requirements.",
+            "Commercialize scientific research results.",
+            "Improve student scientific clubs by attracting talented students.",
+            "Conduct practical and laboratory classes directly at industrial enterprise sites.",
+            "Ensure participation of young teachers and talented students in olympiads and competitions."
+        ]
+    },
+    "information-communication-technologies": {
+        "name": "Department of Information and Communication Technologies",
+        "facultyId": "faculty-of-service-and-digitalization",
+        "head": "Dr. Baxodir A. Nematov",
+        "headTitle": "Head of Department, Associate Professor, PhD",
+        "headEmail": "ict@bstu.uz",
+        "headPhone": "+998 65 224 64 35 (Ext. 512)",
+        "headOfficeHours": "Monday & Friday, 2:00 PM - 4:00 PM",
+        "about": "The Department of Information and Communication Technologies focuses on software engineering, network administration, computer architectures, cybersecurity, and telecommunication systems. We collaborate with national tech organizations to train developers, system admins, and network engineers.",
+        "staff": [
+            {
+                "name": "Dr. Lola M. Karimova",
+                "title": "Associate Professor, PhD"
+            },
+            {
+                "name": "Sobir O. Fayziyev",
+                "title": "Senior Lecturer"
+            },
+            {
+                "name": "Dildora R. Saidova",
+                "title": "Lecturer"
+            },
+            {
+                "name": "Jasur B. Karimov",
+                "title": "Assistant"
+            }
+        ],
+        "programs": [
+            "Software Engineering & Web Development [B.Sc.]",
+            "Computer Networks, Administration & ICT [B.Sc.]",
+            "Cybersecurity & Digital Data Encryption [M.Sc.]"
+        ],
+        "labs": [
+            "Software Coding Practice Lab (Java/Python/C++)",
+            "Computer Networks & Cisco Networking Lab",
+            "Cybersecurity, Encryption & Ethical Hacking Lab",
+            "Digital Signal Processing & Telecom Lab"
+        ]
+    },
+    "economics-management": {
+        "name": "Department of Economics and Management",
+        "facultyId": "faculty-of-service-and-digitalization",
+        "head": "Dr. Sherbek N. Xayitov",
+        "headTitle": "Dean of Faculty & Head of Department, PhD",
+        "headEmail": "economics@bstu.uz",
+        "headPhone": "+998 65 224 64 35 (Ext. 514)",
+        "headOfficeHours": "Wednesday & Friday, 2:00 PM - 4:00 PM",
+        "about": "The Department of Economics and Management focuses on industrial economics, digital business models, finance, marketing audits, and strategic project management. We combine financial theories with data analytics to prepare managers who lead digital business transformations.",
+        "staff": [
+            {
+                "name": "Dr. Nigora B. Safarova",
+                "title": "Associate Professor, PhD"
+            },
+            {
+                "name": "Rustam J. Toshov",
+                "title": "Senior Lecturer"
+            },
+            {
+                "name": "Guli A. Kamolova",
+                "title": "Lecturer"
+            }
+        ],
+        "programs": [
+            "Economics & Industrial Management [B.Sc.]",
+            "Digital Business, E-Commerce & Marketing [B.Sc.]",
+            "Corporate Finance & Strategy Management [M.Sc.]"
+        ],
+        "labs": [
+            "Business Analytics & Finance Modeling Lab",
+            "Digital Marketing & E-Commerce Studio",
+            "Case Study & Project Management Simulation Room"
+        ]
+    },
+    "artificial-intelligence-digitalization": {
+        "name": "Department of Artificial Intelligence and Digitalization",
+        "facultyId": "faculty-of-service-and-digitalization",
+        "head": "Dr. Alisher M. Toshov",
+        "headTitle": "Head of Department, PhD in Computer Science",
+        "headEmail": "ai.digital@bstu.uz",
+        "headPhone": "+998 65 224 64 35 (Ext. 516)",
+        "headOfficeHours": "Tuesday & Thursday, 3:00 PM - 5:00 PM",
+        "about": "The Department of Artificial Intelligence and Digitalization focuses on Machine Learning algorithms, Big Data architectures, Deep Learning, computer vision, and national digitalization audits. We train AI developers who build neural networks, automate processes with AI, and analyze complex industrial data.",
+        "staff": [
+            {
+                "name": "Dr. Rayxon Sh. Tosheva",
+                "title": "Associate Professor, PhD"
+            },
+            {
+                "name": "Umid B. Nematov",
+                "title": "Senior Lecturer"
+            },
+            {
+                "name": "Sardor O. Safarov",
+                "title": "Assistant"
+            }
+        ],
+        "programs": [
+            "Artificial Intelligence & Machine Learning [B.Sc.]",
+            "Big Data Analytics, Hadoop & Spark [M.Sc.]",
+            "Deep Learning, Computer Vision & NLP [PhD]"
+        ],
+        "labs": [
+            "AI & Machine Learning GPU Computing Center",
+            "Big Data Analytics & Cloud Infrastructure Lab",
+            "Computer Vision & Robotics Integration Lab"
+        ]
+    },
+    "social-sciences-physical-culture": {
+        "name": "Department of Social Sciences and Physical Culture",
+        "facultyId": "faculty-of-service-and-digitalization",
+        "head": "Dr. Qobil O. Tursunov",
+        "headTitle": "Head of Department, PhD in Sociology",
+        "headEmail": "social.sciences@bstu.uz",
+        "headPhone": "+998 65 224 64 35 (Ext. 518)",
+        "headOfficeHours": "Monday & Friday, 10:00 AM - 12:00 PM",
+        "about": "The Department of Social Sciences and Physical Culture is a university-wide department teaching history, philosophy, sociology, professional ethics, and physical education. We promote physical health, sports tournaments, and professional ethical behaviors among technical students.",
+        "staff": [
+            {
+                "name": "Dr. Zebo A. Hamidova",
+                "title": "Associate Professor, PhD"
+            },
+            {
+                "name": "Sobir B. Karimov",
+                "title": "Senior Lecturer"
+            },
+            {
+                "name": "Guli K. Saidova",
+                "title": "Sports Coach"
+            }
+        ],
+        "programs": [
+            "Professional Ethics, Philosophy & Sociology [Core Curriculum]",
+            "Physical Culture, Athletics & Sports Coaching [Elective Curriculum]"
+        ],
+        "labs": [
+            "Physical Fitness & Diagnostics Laboratory",
+            "Social Research & Survey Data Center",
+            "BSTU Sports Complex & Gymnastics Arena"
+        ]
+    },
+    "exact-sciences": {
+        "name": "Department of Exact Sciences",
+        "facultyId": "faculty-of-service-and-digitalization",
+        "head": "Dr. Anvar Sh. Kamolov",
+        "headTitle": "Head of Department, Associate Professor, PhD",
+        "headEmail": "exact.sciences@bstu.uz",
+        "headPhone": "+998 65 224 64 35 (Ext. 520)",
+        "headOfficeHours": "Wednesday & Friday, 10:00 AM - 12:00 PM",
+        "about": "The Department of Exact Sciences handles university-wide math and physics education, including mathematical analysis, linear algebra, probability theories, differential equations, and classical mechanics. We build mathematical models for engineering calculations.",
+        "staff": [
+            {
+                "name": "Dr. Lola J. Toshova",
+                "title": "Associate Professor, PhD"
+            },
+            {
+                "name": "Barno B. Sodiqova",
+                "title": "Senior Lecturer"
+            },
+            {
+                "name": "Maxmud O. Safarov",
+                "title": "Assistant"
+            }
+        ],
+        "programs": [
+            "Applied Mathematics & Mathematical Modeling [Core]",
+            "Technical Physics & Mechanical Equations [Core]"
+        ],
+        "labs": [
+            "Classical & Technical Physics Lab",
+            "Calculus & Mathematical Computations Studio"
+        ]
+    },
+    "uzbek-foreign-languages": {
+        "name": "Department of Uzbek and Foreign Languages",
+        "facultyId": "faculty-of-service-and-digitalization",
+        "head": "Dr. Gulnora M. Rahmatova",
+        "headTitle": "Head of Department, PhD in Philology",
+        "headEmail": "languages@bstu.uz",
+        "headPhone": "+998 65 224 64 35 (Ext. 522)",
+        "headOfficeHours": "Monday & Thursday, 2:00 PM - 4:00 PM",
+        "about": "The Department of Uzbek and Foreign Languages teaches Uzbek, English, German, and Russian language courses with a focus on technical vocabulary, scientific research translation, and international business communication.",
+        "staff": [
+            {
+                "name": "Dr. Dilfuza A. Saidova",
+                "title": "Associate Professor, PhD"
+            },
+            {
+                "name": "Mavjuda B. Sharipova",
+                "title": "Senior Lecturer"
+            },
+            {
+                "name": "Aziza S. Jamilova",
+                "title": "Lecturer"
+            }
+        ],
+        "programs": [
+            "Technical English, German & Russian for Engineers [Curriculum]",
+            "Uzbek Language & Business Correspondence [Curriculum]"
+        ]
+    },
+    "information-and-communication-technologies": {
+        "name": "Department of Information and Communication Technologies",
+        "facultyId": "faculty-of-service-and-digitalization",
+        "head": "Narziyev Umidjon Zaripovich",
+        "headTitle": "Head of Department, Senior Lecturer",
+        "headEmail": "u.narziyev@mail.ru",
+        "headPhone": "+998 99 380 81 88",
+        "headOfficeHours": "Monday-Friday (14:00-16:00)",
+        "about": "The department focuses on software engineering, network administration, computer architectures, cybersecurity, and telecommunication systems. We collaborate with national tech organizations to train developers, system admins, and network engineers.",
+        "staff": [
+            {
+                "name": "Narziyev Umidjon Zaripovich",
+                "title": "Head of Department, Senior Lecturer"
+            },
+            {
+                "name": "Yo’ldoshev Shuhrat Savrievich",
+                "title": "Associate Professor, PhD in Physics-Mathematics"
+            },
+            {
+                "name": "Murodova Zarina Rashidovna",
+                "title": "Associate Professor, PhD in Pedagogical Sciences"
+            },
+            {
+                "name": "Muradova Firuza Rashidovna",
+                "title": "Associate Professor, PhD in Pedagogical Sciences"
+            },
+            {
+                "name": "Yuldashev Askar Adizovich",
+                "title": "Associate Professor, PhD"
+            },
+            {
+                "name": "Asraev Zafar Rizakulovich",
+                "title": "Senior Lecturer"
+            },
+            {
+                "name": "Sariyev Rustam Bobomuradovich",
+                "title": "Senior Lecturer"
+            },
+            {
+                "name": "Sohibov Tolib Fayzullaevich",
+                "title": "Senior Lecturer"
+            },
+            {
+                "name": "Nafasov Mirzomurod Muxamadovich",
+                "title": "Senior Lecturer"
+            },
+            {
+                "name": "Muxamadieva Zarina Bahodirovna",
+                "title": "Assistant"
+            },
+            {
+                "name": "Jo’raev Olim Ismoilovich",
+                "title": "Assistant"
+            },
+            {
+                "name": "Hayitova Iroda Ilhomovna",
+                "title": "Senior Lecturer"
+            },
+            {
+                "name": "Nurullaev Mirxon Muhammadovich",
+                "title": "Senior Lecturer"
+            },
+            {
+                "name": "Turaeva Gulchiroy Sheralievna",
+                "title": "Assistant"
+            },
+            {
+                "name": "Sharapova Nigora Amonovna",
+                "title": "Assistant"
+            },
+            {
+                "name": "Gaffarov Laziz Xasanovich",
+                "title": "Associate Professor, PhD"
+            },
+            {
+                "name": "Saidov Usmon Bahron o’g’li",
+                "title": "Trainee Teacher"
+            },
+            {
+                "name": "Talabov Mirshod Dishodovich",
+                "title": "Senior Lecturer"
+            },
+            {
+                "name": "Kadirova Shoxibonu Muxammadovna",
+                "title": "Trainee Teacher"
+            },
+            {
+                "name": "Axtamova Laziza Azam qizi",
+                "title": "Trainee Teacher"
+            },
+            {
+                "name": "Atoev Fazliddin Sayfiddinovich",
+                "title": "Trainee Teacher"
+            },
+            {
+                "name": "Murtazoev Azamat Sunatillo o’g’li",
+                "title": "Trainee Teacher"
+            },
+            {
+                "name": "Toirov Mirshod Mirxonovich",
+                "title": "Trainee Teacher"
+            },
+            {
+                "name": "Kamolova Mahliyo Hasanovna",
+                "title": "Trainee Teacher"
+            }
+        ],
+        "programs": [
+            "60610100 – Information Systems and Technologies [B.Sc.]",
+            "60610100-se – Software Engineering [B.Sc.]",
+            "60610100-security – Information Systems Security & Cybersecurity [B.Sc.]",
+            "60610300 – Artificial Intelligence & Big Data Analytics [B.Sc.]",
+            "70610301 – Artificial Intelligence & Big Data Analytics [M.Sc.]"
+        ],
+        "labs": [
+            "Software Coding Practice Lab (Java/Python/C++)",
+            "Computer Networks & Cisco Networking Lab",
+            "Cybersecurity, Encryption & Ethical Hacking Lab",
+            "Digital Signal Processing & Telecom Lab"
+        ],
+        "history": "The department started its activity in 1979 under the name 'Applied Mathematics' at the Bukhara Food and Light Industry Technology Institute. Over the years, reflecting the growth and transformations of the industry, it was renamed 'Informatics' (1999), split into 'Informatics' and 'Modern Technologies of Teaching' (2001), recombined as 'Informatics and Information Technologies' (2005), renamed 'Information Technologies' (2015), and finally 'Information and Communication Technologies' (2017). The department has trained more than 3,000 specialists since 1996 and is equipped with modern computer laboratories and multimedia classrooms.",
+        "subjects": {
+            "bachelor": [
+                "Social Networks and Management",
+                "Methods and Tools of Information Security",
+                "Mobile Devices Programming",
+                "Web Application Development",
+                "Fundamentals of Design Activity",
+                "Information Systems in Enterprise",
+                "Discrete, Digital Control Design Software and Systems",
+                "Artificial Intelligence Systems",
+                "Automated Design of Information Systems",
+                "Control and Programming of Industrial Robots",
+                "Design Software for Industry Objects",
+                "Network Administration and Information Security",
+                "Software Engineering and Object Programming",
+                "Electronics and Circuit Engineering",
+                "Mathematical Statistics and Forecasting",
+                "Computer Networks and Telecommunications",
+                "Web Programming and Network Databases",
+                "Identification, Modeling, and Optimization",
+                "Instrumental Tools of Information Management Systems",
+                "Information Communication Systems and Technologies",
+                "Discrete Mathematics and Mathematical Logic",
+                "Computer Graphics, Infographics and Design",
+                "Algorithmic Languages and Programming",
+                "Database Management and Programming Technologies",
+                "Digital Circuit Engineering",
+                "Computer Systems and Networks",
+                "Web Technologies",
+                "Mathematical Bases of Information Processing",
+                "Mobile Applications Creation",
+                "Object-Oriented Programming Languages",
+                "Big Data Analysis",
+                "Public Service in Information Systems",
+                "Control Theory",
+                "Intelligent Information Systems",
+                "Designing Information Systems",
+                "Engineering Software",
+                "Programming Fundamentals",
+                "Team Software Development Technology",
+                "Cloud Technology and Virtual Reality Systems",
+                "IoT Fundamentals",
+                "Cybersecurity Fundamentals",
+                "Technical and Software Maintenance of Computer Systems and Networks",
+                "Multimedia Technologies in Education",
+                "Fundamentals of Systems Analysis",
+                "Programming 1, 2",
+                "Data Structures and Algorithms",
+                "Databases",
+                "Electronics and Circuits",
+                "Discrete Structures",
+                "Computer Networks",
+                "Differential Equations",
+                "Artificial Intelligence Fundamentals",
+                "Probability and Statistics",
+                "Information System Development Methodologies",
+                "Cloud Technologies",
+                "Web Systems",
+                "Big Data Management",
+                "Individual Project",
+                "Business Process and IT Strategy",
+                "Information Systems Data Visualization",
+                "Logical Programmable Devices and Systems",
+                "Software Engineering",
+                "Database Management Systems",
+                "Web Programming Fundamentals",
+                "Object-Oriented Programming",
+                "Discrete and Digital Control Systems",
+                "Intelligent Control Theory",
+                "Software Testing",
+                "Web Application Development",
+                "Software Design"
+            ],
+            "master": [
+                "Information Systems Design",
+                "Administrative Management of Computer Networks",
+                "Algorithm Design and Analysis",
+                "Fundamentals of Parallel Computing",
+                "Mobile Engineering",
+                "ERP Systems Design and Management",
+                "Designing Artificial Intelligence Systems",
+                "Artificial Intelligence and Decision Making",
+                "Data Mining (Intelligent Analysis)",
+                "Information Retrieval and Extraction",
+                "Java and Web Technologies",
+                "Cryptography and Cryptoanalysis",
+                "Scientific-Pedagogical Work and Qualifications Internship",
+                "Preparation of Research Work and Master's Dissertation"
+            ]
+        },
+        "research": "The department actively conducts research in the areas of digital education methodology, machine learning, cybersecurity, IoT, and numerical modeling of turbulent jet flow of reacting gases. It participates in a key national research grant under the Committee for Sanitary-Epidemiological Peace and Public Health titled 'Information System for Vaccine Logistics Management'. Faculty members regularly present at international conferences and have published more than 30 papers in local and international journals.",
+        "publications": {
+            "textbooks": [
+                "Sh.I. Razzakov, Sh.S. Yo'ldoshev, U.M. Ibragimov - Computer Graphics Study Guide (2017)",
+                "Sh.R. Mo'minov - Economic Mathematical Models and Methods Textbook (2008)",
+                "Sh.I. Razzakov, M.J. Yunusova - Programming Practicum Study Guide (2015)",
+                "Sh.I. Razakov, Sh.S. Yo'ldoshev, U.Z. Narziyev et al. - Information Technologies Study Guide",
+                "Sh.I. Razakov, Sh.S. Yo'ldoshev - Programming Study Guide",
+                "Z.R. Asraev - Technical Mechanics Study Guide (2021)",
+                "L.X. Gaffarov - Information Technologies in Professional Activity Methodological Guide (2021)",
+                "F.R. Murodova, M.M. Nafasov, I.I. Hayitova, Z.R. Murodova - Multimedia Applications in Education Study Guide (2021)",
+                "F.R. Murodova, M.M. Nafasov, I.I. Hayitova, Z.R. Murodova - Information Technologies in Technical Systems Study Guide (2020)"
+            ],
+            "scopus": [
+                "Aslonov Q.Z. - Development of servers of real-time management systems of electrical engineering complexes on the basis of modern automation systems (CEUR-WS, Scopus)",
+                "Asrayev Z.R. - Application of Computer Practical Batches and Animated Software in Teaching 'Applied Mechanics' (IJARW, Scopus)",
+                "Kadirova Sh.M. - The Role of Education and Pedagogy in Today's World (IJIRSET, Scopus)",
+                "Muxamadieva K.B. - Neural network video streaming (IJMPERD, Scopus)",
+                "Nurullaev M.M. - Software, algorithms and methods of data encryption based on national standards (IIUM Engineering Journal, Scopus)",
+                "Nafasov M.M. - The effectiveness of the use of mobile technologies in the educational process (EPRA IJMR)",
+                "Sariev R.B. - Integrative essence of technologies innovative educational process (IEJRD)"
+            ],
+            "articles": [
+                "Asraev Z.R. - SolidWorks software for solving practical problems of strength of materials",
+                "Asraev Z.R. - Educational system based on electronic textbooks in technical mechanics",
+                "Muradova F.R. - Mechanism of developing tasks and problems oriented to intellectual potential",
+                "Nafasov M.M. - The need to introduce mobile technologies in the educational process",
+                "Sariev R.B. - The role and importance of e-learning in part-time education",
+                "Sohibov T.F., Xayrullaeva M.T - Indicators of software quality",
+                "Sharapova N.A. - Importance of developing information-communicative competence of students",
+                "Hayitova I.I. - Developing pasture management system in Uzbekistan based on developed countries' experience",
+                "Muxamadieva Z.B. - Safety of carbon dioxide extracts from plants",
+                "Gafarov L.H. - Evaluation of student knowledge in vocational education through interactive control programs",
+                "Murodova Z.R. - Analysis of the influence of intelligence, creativity and personality traits on educational performance",
+                "Asraev Z.R. - Virtual operating mode of dielectric seed sorting equipment",
+                "Yo'ldoshev Sh.S. - Numerical simulation of three-dimensional turbulent jets of reacting gases",
+                "Murodova F.R. - Virtual laboratories as a perspective information technology in the educational process",
+                "Aslonov Q.Z. - Creating a wireless control system model based on Arduino Uno board with Bluetooth 2.0"
+            ]
+        },
+        "partnerships": [
+            "Novosibirsk State Technical University (Russia)",
+            "Al-Farabi Kazakh National University (Kazakhstan)",
+            "Pendidikan Sultan Idris University (Malaysia)",
+            "State Enterprise 'Buxoro Toza Hudud'",
+            "Uzjamoaloyiha LLC",
+            "Buxara Real Moto LLC"
+        ],
+        "futurePlans": [
+            "Increase the department's academic potential to 80% by 2030.",
+            "Implement commercial contracts aimed at solving industrial problems.",
+            "Establish research grants in cooperation with leading international institutions.",
+            "Ensure active participation of teachers and students in startup projects.",
+            "Develop and translate textbooks and study guides in line with modern requirements.",
+            "Commercialize the results of scientific research.",
+            "Enhance student clubs by engaging talented youth.",
+            "Conduct practical and laboratory classes at industrial enterprise sites.",
+            "Prepare students for national and international olympiads.",
+            "Engage in research projects in the field of Artificial Intelligence."
+        ]
+    },
+    "economics-and-management": {
+        "name": "Department of Economics and Management",
+        "facultyId": "faculty-of-service-and-digitalization",
+        "head": "Boboyev Akmal Choriyevich",
+        "headTitle": "Head of Department, Associate Professor, PhD",
+        "headEmail": "boboyevakmal1974@gmail.com",
+        "headPhone": "+998(97) 306-31-32",
+        "headOfficeHours": "Monday-Friday (14:00-16:00)",
+        "about": "The department trains highly qualified managers and economists who lead digital business transformations. It integrates economic theory, management, marketing, and data analytics to prepare students for the demands of the modern global market.",
+        "staff": [
+            {
+                "name": "Boboyev Akmal Chorievich",
+                "title": "Head of Department, Associate Professor, PhD"
+            },
+            {
+                "name": "Nizamov Asliddin Badritdinovich",
+                "title": "Professor, PhD"
+            },
+            {
+                "name": "Ochilov Sherali Barotovich",
+                "title": "Associate Professor, PhD"
+            },
+            {
+                "name": "Xalilova Muxabbat Nutfullayevna",
+                "title": "Associate Professor"
+            },
+            {
+                "name": "Hamidov Oqil Raxmonovich",
+                "title": "Associate Professor"
+            },
+            {
+                "name": "Xasanova Gulrux Djumanazarovna",
+                "title": "Associate Professor, PhD"
+            },
+            {
+                "name": "Azimov Bobir Fattoxovich",
+                "title": "Associate Professor, PhD"
+            },
+            {
+                "name": "Avezova Shaxnoza Maxmudjanovna",
+                "title": "Associate Professor, PhD"
+            },
+            {
+                "name": "Xalliyeva Nargiza Roziqovna",
+                "title": "Associate Professor, PhD"
+            },
+            {
+                "name": "Yuldasheva Saida Ne'matovna",
+                "title": "Associate Professor"
+            },
+            {
+                "name": "Jumayeva Dilafro'z Hamroyevna",
+                "title": "Associate Professor, PhD"
+            },
+            {
+                "name": "Rasulova Nigora Nematovna",
+                "title": "Senior Lecturer"
+            },
+            {
+                "name": "Usmanova Nasiba Yunusovna",
+                "title": "Senior Lecturer"
+            },
+            {
+                "name": "Toshev Fazliddin Zaynitdinovich",
+                "title": "Senior Lecturer"
+            },
+            {
+                "name": "Narzulloyeva Feruza Fatulloyevna",
+                "title": "Senior Lecturer"
+            },
+            {
+                "name": "Sulaymonov Azamat Ilhomovich",
+                "title": "Assistant"
+            },
+            {
+                "name": "Raxmatov Shuxrat Axatovich",
+                "title": "Doctorant"
+            },
+            {
+                "name": "Jumaeva Zulfiya Qayumovna",
+                "title": "Doctorant"
+            },
+            {
+                "name": "Muxsinov Bekzod Toxirovich",
+                "title": "Doctorant"
+            },
+            {
+                "name": "Akramova Obida Qosimovna",
+                "title": "Doctorant"
+            },
+            {
+                "name": "Raxmonov Xurshid Xayriddinovich",
+                "title": "Doctorant"
+            },
+            {
+                "name": "Muxitdinova Nigina Isomiddinovna",
+                "title": "Cabinet Manager"
+            }
+        ],
+        "programs": [
+            "60410100 – Economics [B.Sc.]",
+            "60410800 – Management [B.Sc.]",
+            "60411200 – Marketing [B.Sc.]",
+            "61010100 – Tourism and Hospitality [B.Sc.]"
+        ],
+        "labs": [
+            "Business Analytics & Finance Modeling Lab",
+            "Digital Marketing & E-Commerce Studio",
+            "Case Study & Project Management Simulation Room"
+        ],
+        "history": "The history of economics education at the institute dates back to 1969, when the 'Economics' department was first established at the general technical faculty of the Tashkent Polytechnic Institute. In 1978, it was reorganized as the 'Political Economy' department at the Bukhara Food and Light Industry Technology Institute. In 1993, the 'Economics, Production Organization and Planning' department was split to form the 'Production and Management' department. Over the years, the departments evolved and split into 'Economics' and 'Management'. In 2024, they were merged once again to form the unified 'Economics and Management' department.",
+        "subjects": {
+            "bachelor": [
+                "Economic Theory",
+                "Introduction to Business",
+                "Academic Skills and Professional Competence",
+                "Economic Analysis",
+                "Statistics",
+                "Microeconomics",
+                "Econometrics",
+                "Introduction to Management",
+                "Organizational Behavior",
+                "Quality Management",
+                "Marketing",
+                "Operations Management",
+                "Production Technologies",
+                "Strategic Management",
+                "Finance",
+                "Production Management",
+                "Economic Security",
+                "Innovation Management",
+                "Research Methods and Skills",
+                "Enterprise Economics",
+                "Business Strategy",
+                "Green Economy",
+                "Economic Geography and Ecology",
+                "Accounting",
+                "Human Resource Management",
+                "Digital Economy",
+                "Money, Credit and Banks",
+                "Taxes and Taxation",
+                "Time Management",
+                "Environmental Management",
+                "Entrepreneurship Management",
+                "Social Management",
+                "Risk Management",
+                "Project Management",
+                "International Management",
+                "Macroeconomics",
+                "Marketing Communications",
+                "Marketing Research",
+                "Consumer Behavior"
+            ],
+            "master": [
+                "Economics (by sectors and fields)",
+                "Management"
+            ]
+        }
+    }
+}

@@ -1,0 +1,201 @@
+import { api } from "../lib/api";
+
+const unwrapPayload = (response) => response?.data ?? response;
+
+const normalizePage = (response) => {
+  const payload = unwrapPayload(response);
+  const page = payload?.data ?? payload;
+
+  if (Array.isArray(page)) {
+    return {
+      items: page,
+      total: page.length,
+      lastPage: 1,
+      currentPage: 1,
+      perPage: page.length,
+      raw: payload,
+    };
+  }
+
+  if (Array.isArray(page?.data)) {
+    return {
+      items: page.data,
+      total: page.total ?? page.data.length,
+      lastPage: page.last_page ?? 1,
+      currentPage: page.current_page ?? 1,
+      perPage: page.per_page ?? page.data.length,
+      raw: payload,
+    };
+  }
+
+  return {
+    items: [],
+    total: 0,
+    lastPage: 1,
+    currentPage: 1,
+    perPage: 15,
+    raw: payload,
+  };
+};
+
+export const apanelService = {
+  list(resource, params = {}) {
+    const query = new URLSearchParams();
+    Object.entries(params).forEach(([key, val]) => {
+      if (val !== undefined && val !== null && val !== "") {
+        if (typeof val === "object") {
+          Object.entries(val).forEach(([subKey, subVal]) => {
+            query.append(`${key}[${subKey}]`, subVal);
+          });
+        } else {
+          query.append(key, val);
+        }
+      }
+    });
+
+    const queryString = query.toString();
+    return api.get(`/apanel/${resource}${queryString ? "?" + queryString : ""}`);
+  },
+
+  async listPage(resource, params = {}) {
+    const response = await this.list(resource, params);
+    return normalizePage(response);
+  },
+
+  get(resource, id) {
+    return api.get(`/apanel/${resource}/${id}`).then(unwrapPayload);
+  },
+
+  create(resource, payload) {
+    return api.post(`/apanel/${resource}`, payload).then(unwrapPayload);
+  },
+
+  update(resource, id, payload) {
+    return api.put(`/apanel/${resource}/${id}`, payload).then(unwrapPayload);
+  },
+
+  delete(resource, id) {
+    return api.delete(`/apanel/${resource}/${id}`);
+  },
+
+  getNewsEventSettings() {
+    return api.get("/apanel/cms/news-events/settings").then(unwrapPayload);
+  },
+
+  updateNewsEventSettings(payload) {
+    return api.put("/apanel/cms/news-events/settings", payload).then(unwrapPayload);
+  },
+
+  getBlogSettings() {
+    return api.get("/apanel/cms/blog/settings").then(unwrapPayload);
+  },
+
+  updateBlogSettings(payload) {
+    return api.put("/apanel/cms/blog/settings", payload).then(unwrapPayload);
+  },
+
+  getVideoGallerySettings() {
+    return api.get("/apanel/cms/video-bdtu/settings").then(unwrapPayload);
+  },
+
+  updateVideoGallerySettings(payload) {
+    return api.put("/apanel/cms/video-bdtu/settings", payload).then(unwrapPayload);
+  },
+
+  uploadMedia(file, metadata = {}) {
+    const formData = new FormData();
+    formData.append("file", file);
+    if (typeof metadata === "string") {
+      formData.append("alt_key", metadata);
+    } else {
+      Object.entries(metadata).forEach(([key, value]) => {
+        if (value !== undefined && value !== null && value !== "") {
+          formData.append(key, value);
+        }
+      });
+    }
+    return api.post("/apanel/media", formData).then(unwrapPayload);
+  },
+
+  async dashboard() {
+    try {
+      const pageTotal = (response) => normalizePage(response).total;
+      const pageItems = (response) => normalizePage(response).items;
+
+      const [
+        users,
+        apps,
+        faculties,
+        departments,
+        progs,
+        news,
+        media,
+        pendingDocs,
+        supportTickets,
+        inqs,
+        comms,
+        logs
+      ] = await Promise.all([
+        this.list("users", { per_page: 1 }).catch(() => ({ total: 0 })),
+        this.list("applications", { per_page: 1 }).catch(() => ({ total: 0 })),
+        this.list("faculties", { per_page: 1 }).catch(() => ({ total: 0 })),
+        this.list("departments", { per_page: 1 }).catch(() => ({ total: 0 })),
+        this.list("programs", { per_page: 1 }).catch(() => ({ total: 0 })),
+        this.list("news", { per_page: 1 }).catch(() => ({ total: 0 })),
+        this.list("media", { per_page: 1 }).catch(() => ({ total: 0 })),
+        this.list("application-documents", { per_page: 1, status: "pending" }).catch(() => ({ total: 0 })),
+        this.list("support-tickets", { per_page: 1 }).catch(() => ({ total: 0 })),
+        this.list("inquiries", { per_page: 1 }).catch(() => ({ total: 0 })),
+        this.list("comments", { per_page: 1 }).catch(() => ({ total: 0 })),
+        this.list("audit-logs", { per_page: 5 }).catch(() => ({ data: [] }))
+      ]);
+
+      return {
+        stats: {
+          users: pageTotal(users),
+          applications: pageTotal(apps),
+          faculties: pageTotal(faculties),
+          departments: pageTotal(departments),
+          programs: pageTotal(progs),
+          news: pageTotal(news),
+          media: pageTotal(media),
+          pendingDocuments: pageTotal(pendingDocs),
+          supportTickets: pageTotal(supportTickets),
+          inquiries: pageTotal(inqs),
+          comments: pageTotal(comms)
+        },
+        recentLogs: pageItems(logs)
+      };
+    } catch (err) {
+      console.error("Dashboard stats failed", err);
+      return {
+        stats: { users: 0, applications: 0, programs: 0, inquiries: 0, comments: 0 },
+        recentLogs: []
+      };
+    }
+  },
+
+  async updateApplicationStatus(id, applicationData, status, comment = "", adminUserId = null) {
+    void adminUserId;
+    return this.update("applications", id, {
+      student_profile_id: applicationData.student_profile_id,
+      program_id: applicationData.program_id,
+      faculty_id: applicationData.faculty_id || null,
+      department_id: applicationData.department_id || null,
+      degree_level: applicationData.degree_level || null,
+      language_of_study: applicationData.language_of_study || null,
+      study_mode: applicationData.study_mode || null,
+      status: status,
+      note: comment
+    });
+  },
+
+  sendNotification(userId, title, message) {
+    return this.create("notifications", {
+      user_id: userId,
+      title: title,
+      message: message,
+      is_read: false
+    });
+  }
+};

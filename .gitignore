@@ -1,0 +1,82 @@
+# =========================
+# Dependencies
+# =========================
+node_modules/
+vendor/
+**/node_modules/
+**/vendor/
+
+# =========================
+# Build outputs
+# =========================
+dist/
+build/
+**/dist/
+**/build/
+apps/mobile/.dart_tool/
+apps/mobile/.flutter-plugins
+apps/mobile/.flutter-plugins-dependencies
+
+# =========================
+# Environment and secrets
+# =========================
+.env
+.env.*
+**/.env
+**/.env.*
+
+!.env.example
+!**/.env.example
+!apps/api/.env.example
+!apps/web/.env.example
+!apps/mobile/.env.example
+
+# =========================
+# Laravel runtime/generated files
+# =========================
+apps/api/storage/*
+!apps/api/storage/.gitignore
+!apps/api/storage/app/
+!apps/api/storage/app/.gitignore
+!apps/api/storage/framework/
+!apps/api/storage/framework/.gitignore
+!apps/api/storage/framework/cache/
+!apps/api/storage/framework/cache/.gitignore
+!apps/api/storage/framework/sessions/
+!apps/api/storage/framework/sessions/.gitignore
+!apps/api/storage/framework/views/
+!apps/api/storage/framework/views/.gitignore
+!apps/api/storage/logs/
+!apps/api/storage/logs/.gitignore
+
+apps/api/bootstrap/cache/*
+!apps/api/bootstrap/cache/.gitignore
+
+apps/api/public/storage
+
+# =========================
+# Logs and caches
+# =========================
+*.log
+*.pid
+.phpunit.result.cache
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# =========================
+# IDE / OS
+# =========================
+.agents/
+.kilo/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

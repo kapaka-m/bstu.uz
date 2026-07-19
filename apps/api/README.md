@@ -16,7 +16,7 @@ Laravel 13 REST API for BSTU International public content, student portal, and a
 - Public routes are rate limited by `public-api`; login/register/password reset have stricter dedicated limiters.
 - Public CMS responses for locales, translations, settings, menus, home, pages, faculties, departments, and programs are cached with `PUBLIC_API_CACHE_TTL`.
 - Apanel writes to public content resources rotate the `public_content_cache_version` key. Manual cache reset remains available through `cache:clear` and `optimize:clear`.
-- Student document uploads accept only PDF/JPEG/PNG/WebP up to 10 MB. Apanel media uploads accept PDF/images/video up to 50 MB.
+- Student document uploads accept only PDF/JPEG/PNG/WebP up to 10 MB. Apanel media uploads accept PDF/images/video up to 200 MB.
 
 ## Local Checks
 

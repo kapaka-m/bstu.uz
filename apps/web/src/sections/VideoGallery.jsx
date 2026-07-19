@@ -82,6 +82,9 @@ export default function VideoGallery() {
     }).format(value, unit);
   };
 
+  const categoryLabels = settings.category_labels || {};
+  const labelForCategory = (category) => categoryLabels[category] || category;
+
   if (videos.length === 0) {
     return null;
   }
@@ -164,7 +167,7 @@ export default function VideoGallery() {
                     </span>
                     {/* Category */}
                     <span className="absolute top-3 left-3 rtl:left-auto rtl:right-3 bg-primary text-white text-[9px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full">
-                      {video.category}
+                      {labelForCategory(video.category)}
                     </span>
                   </div>
 

@@ -454,7 +454,6 @@ export const translation = {
         "years5": "5 years"
       }
     },
-    "blog": {},
     "greenCampus": {
       "tag": "Sustainability",
       "title": "Green Campus Leadership in Sustainability",
@@ -631,11 +630,6 @@ export const translation = {
       "a5": "The university campus is located at 15 Q. Murtazoyev Street, Bukhara city, Uzbekistan.",
       "q6": "Who is the Rector of Bukhara State Technical University?",
       "a6": "The university is led by Rector Sadoqat Ghaforovna Siddikova, appointed to guide the institution through its technological and academic advancements."
-    },
-    "graduationVideo": {
-      "tag": "Graduation 2026",
-      "title": "Celebrating the Class of 2026",
-      "desc": "Relive the historic moments, achievements, and ceremony of Bukhara State Technical University"
     },
     "features": {
       "tag": "Key Advantages",
@@ -3327,7 +3321,5 @@ export const translation = {
       }
     },
     "viewAll": "All Announcements"
-  },
-  "blog": {},
-  "blogDetails": {}
+  }
 };

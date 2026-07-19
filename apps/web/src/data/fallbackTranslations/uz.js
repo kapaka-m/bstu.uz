@@ -455,7 +455,6 @@ export const translation = {
         "years5": "5 yil"
       }
     },
-    "blog": {},
     "greenCampus": {
       "tag": "Barqarorlik",
       "title": "Yashil kampusda barqarorlik va eko-innovatsiyalar yetakchiligi",
@@ -691,11 +690,6 @@ export const translation = {
     "a5": "Universitet kampusi Buxoro shahri, Murtazoyev ko'chasi, 15-uyda joylashgan.",
     "q6": "Buxoro davlat texnika universiteti rektori kim?",
     "a6": "Universitetga rektor Sadoqat Ghaforovna Siddikova rahbarlik qilmoqda, u muassasani texnologik va akademik rivojlanish sari yetaklamoqda."
-  },
-  "graduationVideo": {
-    "tag": "Bitiruv 2026",
-    "title": "2026-yil bitiruvchilarini tabriklaymiz",
-    "desc": "Buxoro davlat texnika universitetining tarixiy lahzalari, yutuqlari va tantanali bitiruv marosimini tomosha qiling"
   },
   "features": {
     "tag": "Bizning afzalliklar",
@@ -1796,7 +1790,5 @@ export const translation = {
     "backToLogin": "Kirish sahifasiga qaytish",
     "showPassword": "Parolni ko'rsatish",
     "hidePassword": "Parolni yashirish"
-  },
-  "blog": {},
-  "blogDetails": {}
+  }
 };

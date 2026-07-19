@@ -5,6 +5,8 @@ import { useLanguage } from "../context/LanguageContext";
 import { useAuth } from "../context/AuthContext";
 import { videoService } from "../services/videoService";
 
+const ALL_CATEGORY = "__all";
+
 export default function VideoBDTU() {
   const { t, language, logoSrc } = useLanguage();
   const { user, isAuthenticated, loading: authLoading } = useAuth();
@@ -14,7 +16,7 @@ export default function VideoBDTU() {
   const [likedVideos, setLikedVideos] = useState({});
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [subCount, setSubCount] = useState(0);
-  const [activeCategory, setActiveCategory] = useState("All");
+  const [activeCategory, setActiveCategory] = useState(ALL_CATEGORY);
   const [isDescExpanded, setIsDescExpanded] = useState(false);
   const [showShareToast, setShowShareToast] = useState(false);
   const [commentsList, setCommentsList] = useState([]);
@@ -216,13 +218,24 @@ export default function VideoBDTU() {
   };
 
   // Filter videos for sidebar list
-  const filteredVideos = activeCategory === "All"
+  const filteredVideos = activeCategory === ALL_CATEGORY
     ? videos
     : videos.filter(v => v.category === activeCategory);
 
-  const categories = ["All", ...new Set(videos.map((video) => video.category).filter(Boolean))];
-
   const categoryLabels = settings.category_labels || {};
+  const labelForCategory = (category) => categoryLabels[category] || category;
+  const categories = [
+    {
+      value: ALL_CATEGORY,
+      label: settings.recommended_label || "",
+    },
+    ...[...new Set(videos.map((video) => video.category).filter(Boolean))].map(
+      (category) => ({
+        value: category,
+        label: labelForCategory(category),
+      }),
+    ),
+  ];
 
   if (!activeVideo) {
     return <div className="pt-20 bg-white min-h-screen" />;
@@ -408,7 +421,7 @@ export default function VideoBDTU() {
                       {settings.category_label || ""}
                       :{" "}
                       <strong className="text-navy">
-                        {activeVideo.category}
+                        {labelForCategory(activeVideo.category)}
                       </strong>
                     </span>
                     <span className="bg-white border border-gray-100 px-2.5 py-1 rounded-md">
@@ -568,15 +581,15 @@ export default function VideoBDTU() {
             <div className="flex flex-wrap items-center gap-2 pb-2">
               {categories.map((cat) => (
                 <button
-                  key={cat}
-                  onClick={() => setActiveCategory(cat)}
+                  key={cat.value}
+                  onClick={() => setActiveCategory(cat.value)}
                   className={`px-4 py-2 rounded-full text-xs font-extrabold transition-all cursor-pointer ${
-                    activeCategory === cat
+                    activeCategory === cat.value
                       ? "bg-primary text-white shadow-sm"
                       : "bg-gray-50 border border-gray-100 text-navy hover:bg-gray-100"
                   }`}
                 >
-                  {categoryLabels[cat] || cat}
+                  {cat.label}
                 </button>
               ))}
             </div>
@@ -585,9 +598,9 @@ export default function VideoBDTU() {
             <div className="flex flex-col gap-4">
               <h4 className="text-sm font-extrabold uppercase tracking-wider text-navy mb-1 flex items-center gap-1.5">
                 <span className="w-2.5 h-2.5 rounded-full bg-primary inline-block"></span>
-                {activeCategory === "All"
+                {activeCategory === ALL_CATEGORY
                   ? settings.recommended_label || ""
-                  : `${categoryLabels[activeCategory] || activeCategory} ${settings.videos_label || ""}`}
+                  : `${labelForCategory(activeCategory)} ${settings.videos_label || ""}`}
               </h4>
 
               <div className="flex flex-col gap-3 max-h-170 overflow-y-auto pr-1 scrollbar-thin">
@@ -650,7 +663,7 @@ export default function VideoBDTU() {
                             {video.title}
                           </h5>
                           <span className="text-[10px] font-extrabold text-gray-400 uppercase tracking-wider">
-                            {video.category}
+                            {labelForCategory(video.category)}
                           </span>
                         </div>
 

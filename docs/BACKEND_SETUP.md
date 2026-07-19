@@ -211,7 +211,7 @@ Public CMS cache is versioned by the `public_content_cache_version` cache key. A
 Upload constraints:
 
 - Student application documents: PDF/JPEG/PNG/WebP, max 10 MB.
-- Apanel media: PDF/JPEG/PNG/WebP/MP4/AVI/MOV, max 50 MB.
+- Apanel media: PDF/JPEG/PNG/WebP/MP4/AVI/MOV, max 200 MB.
 - Uploaded application documents remain behind authenticated student/apanel download routes.
 
 ## Common Errors

@@ -127,7 +127,7 @@ Uploaded application documents are downloaded through the specialized protected 
 
 ### Media Upload Limits
 
-Apanel media upload accepts PDF, JPEG, PNG, WebP, MP4, AVI, and MOV files up to 50 MB. Executable uploads are not allowed by validation. Files are stored on Laravel's public disk and returned through `/storage/...` URLs for public media records.
+Apanel media upload accepts PDF, JPEG, PNG, WebP, MP4, AVI, and MOV files up to 200 MB. Executable uploads are not allowed by validation. Files are stored on Laravel's public disk and returned through `/storage/...` URLs for public media records.
 
 ---
 

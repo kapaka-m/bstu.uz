@@ -455,7 +455,6 @@
           "years5": "5 years"
         }
       },
-      "blog": {},
       "greenCampus": {
         "tag": "Sustainability",
         "title": "Green Campus Leadership in Sustainability",
@@ -601,11 +600,6 @@
           }
         }
       },
-      "videoGallery": {
-        "tag": "Video Gallery",
-        "title": "Life at BSTU in Videos",
-        "subtitle": "Watch special reports and highlights of our university life, achievements, and events."
-      },
       "values": {
         "tag": "Our Values",
         "title": "Core Principles Guiding BSTU",
@@ -637,11 +631,6 @@
         "a5": "The university campus is located at 15 Q. Murtazoyev Street, Bukhara city, Uzbekistan.",
         "q6": "Who is the Rector of Bukhara State Technical University?",
         "a6": "The university is led by Rector Sadoqat Ghaforovna Siddikova, appointed to guide the institution through its technological and academic advancements."
-      },
-      "graduationVideo": {
-        "tag": "Graduation 2026",
-        "title": "Celebrating the Class of 2026",
-        "desc": "Relive the historic moments, achievements, and ceremony of Bukhara State Technical University"
       },
       "features": {
         "tag": "Key Advantages",
@@ -2939,48 +2928,6 @@
       "showPassword": "Show password",
       "hidePassword": "Hide password"
     },
-    "videoPage": {
-      "categories": {
-        "all": "All",
-        "campuslife": "Campus Life",
-        "research": "Research",
-        "admissions": "Admissions",
-        "academics": "Academics"
-      },
-      "liked": "Liked",
-      "like": "Like",
-      "share": "Share",
-      "subscribersCount": "subscribers",
-      "subscribed": "Subscribed",
-      "subscribe": "Subscribe",
-      "descriptionTitle": "Video Description & Highlights",
-      "showLess": "Show less",
-      "showMore": "Show more",
-      "platformLabel": "Platform",
-      "platformValues": {
-        "local": "Local",
-        "youtube": "YouTube"
-      },
-      "recommended": "Recommended Videos",
-      "videos": "Videos",
-      "badges": {
-        "playing": "Playing"
-      },
-      "noVideos": "No videos in this category.",
-      "linkCopied": "Link copied to clipboard!",
-      "meta": {
-        "viewsSuffix": "views",
-        "oneDayAgo": "1 day ago",
-        "daysAgo": "{{count}} days ago",
-        "oneWeekAgo": "1 week ago",
-        "weeksAgo": "{{count}} weeks ago",
-        "oneMonthAgo": "1 month ago",
-        "monthsAgo": "{{count}} months ago",
-        "oneYearAgo": "1 year ago",
-        "yearsAgo": "{{count}} years ago"
-      },
-      "verifiedChannel": "Verified channel"
-    },
     "announcements": {
       "title": "Official Announcements",
       "tag": "Announcements",
@@ -3375,166 +3322,7 @@
         }
       },
       "viewAll": "All Announcements"
-    },
-    "videos": {
-      "graduation-2026": {
-        "title": "BSTU Graduation Ceremony - Class of 2026",
-        "category": "Campus Life",
-        "description": "Witness the highlights of the graduation ceremony for the class of 2026 at Bukhara State Technical University. We are proud of our graduates and wish them success in their future engineering careers."
-      },
-      "a4mTYkutUgQ": {
-        "title": "Academic and Practical Training Highlights",
-        "category": "Campus Life",
-        "description": "A short overview of classroom learning, workshops, and hands-on training activities at BSTU."
-      },
-      "yDFgDyXhSAM": {
-        "title": "Engineering Month Highlights",
-        "category": "Academics",
-        "description": "Key moments from Engineering Month, featuring student participation, projects, and innovation events."
-      },
-      "fVeRnsg7i2E": {
-        "title": "Engineering Month at BSTU",
-        "category": "Academics",
-        "description": "An inside look at academic and technical activities organized during Engineering Month at BSTU."
-      },
-      "MSGRN0M63vc": {
-        "title": "Inside BSTU Laboratories",
-        "category": "Campus Life",
-        "description": "Snapshots from educational and scientific laboratories where students apply theory in practice."
-      },
-      "79g1io9OrKg": {
-        "title": "Rector and Youth Open Dialogue",
-        "category": "Campus Life",
-        "description": "Highlights from an open meeting between university leadership and BSTU students."
-      },
-      "N5exeY-Kk8g": {
-        "title": "Navruz Digest - 21 March",
-        "category": "Campus Life",
-        "description": "A festive recap of the Navruz celebrations held on campus on 21 March."
-      },
-      "GvJspSc4wnQ": {
-        "title": "Science Podcast with Students and Researchers",
-        "category": "Academics",
-        "description": "A discussion featuring young researchers and students on science, innovation, and academic growth."
-      },
-      "mIacRgR7Wog": {
-        "title": "Spring Celebration on Campus",
-        "category": "Campus Life",
-        "description": "A vibrant look at spring celebrations and festive moments across BSTU campus."
-      },
-      "yuUl38PLcVs": {
-        "title": "Future Engineers Festival Exhibition",
-        "category": "Research",
-        "description": "Exhibition highlights from the Future Engineers Festival showcasing student projects and prototypes."
-      },
-      "sZMHhW3KlrM": {
-        "title": "Implementation of Presidential Initiatives",
-        "category": "Research",
-        "description": "Practical outcomes and project updates related to national development initiatives."
-      },
-      "loj5daDxQfM": {
-        "title": "International Women's Day Celebration",
-        "category": "Campus Life",
-        "description": "A campus event dedicated to International Women's Day, honoring women in education and society."
-      },
-      "pW8mTZS0K2I": {
-        "title": "Innovation and Startup Showcase",
-        "category": "Campus Life",
-        "description": "Highlights of student innovation, startup ideas, and creative project presentations at BSTU."
-      },
-      "eFMgy1ia3DM": {
-        "title": "Inclusive Education: Equal Opportunities for All",
-        "category": "Academics",
-        "description": "An overview of BSTU's inclusive education initiatives and equal access opportunities."
-      },
-      "aqYQJlLuy2A": {
-        "title": "BIMO 2026 Mathematics Olympiad",
-        "category": "Academics",
-        "description": "Highlights from the Bukhara International Mathematics Olympiad (BIMO 2026)."
-      },
-      "diNs5LCoKqU": {
-        "title": "Enlightenment Promoters Event",
-        "category": "Campus Life",
-        "description": "A cultural and educational event focused on values, awareness, and student development."
-      },
-      "s3m2FC7p618": {
-        "title": "Students in Winter: Snow Day on Campus",
-        "category": "Campus Life",
-        "description": "A cheerful winter-day video capturing students enjoying snow activities on campus."
-      },
-      "fNnzuHRFy4U": {
-        "title": "New Year Celebration at BSTU",
-        "category": "Campus Life",
-        "description": "A festive recap of New Year events and student celebrations at BSTU."
-      },
-      "C7DRBQzYW4c": {
-        "title": "BSTU in the Media",
-        "category": "Research",
-        "description": "A collection of media reports and news segments featuring BSTU achievements and activities."
-      },
-      "HXTP8W0ExMU": {
-        "title": "Constitution Day Campus Celebration",
-        "category": "Campus Life",
-        "description": "Highlights from Constitution Day events and student activities organized at the university."
-      },
-      "GuBhY7XL1uI": {
-        "title": "Dormitory Celebration Highlights",
-        "category": "Campus Life",
-        "description": "A short recap of festive activities and student life moments in the dormitory."
-      },
-      "PeO011rG1MI": {
-        "title": "Sports Awards Ceremony",
-        "category": "Campus Life",
-        "description": "Recognition ceremony honoring winners of university sports competitions."
-      },
-      "EmI0y8mHTgE": {
-        "title": "Campus Event Highlights Reel",
-        "category": "Campus Life",
-        "description": "A short highlight reel presenting vibrant moments from recent BSTU events."
-      },
-      "DNlLZpSYKUY": {
-        "title": "Student Achievement: Diyorbek Ergashov",
-        "category": "Research",
-        "description": "An overview of academic and personal achievements by BSTU student Diyorbek Ergashov."
-      },
-      "KujaDfrMQ78": {
-        "title": "Academic and Creative Clubs Showcase",
-        "category": "Campus Life",
-        "description": "Highlights of student participation in academic, cultural, and creative clubs."
-      },
-      "q8EqS6vv-e8": {
-        "title": "Trade Union Recognition Ceremony",
-        "category": "Campus Life",
-        "description": "A recognition event honoring active staff and members of the university trade union."
-      },
-      "nL0LEGH9n7g": {
-        "title": "Student Planet - Part 2",
-        "category": "Campus Life",
-        "description": "Episode two of Student Planet exploring student ethics, motivation, and personal growth."
-      },
-      "FPq81ioHghs": {
-        "title": "Student Planet - Part 1",
-        "category": "Campus Life",
-        "description": "The first episode of Student Planet introducing university life for new students."
-      },
-      "LPfUdQsLgj4": {
-        "title": "Constitution Anniversary Commemoration",
-        "category": "Campus Life",
-        "description": "Commemorative activities dedicated to the anniversary of Uzbekistan's Constitution."
-      },
-      "ON_zcrebqSM": {
-        "title": "State Flag Anniversary Walk Marathon",
-        "category": "Campus Life",
-        "description": "A walk marathon event dedicated to the anniversary of Uzbekistan's State Flag adoption."
-      },
-      "sJnd3nsvxK8": {
-        "title": "Seminar on Family Strengthening Policy",
-        "category": "Academics",
-        "description": "A seminar discussing family-strengthening policies and social development in Turkey and Uzbekistan."
-      }
-    },
-    "blog": {},
-    "blogDetails": {}
+    }
   },
   "uz": {
     "nav": {
@@ -3993,7 +3781,6 @@
           "years5": "5 yil"
         }
       },
-      "blog": {},
       "greenCampus": {
         "tag": "Barqarorlik",
         "title": "Yashil kampusda barqarorlik va eko-innovatsiyalar yetakchiligi",
@@ -4198,11 +3985,6 @@
         }
       }
     },
-    "videoGallery": {
-      "tag": "Video galereya",
-      "title": "BSTU hayoti videolarda",
-      "subtitle": "Universitetimiz hayoti, yutuqlari va tadbirlaridan tayyorlangan maxsus lavhalarni tomosha qiling."
-    },
     "values": {
       "tag": "Bizning qadriyatlar",
       "title": "BSTU faoliyatining asosiy tamoyillari",
@@ -4234,11 +4016,6 @@
       "a5": "Universitet kampusi Buxoro shahri, Murtazoyev ko'chasi, 15-uyda joylashgan.",
       "q6": "Buxoro davlat texnika universiteti rektori kim?",
       "a6": "Universitetga rektor Sadoqat Ghaforovna Siddikova rahbarlik qilmoqda, u muassasani texnologik va akademik rivojlanish sari yetaklamoqda."
-    },
-    "graduationVideo": {
-      "tag": "Bitiruv 2026",
-      "title": "2026-yil bitiruvchilarini tabriklaymiz",
-      "desc": "Buxoro davlat texnika universitetining tarixiy lahzalari, yutuqlari va tantanali bitiruv marosimini tomosha qiling"
     },
     "features": {
       "tag": "Bizning afzalliklar",
@@ -5339,12 +5116,7 @@
       "backToLogin": "Kirish sahifasiga qaytish",
       "showPassword": "Parolni ko'rsatish",
       "hidePassword": "Parolni yashirish"
-    },
-    "blog": {},
-    "videoPage": {
-      "verifiedChannel": "Tasdiqlangan kanal"
-    },
-    "blogDetails": {}
+    }
   },
   "departments": {
     "electrical-power-engineering": {
@@ -6572,47 +6344,6 @@
     "checkEmailDesc": "Biz parolni tiklash bo'yicha ko'rsatmalarni elektron pochta manzilingizga yubordik.",
     "backToLogin": "Kirish sahifasiga qaytish"
   },
-  "videoPage": {
-    "categories": {
-      "all": "Barchasi",
-      "campuslife": "Kampus hayoti",
-      "research": "Tadqiqotlar",
-      "admissions": "Qabul",
-      "academics": "O'qish"
-    },
-    "liked": "Yoqdi",
-    "like": "Yoqdi",
-    "share": "Ulashish",
-    "subscribersCount": "obunachilar",
-    "subscribed": "Obuna bo'lindi",
-    "subscribe": "Obuna bo'lish",
-    "descriptionTitle": "Video tavsifi va muhim lahzalar",
-    "showLess": "Kamroq ko'rsatish",
-    "showMore": "Batafsil ko'rsatish",
-    "platformLabel": "Platforma",
-    "platformValues": {
-      "local": "Mahalliy",
-      "youtube": "YouTube"
-    },
-    "recommended": "Tavsiya etilgan videolar",
-    "videos": "Videolar",
-    "badges": {
-      "playing": "Ijro etilmoqda"
-    },
-    "noVideos": "Ushbu turkumda videolar majvud emas.",
-    "linkCopied": "Havola nusxalandi!",
-    "meta": {
-      "viewsSuffix": "ko'rish",
-      "oneDayAgo": "1 kun oldin",
-      "daysAgo": "{{count}} kun oldin",
-      "oneWeekAgo": "1 hafta oldin",
-      "weeksAgo": "{{count}} hafta oldin",
-      "oneMonthAgo": "1 oy oldin",
-      "monthsAgo": "{{count}} oy oldin",
-      "oneYearAgo": "1 yil oldin",
-      "yearsAgo": "{{count}} yil oldin"
-    }
-  },
   "announcements": {
     "title": "Rasmiy e'lonlar",
     "tag": "E'lonlar",
@@ -6997,163 +6728,6 @@
       }
     },
     "viewAll": "Barcha e'lonlar"
-  },
-  "videos": {
-    "graduation-2026": {
-      "title": "BuxDTU bitiruv marosimi - 2026-yil bitiruvchilari",
-      "category": "Kampus hayoti",
-      "description": "Buxoro davlat texnika universitetida 2026-yil bitiruvchilari uchun o'tkazilgan tantanali bitiruv marosimining eng yorqin lahzalarini tomosha qiling. Biz bitiruvchilarimiz bilan faxrlanamiz va ularga kelajakdagi muhandislik faoliyatida muvaffaqiyat tilaymiz."
-    },
-    "a4mTYkutUgQ": {
-      "title": "Ta'lim va amaliyot jarayonlari",
-      "category": "Talabalar hayoti",
-      "description": "BuxDTUdagi auditoriya mashg'ulotlari va amaliy tayyorgarlik jarayonlaridan qisqa lavhalar."
-    },
-    "yDFgDyXhSAM": {
-      "title": "Muhandislik oyligi: asosiy lahzalar",
-      "category": "Akademik faoliyat",
-      "description": "Muhandislik oyligi doirasida o'tkazilgan tanlov, seminar va loyihalardan eng muhim lahzalar."
-    },
-    "fVeRnsg7i2E": {
-      "title": "BuxDTUda Muhandislik oyligi",
-      "category": "Akademik faoliyat",
-      "description": "Universitetda muhandislik yo'nalishlari bo'yicha tashkil etilgan maxsus oylik tadbirlar sharhi."
-    },
-    "MSGRN0M63vc": {
-      "title": "Ilmiy laboratoriya jarayonlari",
-      "category": "Talabalar hayoti",
-      "description": "O'quv va ilmiy laboratoriyalarda olib borilayotgan tajriba va amaliy ishlar ko'rinishi."
-    },
-    "79g1io9OrKg": {
-      "title": "Rahbariyat va yoshlar uchrashuvi",
-      "category": "Talabalar hayoti",
-      "description": "Rektor hamda talaba-yoshlar o'rtasidagi ochiq muloqotdan muhim fikr va takliflar."
-    },
-    "N5exeY-Kk8g": {
-      "title": "Navro'z dayjesti - 21-mart",
-      "category": "Talabalar hayoti",
-      "description": "21-mart Navro'z bayrami munosabati bilan universitetdagi tantanali tadbirlar jamlanmasi."
-    },
-    "GvJspSc4wnQ": {
-      "title": "Ilmiy podkast: talabalar va yosh olimlar",
-      "category": "Akademik faoliyat",
-      "description": "Talabalar va yosh olimlar ishtirokidagi ilmiy suhbat hamda innovatsion g'oyalar muhokamasi."
-    },
-    "mIacRgR7Wog": {
-      "title": "Bahoriy bayram shukuhi",
-      "category": "Talabalar hayoti",
-      "description": "Universitet hududidagi bayramona muhit va talabalar ishtirokidagi quvnoq tadbirlar."
-    },
-    "yuUl38PLcVs": {
-      "title": "Kelajak muhandislari festivali ko'rgazmasi",
-      "category": "Ilmiy tadqiqotlar",
-      "description": "Talabalar tomonidan taqdim etilgan muhandislik ishlanmalari va prototiplar ko'rgazmasi."
-    },
-    "sZMHhW3KlrM": {
-      "title": "Prezident topshiriqlari ijrosi",
-      "category": "Ilmiy tadqiqotlar",
-      "description": "Davlat miqyosidagi topshiriqlar ijrosida erishilgan amaliy natijalar va loyihalar taqdimoti."
-    },
-    "loj5daDxQfM": {
-      "title": "8-mart bayram tadbiri",
-      "category": "Talabalar hayoti",
-      "description": "Xalqaro xotin-qizlar kuniga bag'ishlangan tantanali tadbir va tabrik dasturi."
-    },
-    "pW8mTZS0K2I": {
-      "title": "Innovatsiya va startaplar namoyishi",
-      "category": "Talabalar hayoti",
-      "description": "Talabalarning innovatsion loyihalari va startap tashabbuslari bo'yicha qisqa videolavha."
-    },
-    "eFMgy1ia3DM": {
-      "title": "Inklyuziv ta’lim — teng imkoniyatlar asosi",
-      "category": "Akademik faoliyat",
-      "description": "Inklyuziv ta'lim yondashuvi orqali barcha talabalar uchun teng imkoniyatlar yaratilishi haqida."
-    },
-    "aqYQJlLuy2A": {
-      "title": "BIMO 2026 xalqaro matematika olimpiadasi",
-      "category": "Akademik faoliyat",
-      "description": "Buxoro xalqaro matematika olimpiadasi doirasidagi ishtirokchilar va musobaqa jarayonlari."
-    },
-    "diNs5LCoKqU": {
-      "title": "Ma'rifat targ'ibotchilari tadbiri",
-      "category": "Talabalar hayoti",
-      "description": "Ma'naviy-ma'rifiy ruhdagi uchrashuv va targ'ibot tadbirlaridan lavhalar."
-    },
-    "s3m2FC7p618": {
-      "title": "Qish faslida talabalar hayoti",
-      "category": "Talabalar hayoti",
-      "description": "Qorli kunlarda talabalar ishtirokidagi quvnoq lahzalar va kampus kayfiyati."
-    },
-    "fNnzuHRFy4U": {
-      "title": "Yangi yil bayram shukuhi",
-      "category": "Talabalar hayoti",
-      "description": "Yangi yil arafasida o'tkazilgan tadbirlar, sahna chiqishlari va talabalar ishtiroki."
-    },
-    "C7DRBQzYW4c": {
-      "title": "OAVda BuxDTU",
-      "category": "Ilmiy tadqiqotlar",
-      "description": "Universitet faoliyati haqida OAVda e'lon qilingan reportaj va yangiliklar to'plami."
-    },
-    "HXTP8W0ExMU": {
-      "title": "Konstitutsiya kuni bayrami",
-      "category": "Talabalar hayoti",
-      "description": "Konstitutsiya kuniga bag'ishlangan bayramona tadbirlar va talabalar chiqishlari."
-    },
-    "GuBhY7XL1uI": {
-      "title": "Talabalar turar joyidagi bayram",
-      "category": "Talabalar hayoti",
-      "description": "Talabalar turar joyida tashkil etilgan madaniy-badiiy bayram dasturi."
-    },
-    "PeO011rG1MI": {
-      "title": "Sport g'oliblarini taqdirlash marosimi",
-      "category": "Talabalar hayoti",
-      "description": "Universitet sport musobaqalari g'oliblarini taqdirlash marosimidan lavhalar."
-    },
-    "EmI0y8mHTgE": {
-      "title": "Universitet tadbirlari videojamlanmasi",
-      "category": "Talabalar hayoti",
-      "description": "Universitet hayoti, tadbirlar va faol talabalar muhitini aks ettiruvchi videojamlanma."
-    },
-    "DNlLZpSYKUY": {
-      "title": "Talaba yutug'i: Diyorbek Ergashov",
-      "category": "Ilmiy tadqiqotlar",
-      "description": "BuxDTU talabasi Diyorbek Ergashovning ilmiy va shaxsiy yutuqlari haqida maxsus lavha."
-    },
-    "KujaDfrMQ78": {
-      "title": "Fan va ijod to'garaklari faoliyati",
-      "category": "Talabalar hayoti",
-      "description": "Universitetdagi fan, texnika va ijodiy to'garaklar faoliyatidan namunalar."
-    },
-    "q8EqS6vv-e8": {
-      "title": "Kasaba uyushmasi taqdirlash marosimi",
-      "category": "Talabalar hayoti",
-      "description": "Kasaba uyushmasi tomonidan faol xodim va talabalarni rag'batlantirish marosimi."
-    },
-    "nL0LEGH9n7g": {
-      "title": "Talabalar Planetasi - 2-qism",
-      "category": "Talabalar hayoti",
-      "description": "Talabalar Planetasi loyihasining ikkinchi qismi: motivatsiya va talabalik qadriyatlari haqida."
-    },
-    "FPq81ioHghs": {
-      "title": "Talabalar Planetasi - 1-qism",
-      "category": "Talabalar hayoti",
-      "description": "Talabalar Planetasi loyihasining birinchi qismi: yangi talaba hayoti va moslashuv jarayoni."
-    },
-    "LPfUdQsLgj4": {
-      "title": "Konstitutsiya yilligi tadbirlari",
-      "category": "Talabalar hayoti",
-      "description": "O'zbekiston Respublikasi Konstitutsiyasi qabul qilingan sana yilligiga bag'ishlangan tadbirlar."
-    },
-    "ON_zcrebqSM": {
-      "title": "Davlat bayrog'i yilligiga yurish marafoni",
-      "category": "Talabalar hayoti",
-      "description": "Davlat bayrog'i qabul qilingan sana munosabati bilan o'tkazilgan ommaviy yurish marafoni."
-    },
-    "sJnd3nsvxK8": {
-      "title": "Oilani mustahkamlash siyosati bo'yicha seminar",
-      "category": "Akademik faoliyat",
-      "description": "Turkiya va O'zbekistonda oilani mustahkamlashga qaratilgan davlat siyosati mavzusidagi ilmiy seminar."
-    }
   },
   "ru": {
     "nav": {
@@ -7612,7 +7186,6 @@
           "years5": "5 лет"
         }
       },
-      "blog": {},
       "greenCampus": {
         "tag": "Устойчивое развитие",
         "title": "Лидерство зеленого кампуса в устойчивости и эко-инновациях",
@@ -7758,11 +7331,6 @@
           }
         }
       },
-      "videoGallery": {
-        "tag": "Видеогалерея",
-        "title": "Жизнь БГТУ в видеоматериалах",
-        "subtitle": "Посмотрите специальные репортажи о жизни нашего университета, его достижениях и мероприятиях."
-      },
       "values": {
         "tag": "Наши ценности",
         "title": "Основные принципы деятельности БГТУ",
@@ -7794,11 +7362,6 @@
         "a5": "Кампус университета расположен по адресу: Узбекистан, город Бухара, улица М. Муртазаева, 15.",
         "q6": "Кто является ректором Бухарского государственного технического университета?",
         "a6": "Университет возглавляет ректор Садокат Гафоровна Сиддикова, назначенная для руководства вузом в период его академической и технологической модернизации."
-      },
-      "graduationVideo": {
-        "tag": "Выпускной 2026",
-        "title": "Поздравляем выпускников 2026 года",
-        "desc": "Вспомните исторические моменты, достижения и торжественную церемонию выпуска Бухарского государственного технического университета"
       },
       "features": {
         "tag": "Наши преимущества",
@@ -10023,48 +9586,6 @@
       "showPassword": "Показать пароль",
       "hidePassword": "Скрыть пароль"
     },
-    "videoPage": {
-      "categories": {
-        "all": "Все",
-        "campuslife": "Студенческая жизнь",
-        "research": "Исследования",
-        "admissions": "Поступление",
-        "academics": "Академическая жизнь"
-      },
-      "liked": "Понравилось",
-      "like": "Нравится",
-      "share": "Поделиться",
-      "subscribersCount": "подписчиков",
-      "subscribed": "Вы подписаны",
-      "subscribe": "Подписаться",
-      "descriptionTitle": "Описание видео и основные моменты",
-      "showLess": "Свернуть",
-      "showMore": "Развернуть",
-      "platformLabel": "Платформа",
-      "platformValues": {
-        "local": "Локальное",
-        "youtube": "YouTube"
-      },
-      "recommended": "Рекомендуемые видео",
-      "videos": "Видео",
-      "badges": {
-        "playing": "Сейчас воспроизводится"
-      },
-      "noVideos": "В этой категории нет видео.",
-      "linkCopied": "Ссылка скопирована в буфер обмена!",
-      "meta": {
-        "viewsSuffix": "просмотров",
-        "oneDayAgo": "1 день назад",
-        "daysAgo": "{{count}} дней назад",
-        "oneWeekAgo": "1 неделю назад",
-        "weeksAgo": "{{count}} недели назад",
-        "oneMonthAgo": "1 месяц назад",
-        "monthsAgo": "{{count}} месяцев назад",
-        "oneYearAgo": "1 год назад",
-        "yearsAgo": "{{count}} лет назад"
-      },
-      "verifiedChannel": "Подтвержденный канал"
-    },
     "announcements": {
       "title": "Официальные объявления",
       "tag": "Объявления",
@@ -10459,166 +9980,7 @@
         }
       },
       "viewAll": "Все объявления"
-    },
-    "videos": {
-      "graduation-2026": {
-        "title": "Выпускная церемония БГТУ - Выпуск 2026 года",
-        "category": "Студенческая жизнь",
-        "description": "Посмотрите основные моменты выпускной церемонии 2026 года в Бухарском государственном техническом университете. Мы гордимся нашими выпускниками и желаем им успехов в будущей инженерной карьере."
-      },
-      "a4mTYkutUgQ": {
-        "title": "Учебный и практический процесс",
-        "category": "Студенческая жизнь",
-        "description": "Краткий обзор учебных занятий, лабораторных работ и практической подготовки студентов БГТУ."
-      },
-      "yDFgDyXhSAM": {
-        "title": "Месяц инженерии: ключевые моменты",
-        "category": "Академическая деятельность",
-        "description": "Самые яркие события Месяца инженерии: проекты, конкурсы и академические активности."
-      },
-      "fVeRnsg7i2E": {
-        "title": "Месяц инженерии в БГТУ",
-        "category": "Академическая деятельность",
-        "description": "Обзор мероприятий и инженерных инициатив, реализованных в рамках тематического месяца."
-      },
-      "MSGRN0M63vc": {
-        "title": "Лаборатории БГТУ изнутри",
-        "category": "Студенческая жизнь",
-        "description": "Кадры из учебных и научных лабораторий, где студенты закрепляют знания на практике."
-      },
-      "79g1io9OrKg": {
-        "title": "Открытая встреча ректора с молодежью",
-        "category": "Студенческая жизнь",
-        "description": "Диалог между руководством университета и студентами по актуальным вопросам развития."
-      },
-      "N5exeY-Kk8g": {
-        "title": "Навруз 21 марта: праздничный дайджест",
-        "category": "Студенческая жизнь",
-        "description": "Праздничный обзор мероприятий, посвященных Наврузу, проведенных в университете."
-      },
-      "GvJspSc4wnQ": {
-        "title": "Научный подкаст: студенты и молодые исследователи",
-        "category": "Академическая деятельность",
-        "description": "Подкаст о науке, инновациях и академическом росте с участием студентов и молодых ученых."
-      },
-      "mIacRgR7Wog": {
-        "title": "Весеннее праздничное настроение на кампусе",
-        "category": "Студенческая жизнь",
-        "description": "Яркие кадры весенних праздников и творческой активности студентов на территории кампуса."
-      },
-      "yuUl38PLcVs": {
-        "title": "Выставка фестиваля «Будущие инженеры»",
-        "category": "Научные исследования",
-        "description": "Презентация инженерных идей, проектов и прототипов в рамках профильного фестиваля."
-      },
-      "sZMHhW3KlrM": {
-        "title": "Реализация президентских инициатив",
-        "category": "Научные исследования",
-        "description": "Практические результаты и проекты, реализованные в соответствии с национальными инициативами."
-      },
-      "loj5daDxQfM": {
-        "title": "Праздничное мероприятие к 8 Марта",
-        "category": "Студенческая жизнь",
-        "description": "Торжественная программа в честь Международного женского дня с участием студентов и преподавателей."
-      },
-      "pW8mTZS0K2I": {
-        "title": "Витрина инноваций и стартапов",
-        "category": "Студенческая жизнь",
-        "description": "Краткий обзор инновационных инициатив и стартап-проектов, представленных студентами БГТУ."
-      },
-      "eFMgy1ia3DM": {
-        "title": "Инклюзивное образование: равные возможности",
-        "category": "Академическая деятельность",
-        "description": "О подходах БГТУ к инклюзивному обучению и созданию равных условий для всех студентов."
-      },
-      "aqYQJlLuy2A": {
-        "title": "Математическая олимпиада BIMO 2026",
-        "category": "Академическая деятельность",
-        "description": "Ключевые моменты Бухарской международной математической олимпиады BIMO 2026."
-      },
-      "diNs5LCoKqU": {
-        "title": "Просветительская инициатива для молодежи",
-        "category": "Студенческая жизнь",
-        "description": "Духовно-просветительское мероприятие, направленное на развитие ценностей и культуры."
-      },
-      "s3m2FC7p618": {
-        "title": "Студенты зимой: снежный день на кампусе",
-        "category": "Студенческая жизнь",
-        "description": "Зимние кадры из студенческой жизни: активный отдых и позитивная атмосфера на территории университета."
-      },
-      "fNnzuHRFy4U": {
-        "title": "Новогодние праздники в БГТУ",
-        "category": "Студенческая жизнь",
-        "description": "Праздничные мероприятия и творческие выступления, посвященные встрече Нового года."
-      },
-      "C7DRBQzYW4c": {
-        "title": "БГТУ в средствах массовой информации",
-        "category": "Научные исследования",
-        "description": "Подборка телевизионных сюжетов и публикаций СМИ о достижениях и проектах университета."
-      },
-      "HXTP8W0ExMU": {
-        "title": "Празднование Дня Конституции в кампусе",
-        "category": "Студенческая жизнь",
-        "description": "События и активности студентов, организованные в рамках празднования Дня Конституции."
-      },
-      "GuBhY7XL1uI": {
-        "title": "Праздник в студенческом общежитии",
-        "category": "Студенческая жизнь",
-        "description": "Кадры праздничной программы и культурных мероприятий в студенческом общежитии."
-      },
-      "PeO011rG1MI": {
-        "title": "Церемония награждения спортивных победителей",
-        "category": "Студенческая жизнь",
-        "description": "Торжественное награждение студентов, показавших лучшие результаты в спортивных соревнованиях."
-      },
-      "EmI0y8mHTgE": {
-        "title": "Видеообзор университетских событий",
-        "category": "Студенческая жизнь",
-        "description": "Динамичный ролик с лучшими моментами университетских мероприятий и кампусной жизни."
-      },
-      "DNlLZpSYKUY": {
-        "title": "Студенческое достижение: Диёрбек Эргашов",
-        "category": "Научные исследования",
-        "description": "Материал о достижениях студента БГТУ Диёрбека Эргашова в учебной и научной деятельности."
-      },
-      "KujaDfrMQ78": {
-        "title": "Научные и творческие клубы университета",
-        "category": "Студенческая жизнь",
-        "description": "Обзор работы студенческих клубов и кружков по научным, техническим и творческим направлениям."
-      },
-      "q8EqS6vv-e8": {
-        "title": "Профсоюзная церемония признания",
-        "category": "Студенческая жизнь",
-        "description": "Церемония признания активных сотрудников и студентов при поддержке профсоюзной организации."
-      },
-      "nL0LEGH9n7g": {
-        "title": "Планета студентов - Часть 2",
-        "category": "Студенческая жизнь",
-        "description": "Вторая серия проекта «Планета студентов» о мотивации, академической этике и личностном росте."
-      },
-      "FPq81ioHghs": {
-        "title": "Планета студентов - Часть 1",
-        "category": "Студенческая жизнь",
-        "description": "Первая серия проекта «Планета студентов», посвященная адаптации первокурсников к университетской среде."
-      },
-      "LPfUdQsLgj4": {
-        "title": "Мероприятия к годовщине Конституции",
-        "category": "Студенческая жизнь",
-        "description": "Кампусные мероприятия, посвященные годовщине принятия Конституции Республики Узбекистан."
-      },
-      "ON_zcrebqSM": {
-        "title": "Марш-марафон ко Дню государственного флага",
-        "category": "Студенческая жизнь",
-        "description": "Пешеходный марафон, посвященный годовщине принятия государственного флага Узбекистана."
-      },
-      "sJnd3nsvxK8": {
-        "title": "Семинар по политике укрепления семьи",
-        "category": "Академическая деятельность",
-        "description": "Научный семинар о государственных подходах к укреплению семьи в Турции и Узбекистане."
-      }
-    },
-    "blog": {},
-    "blogDetails": {}
+    }
   },
   "ar": {
     "nav": {
@@ -11077,7 +10439,6 @@
           "years5": "5 سنوات"
         }
       },
-      "blog": {},
       "greenCampus": {
         "tag": "الاستدامة",
         "title": "ريادة الحرم الأخضر في الاستدامة والابتكار البيئي",
@@ -11223,11 +10584,6 @@
           }
         }
       },
-      "videoGallery": {
-        "tag": "معرض الفيديو",
-        "title": "حياة الجامعة في مقاطع الفيديو",
-        "subtitle": "شاهد لقطات مميزة عن حياة جامعتنا وإنجازاتها وفعالياتها المختلفة."
-      },
       "values": {
         "tag": "قيمنا الأساسية",
         "title": "المبادئ الأساسية التي توجه جامعة بخارى الحكومية التقنية",
@@ -11259,11 +10615,6 @@
         "a5": "يقع الحرم الجامعي للجامعة في شارع م. مرتضاييف، 15، مدينة بخارى، أوزبكستان.",
         "q6": "من هو رئيس جامعة بخارى الحكومية التقنية؟",
         "a6": "تقود الجامعة رئيسة الجامعة السيدة صدقات غفوروفنا صديقوفا، المعينة لتوجيه المؤسسة خلال مسيرتها نحو التحديث الأكاديمي والتقني."
-      },
-      "graduationVideo": {
-        "tag": "التخرج 2026",
-        "title": "الاحتفال بدفعة خريجي 2026",
-        "desc": "استرجع اللحظات التاريخية والإنجازات وحفل التخرج لجامعة بخارى الحكومية التقنية"
       },
       "features": {
         "tag": "ميزاتنا الفريدة",
@@ -13481,48 +12832,6 @@
       "showPassword": "إظهار كلمة المرور",
       "hidePassword": "إخفاء كلمة المرور"
     },
-    "videoPage": {
-      "categories": {
-        "all": "الكل",
-        "campuslife": "حياة الحرم الجامعي",
-        "research": "البحوث العلمية",
-        "admissions": "القبول",
-        "academics": "الدراسة والأكاديميا"
-      },
-      "liked": "تم الإعجاب",
-      "like": "أعجبني",
-      "share": "مشاركة",
-      "subscribersCount": "مشتركاً",
-      "subscribed": "تم الاشتراك",
-      "subscribe": "الاشتراك",
-      "descriptionTitle": "وصف الفيديو وأبرز النقاط",
-      "showLess": "عرض أقل",
-      "showMore": "عرض المزيد",
-      "platformLabel": "المنصة",
-      "platformValues": {
-        "local": "محلي",
-        "youtube": "يوتيوب"
-      },
-      "recommended": "مقاطع فيديو مقترحة",
-      "videos": "مقاطع الفيديو",
-      "badges": {
-        "playing": "يعمل الآن"
-      },
-      "noVideos": "لا توجد مقاطع فيديو في هذه الفئة.",
-      "linkCopied": "تم نسخ الرابط إلى الحافظة!",
-      "meta": {
-        "viewsSuffix": "مشاهدة",
-        "oneDayAgo": "منذ يوم",
-        "daysAgo": "منذ {{count}} أيام",
-        "oneWeekAgo": "منذ أسبوع",
-        "weeksAgo": "منذ {{count}} أسابيع",
-        "oneMonthAgo": "منذ شهر",
-        "monthsAgo": "منذ {{count}} أشهر",
-        "oneYearAgo": "منذ سنة",
-        "yearsAgo": "منذ {{count}} سنوات"
-      },
-      "verifiedChannel": "قناة موثقة"
-    },
     "announcements": {
       "title": "الإعلانات الرسمية",
       "tag": "الإعلانات",
@@ -13917,165 +13226,6 @@
         }
       },
       "viewAll": "جميع الإعلانات"
-    },
-    "videos": {
-      "graduation-2026": {
-        "title": "حفل تخرج جامعة بخارى الحكومية التقنية - دفعة 2026",
-        "category": "حياة الجامعة",
-        "description": "شاهدوا أبرز لقطات حفل التخرج البهيج لدفعة عام 2026 في جامعة بخارى الحكومية التقنية. فخورون بطلابنا الخريجين ونتمنى لهم كامل التوفيق والنجاح في مسيرتهم الهندسية الواعدة."
-      },
-      "a4mTYkutUgQ": {
-        "title": "لمحات من العملية التعليمية والتطبيقية",
-        "category": "حياة الجامعة",
-        "description": "عرض موجز لأنشطة الدراسة النظرية والتدريب العملي داخل الجامعة."
-      },
-      "yDFgDyXhSAM": {
-        "title": "أبرز فعاليات شهر الهندسة",
-        "category": "الشؤون الأكاديمية",
-        "description": "ملخص لأهم الفعاليات والمشروعات الطلابية التي نُظمت خلال شهر الهندسة."
-      },
-      "fVeRnsg7i2E": {
-        "title": "شهر الهندسة في جامعة بخارى التقنية",
-        "category": "الشؤون الأكاديمية",
-        "description": "نظرة على الأنشطة العلمية والتقنية التي شهدها الحرم الجامعي ضمن شهر الهندسة."
-      },
-      "MSGRN0M63vc": {
-        "title": "من داخل المختبرات العلمية",
-        "category": "حياة الجامعة",
-        "description": "لقطات من المختبرات التعليمية والبحثية حيث يطبق الطلاب المعرفة عملياً."
-      },
-      "79g1io9OrKg": {
-        "title": "لقاء مفتوح بين الإدارة والطلاب",
-        "category": "حياة الجامعة",
-        "description": "حوار مباشر بين قيادة الجامعة والشباب حول القضايا الأكاديمية والتنموية."
-      },
-      "N5exeY-Kk8g": {
-        "title": "ملخص احتفالات النوروز - 21 مارس",
-        "category": "حياة الجامعة",
-        "description": "تغطية مختصرة لأجواء احتفالات النوروز والأنشطة الثقافية في الجامعة."
-      },
-      "GvJspSc4wnQ": {
-        "title": "بودكاست علمي مع الطلاب والباحثين",
-        "category": "الشؤون الأكاديمية",
-        "description": "حلقة حوارية حول الابتكار والبحث العلمي بمشاركة طلاب وباحثين شباب."
-      },
-      "mIacRgR7Wog": {
-        "title": "أجواء احتفالية ربيعية في الحرم الجامعي",
-        "category": "حياة الجامعة",
-        "description": "مشاهد من الفعاليات الربيعية والأنشطة الطلابية في أجواء احتفالية مميزة."
-      },
-      "yuUl38PLcVs": {
-        "title": "معرض مهرجان مهندسي المستقبل",
-        "category": "الأبحاث العلمية",
-        "description": "عرض لمشروعات ونماذج هندسية قدمها الطلاب ضمن مهرجان مهندسي المستقبل."
-      },
-      "sZMHhW3KlrM": {
-        "title": "تنفيذ المبادرات الرئاسية",
-        "category": "الأبحاث العلمية",
-        "description": "نتائج عملية ومخرجات مشاريع نُفذت في إطار المبادرات الوطنية."
-      },
-      "loj5daDxQfM": {
-        "title": "احتفالية يوم المرأة العالمي",
-        "category": "حياة الجامعة",
-        "description": "برنامج احتفالي مخصص ليوم المرأة العالمي بمشاركة الطالبات والهيئة الأكاديمية."
-      },
-      "pW8mTZS0K2I": {
-        "title": "عرض الابتكار والمشاريع الناشئة",
-        "category": "حياة الجامعة",
-        "description": "مقتطفات من أفكار طلابية مبتكرة ومبادرات ريادية داخل الجامعة."
-      },
-      "eFMgy1ia3DM": {
-        "title": "التعليم الشامل: أساس تكافؤ الفرص",
-        "category": "الشؤون الأكاديمية",
-        "description": "تعريف بمبادرات الجامعة في التعليم الشامل وضمان فرص متكافئة لجميع الطلاب."
-      },
-      "aqYQJlLuy2A": {
-        "title": "أولمبياد BIMO 2026 للرياضيات",
-        "category": "الشؤون الأكاديمية",
-        "description": "لقطات من فعاليات أولمبياد بخارى الدولي للرياضيات BIMO 2026."
-      },
-      "diNs5LCoKqU": {
-        "title": "فعالية التوعية والتنوير للشباب",
-        "category": "حياة الجامعة",
-        "description": "برنامج توعوي يركز على القيم والمعرفة وبناء الوعي لدى الطلاب."
-      },
-      "s3m2FC7p618": {
-        "title": "الطلاب في الشتاء: يوم ثلجي في الحرم",
-        "category": "حياة الجامعة",
-        "description": "أجواء شتوية مميزة ومشاهد مرحة من حياة الطلاب داخل الحرم الجامعي."
-      },
-      "fNnzuHRFy4U": {
-        "title": "احتفالات رأس السنة في الجامعة",
-        "category": "حياة الجامعة",
-        "description": "ملخص لفعاليات رأس السنة والعروض الطلابية الاحتفالية داخل الجامعة."
-      },
-      "C7DRBQzYW4c": {
-        "title": "جامعة بخارى في وسائل الإعلام",
-        "category": "الأبحاث العلمية",
-        "description": "تجميعة لتقارير إعلامية وتلفزيونية تسلط الضوء على إنجازات الجامعة."
-      },
-      "HXTP8W0ExMU": {
-        "title": "احتفال يوم الدستور في الحرم الجامعي",
-        "category": "حياة الجامعة",
-        "description": "فعاليات طلابية وثقافية أقيمت بمناسبة يوم الدستور."
-      },
-      "GuBhY7XL1uI": {
-        "title": "برنامج احتفالي في السكن الطلابي",
-        "category": "حياة الجامعة",
-        "description": "أجواء احتفالية وأنشطة اجتماعية نظمت في السكن الجامعي."
-      },
-      "PeO011rG1MI": {
-        "title": "حفل تكريم الفائزين بالبطولات الرياضية",
-        "category": "حياة الجامعة",
-        "description": "تكريم رسمي للطلبة الفائزين في المسابقات الرياضية الجامعية."
-      },
-      "EmI0y8mHTgE": {
-        "title": "فيديو ملخص فعاليات الجامعة",
-        "category": "حياة الجامعة",
-        "description": "مقطع مرئي سريع يجمع أبرز لحظات الأنشطة والفعاليات الجامعية."
-      },
-      "DNlLZpSYKUY": {
-        "title": "إنجاز طلابي: ديوربيك إرغاشوف",
-        "category": "الأبحاث العلمية",
-        "description": "عرض لإنجازات الطالب ديوربيك إرغاشوف في المسار الأكاديمي والبحثي."
-      },
-      "KujaDfrMQ78": {
-        "title": "أنشطة النوادي العلمية والإبداعية",
-        "category": "حياة الجامعة",
-        "description": "جولة في أنشطة النوادي الطلابية العلمية والتقنية والإبداعية."
-      },
-      "q8EqS6vv-e8": {
-        "title": "مراسم تكريم نقابية",
-        "category": "حياة الجامعة",
-        "description": "مراسم تقدير للمتميزين من الموظفين والطلاب بتنظيم النقابة الجامعية."
-      },
-      "nL0LEGH9n7g": {
-        "title": "كوكب الطلاب - الجزء الثاني",
-        "category": "حياة الجامعة",
-        "description": "الحلقة الثانية من مشروع كوكب الطلاب حول التحفيز والأخلاقيات الأكاديمية."
-      },
-      "FPq81ioHghs": {
-        "title": "كوكب الطلاب - الجزء الأول",
-        "category": "حياة الجامعة",
-        "description": "الحلقة الأولى من مشروع كوكب الطلاب، مخصصة لتجربة الطالب الجديد في الجامعة."
-      },
-      "LPfUdQsLgj4": {
-        "title": "فعاليات ذكرى الدستور",
-        "category": "حياة الجامعة",
-        "description": "أنشطة جامعية أُقيمت بمناسبة ذكرى اعتماد دستور جمهورية أوزبكستان."
-      },
-      "ON_zcrebqSM": {
-        "title": "ماراثون المشي في ذكرى العلم الوطني",
-        "category": "حياة الجامعة",
-        "description": "ماراثون جماعي أُقيم احتفاءً بذكرى اعتماد العلم الوطني."
-      },
-      "sJnd3nsvxK8": {
-        "title": "ندوة حول سياسات تعزيز الأسرة",
-        "category": "الشؤون الأكاديمية",
-        "description": "ندوة أكاديمية تناقش سياسات تعزيز الأسرة في تركيا وأوزبكستان من منظور اجتماعي وعلمي."
-      }
-    },
-    "blog": {},
-    "blogDetails": {}
+    }
   }
 }

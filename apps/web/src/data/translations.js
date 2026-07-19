@@ -455,7 +455,6 @@ export const translations = {
           "years5": "5 years"
         }
       },
-      "blog": {},
       "greenCampus": {
         "tag": "Sustainability",
         "title": "Green Campus Leadership in Sustainability",
@@ -632,11 +631,6 @@ export const translations = {
         "a5": "The university campus is located at 15 Q. Murtazoyev Street, Bukhara city, Uzbekistan.",
         "q6": "Who is the Rector of Bukhara State Technical University?",
         "a6": "The university is led by Rector Sadoqat Ghaforovna Siddikova, appointed to guide the institution through its technological and academic advancements."
-      },
-      "graduationVideo": {
-        "tag": "Graduation 2026",
-        "title": "Celebrating the Class of 2026",
-        "desc": "Relive the historic moments, achievements, and ceremony of Bukhara State Technical University"
       },
       "features": {
         "tag": "Key Advantages",
@@ -3328,9 +3322,7 @@ export const translations = {
         }
       },
       "viewAll": "All Announcements"
-    },
-    "blog": {},
-    "blogDetails": {}
+    }
   },
   "uz": {
     "nav": {
@@ -3789,7 +3781,6 @@ export const translations = {
           "years5": "5 yil"
         }
       },
-      "blog": {},
       "greenCampus": {
         "tag": "Barqarorlik",
         "title": "Yashil kampusda barqarorlik va eko-innovatsiyalar yetakchiligi",
@@ -4025,11 +4016,6 @@ export const translations = {
       "a5": "Universitet kampusi Buxoro shahri, Murtazoyev ko'chasi, 15-uyda joylashgan.",
       "q6": "Buxoro davlat texnika universiteti rektori kim?",
       "a6": "Universitetga rektor Sadoqat Ghaforovna Siddikova rahbarlik qilmoqda, u muassasani texnologik va akademik rivojlanish sari yetaklamoqda."
-    },
-    "graduationVideo": {
-      "tag": "Bitiruv 2026",
-      "title": "2026-yil bitiruvchilarini tabriklaymiz",
-      "desc": "Buxoro davlat texnika universitetining tarixiy lahzalari, yutuqlari va tantanali bitiruv marosimini tomosha qiling"
     },
     "features": {
       "tag": "Bizning afzalliklar",
@@ -5130,9 +5116,7 @@ export const translations = {
       "backToLogin": "Kirish sahifasiga qaytish",
       "showPassword": "Parolni ko'rsatish",
       "hidePassword": "Parolni yashirish"
-    },
-    "blog": {},
-    "blogDetails": {}
+    }
   },
   "departments": {
     "electrical-power-engineering": {
@@ -7202,7 +7186,6 @@ export const translations = {
           "years5": "5 лет"
         }
       },
-      "blog": {},
       "greenCampus": {
         "tag": "Устойчивое развитие",
         "title": "Лидерство зеленого кампуса в устойчивости и эко-инновациях",
@@ -7379,11 +7362,6 @@ export const translations = {
         "a5": "Кампус университета расположен по адресу: Узбекистан, город Бухара, улица М. Муртазаева, 15.",
         "q6": "Кто является ректором Бухарского государственного технического университета?",
         "a6": "Университет возглавляет ректор Садокат Гафоровна Сиддикова, назначенная для руководства вузом в период его академической и технологической модернизации."
-      },
-      "graduationVideo": {
-        "tag": "Выпускной 2026",
-        "title": "Поздравляем выпускников 2026 года",
-        "desc": "Вспомните исторические моменты, достижения и торжественную церемонию выпуска Бухарского государственного технического университета"
       },
       "features": {
         "tag": "Наши преимущества",
@@ -10002,9 +9980,7 @@ export const translations = {
         }
       },
       "viewAll": "Все объявления"
-    },
-    "blog": {},
-    "blogDetails": {}
+    }
   },
   "ar": {
     "nav": {
@@ -10463,7 +10439,6 @@ export const translations = {
           "years5": "5 سنوات"
         }
       },
-      "blog": {},
       "greenCampus": {
         "tag": "الاستدامة",
         "title": "ريادة الحرم الأخضر في الاستدامة والابتكار البيئي",
@@ -10640,11 +10615,6 @@ export const translations = {
         "a5": "يقع الحرم الجامعي للجامعة في شارع م. مرتضاييف، 15، مدينة بخارى، أوزبكستان.",
         "q6": "من هو رئيس جامعة بخارى الحكومية التقنية؟",
         "a6": "تقود الجامعة رئيسة الجامعة السيدة صدقات غفوروفنا صديقوفا، المعينة لتوجيه المؤسسة خلال مسيرتها نحو التحديث الأكاديمي والتقني."
-      },
-      "graduationVideo": {
-        "tag": "التخرج 2026",
-        "title": "الاحتفال بدفعة خريجي 2026",
-        "desc": "استرجع اللحظات التاريخية والإنجازات وحفل التخرج لجامعة بخارى الحكومية التقنية"
       },
       "features": {
         "tag": "ميزاتنا الفريدة",
@@ -13256,8 +13226,6 @@ export const translations = {
         }
       },
       "viewAll": "جميع الإعلانات"
-    },
-    "blog": {},
-    "blogDetails": {}
+    }
   }
 };

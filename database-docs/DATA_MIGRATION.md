@@ -17,9 +17,8 @@ are not imported by public React pages.
 3. **`departmentsData.js`** — Academic departments, lab titles, and subject list curriculum.
 4. **`universityData.js`** — Global university administration leadership (Rector, Vice-rectors, bios, contact details).
 5. **`announcementsData.js`** — Campus notices, priority tags, and date boundaries.
-6. **`videosData.js`** — Campus video tours, YouTube IDs, and details.
-7. **`greenCampusData.js`** — Sustainability statistics and green campus achievement articles.
-8. **`mockData.js`** — Services priorities data and additional blog elements.
+6. **`greenCampusData.js`** — Sustainability statistics and green campus achievement articles.
+7. **`mockData.js`** — Services priorities data and additional blog elements.
 
 `facultyTechnology.js` and `facultyTechnologyRequirements.cleaned.txt` are kept
 only as historical source captures in the same legacy archive. Faculty and
@@ -44,7 +43,7 @@ The extracted JSON datasets were mapped onto the normalized, multi-language MySQ
 - **`announcements` & `announcement_translations`** — Priority campus announcements.
 - **`staff_profiles` & `staff_profile_translations`** — Leadership, faculty deans, and department instructors. Staff profiles include stable public slugs such as `rector`.
 - **`services` & `service_translations`** — Core university services seeded by `ServiceSeeder`.
-- **`videos` & `video_translations`** — Embedded YouTube promo configurations.
+- **`videos` & `video_translations`** — Video Gallery records managed through `/apanel/cms/video-bdtu`.
 - **`green_campus_stats` & `green_campus_stat_translations`** — Sustainability metrics.
 - **`green_campus_articles` & `green_campus_article_translations`** — Green Campus initiative articles.
 - **`settings`** — Site contacts, emails, and social media profiles.
@@ -98,8 +97,8 @@ Current JSON dataset ownership:
 - `departments.json`: consumed by department, course, and staff seeding.
 - `green_campus.json`: consumed by `GreenCampusSeeder`.
 - `programs.json`: consumed by `ProgramSeeder`.
-- `translations.json`: consumed by translation, menu, page, faculty, department, program, course, staff, announcement, video, and green campus seeders.
-- `videos.json`: consumed by `VideoSeeder`.
+- `translations.json`: consumed by translation, menu, page, faculty, department, program, course, staff, announcement, and green campus seeders.
+- Video Gallery content is not seeded from JSON. It is managed through `/apanel/cms/video-bdtu`.
 - `services.json`: retained import output; current service records are curated inline in `ServiceSeeder`.
 
 To clean the database, execute migrations, and re-populate the tables with migrated content, run:
@@ -164,7 +163,6 @@ file. It reads:
 - `scripts/import-react-content/legacy-react-data/programsData.js`
 - `scripts/import-react-content/legacy-react-data/departmentsData.js`
 - `scripts/import-react-content/legacy-react-data/universityData.js`
-- `scripts/import-react-content/legacy-react-data/videosData.js`
 - `scripts/import-react-content/legacy-react-data/greenCampusData.js`
 - `scripts/import-react-content/legacy-react-data/mockData.js`
 
@@ -175,7 +173,6 @@ It writes:
 - `apps/api/database/data/programs.json`
 - `apps/api/database/data/departments.json`
 - `apps/api/database/data/administration.json`
-- `apps/api/database/data/videos.json`
 - `apps/api/database/data/green_campus.json`
 - `apps/api/database/data/services.json`
 
@@ -191,15 +188,14 @@ After running it, review the generated JSON diff before running seeders. The scr
 
 Current seeders consume these JSON files directly:
 
-- `translations.json`: translations, menus, pages, page blocks, faculties, departments, programs, courses, announcements, staff, videos, green campus, and UI translation keys/values.
+- `translations.json`: translations, menus, pages, page blocks, faculties, departments, programs, courses, announcements, staff, green campus, and UI translation keys/values.
 - `departments.json`: departments, courses, and staff metadata.
 - `programs.json`: program metadata.
 - `announcements.json`: announcement metadata.
 - `administration.json`: leadership/staff metadata.
-- `videos.json`: video metadata.
 - `green_campus.json`: green campus stats and articles.
 
-`services.json` is generated but not consumed by current seeders. Blog content is not generated from static JSON.
+`services.json` is generated but not consumed by current seeders. Blog, News & Events, Video Gallery, and footer content are not generated from static JSON.
 
 ---
 
@@ -209,7 +205,7 @@ All dynamic content and translations can be managed directly via the `/api/v1/ap
 
 1. **Locales:** Toggle system active languages or order.
 2. **Translation Values:** Directly edit UI text for any language.
-3. **Dynamic Models:** Create, update, or delete pages, courses, programs, News & Events items, Blog posts, footer content, or green campus articles.
+3. **Dynamic Models:** Create, update, or delete pages, courses, programs, News & Events items, Blog posts, Video Gallery items, footer content, or green campus articles.
 
 ---
 

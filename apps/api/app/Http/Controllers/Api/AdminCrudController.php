@@ -1241,7 +1241,7 @@ class AdminCrudController extends Controller
                 ];
             case 'media':
                 return [
-                    'file' => ($id ? 'nullable' : 'required').'|file|mimes:pdf,jpg,jpeg,png,webp,mp4,avi,mov|mimetypes:application/pdf,image/jpeg,image/png,image/webp,video/mp4,video/x-msvideo,video/quicktime|max:51200',
+                    'file' => ($id ? 'nullable' : 'required').'|file|mimes:pdf,jpg,jpeg,png,webp,mp4,avi,mov|mimetypes:application/pdf,image/jpeg,image/png,image/webp,video/mp4,video/x-msvideo,video/quicktime|max:204800',
                     'title' => 'nullable|string',
                     'alt_text' => 'nullable|string',
                     'type' => 'nullable|string|in:image,document,video',

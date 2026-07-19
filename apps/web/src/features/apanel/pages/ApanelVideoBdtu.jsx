@@ -91,6 +91,7 @@ const emptySettings = {
     ]),
   ),
 };
+const MAX_VIDEO_UPLOAD_BYTES = 200 * 1024 * 1024;
 
 function slugify(value) {
   return value
@@ -113,6 +114,17 @@ function toDateInput(value) {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return "";
   return date.toISOString().slice(0, 10);
+}
+
+function mediaPreviewSrc(path) {
+  if (!path) return "";
+  if (path.startsWith("http://") || path.startsWith("https://")) return path;
+  if (path.startsWith("/")) return path;
+
+  const apiBase =
+    import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/api/v1";
+  const storagePath = path.replace(/^public\//, "");
+  return `${apiBase.replace(/\/api\/v1\/?$/, "")}/storage/${storagePath}`;
 }
 
 function findTranslation(translations, locale) {
@@ -308,6 +320,11 @@ export default function ApanelVideoBdtu() {
 
   const handleUpload = async (file, targetField) => {
     if (!file) return;
+    if (file.type.startsWith("video/") && file.size > MAX_VIDEO_UPLOAD_BYTES) {
+      setError("Video file is too large. Please upload a video up to 200 MB.");
+      return;
+    }
+
     try {
       const media = await apanelService.uploadMedia(file, {
         type: file.type.startsWith("video/") ? "video" : "image",
@@ -703,7 +720,7 @@ export default function ApanelVideoBdtu() {
                       <td className="px-5 py-4">
                         <div className="flex items-center gap-3">
                           <div className="w-16 h-12 rounded-xl bg-gray-100 border border-gray-100 flex items-center justify-center text-gray-400 overflow-hidden">
-                            {item.thumbnail ? <img src={item.thumbnail} alt={title} className="w-full h-full object-cover" /> : <ImageIcon className="w-4 h-4" />}
+                            {item.thumbnail ? <img src={mediaPreviewSrc(item.thumbnail)} alt={title} className="w-full h-full object-cover" /> : <ImageIcon className="w-4 h-4" />}
                           </div>
                           <div>
                             <p className="text-sm font-extrabold text-navy line-clamp-1">{title}</p>

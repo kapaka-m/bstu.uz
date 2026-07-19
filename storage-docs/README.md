@@ -68,6 +68,6 @@ final absoluteUrl = filePath.startsWith("http")
 - Student application documents are private workflow files and should be downloaded only through authenticated student/apanel routes.
 - Public media records may expose files through `/storage/...` URLs only when `is_public` is true.
 - Allowed student document types: PDF, JPEG, PNG, WebP; max 10 MB.
-- Allowed apanel media types: PDF, JPEG, PNG, WebP, MP4, AVI, MOV; max 50 MB.
+- Allowed apanel media types: PDF, JPEG, PNG, WebP, MP4, AVI, MOV; max 200 MB.
 - Store generated logs, framework cache, and test result cache out of source control. Uploaded media must remain in storage and should be backed up before deployment changes.
 - Review canonical files from `storage/app/public`, not through `public/storage`, when checking whether an upload should be quarantined.

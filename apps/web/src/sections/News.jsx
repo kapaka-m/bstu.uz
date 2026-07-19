@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Calendar } from "lucide-react";
+import { ArrowRight, Calendar, CalendarDays, Megaphone, Newspaper } from "lucide-react";
 import { motion } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
 import { newsService } from "../services/newsService";
+
+const HOME_ICON_MAP = {
+  newspaper: Newspaper,
+  "calendar-days": CalendarDays,
+  megaphone: Megaphone,
+};
 
 export default function News() {
   const { language } = useLanguage();
@@ -69,6 +75,7 @@ export default function News() {
     category?.toLowerCase() === "events"
       ? settings?.events_label || category
       : settings?.news_label || category;
+  const HomeIcon = HOME_ICON_MAP[settings?.home_icon] || Newspaper;
 
   return (
     <section
@@ -77,7 +84,8 @@ export default function News() {
     >
       <div className="container mx-auto px-4 md:px-8 max-w-7xl">
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <span className="bg-primary/10 text-primary text-xs font-extrabold uppercase tracking-widest px-3 py-1.5 rounded-full mb-3 inline-block">
+          <span className="bg-primary/10 text-primary text-xs font-extrabold uppercase tracking-widest px-3 py-1.5 rounded-full mb-3 inline-flex items-center gap-2">
+            <HomeIcon className="w-3.5 h-3.5" />
             {settings?.home_tag || ""}
           </span>
           <h2 className="text-3xl md:text-4xl font-extrabold text-navy">

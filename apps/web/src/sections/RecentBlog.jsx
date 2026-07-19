@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Calendar, User } from "lucide-react";
+import { ArrowRight, BookOpen, Calendar, Newspaper, PenLine, User } from "lucide-react";
 import { motion } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
 import { blogService } from "../services/blogService";
+
+const HOME_ICON_MAP = {
+  "book-open": BookOpen,
+  "pen-line": PenLine,
+  newspaper: Newspaper,
+};
 
 export default function RecentBlog() {
   const { language } = useLanguage();
@@ -41,6 +47,8 @@ export default function RecentBlog() {
     return null;
   }
 
+  const HomeIcon = HOME_ICON_MAP[settings.home_icon] || BookOpen;
+
   return (
     <section
       id="recent-blog"
@@ -49,7 +57,8 @@ export default function RecentBlog() {
       <div className="container mx-auto px-4 md:px-8 max-w-7xl">
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <h2 className="text-sm font-extrabold uppercase tracking-widest text-primary mb-3">
+          <h2 className="text-sm font-extrabold uppercase tracking-widest text-primary mb-3 inline-flex items-center justify-center gap-2">
+            <HomeIcon className="w-4 h-4" />
             {settings.home_tag || ""}
           </h2>
           <p className="text-3xl md:text-4xl font-extrabold text-navy">

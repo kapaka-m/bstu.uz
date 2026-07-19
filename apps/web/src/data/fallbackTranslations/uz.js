@@ -213,7 +213,6 @@ export const translation = {
     "programLanguages": "O'zbek / Rus / Ingliz",
     "structure": "Tuzilma",
     "administration": "Raxbariyat",
-    "noResults": "Yashil kampus bo'yicha maqolalar topilmadi.",
     "clearFilters": "Qidiruv filtrlarini tozalash",
     "facultyLeadership": "Fakultet rahbariyati",
     "academicStaff": "Professor-o'qituvchilar tarkibi",
@@ -454,11 +453,6 @@ export const translation = {
         "years4": "4 yil",
         "years5": "5 yil"
       }
-    },
-    "greenCampus": {
-      "tag": "Barqarorlik",
-      "title": "Yashil kampusda barqarorlik va eko-innovatsiyalar yetakchiligi",
-      "explore": "Barcha yashil kampus tashabbuslarini o'rganish"
     },
     "about": {
       "title": "Raqamli muhandislik kelajagini barpo etish",

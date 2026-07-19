@@ -1,15 +1,41 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, Leaf } from "lucide-react";
-import { greenCampusData } from "../data/greenCampusData";
+import { greenCampusService } from "../services/greenCampusService";
 import { useLanguage } from "../context/LanguageContext";
 
 export default function GreenCampusSection() {
-  const { t } = useLanguage();
+  const { language } = useLanguage();
+  const [settings, setSettings] = useState({});
+  const [articles, setArticles] = useState([]);
 
-  // Show only first 3 articles on the homepage
-  const previewArticles = greenCampusData.articles.slice(0, 3);
+  useEffect(() => {
+    let active = true;
+
+    Promise.all([
+      greenCampusService.getSettings(),
+      greenCampusService.getArticles(),
+    ])
+      .then(([nextSettings, nextArticles]) => {
+        if (!active) return;
+        setSettings(nextSettings);
+        setArticles(nextArticles.slice(0, Number(nextSettings.home_limit || 3)));
+      })
+      .catch(() => {
+        if (!active) return;
+        setSettings({});
+        setArticles([]);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [language]);
+
+  if (articles.length === 0) {
+    return null;
+  }
 
   return (
     <section
@@ -25,20 +51,17 @@ export default function GreenCampusSection() {
         <div className="text-center max-w-3xl mx-auto mb-16">
           <div className="inline-flex items-center gap-2 bg-emerald-50 text-emerald-600 text-xs font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full mb-3">
             <Leaf className="w-3.5 h-3.5 shrink-0" />
-            {t("home.greenCampus.tag", "Sustainability")}
+            {settings.home_tag || ""}
           </div>
           <p className="text-3xl md:text-4xl font-extrabold text-navy leading-tight">
-            {t(
-              "home.greenCampus.title",
-              "Green Campus & Sustainable Initiatives",
-            )}
+            {settings.home_title || ""}
           </p>
           <div className="w-16 h-1 bg-emerald-500 mx-auto mt-4 rounded-full" />
         </div>
 
         {/* Articles Preview Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-          {previewArticles.map((item, index) => {
+          {articles.map((item, index) => {
             return (
               <motion.div
                 key={item.id}
@@ -51,27 +74,25 @@ export default function GreenCampusSection() {
                 <div className="w-full aspect-video rounded-2xl overflow-hidden bg-gray-50 border border-gray-100 mb-6">
                   <img
                     src={item.image}
-                    alt={t(`greenCampus.articles.${item.id}.title`, item.title)}
+                    alt={item.title}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     loading="lazy"
                     onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src =
-                        "/assets/img/green-campus/green_img_34.jpg";
+                      e.currentTarget.style.display = "none";
                     }}
                   />
                 </div>
 
                 <h3 className="text-lg font-extrabold text-navy mb-3 group-hover:text-emerald-600 transition-colors">
-                  {t(`greenCampus.articles.${item.id}.title`, item.title)}
+                  {item.title}
                 </h3>
 
                 <p className="text-gray-500 text-xs font-semibold leading-relaxed mb-6 grow">
-                  {t(`greenCampus.articles.${item.id}.excerpt`, item.excerpt)}
+                  {item.excerpt}
                 </p>
 
                 <div className="pt-4 border-t border-gray-50 flex items-center justify-between text-xs font-extrabold text-emerald-600 group-hover:text-emerald-700">
-                  <span>{t("common.readMore", "Learn More")}</span>
+                  <span>{settings.read_more_label || ""}</span>
                   <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1 rtl:rotate-180" />
                 </div>
 
@@ -91,10 +112,7 @@ export default function GreenCampusSection() {
             to="/green-campus"
             className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm px-8 py-4 rounded-2xl shadow-lg shadow-emerald-600/10 hover:shadow-emerald-600/20 transition-all hover:-translate-y-0.5"
           >
-            {t(
-              "home.greenCampus.explore",
-              "Explore All Green Campus Initiatives",
-            )}
+            {settings.view_all_label || ""}
             <ArrowRight className="w-4 h-4 rtl:rotate-180" />
           </Link>
         </div>

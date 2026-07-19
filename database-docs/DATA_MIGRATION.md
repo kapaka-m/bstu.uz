@@ -12,12 +12,12 @@ evaluates them inside a Node.js VM context, and exports JSON datasets into
 `apps/api/database/data/`. These files are not production runtime content and
 are not imported by public React pages.
 
-1. **`translations.js`** — UI translation dictionaries, structural text, department metadata translations, and green campus localizations.
+1. **`translations.js`** — UI translation dictionaries, structural text, and department metadata translations.
 2. **`programsData.js`** — Study programs metadata (degree, duration, coordinators, accreditations).
 3. **`departmentsData.js`** — Academic departments, lab titles, and subject list curriculum.
 4. **`universityData.js`** — Global university administration leadership (Rector, Vice-rectors, bios, contact details).
 5. **`announcementsData.js`** — Campus notices, priority tags, and date boundaries.
-6. **`greenCampusData.js`** — Sustainability statistics and green campus achievement articles.
+6. **Green Campus CMS** — Sustainability statistics and green campus initiatives are managed through `/apanel/cms/green-campus`.
 7. **`mockData.js`** — Services priorities data and additional blog elements.
 
 `facultyTechnology.js` and `facultyTechnologyRequirements.cleaned.txt` are kept
@@ -33,7 +33,7 @@ The extracted JSON datasets were mapped onto the normalized, multi-language MySQ
 - **`locales`** — Configured system language codes (`en`, `uz`, `ru`, `ar`) with text direction traits (`ltr` or `rtl`).
 - **`translation_keys` & `translation_values`** — Flat-mapped UI labels grouped under system categories.
 - **`pages` & `page_translations`** — Metadata and global details for `home` and `about` routes.
-- **`page_blocks` & `page_block_translations`** — Dynamic homepage sections (`home_hero`, `home_rector`, `home_green_campus`).
+- **`page_blocks` & `page_block_translations`** — Dynamic homepage sections such as `home_hero` and `home_rector`.
 - **`menus` & `menu_items` & `menu_item_translations`** — Dynamic navigation links.
 - **`faculties` & `faculty_translations`** — Seeded the 4 core university faculties (`engineering`, `technology`, `service`, `natural`).
 - **`departments` & `department_translations`** — Seeded all department subdivisions.
@@ -95,9 +95,9 @@ Current JSON dataset ownership:
 - `administration.json`: consumed by `StaffSeeder`.
 - `announcements.json`: consumed by `AnnouncementSeeder`.
 - `departments.json`: consumed by department, course, and staff seeding.
-- `green_campus.json`: consumed by `GreenCampusSeeder`.
+- Green Campus content is not consumed from JSON. It is managed through `/apanel/cms/green-campus`.
 - `programs.json`: consumed by `ProgramSeeder`.
-- `translations.json`: consumed by translation, menu, page, faculty, department, program, course, staff, announcement, and green campus seeders.
+- `translations.json`: consumed by translation, menu, page, faculty, department, program, course, staff, and announcement seeders.
 - Video Gallery content is not seeded from JSON. It is managed through `/apanel/cms/video-bdtu`.
 - `services.json`: retained import output; current service records are curated inline in `ServiceSeeder`.
 
@@ -121,8 +121,9 @@ system records:
 - Permissions and roles are keyed by `slug`.
 - The default apanel user is created only when `apanel@bstu.uz` does not exist,
   so rerunning seeders does not reset a real administrator password.
-- Green Campus stats are keyed by `sort_order`; Green Campus articles are keyed
-  by `slug`.
+- Green Campus stats, settings, and articles are managed through
+  `/apanel/cms/green-campus`; reviewed records live in the Green Campus CMS
+  tables rather than JSON seed files.
 
 Content seeders that intentionally manage public CMS records use stable slugs,
 codes, or translation `(model_id, locale)` keys. On a shared database, run
@@ -163,7 +164,6 @@ file. It reads:
 - `scripts/import-react-content/legacy-react-data/programsData.js`
 - `scripts/import-react-content/legacy-react-data/departmentsData.js`
 - `scripts/import-react-content/legacy-react-data/universityData.js`
-- `scripts/import-react-content/legacy-react-data/greenCampusData.js`
 - `scripts/import-react-content/legacy-react-data/mockData.js`
 
 It writes:
@@ -173,7 +173,6 @@ It writes:
 - `apps/api/database/data/programs.json`
 - `apps/api/database/data/departments.json`
 - `apps/api/database/data/administration.json`
-- `apps/api/database/data/green_campus.json`
 - `apps/api/database/data/services.json`
 
 Run it from the repository root:
@@ -188,12 +187,11 @@ After running it, review the generated JSON diff before running seeders. The scr
 
 Current seeders consume these JSON files directly:
 
-- `translations.json`: translations, menus, pages, page blocks, faculties, departments, programs, courses, announcements, staff, green campus, and UI translation keys/values.
+- `translations.json`: translations, menus, pages, page blocks, faculties, departments, programs, courses, announcements, staff, and UI translation keys/values.
 - `departments.json`: departments, courses, and staff metadata.
 - `programs.json`: program metadata.
 - `announcements.json`: announcement metadata.
 - `administration.json`: leadership/staff metadata.
-- `green_campus.json`: green campus stats and articles.
 
 `services.json` is generated but not consumed by current seeders. Blog, News & Events, Video Gallery, and footer content are not generated from static JSON.
 

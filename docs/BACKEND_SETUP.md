@@ -78,7 +78,7 @@ For a full local reset, use this only when you are comfortable deleting local da
 php artisan migrate:fresh --seed
 ```
 
-The normal seed pipeline includes roles/permissions, apanel user, locales, translation keys/values, student-system translation keys, menus, pages, faculties, departments, programs, courses, news, blog posts, announcements, staff, services, videos, green campus content, media metadata, and public settings.
+The normal seed pipeline includes roles/permissions, apanel user, locales, translation keys/values, student-system translation keys, menus, pages, faculties, departments, programs, courses, news, blog posts, announcements, staff, services, videos, media metadata, and public settings. Green Campus content is managed through `/apanel/cms/green-campus`.
 
 Default Admin User credentials:
 

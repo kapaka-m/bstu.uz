@@ -213,7 +213,6 @@
       "programLanguages": "Uzbek / Russian / English",
       "structure": "Structure",
       "administration": "Administration",
-      "noResults": "No green campus articles found.",
       "clearFilters": "Clear search filters",
       "facultyLeadership": "Faculty Leadership",
       "academicStaff": "Academic Staff",
@@ -454,11 +453,6 @@
           "years4": "4 years",
           "years5": "5 years"
         }
-      },
-      "greenCampus": {
-        "tag": "Sustainability",
-        "title": "Green Campus Leadership in Sustainability",
-        "explore": "Explore All Green Campus Initiatives"
       },
       "about": {
         "title": "Building the Future of Digital Engineering",
@@ -2728,172 +2722,6 @@
         "detailedDescription": "Technologies and Biotechnologies for Processing, Storage and Processing of Agricultural and Food Products is offered by the Faculty of Technology with department-based academic and practical training."
       }
     },
-    "greenCampus": {
-      "stats": {
-        "0": {
-          "value": "858th",
-          "label": "GreenMetric Global Ranking"
-        },
-        "1": {
-          "value": "1,500+",
-          "label": "Trees Planted"
-        },
-        "2": {
-          "value": "8",
-          "label": "Active Green Initiatives"
-        },
-        "3": {
-          "value": "4+",
-          "label": "International Conferences"
-        }
-      },
-      "categories": {
-        "community": "Community",
-        "energy": "Energy",
-        "waste": "Waste",
-        "water": "Water",
-        "achievement": "Achievement",
-        "education": "Education",
-        "nature": "Nature"
-      },
-      "details": {
-        "back": "Back to Green Campus",
-        "gallery": "Photo Gallery",
-        "related": "Related Initiatives",
-        "closeViewer": "Close image viewer",
-        "prevImage": "Previous image",
-        "nextImage": "Next image"
-      },
-      "documents": {
-        "title": "Official Documents",
-        "info-letter": {
-          "title": "Information Letter – Green University"
-        },
-        "cabinet-resolution-75": {
-          "title": "Cabinet of Ministers Resolution No. 75"
-        },
-        "resolution-18-05-2026": {
-          "title": "Resolution on Green Development – May 18, 2026"
-        }
-      },
-      "articles": {
-        "greenmetric-ranking-858": {
-          "title": "BSTU Ranked 858th in Global GreenMetric University Rankings",
-          "excerpt": "Bukhara State Technical University has been ranked 858th in the global ranking of universities committed to achieving the Green Sustainability Index by the UI GreenMetric World University Rankings.",
-          "author": "BSTU Communications Office",
-          "paragraphs": {
-            "0": "Bukhara State Technical University (BSTU) has officially been ranked 858th in the global ranking of universities committed to achieving a Green Sustainability Index, as determined by the internationally recognized UI GreenMetric World University Rankings.",
-            "1": "The GreenMetric ranking is an independent global initiative that evaluates universities on six key sustainability criteria: Setting & Infrastructure, Energy & Climate Change, Waste Management, Water Conservation, Transportation, and Education & Research. BSTU's inclusion in this prestigious global ranking reflects the university's dedicated commitment to environmental stewardship and sustainable development.",
-            "2": "BSTU's ranking is a direct result of sustained investments in campus greening programs, including extensive tree-planting campaigns across university grounds, clean energy installations, smart water irrigation systems in the botanical gardens, and active participation in national environmental programs such as the 'Green Space' project initiated by President Shavkat Mirziyoyev.",
-            "3": "The university administration has set ambitious targets to improve BSTU's global ranking by expanding renewable energy usage, establishing a campus waste sorting and composting system, and launching dedicated environmental science research projects in partnership with international universities."
-          }
-        },
-        "eco-digital-future-conference": {
-          "title": "International Conference: Eco-Digital Future",
-          "excerpt": "BSTU successfully hosted the International Conference 'Eco-Digital Future: Green Innovations, Sustainable Education, Synergy of Economy and Tourism'.",
-          "author": "International Relations Office",
-          "paragraphs": {
-            "0": "Bukhara State Technical University successfully hosted the International Conference 'Eco-Digital Future: Green Innovations, Sustainable Education, Synergy of Economy and Tourism'.",
-            "1": "The conference hosted panel discussions on green innovations in higher education, sustainable digital transformations, and eco-tourism development in the Bukhara region.",
-            "2": "Participants discussed how BSTU's integration of green campus principles with technology curricula serves as a model for regional institutions.",
-            "3": "The event concluded with a joint declaration signed by all participating Central Asian and international universities."
-          }
-        },
-        "eco-plogging-engineering-faculty": {
-          "title": "Eco-Plogging: Cleanliness and Healthy Lifestyle Initiative",
-          "excerpt": "In collaboration with Engineering faculty tutor Nodira Hakimova and 1st-year students, an 'Eco-plogging' event was conducted to promote environmental responsibility.",
-          "author": "Engineering Faculty Eco-Committee",
-          "paragraphs": {
-            "0": "In collaboration with Engineering faculty tutor Nodira Hakimova and 1st-year students, an 'Eco-plogging' event was conducted to raise environmental culture, promote a healthy lifestyle, and keep our surroundings clean.",
-            "1": "Eco-plogging is an innovative ecological initiative that combines jogging with litter collection, originating in Sweden.",
-            "2": "During the event, students cleaned up various public areas, demonstrating civic responsibility and care for the environment.",
-            "3": "The initiative was highly welcomed by students and faculty, with plans to make it a monthly event throughout the academic year."
-          }
-        },
-        "neighborhood-eco-plogging-pridastgir": {
-          "title": "Inter-Neighborhood Eco-Plogging: Youth Unite for Clean Environment",
-          "excerpt": "Organized by the BSTU Youth Union, students joined forces to clean up the Pridastgir neighborhood in Bukhara.",
-          "author": "BSTU Youth Union",
-          "paragraphs": {
-            "0": "Bukhara State Technical University Youth Union coordinators organized an inter-neighborhood eco-plogging activity. Students gathered to conduct a clean-up campaign in the Pridastgir neighborhood.",
-            "1": "During the campaign, volunteers collected waste from public pathways and streets, restoring the cleanliness of the area.",
-            "2": "The event fostered community spirit and raised ecological awareness among the student youth.",
-            "3": "The BSTU Youth Union plans to extend this volunteer campaign to other adjacent neighborhoods."
-          }
-        },
-        "prosperity-homeland-mahalla-hashar": {
-          "title": "Prosperity of the Homeland Begins with the Mahalla – National Hashar",
-          "excerpt": "BSTU professors and students actively participated in the national charity hashar under the slogan 'Prosperity of the homeland begins with the neighborhood'.",
-          "author": "Community Engagement Committee",
-          "paragraphs": {
-            "0": "Bukhara State Technical University professors, teachers, and students actively participated in the national charity hashar under the slogan 'The prosperity of the homeland begins, first of all, with the neighborhood'.",
-            "1": "BSTU volunteer teams assisted in landscaping, tree-planting, and public space cleaning in several Bukhara mahallas.",
-            "2": "Hashar is a traditional Uzbek practice of voluntary mutual aid and community work for the good of all.",
-            "3": "BSTU is committed to making hashar participation a core part of its student social responsibility initiatives."
-          }
-        },
-        "green-space-tree-planting": {
-          "title": "BSTU Joins President's 'Yashil Makon' National Tree-Planting Campaign",
-          "excerpt": "President Shavkat Mirziyoyev participated in tree planting under the 'Yashil makon' national project. BSTU teachers and students joined in force.",
-          "author": "Environmental Sciences Dept",
-          "paragraphs": {
-            "0": "President Shavkat Mirziyoyev participated in a tree-planting event within the national project 'Yashil makon' and officially initiated the creation of the National Dendrological Park.",
-            "1": "BSTU's active participation reflects the university's alignment with the national ecological and greening agenda.",
-            "2": "The tree species planted during this campaign were selected for their suitability to Bukhara's semi-arid climate, including desert-adapted saksaul and poplar varieties.",
-            "3": "The Yashil makon project aims to plant millions of trees across Uzbekistan to combat desertification."
-          }
-        },
-        "karakalpakstan-tree-planting": {
-          "title": "BSTU Students Plant Trees in Karakalpakstan",
-          "excerpt": "As part of the nationwide 'Eco-Culture' project, BSTU students participated in a tree-planting campaign in the Republic of Karakalpakstan.",
-          "author": "BSTU Student Volunteer Corps",
-          "paragraphs": {
-            "0": "As part of the nationwide 'Eco-Culture' project, Bukhara State Technical University students participated in a tree-planting campaign in the Republic of Karakalpakstan.",
-            "1": "The campaign aimed to green the arid zones near the Aral Sea and improve regional microclimate.",
-            "2": "BSTU students worked alongside local youth to plant drought-resistant shrubs and trees.",
-            "3": "This hands-on experience provided students with a practical understanding of ecological restoration and environmental challenges."
-          }
-        },
-        "cabinet-resolution-75-business-science": {
-          "title": "Cabinet Resolution No. 75: Science-Business Cooperation for Sustainability",
-          "excerpt": "The Cabinet of Ministers of Uzbekistan introduced new sustainability rating incentives for businesses implementing green technologies with researchers.",
-          "author": "Ministry of Higher Education & Innovation",
-          "paragraphs": {
-            "0": "On February 23, 2026, the Cabinet of Ministers issued Resolution No. 75 to strengthen cooperation between businesses and the scientific community.",
-            "1": "The resolution grants additional sustainability rating points to companies that implement green innovations developed with universities and researchers.",
-            "2": "A dedicated electronic platform will connect businesses with scientists and list applicable research outputs for practical deployment.",
-            "3": "Pilot implementations are supported through innovation funds, with priority given to projects solving verified industry challenges."
-          }
-        },
-        "eco-active-plogging-protect-nature": {
-          "title": "Eco-Active Students Plogging Campaign: Protect Nature - Create the Future!",
-          "excerpt": "Under the slogan 'My Green University', BSTU eco-active students led a campus plogging campaign to promote cleanliness and environmental responsibility.",
-          "author": "BSTU Youth Union Eco-Committee",
-          "paragraphs": {
-            "0": "Eco-active students at BSTU organized a plogging campaign under the slogan 'My Green University'.",
-            "1": "Participants cleaned campus areas while collecting recyclable and mixed waste in a coordinated student effort.",
-            "2": "The initiative combined physical activity with environmental service, reinforcing both healthy lifestyle and civic responsibility.",
-            "3": "The university continues to support student-led green actions as a core part of its sustainable campus mission."
-          }
-        },
-        "eco-active-students-program": {
-          "title": "Eco-Active Students: Cultivating Green Generation at BSTU",
-          "excerpt": "BSTU's Eco-Active Students program engages hundreds of students in eco-awareness campaigns and cleanups throughout the academic year.",
-          "author": "Youth Union Eco-Committee",
-          "paragraphs": {
-            "0": "Bukhara State Technical University's Eco-Active Students (Ekofaol talabalar) program is one of the most prominent student-led green initiatives.",
-            "1": "The program is organized through the Youth Union in cooperation with regional ecology departments.",
-            "2": "Activities include regular campus cleanups, hosting environmental seminars in local schools, and recycling drives.",
-            "3": "Eco-active students are recognized as green leaders and receive special university honors for their ecological contributions."
-          }
-        }
-      },
-      "callout": {
-        "title": "Green University Project",
-        "desc": "Join our environmental sustainability programs and help build a green campus.",
-        "cta": "Contact Eco-Committee"
-      }
-    },
     "auth": {
       "dontHaveAccount": "Don't have an account?",
       "signUp": "Sign Up",
@@ -3539,7 +3367,6 @@
       "programLanguages": "O'zbek / Rus / Ingliz",
       "structure": "Tuzilma",
       "administration": "Raxbariyat",
-      "noResults": "Yashil kampus bo'yicha maqolalar topilmadi.",
       "clearFilters": "Qidiruv filtrlarini tozalash",
       "facultyLeadership": "Fakultet rahbariyati",
       "academicStaff": "Professor-o'qituvchilar tarkibi",
@@ -3780,11 +3607,6 @@
           "years4": "4 yil",
           "years5": "5 yil"
         }
-      },
-      "greenCampus": {
-        "tag": "Barqarorlik",
-        "title": "Yashil kampusda barqarorlik va eko-innovatsiyalar yetakchiligi",
-        "explore": "Barcha yashil kampus tashabbuslarini o'rganish"
       },
       "about": {
         "title": "Raqamli muhandislik kelajagini barpo etish",
@@ -6149,172 +5971,6 @@
       "desc": "Mos dasturlarni topish uchun filtrlarni o'zgartirib ko'ring."
     }
   },
-  "greenCampus": {
-    "stats": {
-      "0": {
-        "value": "858-o'rin",
-        "label": "GreenMetric Global Reytingi"
-      },
-      "1": {
-        "value": "1,500+",
-        "label": "Ekilgan daraxtlar"
-      },
-      "2": {
-        "value": "8",
-        "label": "Faol yashil tashabbuslar"
-      },
-      "3": {
-        "value": "4+",
-        "label": "Xalqaro konferentsiyalar"
-      }
-    },
-    "categories": {
-      "community": "Jamiyat",
-      "energy": "Energiya",
-      "waste": "Chiqindi",
-      "water": "Suv",
-      "achievement": "Yutuq",
-      "education": "Ta'lim",
-      "nature": "Tabiat"
-    },
-    "details": {
-      "back": "Yashil kampus sahifasiga qaytish",
-      "gallery": "Foto Galereya",
-      "related": "Tegishli Tashabbuslar",
-      "closeViewer": "Rasm ko'ruvchini yopish",
-      "prevImage": "Oldingi rasm",
-      "nextImage": "Keyingi rasm"
-    },
-    "documents": {
-      "title": "Rasmiy Hujjatlar",
-      "info-letter": {
-        "title": "Axborot Xati – Yashil Universitet"
-      },
-      "cabinet-resolution-75": {
-        "title": "Vazirlar Mahkamasi 75-sonli Qarori"
-      },
-      "resolution-18-05-2026": {
-        "title": "Yashil Rivojlanish bo'yicha Qaror – 2026-yil 18-may"
-      }
-    },
-    "articles": {
-      "greenmetric-ranking-858": {
-        "title": "BuxDTU Jahon GreenMetric Universitetlar Reytingida 858-o'rinni egalladi",
-        "excerpt": "Buxoro davlat texnika universiteti UI GreenMetric Jahon Universitetlar Reytingi tomonidan Yashil Barqarorlik Indeksiga erishishga sodiq universitetlarning global reytingida 858-o'rinni egalladi.",
-        "author": "BuxDTU Axborot Xizmati",
-        "paragraphs": {
-          "0": "Buxoro davlat texnika universiteti (BuxDTU) xalqaro tan olingan UI GreenMetric Jahon Universitetlar Reytingi tomonidan aniqlangan Yashil Barqarorlik Indeksiga erishishga sodiq universitetlarning global reytingida rasman 858-o'rinni egalladi.",
-          "1": "GreenMetric reytingi universitetlarni oltita asosiy barqarorlik mezoni bo'yicha baholaydi: Muhit va Infratuzilma, Energetika va Iqlim O'zgarishi, Chiqindilarni Boshqarish, Suvni Tejash, Transport va Ta'lim va Tadqiqot.",
-          "2": "BuxDTU ning reytingi kampusni yashillashtirish dasturlariga investitsiyalar natijasidir — daraxt ekish kampaniyalari, toza energiya o'rnatish va 'Yashil makon' loyihasida faol ishtirok.",
-          "3": "Universitet ma'muriyati qayta tiklanadigan energiya foydalanishini kengaytirish va xalqaro universitetlar bilan hamkorlikda ekologiya fanlari bo'yicha tadqiqot loyihalarini ishga tushirish bo'yicha ambitsiyali maqsadlar qo'ydi."
-        }
-      },
-      "eco-digital-future-conference": {
-        "title": "Xalqaro Konferentsiya: Eko-Raqamli Kelajak",
-        "excerpt": "BuxDTU 'Eko-Raqamli Kelajak: Yashil Innovatsiyalar, Barqaror Ta'lim, Iqtisodiyot va Turizm Sinergiyasi' xalqaro konferentsiyasini muvaffaqiyatli o'tkazdi.",
-        "author": "Xalqaro Hamkorlik Xizmati",
-        "paragraphs": {
-          "0": "Buxoro davlat texnika universiteti 'Eko-Raqamli Kelajak: Yashil Innovatsiyalar, Barqaror Ta'lim, Iqtisodiyot va Turizm Sinergiyasi' nomli xalqaro konferentsiyani muvaffaqiyatli o'tkazdi.",
-          "1": "Konferentsiyada oliy ta'limdagi yashil innovatsiya, barqaror raqamli transformatsiya va Buxoro mintaqasida eko-turizm rivojlanishi bo'yicha asosiy sessiyalar bo'lib o'tdi.",
-          "2": "Ishtirokchilar BuxDTU ning yashil kampus tamoyillarini zamonaviy texnologiya dasturlari bilan integratsiyalashtirishini muhokama qildi.",
-          "3": "Tadbir barcha ishtirokchi universitetlar tomonidan imzolangan qo'shma deklaratsiya bilan yakunlandi."
-        }
-      },
-      "eco-plogging-engineering-faculty": {
-        "title": "Eko-Plogging: Tozalik va Sog'lom Turmush Tarziga Qadam",
-        "excerpt": "Muhandislik fakulteti murabbiysi Nodira Hakimova va 1-kurs talabalari bilan hamkorlikda ekologik madaniyatni oshirish maqsadida 'Eko-plogging' tadbirini o'tkazildi.",
-        "author": "Muhandislik Fakulteti Eko-Qo'mitasi",
-        "paragraphs": {
-          "0": "Muhandislik fakulteti murabbiysi Nodira Hakimova va 1-kurs talabalari bilan hamkorlikda ekologik madaniyatni oshirish, sog'lom turmush tarzini targ'ib qilish va atrof-muhitni toza saqlash maqsadida 'Eko-plogging' tadbirini o'tkazildi.",
-          "1": "Eko-plogging yugurish bilan axlatni yig'ishni birlashtiruvchi innovatsion ekologik tashabbus bo'lib, u Shvetsiyada paydo bo'lgan.",
-          "2": "Tadbir davomida talabalar hududlarni chiqindilardan tozaladilar, tabiatga muhabbat va atrof-muhitga mas'uliyatli munosabatning yaqqol namunasini ko'rsatdilar.",
-          "3": "Tadbir talabalar va o'qituvchilar tomonidan katta ishtiyoq bilan qabul edi, shunga o'xshash tadbirlarni o'quv yili davomida har oyda o'tkazish rejalashtirildi."
-        }
-      },
-      "neighborhood-eco-plogging-pridastgir": {
-        "title": "Mahallalararo Eko-Plogging: Yoshlar Toza Muhit Uchun Birlashmoqda",
-        "excerpt": "BuxDTU Yoshlar Ittifoqi tashkilotchilari tomonidan uyushtirilgan mahallalararo eko-plogging tadbirida talabalar Pridastgir mahallasi hududini tozalash uchun birlashdi.",
-        "author": "BuxDTU Yoshlar Ittifoqi",
-        "paragraphs": {
-          "0": "Buxoro davlat texnika universiteti Yoshlar Ittifoqi koordinatorlari tomonidan mahallalararo eko-plogging tadbirini uyushtirdi. Pridastgir mahallasi hududida ekologik tozalash ishlari amalga oshirildi.",
-          "1": "Tadbir davomida ko'cha va jamoat joylarida to'plangan chiqindilar tozalanib, hudud yanada toza va tartibli holga keltirildi.",
-          "2": "Eko-plogging nafaqat tabiatni muhofaza qilishga, balki yoshlar orasida ekologik ongni oshirishga va jamoaviy ruhni mustahkamlashga xizmat qildi.",
-          "3": "BuxDTU Yoshlar Ittifoqi ushbu tashabbusni universitetga tutash barcha mahallalagacha kengaytirishi rejalashtirilmoqda."
-        }
-      },
-      "prosperity-homeland-mahalla-hashar": {
-        "title": "Vatanning Farovonligi Mahalladan Boshlanadi – Milliy Hashar",
-        "excerpt": "BuxDTU professor-o'qituvchilari va talabalari 'Vatanning farovonligi, avvalo, mahalladan boshlanadi' milliy shiori ostida o'tkazilgan xayriya hasharida qatnashdi.",
-        "author": "Jamoatchilik Bilan Ishlash Qo'mitasi",
-        "paragraphs": {
-          "0": "Buxoro davlat texnika universiteti professor-o'qituvchilari va talabalari 'Vatanning farovonligi, avvalo, mahalladan boshlanadi' milliy shiori ostida o'tkazilgan xayriya hasharida faol qatnashdi.",
-          "1": "BuxDTU saflari Buxoroning mahallalarida jamoatchilik ko'kalamzorlashtirish ishlarida qatnashdi: daraxtlar ekdi, jamoat joylarini tozaladi.",
-          "2": "Hashar – bu umumiy manfaat uchun jamoaviy ixtiyoriy mehnatning an'anaviy o'zbek an'anasi.",
-          "3": "BuxDTU yillik hashar ishtirokini fuqarolik va ekologik faoliyat dasturlarining asosiga aylantirishga intiladi."
-        }
-      },
-      "green-space-tree-planting": {
-        "title": "BuxDTU Prezidentning 'Yashil Makon' Milliy Daraxt Ekish Kampaniyasiga Qo'shildi",
-        "excerpt": "Prezident Shavkat Mirziyoyev 'Yashil makon' milliy loyihasi doirasida daraxt ekish tadbirida ishtirok etdi va Milliy Dendrologia bog'ini tashkil etdi.",
-        "author": "Ekologiya Fanlari Kafedrasi",
-        "paragraphs": {
-          "0": "Prezident Shavkat Mirziyoyev 'Yashil makon' milliy loyihasi doirasida o'tkazilgan daraxt ekish tadbirida ishtirok etib, Milliy Dendrologia bog'ini tashkil etishni rasman boshladi.",
-          "1": "BuxDTU ning Yashil Makon kampaniyasiga ishtiroki universitetning milliy ekologik dastur bilan chuqur uyg'unligini aks ettiradi. Universitet yuzlab ishtirokchilarni ko'chat ekishda safarbar etdi.",
-          "2": "Ushbu tashabbus doirasida ekilgan daraxtlar Buxoro mintaqasining yarim quruq iqlimi uchun moslik nuqtai nazaridan tanlangan bo'lib, saksovul, qorag'ach va terak navlarini o'z ichiga oladi.",
-          "3": "Yashil makon milliy loyihasi O'zbekiston bo'ylab o'n millionlab daraxt ekishni maqsad qiladi."
-        }
-      },
-      "karakalpakstan-tree-planting": {
-        "title": "BuxDTU Talabalari Qoraqalpog'istonda Daraxt Ekdi",
-        "excerpt": "Umumdavlat 'Eko-Madaniyat' loyihasi doirasida Buxoro davlat texnika universiteti talabalari Qoraqalpog'iston Respublikasida tashkil etilgan daraxt ekish kampaniyasida faol ishtirok etdi.",
-        "author": "BuxDTU Talabalar Ko'ngilli Korpusi",
-        "paragraphs": {
-          "0": "Umumdavlat 'Eko-Madaniyat' loyihasi doirasida Buxoro davlat texnika universiteti talabalari Qoraqalpog'iston Respublikasida tashkil etilgan daraxt ekish kampaniyasida faol ishtirok etdi.",
-          "1": "Talabalar tomonidan ekilgan ko'chatlar hududni yashillashtirish va tabiatni muhofaza qilishga qaratilgan muhim tashabbus bo'lib xizmat qildi.",
-          "2": "BuxDTU talabalari mintaqaviy ekologiya idoralari tomonidan belgilangan maydonlarda qurg'oqchilikka chidamli daraxt turlarini ekdi.",
-          "3": "Bu tajriba BuxDTU talabalariga atrof-muhitni tiklash muammolari va amaliy tabiatni muhofaza qilish ko'nikmalarini bevosita tushunish imkonini berdi."
-        }
-      },
-      "cabinet-resolution-75-business-science": {
-        "title": "75-sonli qaror: Barqarorlik uchun ilm-fan va biznes hamkorligi",
-        "excerpt": "Vazirlar Mahkamasi yashil texnologiyalarni joriy etuvchi korxonalar uchun barqarorlik reytingi bo'yicha yangi rag'batlarni joriy etdi.",
-        "author": "Oliy ta'lim va innovatsiyalar vazirligi",
-        "paragraphs": {
-          "0": "2026-yil 23-fevralda Vazirlar Mahkamasi biznes va ilmiy hamjamiyat hamkorligini kuchaytirishga qaratilgan 75-sonli qarorni qabul qildi.",
-          "1": "Qarorga ko'ra, universitetlar bilan hamkorlikda yashil innovatsiyalarni amaliyotga tatbiq etgan korxonalarga qo'shimcha reyting ballari beriladi.",
-          "2": "Biznes va olimlarni bog'laydigan maxsus elektron platforma yaratilib, amaliy tadqiqotlar bazasi shakllantiriladi.",
-          "3": "Pilot loyihalar innovatsion jamg'armalar orqali moliyalashtirilib, sanoat muammolarini hal qiluvchi tashabbuslarga ustuvorlik beriladi."
-        }
-      },
-      "eco-active-plogging-protect-nature": {
-        "title": "Ekofaol talabalar plogging aksiyasi: Tabiatni asrang - kelajakni yarating!",
-        "excerpt": "Mening yashil universitetim shiori ostida BuxDTU ekofaol talabalari kampus tozaligi va ekologik mas'uliyatni targ'ib qiluvchi plogging aksiyasini o'tkazdilar.",
-        "author": "BuxDTU Yoshlar Ittifoqi Eko-Qo'mitasi",
-        "paragraphs": {
-          "0": "BuxDTU ekofaol talabalari Mening yashil universitetim shiori ostida plogging aksiyasini tashkil etdilar.",
-          "1": "Ishtirokchilar kampus hududlarini tozalab, qayta ishlanadigan va aralash chiqindilarni tartibli ravishda yig'dilar.",
-          "2": "Tashabbus jismoniy faollikni ekologik xizmat bilan uyg'unlashtirib, sog'lom turmush va fuqarolik mas'uliyatini kuchaytirdi.",
-          "3": "Universitet barqaror kampus maqsadlari doirasida bunday talaba tashabbuslarini izchil qo'llab-quvvatlaydi."
-        }
-      },
-      "eco-active-students-program": {
-        "title": "Ekofaol Talabalar: BuxDTU'da Yashil Avlodni Shakllantirish",
-        "excerpt": "BuxDTU ning Ekofaol Talabalar dasturi o'quv yili davomida yuzlab talabalarni ekologik xabardorlik kampaniyalari va jamoaviy tozalash tadbirlarida ishtirok etishga jalb etadi.",
-        "author": "BuxDTU Yoshlar Ittifoqi Eko-Qo'mitasi",
-        "paragraphs": {
-          "0": "Buxoro davlat texnika universitetining Ekofaol Talabalar dasturi universitetning eng ta'sirli barqarorlik tashabbuslaridan biri hisoblanadi.",
-          "1": "Dastur Yoshlar Ittifoqi orqali muvofiqlashtirilib, mintaqaviy atrof-muhitni muhofaza qilish idoralari bilan yaqin hamkorlikda amalga oshiriladi.",
-          "2": "Dasturning asosiy faoliyati kampus va jamoatchilikdagi muntazam tozalash tadbirlarini tashkil etish va milliy daraxt ekish kampaniyalarida ishtirok etishni o'z ichiga oladi.",
-          "3": "BuxDTU dagi ekofaol talabalar milliy talaba ekologik harakatining yetakchilari sifatida tan olinadi."
-        }
-      }
-    },
-    "callout": {
-      "title": "Yashil universitet loyihasi",
-      "desc": "Ekologik barqarorlik dasturlarimizga qo'shiling va yashil kampus qurishda ishtirok eting.",
-      "cta": "Eko-qo'mita bilan bog'lanish"
-    }
-  },
   "auth": {
     "dontHaveAccount": "Hisobingiz yo'qmi?",
     "signUp": "Ro'yxatdan o'tish",
@@ -6944,7 +6600,6 @@
       "programLanguages": "Узбекский / Русский / Английский",
       "structure": "Структура",
       "administration": "Руководство",
-      "noResults": "Статьи о зеленом кампусе не найдены.",
       "clearFilters": "Сбросить фильтры поиска",
       "facultyLeadership": "Руководство факультета",
       "academicStaff": "Профессорско-преподавательский состав",
@@ -7185,11 +6840,6 @@
           "years4": "4 года",
           "years5": "5 лет"
         }
-      },
-      "greenCampus": {
-        "tag": "Устойчивое развитие",
-        "title": "Лидерство зеленого кампуса в устойчивости и эко-инновациях",
-        "explore": "Все инициативы зеленого кампуса"
       },
       "about": {
         "title": "Строим будущее цифровой инженерии",
@@ -9386,172 +9036,6 @@
         "detailedDescription": "Технологии и биотехнологии переработки, хранения и обработки сельскохозяйственных и пищевых продуктов реализуется на факультете технологий с кафедральной теоретической и практической подготовкой."
       }
     },
-    "greenCampus": {
-      "stats": {
-        "0": {
-          "value": "858-е место",
-          "label": "Рейтинг GreenMetric"
-        },
-        "1": {
-          "value": "1500+",
-          "label": "Посажены деревья"
-        },
-        "2": {
-          "value": "8",
-          "label": "Активных инициатив"
-        },
-        "3": {
-          "value": "4+",
-          "label": "Международных конференций"
-        }
-      },
-      "categories": {
-        "community": "Сообщество",
-        "waste": "Отходы",
-        "energy": "Энергия",
-        "water": "Вода",
-        "achievement": "Достижение",
-        "education": "Образование",
-        "nature": "Природа"
-      },
-      "details": {
-        "back": "Вернуться в Зеленый кампус",
-        "gallery": "Фотогалерея",
-        "related": "Похожие инициативы",
-        "closeViewer": "Закрыть просмотр изображений",
-        "prevImage": "Предыдущее изображение",
-        "nextImage": "Следующее изображение"
-      },
-      "documents": {
-        "title": "Официальные документы",
-        "info-letter": {
-          "title": "Информационное письмо – Зелёный университет"
-        },
-        "cabinet-resolution-75": {
-          "title": "Постановление Кабинета министров № 75"
-        },
-        "resolution-18-05-2026": {
-          "title": "Постановление о зелёном развитии – 18 мая 2026 г."
-        }
-      },
-      "articles": {
-        "greenmetric-ranking-858": {
-          "title": "БГТУ занял 858-е место в рейтинге GreenMetric",
-          "excerpt": "Бухарский государственный технический университет занял 858-е место в глобальном рейтинге университетов, приверженных достижению Индекса экологической устойчивости UI GreenMetric.",
-          "author": "Пресс-служба БГТУ",
-          "paragraphs": {
-            "0": "Бухарский государственный технический университет официально занял 858-е место в глобальном рейтинге по версии UI GreenMetric.",
-            "1": "Рейтинг GreenMetric оценивает университеты по шести критериям: среда и инфраструктура, энергетика, управление отходами, водосбережение, транспорт и образование.",
-            "2": "Рейтинг БГТУ является результатом кампаний озеленения, установки чистой энергии и участия в национальном проекте 'Зелёное пространство'.",
-            "3": "Университет поставил цели по расширению возобновляемой энергии и запуску научных проектов в партнёрстве с международными вузами."
-          }
-        },
-        "eco-digital-future-conference": {
-          "title": "Международная конференция: Эко-цифровое будущее",
-          "excerpt": "БГТУ провёл Международную конференцию 'Эко-цифровое будущее: Зелёные инновации, устойчивое образование, экономика и туризм'.",
-          "author": "Отдел международного сотрудничества",
-          "paragraphs": {
-            "0": "Бухарский государственный технический университет провёл Международную конференцию 'Эко-цифровое будущее', объединившую учёных и специалистов из Центральной Азии, Европы и Азии.",
-            "1": "Прошли пленарные сессии по зелёным инновациям, устойчивой цифровой трансформации и роли университетов в достижении ЦУР ООН.",
-            "2": "Участники обсудили, как БГТУ интегрирует принципы зелёного кампуса с технологическими программами.",
-            "3": "Мероприятие завершилось подписанием совместной декларации."
-          }
-        },
-        "eco-plogging-engineering-faculty": {
-          "title": "Эко-плоггинг: Шаг к чистоте и здоровому образу жизни",
-          "excerpt": "В сотрудничестве с куратором инженерного факультета Нодирой Хакимовой прошла фестивальная инициатива эко-плоггинга.",
-          "author": "Эко-комитет инженерного факультета",
-          "paragraphs": {
-            "0": "В сотрудничестве с куратором факультета Нодирой Хакимовой и студентами 1-го курса прошло мероприятие 'Эко-плоггинг' с целью повышения экологической культуры.",
-            "1": "Эко-плоггинг — инициатива, сочетающая бег с уборкой мусора, зародившаяся в Швеции.",
-            "2": "Студенты очистили территории от мусора, показав пример ответственного отношения к природе.",
-            "3": "Планируется проводить подобные акции ежемесячно в течение учебного года."
-          }
-        },
-        "neighborhood-eco-plogging-pridastgir": {
-          "title": "Межмахаллинский эко-плоггинг: Молодёжь объединяется ради чистой среды",
-          "excerpt": "Молодёжный союз БГТУ объединил студентов для уборки территории махалли Придастгир.",
-          "author": "Молодёжный союз БГТУ",
-          "paragraphs": {
-            "0": "Координаторы Молодёжного союза БГТУ организовали межмахаллинский эко-плоггинг в махалле Придастгир.",
-            "1": "Студенты убрали накопившиеся отходы на улицах и в общественных местах.",
-            "2": "Эко-плоггинг повысил экологическую осознанность молодёжи и укрепил командный дух.",
-            "3": "Молодёжный союз планирует расширить инициативу на все соседние махалли."
-          }
-        },
-        "prosperity-homeland-mahalla-hashar": {
-          "title": "Процветание Родины начинается с Махалли – Национальный Хашар",
-          "excerpt": "Профессора, преподаватели и студенты БГТУ приняли участие в общенациональном благотворительном хашаре.",
-          "author": "Комитет по работе с общественностью",
-          "paragraphs": {
-            "0": "Профессора и студенты БГТУ приняли участие в хашаре под лозунгом 'Процветание Родины начинается с махалли'.",
-            "1": "Они участвовали в озеленении нескольких махаллей Бухары.",
-            "2": "Хашар — традиционная узбекская практика коллективного добровольного труда.",
-            "3": "БГТУ намерен сделать хашар неотъемлемой частью своей экологической программы."
-          }
-        },
-        "green-space-tree-planting": {
-          "title": "БГТУ присоединился к кампании Президента 'Зелёное пространство'",
-          "excerpt": "Президент Шавкат Мирзиёев участвовал в посадке деревьев в рамках проекта 'Зелёное пространство'. Преподаватели и студенты БГТУ также приняли активное участие.",
-          "author": "Кафедра экологических наук",
-          "paragraphs": {
-            "0": "Президент Мирзиёев дал старт созданию Национального дендрологического сада в рамках проекта 'Зелёное пространство'. Преподаватели и студенты БГТУ активно участвовали.",
-            "1": "Участие БГТУ отражает его приверженность национальной экологической повестке.",
-            "2": "Деревья выбраны с учётом засушливого климата региона: саксаул, вяз, тополь.",
-            "3": "Проект нацелен на посадку десятков миллионов деревьев по всему Узбекистану."
-          }
-        },
-        "karakalpakstan-tree-planting": {
-          "title": "Студенты БГТУ посадили деревья в Каракалпакстане",
-          "excerpt": "В рамках проекта 'Эко-культура' студенты БГТУ приняли участие в посадке деревьев в Каракалпакстане.",
-          "author": "Волонтёрский корпус БГТУ",
-          "paragraphs": {
-            "0": "Студенты БГТУ приняли участие в кампании по посадке деревьев в Каракалпакстане в рамках проекта 'Эко-культура'.",
-            "1": "Посаженные деревья призваны озеленить регион и улучшить экологическую обстановку.",
-            "2": "Студенты высадили засухоустойчивые виды деревьев совместно с коллегами из других вузов.",
-            "3": "Этот опыт дал студентам практические навыки восстановления окружающей среды."
-          }
-        },
-        "cabinet-resolution-75-business-science": {
-          "title": "Постановление №75: сотрудничество науки и бизнеса для устойчивости",
-          "excerpt": "Кабинет Министров Узбекистана ввел новые стимулы в рейтинге устойчивости для компаний, внедряющих зеленые разработки вместе с учеными.",
-          "author": "Министерство высшего образования и инноваций",
-          "paragraphs": {
-            "0": "23 февраля 2026 года Кабинет Министров принял постановление №75 для усиления сотрудничества бизнеса и научного сообщества.",
-            "1": "Компаниям, внедряющим зеленые инновации совместно с университетами, предоставляются дополнительные баллы в рейтинге устойчивости.",
-            "2": "Создается специальная электронная платформа для связи бизнеса с исследователями и доступа к прикладным разработкам.",
-            "3": "Пилотные проекты финансируются через инновационные фонды, приоритет получают решения подтвержденных отраслевых задач."
-          }
-        },
-        "eco-active-plogging-protect-nature": {
-          "title": "Экоактивные студенты: плоггинг-акция «Сохраним природу — создадим будущее!»",
-          "excerpt": "Под девизом «Мой зеленый университет» экоактивные студенты БГТУ провели плоггинг-акцию для поддержания чистоты кампуса.",
-          "author": "Эко-комитет Молодежного союза БГТУ",
-          "paragraphs": {
-            "0": "Экоактивные студенты БГТУ организовали плоггинг-акцию под девизом «Мой зеленый университет».",
-            "1": "Участники убирали территорию кампуса и собирали перерабатываемые и смешанные отходы в рамках совместной инициативы.",
-            "2": "Проект объединил физическую активность и экологическое служение, укрепив культуру здорового образа жизни.",
-            "3": "Университет продолжает системно поддерживать студенческие зеленые инициативы как часть устойчивого развития кампуса."
-          }
-        },
-        "eco-active-students-program": {
-          "title": "Экоактивные студенты: Воспитание зелёного поколения в БГТУ",
-          "excerpt": "Программа БГТУ 'Экоактивные студенты' вовлекает сотни учащихся в кампании экологической осведомлённости и субботники.",
-          "author": "Эко-комитет Молодёжного союза БГТУ",
-          "paragraphs": {
-            "0": "Программа экоактивных студентов БГТУ — одна из наиболее значимых инициатив в области устойчивого развития.",
-            "1": "Она координируется через Молодёжный союз в тесном сотрудничестве с местными органами охраны окружающей среды.",
-            "2": "Ключевые мероприятия включают субботники, посадку деревьев и экологические семинары в школах.",
-            "3": "Экоактивные студенты БГТУ признаны лидерами национального экологического движения."
-          }
-        }
-      },
-      "callout": {
-        "title": "Проект «Зеленый университет»",
-        "desc": "Присоединяйтесь к нашим программам экологической устойчивости и помогите создать зеленый кампус.",
-        "cta": "Связаться с Эко-комитетом"
-      }
-    },
     "auth": {
       "dontHaveAccount": "Нет учетной записи?",
       "signUp": "Зарегистрироваться",
@@ -10197,7 +9681,6 @@
       "programLanguages": "الأوزبكية / الروسية / الإنجليزية",
       "structure": "الهيكل التنظيمي",
       "administration": "الإدارة",
-      "noResults": "لم يتم العثور على مقالات حول الحرم الجامعي الأخضر.",
       "clearFilters": "مسح فلاتر البحث",
       "facultyLeadership": "قيادة الكلية",
       "academicStaff": "هيئة التدريس",
@@ -10438,11 +9921,6 @@
           "years4": "4 سنوات",
           "years5": "5 سنوات"
         }
-      },
-      "greenCampus": {
-        "tag": "الاستدامة",
-        "title": "ريادة الحرم الأخضر في الاستدامة والابتكار البيئي",
-        "explore": "استكشاف جميع مبادرات الحرم الجامعي الأخضر"
       },
       "about": {
         "title": "بناء مستقبل الهندسة الرقمية",
@@ -12630,172 +12108,6 @@
         "name": "تقنيات وتقانات حيوية لمعالجة وتخزين المنتجات الزراعية والغذائية",
         "description": "يُقدَّم برنامج تقنيات وتقانات حيوية لمعالجة وتخزين المنتجات الزراعية والغذائية في كلية التكنولوجيا مع تدريب أكاديمي وعملي تابع للقسم.",
         "detailedDescription": "يُقدَّم برنامج تقنيات وتقانات حيوية لمعالجة وتخزين المنتجات الزراعية والغذائية في كلية التكنولوجيا مع تدريب أكاديمي وعملي تابع للقسم."
-      }
-    },
-    "greenCampus": {
-      "stats": {
-        "0": {
-          "value": "858",
-          "label": "ترتيب GreenMetric"
-        },
-        "1": {
-          "value": "1500+",
-          "label": "الأشجار المزروعة"
-        },
-        "2": {
-          "value": "8",
-          "label": "مبادرات خضراء نشطة"
-        },
-        "3": {
-          "value": "4+",
-          "label": "مؤتمرات دولية"
-        }
-      },
-      "categories": {
-        "community": "مجتمع",
-        "energy": "الطاقة",
-        "waste": "النفايات",
-        "water": "الماء",
-        "achievement": "إنجاز",
-        "education": "تعليم",
-        "nature": "طبيعة"
-      },
-      "details": {
-        "back": "العودة إلى الحرم الجامعي الأخضر",
-        "gallery": "معرض الصور",
-        "related": "مبادرات ذات صلة",
-        "closeViewer": "إغلاق عارض الصور",
-        "prevImage": "الصورة السابقة",
-        "nextImage": "الصورة التالية"
-      },
-      "documents": {
-        "title": "الوثائق الرسمية",
-        "info-letter": {
-          "title": "الرسالة الإعلامية – الجامعة الخضراء"
-        },
-        "cabinet-resolution-75": {
-          "title": "قرار مجلس الوزراء رقم 75"
-        },
-        "resolution-18-05-2026": {
-          "title": "قرار التنمية الخضراء – 18 مايو 2026"
-        }
-      },
-      "articles": {
-        "greenmetric-ranking-858": {
-          "title": "BSTU تحتل المرتبة 858 في تصنيف GreenMetric العالمي",
-          "excerpt": "احتلت جامعة بخارى الحكومية التقنية المرتبة 858 في التصنيف العالمي لمؤشر الاستدامة الخضراء.",
-          "author": "مكتب الاتصالات في BSTU",
-          "paragraphs": {
-            "0": "احتلت جامعة بخارى الحكومية التقنية رسمياً المرتبة 858 في التصنيف العالمي وفق UI GreenMetric.",
-            "1": "يُقيّم تصنيف GreenMetric الجامعات وفق ستة معايير: البيئة، الطاقة، النفايات، المياه، النقل، والتعليم.",
-            "2": "يعكس الترتيب ثمار الاستثمار في حملات التخضير والطاقة النظيفة والمشاركة في مشروع 'المساحة الخضراء'.",
-            "3": "وضعت الجامعة أهدافاً لتحسين ترتيبها من خلال توسيع الطاقة المتجددة والبحث العلمي الدولي."
-          }
-        },
-        "eco-digital-future-conference": {
-          "title": "المؤتمر الدولي: المستقبل الرقمي البيئي",
-          "excerpt": "استضافت BSTU مؤتمراً دولياً بعنوان 'المستقبل الرقمي البيئي: الابتكارات الخضراء والتعليم المستدام'.",
-          "author": "مكتب العلاقات الدولية",
-          "paragraphs": {
-            "0": "أقامت الجامعة بنجاح مؤتمراً دولياً بعنوان 'المستقبل الرقمي البيئي' جمع علماء من آسيا الوسطى وأوروبا.",
-            "1": "ناقش المشاركون الابتكار الأخضر في التعليم العالي وأهداف التنمية المستدامة للأمم المتحدة.",
-            "2": "تتميز الجامعة بدمج مبادئ الحرم الأخضر مع برامجها التكنولوجية المتقدمة.",
-            "3": "اختتم المؤتمر بإعلان مشترك لتعزيز التعاون في مجال التقنيات المستدامة."
-          }
-        },
-        "eco-plogging-engineering-faculty": {
-          "title": "الإيكو-بلوغينغ: خطوة نحو النظافة وأسلوب الحياة الصحي",
-          "excerpt": "بالتعاون مع المشرفة نودرا حكيموفا وطلاب السنة الأولى، نُظّمت فعالية 'إيكو-بلوغينغ'.",
-          "author": "لجنة بيئة كلية الهندسة",
-          "paragraphs": {
-            "0": "نُظّمت فعالية إيكو-بلوغينغ بالتعاون مع المشرفة نودرا حكيموفا وطلاب السنة الأولى لتعزيز الثقافة البيئية.",
-            "1": "الإيكو-بلوغينغ مبادرة تجمع بين الركض والتقاط القمامة، نشأت في السويد.",
-            "2": "نظّف الطلاب المناطق المحيطة من النفايات، مُجسِّدين القيم البيئية المسؤولة.",
-            "3": "يخطط للتنظيم شهرياً خلال العام الدراسي."
-          }
-        },
-        "neighborhood-eco-plogging-pridastgir": {
-          "title": "إيكو-بلوغينغ بين الأحياء: الشباب يتحد من أجل بيئة أنظف",
-          "excerpt": "فعالية إيكو-بلوغينغ بين الأحياء نظّمها اتحاد شباب BSTU لتنظيف حي برايداستغير.",
-          "author": "اتحاد شباب BSTU",
-          "paragraphs": {
-            "0": "نظّم اتحاد شباب BSTU فعالية إيكو-بلوغينغ في حي برايداستغير لتنظيف الأماكن العامة.",
-            "1": "أسهمت الفعالية في إزالة النفايات المتراكمة من الشوارع والمناطق العامة.",
-            "2": "أثبتت الفعالية أن الإيكو-بلوغينغ يُعزز الوعي البيئي وروح الفريق.",
-            "3": "يخطط الاتحاد لتوسيع المبادرة لتشمل جميع الأحياء المجاورة."
-          }
-        },
-        "prosperity-homeland-mahalla-hashar": {
-          "title": "رخاء الوطن يبدأ من المحلة – الهاشار الوطني",
-          "excerpt": "شارك أساتذة وطلاب BSTU في الهاشار الخيري الوطني.",
-          "author": "لجنة المشاركة المجتمعية",
-          "paragraphs": {
-            "0": "شارك أساتذة وطلاب BSTU في الهاشار الوطني تحت شعار 'رخاء الوطن يبدأ من المحلة'.",
-            "1": "شارك الفريق في أنشطة تجميل عدة أحياء في بخارى.",
-            "2": "الهاشار ممارسة أوزبكية تقليدية للعمل التطوعي الجماعي.",
-            "3": "تلتزم BSTU بجعل الهاشار ركيزة في برامجها البيئية والمدنية."
-          }
-        },
-        "green-space-tree-planting": {
-          "title": "BSTU تنضم إلى حملة 'المساحة الخضراء' الوطنية",
-          "excerpt": "شارك الرئيس مرزيوييف في زراعة الأشجار ضمن المشروع الوطني. كما شارك أساتذة وطلاب BSTU.",
-          "author": "قسم العلوم البيئية",
-          "paragraphs": {
-            "0": "أطلق الرئيس شوكت مرزيوييف رسمياً تأسيس الحديقة الوطنية للدراسة النباتية ضمن مشروع 'المساحة الخضراء'.",
-            "1": "تعكس مشاركة BSTU توافقها مع الأجندة الوطنية للتنمية البيئية.",
-            "2": "جرى اختيار أشجار مناسبة لمناخ بخارى شبه الجاف.",
-            "3": "يستهدف المشروع زراعة عشرات الملايين من الأشجار عبر أوزبكستان."
-          }
-        },
-        "karakalpakstan-tree-planting": {
-          "title": "طلاب BSTU يزرعون الأشجار في قراقلباقستان",
-          "excerpt": "في إطار مشروع 'الثقافة البيئية'، شارك طلاب BSTU في حملة زراعة الأشجار بقراقلباقستان.",
-          "author": "فيلق المتطوعين من طلاب BSTU",
-          "paragraphs": {
-            "0": "شارك طلاب BSTU في حملة زراعة الأشجار بجمهورية قراقلباقستان ضمن مشروع 'الثقافة البيئية'.",
-            "1": "تمثل الأشجار المزروعة مبادرة مهمة للتخضير وحماية البيئة في منطقة تعاني من التصحر.",
-            "2": "زُرعت أنواع مقاومة للجفاف بالتعاون مع طلاب جامعات أخرى.",
-            "3": "اكتسب طلاب BSTU مهارات عملية في مجال إعادة التأهيل البيئي."
-          }
-        },
-        "cabinet-resolution-75-business-science": {
-          "title": "القرار رقم 75: شراكة العلم والأعمال من أجل الاستدامة",
-          "excerpt": "اعتمد مجلس الوزراء حوافز جديدة في تصنيف الاستدامة للشركات التي تطبق التقنيات الخضراء بالتعاون مع الباحثين.",
-          "author": "وزارة التعليم العالي والابتكار",
-          "paragraphs": {
-            "0": "في 23 فبراير 2026 أصدر مجلس الوزراء القرار رقم 75 لتعزيز التعاون بين قطاع الأعمال والمجتمع العلمي.",
-            "1": "يمنح القرار نقاطًا إضافية في تصنيف الاستدامة للشركات التي تطبق ابتكارات خضراء بالشراكة مع الجامعات.",
-            "2": "وسيتم إنشاء منصة إلكترونية متخصصة لربط الشركات بالباحثين وإتاحة الحلول العلمية القابلة للتطبيق.",
-            "3": "تُموَّل المشاريع التجريبية عبر صناديق الابتكار مع أولوية للمبادرات التي تعالج تحديات صناعية موثقة."
-          }
-        },
-        "eco-active-plogging-protect-nature": {
-          "title": "الطلاب النشطون بيئيًا: حملة بلوغينغ «احمِ الطبيعة واصنع المستقبل»",
-          "excerpt": "تحت شعار «جامعتي الخضراء» قاد طلاب BSTU النشطون بيئيًا حملة بلوغينغ للحفاظ على نظافة الحرم وتعزيز المسؤولية البيئية.",
-          "author": "لجنة البيئة في اتحاد شباب BSTU",
-          "paragraphs": {
-            "0": "نظم الطلاب النشطون بيئيًا في BSTU حملة بلوغينغ تحت شعار «جامعتي الخضراء».",
-            "1": "قام المشاركون بتنظيف مساحات الحرم وجمع النفايات القابلة لإعادة التدوير ضمن عمل طلابي منظم.",
-            "2": "جمعت المبادرة بين النشاط البدني والخدمة البيئية، ما عزز نمط الحياة الصحي والمسؤولية المجتمعية.",
-            "3": "تواصل الجامعة دعم المبادرات الخضراء التي يقودها الطلاب ضمن رؤيتها لحرم جامعي مستدام."
-          }
-        },
-        "eco-active-students-program": {
-          "title": "الطلاب النشطون بيئياً: بناء جيل أخضر في BSTU",
-          "excerpt": "يستقطب برنامج 'الطلاب النشطون بيئياً' في BSTU مئات الطلاب لحملات التوعية والتنظيف.",
-          "author": "لجنة بيئة اتحاد شباب BSTU",
-          "paragraphs": {
-            "0": "يُعدّ برنامج الطلاب النشطين بيئياً في BSTU من أبرز مبادراتها في مجال الاستدامة.",
-            "1": "يُنسَّق البرنامج من خلال اتحاد الشباب بالتعاون مع جهات حماية البيئة.",
-            "2": "تشمل الأنشطة التنظيف المنتظم، وزراعة الأشجار، وورش التوعية البيئية في المدارس.",
-            "3": "يُعترف بالطلاب النشطين بيئياً في BSTU قادةً في حركة الوعي البيئي الطلابي."
-          }
-        }
-      },
-      "callout": {
-        "title": "مشروع الجامعة الخضراء",
-        "desc": "انضم إلى برامجنا للاستدامة البيئية وساعد في بناء حرم جامعي أخضر.",
-        "cta": "اتصل بالجنة البيئية"
       }
     },
     "auth": {

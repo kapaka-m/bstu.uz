@@ -67,8 +67,7 @@ Below is the complete route mapping for all whitelisted CRUD entities:
 | `/apanel/comments` | `comments` | Comment | Article comments feed |
 | `/apanel/notifications` | `notifications` | Notification | Student system alert notifications |
 | `/apanel/audit-logs` | `audit-logs` | AuditLog | Admin actions logs (Read Only) |
-| `/apanel/green-campus-stats` | `green-campus-stats` | GreenCampusStat | Sustainability metric numbers |
-| `/apanel/green-campus-articles`| `green-campus-articles`| GreenCampusArticle| Campus greenmetric achievements |
+| `/apanel/cms/green-campus` | `green-campus-stats`, `green-campus-articles`, `green-campus-settings` | Green Campus CMS | Sustainability stats, initiatives, labels, publishing |
 | `/apanel/application-status-histories` | `application-status-histories` | ApplicationStatusHistory | Admissions status history records |
 
 ---

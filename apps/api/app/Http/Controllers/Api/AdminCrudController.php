@@ -16,6 +16,7 @@ use App\Models\Course;
 use App\Models\Department;
 use App\Models\Faculty;
 use App\Models\GreenCampusArticle;
+use App\Models\GreenCampusSetting;
 use App\Models\GreenCampusStat;
 use App\Models\Inquiry;
 use App\Models\Locale;
@@ -199,7 +200,7 @@ class AdminCrudController extends Controller
             $query->with(['studentProfile.user', 'program.translations', 'faculty.translations', 'department.translations']);
         }
 
-        if (in_array($resource, ['news', 'blogs', 'videos'], true)) {
+        if (in_array($resource, ['news', 'blogs', 'videos', 'green-campus-stats', 'green-campus-articles'], true)) {
             $query->with('translations');
         }
 
@@ -701,7 +702,7 @@ class AdminCrudController extends Controller
     {
         $setting = NewsEventSetting::with('translations')->firstOrCreate(
             ['key' => 'main'],
-            ['home_limit' => 4, 'recent_limit' => 5, 'is_active' => true]
+            ['home_limit' => 4, 'recent_limit' => 5, 'home_icon' => 'newspaper', 'is_active' => true]
         );
 
         return $this->successResponse($setting, 'News and events settings retrieved');
@@ -712,6 +713,7 @@ class AdminCrudController extends Controller
         $rules = [
             'home_limit' => 'required|integer|min:1|max:12',
             'recent_limit' => 'required|integer|min:1|max:12',
+            'home_icon' => 'nullable|string|max:50',
             'is_active' => 'boolean',
             'translations' => 'required|array',
             'translations.*.home_tag' => 'nullable|string|max:255',
@@ -747,6 +749,7 @@ class AdminCrudController extends Controller
             $setting->update([
                 'home_limit' => $validated['home_limit'],
                 'recent_limit' => $validated['recent_limit'],
+                'home_icon' => $validated['home_icon'] ?: 'newspaper',
                 'is_active' => (bool) ($validated['is_active'] ?? true),
             ]);
 
@@ -770,7 +773,7 @@ class AdminCrudController extends Controller
     {
         $setting = BlogSetting::with('translations')->firstOrCreate(
             ['key' => 'main'],
-            ['home_limit' => 3, 'recent_limit' => 5, 'tags' => [], 'is_active' => true]
+            ['home_limit' => 3, 'recent_limit' => 5, 'home_icon' => 'book-open', 'tags' => [], 'is_active' => true]
         );
 
         return $this->successResponse($setting, 'Blog settings retrieved');
@@ -781,6 +784,7 @@ class AdminCrudController extends Controller
         $rules = [
             'home_limit' => 'required|integer|min:1|max:12',
             'recent_limit' => 'required|integer|min:1|max:12',
+            'home_icon' => 'nullable|string|max:50',
             'tags' => 'nullable|array',
             'is_active' => 'boolean',
             'translations' => 'required|array',
@@ -822,6 +826,7 @@ class AdminCrudController extends Controller
             $setting->update([
                 'home_limit' => $validated['home_limit'],
                 'recent_limit' => $validated['recent_limit'],
+                'home_icon' => $validated['home_icon'] ?: 'book-open',
                 'tags' => array_values($validated['tags'] ?? []),
                 'is_active' => (bool) ($validated['is_active'] ?? true),
             ]);
@@ -938,6 +943,75 @@ class AdminCrudController extends Controller
         }
     }
 
+    public function showGreenCampusSettings(Request $request)
+    {
+        $setting = GreenCampusSetting::with('translations')->firstOrCreate(
+            ['key' => 'main'],
+            ['home_limit' => 3, 'recent_limit' => 4, 'is_active' => true]
+        );
+
+        return $this->successResponse($setting, 'Green campus settings retrieved');
+    }
+
+    public function updateGreenCampusSettings(Request $request)
+    {
+        $rules = [
+            'home_limit' => 'required|integer|min:1|max:12',
+            'recent_limit' => 'required|integer|min:1|max:12',
+            'is_active' => 'boolean',
+            'translations' => 'required|array',
+            'translations.*.home_tag' => 'nullable|string|max:255',
+            'translations.*.home_title' => 'nullable|string|max:255',
+            'translations.*.view_all_label' => 'nullable|string|max:255',
+            'translations.*.read_more_label' => 'nullable|string|max:255',
+            'translations.*.search_title' => 'nullable|string|max:255',
+            'translations.*.search_placeholder' => 'nullable|string|max:255',
+            'translations.*.categories_title' => 'nullable|string|max:255',
+            'translations.*.recent_title' => 'nullable|string|max:255',
+            'translations.*.all_label' => 'nullable|string|max:255',
+            'translations.*.no_results_label' => 'nullable|string|max:255',
+            'translations.*.callout_title' => 'nullable|string|max:255',
+            'translations.*.callout_description' => 'nullable|string',
+            'translations.*.callout_cta_label' => 'nullable|string|max:255',
+            'translations.*.callout_email' => 'nullable|string|max:255',
+            'translations.*.views_label' => 'nullable|string|max:255',
+            'translations.*.gallery_label' => 'nullable|string|max:255',
+            'translations.*.related_label' => 'nullable|string|max:255',
+            'translations.*.close_viewer_label' => 'nullable|string|max:255',
+            'translations.*.previous_image_label' => 'nullable|string|max:255',
+            'translations.*.next_image_label' => 'nullable|string|max:255',
+            'translations.*.category_labels' => 'nullable|array',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return $this->errorResponse('Validation failed', 422, $validator->errors()->toArray());
+        }
+
+        return DB::transaction(function () use ($validator) {
+            $data = $validator->validated();
+            $setting = GreenCampusSetting::with('translations')->firstOrCreate(['key' => 'main']);
+            $oldValues = $setting->toArray();
+
+            $setting->update([
+                'home_limit' => $data['home_limit'],
+                'recent_limit' => $data['recent_limit'],
+                'is_active' => $data['is_active'] ?? true,
+            ]);
+
+            foreach ($data['translations'] as $locale => $fields) {
+                $fields['locale'] = $locale;
+                $setting->translations()->updateOrCreate(['locale' => $locale], $fields);
+            }
+
+            $this->refreshPublicContentCacheVersion('green-campus-settings');
+            $this->logAction('update', GreenCampusSetting::class, $setting->id, $oldValues, $setting->fresh('translations')->toArray());
+
+            return $this->successResponse($setting->fresh('translations'), 'Green campus settings updated');
+        });
+    }
+
     /**
      * Create audit log entry.
      */
@@ -997,6 +1071,7 @@ class AdminCrudController extends Controller
             'media',
             'green-campus-stats',
             'green-campus-articles',
+            'green-campus-settings',
         ];
     }
 
@@ -1365,10 +1440,19 @@ class AdminCrudController extends Controller
             case 'green-campus-articles':
                 return [
                     'slug' => 'required|string|unique:green_campus_articles,slug,'.$id,
+                    'category' => 'required|string|max:255',
                     'image' => 'nullable|string',
                     'gallery' => 'nullable|array',
                     'views' => 'integer',
+                    'published_at' => 'nullable|date',
+                    'is_published' => 'boolean',
+                    'sort_order' => 'integer',
                     'translations' => 'required|array',
+                    'translations.*.title' => 'required|string|max:255',
+                    'translations.*.category' => 'nullable|string|max:255',
+                    'translations.*.excerpt' => 'nullable|string',
+                    'translations.*.content' => 'nullable|string',
+                    'translations.*.author' => 'nullable|string|max:255',
                 ];
             default:
                 return [];

@@ -16,6 +16,7 @@ use App\Models\Course;
 use App\Models\Department;
 use App\Models\Faculty;
 use App\Models\GreenCampusArticle;
+use App\Models\GreenCampusSetting;
 use App\Models\GreenCampusStat;
 use App\Models\Inquiry;
 use App\Models\Locale;
@@ -222,6 +223,7 @@ class PublicApiController extends Controller
                 'key' => $setting->key,
                 'home_limit' => $setting->home_limit,
                 'recent_limit' => $setting->recent_limit,
+                'home_icon' => $setting->home_icon ?: 'newspaper',
             ], $translation?->only([
                 'home_tag',
                 'home_title',
@@ -287,6 +289,7 @@ class PublicApiController extends Controller
                 'key' => $setting->key,
                 'home_limit' => $setting->home_limit,
                 'recent_limit' => $setting->recent_limit,
+                'home_icon' => $setting->home_icon ?: 'book-open',
                 'tags' => $categories,
             ], $translation?->only([
                 'home_tag',
@@ -1276,21 +1279,116 @@ class PublicApiController extends Controller
         $locale = $this->getRequestLocale($request);
         $stats = GreenCampusStat::with('translations')->orderBy('sort_order')->get();
 
-        return new LocalizedCollection($stats, $locale);
+        return $this->successResponse(
+            $stats->map(fn (GreenCampusStat $stat) => $this->formatGreenCampusStat($stat, $locale))->values()->all(),
+            'Green campus stats retrieved successfully'
+        );
+    }
+
+    protected function formatGreenCampusStat(GreenCampusStat $stat, string $locale): array
+    {
+        $translation = $stat->translations->where('locale', $locale)->first()
+            ?: $stat->translations->where('locale', 'en')->first();
+
+        return [
+            'id' => $stat->id,
+            'icon' => $stat->icon,
+            'sort_order' => $stat->sort_order,
+            'value' => $translation?->value ?: '',
+            'label' => $translation?->label ?: '',
+            'created_at' => $stat->created_at,
+            'updated_at' => $stat->updated_at,
+        ];
+    }
+
+    public function greenCampusSettings(Request $request)
+    {
+        $locale = $this->getRequestLocale($request);
+
+        $payload = $this->publicCache($request, 'green-campus-settings', [$locale], function () use ($locale) {
+            $setting = GreenCampusSetting::where('key', 'main')
+                ->where('is_active', true)
+                ->with('translations')
+                ->first();
+
+            if (! $setting) {
+                return null;
+            }
+
+            $translation = $setting->translations->where('locale', $locale)->first()
+                ?: $setting->translations->where('locale', 'en')->first();
+
+            if (! $translation) {
+                return null;
+            }
+
+            $fields = [
+                'home_tag',
+                'home_title',
+                'view_all_label',
+                'read_more_label',
+                'search_title',
+                'search_placeholder',
+                'categories_title',
+                'recent_title',
+                'all_label',
+                'no_results_label',
+                'callout_title',
+                'callout_description',
+                'callout_cta_label',
+                'callout_email',
+                'views_label',
+                'gallery_label',
+                'related_label',
+                'close_viewer_label',
+                'previous_image_label',
+                'next_image_label',
+                'category_labels',
+            ];
+
+            $data = [
+                'home_limit' => $setting->home_limit,
+                'recent_limit' => $setting->recent_limit,
+                'is_active' => $setting->is_active,
+            ];
+
+            foreach ($fields as $field) {
+                $data[$field] = $translation->{$field};
+            }
+
+            return $data;
+        });
+
+        if (! $payload) {
+            return $this->errorResponse('Green campus settings not found', 404);
+        }
+
+        return $this->successResponse($payload, 'Green campus settings retrieved successfully');
     }
 
     public function greenCampusArticles(Request $request)
     {
         $locale = $this->getRequestLocale($request);
-        $articles = GreenCampusArticle::with('translations')->orderBy('created_at', 'desc')->get();
+        $articles = GreenCampusArticle::with('translations')
+            ->where('is_published', true)
+            ->orderBy('sort_order')
+            ->orderByDesc('published_at')
+            ->orderByDesc('created_at')
+            ->get();
 
-        return new LocalizedCollection($articles, $locale);
+        return $this->successResponse(
+            $articles->map(fn (GreenCampusArticle $article) => $this->formatGreenCampusArticle($article, $locale))->values()->all(),
+            'Green campus articles retrieved successfully'
+        );
     }
 
     public function greenCampusArticle(Request $request, string $slug)
     {
         $locale = $this->getRequestLocale($request);
-        $article = GreenCampusArticle::where('slug', $slug)->with('translations')->first();
+        $article = GreenCampusArticle::where('slug', $slug)
+            ->where('is_published', true)
+            ->with('translations')
+            ->first();
 
         if (! $article) {
             return $this->errorResponse("Green campus article '{$slug}' not found", 404);
@@ -1298,6 +1396,34 @@ class PublicApiController extends Controller
 
         $article->increment('views');
 
-        return new LocalizedResource($article, $locale);
+        return $this->successResponse(
+            $this->formatGreenCampusArticle($article->fresh('translations'), $locale),
+            'Green campus article retrieved successfully'
+        );
+    }
+
+    protected function formatGreenCampusArticle(GreenCampusArticle $article, string $locale): array
+    {
+        $translation = $article->translations->where('locale', $locale)->first()
+            ?: $article->translations->where('locale', 'en')->first();
+
+        return [
+            'id' => $article->id,
+            'slug' => $article->slug,
+            'category' => $article->category,
+            'category_label' => $translation?->category ?: $article->category,
+            'image' => $article->image,
+            'gallery' => $article->gallery ?: [],
+            'views' => $article->views,
+            'published_at' => $article->published_at,
+            'is_published' => $article->is_published,
+            'sort_order' => $article->sort_order,
+            'created_at' => $article->created_at,
+            'updated_at' => $article->updated_at,
+            'title' => $translation?->title ?: $article->slug,
+            'excerpt' => $translation?->excerpt ?: '',
+            'content' => $translation?->content ?: '',
+            'author' => $translation?->author ?: '',
+        ];
     }
 }

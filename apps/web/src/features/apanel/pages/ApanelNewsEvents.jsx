@@ -41,6 +41,7 @@ const emptyForm = {
 const emptySettings = {
   home_limit: 4,
   recent_limit: 5,
+  home_icon: "newspaper",
   is_active: true,
   translations: Object.fromEntries(
     locales.map((locale) => [
@@ -214,6 +215,7 @@ export default function ApanelNewsEvents() {
       setSettingsForm({
         home_limit: setting.home_limit || 4,
         recent_limit: setting.recent_limit || 5,
+        home_icon: setting.home_icon || "newspaper",
         is_active: Boolean(setting.is_active ?? true),
         translations: Object.fromEntries(
           locales.map((locale) => {
@@ -504,7 +506,7 @@ export default function ApanelNewsEvents() {
             </p>
           </div>
           <form onSubmit={saveSettings} className="p-5 space-y-5">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <label className="space-y-1.5">
                 <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">
                   Home items limit
@@ -549,6 +551,19 @@ export default function ApanelNewsEvents() {
                   <option value="1">Active</option>
                   <option value="0">Inactive</option>
                 </select>
+              </label>
+              <label className="space-y-1.5">
+                <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">
+                  Home Icon
+                </span>
+                <input
+                  value={settingsForm.home_icon || ""}
+                  onChange={(event) =>
+                    setSettingsField("home_icon", event.target.value)
+                  }
+                  placeholder="newspaper, calendar-days, megaphone"
+                  className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm font-semibold text-navy focus:outline-none focus:border-primary"
+                />
               </label>
             </div>
 

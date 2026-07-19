@@ -10,6 +10,7 @@ class NewsEventSetting extends Model
         'key',
         'home_limit',
         'recent_limit',
+        'home_icon',
         'is_active',
     ];
 

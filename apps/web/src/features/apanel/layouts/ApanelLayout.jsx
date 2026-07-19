@@ -101,6 +101,11 @@ export default function ApanelLayout({ children }) {
           icon: Video,
         },
         {
+          path: "/apanel/cms/green-campus",
+          label: "Green Campus",
+          icon: Leaf,
+        },
+        {
           path: "/apanel/newsletter/subscriptions",
           label: "Newsletter Subscriptions",
           icon: MailPlus,
@@ -122,16 +127,6 @@ export default function ApanelLayout({ children }) {
         },
         { path: "/apanel/services", label: "Services", icon: Briefcase },
         { path: "/apanel/videos", label: "Promo Videos", icon: Video },
-        {
-          path: "/apanel/green-campus-stats",
-          label: "Green Campus Stats",
-          icon: Leaf,
-        },
-        {
-          path: "/apanel/green-campus-articles",
-          label: "Green Campus Articles",
-          icon: Leaf,
-        },
       ],
     },
     {

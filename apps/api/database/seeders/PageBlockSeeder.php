@@ -91,41 +91,6 @@ class PageBlockSeeder extends Seeder
                     ]
                 );
             }
-
-            // 3. Green Campus Block
-            $gcBlock = PageBlock::updateOrCreate(
-                [
-                    'page_id' => $homePage->id,
-                    'block_key' => 'home_green_campus',
-                ],
-                [
-                    'type' => 'green_campus',
-                    'sort_order' => 3,
-                    'settings_json' => ['bg_image' => 'assets/img/green-campus/green_img_34.jpg'],
-                    'is_active' => true,
-                ]
-            );
-
-            foreach (['en', 'uz', 'ru', 'ar'] as $locale) {
-                $t = $translations[$locale] ?? [];
-
-                $title = $t['greenCampus']['title'] ?? 'Green Campus Leadership in Sustainability';
-                $subtitle = $t['greenCampus']['tag'] ?? 'Sustainability';
-                $content = $t['greenCampus']['explore'] ?? 'Explore All Green Campus Initiatives';
-
-                PageBlockTranslation::updateOrCreate(
-                    [
-                        'page_block_id' => $gcBlock->id,
-                        'locale' => $locale,
-                    ],
-                    [
-                        'title' => $title,
-                        'subtitle' => $subtitle,
-                        'content' => $content,
-                        'button_text' => 'Read More',
-                    ]
-                );
-            }
         }
     }
 }

@@ -212,7 +212,6 @@ export const translation = {
     "programLanguages": "Uzbek / Russian / English",
     "structure": "Structure",
     "administration": "Administration",
-    "noResults": "No green campus articles found.",
     "clearFilters": "Clear search filters",
     "facultyLeadership": "Faculty Leadership",
     "academicStaff": "Academic Staff",
@@ -453,11 +452,6 @@ export const translation = {
         "years4": "4 years",
         "years5": "5 years"
       }
-    },
-    "greenCampus": {
-      "tag": "Sustainability",
-      "title": "Green Campus Leadership in Sustainability",
-      "explore": "Explore All Green Campus Initiatives"
     },
     "about": {
       "title": "Building the Future of Digital Engineering",
@@ -2725,172 +2719,6 @@ export const translation = {
       "name": "Technologies and Biotechnologies for Processing, Storage and Processing of Agricultural and Food Products",
       "description": "Technologies and Biotechnologies for Processing, Storage and Processing of Agricultural and Food Products is offered by the Faculty of Technology with department-based academic and practical training.",
       "detailedDescription": "Technologies and Biotechnologies for Processing, Storage and Processing of Agricultural and Food Products is offered by the Faculty of Technology with department-based academic and practical training."
-    }
-  },
-  "greenCampus": {
-    "stats": {
-      "0": {
-        "value": "858th",
-        "label": "GreenMetric Global Ranking"
-      },
-      "1": {
-        "value": "1,500+",
-        "label": "Trees Planted"
-      },
-      "2": {
-        "value": "8",
-        "label": "Active Green Initiatives"
-      },
-      "3": {
-        "value": "4+",
-        "label": "International Conferences"
-      }
-    },
-    "categories": {
-      "community": "Community",
-      "energy": "Energy",
-      "waste": "Waste",
-      "water": "Water",
-      "achievement": "Achievement",
-      "education": "Education",
-      "nature": "Nature"
-    },
-    "details": {
-      "back": "Back to Green Campus",
-      "gallery": "Photo Gallery",
-      "related": "Related Initiatives",
-      "closeViewer": "Close image viewer",
-      "prevImage": "Previous image",
-      "nextImage": "Next image"
-    },
-    "documents": {
-      "title": "Official Documents",
-      "info-letter": {
-        "title": "Information Letter – Green University"
-      },
-      "cabinet-resolution-75": {
-        "title": "Cabinet of Ministers Resolution No. 75"
-      },
-      "resolution-18-05-2026": {
-        "title": "Resolution on Green Development – May 18, 2026"
-      }
-    },
-    "articles": {
-      "greenmetric-ranking-858": {
-        "title": "BSTU Ranked 858th in Global GreenMetric University Rankings",
-        "excerpt": "Bukhara State Technical University has been ranked 858th in the global ranking of universities committed to achieving the Green Sustainability Index by the UI GreenMetric World University Rankings.",
-        "author": "BSTU Communications Office",
-        "paragraphs": {
-          "0": "Bukhara State Technical University (BSTU) has officially been ranked 858th in the global ranking of universities committed to achieving a Green Sustainability Index, as determined by the internationally recognized UI GreenMetric World University Rankings.",
-          "1": "The GreenMetric ranking is an independent global initiative that evaluates universities on six key sustainability criteria: Setting & Infrastructure, Energy & Climate Change, Waste Management, Water Conservation, Transportation, and Education & Research. BSTU's inclusion in this prestigious global ranking reflects the university's dedicated commitment to environmental stewardship and sustainable development.",
-          "2": "BSTU's ranking is a direct result of sustained investments in campus greening programs, including extensive tree-planting campaigns across university grounds, clean energy installations, smart water irrigation systems in the botanical gardens, and active participation in national environmental programs such as the 'Green Space' project initiated by President Shavkat Mirziyoyev.",
-          "3": "The university administration has set ambitious targets to improve BSTU's global ranking by expanding renewable energy usage, establishing a campus waste sorting and composting system, and launching dedicated environmental science research projects in partnership with international universities."
-        }
-      },
-      "eco-digital-future-conference": {
-        "title": "International Conference: Eco-Digital Future",
-        "excerpt": "BSTU successfully hosted the International Conference 'Eco-Digital Future: Green Innovations, Sustainable Education, Synergy of Economy and Tourism'.",
-        "author": "International Relations Office",
-        "paragraphs": {
-          "0": "Bukhara State Technical University successfully hosted the International Conference 'Eco-Digital Future: Green Innovations, Sustainable Education, Synergy of Economy and Tourism'.",
-          "1": "The conference hosted panel discussions on green innovations in higher education, sustainable digital transformations, and eco-tourism development in the Bukhara region.",
-          "2": "Participants discussed how BSTU's integration of green campus principles with technology curricula serves as a model for regional institutions.",
-          "3": "The event concluded with a joint declaration signed by all participating Central Asian and international universities."
-        }
-      },
-      "eco-plogging-engineering-faculty": {
-        "title": "Eco-Plogging: Cleanliness and Healthy Lifestyle Initiative",
-        "excerpt": "In collaboration with Engineering faculty tutor Nodira Hakimova and 1st-year students, an 'Eco-plogging' event was conducted to promote environmental responsibility.",
-        "author": "Engineering Faculty Eco-Committee",
-        "paragraphs": {
-          "0": "In collaboration with Engineering faculty tutor Nodira Hakimova and 1st-year students, an 'Eco-plogging' event was conducted to raise environmental culture, promote a healthy lifestyle, and keep our surroundings clean.",
-          "1": "Eco-plogging is an innovative ecological initiative that combines jogging with litter collection, originating in Sweden.",
-          "2": "During the event, students cleaned up various public areas, demonstrating civic responsibility and care for the environment.",
-          "3": "The initiative was highly welcomed by students and faculty, with plans to make it a monthly event throughout the academic year."
-        }
-      },
-      "neighborhood-eco-plogging-pridastgir": {
-        "title": "Inter-Neighborhood Eco-Plogging: Youth Unite for Clean Environment",
-        "excerpt": "Organized by the BSTU Youth Union, students joined forces to clean up the Pridastgir neighborhood in Bukhara.",
-        "author": "BSTU Youth Union",
-        "paragraphs": {
-          "0": "Bukhara State Technical University Youth Union coordinators organized an inter-neighborhood eco-plogging activity. Students gathered to conduct a clean-up campaign in the Pridastgir neighborhood.",
-          "1": "During the campaign, volunteers collected waste from public pathways and streets, restoring the cleanliness of the area.",
-          "2": "The event fostered community spirit and raised ecological awareness among the student youth.",
-          "3": "The BSTU Youth Union plans to extend this volunteer campaign to other adjacent neighborhoods."
-        }
-      },
-      "prosperity-homeland-mahalla-hashar": {
-        "title": "Prosperity of the Homeland Begins with the Mahalla – National Hashar",
-        "excerpt": "BSTU professors and students actively participated in the national charity hashar under the slogan 'Prosperity of the homeland begins with the neighborhood'.",
-        "author": "Community Engagement Committee",
-        "paragraphs": {
-          "0": "Bukhara State Technical University professors, teachers, and students actively participated in the national charity hashar under the slogan 'The prosperity of the homeland begins, first of all, with the neighborhood'.",
-          "1": "BSTU volunteer teams assisted in landscaping, tree-planting, and public space cleaning in several Bukhara mahallas.",
-          "2": "Hashar is a traditional Uzbek practice of voluntary mutual aid and community work for the good of all.",
-          "3": "BSTU is committed to making hashar participation a core part of its student social responsibility initiatives."
-        }
-      },
-      "green-space-tree-planting": {
-        "title": "BSTU Joins President's 'Yashil Makon' National Tree-Planting Campaign",
-        "excerpt": "President Shavkat Mirziyoyev participated in tree planting under the 'Yashil makon' national project. BSTU teachers and students joined in force.",
-        "author": "Environmental Sciences Dept",
-        "paragraphs": {
-          "0": "President Shavkat Mirziyoyev participated in a tree-planting event within the national project 'Yashil makon' and officially initiated the creation of the National Dendrological Park.",
-          "1": "BSTU's active participation reflects the university's alignment with the national ecological and greening agenda.",
-          "2": "The tree species planted during this campaign were selected for their suitability to Bukhara's semi-arid climate, including desert-adapted saksaul and poplar varieties.",
-          "3": "The Yashil makon project aims to plant millions of trees across Uzbekistan to combat desertification."
-        }
-      },
-      "karakalpakstan-tree-planting": {
-        "title": "BSTU Students Plant Trees in Karakalpakstan",
-        "excerpt": "As part of the nationwide 'Eco-Culture' project, BSTU students participated in a tree-planting campaign in the Republic of Karakalpakstan.",
-        "author": "BSTU Student Volunteer Corps",
-        "paragraphs": {
-          "0": "As part of the nationwide 'Eco-Culture' project, Bukhara State Technical University students participated in a tree-planting campaign in the Republic of Karakalpakstan.",
-          "1": "The campaign aimed to green the arid zones near the Aral Sea and improve regional microclimate.",
-          "2": "BSTU students worked alongside local youth to plant drought-resistant shrubs and trees.",
-          "3": "This hands-on experience provided students with a practical understanding of ecological restoration and environmental challenges."
-        }
-      },
-      "cabinet-resolution-75-business-science": {
-        "title": "Cabinet Resolution No. 75: Science-Business Cooperation for Sustainability",
-        "excerpt": "The Cabinet of Ministers of Uzbekistan introduced new sustainability rating incentives for businesses implementing green technologies with researchers.",
-        "author": "Ministry of Higher Education & Innovation",
-        "paragraphs": {
-          "0": "On February 23, 2026, the Cabinet of Ministers issued Resolution No. 75 to strengthen cooperation between businesses and the scientific community.",
-          "1": "The resolution grants additional sustainability rating points to companies that implement green innovations developed with universities and researchers.",
-          "2": "A dedicated electronic platform will connect businesses with scientists and list applicable research outputs for practical deployment.",
-          "3": "Pilot implementations are supported through innovation funds, with priority given to projects solving verified industry challenges."
-        }
-      },
-      "eco-active-plogging-protect-nature": {
-        "title": "Eco-Active Students Plogging Campaign: Protect Nature - Create the Future!",
-        "excerpt": "Under the slogan 'My Green University', BSTU eco-active students led a campus plogging campaign to promote cleanliness and environmental responsibility.",
-        "author": "BSTU Youth Union Eco-Committee",
-        "paragraphs": {
-          "0": "Eco-active students at BSTU organized a plogging campaign under the slogan 'My Green University'.",
-          "1": "Participants cleaned campus areas while collecting recyclable and mixed waste in a coordinated student effort.",
-          "2": "The initiative combined physical activity with environmental service, reinforcing both healthy lifestyle and civic responsibility.",
-          "3": "The university continues to support student-led green actions as a core part of its sustainable campus mission."
-        }
-      },
-      "eco-active-students-program": {
-        "title": "Eco-Active Students: Cultivating Green Generation at BSTU",
-        "excerpt": "BSTU's Eco-Active Students program engages hundreds of students in eco-awareness campaigns and cleanups throughout the academic year.",
-        "author": "Youth Union Eco-Committee",
-        "paragraphs": {
-          "0": "Bukhara State Technical University's Eco-Active Students (Ekofaol talabalar) program is one of the most prominent student-led green initiatives.",
-          "1": "The program is organized through the Youth Union in cooperation with regional ecology departments.",
-          "2": "Activities include regular campus cleanups, hosting environmental seminars in local schools, and recycling drives.",
-          "3": "Eco-active students are recognized as green leaders and receive special university honors for their ecological contributions."
-        }
-      }
-    },
-    "callout": {
-      "title": "Green University Project",
-      "desc": "Join our environmental sustainability programs and help build a green campus.",
-      "cta": "Contact Eco-Committee"
     }
   },
   "auth": {

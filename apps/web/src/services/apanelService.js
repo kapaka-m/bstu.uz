@@ -102,6 +102,14 @@ export const apanelService = {
     return api.put("/apanel/cms/video-bdtu/settings", payload).then(unwrapPayload);
   },
 
+  getGreenCampusSettings() {
+    return api.get("/apanel/cms/green-campus/settings").then(unwrapPayload);
+  },
+
+  updateGreenCampusSettings(payload) {
+    return api.put("/apanel/cms/green-campus/settings", payload).then(unwrapPayload);
+  },
+
   uploadMedia(file, metadata = {}) {
     const formData = new FormData();
     formData.append("file", file);

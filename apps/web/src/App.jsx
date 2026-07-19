@@ -117,6 +117,9 @@ const ApanelBlog = React.lazy(
 const ApanelVideoBdtu = React.lazy(
   () => import("./features/apanel/pages/ApanelVideoBdtu"),
 );
+const ApanelGreenCampus = React.lazy(
+  () => import("./features/apanel/pages/ApanelGreenCampus"),
+);
 const ApanelNewsletterSubscriptions = React.lazy(
   () => import("./features/apanel/pages/ApanelNewsletterSubscriptions"),
 );
@@ -435,6 +438,16 @@ function AppContent() {
                 <AdminRoute>
                   <ApanelLayout>
                     <ApanelVideoBdtu />
+                  </ApanelLayout>
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/apanel/cms/green-campus"
+              element={
+                <AdminRoute>
+                  <ApanelLayout>
+                    <ApanelGreenCampus />
                   </ApanelLayout>
                 </AdminRoute>
               }

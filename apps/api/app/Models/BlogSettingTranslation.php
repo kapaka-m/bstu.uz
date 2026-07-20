@@ -30,6 +30,10 @@ class BlogSettingTranslation extends Model
         'form_email_label',
         'form_comment_label',
         'form_submit_label',
+        'comment_login_title',
+        'comment_login_text',
+        'comment_login_action',
+        'signed_in_as_label',
     ];
 
     public function setting()

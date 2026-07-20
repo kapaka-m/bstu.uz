@@ -218,33 +218,12 @@ export default function BlogDetails() {
       // Sharing can be cancelled by the user; no UI error is needed here.
     }
   };
-  const commentAuthCopies = {
-    en: {
-      title: "Sign in to comment",
-      text: "Comments are visible to everyone. Please sign in before adding a comment or reply.",
-      action: "Sign In",
-      signedInAs: "Signed in as",
-    },
-    uz: {
-      title: "Izoh yozish uchun tizimga kiring",
-      text: "Izohlar hamma uchun ko'rinadi. Izoh yoki javob qo'shish uchun avval tizimga kiring.",
-      action: "Tizimga kirish",
-      signedInAs: "Tizimga kirgan foydalanuvchi",
-    },
-    ru: {
-      title: "Войдите, чтобы оставить комментарий",
-      text: "Комментарии видны всем. Чтобы добавить комментарий или ответ, сначала войдите в систему.",
-      action: "Войти",
-      signedInAs: "Вы вошли как",
-    },
-    ar: {
-      title: "سجّل الدخول لإضافة تعليق",
-      text: "التعليقات ظاهرة لجميع الزوار. لإضافة تعليق أو رد يجب تسجيل الدخول أولًا.",
-      action: "تسجيل الدخول",
-      signedInAs: "تم تسجيل الدخول باسم",
-    },
+  const commentAuthCopy = {
+    title: labelText(settings.comment_login_title, ""),
+    text: labelText(settings.comment_login_text, ""),
+    action: labelText(settings.comment_login_action, ""),
+    signedInAs: labelText(settings.signed_in_as_label, ""),
   };
-  const commentAuthCopy = commentAuthCopies[language] || commentAuthCopies.en;
 
   return (
     <div className="pt-24 bg-white">
@@ -546,7 +525,10 @@ export default function BlogDetails() {
               </h4>
               <div className="flex bg-white border border-gray-200/50 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
                 <input
+                  id="blog-details-search-input"
+                  name="blog_search"
                   type="text"
+                  autoComplete="off"
                   placeholder={labelText(
                     settings.search_placeholder,
                     "",

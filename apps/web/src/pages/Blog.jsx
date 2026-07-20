@@ -249,7 +249,10 @@ export default function Blog() {
               </h4>
               <div className="flex bg-white border border-gray-200/50 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
                 <input
+                  id="blog-search-input"
+                  name="blog_search"
                   type="text"
+                  autoComplete="off"
                   placeholder={labelText(
                     settings.search_placeholder,
                     "",

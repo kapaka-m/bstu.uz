@@ -194,7 +194,10 @@ export default function NewsDetails() {
               </h4>
               <div className="flex bg-white border border-gray-200/50 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
                 <input
+                  id="news-details-search-input"
+                  name="news_search"
                   type="text"
+                  autoComplete="off"
                   placeholder={settings?.search_placeholder || ""}
                   className="grow px-4 py-3 text-sm focus:outline-none bg-white text-gray-700 w-full"
                   onKeyDown={(e) => {

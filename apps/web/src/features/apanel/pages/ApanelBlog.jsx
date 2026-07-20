@@ -73,6 +73,10 @@ const emptySettings = {
         form_email_label: "",
         form_comment_label: "",
         form_submit_label: "",
+        comment_login_title: "",
+        comment_login_text: "",
+        comment_login_action: "",
+        signed_in_as_label: "",
       },
     ]),
   ),
@@ -659,6 +663,10 @@ export default function ApanelBlog() {
                 ["form_email_label", "Form Email Label"],
                 ["form_comment_label", "Form Comment Label"],
                 ["form_submit_label", "Form Submit Label"],
+                ["comment_login_title", "Login Required Title"],
+                ["comment_login_text", "Login Required Text"],
+                ["comment_login_action", "Login Button Label"],
+                ["signed_in_as_label", "Signed-in-as Label"],
               ].map(([field, label]) => (
                 <label key={field} className="space-y-1.5">
                   <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">

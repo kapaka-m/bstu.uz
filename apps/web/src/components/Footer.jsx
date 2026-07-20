@@ -170,7 +170,10 @@ export default function Footer() {
                 className="flex border border-primary/20 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow bg-white"
               >
                 <input
+                  id="footer-newsletter-email"
+                  name="newsletter_email"
                   type="email"
+                  autoComplete="email"
                   value={newsletterEmail}
                   onChange={(event) => setNewsletterEmail(event.target.value)}
                   placeholder={footer.newsletter_placeholder || ""}

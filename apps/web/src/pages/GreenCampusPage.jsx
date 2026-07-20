@@ -291,7 +291,10 @@ export default function GreenCampusPage() {
               </h4>
               <div className="relative">
                 <input
+                  id="green-campus-search-input"
+                  name="green_campus_search"
                   type="text"
+                  autoComplete="off"
                   placeholder={settings.search_placeholder || ""}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}

@@ -809,6 +809,10 @@ class AdminCrudController extends Controller
             'translations.*.form_email_label' => 'nullable|string|max:255',
             'translations.*.form_comment_label' => 'nullable|string|max:255',
             'translations.*.form_submit_label' => 'nullable|string|max:255',
+            'translations.*.comment_login_title' => 'nullable|string|max:255',
+            'translations.*.comment_login_text' => 'nullable|string|max:500',
+            'translations.*.comment_login_action' => 'nullable|string|max:255',
+            'translations.*.signed_in_as_label' => 'nullable|string|max:255',
         ];
 
         $validator = Validator::make($request->all(), $rules);

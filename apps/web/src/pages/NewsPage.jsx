@@ -217,7 +217,10 @@ export default function NewsPage() {
               </h4>
               <div className="flex bg-white border border-gray-200/50 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
                 <input
+                  id="news-search-input"
+                  name="news_search"
                   type="text"
+                  autoComplete="off"
                   placeholder={settings?.search_placeholder || ""}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}

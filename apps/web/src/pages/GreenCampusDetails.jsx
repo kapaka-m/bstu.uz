@@ -327,7 +327,10 @@ export default function GreenCampusDetails() {
               <div className="relative">
                 <Link to="/green-campus" className="block">
                   <input
+                    id="green-campus-details-search-input"
+                    name="green_campus_search"
                     type="text"
+                    autoComplete="off"
                     readOnly
                     placeholder={settings.search_placeholder || ""}
                     className="w-full pl-10 pr-4 py-3 rounded-xl bg-white border border-gray-200 cursor-pointer text-sm font-semibold transition-colors"

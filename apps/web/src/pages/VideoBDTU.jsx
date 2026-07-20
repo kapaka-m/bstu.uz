@@ -334,7 +334,7 @@ export default function VideoBDTU() {
                       alt={t("common.logoAlt")}
                       className="w-9 h-9 object-contain"
                       onError={(e) => {
-                        e.target.src = "https://placehold.co/100x100?text=BSTU";
+                        e.currentTarget.style.display = "none";
                       }}
                     />
                   </div>

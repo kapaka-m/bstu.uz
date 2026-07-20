@@ -96,7 +96,6 @@ Current JSON dataset ownership:
 
 - `announcements.json`: consumed by `AnnouncementSeeder`.
 - `departments.json`: consumed by department, course, and staff seeding.
-- `administration-cms.json`: optional reviewed Administration CMS restore/seed source consumed by `AdministrationSeeder`.
 - Green Campus content is not consumed from JSON. It is managed through `/apanel/cms/green-campus`.
 - `programs.json`: consumed by `ProgramSeeder`.
 - `translations.json`: consumed by translation, menu, page, faculty, department, program, course, staff, and announcement seeders.
@@ -188,7 +187,7 @@ Current seeders consume these JSON files directly:
 - `translations.json`: translations, menus, pages, page blocks, faculties, departments, programs, courses, staff, and UI translation keys/values.
 - `departments.json`: departments, courses, and staff metadata.
 - `programs.json`: program metadata.
-- `administration-cms.json`: reviewed Administration CMS restore/seed source.
+- Administration leadership is managed only through `/apanel/cms/administration`; no reviewed static restore file is maintained for it.
 
 `services.json` is generated but not consumed by current seeders. Blog, News & Events, Video Gallery, Announcements, and footer content are not generated from static JSON.
 

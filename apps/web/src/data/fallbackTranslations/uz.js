@@ -176,7 +176,7 @@ export const translation = {
     "aboutCenter": "Markaz haqida",
     "centerStructure": "Markaz tuzilishi va xodimlari",
     "rectorateOffice": "Rektorat idorasi",
-    "rectorateOfficeDesc": "Universitet rahbariyati bilan uchrashuv belgilash yoki rasmiy takliflar yuborish kerakmi?",
+    "rectorateOfficeDesc": "Masʼul bo‘lim bilan uchrashuv belgilash yoki rasmiy takliflar yuborish kerakmi?",
     "aboutMember": "Ma'muriyat a'zosi haqida",
     "responsibilities": "Asosiy vazifalar va yutuqlar",
     "receptionHours": "Qabul vaqtlari",
@@ -654,7 +654,7 @@ export const translation = {
     "q5": "Universitetning asosiy kampusi qayerda joylashgan?",
     "a5": "Universitet kampusi Buxoro shahri, Murtazoyev ko'chasi, 15-uyda joylashgan.",
     "q6": "Buxoro davlat texnika universiteti rektori kim?",
-    "a6": "Universitet rahbariyati haqidagi maʼlumotlar Administration CMS orqali boshqariladi va maʼlumotlar bazasidan ko‘rsatiladi."
+    "a6": "Universitet boshqaruv maʼlumotlari tegishli CMS sahifasi orqali boshqariladi va maʼlumotlar bazasidan ko‘rsatiladi."
   },
   "features": {
     "tag": "Bizning afzalliklar",

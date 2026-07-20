@@ -26,7 +26,7 @@ class SettingSeeder extends Seeder
             ],
             [
                 'key' => 'contact_phone',
-                'value' => '+998 65 223 78 84',
+                'value' => '+998 65 223 28 83',
                 'type' => 'text',
                 'group' => 'contact',
                 'is_public' => true,
@@ -75,7 +75,7 @@ class SettingSeeder extends Seeder
             ],
             [
                 'key' => 'call_center',
-                'value' => '+998 65 223 78 84',
+                'value' => '+998 65 223 28 83',
                 'type' => 'text',
                 'group' => 'contact',
                 'is_public' => true,

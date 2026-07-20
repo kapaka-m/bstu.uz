@@ -6,7 +6,6 @@ import {
   EyeOff,
   Image as ImageIcon,
   Loader2,
-  Megaphone,
   Plus,
   RefreshCw,
   Save,
@@ -322,13 +321,12 @@ export default function ApanelAnnouncements() {
     <div className="space-y-6">
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         <div>
-          <p className="text-xs font-extrabold text-primary uppercase tracking-widest flex items-center gap-2">
-            <Megaphone className="w-4 h-4" />
+          <h1 className="text-2xl font-black text-navy mt-1">
             Announcements CMS
-          </p>
-          <h1 className="text-2xl font-black text-navy mt-1">Announcements</h1>
+          </h1>
           <p className="text-sm text-gray-500 mt-1">
-            Manage public announcements, translations, publishing and homepage labels.
+            Manage public announcements, translations, publishing and homepage
+            labels.
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -388,13 +386,20 @@ export default function ApanelAnnouncements() {
             <div className="divide-y divide-gray-100">
               {filteredItems.map((record) => {
                 const title =
-                  record.translations?.find((item) => item.locale === "en")?.title ||
-                  record.slug;
+                  record.translations?.find((item) => item.locale === "en")
+                    ?.title || record.slug;
                 return (
-                  <div key={record.id} className="p-5 flex flex-col lg:flex-row gap-4 lg:items-center">
+                  <div
+                    key={record.id}
+                    className="p-5 flex flex-col lg:flex-row gap-4 lg:items-center"
+                  >
                     <div className="w-full lg:w-36 h-24 rounded-xl overflow-hidden bg-slate-50 border border-gray-100 shrink-0">
                       {record.image ? (
-                        <img src={imagePreviewSrc(record.image)} alt={title} className="w-full h-full object-cover" />
+                        <img
+                          src={imagePreviewSrc(record.image)}
+                          alt={title}
+                          className="w-full h-full object-cover"
+                        />
                       ) : (
                         <div className="w-full h-full grid place-items-center text-gray-300">
                           <ImageIcon className="w-7 h-7" />
@@ -424,15 +429,32 @@ export default function ApanelAnnouncements() {
                       </p>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className={`inline-flex items-center gap-1 text-xs font-extrabold px-3 py-1.5 rounded-xl ${record.is_published ? "bg-green-50 text-green-700" : "bg-gray-100 text-gray-500"}`}>
-                        {record.is_published ? <Eye className="w-3.5 h-3.5" /> : <EyeOff className="w-3.5 h-3.5" />}
+                      <span
+                        className={`inline-flex items-center gap-1 text-xs font-extrabold px-3 py-1.5 rounded-xl ${record.is_published ? "bg-green-50 text-green-700" : "bg-gray-100 text-gray-500"}`}
+                      >
+                        {record.is_published ? (
+                          <Eye className="w-3.5 h-3.5" />
+                        ) : (
+                          <EyeOff className="w-3.5 h-3.5" />
+                        )}
                         {record.is_published ? "Published" : "Hidden"}
                       </span>
-                      <button onClick={() => startEdit(record)} className="p-2 rounded-xl bg-slate-50 text-navy hover:text-primary">
+                      <button
+                        onClick={() => startEdit(record)}
+                        className="p-2 rounded-xl bg-slate-50 text-navy hover:text-primary"
+                      >
                         <Edit3 className="w-4 h-4" />
                       </button>
-                      <button onClick={() => deleteItem(record)} disabled={deletingId === record.id} className="p-2 rounded-xl bg-rose-50 text-rose-600 disabled:opacity-60">
-                        {deletingId === record.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
+                      <button
+                        onClick={() => deleteItem(record)}
+                        disabled={deletingId === record.id}
+                        className="p-2 rounded-xl bg-rose-50 text-rose-600 disabled:opacity-60"
+                      >
+                        {deletingId === record.id ? (
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                        ) : (
+                          <Trash2 className="w-4 h-4" />
+                        )}
                       </button>
                     </div>
                   </div>
@@ -444,10 +466,19 @@ export default function ApanelAnnouncements() {
       )}
 
       {activeTab === "editor" && (
-        <form onSubmit={saveItem} className="bg-white border border-gray-100 rounded-2xl shadow-xs p-6 space-y-6">
+        <form
+          onSubmit={saveItem}
+          className="bg-white border border-gray-100 rounded-2xl shadow-xs p-6 space-y-6"
+        >
           <div className="flex items-center justify-between gap-3">
-            <h2 className="font-black text-navy">{editingRecord ? "Edit Announcement" : "Add Announcement"}</h2>
-            <button type="button" onClick={() => setActiveTab("items")} className="p-2 rounded-xl bg-slate-50 text-gray-500">
+            <h2 className="font-black text-navy">
+              {editingRecord ? "Edit Announcement" : "Add Announcement"}
+            </h2>
+            <button
+              type="button"
+              onClick={() => setActiveTab("items")}
+              className="p-2 rounded-xl bg-slate-50 text-gray-500"
+            >
               <X className="w-4 h-4" />
             </button>
           </div>
@@ -457,25 +488,44 @@ export default function ApanelAnnouncements() {
               <span className="text-xs font-extrabold text-gray-500">Slug</span>
               <input
                 value={form.slug}
-                onChange={(e) => setForm((current) => ({ ...current, slug: slugify(e.target.value) }))}
+                onChange={(e) =>
+                  setForm((current) => ({
+                    ...current,
+                    slug: slugify(e.target.value),
+                  }))
+                }
                 required
                 className="w-full border border-gray-100 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-primary"
               />
             </label>
             <label className="space-y-1">
-              <span className="text-xs font-extrabold text-gray-500">Category Key</span>
+              <span className="text-xs font-extrabold text-gray-500">
+                Category Key
+              </span>
               <input
                 value={form.type}
-                onChange={(e) => setForm((current) => ({ ...current, type: slugify(e.target.value) || "announcements" }))}
+                onChange={(e) =>
+                  setForm((current) => ({
+                    ...current,
+                    type: slugify(e.target.value) || "announcements",
+                  }))
+                }
                 required
                 className="w-full border border-gray-100 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-primary"
               />
             </label>
             <label className="space-y-1">
-              <span className="text-xs font-extrabold text-gray-500">Priority</span>
+              <span className="text-xs font-extrabold text-gray-500">
+                Priority
+              </span>
               <select
                 value={form.priority}
-                onChange={(e) => setForm((current) => ({ ...current, priority: e.target.value }))}
+                onChange={(e) =>
+                  setForm((current) => ({
+                    ...current,
+                    priority: e.target.value,
+                  }))
+                }
                 className="w-full border border-gray-100 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-primary"
               >
                 <option value="normal">Normal</option>
@@ -483,30 +533,51 @@ export default function ApanelAnnouncements() {
               </select>
             </label>
             <label className="space-y-1">
-              <span className="text-xs font-extrabold text-gray-500">Starts At</span>
+              <span className="text-xs font-extrabold text-gray-500">
+                Starts At
+              </span>
               <input
                 type="date"
                 value={form.starts_at}
-                onChange={(e) => setForm((current) => ({ ...current, starts_at: e.target.value }))}
+                onChange={(e) =>
+                  setForm((current) => ({
+                    ...current,
+                    starts_at: e.target.value,
+                  }))
+                }
                 className="w-full border border-gray-100 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-primary"
               />
             </label>
             <label className="space-y-1">
-              <span className="text-xs font-extrabold text-gray-500">Ends At</span>
+              <span className="text-xs font-extrabold text-gray-500">
+                Ends At
+              </span>
               <input
                 type="date"
                 value={form.ends_at}
-                onChange={(e) => setForm((current) => ({ ...current, ends_at: e.target.value }))}
+                onChange={(e) =>
+                  setForm((current) => ({
+                    ...current,
+                    ends_at: e.target.value,
+                  }))
+                }
                 className="w-full border border-gray-100 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-primary"
               />
             </label>
             <label className="space-y-1">
-              <span className="text-xs font-extrabold text-gray-500">Views Count</span>
+              <span className="text-xs font-extrabold text-gray-500">
+                Views Count
+              </span>
               <input
                 type="number"
                 min="0"
                 value={form.views_count}
-                onChange={(e) => setForm((current) => ({ ...current, views_count: e.target.value }))}
+                onChange={(e) =>
+                  setForm((current) => ({
+                    ...current,
+                    views_count: e.target.value,
+                  }))
+                }
                 className="w-full border border-gray-100 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-primary"
               />
             </label>
@@ -514,18 +585,31 @@ export default function ApanelAnnouncements() {
 
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_220px] gap-4">
             <label className="space-y-1">
-              <span className="text-xs font-extrabold text-gray-500">Image URL or storage path</span>
+              <span className="text-xs font-extrabold text-gray-500">
+                Image URL or storage path
+              </span>
               <input
                 value={form.image}
-                onChange={(e) => setForm((current) => ({ ...current, image: e.target.value }))}
+                onChange={(e) =>
+                  setForm((current) => ({ ...current, image: e.target.value }))
+                }
                 placeholder="media/announcement.jpg"
                 className="w-full border border-gray-100 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-primary"
               />
             </label>
             <label className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-slate-50 border border-gray-100 rounded-xl text-xs font-extrabold text-navy cursor-pointer mt-5">
-              {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
+              {uploading ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                <Upload className="w-4 h-4" />
+              )}
               Upload Image
-              <input type="file" accept="image/*" className="hidden" onChange={handleImageUpload} />
+              <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleImageUpload}
+              />
             </label>
           </div>
 
@@ -533,7 +617,12 @@ export default function ApanelAnnouncements() {
             <input
               type="checkbox"
               checked={form.is_published}
-              onChange={(e) => setForm((current) => ({ ...current, is_published: e.target.checked }))}
+              onChange={(e) =>
+                setForm((current) => ({
+                  ...current,
+                  is_published: e.target.checked,
+                }))
+              }
             />
             Published
           </label>
@@ -553,76 +642,121 @@ export default function ApanelAnnouncements() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <label className="space-y-1">
-              <span className="text-xs font-extrabold text-gray-500">Title</span>
+              <span className="text-xs font-extrabold text-gray-500">
+                Title
+              </span>
               <input
                 value={form.translations[activeLocale].title}
                 onChange={(e) => {
                   updateTranslation(activeLocale, "title", e.target.value);
                   if (!editingRecord && activeLocale === "en") {
-                    setForm((current) => ({ ...current, slug: slugify(e.target.value) }));
+                    setForm((current) => ({
+                      ...current,
+                      slug: slugify(e.target.value),
+                    }));
                   }
                 }}
                 className="w-full border border-gray-100 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-primary"
               />
             </label>
             <label className="space-y-1">
-              <span className="text-xs font-extrabold text-gray-500">Category Label</span>
+              <span className="text-xs font-extrabold text-gray-500">
+                Category Label
+              </span>
               <input
                 value={form.translations[activeLocale].category_label}
-                onChange={(e) => updateTranslation(activeLocale, "category_label", e.target.value)}
+                onChange={(e) =>
+                  updateTranslation(
+                    activeLocale,
+                    "category_label",
+                    e.target.value,
+                  )
+                }
                 className="w-full border border-gray-100 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-primary"
               />
             </label>
           </div>
 
           <label className="space-y-1 block">
-            <span className="text-xs font-extrabold text-gray-500">Summary</span>
+            <span className="text-xs font-extrabold text-gray-500">
+              Summary
+            </span>
             <textarea
               value={form.translations[activeLocale].summary}
-              onChange={(e) => updateTranslation(activeLocale, "summary", e.target.value)}
+              onChange={(e) =>
+                updateTranslation(activeLocale, "summary", e.target.value)
+              }
               rows={3}
               className="w-full border border-gray-100 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-primary"
             />
           </label>
           <label className="space-y-1 block">
-            <span className="text-xs font-extrabold text-gray-500">Content</span>
+            <span className="text-xs font-extrabold text-gray-500">
+              Content
+            </span>
             <textarea
               value={form.translations[activeLocale].content}
-              onChange={(e) => updateTranslation(activeLocale, "content", e.target.value)}
+              onChange={(e) =>
+                updateTranslation(activeLocale, "content", e.target.value)
+              }
               rows={8}
               className="w-full border border-gray-100 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-primary"
             />
           </label>
 
-          <button disabled={saving} className="inline-flex items-center gap-2 bg-primary text-white px-5 py-3 rounded-xl text-xs font-extrabold disabled:opacity-60">
-            {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+          <button
+            disabled={saving}
+            className="inline-flex items-center gap-2 bg-primary text-white px-5 py-3 rounded-xl text-xs font-extrabold disabled:opacity-60"
+          >
+            {saving ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              <Save className="w-4 h-4" />
+            )}
             Save Announcement
           </button>
         </form>
       )}
 
       {activeTab === "settings" && (
-        <form onSubmit={saveSettings} className="bg-white border border-gray-100 rounded-2xl shadow-xs p-6 space-y-6">
+        <form
+          onSubmit={saveSettings}
+          className="bg-white border border-gray-100 rounded-2xl shadow-xs p-6 space-y-6"
+        >
           <h2 className="font-black text-navy">Announcement Settings</h2>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             {["home_limit", "recent_limit", "important_limit"].map((key) => (
               <label key={key} className="space-y-1">
-                <span className="text-xs font-extrabold text-gray-500">{key.replace(/_/g, " ")}</span>
+                <span className="text-xs font-extrabold text-gray-500">
+                  {key.replace(/_/g, " ")}
+                </span>
                 <input
                   type="number"
                   min="1"
                   max="12"
                   value={settingsForm[key]}
-                  onChange={(e) => setSettingsForm((current) => ({ ...current, [key]: Number(e.target.value) }))}
+                  onChange={(e) =>
+                    setSettingsForm((current) => ({
+                      ...current,
+                      [key]: Number(e.target.value),
+                    }))
+                  }
                   className="w-full border border-gray-100 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-primary"
                 />
               </label>
             ))}
             <label className="space-y-1">
-              <span className="text-xs font-extrabold text-gray-500">Active</span>
+              <span className="text-xs font-extrabold text-gray-500">
+                Active
+              </span>
               <select
                 value={settingsForm.is_active ? "1" : "0"}
-                onChange={(e) => setSettingsForm((current) => ({ ...current, is_active: e.target.value === "1" }))}
+                onChange={(e) =>
+                  setSettingsForm((current) => ({
+                    ...current,
+                    is_active: e.target.value === "1",
+                  }))
+                }
                 className="w-full border border-gray-100 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-primary"
               >
                 <option value="1">Active</option>
@@ -647,18 +781,29 @@ export default function ApanelAnnouncements() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {Object.keys(emptySettingsTranslation).map((key) => (
               <label key={key} className="space-y-1">
-                <span className="text-xs font-extrabold text-gray-500">{key.replace(/_/g, " ")}</span>
+                <span className="text-xs font-extrabold text-gray-500">
+                  {key.replace(/_/g, " ")}
+                </span>
                 <input
                   value={settingsForm.translations[activeLocale][key] || ""}
-                  onChange={(e) => updateSettingTranslation(activeLocale, key, e.target.value)}
+                  onChange={(e) =>
+                    updateSettingTranslation(activeLocale, key, e.target.value)
+                  }
                   className="w-full border border-gray-100 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-primary"
                 />
               </label>
             ))}
           </div>
 
-          <button disabled={savingSettings} className="inline-flex items-center gap-2 bg-primary text-white px-5 py-3 rounded-xl text-xs font-extrabold disabled:opacity-60">
-            {savingSettings ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+          <button
+            disabled={savingSettings}
+            className="inline-flex items-center gap-2 bg-primary text-white px-5 py-3 rounded-xl text-xs font-extrabold disabled:opacity-60"
+          >
+            {savingSettings ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              <Save className="w-4 h-4" />
+            )}
             Save Settings
           </button>
         </form>

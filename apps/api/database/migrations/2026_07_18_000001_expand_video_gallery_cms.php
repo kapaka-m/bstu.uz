@@ -40,7 +40,7 @@ return new class extends Migration
                 $table->id();
                 $table->string('key')->unique();
                 $table->unsignedSmallInteger('home_limit')->default(4);
-                $table->unsignedInteger('subscriber_count')->default(12480);
+                $table->unsignedInteger('subscriber_count')->default(0);
                 $table->string('youtube_channel_url')->nullable();
                 $table->boolean('is_active')->default(true);
                 $table->timestamps();

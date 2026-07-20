@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Award,
   Target,
@@ -21,13 +21,31 @@ import {
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useLanguage } from "../context/LanguageContext";
+import { administrationService } from "../services/administrationService";
 
 export default function AboutPage() {
   const { t, language } = useLanguage();
+  const [rectorProfile, setRectorProfile] = useState(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  useEffect(() => {
+    let alive = true;
+    administrationService
+      .getProfile("rector")
+      .then((profile) => {
+        if (alive) setRectorProfile(profile);
+      })
+      .catch(() => {
+        if (alive) setRectorProfile(null);
+      });
+
+    return () => {
+      alive = false;
+    };
+  }, [language]);
 
   const stats = [
     {
@@ -564,30 +582,26 @@ export default function AboutPage() {
               {/* Photo */}
               <div className="lg:col-span-4 flex flex-col items-center">
                 <div className="relative w-64 h-64 md:w-72 md:h-72 rounded-3xl overflow-hidden shadow-xl border-4 border-white bg-gray-50">
-                  <img
-                    src="/assets/img/administrator/Siddikova Sadokat Ghaforovna.jpg"
-                    alt={t("about.rector.name")}
-                    className="w-full h-full object-cover"
-                  />
+                  {rectorProfile?.image ? (
+                    <img
+                      src={rectorProfile.image}
+                      alt={rectorProfile.name || ""}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-primary/10" />
+                  )}
                   <div className="absolute inset-0 bg-linear-to-t from-navy/60 via-transparent to-transparent" />
                 </div>
                 <div className="text-center mt-5">
                   <h4 className="text-lg font-extrabold text-navy font-heading">
-                    {t("about.rector.name")}
+                    {rectorProfile?.name || t("about.rector.name")}
                   </h4>
                   <p className="text-xs text-primary font-bold uppercase tracking-wider mt-1 font-heading">
-                    {t("about.facultiesList.engineeringDean")
-                      .split(" ")
-                      .slice(-1)[0] === "Nematov"
-                      ? "Rector"
-                      : t("nav.home") === "Bosh sahifa"
-                        ? "Rektor"
-                        : t("nav.home") === "Главная"
-                          ? "Ректор"
-                          : "رئيسة الجامعة"}
+                    {rectorProfile?.position || rectorProfile?.title || t("about.rector.name")}
                   </p>
                   <p className="text-[10px] text-gray-400 font-semibold mt-0.5">
-                    {t("about.rector.degree")}
+                    {rectorProfile?.degree || t("about.rector.degree")}
                   </p>
                 </div>
               </div>

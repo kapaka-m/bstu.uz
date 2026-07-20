@@ -101,7 +101,7 @@ export default function AnnouncementsPage() {
       },
       {
         all: {
-          name: settings?.all_label || "All",
+          name: settings?.all_label || "",
           count: announcements.length,
           value: "all",
         },
@@ -157,7 +157,7 @@ export default function AnnouncementsPage() {
                           className={`absolute top-4 ${language === "ar" ? "left-4" : "right-4"} z-20 bg-amber-500 text-white text-[9px] font-extrabold uppercase px-2 py-0.5 rounded-md shadow-xs flex items-center gap-1`}
                         >
                           <Sparkles className="w-2.5 h-2.5" />
-                          {settings?.important_label || "IMPORTANT"}
+                          {settings?.important_label || ""}
                         </div>
                       )}
 

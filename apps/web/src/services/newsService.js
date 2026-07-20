@@ -1,4 +1,23 @@
 import { api } from "../lib/api";
+import { localeStorage } from "../lib/locale";
+
+const CACHE_TTL_MS = 30000;
+const responseCache = new Map();
+
+const cached = (key, fetcher) => {
+  const locale = localeStorage.getLocale();
+  const cacheKey = `${locale}:${key}`;
+  const cachedEntry = responseCache.get(cacheKey);
+
+  if (cachedEntry && Date.now() - cachedEntry.time < CACHE_TTL_MS) {
+    return Promise.resolve(cachedEntry.value);
+  }
+
+  return fetcher().then((value) => {
+    responseCache.set(cacheKey, { time: Date.now(), value });
+    return value;
+  });
+};
 
 const normalizeNewsItem = (item = {}) => ({
   ...item,
@@ -28,13 +47,15 @@ const normalizeNewsList = (response) => {
 
 export const newsService = {
   getSettings() {
-    return api.get("/news-events/settings").then((res) => res.data || {});
+    return cached("news-events/settings", () =>
+      api.get("/news-events/settings").then((res) => res.data || {}),
+    );
   },
 
   getNews(params = {}) {
     const query = new URLSearchParams(params).toString();
     const url = `/news${query ? "?" + query : ""}`;
-    return api.get(url).then(normalizeNewsList);
+    return cached(url, () => api.get(url).then(normalizeNewsList));
   },
 
   getNewsItem(slug, params = {}) {

@@ -21,15 +21,14 @@ export default function RecentBlog() {
 
     const loadBlog = async () => {
       try {
-        const nextSettings = await blogService.getSettings();
-        const response = await blogService.getBlog({
-          per_page: Number(nextSettings.home_limit || 3),
-          page: 1,
-        });
+        const [nextSettings, response] = await Promise.all([
+          blogService.getSettings(),
+          blogService.getBlog({ per_page: 12, page: 1 }),
+        ]);
 
         if (alive) {
           setSettings(nextSettings);
-          setRecentPosts(response.items || []);
+          setRecentPosts((response.items || []).slice(0, Number(nextSettings.home_limit || 3)));
         }
       } catch (err) {
         console.error("Failed to load recent blog posts", err);

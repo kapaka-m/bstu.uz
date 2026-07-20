@@ -1,4 +1,23 @@
 import { api } from "../lib/api";
+import { localeStorage } from "../lib/locale";
+
+const CACHE_TTL_MS = 30000;
+const responseCache = new Map();
+
+const cached = (key, fetcher) => {
+  const locale = localeStorage.getLocale();
+  const cacheKey = `${locale}:${key}`;
+  const cachedEntry = responseCache.get(cacheKey);
+
+  if (cachedEntry && Date.now() - cachedEntry.time < CACHE_TTL_MS) {
+    return Promise.resolve(cachedEntry.value);
+  }
+
+  return fetcher().then((value) => {
+    responseCache.set(cacheKey, { time: Date.now(), value });
+    return value;
+  });
+};
 
 const unwrap = (response) => response?.data ?? response;
 
@@ -29,8 +48,8 @@ const normalizeAnnouncement = (item = {}) => ({
   excerpt: item.summary || item.excerpt || "",
   summary: item.summary || item.excerpt || "",
   content: item.content || "",
-  category: item.category || item.type || "announcements",
-  category_label: item.category_label || item.category || item.type || "Announcements",
+  category: item.category || item.type || "",
+  category_label: item.category_label || item.category || item.type || "",
   views: Number(item.views_count ?? item.views ?? 0),
   views_count: Number(item.views_count ?? item.views ?? 0),
   image: item.image_url || item.image || "",
@@ -45,7 +64,9 @@ const normalizeAnnouncement = (item = {}) => ({
 
 export const announcementService = {
   getSettings() {
-    return api.get("/announcements/settings").then((res) => unwrap(res));
+    return cached("announcements/settings", () =>
+      api.get("/announcements/settings").then((res) => unwrap(res)),
+    );
   },
 
   getAnnouncements(options = {}) {
@@ -58,9 +79,8 @@ export const announcementService = {
     });
 
     const query = params.toString();
-    return api
-      .get(`/announcements${query ? `?${query}` : ""}`)
-      .then(normalizeList);
+    const path = `/announcements${query ? `?${query}` : ""}`;
+    return cached(path, () => api.get(path).then(normalizeList));
   },
 
   getAnnouncement(slug) {

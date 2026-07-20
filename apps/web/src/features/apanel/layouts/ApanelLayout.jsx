@@ -30,6 +30,7 @@ import {
   Image,
   Leaf,
   Shield,
+  UsersRound,
   PanelBottom,
   MailPlus,
   X,
@@ -109,6 +110,11 @@ export default function ApanelLayout({ children }) {
           path: "/apanel/cms/green-campus",
           label: "Green Campus",
           icon: Leaf,
+        },
+        {
+          path: "/apanel/cms/administration",
+          label: "Administration",
+          icon: UsersRound,
         },
         {
           path: "/apanel/newsletter/subscriptions",

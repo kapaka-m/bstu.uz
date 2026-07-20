@@ -129,6 +129,14 @@ export const apanelService = {
     return api.put("/apanel/cms/green-campus/settings", payload).then(unwrapPayload);
   },
 
+  getAdministrationSettings() {
+    return api.get("/apanel/cms/administration/settings").then(unwrapPayload);
+  },
+
+  updateAdministrationSettings(payload) {
+    return api.put("/apanel/cms/administration/settings", payload).then(unwrapPayload);
+  },
+
   uploadMedia(file, metadata = {}) {
     const formData = new FormData();
     formData.append("file", file);
@@ -162,6 +170,7 @@ export const apanelService = {
         newsletterSubscriptions,
         greenCampusArticles,
         greenCampusStats,
+        administrationProfiles,
         media,
         pendingDocs,
         supportTickets,
@@ -181,6 +190,7 @@ export const apanelService = {
         this.list("newsletter-subscriptions", { per_page: 1 }).catch(() => ({ total: 0 })),
         this.list("green-campus-articles", { per_page: 1 }).catch(() => ({ total: 0 })),
         this.list("green-campus-stats", { per_page: 1 }).catch(() => ({ total: 0 })),
+        this.list("administration-profiles", { per_page: 1 }).catch(() => ({ total: 0 })),
         this.list("media", { per_page: 1 }).catch(() => ({ total: 0 })),
         this.list("application-documents", { per_page: 1, status: "pending" }).catch(() => ({ total: 0 })),
         this.list("support-tickets", { per_page: 1 }).catch(() => ({ total: 0 })),
@@ -203,6 +213,7 @@ export const apanelService = {
           newsletterSubscriptions: pageTotal(newsletterSubscriptions),
           greenCampusArticles: pageTotal(greenCampusArticles),
           greenCampusStats: pageTotal(greenCampusStats),
+          administrationProfiles: pageTotal(administrationProfiles),
           media: pageTotal(media),
           pendingDocuments: pageTotal(pendingDocs),
           supportTickets: pageTotal(supportTickets),
@@ -214,7 +225,7 @@ export const apanelService = {
     } catch (err) {
       console.error("Dashboard stats failed", err);
       return {
-        stats: { users: 0, applications: 0, programs: 0, inquiries: 0, comments: 0 },
+        stats: { users: 0, applications: 0, programs: 0, administrationProfiles: 0, inquiries: 0, comments: 0 },
         recentLogs: []
       };
     }

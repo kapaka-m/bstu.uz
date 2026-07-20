@@ -17,6 +17,7 @@ import {
   Video,
   Leaf,
   Megaphone,
+  UsersRound,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -34,6 +35,7 @@ export default function ApanelDashboard() {
     newsletterSubscriptions: 0,
     greenCampusArticles: 0,
     greenCampusStats: 0,
+    administrationProfiles: 0,
     media: 0,
     pendingDocuments: 0,
     supportTickets: 0,
@@ -128,6 +130,13 @@ export default function ApanelDashboard() {
       icon: Leaf,
       color: "text-emerald-700 bg-emerald-50 border-emerald-100",
       path: "/apanel/cms/green-campus",
+    },
+    {
+      label: "Administration",
+      val: stats.administrationProfiles,
+      icon: UsersRound,
+      color: "text-slate-700 bg-slate-50 border-slate-100",
+      path: "/apanel/cms/administration",
     },
     {
       label: "Newsletter Subscriptions",

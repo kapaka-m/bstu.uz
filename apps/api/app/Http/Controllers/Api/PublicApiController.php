@@ -9,6 +9,8 @@ use App\Http\Resources\LocalizedCollection;
 use App\Http\Resources\LocalizedResource;
 use App\Models\Announcement;
 use App\Models\AnnouncementSetting;
+use App\Models\AdministrationProfile;
+use App\Models\AdministrationSetting;
 use App\Models\Blog;
 use App\Models\BlogComment;
 use App\Models\BlogSetting;
@@ -202,6 +204,108 @@ class PublicApiController extends Controller
         }
 
         return $this->successResponse($payload, 'Public footer content retrieved successfully');
+    }
+
+    public function administrationSettings(Request $request)
+    {
+        $locale = $this->getRequestLocale($request);
+        $payload = $this->publicCache($request, 'administration-settings', [$locale], function () use ($locale) {
+            $setting = AdministrationSetting::where('key', 'main')
+                ->where('is_active', true)
+                ->with('translations')
+                ->first();
+
+            if (! $setting) {
+                return null;
+            }
+
+            $translation = $setting->translations->firstWhere('locale', $locale)
+                ?: $setting->translations->firstWhere('locale', 'en');
+
+            return array_merge([
+                'key' => $setting->key,
+                'home_limit' => $setting->home_limit,
+                'is_active' => $setting->is_active,
+            ], $translation?->only([
+                'home_tag',
+                'home_title',
+                'reception_label',
+                'phone_label',
+                'email_label',
+                'telegram_label',
+                'rector_bot_label',
+                'structure_title',
+            ]) ?: []);
+        });
+
+        if (! $payload) {
+            return $this->errorResponse('Administration settings not found', 404);
+        }
+
+        return $this->successResponse($payload, 'Administration settings retrieved successfully');
+    }
+
+    public function administration(Request $request)
+    {
+        $locale = $this->getRequestLocale($request);
+        $limit = $request->filled('limit') ? max(1, min((int) $request->query('limit'), 50)) : null;
+
+        $items = $this->publicCache($request, 'administration-list', [$locale, $limit], function () use ($request, $locale, $limit) {
+            $query = AdministrationProfile::where('is_published', true)
+                ->with('translations')
+                ->orderBy('sort_order')
+                ->orderBy('id');
+
+            if ($limit) {
+                $query->limit($limit);
+            }
+
+            return $query->get()
+                ->map(fn (AdministrationProfile $profile) => $this->formatAdministrationProfile($request, $profile, $locale))
+                ->values()
+                ->all();
+        });
+
+        return response()->json([
+            'locale' => $locale,
+            'direction' => $locale === 'ar' ? 'rtl' : 'ltr',
+            'data' => $items,
+        ]);
+    }
+
+    public function administrationProfile(Request $request, string $slug)
+    {
+        $locale = $this->getRequestLocale($request);
+        $profile = AdministrationProfile::where('slug', $slug)
+            ->where('is_published', true)
+            ->with('translations')
+            ->first();
+
+        if (! $profile) {
+            return $this->errorResponse("Administration profile '{$slug}' not found", 404);
+        }
+
+        return response()->json([
+            'locale' => $locale,
+            'direction' => $locale === 'ar' ? 'rtl' : 'ltr',
+            'data' => $this->formatAdministrationProfile($request, $profile, $locale),
+        ]);
+    }
+
+    protected function formatAdministrationProfile(Request $request, AdministrationProfile $profile, string $locale): array
+    {
+        $data = $this->withPublicImageUrl($this->localizedData($request, $profile, $locale), 'photo');
+        $data['id'] = $profile->id;
+        $data['slug'] = $profile->slug;
+        $data['path'] = '/profile/'.$profile->slug;
+        $data['name'] = $data['full_name'] ?? '';
+        $data['title'] = $data['position'] ?? '';
+        $data['image'] = $data['photo_url'] ?? $data['photo'] ?? null;
+        $data['officeHours'] = $data['office_hours'] ?? null;
+        $data['about'] = $data['about'] ?? null;
+        $data['telegram'] = $profile->telegram_url;
+
+        return $data;
     }
 
     public function newsEventSettings(Request $request)
@@ -1040,7 +1144,7 @@ class PublicApiController extends Controller
         $data['slug'] = $item->slug;
         $data['type'] = $item->type;
         $data['category'] = $item->type;
-        $data['category_label'] = $translation?->category_label ?: ucfirst((string) $item->type);
+        $data['category_label'] = $translation?->category_label ?: '';
         $data['image'] = $item->image;
         $data['image_url'] = $this->newsImageUrl($item->image);
         $data['starts_at'] = $item->starts_at?->toDateString();
@@ -1395,10 +1499,17 @@ class PublicApiController extends Controller
     public function greenCampusStats(Request $request)
     {
         $locale = $this->getRequestLocale($request);
-        $stats = GreenCampusStat::with('translations')->orderBy('sort_order')->get();
+        $payload = $this->publicCache($request, 'green-campus-stats', [$locale], function () use ($locale) {
+            $stats = GreenCampusStat::with('translations')->orderBy('sort_order')->get();
+
+            return $stats
+                ->map(fn (GreenCampusStat $stat) => $this->formatGreenCampusStat($stat, $locale))
+                ->values()
+                ->all();
+        });
 
         return $this->successResponse(
-            $stats->map(fn (GreenCampusStat $stat) => $this->formatGreenCampusStat($stat, $locale))->values()->all(),
+            $payload,
             'Green campus stats retrieved successfully'
         );
     }
@@ -1487,15 +1598,22 @@ class PublicApiController extends Controller
     public function greenCampusArticles(Request $request)
     {
         $locale = $this->getRequestLocale($request);
-        $articles = GreenCampusArticle::with('translations')
-            ->where('is_published', true)
-            ->orderBy('sort_order')
-            ->orderByDesc('published_at')
-            ->orderByDesc('created_at')
-            ->get();
+        $payload = $this->publicCache($request, 'green-campus-articles', [$locale], function () use ($locale) {
+            $articles = GreenCampusArticle::with('translations')
+                ->where('is_published', true)
+                ->orderBy('sort_order')
+                ->orderByDesc('published_at')
+                ->orderByDesc('created_at')
+                ->get();
+
+            return $articles
+                ->map(fn (GreenCampusArticle $article) => $this->formatGreenCampusArticle($article, $locale))
+                ->values()
+                ->all();
+        });
 
         return $this->successResponse(
-            $articles->map(fn (GreenCampusArticle $article) => $this->formatGreenCampusArticle($article, $locale))->values()->all(),
+            $payload,
             'Green campus articles retrieved successfully'
         );
     }

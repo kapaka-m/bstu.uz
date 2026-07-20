@@ -34,6 +34,7 @@ class DatabaseSeeder extends Seeder
             ServiceSeeder::class,
             VideoSeeder::class,
             GreenCampusSeeder::class,
+            AdministrationSeeder::class,
             SettingSeeder::class,
             WebFooterSeeder::class,
         ]);

@@ -52,7 +52,7 @@ export function cmsId(item) {
   return String(item?.slug || item?.id || item?.code || "");
 }
 
-export function cmsTitle(item, fallback = "Untitled") {
+export function cmsTitle(item, fallback = "") {
   return textValue(item?.title || item?.name || item?.heading, fallback);
 }
 
@@ -68,7 +68,7 @@ export function cmsExcerpt(item, fallback = "") {
   );
 }
 
-export function cmsCategory(item, fallback = "General") {
+export function cmsCategory(item, fallback = "") {
   return textValue(item?.category || item?.type || item?.status, fallback);
 }
 

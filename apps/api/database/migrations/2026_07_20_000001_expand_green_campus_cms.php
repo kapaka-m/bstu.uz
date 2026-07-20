@@ -31,7 +31,7 @@ return new class extends Migration
             })
             ->whereNull('green_campus_articles.category')
             ->update([
-                'green_campus_articles.category' => DB::raw("COALESCE(green_campus_article_translations.category, 'sustainability')"),
+                'green_campus_articles.category' => DB::raw("COALESCE(green_campus_article_translations.category, '')"),
                 'green_campus_articles.published_at' => DB::raw('green_campus_articles.created_at'),
             ]);
 

@@ -4,12 +4,15 @@ import { Menu, X, ChevronDown, LogIn, Globe } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
 import { visibleCentersData } from "../data/universityData";
+import { administrationService } from "../services/administrationService";
 
 export default function Header() {
   const [isSticky, setIsSticky] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [openDropdowns, setOpenDropdowns] = useState({});
   const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
+  const [administrationLinks, setAdministrationLinks] = useState([]);
+  const [administrationSettings, setAdministrationSettings] = useState(null);
 
   const { language, changeLanguage, t, logoSrc } = useLanguage();
   const location = useLocation();
@@ -37,6 +40,23 @@ export default function Header() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  useEffect(() => {
+    let alive = true;
+
+    Promise.all([
+      administrationService.getSettings().catch(() => null),
+      administrationService.getProfiles().catch(() => []),
+    ]).then(([settings, profiles]) => {
+      if (!alive) return;
+      setAdministrationSettings(settings || null);
+      setAdministrationLinks(profiles || []);
+    });
+
+    return () => {
+      alive = false;
+    };
+  }, [language]);
 
   const handleLinkClick = () => {
     setIsMobileMenuOpen(false);
@@ -370,45 +390,18 @@ export default function Header() {
                 {/* Column 1: Administration */}
                 <div className="flex flex-col gap-2.5">
                   <span className="text-xs font-extrabold uppercase tracking-wider text-primary">
-                    {t("common.administration", "Administration")}
+                    {administrationSettings?.structure_title || t("common.administration", "Administration")}
                   </span>
                   <div className="flex flex-col gap-1.5 border-t border-gray-50 pt-2 text-[11px] leading-snug text-navy font-semibold">
-                    <Link
-                      to="/profile/rector"
-                      className="hover:text-primary transition-colors py-0.5"
-                    >
-                      {t("home.leadership.roles.rector")}
-                    </Link>
-                    <Link
-                      to="/profile/vice-rector-academic"
-                      className="hover:text-primary transition-colors py-0.5"
-                    >
-                      {t("home.leadership.roles.academic")}
-                    </Link>
-                    <Link
-                      to="/profile/vice-rector-research"
-                      className="hover:text-primary transition-colors py-0.5"
-                    >
-                      {t("home.leadership.roles.research")}
-                    </Link>
-                    <Link
-                      to="/profile/vice-rector-youth"
-                      className={`hover:text-primary transition-colors py-0.5 ${language === "ar" ? "text-xs leading-normal font-semibold" : "leading-tight font-medium"}`}
-                    >
-                      {t("home.leadership.roles.youth")}
-                    </Link>
-                    <Link
-                      to="/profile/vice-rector-international"
-                      className="hover:text-primary transition-colors py-0.5"
-                    >
-                      {t("home.leadership.roles.international")}
-                    </Link>
-                    <Link
-                      to="/profile/vice-rector-finance"
-                      className="hover:text-primary transition-colors py-0.5"
-                    >
-                      {t("home.leadership.roles.finance")}
-                    </Link>
+                    {administrationLinks.map((item) => (
+                      <Link
+                        key={item.slug}
+                        to={item.path}
+                        className={`hover:text-primary transition-colors py-0.5 ${language === "ar" ? "text-xs leading-normal font-semibold" : "leading-tight font-medium"}`}
+                      >
+                        {item.position || item.title || item.name}
+                      </Link>
+                    ))}
                   </div>
                 </div>
 
@@ -667,51 +660,19 @@ export default function Header() {
                     {/* Administration */}
                     <div className="flex flex-col gap-1">
                       <span className="text-xs font-extrabold text-primary py-1 uppercase tracking-wider text-start">
-                        {t("common.administration", "Administration")}
+                        {administrationSettings?.structure_title || t("common.administration", "Administration")}
                       </span>
                       <div className="flex flex-col gap-1.5 border-s ps-2 ms-1 text-start text-xs text-gray-500 font-bold">
-                        <Link
-                          to="/profile/rector"
-                          onClick={handleLinkClick}
-                          className="hover:text-primary py-0.5"
-                        >
-                          {t("home.leadership.roles.rector")}
-                        </Link>
-                        <Link
-                          to="/profile/vice-rector-academic"
-                          onClick={handleLinkClick}
-                          className="hover:text-primary py-0.5"
-                        >
-                          {t("home.leadership.roles.academic")}
-                        </Link>
-                        <Link
-                          to="/profile/vice-rector-research"
-                          onClick={handleLinkClick}
-                          className="hover:text-primary py-0.5"
-                        >
-                          {t("home.leadership.roles.research")}
-                        </Link>
-                        <Link
-                          to="/profile/vice-rector-youth"
-                          onClick={handleLinkClick}
-                          className={`hover:text-primary py-0.5 ${language === "ar" ? "text-sm leading-normal font-semibold" : "leading-tight font-medium"}`}
-                        >
-                          {t("home.leadership.roles.youth")}
-                        </Link>
-                        <Link
-                          to="/profile/vice-rector-international"
-                          onClick={handleLinkClick}
-                          className="hover:text-primary py-0.5"
-                        >
-                          {t("home.leadership.roles.international")}
-                        </Link>
-                        <Link
-                          to="/profile/vice-rector-finance"
-                          onClick={handleLinkClick}
-                          className="hover:text-primary py-0.5"
-                        >
-                          {t("home.leadership.roles.finance")}
-                        </Link>
+                        {administrationLinks.map((item) => (
+                          <Link
+                            key={item.slug}
+                            to={item.path}
+                            onClick={handleLinkClick}
+                            className={`hover:text-primary py-0.5 ${language === "ar" ? "text-sm leading-normal font-semibold" : "leading-tight font-medium"}`}
+                          >
+                            {item.position || item.title || item.name}
+                          </Link>
+                        ))}
                       </div>
                     </div>
 

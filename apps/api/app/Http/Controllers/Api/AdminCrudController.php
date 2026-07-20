@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Announcement;
 use App\Models\AnnouncementSetting;
+use App\Models\AdministrationProfile;
+use App\Models\AdministrationSetting;
 use App\Models\Application;
 use App\Models\ApplicationDocument;
 use App\Models\ApplicationStatusHistory;
@@ -88,6 +90,7 @@ class AdminCrudController extends Controller
         'blogs' => Blog::class,
         'newsletter-subscriptions' => NewsletterSubscription::class,
         'announcements' => Announcement::class,
+        'administration-profiles' => AdministrationProfile::class,
         'staff' => StaffProfile::class,
         'services' => Service::class,
         'videos' => Video::class,
@@ -202,7 +205,7 @@ class AdminCrudController extends Controller
             $query->with(['studentProfile.user', 'program.translations', 'faculty.translations', 'department.translations']);
         }
 
-        if (in_array($resource, ['news', 'blogs', 'videos', 'announcements', 'green-campus-stats', 'green-campus-articles'], true)) {
+        if (in_array($resource, ['news', 'blogs', 'videos', 'announcements', 'administration-profiles', 'green-campus-stats', 'green-campus-articles'], true)) {
             $query->with('translations');
         }
 
@@ -1136,6 +1139,60 @@ class AdminCrudController extends Controller
         });
     }
 
+    public function showAdministrationSettings(Request $request)
+    {
+        $setting = AdministrationSetting::with('translations')->firstOrCreate(
+            ['key' => 'main'],
+            ['home_limit' => 6, 'is_active' => true]
+        );
+
+        return $this->successResponse($setting, 'Administration settings retrieved');
+    }
+
+    public function updateAdministrationSettings(Request $request)
+    {
+        $rules = [
+            'home_limit' => 'required|integer|min:1|max:20',
+            'is_active' => 'boolean',
+            'translations' => 'required|array',
+            'translations.*.home_tag' => 'nullable|string|max:255',
+            'translations.*.home_title' => 'nullable|string|max:255',
+            'translations.*.reception_label' => 'nullable|string|max:255',
+            'translations.*.phone_label' => 'nullable|string|max:255',
+            'translations.*.email_label' => 'nullable|string|max:255',
+            'translations.*.telegram_label' => 'nullable|string|max:255',
+            'translations.*.rector_bot_label' => 'nullable|string|max:255',
+            'translations.*.structure_title' => 'nullable|string|max:255',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return $this->errorResponse('Validation failed', 422, $validator->errors()->toArray());
+        }
+
+        return DB::transaction(function () use ($validator) {
+            $data = $validator->validated();
+            $setting = AdministrationSetting::with('translations')->firstOrCreate(['key' => 'main']);
+            $oldValues = $setting->toArray();
+
+            $setting->update([
+                'home_limit' => $data['home_limit'],
+                'is_active' => $data['is_active'] ?? true,
+            ]);
+
+            foreach ($data['translations'] as $locale => $fields) {
+                $fields['locale'] = $locale;
+                $setting->translations()->updateOrCreate(['locale' => $locale], $fields);
+            }
+
+            $this->refreshPublicContentCacheVersion('administration-settings');
+            $this->logAction('update', AdministrationSetting::class, $setting->id, $oldValues, $setting->fresh('translations')->toArray());
+
+            return $this->successResponse($setting->fresh('translations'), 'Administration settings updated');
+        });
+    }
+
     /**
      * Create audit log entry.
      */
@@ -1189,6 +1246,8 @@ class AdminCrudController extends Controller
             'news',
             'blogs',
             'announcements',
+            'administration-profiles',
+            'administration-settings',
             'staff',
             'services',
             'videos',
@@ -1404,6 +1463,25 @@ class AdminCrudController extends Controller
                     'translations.*.category_label' => 'nullable|string|max:255',
                     'translations.*.summary' => 'nullable|string',
                     'translations.*.content' => 'nullable|string',
+                ];
+            case 'administration-profiles':
+                return [
+                    'slug' => 'required|string|unique:administration_profiles,slug,'.$id,
+                    'photo' => 'nullable|string',
+                    'email' => 'nullable|email',
+                    'phone' => 'nullable|string|max:255',
+                    'telegram_url' => 'nullable|string|max:255',
+                    'sort_order' => 'integer',
+                    'is_rector' => 'boolean',
+                    'is_published' => 'boolean',
+                    'translations' => 'required|array',
+                    'translations.*.full_name' => 'required|string|max:255',
+                    'translations.*.position' => 'required|string|max:255',
+                    'translations.*.degree' => 'nullable|string|max:255',
+                    'translations.*.office_hours' => 'nullable|string|max:255',
+                    'translations.*.about' => 'nullable|string',
+                    'translations.*.details' => 'nullable|string',
+                    'translations.*.achievements' => 'nullable|array',
                 ];
             case 'staff':
                 return [

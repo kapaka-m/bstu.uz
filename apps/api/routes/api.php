@@ -29,6 +29,9 @@ Route::prefix('v1')->group(function () {
         Route::get('/settings', [PublicApiController::class, 'settings']);
         Route::get('/settings/public', [PublicApiController::class, 'settings']);
         Route::get('/footer-web', [PublicApiController::class, 'footerWeb']);
+        Route::get('/administration/settings', [PublicApiController::class, 'administrationSettings']);
+        Route::get('/administration', [PublicApiController::class, 'administration']);
+        Route::get('/administration/{slug}', [PublicApiController::class, 'administrationProfile']);
         Route::get('/news-events/settings', [PublicApiController::class, 'newsEventSettings']);
         Route::get('/menus', [PublicApiController::class, 'menus']);
         Route::get('/menus/{location}', [PublicApiController::class, 'menu']);
@@ -130,6 +133,8 @@ Route::prefix('v1')->group(function () {
         Route::put('cms/video-bdtu/settings', [AdminCrudController::class, 'updateVideoGallerySettings']);
         Route::get('cms/green-campus/settings', [AdminCrudController::class, 'showGreenCampusSettings']);
         Route::put('cms/green-campus/settings', [AdminCrudController::class, 'updateGreenCampusSettings']);
+        Route::get('cms/administration/settings', [AdminCrudController::class, 'showAdministrationSettings']);
+        Route::put('cms/administration/settings', [AdminCrudController::class, 'updateAdministrationSettings']);
         Route::get('{resource}', [AdminCrudController::class, 'index']);
         Route::post('{resource}', [AdminCrudController::class, 'store'])->middleware('throttle:uploads');
         Route::get('{resource}/{id}', [AdminCrudController::class, 'show']);

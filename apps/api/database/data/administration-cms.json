@@ -1,0 +1,392 @@
+{
+  "profiles": [
+    {
+      "slug": "rector",
+      "photo": "/assets/img/administrator/Siddikova%20Sadokat%20Ghaforovna.jpg",
+      "email": "rektor@bstu.uz",
+      "phone": "+998 65 223 78 84",
+      "telegram_url": "https://t.me/bdtu_rektor_bot",
+      "sort_order": 1,
+      "is_rector": true,
+      "is_published": true,
+      "translations": {
+        "en": {
+          "full_name": "Sadoqat Gafforovna Siddiqova",
+          "position": "Rector of the University",
+          "degree": "Doctor of Philosophy (PhD) in Pedagogical Sciences",
+          "office_hours": "Friday at 3:00 pm.- 5:00 pm",
+          "about": "Dr. Sadoqat G. Siddikova holds a PhD in Pedagogical Sciences. Appointed in August 2023, she leads BSTU through its strategic digital education initiatives and structural modernization reforms. Previously, she served as the Rector of the Bukhara Engineering and Technology Institute, Deputy Head of the Bukhara Regional Employment Department, and Director of the 'Ishga Marhamat' Monocenter. Dr. Siddikova is actively involved in public life as a deputy of the Regional Council of People's Deputies and Chair of the Executive Committee of the Bukhara Regional Ecological Party. She is the author of over 40 scientific articles focusing on education quality and industrial digitization.",
+          "details": "Organizing the implementation of the laws of the Republic of Uzbekistan, decrees and orders of the President, and decisions of the Oliy Majlis and the Cabinet of Ministers in the field of education and personnel training; Ensuring the preparation of highly qualified specialists with high moral and ethical qualities, capable of independent thinking, and possessing skills to organize work in market conditions; Organizing the training of highly qualified personnel based on state educational standards; Ensuring the fulfillment of tasks defined in the Law \"On Education of the Republic of Uzbekistan\" and the \"National Program for Personnel Training\" at the higher education institution; Defining the powers of all structural units of the higher education institution, planning, coordinating, managing their activities, preparing suitable personnel for management positions at the institution, selecting staff, recommending candidates for leadership positions, and hiring; Providing material and moral incentives for employees, ensuring social protection, and applying disciplinary measures; Supervising the formation of revenues of higher education institutions and their effective use; Organizing scientific research work, increasing their efficiency, and widely introducing the results of research into practice; ensuring integration between higher education, science, and production; Organizing the creation, translation, and publication of textbooks and educational-methodical literature in accordance with the concept of creating a new generation of educational literature for the system of continuous education; Introducing advanced teaching methods in the educational process, including distance learning, new pedagogical and information-communication technologies, and organizing their effective use; Leading spiritual, educational, and upbringing activities, shaping the national idea among staff and students; Managing admission of students, graduate students, and trainee researchers to the university, expulsion, reinstatement, and ensuring compliance with internal regulations; Ensuring professional development of professors and teaching staff.",
+          "achievements": [
+            "Awarded the prestigious national 'Shuhrat' medal in 2018.",
+            "Winner of the 'Best Idea Initiator of the Year' category in the Woman of the Year competition (2024).",
+            "Successfully led the integration of the Bukhara Engineering-Technological Institute and Bukhara Institute of Natural Resources Management into the unified BSTU.",
+            "Author of 4 major educational methodology manuals and over 40 indexed research articles."
+          ]
+        },
+        "uz": {
+          "full_name": "Sadoqat Gafforovna Siddiqova",
+          "position": "Universitet rektori",
+          "degree": "Pedagogika fanlari bo'yicha falsafa doktori (PhD)",
+          "office_hours": "Juma, 15:00 - 17:00",
+          "about": "Dr. Sadoqat G. Siddikova pedagogika fanlari bo'yicha falsafa doktori (PhD) darajasiga ega. U 2023-yil avgust oyidan buyon BSTUda strategik raqamli ta'lim tashabbuslari va institutsional modernizatsiya islohotlariga rahbarlik qilib kelmoqda. Bungacha Buxoro muhandislik-texnologiya instituti rektori, Buxoro viloyat bandlik boshqarmasi boshlig'i o'rinbosari va «Ishga marhamat» monomarkazi direktori lavozimlarida faoliyat yuritgan. Dr. Siddikova jamoat hayotida ham faol bo'lib, xalq deputatlari viloyat kengashi deputati va Buxoro viloyat ekologik partiyasi ijroiya qo'mitasi raisi sifatida ishlagan. U ta'lim sifati va sanoatni raqamlashtirish bo'yicha 40 dan ortiq ilmiy maqolalar muallifidir.",
+          "details": "O'quv yurtida ta'lim va kadrlar tayyorlash sohasida O'zbekiston Respublikasi qonunlari, Prezident farmonlari va farmoyishlari, Oliy Majlis va Vazirlar Mahkamasi qarorlarining bajarilishini tashkil etish; Bozor sharoitida ishni tashkil eta oladigan, mustaqil fikrlaydigan, yuksak ma'naviy-axloqiy fazilatlarga ega bo'lgan yuqori malakali mutaxassislar tayyorlashni ta'minlash; Davlat ta'lim standartlari asosida yuqori malakali kadrlar tayyorlashni tashkil etish; Oliy ta'lim muassasasida O'zbekiston Respublikasining \"Ta'lim to'g'risida\"gi Qonuni va \"Kadrlar tayyorlash milliy dasturi\"da belgilangan vazifalarning bajarilishini ta'minlash; Oliy ta'lim muassasasining barcha tarkibiy bo'linmalari vakolatlarini belgilash, ularning faoliyatini rejalashtirish, muvofiqlashtirish, boshqarish, muassasada rahbarlik lavozimlariga munosib kadrlarni tayyorlash, xodimlarni tanlash, rahbarlik lavozimlariga nomzodlarni tavsiya etish va ishga qabul qilish; Xodimlarni moddiy va ma'naviy rag'batlantirish, ijtimoiy muhofazasini ta'minlash, intizomiy choralar qo'llash; Oliy ta'lim muassasalari daromadlarining shakllanishi va ulardan samarali foydalanishini nazorat qilish; Ilmiy-tadqiqot ishlarini tashkil etish, ularning samaradorligini oshirish va tadqiqot natijalarini amaliyotga keng joriy etish; oliy ta'lim, fan va ishlab chiqarish integratsiyasini ta'minlash; Uzluksiz ta'lim tizimi uchun yangi avlod o'quv adabiyotlarini yaratish konsepsiyasiga muvofiq darsliklar va o'quv-uslubiy adabiyotlarni yaratish, tarjima qilish va darsliklarni nashr etishni tashkil etish; Ta'lim jarayoniga ilg'or o'qitish usullarini, jumladan masofaviy ta'limni, yangi pedagogik va axborot-kommunikatsiya texnologiyalarini joriy etish va ulardan samarali foydalanishni tashkil etish; Ma'naviy, ma'rifiy va tarbiyaviy ishlarga rahbarlik qilish, xodimlar va talabalar o'rtasida milliy g'oyani shakllantirish; Universitetga talabalar, magistrantlar va izlanuvchi-tadqiqotchilarni qabul qilish, chetlashtirish, tiklash va ichki tartib-qoidalarga rioya etilishini ta'minlash; Professor-o'qituvchilar va pedagog xodimlarning kasbiy mahoratini oshirishni ta'minlash.",
+          "achievements": [
+            "2018-yilda nufuzli davlat mukofoti 'Shuhrat' medali bilan taqdirlangan.",
+            "2024-yilda 'Yil ayoli' tanlovida 'Yilning eng yaxshi g'oya tashabbuskori' nominatsiyasi g'olibi.",
+            "Buxoro muhandislik-texnologiya instituti va Buxoro tabiiy resurslarni boshqarish institutini yagona BSTUga muvaffaqiyatli birlashtirishga rahbarlik qildi.",
+            "4 ta yirik o'quv-uslubiy qo'llanma va 40 dan ortiq ilmiy maqolalar muallifi."
+          ]
+        },
+        "ru": {
+          "full_name": "Садокат Гаффоровна Сиддикова",
+          "position": "Ректор университета",
+          "degree": "Доктор философии (PhD) по педагогическим наукам",
+          "office_hours": "Пятница, 15:00–17:00",
+          "about": "Доктор Садокат Г. Сиддикова имеет степень PhD в области педагогических наук. С августа 2023 года она возглавляет BSTU, реализуя стратегические инициативы цифрового образования и структурной модернизации университета. Ранее занимала должности ректора Бухарского инженерно-технологического института, заместителя начальника Бухарского областного управления занятости и директора моноцентра «Ишга мархамат». Д-р Сиддикова также активно участвует в общественной жизни как депутат областного Кенгаша народных депутатов и председатель исполнительного комитета Бухарского областного экологического движения. Она является автором более 40 научных статей, посвященных качеству образования и цифровизации промышленности.",
+          "details": "Организация исполнения законов Республики Узбекистан, указов и распоряжений Президента, решений Олий Мажлиса и Кабинета Министров в области образования и подготовки кадров; Обеспечение подготовки высококвалифицированных специалистов с высокими морально-этическими качествами, способных к самостоятельному мышлению и обладающих навыками организации работы в рыночных условиях; Организация подготовки высококвалифицированных кадров на основе государственных образовательных стандартов; Обеспечение выполнения задач, определенных Законом «Об образовании Республики Узбекистан» и «Национальной программой по подготовке кадров» в высшем учебном заведении; Определение полномочий всех структурных подразделений вуза, планирование, координация, управление их деятельностью, подготовка подходящих кадров на руководящие должности, подбор персонала, рекомендация кандидатов на руководящие должности и прием на работу; Материальное и моральное стимулирование работников, обеспечение социальной защиты и применение дисциплинарных мер; Контроль формирования доходов вузов и их эффективного использования; Организация научно-исследовательских работ, повышение их эффективности и широкое внедрение результатов исследований в практику; обеспечение интеграции образования, науки и производства; Организация создания, перевода и издания учебников и учебно-методической литературы в соответствии с концепцией создания учебной литературы нового поколения; Внедрение передовых методов обучения в учебный процесс, включая дистанционное обучение, новые педагогические и информационно-коммуникационные технологии; Руководство духовно-просветительской и воспитательной работой, формирование национальной идеи среди сотрудников и студентов; Управление приемом, отчислением и восстановлением студентов, магистров и стажеров-исследователей, обеспечение соблюдения внутренних правил; Обеспечение профессионального развития профессорско-преподавательского состава.",
+          "achievements": [
+            "Награждена престижной государственной медалью 'Шухрат' в 2018 году.",
+            "Победительница в номинации 'Инициатор лучших идей года' на конкурсе 'Женщина года' (2024).",
+            "Успешно руководила слиянием Бухарского инженерно-технологического института и Бухарского института управления природными ресурсами в единый БГТУ.",
+            "Автор 4 крупных учебно-методических пособий и более 40 индексированных научных статей."
+          ]
+        },
+        "ar": {
+          "full_name": "سدوكات غافوروفنا صديقوفا",
+          "position": "رئيس الجامعة",
+          "degree": "دكتوراه في الفلسفة (PhD) في العلوم التربوية",
+          "office_hours": "الجمعة، 3:00 مساءً - 5:00 مساءً",
+          "about": "تحمل الدكتورة صديّقوفا سادوقات غفوروفنا درجة الدكتوراه (PhD) في العلوم التربوية. ومنذ أغسطس 2023، تتولى قيادة جامعة بخارى الحكومية التقنية عبر تنفيذ مبادرات التحول الرقمي في التعليم وبرامج التحديث الهيكلي للجامعة. وشغلت سابقاً مناصب رئيسة معهد بخارى للهندسة والتكنولوجيا، ونائبة رئيس إدارة التوظيف الإقليمية في بخارى، ومديرة مركز «إيشغا مرحمت» للتأهيل المهني. كما تنشط في الحياة العامة بصفتها نائبة في المجلس الإقليمي لنواب الشعب ورئيسة اللجنة التنفيذية للحزب البيئي في ولاية بخارى. وهي مؤلفة لأكثر من 40 مقالاً علمياً في مجالي جودة التعليم ورقمنة الصناعة.",
+          "details": "تنظيم تنفيذ قوانين جمهورية أوزبكستان، والمراسيم والأوامر الرئاسية، وقرارات المجلس الأعلى ومجلس الوزراء في مجال التعليم وتدريب الكوادر؛ ضمان إعداد متخصصين مؤهلين تأهيلاً عالياً يتمتعون بصفات أخلاقية وسلوكية عالية، قادرين على التفكير المستقل، ويمتلكون مهارات تنظيم العمل في ظروف السوق؛ تنظيم تدريب الكوادر المؤهلة تأهيلاً عالياً على أساس معايير التعليم الحكومية؛ ضمان الوفاء بالمهام المحددة في قانون \"التعليم لجمهورية أوزبكستان\" و\"البرنامج الوطني لتدريب الكوادر\" في مؤسسة التعليم العالي؛ تحديد صلاحيات جميع الوحدات الهيكلية لمؤسسة التعليم العالي، وتخطيط وتنسيق وإدارة أنشطتها، وإعداد الكوادر المناسبة للمناصب الإدارية، واختيار الموظفين، والتوصية بالمرشحين للمناصب القيادية، والتوظيف؛ تقديم الحوافز المادية والمعنوية للموظفين، وضمان الحماية الاجتماعية، وتطبيق التدابير التأديبية؛ الإشراف على تشكيل إيرادات مؤسسات التعليم العالي واستخدامها الفعال؛ تنظيم أعمال البحث العلمي، وزيادة كفاءتها، وإدخال نتائج البحوث على نطاق واسع في الممارسة العملية؛ ضمان التكامل بين التعليم العالي والعلم والإنتاج؛ تنظيم تأليف وترجمة ونشر الكتب الدراسية والأدبيات التعليمية والمنهجية وفقاً لمفهوم إنشاء جيل جديد من الأدبيات التعليمية لنظام التعليم المستمر؛ إدخال طرق التدريس المتقدمة في العملية التعليمية، بما في ذلك التعليم عن بعد، والتقنيات التربوية وتقنيات المعلومات والاتصالات الجديدة، وتنظيم استخدامها الفعال؛ قيادة الأنشطة الروحية والتعليمية والتربوية، وتشكيل الفكرة الوطنية بين الموظفين والطلاب؛ إدارة قبول الطلاب وطلاب الدراسات العليا والباحثين المتدربين في الجامعة، والفصل، وإعادة القيد، وضمان الامتثال للوائح الداخلية؛ ضمان التطوير المهني لأعضاء هيئة التدريس والتدريس.",
+          "achievements": [
+            "مُنحت وسام 'شهرت' الوطني المرموق في عام 2018.",
+            "الفائزة بفئة 'صاحبة أفضل فكرة للعام' في مسابقة امرأة العام (2024).",
+            "نجحت في قيادة عملية دمج معهد بخارى للهندسة والتكنولوجيا ومعهد بخارى لإدارة الموارد الطبيعية في جامعة بخارى الحكومية التقنية الموحدة.",
+            "مؤلفة لـ 4 أدلة منهجية تعليمية رئيسية وأكثر من 40 مقالاً بحثياً مفهرساً."
+          ]
+        }
+      }
+    },
+    {
+      "slug": "vice-rector-youth",
+      "photo": "/assets/img/administrator/Pardayeva%20Marhabo%20Davlatovna.jpg",
+      "email": "info@bstu.uz",
+      "phone": "+998 90 711 78 73",
+      "telegram_url": null,
+      "sort_order": 2,
+      "is_rector": false,
+      "is_published": true,
+      "translations": {
+        "en": {
+          "full_name": "Marhabo Davlatovna Pardayeva",
+          "position": "First Vice Rector for Youth Affairs and Spiritual and Educational Work",
+          "degree": "Doctor of Philosophy (DSc) in Sociology, Associate Professor",
+          "office_hours": "Monday - Saturday (09:00-16:00)",
+          "about": "By the order of the Minister of Higher Education, Science, and Innovations, Marhabo Davlatovna Pardayeva was appointed as the First Vice-Rector for Youth Affairs and Spiritual-Educational Work at Bukhara State Technical University. Marhabo Pardayeva was born in 1974 in Romitan district. In 1997, she graduated from Bukhara State University with a degree in history, law, and social sciences teaching. Doctor of Philosophy (DSc), Associate Professor. Before this appointment, she served as the head of the Bukhara regional department of the Republican Center for Spirituality and Enlightenment.",
+          "details": "Coordinates the Youth Union branch, manages student dormitory placements and social welfare, and directs moral-spiritual educational forums. Leads spiritual, educational, and upbringing activities, shaping the national idea among staff and students, and ensuring safety and discipline.",
+          "achievements": [
+            "Inaugurated the BSTU Student Sports and Wellness Complex.",
+            "Established 15 new creative and cultural clubs inside the student dormitories.",
+            "Organized the annual Bukhara Regional Youth Enlightenment Forum."
+          ]
+        },
+        "uz": {
+          "full_name": "Marhabo Davlatovna Pardayeva",
+          "position": "Yoshlar masalalari va ma'naviy-ma'rifiy ishlar bo'yicha birinchi prorektor",
+          "degree": "Sotsiologiya fanlari doktori (DSc), dotsent",
+          "office_hours": "Dushanba - Shanba (09:00-16:00)",
+          "about": "Oliy ta'lim, fan va innovatsiyalar vazirining buyrug'iga ko'ra Pardayeva Marhabo Davlatovna Buxoro davlat texnika universitetining yoshlar masalalari va ma'naviy-ma'rifiy ishlar bo'yicha birinchi prorektori etib tayinlangan. U 1974-yilda Romitan tumanida tug'ilgan, 1997-yilda Buxoro davlat universitetini tarix, huquq va ijtimoiy fanlar yo'nalishida tamomlagan. Sotsiologiya fanlari doktori (DSc), dotsent. Mazkur lavozimga tayinlangunga qadar Respublika Ma'naviyat va ma'rifat markazi Buxoro viloyat bo'limiga rahbarlik qilgan.",
+          "details": "Yoshlar ittifoqi faoliyatini muvofiqlashtiradi, talabalar turar joylariga joylashtirish va ijtimoiy himoya ishlarini boshqaradi, ma'naviy-ma'rifiy va tarbiyaviy ishlarga rahbarlik qiladi.",
+          "achievements": [
+            "BSTU talabalar sport-sog'lomlashtirish majmuasini ishga tushirdi.",
+            "Talabalar yotoqxonalarida 15 ta yangi ijodiy va madaniy to'garaklar tashkil qildi.",
+            "Har yili o'tkaziladigan Buxoro viloyati Yoshlar ma'naviyat forumini tashkil etdi."
+          ]
+        },
+        "ru": {
+          "full_name": "Мархабо Давлатовна Пардаева",
+          "position": "Первый проректор по работе с молодежью и духовно-просветительским делам",
+          "degree": "Доктор социологических наук (DSc), доцент",
+          "office_hours": "Понедельник - Суббота (09:00-16:00)",
+          "about": "Приказом министра высшего образования, науки и инноваций Мархабо Давлатовна Пардаева назначена первым проректором Бухарского государственного технического университета по работе с молодежью и духовно-просветительской деятельности. Родилась в 1974 году в Ромитанском районе. В 1997 году окончила Бухарский государственный университет по специальности преподаватель истории, права и обществознания. Доктор социологических наук (DSc), доцент. До назначения возглавляла Бухарское областное отделение Республиканского центра духовности и просвещения.",
+          "details": "Координирует деятельность Союза молодежи, руководит размещением студентов в общежитиях и вопросами социальной защиты, возглавляет духовно-просветительскую и воспитательную работу.",
+          "achievements": [
+            "Открыла Спортивно-оздоровительный комплекс для студентов БГТУ.",
+            "Создала 15 новых творческих и культурных клубов в студенческих общежитиях.",
+            "Организовала ежегодный Бухарский областной молодежный духовно-просветительский форум."
+          ]
+        },
+        "ar": {
+          "full_name": "مرحبـو دولتوفنا برداييفا",
+          "position": "النائب الأول لرئيس الجامعة لشؤون الشباب والعمل الروحي والتربوي",
+          "degree": "دكتوراه العلوم (DSc) في علم الاجتماع، أستاذ مشارك",
+          "office_hours": "الاثنين - السبت (09:00-16:00)",
+          "about": "بقرار من وزير التعليم العالي والعلوم والابتكارات، تم تعيين مرحبو دولتوفنا باردايفا نائباً أول لرئيس جامعة بخارى الحكومية التقنية لشؤون الشباب والعمل الروحي والتربوي. وُلدت عام 1974 في منطقة رومتان، وتخرجت عام 1997 من جامعة بخارى الحكومية بتخصص تدريس التاريخ والقانون والعلوم الاجتماعية. تحمل درجة دكتوراه العلوم (DSc) في علم الاجتماع وتشغل رتبة أستاذ مشارك. وقبل هذا التكليف، تولت رئاسة فرع ولاية بخارى للمركز الجمهوري للروحانية والتنوير.",
+          "details": "ينسق أنشطة اتحاد الشباب، ويدير عمليات التسكين في السكن الجامعي وشؤون الرعاية الاجتماعية، ويشرف على الأنشطة والفعاليات الروحية والتعليمية والتربوية.",
+          "achievements": [
+            "افتتحت المجمع الرياضي والترفيهي للطلاب في جامعة بخارى التقنية.",
+            "أنشأت 15 نادياً إبداعياً وثقافياً جديداً في غرف السكن الطلابي.",
+            "نظمت منتدى الشباب السنوي للتوعية والتعليم الروحي في ولاية بخارى."
+          ]
+        }
+      }
+    },
+    {
+      "slug": "vice-rector-research",
+      "photo": "/assets/img/administrator/Aslitdin%20Badreddinovich%20Nizamov.jpg",
+      "email": "buhibkol@mail.ru",
+      "phone": "+998 93 383 18 38",
+      "telegram_url": null,
+      "sort_order": 3,
+      "is_rector": false,
+      "is_published": true,
+      "translations": {
+        "en": {
+          "full_name": "Aslitdin Badreddinovich Nizamov",
+          "position": "Vice Rector for Research and Innovation",
+          "degree": "Doctor of Economics, Professor",
+          "office_hours": "Monday - Saturday (09:00-16:00)",
+          "about": "Dr. Aslitdin B. Nizamov is a prominent economist and professor. He directs the university's scientific research activities, state innovation grants, and bilateral partnerships with production enterprises (such as Uzbekneftegaz JSC). Previously, he managed the Master's Department from 2018 to 2024. Under his direction, the university has expanded its doctoral (PhD/DSc) programs and created several dedicated research laboratories to analyze and optimize petrochemical synthesis.",
+          "details": "Organizing the implementation of the laws of the Republic of Uzbekistan, decrees and orders of the President, decisions of the Oliy Majlis (Parliament) and the Cabinet of Ministers in the field of education and personnel training; Organizing educational, scientific, financial, and spiritual-educational work based on state education standards and ensuring the training of qualified personnel; Ensuring that all deans, department heads, and teaching staff fully understand the set of requirements regarding the content of knowledge and the level of training in accordance with state education standards; Organizing the execution of orders, decrees, and instructions from relevant higher authorities, as well as decisions of the university's Academic Council and rector's orders on issues related to the educational process; Studying development trends in advanced countries' education systems, developing methods and tools to implement tasks outlined in the \"Law on Education,\" the \"National Personnel Training Program,\" and other education-related laws, and ensuring their implementation; Introducing advanced forms of teaching in the educational process, including distance learning, new pedagogical and information-communication technologies, and organizing their effective use; Preparing proposals and organizing work within the scope of activity; Coordinating, organizing, and supervising the work of departments and deans responsible for the educational process; Approving work plans of departments, faculties, and chairs and monitoring their implementation; Improving the quality of ongoing lessons, monitoring and ensuring the fulfillment of individual plans of professors and teachers; Organizing educational and scientific conferences, leading the university's methodological council and activities aimed at improving pedagogical skills, and summarizing advanced methodological experience; Overseeing the preparation and publication process of educational-methodological and scientific materials, including journals and collections of scientific works by university staff, as well as replenishing the library fund with educational-methodological and scientific periodicals in all areas of the university's educational and scientific activities; Managing and assisting the process of searching for and selecting talented youth, including preparing students and intern-researchers among scholarship winners named after the President of Uzbekistan, Navoi, Beruni, Ulugbek, Zulfiya, and other prestigious scholarships; Developing proposals on staffing for professors, teachers, and staff assisting educational work, and organizing the provision of qualified personnel to departments and divisions; Preparing proposals for competitive recruitment for vacant positions, retaining intern-researchers and master's students in employment, improving the composition of professors and teachers, and leading the development and implementation of their professional development plans; Developing issues related to the efficient use of classrooms, improving the technical equipment of auditoriums and laboratories; Taking disciplinary measures against employees violating executive discipline and preparing proposals for terminating their contracts; Preparing proposals for establishing faculties and departments in cooperation with similar foreign higher education institutions to improve the content of education and ensure the training of specialists according to international standards; Conducting annual activity reports of departments, faculties, and divisions, analyzing and drawing conclusions, and implementing modern methods to evaluate the educational and methodological activities of professors and teachers; Maintaining constant cooperation with higher education institutions in the field of educational-methodological work, ensuring the active participation of professors and teachers in conferences and seminars, and cooperating with local authorities; Determining, analyzing, and improving the annual rating of the higher education institution according to established procedures; Actively participating in the regular internal attestation of Bukhara State Technical University, preparing for external attestation, and participating in its conduct.",
+          "achievements": [
+            "Oversaw the registration of 15 new state-funded scientific research grants.",
+            "Expanded the university's doctoral publications in high-impact Scopus and Web of Science journals by 35%.",
+            "Formulated bilateral innovation agreements with 8 national industrial enterprises."
+          ]
+        },
+        "uz": {
+          "full_name": "Aslitdin Badreddinovich Nizamov",
+          "position": "Ilmiy ishlar va innovatsiyalar bo'yicha prorektor",
+          "degree": "Iqtisodiyot fanlari doktori, professor",
+          "office_hours": "Dushanba - Shanba (09:00-16:00)",
+          "about": "Dr. Aslitdin B. Nizamov taniqli iqtisodchi va professordir. U universitetning ilmiy-tadqiqot faoliyati, davlat innovatsion grantlari hamda ishlab chiqarish korxonalari (jumladan, O'zbekneftgaz AJ) bilan ikki tomonlama hamkorlik yo'nalishlarini boshqaradi. 2018-2024-yillarda magistratura bo'limini boshqargan. Uning rahbarligida universitetda doktorantura (PhD/DSc) yo'nalishlari kengaytirildi va neft-kimyo sintezi jarayonlarini tahlil hamda optimallashtirishga ixtisoslashgan bir qator tadqiqot laboratoriyalari tashkil etildi.",
+          "details": "Ta'lim va kadrlar tayyorlash sohasida O'zbekiston Respublikasi qonunlari, Prezident farmonlari va qarorlari ijrosini tashkil etish; Davlat ta'lim standartlari asosida ilmiy-tadqiqot ishlarini tashkil etish; Kafedra va fakultetlarda ilmiy yo'nalishlar rivojlanishini ta'minlash; Ilmiy kengash va rektor buyruqlari ijrosini tashkil etish; Ilg'or ilmiy tajribalarni o'rganish va amaliyotga joriy etish; Ilmiy-tadqiqot loyihalarini muvofiqlashtirish va monitoring qilish; Fakultet va kafedralarning yillik ilmiy ish rejalarini tasdiqlash va nazorat qilish; Professor-o'qituvchilarning ilmiy-tadqiqot ishlari shaxsiy rejalari bajarilishini ta'minlash; Ilmiy konferensiyalar tashkil etish va seminarlarga rahbarlik qilish; Ilmiy-metodik va tadqiqot materiallarini nashr etish jarayonlarini nazorat qilish; Iqtidorli yoshlar bilan ilmiy ishlarni tashkil etish va prezident stipendiatlarini tayyorlash; Professor-o'qituvchilarning ilmiy salohiyatini oshirish takliflarini tayyorlash; Bo'sh ilmiy lavozimlarga tanlov asosida qabul qilish bo'yicha takliflar tayyorlash; Ilmiy laboratoriya va uskunalardan samarali foydalanishni ta'minlash; Mehnat intizomini buzgan ilmiy xodimlarga nisbatan intizomiy choralar ko'rish; Xorijiy ilmiy muassasalar bilan hamkorlikda tadqiqotlar tashkil etish; Yillik ilmiy hisobotlarni tayyorlash va tahlil qilish; Boshqa ilmiy va oliy ta'lim muassasalari bilan doimiy hamkorlikni ta'minlash; Universitetning ilmiy reytingini aniqlash va oshirish; Ilmiy faoliyat bo'yicha attestatsiya jarayonlarida faol ishtirok etish.",
+          "achievements": [
+            "15 ta yangi davlat ilmiy-tadqiqot grantlari ro'yxatdan o'tishini ta'minladi.",
+            "Universitet doktorantlarining nufuzli Scopus va Web of Science bazasidagi ilmiy maqolalari sonini 35% ga oshirdi.",
+            "8 ta yirik sanoat korxonasi bilan o'zaro innovatsion shartnomalar tuzdi."
+          ]
+        },
+        "ru": {
+          "full_name": "Аслитдин Бадреддинович Низамов",
+          "position": "Проректор по научной работе и инновациям",
+          "degree": "Доктор экономических наук, профессор",
+          "office_hours": "Понедельник - Суббота (09:00-16:00)",
+          "about": "Доктор Аслитдин Б. Низамов - известный экономист и профессор. Он руководит научно-исследовательской деятельностью университета, государственными инновационными грантами и двусторонним сотрудничеством с производственными предприятиями, включая АО «Узбекнефтегаз». В 2018-2024 годах он возглавлял магистратуру университета. Под его руководством были расширены программы докторантуры (PhD/DSc) и созданы специализированные исследовательские лаборатории для анализа и оптимизации процессов нефтехимического синтеза.",
+          "details": "Организация исполнения законов Республики Узбекистан, указов и указов Президента в сфере образования и подготовки кадров; Организация научно-исследовательских работ на основе государственных стандартов образования; Обеспечение развития научных направлений на кафедрах и факультетах; Организация исполнения решений Ученого совета и приказов ректора; Изучение и внедрение передового научного опыта в практику; Координация и мониторинг научно-исследовательских проектов; Утверждение и контроль годовых планов научной работы факультетов и кафедр; Обеспечение выполнения индивидуальных планов научно-исследовательской работы преподавателей; Организация научных конференций и руководство семинарами; Контроль процессов издания научно-методических материалов; Организация научной работы с одаренной молодежью и подготовка президентских стипендиатов; Подготовка предложений по повышению научного потенциала преподавателей; Подготовка предложений по приему на вакантные научные должности на конкурсной основе; Обеспечение эффективного использования научных лабораторий и оборудования; Принятие дисциплинарных мер к научным сотрудникам, нарушающим трудовую дисциплину; Организация совместных исследований с зарубежными научными учреждениями; Подготовка и анализ годовых научных отчетов; Обеспечение постоянного сотрудничества с другими научными и высшими учебными заведениями; Определение и повышение научного рейтинга университета; Активное участие в процессах аттестации по научной деятельности.",
+          "achievements": [
+            "Руководил регистрацией 15 новых государственных научно-исследовательских грантов.",
+            "Увеличил число публикаций докторантов университета в авторитетных журналах Scopus и Web of Science на 35%.",
+            "Заключил двусторонние соглашения об инновациях с 8 крупными промышленными предприятиями."
+          ]
+        },
+        "ar": {
+          "full_name": "أصل الدين بدر الدينوفيتش نظاموف",
+          "position": "نائب رئيس الجامعة للشؤون العلمية والابتكارات",
+          "degree": "دكتوراه في العلوم الاقتصادية، بروفيسور",
+          "office_hours": "الاثنين - السبت (09:00-16:00)",
+          "about": "يُعد الدكتور أليستدين ب. نظاموف خبيراً اقتصادياً بارزاً وأستاذاً جامعياً. وهو يقود منظومة البحث العلمي في الجامعة، والمنح الابتكارية الحكومية، والشراكات الثنائية مع مؤسسات الإنتاج، بما فيها شركة أوزبكنفتغاز. وقد تولّى إدارة قسم الماجستير خلال الفترة 2018-2024. وتحت إشرافه توسعت برامج الدكتوراه (PhD/DSc) في الجامعة، وتم إنشاء مختبرات بحثية متخصصة لتحليل عمليات التخليق البتروكيميائي وتحسينها.",
+          "details": "تنظيم تنفيذ قوانين جمهورية أوزبكستان والمراسيم الرئاسية في مجال التعليم وتدريب الكوادر؛ تنظيم البحوث العلمية على أساس معايير التعليم الحكومية؛ ضمان تطوير الاتجاهات العلمية في الأقسام والكليات؛ تنظيم تنفيذ قرارات المجلس الأكاديمي وأوامر رئيس الجامعة؛ دراسة وتطبيق الخبرات العلمية المتقدمة في الممارسة العملية؛ تنسيق ومراقبة المشاريع البحثية والعلمية؛ اعتماد ومراقبة الخطط السنوية للعمل العلمي للكليات والأقسام؛ ضمان تنفيذ الخطط الفردية للبحوث العلمية لأعضاء هيئة التدريس؛ تنظيم المؤتمرات العلمية وإدارة الندوات البحثية؛ مراقبة عمليات نشر المواد العلمية والمنهجية؛ تنظيم العمل العلمي مع الشباب الموهوبين وإعداد الفائزين بالمنح الرئاسية؛ إعداد مقترحات لرفع القدرات العلمية لأعضاء هيئة التدريس؛ إعداد مقترحات للتعيين في الوظائف العلمية الشاغرة على أساس المنافسة؛ ضمان الاستخدام الفعال للمختبرات والمعدات العلمية؛ اتخاذ الإجراءات التأديبية بحق الموظفين المخالفين للأنظمة في البحث العلمي؛ تنظيم بحوث مشتركة مع مؤسسات علمية أجنبية؛ إعداد وتحليل التقارير السنوية للبحث العلمي؛ ضمان التعاون المستمر مع مراكز البحوث ومؤسسات التعليم العالي الأخرى؛ تحديد ورفع التصنيف العلمي والبحثي للجامعة؛ المشاركة الفعالة في عمليات التقييم والاعتماد للأنشطة العلمية.",
+          "achievements": [
+            "أشرف على تسجيل 15 منحة بحثية علمية جديدة ممولة من الدولة.",
+            "زاد من نسبة نشر أبحاث طلاب الدكتوراه في مجلات Scopus وWeb of Science العالمية بنسبة 35%.",
+            "أبرم اتفاقيات ابتكار ثنائية مع 8 مؤسسات صناعية وطنية كبرى."
+          ]
+        }
+      }
+    },
+    {
+      "slug": "vice-rector-academic",
+      "photo": "/assets/img/administrator/Gafforov%20Alisher%20Xolmurodovich.jpg",
+      "email": "info@bstu.uz",
+      "phone": "+998 65 224 64 35",
+      "telegram_url": null,
+      "sort_order": 4,
+      "is_rector": false,
+      "is_published": true,
+      "translations": {
+        "en": {
+          "full_name": "Alisher Xolmurodovich Gafforov",
+          "position": "Vice Rector for Academic Affairs",
+          "degree": "Candidate of Technical Sciences, Associate Professor",
+          "office_hours": "Thursday - Saturday (09:00-13:00)",
+          "about": "Dr. Alisher X. Gafforov manages the core academic structure of Bukhara State Technical University. He oversees curriculum development, academic quality control, registration systems, and student credit metrics. In compliance with international standards, he has spearheaded the transition of the university's academic catalog to the ECTS credit-scoring system. Under his leadership, the university academic senate reviews and optimizes curriculums to match the rapid advancements in local oil, gas, and construction industries.",
+          "details": "Organizing the implementation of the laws of the Republic of Uzbekistan, decrees and orders of the President, and decisions of the Oliy Majlis and the Cabinet of Ministers in the field of education and personnel training; Organizing educational, scientific, financial, and spiritual-educational activities based on state educational standards and ensuring the preparation of qualified personnel; Ensuring that all deans, department heads, and teaching staff fully understand the content of knowledge and requirements for the level of training according to state educational standards; Organizing the implementation of orders, decrees, and instructions of relevant higher authorities, decisions of the university Scientific Council, and rector's orders regarding educational and training processes; Studying the development trends of education systems in advanced countries, developing and ensuring the implementation of methods and tools to fulfill the tasks specified in the Law \"On Education,\" the \"National Program for Personnel Training,\" and other education-related laws; Introducing advanced teaching methods in the educational process, including distance learning, new pedagogical and information-communication technologies, and organizing their effective use; Preparing proposals related to the activity direction and organizing work accordingly; Coordinating, organizing, and supervising the activities of departments and deans responsible for the educational process; Approving work plans of departments, faculties, and chairs, and supervising their execution; Improving the quality of ongoing classes, monitoring and ensuring the fulfillment of individual plans of professors and teachers; Organizing educational and scientific conferences, leading the university methodological council and pedagogical skill enhancement activities, and summarizing advanced methodological experiences; Overseeing the preparation and publication of educational-methodical and scientific materials, including journals and collections of scientific works by university staff, and managing the replenishment of the library fund with periodic educational-methodical and scientific publications in all educational and scientific activity areas; Managing the search, selection, and work with talented youth, assisting them, and overseeing the preparation of winners of prestigious scholarships named after the President of the Republic of Uzbekistan, Navoi, Beruni, Ulugbek, Zulfiya, and others among students and trainee researchers; Developing proposals for staffing professors, teachers, and staff assisting educational work, and organizing the provision of departments and divisions with qualified personnel; Preparing proposals for recruitment based on competition for vacant positions, retaining trainee researchers and graduate students, and leading the development and implementation of plans to improve and upgrade the qualifications of teaching staff; Developing measures to efficiently use classrooms and improving the technical equipment of auditoriums and laboratories; Taking disciplinary measures against employees who violate executive discipline and preparing proposals for terminating their contracts; Preparing proposals to improve the content of education and establish faculties and departments in cooperation with foreign higher education institutions of the same profile to ensure training of specialists according to international requirements; Conducting annual reports, analyzing, and drawing conclusions about the activities of departments, faculties, and divisions; assessing the educational-methodical activities of professors and teachers using modern methods; Maintaining ongoing cooperation with higher education institutions in educational-methodical fields, ensuring active participation of professors and teachers in conferences and seminars, and collaborating with local authorities; Determining, analyzing, and carrying out work to improve the annual rating of the higher education institution in the established order; Actively participating in the regular internal certification of Bukhara State Technical University, preparing for external certification, and conducting it.",
+          "achievements": [
+            "Successfully transitioned 100% of undergraduate courses to the ECTS credit system.",
+            "Created the unified student registration portal to optimize academic transcript issuance.",
+            "Developed 12 new interdisciplinary engineering curriculums in collaboration with regional companies."
+          ]
+        },
+        "uz": {
+          "full_name": "Alisher Xolmurodovich Gafforov",
+          "position": "O'quv ishlari bo'yicha prorektor",
+          "degree": "Texnika fanlari nomzodi, dotsent",
+          "office_hours": "Payshanba - Shanba (09:00-13:00)",
+          "about": "Dr. G'afforov Alisher Xolmurodovich Buxoro davlat texnika universitetining asosiy akademik tizimini boshqaradi. U o'quv dasturlarini ishlab chiqish, ta'lim sifati nazorati, talabalarni ro'yxatga olish jarayonlari va kredit ko'rsatkichlari monitoringini muvofiqlashtiradi. Xalqaro standartlarga muvofiq, uning rahbarligida universitetning o'quv katalogi ECTS kredit-baholash tizimiga bosqichma-bosqich o'tkazildi. Shuningdek, uning boshqaruvida universitet ilmiy kengashi mahalliy neft-gaz va qurilish sohalaridagi tezkor o'zgarishlarga mos holda ta'lim rejalarini muntazam ko'rib chiqadi va takomillashtiradi.",
+          "details": "O'zbekiston Respublikasi qonunlari, Prezident farmonlari va farmoyishlari, Oliy Majlis va Vazirlar Mahkamasi qarorlarining ta'lim sohasida bajarilishini tashkil etish; Davlat ta'lim standartlari asosida o'quv va tarbiya jarayonlarini tashkil etish; Barcha dekanlar, kafedra mudirlari va o'qituvchilar tarkibiga davlat ta'lim standartlari talablarini yetkazish; Yuqori organlar qarorlari, Ilmiy kengash qarorlari va rektor buyruqlari ijrosini tashkil etish; Ilg'or mamlakatlar ta'lim tizimi rivojlanish tendensiyalarini o'rganish va joriy etish; O'quv jarayoniga ilg'or pedagogik va axborot texnologiyalarini joriy etish; O'quv jarayoniga mas'ul bo'linmalar faoliyatini muvofiqlashtirish va nazorat qilish; Fakultet, kafedra va bo'limlarning ish rejalarini tasdiqlash va nazorat qilish; Darslar sifatini oshirish, professor-o'qituvchilarning shaxsiy rejalari bajarilishini ta'minlash; O'quv-uslubiy konferensiyalar tashkil etish va metodik kengashga rahbarlik qilish; O'quv-uslubiy va ilmiy materiallarni nashr etish jarayonlarini nazorat qilish; Iqtidorli yoshlarni izlash, tanlash va ular bilan ishlash tizimini boshqarish; Professor-o'qituvchilar va yordamchi xodimlarni tanlash va kafedralarni kadrlar bilan ta'minlash; Bo'sh lavozimlarga tanlov asosida ishga qabul qilish bo'yicha takliflar tayyorlash; Auditoriyalar va laboratoriyalardan samarali foydalanishni ta'minlash; Mehnat intizomini buzgan xodimlarga nisbatan intizomiy choralar ko'rish; Xorijiy oliy ta'lim muassasalari bilan hamkorlikda fakultet va kafedralar tashkil etish bo'yicha takliflar tayyorlash; Yillik hisobotlarni tayyorlash va o'quv-uslubiy faoliyatni baholash; Boshqa oliy ta'lim muassasalari bilan o'quv-uslubiy sohada doimiy hamkorlikni ta'minlash; Oliy ta'lim muassasasining yillik reytingini aniqlash va oshirish; Universitetni akkreditatsiyadan o'tkazish jarayonlarida faol ishtirok etish.",
+          "achievements": [
+            "Bakalavriat yo'nalishlarining 100% o'quv dasturlarini ECTS kredit tizimiga muvaffaqiyatli o'tkazdi.",
+            "Akademik transkriptlarni berishni optimallashtirish uchun yagona talabalar ro'yxatga olish portalini yaratdi.",
+            "Mintaqaviy kompaniyalar bilan hamkorlikda 12 ta yangi fanlararo muhandislik o'quv dasturlarini ishlab chiqdi."
+          ]
+        },
+        "ru": {
+          "full_name": "Алишер Холмуродович Гаффоров",
+          "position": "Проректор по учебной работе",
+          "degree": "Кандидат технических наук, доцент",
+          "office_hours": "Четверг - Суббота (09:00-13:00)",
+          "about": "Д-р Гаффоров Алишер Холмуродович руководит ключевой академической структурой Бухарского государственного технического университета. Он курирует разработку учебных планов, контроль академического качества, регистрационные процессы и мониторинг кредитных показателей студентов. В соответствии с международными стандартами под его руководством был поэтапно переведен учебный каталог университета на систему ECTS. Также при его участии Ученый совет регулярно пересматривает и оптимизирует образовательные программы с учетом динамики региональных отраслей нефти, газа и строительства.",
+          "details": "Организация исполнения законов Республики Узбекистан, указов и распоряжений Президента, решений Олий Мажлиса и Кабинета Министров в области образования и подготовки кадров; Организация учебной, научной, финансовой и духовно-просветительской деятельности на основе государственных образовательных стандартов и обеспечение подготовки квалифицированных кадров; Обеспечение полного понимания всеми деканами, заведующими кафедрами и преподавателями требований к уровню подготовки в соответствии с государственными образовательными стандартами; Организация исполнения приказов, указов и поручений вышестоящих органов, решений Ученого совета университета и приказов ректора по учебному процессу; Изучение тенденций развития систем образования передовых стран, разработка методов и средств выполнения задач, указанных в законах об образовании; Внедрение передовых форм обучения в учебный процесс, включая дистанционное обучение, новые педагогические и информационно-коммуникационные технологии; Подготовка предложений по направлению деятельности и соответствующая организация работы; Координация, организация и контроль деятельности отделов и деканатов, ответственных за учебный процесс; Утверждение рабочих планов отделов, факультетов и кафедр, контроль их исполнения; Повышение качества проводимых занятий, контроль выполнения индивидуальных планов профессоров и преподавателей; Организация научно-методических конференций, руководство методическим советом университета; Контроль процессов подготовки и издания учебно-методических и научных материалов; Поиск, отбор и организация работы с одаренной молодежью, подготовка кандидатов на престижные стипендии; Разработка предложений по кадровому обеспечению профессоров, преподавателей и вспомогательного персонала; Подготовка предложений по конкурсному приему на вакантные должности; Разработка мер по эффективному использованию аудиторий, улучшению технического оснащения лабораторий; Принятие дисциплинарных мер к сотрудникам, нарушающим трудовую дисциплину; Подготовка предложений по созданию совместных факультетов и кафедр с зарубежными вузами; Подготовка ежегодных отчетов и анализ учебно-методической деятельности преподавателей; Поддержание постоянного сотрудничества с другими высшими учебными заведениями; Определение и повышение ежегодного рейтинга университета; Активное участие в процессах государственной аккредитации и аттестации университета.",
+          "achievements": [
+            "Успешно перевел 100% курсов бакалавриата на кредитную систему ECTS.",
+            "Создал единый студенческий регистрационный портал для оптимизации выдачи академических транскриптов.",
+            "Разработал 12 новых междисциплинарных инженерных учебных планов совместно с региональными компаниями."
+          ]
+        },
+        "ar": {
+          "full_name": "عليشر خولمرودوفيتش غفوروف",
+          "position": "نائب رئيس الجامعة للشؤون الأكاديمية",
+          "degree": "مرشح العلوم التقنية، أستاذ مشارك",
+          "office_hours": "الخميس - السبت (09:00-13:00)",
+          "about": "يدير الدكتور علي شير خ. غفوروف الهيكل الأكاديمي الأساسي لجامعة بخارى الحكومية التقنية. وهو يشرف على تطوير المناهج، وضبط الجودة الأكاديمية، وإدارة التسجيل الأكاديمي، ومتابعة مؤشرات الساعات المعتمدة للطلبة. وبما يتوافق مع المعايير الدولية، قاد تنفيذ الانتقال التدريجي لفهرس البرامج التعليمية إلى نظام ECTS. كما يعمل، عبر المجلس الأكاديمي، على مراجعة الخطط الدراسية وتحديثها باستمرار بما ينسجم مع التطورات المتسارعة في قطاعات النفط والغاز والبناء على المستوى الإقليمي.",
+          "details": "تنظيم تنفيذ قوانين جمهورية أوزبكستان والمراسيم والقرارات الرئاسية في مجال التعليم؛ تنظيم العملية التعليمية والتربوية على أساس المعايير الحكومية للتعليم؛ إيصال متطلبات معايير التعليم الحكومية لجميع العمداء ورؤساء الأقسام وأعضاء هيئة التدريس؛ تنظيم تنفيذ قرارات الهيئات العليا وقرارات المجلس الأكاديمي وأوامر رئيس الجامعة؛ دراسة اتجاهات تطوير أنظمة التعليم في الدول المتقدمة وتطبيقها؛ إدخال أساليب التدريس المتقدمة في العملية التعليمية بما في ذلك التعليم عن بعد؛ تنسيق ومراقبة أنشطة الأقسام والعمادات المسؤولة عن العملية التعليمية؛ اعتماد خطط عمل الكليات والأقسام ومراقبة تنفيذها; تحسين جودة المحاضرات وضمان تنفيذ الخطط الفردية للمدرسين؛ تنظيم المؤتمرات الأكاديمية والمنهجية وإدارة المجلس المنهجي؛ الإشراف على إعداد ونشر المواد التعليمية والمنهجية والعلمية؛ البحث عن الشباب الموهوبين واختيارهم وإعداد الفائزين بالمنح الدراسية؛ إعداد مقترحات لتعيين أعضاء هيئة التدريس وتوفير الكوادر المؤهلة للأقسام؛ إعداد مقترحات للتوظيف على أساس المنافسة لشغل الوظائف الشاغرة؛ ضمان الاستخدام الفعال للقاعات الدراسية وتطوير التجهيزات التقنية للمختبرات؛ اتخاذ الإجراءات التأديبية بحق الموظفين المخالفين للانضباط الوظيفي؛ إعداد مقترحات لإنشاء كليات وأقسام مشتركة بالتعاون مع جامعات أجنبية؛ إعداد التقارير السنوية وتحليل الأنشطة الأكاديمية والمنهجية؛ الحفاظ على تعاون مستمر مع مؤسسات التعليم العالي الأخرى؛ تحديد وتحسين التصنيف السنوي للجامعة؛ المشاركة الفعالة في عمليات الاعتماد الأكاديمي والتقييم للجامعة.",
+          "achievements": [
+            "نجح في تحويل 100% من مساقات البكالوريوس إلى نظام ECTS الأكاديمي.",
+            "أنشأ بوابة موحدة لتسجيل الطلاب لتحسين إصدار السجلات الأكاديمية الرسمية.",
+            "طور 12 منهجاً هندسياً جديداً متعدد التخصصات بالتعاون مع الشركات الصناعية الإقليمية."
+          ]
+        }
+      }
+    },
+    {
+      "slug": "vice-rector-finance",
+      "photo": "/assets/img/administrator/Saidov%20Sobir%20Bahronovich.jpg",
+      "email": "sobirsaidov886@mail.ru",
+      "phone": "+998 97 307 76 66",
+      "telegram_url": null,
+      "sort_order": 5,
+      "is_rector": false,
+      "is_published": true,
+      "translations": {
+        "en": {
+          "full_name": "Sobir Bahronovich Saidov",
+          "position": "Vice Rector for Finance and Economy",
+          "degree": "Doctor of Philosophy (PhD) in Economics",
+          "office_hours": "Saturday 15:00-17:00",
+          "about": "Dr. Sobir B. Saidov manages the financial and economic affairs of Bukhara State Technical University. He oversees the planning and finance department, accounting, marketing services, and the allocation of budget and extra-budgetary funds. He ensures the financial stability of the institution and coordinates capital projects, campus maintenance, and energy-saving audits.",
+          "details": "Organizing the implementation of the laws of the Republic of Uzbekistan, decrees and orders of the President, and decisions of the Oliy Majlis (Parliament) and the Cabinet of Ministers in the field of education and personnel training; Organizing educational, scientific, financial, and spiritual-educational activities based on state education standards and ensuring the training of qualified personnel; Ensuring that all deans, departments, heads of chairs, and teaching staff fully understand the requirements regarding the content of knowledge and the level of preparation in accordance with state education standards; Managing and coordinating financial and economic activities; Managing and coordinating the activities of the planning and finance department, accounting, marketing department, and administrative departments; Organizing, managing, and coordinating construction, repair, landscaping, and greening activities; Expanding the attraction of off-budget funds through additional paid services (publishing, household services, paid training courses, leasing, sponsorship, dividends, etc.) within the limits of the existing material and technical base of the higher education institution, and developing proposals for the material incentives of professors, teaching staff, and employees; Forming off-budget funds from tuition fees paid by contract students and other special off-budget funds; Developing income and expenditure estimates for the state budget, tuition fees paid by contract students, and funds earned through entrepreneurial activities, and ensuring their submission for registration to the Ministry of Finance and relevant ministries and agencies; Controlling the implementation of the higher education institution’s expenditure estimates, financial and economic activities, and accounting of currency operations; Developing measures and ensuring their implementation for preparing educational and laboratory buildings, student dormitories, and other auxiliary buildings and facilities for the autumn-winter season and the new academic year; Studying the condition of the material and technical base of the higher education institution in the context of economic liberalization, developing measures for its development, and monitoring their implementation; Organizing activities to attract investments; Reviewing project and estimate documents for reconstruction and major repairs of existing buildings and facilities, concluding contracts, accepting completed works, and controlling their quality; Organizing control over compliance with staff, budget, and accounting discipline, as well as bookkeeping and reporting; Developing and ensuring the implementation of measures for rational and economical use of budget and off-budget funds, as well as communal services; Developing and implementing measures to improve conditions for paying wages to professors, teaching staff, and employees of higher education institutions, as well as developing accounting and reporting; Ensuring timely payment of salaries to professors, teaching staff, and employees, as well as scholarships to students of higher education institutions; Monitoring the receipt of tuition fees from students studying on a contract basis.",
+          "achievements": [
+            "Optimized the university budget allocation to secure full funding for research labs.",
+            "Implemented a digital campus accounting and billing system.",
+            "Directed the thermal insulation and energy efficiency modernization of 3 campus buildings."
+          ]
+        },
+        "uz": {
+          "full_name": "Sobir Bahronovich Saidov",
+          "position": "Moliyaviy-iqtisodiy ishlar bo'yicha prorektor",
+          "degree": "Iqtisodiyot fanlari bo'yicha falsafa doktori (PhD)",
+          "office_hours": "Shanba 15:00-17:00",
+          "about": "Dr. Sobir B. Saidov Buxoro davlat texnika universitetining moliyaviy-iqtisodiy faoliyatini boshqaradi. U rejalashtirish-moliya bo'limi, buxgalteriya hisobi, marketing xizmati hamda byudjet va byudjetdan tashqari mablag'larni taqsimlash jarayonlarini muvofiqlashtiradi. Uning boshqaruvida universitetning moliyaviy barqarorligi ta'minlanadi, kapital qurilish va ta'mirlash loyihalari, kampus infratuzilmasini saqlash ishlari hamda energiya samaradorligi auditlari tizimli ravishda olib boriladi.",
+          "details": "Ta'lim sohasida O'zbekiston Respublikasi qonunlari, Prezident farmonlari va qarorlari ijrosini tashkil etish; Universitetning moliyaviy-iqtisodiy faoliyatini boshqarish va muvofiqlashtirish; Rejalashtirish va moliya bo'limi, buxgalteriya hisobi va marketing bo'limi faoliyatini boshqarish; Qurilish, ta'mirlash va obodonlashtirish ishlarini tashkil etish; Qo'shimcha pullik xizmatlar ko'rsatish orqali byudjetdan tashqari mablag'larni jalb etishni kengaytirish; Shartnoma asosida o'qiydigan talabalarning to'lov kontrakt mablag'larini shakllantirish; Davlat byudjeti va shartnoma mablag'lari bo'yicha daromadlar va xarajatlar smetasini ishlab chiqish; Xarajatlar smetasi va moliyaviy faoliyat ustidan nazoratni amalga oshirish; O'quv binolari, talabalar turar joylarini yangi o'quv yiliga tayyorlash choralarini ko'rish; Universitetning moddiy-texnika bazasini rivojlantirish choralarini ko'rish; Investitsiyalarni jalb etish ishlarini tashkil etish; Binolarni rekonstruksiya qilish va kapital ta'mirlash loyihalarini ko'rib chiqish va nazorat qilish; Shtat, smeta va moliya intizomiga rioya etilishi ustidan nazorat o'rnatish; Kommunal xizmatlar va byudjet mablag'laridan oqilona foydalanish choralarini ko'rish; Professor-o'qituvchilar va xodimlarning ish haqini to'lash sharoitlarini yaxshilash; Oylik ish haqlarini o'z vaqtida to'lanishini ta'minlash; Talabalarning to'lov kontrakt to'lovlarini o'z vaqtida to'lanishini monitoring qilish.",
+          "achievements": [
+            "Tadqiqot laboratoriyalarini to'liq moliyalashtirish uchun universitet byudjeti taqsimotini optimallashtirdi.",
+            "Kampusda yagona elektron buxgalteriya va hisob-kitob tizimini joriy etdi.",
+            "3 ta o'quv binosini issiqlik izolyatsiyalash va energiya samaradorligini oshirish loyihasiga rahbarlik qildi."
+          ]
+        },
+        "ru": {
+          "full_name": "Собир Бахронович Саидов",
+          "position": "Проректор по финансово-экономическим вопросам",
+          "degree": "Доктор философии (PhD) по экономике",
+          "office_hours": "Суббота 15:00-17:00",
+          "about": "Д-р Собир Б. Саидов руководит финансово-экономической деятельностью Бухарского государственного технического университета. Он курирует работу планово-финансового отдела, бухгалтерии, маркетинговых служб, а также распределение бюджетных и внебюджетных средств. Под его управлением обеспечиваются финансовая устойчивость вуза, реализация капитальных проектов, поддержка кампусной инфраструктуры и проведение аудитов по энергоэффективности.",
+          "details": "Организация исполнения законов Республики Узбекистан, указов и постановлений Президента в сфере образования; Управление и координация финансово-экономической деятельности университета; Руководство работой планово-финансового отдела, бухгалтерии и отдела маркетинга; Организация строительных, ремонтных работ и благоустройства; Привлечение внебюджетных средств за счет оказания дополнительных платных услуг; Формирование средств по оплате контрактов студентов; Разработка смет доходов и расходов по государственному бюджету и контрактным средствам; Контроль смет расходов и финансовой деятельности университета; Подготовка учебных корпусов и студенческих общежитий к новому учебному году; Разработка мер по развитию материально-технической базы университета; Организация работы по привлечению инвестиций; Рассмотрение проектов реконструкции и капитального ремонта зданий, контроль их качества; Контроль соблюдения штатной, сметной и финансовой дисциплины; Принятие мер по рациональному использованию бюджетных средств и коммунальных услуг; Улучшение условий оплаты труда профессоров, преподавателей и сотрудников; Обеспечение своевременной выплаты заработной платы и студенческих стипендий; Мониторинг своевременного поступления оплаты за обучение от контрактных студентов.",
+          "achievements": [
+            "Оптимизировал распределение бюджета вуза для полного финансирования исследовательских лабораторий.",
+            "Внедрил единую систему цифрового бухгалтерского учета и выставления счетов в кампусе.",
+            "Руководил работами по теплоизоляции и повышению энергоэффективности 3 учебных корпусов."
+          ]
+        },
+        "ar": {
+          "full_name": "صابر بهرونوفيتش سعيدوف",
+          "position": "نائب رئيس الجامعة للشؤون المالية والاقتصادية",
+          "degree": "دكتوراه في الفلسفة (PhD) في العلوم الاقتصادية",
+          "office_hours": "السبت 15:00-17:00",
+          "about": "يدير الدكتور صابر ب. سعيدوف الشؤون المالية والاقتصادية لجامعة بخارى الحكومية التقنية. وهو يشرف على إدارة التخطيط والمالية، والمحاسبة، وخدمات التسويق، إضافة إلى توزيع الموارد ضمن الميزانية والموارد خارج الميزانية. ومن خلال هذا الدور يضمن الاستقرار المالي للمؤسسة، ويتابع مشروعات البنية التحتية والصيانة في الحرم الجامعي، ويقود عمليات التدقيق المرتبطة بكفاءة استخدام الطاقة.",
+          "details": "تنظيم تنفيذ قوانين جمهورية أوزبكستان والمراسيم والقرارات الرئاسية في مجال التعليم؛ إدارة وتنسيق الأنشطة المالية والاقتصادية للجامعة؛ إدارة أعمال قسم التخطيط والميزانية والحسابات وقسم التسويق؛ تنظيم أعمال التشييد والترميم والصيانة وإعمار الحرم الجامعي؛ جذب الأموال غير الميزانية من خلال تقديم خدمات مدفوعة إضافية؛ تشكيل الموارد المالية لعقود الطلاب؛ إعداد تقديرات الإيرادات والمصروفات للميزانية الحكومية وعقود الطلاب؛ مراقبة الميزانيات المعتمدة والأنشطة المالية للجامعة؛ تجهيز المباني الدراسية والسكن الطلابي للعام الدراسي الجديد; تطوير التدابير اللازمة لتنمية القاعدة المادية والتقنية للجامعة؛ تنظيم العمل على جذب الاستثمارات الخارجية والمحلية؛ مراجعة مشاريع إعادة الإعمار والترميم للمباني ومراقبة جودتها؛ مراقبة الالتزام بالأنظمة المالية والمحاسبية والميزانيات المعتمدة؛ اتخاذ التدابير لترشيد استخدام أموال الميزانية وخدمات المرافق العامة؛ تحسين شروط دفع أجور أعضاء هيئة التدريس والموظفين؛ ضمان الصرف الفوري لرواتب العاملين والمنح الدراسية للطلاب؛ متابعة تحصيل الرسوم الدراسية من طلاب عقود التعليم بانتظام.",
+          "achievements": [
+            "حسن تخصيص ميزانية الجامعة لتأمين التمويل الكامل لمختبرات الأبحاث العلمية.",
+            "أدخل نظاماً رقمياً موحداً للمحاسبة والفوترة في الحرم الجامعي.",
+            "قاد أعمال العزل الحراري وتحديث كفاءة الطاقة في 3 مبانٍ جامعية رئيسية."
+          ]
+        }
+      }
+    },
+    {
+      "slug": "vice-rector-international",
+      "photo": "/assets/img/administrator/Murodjon%20Ulugbekovich%20Djurayev.jpg",
+      "email": "prof.mjon@gmail.com",
+      "phone": "+998 91 824 94 94",
+      "telegram_url": null,
+      "sort_order": 6,
+      "is_rector": false,
+      "is_published": true,
+      "translations": {
+        "en": {
+          "full_name": "Murodjon Ulugbekovich Djurayev",
+          "position": "Vice Rector for International Cooperation",
+          "degree": "PhD in Architecture, Associate Professor",
+          "office_hours": "Wednesday – Friday (15:00 – 17:00)",
+          "about": "Dr. Murodjon U. Djurayev directs the international relations of Bukhara State Technical University. He manages bilateral academic exchange partnerships, foreign project grants, and the integration of international educational standards. Dr. Djurayev oversees the university's double-degree agreements with leading European and Asian universities, facilitating student and staff mobility.",
+          "details": "Coordinates global double-degree programs, manages international exchange projects (e.g. Erasmus+), and oversees international student enrollments. Focuses on expanding the global footprint of BSTU, forming agreements with prestigious institutions globally, and facilitating staff and student research exchanges.",
+          "achievements": [
+            "Signed double-degree agreements with 6 foreign universities in Europe and Asia.",
+            "Secured funding for 3 new Erasmus+ capacity-building projects.",
+            "Doubled the enrollment of international students at the university."
+          ]
+        },
+        "uz": {
+          "full_name": "Murodjon Ulugbekovich Djurayev",
+          "position": "Xalqaro hamkorlik bo'yicha prorektor",
+          "degree": "Arxitektura fanlari nomzodi, dotsent",
+          "office_hours": "Chorshanba - Juma (15:00 - 17:00)",
+          "about": "Dr. Murodjon U. Djurayev Buxoro davlat texnika universitetining xalqaro aloqalarini boshqaradi. U ikki tomonlama akademik almashinuv hamkorliklari, xalqaro grant loyihalari hamda ta'lim standartlarini xalqaro me'yorlarga moslashtirish jarayonlariga rahbarlik qiladi. Shuningdek, Yevropa va Osiyodagi yetakchi universitetlar bilan qo'shma diplom dasturlari bo'yicha kelishuvlarni muvofiqlashtirib, talabalar hamda professor-o'qituvchilarning akademik mobilligini kengaytiradi.",
+          "details": "Xalqaro qo'shma ta'lim dasturlarini muvofiqlashtiradi, xalqaro almashinuv loyihalarini (masalan, Erasmus+) boshqaradi va chet ellik talabalarning o'qishini nazorat qiladi. BSTUning xalqaro hamjamiyatdagi nufuzini oshirish va xorijiy hamkorlar bilan kelishuvlar imzolashga e'tibor qaratadi.",
+          "achievements": [
+            "Yevropa va Osiyodagi 6 ta yetakchi xorijiy universitetlar bilan qo'shma diplom shartnomalarini imzoladi.",
+            "3 ta yangi Erasmus+ loyihasi uchun grant mablag'larini jalb qildi.",
+            "Universitetda chet ellik talabalar sonini ikki baravarga ko'paytirdi."
+          ]
+        },
+        "ru": {
+          "full_name": "Муроджон Улугбекович Джураев",
+          "position": "Проректор по международному сотрудничеству",
+          "degree": "Кандидат архитектурных наук, доцент",
+          "office_hours": "Среда - Пятница (15:00 - 17:00)",
+          "about": "Д-р Муроджон У. Джураев руководит международным направлением Бухарского государственного технического университета. Он координирует двусторонние академические обмены, международные грантовые проекты и внедрение международных образовательных стандартов. Также он курирует соглашения о программах двойных дипломов с ведущими университетами Европы и Азии, расширяя академическую мобильность студентов и профессорско-преподавательского состава.",
+          "details": "Координирует глобальные программы двойных дипломов, управляет проектами международного обмена (например, Erasmus+) и курирует прием иностранных студентов. Направляет усилия на расширение присутствия BSTU на мировой арене и заключение договоров с зарубежными партнерами.",
+          "achievements": [
+            "Подписал соглашения о двойном дипломе с 6 ведущими зарубежными университетами в Европе и Азии.",
+            "Привлек финансирование для 3 новых проектов Erasmus+ по развитию потенциала.",
+            "Удвоил число иностранных студентов, обучающихся в университете."
+          ]
+        },
+        "ar": {
+          "full_name": "مرادجون ألوغبيكوفتيش جوراييف",
+          "position": "نائب رئيس الجامعة للتعاون الدولي",
+          "degree": "دكتوراه في العلوم المعمارية، أستاذ مشارك",
+          "office_hours": "الأربعاء - الجمعة (15:00 - 17:00)",
+          "about": "يدير الدكتور مرادجون أو. دجوراييف ملف العلاقات الدولية في جامعة بخارى الحكومية التقنية. ويشرف على شراكات التبادل الأكاديمي الثنائية، ومشروعات المنح الدولية، ومواءمة البرامج التعليمية مع المعايير الدولية. كما يتابع اتفاقيات الدرجات المزدوجة مع جامعات رائدة في أوروبا وآسيا، بما يعزز تنقل الطلبة وأعضاء هيئة التدريس أكاديمياً.",
+          "details": "ينسق برامج الدرجات المزدوجة العالمية، ويدير مشاريع التبادل الدولي (مثل Erasmus+)، ويشرف على تسجيل الطلاب الدوليين. يركز على توسيع الحضور العالمي لجامعة بخارى وتوقيع اتفاقيات التعاون مع شركاء دوليين.",
+          "achievements": [
+            "وقع اتفاقيات درجات مزدوجة مع 6 جامعات أجنبية مرموقة في أوروبا آسيا.",
+            "أمن التمويل لـ 3 مشاريع جديدة لبناء القدرات ضمن برنامج Erasmus+.",
+            "ضاعف عدد الطلاب الدوليين المسجلين في الجامعة خلال عامين."
+          ]
+        }
+      }
+    }
+  ]
+}

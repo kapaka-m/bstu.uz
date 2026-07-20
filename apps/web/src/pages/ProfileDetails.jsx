@@ -1,48 +1,72 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useLanguage } from "../context/LanguageContext";
 import { Mail, Phone, Clock, Award, Briefcase, FileText, CheckCircle, GraduationCap } from "lucide-react";
-import { administrationData } from "../data/universityData";
 import { facultiesData } from "../data/mockData";
 import { departmentsData, convertToSlug } from "../data/departmentsData";
+import { administrationService } from "../services/administrationService";
 
 export default function ProfileDetails() {
   const { id } = useParams();
   const { t } = useLanguage();
   const navigate = useNavigate();
+  const [adminPerson, setAdminPerson] = useState(null);
+  const [adminLoading, setAdminLoading] = useState(true);
 
   useEffect(() => {
     window.scrollTo(0, 0);
+  }, [id]);
+
+  useEffect(() => {
+    let alive = true;
+    setAdminLoading(true);
+    setAdminPerson(null);
+
+    administrationService
+      .getProfile(id)
+      .then((profile) => {
+        if (!alive) return;
+        setAdminPerson({
+          name: profile.name,
+          title: profile.position,
+          degree: profile.degree,
+          image: profile.image,
+          email: profile.email,
+          phone: profile.phone,
+          officeHours: profile.officeHours,
+          about: profile.about,
+          details: profile.details,
+          achievements: profile.achievements,
+          slug: profile.slug,
+        });
+      })
+      .catch(() => {
+        if (alive) setAdminPerson(null);
+      })
+      .finally(() => {
+        if (alive) setAdminLoading(false);
+      });
+
+    return () => {
+      alive = false;
+    };
   }, [id]);
 
   // Find the person
   let person = null;
   let category = "";
 
-  // 1. Search in Administration (Rector, Vice Rectors)
-  const adminEntry = Object.entries(administrationData).find(([key, val]) => {
-    return key === id || convertToSlug(val.name) === id;
-  });
-  if (adminEntry) {
-    const [adminKey, val] = adminEntry;
-    const adminContent = t(`administration.${adminKey}`, null);
-    person = {
-      name: val.name,
-      title: adminContent?.title || val.title,
-      degree: adminContent?.degree || val.degree,
-      image: val.image,
-      email: val.email,
-      phone: val.phone,
-      officeHours: adminContent?.officeHours || val.officeHours,
-      about: adminContent?.about || val.about,
-      details: adminContent?.details || val.details,
-      achievements: adminContent?.achievements || val.achievements,
-      slug: convertToSlug(val.name)
-    };
+  // 1. Administration profiles are CMS/API driven.
+  if (adminPerson) {
+    person = adminPerson;
     category = t("common.administration", t("nav.administration", "Administration"));
   }
 
   // 2. Search in Faculty Deans / Leadership
+  if (!person && adminLoading) {
+    return <div className="pt-24 min-h-[70vh] bg-white" />;
+  }
+
   if (!person) {
     for (const faculty of facultiesData) {
       if (faculty.leadership) {

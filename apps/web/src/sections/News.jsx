@@ -19,15 +19,14 @@ export default function News() {
   useEffect(() => {
     let active = true;
 
-    newsService
-      .getSettings()
-      .then((data) => {
+    Promise.all([
+      newsService.getSettings(),
+      newsService.getNews({ per_page: 12 }),
+    ])
+      .then(([data, payload]) => {
         if (!active) return;
         setSettings(data);
-        return newsService.getNews({ per_page: data.home_limit || 4 });
-      })
-      .then((payload) => {
-        if (active && payload) setHomeNews(payload.items);
+        setHomeNews((payload.items || []).slice(0, Number(data.home_limit || 4)));
       })
       .catch(() => {
         if (active) {

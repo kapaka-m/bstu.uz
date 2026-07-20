@@ -63,11 +63,11 @@ export default function Leadership() {
             </div>
           )}
 
-          <div className="hidden sm:grid grid-cols-1 md:grid-cols-6 lg:grid-cols-5 gap-6 md:gap-8 max-w-7xl mx-auto items-stretch">
+          <div className="hidden sm:grid grid-cols-1 md:grid-cols-6 xl:grid-cols-5 gap-6 md:gap-8 max-w-7xl mx-auto items-stretch">
             {viceRectors.map((leader, index) => {
               const colSpanClass = index < 2
-                ? "col-span-1 md:col-span-3 lg:col-span-1"
-                : "col-span-1 md:col-span-2 lg:col-span-1";
+                ? "col-span-1 md:col-span-3 xl:col-span-1"
+                : "col-span-1 md:col-span-2 xl:col-span-1";
               return (
                 <div key={leader.slug || leader.id} className={`${colSpanClass} flex`}>
                   <LeaderCard leader={leader} settings={settings} isRector={false} />
@@ -76,7 +76,7 @@ export default function Leadership() {
             })}
           </div>
 
-          <div className="sm:hidden flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 -mx-4 px-4">
+          <div className="sm:hidden flex gap-4 overflow-x-auto no-scrollbar snap-x snap-mandatory pb-4 -mx-4 px-4">
             {viceRectors.map((leader) => (
               <div key={leader.slug || leader.id} className="min-w-[17rem] snap-center flex">
                 <LeaderCard leader={leader} settings={settings} isRector={false} />
@@ -92,7 +92,7 @@ export default function Leadership() {
 function LeaderCard({ leader, settings, isRector }) {
   return (
     <div className={`group bg-primary-light/50 border border-gray-100 hover:border-primary/20 p-3 sm:p-4 rounded-[1.75rem] shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1.5 flex flex-col overflow-hidden w-full mx-auto ${
-      isRector ? "max-w-72 sm:max-w-76" : "max-w-72 lg:max-w-52.5 xl:max-w-none"
+      isRector ? "max-w-72 sm:max-w-76" : "max-w-72 xl:max-w-none"
     }`}>
       <Link to={leader.path} className="block relative aspect-4/5 w-full rounded-2xl overflow-hidden mb-3.5 bg-gray-100 border border-gray-200/50 shadow-inner group/photo">
         <img

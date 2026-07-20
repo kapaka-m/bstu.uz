@@ -59,7 +59,8 @@ const emptySettingsTranslations = () =>
 const storageUrl = (path) => {
   if (!path) return "";
   if (/^https?:\/\//i.test(path) || path.startsWith("/")) return path;
-  return `/storage/${path}`;
+  const apiBase = import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/api/v1";
+  return `${apiBase.replace(/\/api\/v1\/?$/, "")}/storage/${path.replace(/^public\//, "")}`;
 };
 
 export default function ApanelAdministration() {
@@ -259,7 +260,7 @@ export default function ApanelAdministration() {
             </label>
             <div className="space-y-1 text-xs font-bold text-gray-500">
               <span>Active</span>
-              <label className="flex min-h-[42px] items-center gap-2 rounded-xl border border-gray-100 px-3 py-2.5 text-sm font-bold text-navy">
+              <label className="flex min-h-10.5 items-center gap-2 rounded-xl border border-gray-100 px-3 py-2.5 text-sm font-bold text-navy">
                 <input
                   type="checkbox"
                   checked={Boolean(settings.is_active)}

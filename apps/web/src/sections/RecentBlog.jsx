@@ -2,8 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, BookOpen, Calendar, Newspaper, PenLine, User } from "lucide-react";
 import { motion } from "framer-motion";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay } from "swiper/modules";
 import { useLanguage } from "../context/LanguageContext";
 import { blogService } from "../services/blogService";
+import "swiper/css";
 
 const HOME_ICON_MAP = {
   "book-open": BookOpen,
@@ -47,6 +50,60 @@ export default function RecentBlog() {
   }
 
   const HomeIcon = HOME_ICON_MAP[settings.home_icon] || BookOpen;
+  const renderBlogCard = (post, index) => (
+    <motion.div
+      key={post.slug || post.id}
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      className="bg-white border border-gray-100/50 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 flex flex-col group h-full"
+    >
+      <div className="aspect-16/10 overflow-hidden bg-gray-50 relative">
+        <img
+          src={post.image}
+          alt={post.title}
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+        <span className="absolute top-4 left-4 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm">
+          {post.categoryLabel || post.category}
+        </span>
+      </div>
+
+      <div className="p-6 md:p-8 flex flex-col grow">
+        <div className="flex flex-wrap items-center gap-4 text-xs font-semibold text-gray-400 mb-4">
+          <span className="flex items-center gap-1">
+            <Calendar className="w-3.5 h-3.5" />
+            {post.date}
+          </span>
+          <span className="flex items-center gap-1">
+            <User className="w-3.5 h-3.5" />
+            {post.author}
+          </span>
+        </div>
+
+        <h3 className="text-lg md:text-xl font-bold text-navy group-hover:text-primary transition-colors duration-300 line-clamp-2 mb-3 leading-snug">
+          <Link to={`/blog/${post.slug}`}>{post.title}</Link>
+        </h3>
+
+        <p className="text-gray-500 text-sm leading-relaxed mb-6 line-clamp-3">
+          {post.excerpt}
+        </p>
+
+        <div className="mt-auto">
+          <Link
+            to={`/blog/${post.slug}`}
+            className="inline-flex items-center gap-1.5 text-sm font-bold text-navy hover:text-primary transition-colors"
+          >
+            {settings.read_more_label || ""}
+            <ArrowRight
+              className={`w-4 h-4 transition-transform duration-300 ${language === "ar" ? "rotate-180 group-hover:-translate-x-1" : "group-hover:translate-x-1"}`}
+            />
+          </Link>
+        </div>
+      </div>
+    </motion.div>
+  );
 
   return (
     <section
@@ -65,68 +122,27 @@ export default function RecentBlog() {
           </p>
         </div>
 
-        {/* Blog Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {recentPosts.map((post, index) => (
-            <motion.div
-              key={post.slug || post.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-white border border-gray-100/50 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 flex flex-col group"
-            >
-              {/* Image */}
-              <div className="aspect-16/10 overflow-hidden bg-gray-50 relative">
-                <img
-                  src={post.image}
-                  alt={post.title}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                <span className="absolute top-4 left-4 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm">
-                  {post.categoryLabel || post.category}
-                </span>
-              </div>
+        <div className="lg:hidden">
+          <Swiper
+            key={language}
+            dir={language === "ar" ? "rtl" : "ltr"}
+            modules={[Autoplay]}
+            spaceBetween={24}
+            slidesPerView={1}
+            autoplay={{ delay: 4500, disableOnInteraction: false, pauseOnMouseEnter: true }}
+            breakpoints={{ 768: { slidesPerView: 2 } }}
+            className="pb-2"
+          >
+            {recentPosts.map((post, index) => (
+              <SwiperSlide key={post.slug || post.id} className="h-auto">
+                {renderBlogCard(post, index)}
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
 
-              {/* Card Body */}
-              <div className="p-6 md:p-8 flex flex-col grow">
-                {/* Meta */}
-                <div className="flex flex-wrap items-center gap-4 text-xs font-semibold text-gray-400 mb-4">
-                  <span className="flex items-center gap-1">
-                    <Calendar className="w-3.5 h-3.5" />
-                    {post.date}
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <User className="w-3.5 h-3.5" />
-                    {post.author}
-                  </span>
-                </div>
-
-                {/* Title */}
-                <h3 className="text-lg md:text-xl font-bold text-navy group-hover:text-primary transition-colors duration-300 line-clamp-2 mb-3 leading-snug">
-                  <Link to={`/blog/${post.slug}`}>{post.title}</Link>
-                </h3>
-
-                {/* Excerpt */}
-                <p className="text-gray-500 text-sm leading-relaxed mb-6 line-clamp-3">
-                  {post.excerpt}
-                </p>
-
-                {/* Read More */}
-                <div className="mt-auto">
-                  <Link
-                    to={`/blog/${post.slug}`}
-                    className="inline-flex items-center gap-1.5 text-sm font-bold text-navy hover:text-primary transition-colors"
-                  >
-                    {settings.read_more_label || ""}
-                    <ArrowRight
-                      className={`w-4 h-4 transition-transform duration-300 ${language === "ar" ? "rotate-180 group-hover:-translate-x-1" : "group-hover:translate-x-1"}`}
-                    />
-                  </Link>
-                </div>
-              </div>
-            </motion.div>
-          ))}
+        <div className="hidden lg:grid lg:grid-cols-3 gap-8">
+          {recentPosts.map((post, index) => renderBlogCard(post, index))}
         </div>
 
         <div className="text-center mt-12">

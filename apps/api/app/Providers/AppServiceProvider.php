@@ -49,7 +49,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         RateLimiter::for('apanel-api', function (Request $request) {
-            return Limit::perMinute(120)->by(optional($request->user())->id ?: $request->ip());
+            return Limit::perMinute(600)->by(optional($request->user())->id ?: $request->ip());
         });
 
         RateLimiter::for('uploads', function (Request $request) {

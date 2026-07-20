@@ -3,13 +3,12 @@ import { Link } from "react-router-dom";
 import { Play, Eye, Calendar, ArrowRight, X, Film } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination, Navigation } from "swiper/modules";
+import { Autoplay, Navigation } from "swiper/modules";
 import { useLanguage } from "../context/LanguageContext";
 import { videoService } from "../services/videoService";
 
 // Import Swiper styles
 import "swiper/css";
-import "swiper/css/pagination";
 import "swiper/css/navigation";
 
 export default function VideoGallery() {
@@ -108,7 +107,7 @@ export default function VideoGallery() {
         {/* Swiper Slider */}
         <div className="relative px-2">
           <Swiper
-            modules={[Autoplay, Pagination, Navigation]}
+            modules={[Autoplay, Navigation]}
             spaceBetween={30}
             slidesPerView={1}
             autoplay={{
@@ -116,7 +115,6 @@ export default function VideoGallery() {
               disableOnInteraction: false,
               pauseOnMouseEnter: true,
             }}
-            pagination={{ clickable: true, el: ".video-swiper-pagination" }}
             navigation={{
               nextEl: ".video-swiper-button-next",
               prevEl: ".video-swiper-button-prev",
@@ -205,9 +203,6 @@ export default function VideoGallery() {
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
             </svg>
           </button>
-
-          {/* Paginationbullets */}
-          <div className="video-swiper-pagination flex justify-center gap-2 mt-4" />
         </div>
 
         {/* View All / BDTU Video Page Button */}

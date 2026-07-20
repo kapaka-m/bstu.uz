@@ -29,6 +29,13 @@ const mediaUrl = (path) => {
   return `${apiBase.replace(/\/api\/v1\/?$/, "")}/storage/${path.replace(/^public\//, "")}`;
 };
 
+const normalizeDate = (value) => {
+  if (!value) return "";
+  if (typeof value === "string") return value;
+  if (value.date) return value.date;
+  return "";
+};
+
 const normalizeArticle = (item) => {
   const gallery = Array.isArray(item.gallery) ? item.gallery : [];
   return {
@@ -36,7 +43,7 @@ const normalizeArticle = (item) => {
     id: item.slug || item.id,
     image: mediaUrl(item.image),
     gallery: gallery.map(mediaUrl).filter(Boolean),
-    date: item.published_at || item.created_at,
+    date: normalizeDate(item.published_at || item.created_at),
     category: item.category || "",
     categoryLabel: item.category_label || item.category || "",
     paragraphs: item.content

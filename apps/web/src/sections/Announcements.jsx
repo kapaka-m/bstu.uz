@@ -127,8 +127,8 @@ export default function Announcements() {
             className="pb-2"
           >
             {latestAnnouncements.map((item) => (
-                <SwiperSlide key={item.id} className="h-auto">
-                  <article className="bg-white border border-gray-100/70 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col h-[430px] group text-start">
+                <SwiperSlide key={item.id} className="h-auto flex">
+                  <article className="bg-white border border-gray-100/70 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col min-h-[460px] sm:min-h-[450px] w-full group text-start">
                     {/* Image Container */}
                     <div className="aspect-16/10 overflow-hidden bg-gray-100 relative">
                       <img

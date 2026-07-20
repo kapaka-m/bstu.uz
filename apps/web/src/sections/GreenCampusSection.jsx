@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay } from "swiper/modules";
 import { ArrowRight, Leaf } from "lucide-react";
 import { greenCampusService } from "../services/greenCampusService";
 import { useLanguage } from "../context/LanguageContext";
+import "swiper/css";
 
 export default function GreenCampusSection() {
   const { language } = useLanguage();
@@ -37,6 +40,47 @@ export default function GreenCampusSection() {
     return null;
   }
 
+  const renderArticleCard = (item, index) => (
+    <motion.div
+      key={item.id}
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      className="bg-white border border-gray-100/80 rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 flex flex-col text-start relative group h-full"
+    >
+      <div className="w-full aspect-video rounded-2xl overflow-hidden bg-gray-50 border border-gray-100 mb-6">
+        <img
+          src={item.image}
+          alt={item.title}
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          loading="lazy"
+          onError={(e) => {
+            e.currentTarget.style.display = "none";
+          }}
+        />
+      </div>
+
+      <h3 className="text-lg font-extrabold text-navy mb-3 group-hover:text-emerald-600 transition-colors">
+        {item.title}
+      </h3>
+
+      <p className="text-gray-500 text-xs font-semibold leading-relaxed mb-6 grow">
+        {item.excerpt}
+      </p>
+
+      <div className="pt-4 border-t border-gray-50 flex items-center justify-between text-xs font-extrabold text-emerald-600 group-hover:text-emerald-700">
+        <span>{settings.read_more_label || ""}</span>
+        <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1 rtl:rotate-180" />
+      </div>
+
+      <Link
+        to={`/green-campus/${item.id}`}
+        className="absolute inset-0"
+      />
+    </motion.div>
+  );
+
   return (
     <section
       id="green-campus-preview"
@@ -59,51 +103,27 @@ export default function GreenCampusSection() {
           <div className="w-16 h-1 bg-emerald-500 mx-auto mt-4 rounded-full" />
         </div>
 
-        {/* Articles Preview Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-          {articles.map((item, index) => {
-            return (
-              <motion.div
-                key={item.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-white border border-gray-100/80 rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 flex flex-col text-start relative group"
-              >
-                <div className="w-full aspect-video rounded-2xl overflow-hidden bg-gray-50 border border-gray-100 mb-6">
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    loading="lazy"
-                    onError={(e) => {
-                      e.currentTarget.style.display = "none";
-                    }}
-                  />
-                </div>
+        <div className="lg:hidden mb-16">
+          <Swiper
+            key={language}
+            dir={language === "ar" ? "rtl" : "ltr"}
+            modules={[Autoplay]}
+            spaceBetween={24}
+            slidesPerView={1}
+            autoplay={{ delay: 4500, disableOnInteraction: false, pauseOnMouseEnter: true }}
+            breakpoints={{ 768: { slidesPerView: 2 } }}
+            className="pb-2"
+          >
+            {articles.map((item, index) => (
+              <SwiperSlide key={item.id} className="h-auto">
+                {renderArticleCard(item, index)}
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
 
-                <h3 className="text-lg font-extrabold text-navy mb-3 group-hover:text-emerald-600 transition-colors">
-                  {item.title}
-                </h3>
-
-                <p className="text-gray-500 text-xs font-semibold leading-relaxed mb-6 grow">
-                  {item.excerpt}
-                </p>
-
-                <div className="pt-4 border-t border-gray-50 flex items-center justify-between text-xs font-extrabold text-emerald-600 group-hover:text-emerald-700">
-                  <span>{settings.read_more_label || ""}</span>
-                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1 rtl:rotate-180" />
-                </div>
-
-                {/* Direct link wrap to full page */}
-                <Link
-                  to={`/green-campus/${item.id}`}
-                  className="absolute inset-0"
-                />
-              </motion.div>
-            );
-          })}
+        <div className="hidden lg:grid lg:grid-cols-3 gap-8 mb-16">
+          {articles.map((item, index) => renderArticleCard(item, index))}
         </div>
 
         {/* CTA Button */}

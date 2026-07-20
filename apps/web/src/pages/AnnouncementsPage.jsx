@@ -132,7 +132,29 @@ export default function AnnouncementsPage() {
     <div className="pt-24 min-h-screen bg-slate-50/50">
       <div className="container mx-auto px-4 md:px-8 max-w-7xl py-12 md:py-16">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-          <div className="lg:col-span-8 flex flex-col gap-6">
+          <div className="order-1 lg:hidden">
+            <div className="bg-white border border-gray-100 p-6 rounded-3xl shadow-xs text-start">
+              <h4 className="text-base font-extrabold text-navy mb-4">
+                {settings?.search_title || ""}
+              </h4>
+              <div className="flex bg-slate-50 border border-gray-100 rounded-xl overflow-hidden hover:border-gray-200 transition-all">
+                <input
+                  id="announcements-search-mobile"
+                  name="announcements_search_mobile"
+                  type="text"
+                  placeholder={settings?.search_placeholder || ""}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="grow px-4 py-3 text-sm bg-transparent focus:outline-none"
+                />
+                <div className="px-4 py-3 text-gray-400 flex items-center justify-center bg-slate-100/50">
+                  <Search className="w-4 h-4" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="order-2 lg:order-1 lg:col-span-8 flex flex-col gap-6">
             <AnimatePresence mode="popLayout">
               {loading ? (
                 <div className="text-center py-20 bg-white rounded-3xl border border-gray-100 p-8 text-gray-500 font-semibold">
@@ -234,8 +256,8 @@ export default function AnnouncementsPage() {
             </AnimatePresence>
           </div>
 
-          <div className="lg:col-span-4 flex flex-col gap-8 text-start">
-            <div className="bg-white border border-gray-100 p-6 rounded-3xl shadow-xs">
+          <div className="order-3 lg:order-2 lg:col-span-4 flex flex-col gap-8 text-start">
+            <div className="hidden lg:block bg-white border border-gray-100 p-6 rounded-3xl shadow-xs">
               <h4 className="text-base font-extrabold text-navy mb-4">
                 {settings?.search_title || ""}
               </h4>

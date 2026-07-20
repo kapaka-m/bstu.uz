@@ -178,8 +178,29 @@ export default function GreenCampusPage() {
 
       <div className="container mx-auto px-4 md:px-8 max-w-7xl py-16 md:py-24 text-start">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+          <div className="order-1 lg:hidden">
+            <div className="bg-gray-50 border border-gray-100 p-8 rounded-3xl">
+              <h4 className="text-base font-extrabold text-navy mb-4 border-b border-gray-200/50 pb-2">
+                {settings.search_title || ""}
+              </h4>
+              <div className="relative">
+                <input
+                  id="green-campus-search-input-mobile"
+                  name="green_campus_search_mobile"
+                  type="text"
+                  autoComplete="off"
+                  placeholder={settings.search_placeholder || ""}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-10 pr-4 py-3 rounded-xl bg-white border border-gray-200 focus:outline-none focus:border-emerald-500 text-sm font-semibold transition-colors"
+                />
+                <Search className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
+              </div>
+            </div>
+          </div>
+
           {/* Left: Green Campus Articles List */}
-          <div className="lg:col-span-8 flex flex-col gap-10">
+          <div className="order-2 lg:order-1 lg:col-span-8 flex flex-col gap-10">
             {filteredArticles.length > 0 ? (
               filteredArticles.map((article) => (
                 <article
@@ -283,9 +304,9 @@ export default function GreenCampusPage() {
           </div>
 
           {/* Right: Sidebar */}
-          <div className="lg:col-span-4 flex flex-col gap-8">
+          <div className="order-3 lg:order-2 lg:col-span-4 flex flex-col gap-8">
             {/* Search widget */}
-            <div className="bg-gray-50 border border-gray-100 p-8 rounded-3xl">
+            <div className="hidden lg:block bg-gray-50 border border-gray-100 p-8 rounded-3xl">
               <h4 className="text-base font-extrabold text-navy mb-4 border-b border-gray-200/50 pb-2">
                 {settings.search_title || ""}
               </h4>

@@ -72,7 +72,7 @@ export const faqData = [
   {
     id: 6,
     question: "Who is the Rector of Bukhara State Technical University?",
-    answer: "The university is led by Rector Sadoqat Ghaforovna Siddikova, appointed to guide the institution through its technological and academic advancements."
+    answer: "University leadership information is managed through the Administration CMS and displayed from the live database."
   }
 ];
 

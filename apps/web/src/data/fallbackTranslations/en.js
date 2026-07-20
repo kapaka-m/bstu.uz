@@ -108,7 +108,6 @@ export const translation = {
       "title": "Transforming Technical Education for the Global Era",
       "quote1": "Welcome to Bukhara State Technical University. Our university enters 2026 with complete academic and financial autonomy, allowing us to build modern credit-based ECTS curricula aligned with leading European technical standards. By merging the regional engineering and natural resource institutes, we have built a powerful scientific hub.",
       "quote2": "We believe that true engineering cannot be taught in isolation. That is why our students actively collaborate with national enterprises, conduct scientific research in patented petrochemical formulas, and participate in double-degree programs with Latvia, Belarus, and Turkey. We prepare elite technical specialists ready for global challenges.",
-      "degree": "PhD in Pedagogical Sciences",
       "profileBtn": "View Rector Profile & Achievements",
       "appealBadge": "Special Awareness",
       "appealTitle": "Rector's Special Appeal: Safeguarding Our Youth",
@@ -118,8 +117,7 @@ export const translation = {
       "parentsTitle": "For Respected Parents",
       "parentsDesc": "Monitoring our children's mental state, extracurricular activities, friends, and interests is the most effective measure for their safety. A single word of advice, a minute of conversation sometimes prevents big mistakes. Stay involved in their academic journey and provide constant guidance.",
       "teachersTitle": "For Respected Teachers",
-      "teachersDesc": "Your scientific potential, life experience, and educational advice create a solid foundation in the minds of young people. Preventing drug addiction is not just a restriction, but above all, a spiritual strength, collective responsibility, and a conscious way of life. Let us strengthen a healthy environment at our university together.",
-      "name": "Dr. Sadoqat G. Siddikova"
+      "teachersDesc": "Your scientific potential, life experience, and educational advice create a solid foundation in the minds of young people. Preventing drug addiction is not just a restriction, but above all, a spiritual strength, collective responsibility, and a conscious way of life. Let us strengthen a healthy environment at our university together."
     },
     "timeline": {
       "badge": "Chronology",
@@ -264,30 +262,6 @@ export const translation = {
     "toggleMobileMenu": "Toggle mobile menu"
   },
   "home": {
-    "leadership": {
-      "roles": {
-        "rector": "Rector",
-        "academic": "Vice Rector for Academic Affairs",
-        "research": "Vice Rector for Research and Innovation",
-        "youth": "First Vice Rector for Youth Affairs and Spiritual and Educational Work",
-        "international": "Vice Rector for International Cooperation",
-        "finance": "Vice Rector for Finance and Economy"
-      },
-      "tag": "University Leadership",
-      "title": "BSTU Administration and Vice Rectors",
-      "receptionLabel": "Reception Days:",
-      "phoneLabel": "Phone:",
-      "emailLabel": "Email:",
-      "telegramLabel": "Telegram:",
-      "rectorBot": "Rector Telegram Bot:",
-      "receptions": {
-        "mon_sat": "Monday - Saturday, 9:00 AM - 5:00 PM",
-        "wed_fri": "Wednesday & Friday, 2:00 PM - 4:00 PM",
-        "thu_sat": "Thursday & Saturday, 10:00 AM - 12:00 PM",
-        "sat": "Saturday, 9:00 AM - 12:00 PM",
-        "friday": "Friday, 3:00 PM - 5:00 PM"
-      }
-    },
     "programs": {
       "list": {
         "petroleum-gas-chemistry-phd": {
@@ -620,7 +594,7 @@ export const translation = {
       "q5": "Where is the main university campus located?",
       "a5": "The university campus is located at 15 Q. Murtazoyev Street, Bukhara city, Uzbekistan.",
       "q6": "Who is the Rector of Bukhara State Technical University?",
-      "a6": "The university is led by Rector Sadoqat Ghaforovna Siddikova, appointed to guide the institution through its technological and academic advancements."
+      "a6": "University leadership information is managed through the Administration CMS and displayed from the live database."
     },
     "features": {
       "tag": "Key Advantages",
@@ -1546,81 +1520,6 @@ export const translation = {
         "Well Drilling Simulators Studio",
         "Geophysical Well Log Analysis Room"
       ]
-    }
-  },
-  "administration": {
-    "rector": {
-      "title": "Rector of the University",
-      "degree": "Doctor of Philosophy (PhD) in Pedagogical Sciences",
-      "about": "Dr. Sadoqat G. Siddikova holds a PhD in Pedagogical Sciences. Appointed in August 2023, she leads BSTU through its strategic digital education initiatives and structural modernization reforms. Previously, she served as the Rector of the Bukhara Engineering and Technology Institute, Deputy Head of the Bukhara Regional Employment Department, and Director of the 'Ishga Marhamat' Monocenter. Dr. Siddikova is actively involved in public life as a deputy of the Regional Council of People's Deputies and Chair of the Executive Committee of the Bukhara Regional Ecological Party. She is the author of over 40 scientific articles focusing on education quality and industrial digitization.",
-      "details": "Organizing the implementation of the laws of the Republic of Uzbekistan, decrees and orders of the President, and decisions of the Oliy Majlis and the Cabinet of Ministers in the field of education and personnel training; Ensuring the preparation of highly qualified specialists with high moral and ethical qualities, capable of independent thinking, and possessing skills to organize work in market conditions; Organizing the training of highly qualified personnel based on state educational standards; Ensuring the fulfillment of tasks defined in the Law \"On Education of the Republic of Uzbekistan\" and the \"National Program for Personnel Training\" at the higher education institution; Defining the powers of all structural units of the higher education institution, planning, coordinating, managing their activities, preparing suitable personnel for management positions at the institution, selecting staff, recommending candidates for leadership positions, and hiring; Providing material and moral incentives for employees, ensuring social protection, and applying disciplinary measures; Supervising the formation of revenues of higher education institutions and their effective use; Organizing scientific research work, increasing their efficiency, and widely introducing the results of research into practice; ensuring integration between higher education, science, and production; Organizing the creation, translation, and publication of textbooks and educational-methodical literature in accordance with the concept of creating a new generation of educational literature for the system of continuous education; Introducing advanced teaching methods in the educational process, including distance learning, new pedagogical and information-communication technologies, and organizing their effective use; Leading spiritual, educational, and upbringing activities, shaping the national idea among staff and students; Managing admission of students, graduate students, and trainee researchers to the university, expulsion, reinstatement, and ensuring compliance with internal regulations; Ensuring professional development of professors and teaching staff.",
-      "achievements": [
-        "Awarded the prestigious national 'Shuhrat' medal in 2018.",
-        "Winner of the 'Best Idea Initiator of the Year' category in the Woman of the Year competition (2024).",
-        "Successfully led the integration of the Bukhara Engineering-Technological Institute and Bukhara Institute of Natural Resources Management into the unified BSTU.",
-        "Author of 4 major educational methodology manuals and over 40 indexed research articles."
-      ],
-      "officeHours": "Friday at 3:00 pm.- 5:00 pm"
-    },
-    "vice-rector-academic": {
-      "title": "Vice Rector for Academic Affairs",
-      "degree": "Candidate of Technical Sciences, Associate Professor",
-      "about": "Dr. Alisher X. Gafforov manages the core academic structure of Bukhara State Technical University. He oversees curriculum development, academic quality control, registration systems, and student credit metrics. In compliance with international standards, he has spearheaded the transition of the university's academic catalog to the ECTS credit-scoring system. Under his leadership, the university academic senate reviews and optimizes curriculums to match the rapid advancements in local oil, gas, and construction industries.",
-      "details": "Organizing the implementation of the laws of the Republic of Uzbekistan, decrees and orders of the President, and decisions of the Oliy Majlis and the Cabinet of Ministers in the field of education and personnel training; Organizing educational, scientific, financial, and spiritual-educational activities based on state educational standards and ensuring the preparation of qualified personnel; Ensuring that all deans, department heads, and teaching staff fully understand the content of knowledge and requirements for the level of training according to state educational standards; Organizing the implementation of orders, decrees, and instructions of relevant higher authorities, decisions of the university Scientific Council, and rector's orders regarding educational and training processes; Studying the development trends of education systems in advanced countries, developing and ensuring the implementation of methods and tools to fulfill the tasks specified in the Law \"On Education,\" the \"National Program for Personnel Training,\" and other education-related laws; Introducing advanced teaching methods in the educational process, including distance learning, new pedagogical and information-communication technologies, and organizing their effective use; Preparing proposals related to the activity direction and organizing work accordingly; Coordinating, organizing, and supervising the activities of departments and deans responsible for the educational process; Approving work plans of departments, faculties, and chairs, and supervising their execution; Improving the quality of ongoing classes, monitoring and ensuring the fulfillment of individual plans of professors and teachers; Organizing educational and scientific conferences, leading the university methodological council and pedagogical skill enhancement activities, and summarizing advanced methodological experiences; Overseeing the preparation and publication of educational-methodical and scientific materials, including journals and collections of scientific works by university staff, and managing the replenishment of the library fund with periodic educational-methodical and scientific publications in all educational and scientific activity areas; Managing the search, selection, and work with talented youth, assisting them, and overseeing the preparation of winners of prestigious scholarships named after the President of the Republic of Uzbekistan, Navoi, Beruni, Ulugbek, Zulfiya, and others among students and trainee researchers; Developing proposals for staffing professors, teachers, and staff assisting educational work, and organizing the provision of departments and divisions with qualified personnel; Preparing proposals for recruitment based on competition for vacant positions, retaining trainee researchers and graduate students, and leading the development and implementation of plans to improve and upgrade the qualifications of teaching staff; Developing measures to efficiently use classrooms and improving the technical equipment of auditoriums and laboratories; Taking disciplinary measures against employees who violate executive discipline and preparing proposals for terminating their contracts; Preparing proposals to improve the content of education and establish faculties and departments in cooperation with foreign higher education institutions of the same profile to ensure training of specialists according to international requirements; Conducting annual reports, analyzing, and drawing conclusions about the activities of departments, faculties, and divisions; assessing the educational-methodical activities of professors and teachers using modern methods; Maintaining ongoing cooperation with higher education institutions in educational-methodical fields, ensuring active participation of professors and teachers in conferences and seminars, and collaborating with local authorities; Determining, analyzing, and carrying out work to improve the annual rating of the higher education institution in the established order; Actively participating in the regular internal certification of Bukhara State Technical University, preparing for external certification, and conducting it.",
-      "achievements": [
-        "Successfully transitioned 100% of undergraduate courses to the ECTS credit system.",
-        "Created the unified student registration portal to optimize academic transcript issuance.",
-        "Developed 12 new interdisciplinary engineering curriculums in collaboration with regional companies."
-      ],
-      "officeHours": "Thursday - Saturday (09:00-13:00)"
-    },
-    "vice-rector-research": {
-      "title": "Vice Rector for Research and Innovation",
-      "degree": "Doctor of Economics, Professor",
-      "about": "Dr. Aslitdin B. Nizamov is a prominent economist and professor. He directs the university's scientific research activities, state innovation grants, and bilateral partnerships with production enterprises (such as Uzbekneftegaz JSC). Previously, he managed the Master's Department from 2018 to 2024. Under his direction, the university has expanded its doctoral (PhD/DSc) programs and created several dedicated research laboratories to analyze and optimize petrochemical synthesis.",
-      "details": "Organizing the implementation of the laws of the Republic of Uzbekistan, decrees and orders of the President, decisions of the Oliy Majlis (Parliament) and the Cabinet of Ministers in the field of education and personnel training; Organizing educational, scientific, financial, and spiritual-educational work based on state education standards and ensuring the training of qualified personnel; Ensuring that all deans, department heads, and teaching staff fully understand the set of requirements regarding the content of knowledge and the level of training in accordance with state education standards; Organizing the execution of orders, decrees, and instructions from relevant higher authorities, as well as decisions of the university's Academic Council and rector's orders on issues related to the educational process; Studying development trends in advanced countries' education systems, developing methods and tools to implement tasks outlined in the \"Law on Education,\" the \"National Personnel Training Program,\" and other education-related laws, and ensuring their implementation; Introducing advanced forms of teaching in the educational process, including distance learning, new pedagogical and information-communication technologies, and organizing their effective use; Preparing proposals and organizing work within the scope of activity; Coordinating, organizing, and supervising the work of departments and deans responsible for the educational process; Approving work plans of departments, faculties, and chairs and monitoring their implementation; Improving the quality of ongoing lessons, monitoring and ensuring the fulfillment of individual plans of professors and teachers; Organizing educational and scientific conferences, leading the university's methodological council and activities aimed at improving pedagogical skills, and summarizing advanced methodological experience; Overseeing the preparation and publication process of educational-methodological and scientific materials, including journals and collections of scientific works by university staff, as well as replenishing the library fund with educational-methodological and scientific periodicals in all areas of the university's educational and scientific activities; Managing and assisting the process of searching for and selecting talented youth, including preparing students and intern-researchers among scholarship winners named after the President of Uzbekistan, Navoi, Beruni, Ulugbek, Zulfiya, and other prestigious scholarships; Developing proposals on staffing for professors, teachers, and staff assisting educational work, and organizing the provision of qualified personnel to departments and divisions; Preparing proposals for competitive recruitment for vacant positions, retaining intern-researchers and master's students in employment, improving the composition of professors and teachers, and leading the development and implementation of their professional development plans; Developing issues related to the efficient use of classrooms, improving the technical equipment of auditoriums and laboratories; Taking disciplinary measures against employees violating executive discipline and preparing proposals for terminating their contracts; Preparing proposals for establishing faculties and departments in cooperation with similar foreign higher education institutions to improve the content of education and ensure the training of specialists according to international standards; Conducting annual activity reports of departments, faculties, and divisions, analyzing and drawing conclusions, and implementing modern methods to evaluate the educational and methodological activities of professors and teachers; Maintaining constant cooperation with higher education institutions in the field of educational-methodological work, ensuring the active participation of professors and teachers in conferences and seminars, and cooperating with local authorities; Determining, analyzing, and improving the annual rating of the higher education institution according to established procedures; Actively participating in the regular internal attestation of Bukhara State Technical University, preparing for external attestation, and participating in its conduct.",
-      "achievements": [
-        "Oversaw the registration of 15 new state-funded scientific research grants.",
-        "Expanded the university's doctoral publications in high-impact Scopus and Web of Science journals by 35%.",
-        "Formulated bilateral innovation agreements with 8 national industrial enterprises."
-      ],
-      "officeHours": "Monday - Saturday (09:00-16:00)"
-    },
-    "vice-rector-youth": {
-      "title": "First Vice Rector for Youth Affairs and Spiritual and Educational Work",
-      "degree": "Doctor of Philosophy (DSc) in Sociology, Associate Professor",
-      "about": "By the order of the Minister of Higher Education, Science, and Innovations, Marhabo Davlatovna Pardayeva was appointed as the First Vice-Rector for Youth Affairs and Spiritual-Educational Work at Bukhara State Technical University. Marhabo Pardayeva was born in 1974 in Romitan district. In 1997, she graduated from Bukhara State University with a degree in history, law, and social sciences teaching. Doctor of Philosophy (DSc), Associate Professor. Before this appointment, she served as the head of the Bukhara regional department of the Republican Center for Spirituality and Enlightenment.",
-      "details": "Coordinates the Youth Union branch, manages student dormitory placements and social welfare, and directs moral-spiritual educational forums. Leads spiritual, educational, and upbringing activities, shaping the national idea among staff and students, and ensuring safety and discipline.",
-      "achievements": [
-        "Inaugurated the BSTU Student Sports and Wellness Complex.",
-        "Established 15 new creative and cultural clubs inside the student dormitories.",
-        "Organized the annual Bukhara Regional Youth Enlightenment Forum."
-      ],
-      "officeHours": "Monday - Saturday (09:00-16:00)"
-    },
-    "vice-rector-international": {
-      "title": "Vice Rector for International Cooperation",
-      "degree": "PhD in Architecture, Associate Professor",
-      "about": "Dr. Murodjon U. Djurayev directs the international relations of Bukhara State Technical University. He manages bilateral academic exchange partnerships, foreign project grants, and the integration of international educational standards. Dr. Djurayev oversees the university's double-degree agreements with leading European and Asian universities, facilitating student and staff mobility.",
-      "details": "Coordinates global double-degree programs, manages international exchange projects (e.g. Erasmus+), and oversees international student enrollments. Focuses on expanding the global footprint of BSTU, forming agreements with prestigious institutions globally, and facilitating staff and student research exchanges.",
-      "achievements": [
-        "Signed double-degree agreements with 6 foreign universities in Europe and Asia.",
-        "Secured funding for 3 new Erasmus+ capacity-building projects.",
-        "Doubled the enrollment of international students at the university."
-      ],
-      "officeHours": "Wednesday – Friday (15:00 – 17:00)"
-    },
-    "vice-rector-finance": {
-      "title": "Vice Rector for Finance and Economy",
-      "degree": "Doctor of Philosophy (PhD) in Economics",
-      "about": "Dr. Sobir B. Saidov manages the financial and economic affairs of Bukhara State Technical University. He oversees the planning and finance department, accounting, marketing services, and the allocation of budget and extra-budgetary funds. He ensures the financial stability of the institution and coordinates capital projects, campus maintenance, and energy-saving audits.",
-      "details": "Organizing the implementation of the laws of the Republic of Uzbekistan, decrees and orders of the President, and decisions of the Oliy Majlis (Parliament) and the Cabinet of Ministers in the field of education and personnel training; Organizing educational, scientific, financial, and spiritual-educational activities based on state education standards and ensuring the training of qualified personnel; Ensuring that all deans, departments, heads of chairs, and teaching staff fully understand the requirements regarding the content of knowledge and the level of preparation in accordance with state education standards; Managing and coordinating financial and economic activities; Managing and coordinating the activities of the planning and finance department, accounting, marketing department, and administrative departments; Organizing, managing, and coordinating construction, repair, landscaping, and greening activities; Expanding the attraction of off-budget funds through additional paid services (publishing, household services, paid training courses, leasing, sponsorship, dividends, etc.) within the limits of the existing material and technical base of the higher education institution, and developing proposals for the material incentives of professors, teaching staff, and employees; Forming off-budget funds from tuition fees paid by contract students and other special off-budget funds; Developing income and expenditure estimates for the state budget, tuition fees paid by contract students, and funds earned through entrepreneurial activities, and ensuring their submission for registration to the Ministry of Finance and relevant ministries and agencies; Controlling the implementation of the higher education institution’s expenditure estimates, financial and economic activities, and accounting of currency operations; Developing measures and ensuring their implementation for preparing educational and laboratory buildings, student dormitories, and other auxiliary buildings and facilities for the autumn-winter season and the new academic year; Studying the condition of the material and technical base of the higher education institution in the context of economic liberalization, developing measures for its development, and monitoring their implementation; Organizing activities to attract investments; Reviewing project and estimate documents for reconstruction and major repairs of existing buildings and facilities, concluding contracts, accepting completed works, and controlling their quality; Organizing control over compliance with staff, budget, and accounting discipline, as well as bookkeeping and reporting; Developing and ensuring the implementation of measures for rational and economical use of budget and off-budget funds, as well as communal services; Developing and implementing measures to improve conditions for paying wages to professors, teaching staff, and employees of higher education institutions, as well as developing accounting and reporting; Ensuring timely payment of salaries to professors, teaching staff, and employees, as well as scholarships to students of higher education institutions; Monitoring the receipt of tuition fees from students studying on a contract basis.",
-      "achievements": [
-        "Optimized the university budget allocation to secure full funding for research labs.",
-        "Implemented a digital campus accounting and billing system.",
-        "Directed the thermal insulation and energy efficiency modernization of 3 campus buildings."
-      ],
-      "officeHours": "Saturday 15:00-17:00"
     }
   },
   "centers": {
@@ -2751,4 +2650,5 @@ export const translation = {
     "passwordPlaceholder": "Password",
     "showPassword": "Show password",
     "hidePassword": "Hide password"
-  },};
+  }
+};

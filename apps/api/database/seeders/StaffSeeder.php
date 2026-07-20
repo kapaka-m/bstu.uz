@@ -14,76 +14,18 @@ class StaffSeeder extends Seeder
     public function run(): void
     {
         $translationsPath = database_path('data/translations.json');
-        $administrationPath = database_path('data/administration.json');
         $departmentsPath = database_path('data/departments.json');
 
-        if (! file_exists($translationsPath) || ! file_exists($administrationPath) || ! file_exists($departmentsPath)) {
+        if (! file_exists($translationsPath) || ! file_exists($departmentsPath)) {
             return;
         }
 
         $translations = json_decode(file_get_contents($translationsPath), true);
-        $leaders = json_decode(file_get_contents($administrationPath), true);
         $deptsMetadata = json_decode(file_get_contents($departmentsPath), true);
 
         $sortOrder = 1;
 
-        // 1. Seed University Leadership
-        foreach ($leaders as $slug => $meta) {
-            $email = $meta['email'] ?? ($slug.'@bstu.uz');
-            $existingPhone = StaffProfile::where('email', $email)->value('phone');
-
-            $staff = StaffProfile::updateOrCreate(
-                ['email' => $email],
-                [
-                    'slug' => $slug,
-                    'department_id' => null,
-                    'faculty_id' => null,
-                    'photo' => $meta['image'] ?? 'staff/'.$slug.'.jpg',
-                    'phone' => $existingPhone ?? ($meta['phone'] ?? '+998 65 223 78 84'),
-                    'sort_order' => $sortOrder++,
-                    'is_active' => true,
-                ]
-            );
-
-            foreach (['en', 'uz', 'ru', 'ar'] as $locale) {
-                // Find translation in translations.json
-                $leadTrans = $this->findNestedKey($translations[$locale] ?? [], $slug) ?? [];
-
-                $name = $leadTrans['name'] ?? ($meta['name'] ?? '');
-                $position = $leadTrans['title'] ?? ($meta['title'] ?? '');
-                $bio = $leadTrans['about'] ?? ($meta['about'] ?? '');
-                $office = $meta['office'] ?? 'Main Campus, Building 1';
-
-                // Fallbacks
-                if (empty($name)) {
-                    $enLeadTrans = $this->findNestedKey($translations['en'] ?? [], $slug) ?? [];
-                    $name = $enLeadTrans['name'] ?? ($meta['name'] ?? '');
-                }
-                if (empty($position)) {
-                    $enLeadTrans = $this->findNestedKey($translations['en'] ?? [], $slug) ?? [];
-                    $position = $enLeadTrans['title'] ?? ($meta['title'] ?? '');
-                }
-                if (empty($bio)) {
-                    $enLeadTrans = $this->findNestedKey($translations['en'] ?? [], $slug) ?? [];
-                    $bio = $enLeadTrans['about'] ?? ($meta['about'] ?? '');
-                }
-
-                StaffProfileTranslation::updateOrCreate(
-                    [
-                        'staff_profile_id' => $staff->id,
-                        'locale' => $locale,
-                    ],
-                    [
-                        'full_name' => $name,
-                        'position' => $position,
-                        'bio' => $bio,
-                        'office' => $office,
-                    ]
-                );
-            }
-        }
-
-        // 2. Seed Faculty Deans
+        // 1. Seed Faculty Deans
         $faculties = Faculty::all();
         foreach ($faculties as $fac) {
             // Find dean key based on slug mapping
@@ -136,7 +78,7 @@ class StaffSeeder extends Seeder
             }
         }
 
-        // 3. Seed Department Staff
+        // 2. Seed Department Staff
         foreach ($deptsMetadata as $deptSlug => $meta) {
             $deptModel = Department::where('slug', $deptSlug)->first();
             if (! $deptModel) {
@@ -189,22 +131,5 @@ class StaffSeeder extends Seeder
                 }
             }
         }
-    }
-
-    private function findNestedKey(array $array, string $key)
-    {
-        if (isset($array[$key])) {
-            return $array[$key];
-        }
-        foreach ($array as $k => $v) {
-            if (is_array($v)) {
-                $res = $this->findNestedKey($v, $key);
-                if ($res !== null) {
-                    return $res;
-                }
-            }
-        }
-
-        return null;
     }
 }

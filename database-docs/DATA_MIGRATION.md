@@ -15,9 +15,9 @@ are not imported by public React pages.
 1. **`translations.js`** — UI translation dictionaries, structural text, and department metadata translations.
 2. **`programsData.js`** — Study programs metadata (degree, duration, coordinators, accreditations).
 3. **`departmentsData.js`** — Academic departments, lab titles, and subject list curriculum.
-4. **`universityData.js`** — Global university administration leadership (Rector, Vice-rectors, bios, contact details).
-5. **Green Campus CMS** — Sustainability statistics and green campus initiatives are managed through `/apanel/cms/green-campus`.
-6. **Announcements CMS** — Campus announcements are managed through `/apanel/cms/announcements`.
+4. **Green Campus CMS** — Sustainability statistics and green campus initiatives are managed through `/apanel/cms/green-campus`.
+5. **Announcements CMS** — Campus announcements are managed through `/apanel/cms/announcements`.
+6. **Administration CMS** — University leadership is managed through `/apanel/cms/administration` and stored in the Administration CMS tables.
 7. **`mockData.js`** — Services priorities data and additional blog elements.
 
 `facultyTechnology.js` and `facultyTechnologyRequirements.cleaned.txt` are kept
@@ -41,7 +41,9 @@ The extracted JSON datasets were mapped onto the normalized, multi-language MySQ
 - **`courses` & `course_translations`** — Dynamically mapped department subjects to courses and linked them to programs.
 - **`news` & `news_translations`** — Dynamic News & Events articles with content fields managed through `/apanel/cms/news-events`.
 - **`announcements` & `announcement_translations`** — Priority campus announcements managed through `/apanel/cms/announcements`.
-- **`staff_profiles` & `staff_profile_translations`** — Leadership, faculty deans, and department instructors. Staff profiles include stable public slugs such as `rector`.
+- **`staff_profiles` & `staff_profile_translations`** — Faculty deans and department instructors.
+- **`administration_profiles` & `administration_profile_translations`** — University leadership profiles managed through `/apanel/cms/administration`.
+- **`administration_settings` & `administration_setting_translations`** — Homepage and Structure menu labels for Administration.
 - **`services` & `service_translations`** — Core university services seeded by `ServiceSeeder`.
 - **`videos` & `video_translations`** — Video Gallery records managed through `/apanel/cms/video-bdtu`.
 - **`green_campus_stats` & `green_campus_stat_translations`** — Sustainability metrics.
@@ -92,9 +94,9 @@ The seeders consume the JSON files in `apps/api/database/data/`. They do not cal
 
 Current JSON dataset ownership:
 
-- `administration.json`: consumed by `StaffSeeder`.
 - `announcements.json`: consumed by `AnnouncementSeeder`.
 - `departments.json`: consumed by department, course, and staff seeding.
+- `administration-cms.json`: optional reviewed Administration CMS restore/seed source consumed by `AdministrationSeeder`.
 - Green Campus content is not consumed from JSON. It is managed through `/apanel/cms/green-campus`.
 - `programs.json`: consumed by `ProgramSeeder`.
 - `translations.json`: consumed by translation, menu, page, faculty, department, program, course, staff, and announcement seeders.
@@ -162,7 +164,6 @@ file. It reads:
 - `apps/web/src/data/translations.js` or `scripts/import-react-content/legacy-react-data/translations.js`
 - `scripts/import-react-content/legacy-react-data/programsData.js`
 - `scripts/import-react-content/legacy-react-data/departmentsData.js`
-- `scripts/import-react-content/legacy-react-data/universityData.js`
 - `scripts/import-react-content/legacy-react-data/mockData.js`
 
 It writes:
@@ -170,7 +171,6 @@ It writes:
 - `apps/api/database/data/translations.json`
 - `apps/api/database/data/programs.json`
 - `apps/api/database/data/departments.json`
-- `apps/api/database/data/administration.json`
 - `apps/api/database/data/services.json`
 
 Run it from the repository root:
@@ -188,7 +188,7 @@ Current seeders consume these JSON files directly:
 - `translations.json`: translations, menus, pages, page blocks, faculties, departments, programs, courses, staff, and UI translation keys/values.
 - `departments.json`: departments, courses, and staff metadata.
 - `programs.json`: program metadata.
-- `administration.json`: leadership/staff metadata.
+- `administration-cms.json`: reviewed Administration CMS restore/seed source.
 
 `services.json` is generated but not consumed by current seeders. Blog, News & Events, Video Gallery, Announcements, and footer content are not generated from static JSON.
 

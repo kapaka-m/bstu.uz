@@ -5,7 +5,7 @@ import { useLanguage } from "../context/LanguageContext";
 import { administrationService } from "../services/administrationService";
 
 export default function Leadership() {
-  const { t, language } = useLanguage();
+  const { language } = useLanguage();
   const [settings, setSettings] = useState(null);
   const [leaders, setLeaders] = useState([]);
 
@@ -35,7 +35,7 @@ export default function Leadership() {
     };
   }, [leaders]);
 
-  if (!rector && leaders.length === 0) {
+  if (!settings || (!rector && leaders.length === 0)) {
     return null;
   }
 
@@ -48,10 +48,10 @@ export default function Leadership() {
         <div className="text-center max-w-3xl mx-auto mb-20">
           <h2 className="text-sm font-extrabold uppercase tracking-widest text-primary mb-3 inline-flex items-center justify-center gap-2">
             <UsersRound className="w-4 h-4" />
-            {settings?.home_tag || t("home.leadership.tag")}
+            {settings.home_tag}
           </h2>
           <p className="text-3xl md:text-4xl font-extrabold text-navy leading-tight">
-            {settings?.home_title || t("home.leadership.title")}
+            {settings.home_title}
           </p>
           <div className="w-16 h-1 bg-primary mx-auto mt-4 rounded-full" />
         </div>
@@ -90,8 +90,6 @@ export default function Leadership() {
 }
 
 function LeaderCard({ leader, settings, isRector }) {
-  const { t } = useLanguage();
-
   return (
     <div className={`group bg-primary-light/50 border border-gray-100 hover:border-primary/20 p-3 sm:p-4 rounded-[1.75rem] shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1.5 flex flex-col overflow-hidden w-full mx-auto ${
       isRector ? "max-w-72 sm:max-w-76" : "max-w-72 lg:max-w-52.5 xl:max-w-none"
@@ -124,7 +122,7 @@ function LeaderCard({ leader, settings, isRector }) {
             <Clock className="w-3 h-3 text-primary shrink-0 mt-0.5" />
             <div>
               <span className="text-gray-400 block text-[8px] uppercase font-bold tracking-wider mb-0.5">
-                {settings?.reception_label || t("home.leadership.receptionLabel")}
+                {settings?.reception_label}
               </span>
               <span className="text-gray-700 leading-tight block">{leader.reception}</span>
             </div>
@@ -134,7 +132,7 @@ function LeaderCard({ leader, settings, isRector }) {
             <Phone className="w-3 h-3 text-primary shrink-0 mt-0.5" />
             <div>
               <span className="text-gray-400 block text-[8px] uppercase font-bold tracking-wider mb-0.5">
-                {settings?.phone_label || t("home.leadership.phoneLabel")}
+                {settings?.phone_label}
               </span>
               <a href={`tel:${leader.phone.replace(/\s+/g, "")}`} className="text-gray-700 hover:text-primary transition-colors font-bold block leading-tight">
                 {leader.phone}
@@ -147,7 +145,7 @@ function LeaderCard({ leader, settings, isRector }) {
               <Mail className="w-3 h-3 text-primary shrink-0 mt-0.5" />
               <div>
                 <span className="text-gray-400 block text-[8px] uppercase font-bold tracking-wider mb-0.5">
-                  {settings?.email_label || t("home.leadership.emailLabel")}
+                  {settings?.email_label}
                 </span>
                 <a href={`mailto:${leader.email}`} className="text-gray-700 hover:text-primary transition-colors break-all font-bold block leading-tight">
                   {leader.email}
@@ -161,7 +159,7 @@ function LeaderCard({ leader, settings, isRector }) {
               <Send className="w-3 h-3 text-primary shrink-0 mt-0.5" />
               <div>
                 <span className="text-gray-400 block text-[8px] uppercase font-bold tracking-wider mb-0.5">
-                  {settings?.telegram_label || t("home.leadership.telegramLabel")}
+                  {settings?.telegram_label}
                 </span>
                 <a
                   href={leader.telegram}
@@ -169,7 +167,7 @@ function LeaderCard({ leader, settings, isRector }) {
                   rel="noopener noreferrer"
                   className="text-primary hover:underline transition-all font-bold block leading-tight"
                 >
-                  {settings?.rector_bot_label || t("home.leadership.rectorBot")}
+                  {settings?.rector_bot_label}
                 </a>
               </div>
             </div>

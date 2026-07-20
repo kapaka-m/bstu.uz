@@ -108,7 +108,6 @@ export const translation = {
       "title": "Global davr uchun texnik ta'limni transformatsiya qilish",
       "quote1": "Buxoro davlat texnika universitetiga xush kelibsiz. Universitetimiz 2026-yilga to'liq akademik va moliyaviy mustaqillik bilan qadam qo'ydi, bu esa bizga Yevropa ta'lim standartlariga mos keladigan zamonaviy ECTS kredit tizimini joriy etish imkonini beradi. Birlashgan ilmiy markaz sifatida biz ulkan imkoniyatlar yaratdik.",
       "quote2": "Biz haqiqiy muhandislik amaliyotdan uzilgan holda o'rganilmasligiga ishonamiz. Shuning uchun talabalarimiz yirik sanoat korxonalari bilan hamkorlik qiladilar va Latviya, Belarus, Turkiya kabi davlatlar bilan qo'shma dasturlarda ishtirok etadilar. Biz global muammolarga tayyor mutaxassislarni tayyorlaymiz.",
-      "degree": "Pedagogika fanlari bo'yicha falsafa doktori (PhD)",
       "profileBtn": "Rektor faoliyati va yutuqlari bilan tanishish",
       "appealBadge": "Maxsus ogohlantirish",
       "appealTitle": "Rektorning yoshlar va jamoatchilikka murojaati",
@@ -118,8 +117,7 @@ export const translation = {
       "parentsTitle": "Hurmatli ota-onalarga",
       "parentsDesc": "Farzandlarimizning ruhiy holati va darsdan tashqari mashg'ulotlarini kuzatib borish — xavfsizlik yo'lidagi eng samarali choradir. Bir daqiqa samimiy suhbat ba'zan katta xatolarning oldini oladi.",
       "teachersTitle": "Muhtaram ustozlarga",
-      "teachersDesc": "Sizning hayotiy tajribangiz yoshlar ongida mustahkam poydevor yaratadi. Giyohvandlikning oldini olish faqat cheklov emas, balki jamoaviy mas'uliyatdir. Universitetimizda sog'lom muhitni birgalikda mustahkamlaylik. Har bir talabaga e'tiborli bo'laylik.",
-      "name": "Dr. Sadoqat G. Siddikova"
+      "teachersDesc": "Sizning hayotiy tajribangiz yoshlar ongida mustahkam poydevor yaratadi. Giyohvandlikning oldini olish faqat cheklov emas, balki jamoaviy mas'uliyatdir. Universitetimizda sog'lom muhitni birgalikda mustahkamlaylik. Har bir talabaga e'tiborli bo'laylik."
     },
     "timeline": {
       "badge": "Tarixiy Solnoma",
@@ -265,30 +263,6 @@ export const translation = {
     "toggleMobileMenu": "Mobil menyuni almashtirish"
   },
   "home": {
-    "leadership": {
-      "roles": {
-        "rector": "Rektor",
-        "academic": "O'quv ishlari bo'yicha prorektor",
-        "research": "Ilmiy ishlar va innovatsiyalar bo'yicha prorektor",
-        "youth": "Yoshlar masalalari va ma'naviy-ma'rifiy ishlar bo'yicha birinchi prorektor",
-        "international": "Xalqaro hamkorlik bo'yicha prorektor",
-        "finance": "Moliyaviy-iqtisodiy ishlar bo'yicha prorektor"
-      },
-      "tag": "Universitet rahbariyati",
-      "title": "BuxDTU ma'muriyati va prorektorlari",
-      "receptionLabel": "Qabul kunlari:",
-      "phoneLabel": "Telefon:",
-      "emailLabel": "E-pochta:",
-      "telegramLabel": "Telegram:",
-      "rectorBot": "Rektor Telegram boti:",
-      "receptions": {
-        "mon_sat": "Dushanba - Shanba, 9:00 - 17:00",
-        "wed_fri": "Chorshanba va Juma, 14:00 - 16:00",
-        "thu_sat": "Payshanba va Shanba, 10:00 - 12:00",
-        "sat": "Shanba, 9:00 - 12:00",
-        "friday": "Juma, 15:00 - 17:00"
-      }
-    },
     "programs": {
       "list": {
         "petroleum-gas-chemistry-phd": {
@@ -680,7 +654,7 @@ export const translation = {
     "q5": "Universitetning asosiy kampusi qayerda joylashgan?",
     "a5": "Universitet kampusi Buxoro shahri, Murtazoyev ko'chasi, 15-uyda joylashgan.",
     "q6": "Buxoro davlat texnika universiteti rektori kim?",
-    "a6": "Universitetga rektor Sadoqat Ghaforovna Siddikova rahbarlik qilmoqda, u muassasani texnologik va akademik rivojlanish sari yetaklamoqda."
+    "a6": "Universitet rahbariyati haqidagi maʼlumotlar Administration CMS orqali boshqariladi va maʼlumotlar bazasidan ko‘rsatiladi."
   },
   "features": {
     "tag": "Bizning afzalliklar",

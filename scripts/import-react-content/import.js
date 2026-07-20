@@ -64,10 +64,6 @@ console.log("Loading translations.js...");
 const translationsModule = evaluateFile(sourceFile('translations.js'));
 const translations = translationsModule.translations;
 
-console.log("Loading announcementsData.js...");
-const announcementsModule = evaluateFile(sourceFile('announcementsData.js'));
-const announcementsData = announcementsModule.announcementsData;
-
 console.log("Loading programsData.js...");
 const programsModule = evaluateFile(sourceFile('programsData.js'));
 const programsData = programsModule.programsData;
@@ -86,7 +82,6 @@ const servicesData = mockDataModule.servicesData;
 
 // Write files to JSON
 fs.writeFileSync(path.join(apiDataDir, 'translations.json'), JSON.stringify(translations, null, 2));
-fs.writeFileSync(path.join(apiDataDir, 'announcements.json'), JSON.stringify(announcementsData, null, 2));
 fs.writeFileSync(path.join(apiDataDir, 'programs.json'), JSON.stringify(programsData, null, 2));
 fs.writeFileSync(path.join(apiDataDir, 'departments.json'), JSON.stringify(departmentsData, null, 2));
 fs.writeFileSync(path.join(apiDataDir, 'administration.json'), JSON.stringify(administrationData, null, 2));

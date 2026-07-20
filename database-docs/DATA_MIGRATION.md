@@ -16,8 +16,8 @@ are not imported by public React pages.
 2. **`programsData.js`** — Study programs metadata (degree, duration, coordinators, accreditations).
 3. **`departmentsData.js`** — Academic departments, lab titles, and subject list curriculum.
 4. **`universityData.js`** — Global university administration leadership (Rector, Vice-rectors, bios, contact details).
-5. **`announcementsData.js`** — Campus notices, priority tags, and date boundaries.
-6. **Green Campus CMS** — Sustainability statistics and green campus initiatives are managed through `/apanel/cms/green-campus`.
+5. **Green Campus CMS** — Sustainability statistics and green campus initiatives are managed through `/apanel/cms/green-campus`.
+6. **Announcements CMS** — Campus announcements are managed through `/apanel/cms/announcements`.
 7. **`mockData.js`** — Services priorities data and additional blog elements.
 
 `facultyTechnology.js` and `facultyTechnologyRequirements.cleaned.txt` are kept
@@ -40,7 +40,7 @@ The extracted JSON datasets were mapped onto the normalized, multi-language MySQ
 - **`programs` & `program_translations`** — Seeded all study programs with requirements, documents, and career paths.
 - **`courses` & `course_translations`** — Dynamically mapped department subjects to courses and linked them to programs.
 - **`news` & `news_translations`** — Dynamic News & Events articles with content fields managed through `/apanel/cms/news-events`.
-- **`announcements` & `announcement_translations`** — Priority campus announcements.
+- **`announcements` & `announcement_translations`** — Priority campus announcements managed through `/apanel/cms/announcements`.
 - **`staff_profiles` & `staff_profile_translations`** — Leadership, faculty deans, and department instructors. Staff profiles include stable public slugs such as `rector`.
 - **`services` & `service_translations`** — Core university services seeded by `ServiceSeeder`.
 - **`videos` & `video_translations`** — Video Gallery records managed through `/apanel/cms/video-bdtu`.
@@ -160,7 +160,6 @@ source captures. It reads content files from
 file. It reads:
 
 - `apps/web/src/data/translations.js` or `scripts/import-react-content/legacy-react-data/translations.js`
-- `scripts/import-react-content/legacy-react-data/announcementsData.js`
 - `scripts/import-react-content/legacy-react-data/programsData.js`
 - `scripts/import-react-content/legacy-react-data/departmentsData.js`
 - `scripts/import-react-content/legacy-react-data/universityData.js`
@@ -169,7 +168,6 @@ file. It reads:
 It writes:
 
 - `apps/api/database/data/translations.json`
-- `apps/api/database/data/announcements.json`
 - `apps/api/database/data/programs.json`
 - `apps/api/database/data/departments.json`
 - `apps/api/database/data/administration.json`
@@ -187,13 +185,12 @@ After running it, review the generated JSON diff before running seeders. The scr
 
 Current seeders consume these JSON files directly:
 
-- `translations.json`: translations, menus, pages, page blocks, faculties, departments, programs, courses, announcements, staff, and UI translation keys/values.
+- `translations.json`: translations, menus, pages, page blocks, faculties, departments, programs, courses, staff, and UI translation keys/values.
 - `departments.json`: departments, courses, and staff metadata.
 - `programs.json`: program metadata.
-- `announcements.json`: announcement metadata.
 - `administration.json`: leadership/staff metadata.
 
-`services.json` is generated but not consumed by current seeders. Blog, News & Events, Video Gallery, and footer content are not generated from static JSON.
+`services.json` is generated but not consumed by current seeders. Blog, News & Events, Video Gallery, Announcements, and footer content are not generated from static JSON.
 
 ---
 

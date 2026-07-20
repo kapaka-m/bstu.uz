@@ -1163,6 +1163,14 @@ class AdminCrudController extends Controller
             'translations.*.telegram_label' => 'nullable|string|max:255',
             'translations.*.rector_bot_label' => 'nullable|string|max:255',
             'translations.*.structure_title' => 'nullable|string|max:255',
+            'translations.*.profile_category_label' => 'nullable|string|max:255',
+            'translations.*.email_address_label' => 'nullable|string|max:255',
+            'translations.*.phone_number_label' => 'nullable|string|max:255',
+            'translations.*.office_hours_label' => 'nullable|string|max:255',
+            'translations.*.academic_rank_label' => 'nullable|string|max:255',
+            'translations.*.biography_label' => 'nullable|string|max:255',
+            'translations.*.duties_label' => 'nullable|string|max:255',
+            'translations.*.achievements_label' => 'nullable|string|max:255',
         ];
 
         $validator = Validator::make($request->all(), $rules);

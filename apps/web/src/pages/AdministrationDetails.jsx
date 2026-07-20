@@ -11,6 +11,7 @@ export default function AdministrationDetails() {
   const { t, language } = useLanguage();
   const navigate = useNavigate();
   const [person, setPerson] = useState(null);
+  const [settings, setSettings] = useState(null);
   const [notAdministration, setNotAdministration] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -24,9 +25,11 @@ export default function AdministrationDetails() {
     setNotAdministration(false);
     setPerson(null);
 
-    administrationService
-      .getProfile(id)
-      .then((profile) => {
+    Promise.all([
+      administrationService.getProfile(id, language),
+      administrationService.getSettings(language).catch(() => null),
+    ])
+      .then(([profile, nextSettings]) => {
         if (!alive) return;
         setPerson({
           name: profile.name,
@@ -40,6 +43,7 @@ export default function AdministrationDetails() {
           details: profile.details,
           achievements: profile.achievements,
         });
+        setSettings(nextSettings);
       })
       .catch(() => {
         if (alive) setNotAdministration(true);
@@ -77,7 +81,16 @@ export default function AdministrationDetails() {
   }
 
   const initials = getInitials(person.name);
-  const category = t("common.administration", t("nav.administration", "Administration"));
+  const labels = {
+    category: settings?.profile_category_label || t("common.administration", t("nav.administration", "Administration")),
+    email: settings?.email_address_label || settings?.email_label || t("common.email", "Email Address"),
+    phone: settings?.phone_number_label || settings?.phone_label || t("common.phone", "Phone Number"),
+    officeHours: settings?.office_hours_label || settings?.reception_label || t("common.officeHours", "Office Hours"),
+    academicRank: settings?.academic_rank_label || t("common.academicRank", "Academic Rank & Position"),
+    biography: settings?.biography_label || t("common.biography", "Professional Biography"),
+    duties: settings?.duties_label || t("common.dutiesResponsibilities", "Duties & Responsibilities"),
+    achievements: settings?.achievements_label || t("common.keyAchievements", "Key Achievements & Milestones"),
+  };
 
   return (
     <div className="pt-24 bg-white min-h-screen text-start">
@@ -101,16 +114,16 @@ export default function AdministrationDetails() {
 
             <div className="flex flex-col gap-2">
               <span className="inline-block text-[10px] font-extrabold uppercase tracking-wider text-primary bg-primary/10 px-3 py-1 rounded-full w-fit mx-auto">
-                {category}
+                {labels.category}
               </span>
               <h1 className="text-xl font-extrabold text-navy leading-snug mt-2">{person.name}</h1>
               <p className="text-xs font-semibold text-gray-500">{person.title}</p>
             </div>
 
             <div className="w-full border-t border-gray-200/65 pt-6 flex flex-col gap-4 text-xs font-semibold text-gray-600 text-start">
-              <ContactLine icon={Mail} label={t("common.email", "Email")} value={person.email} />
-              <ContactLine icon={Phone} label={t("common.phone", "Phone")} value={person.phone} />
-              <ContactLine icon={Clock} label={t("common.officeHours", "Office Hours")} value={person.officeHours} />
+              <ContactLine icon={Mail} label={labels.email} value={person.email} />
+              <ContactLine icon={Phone} label={labels.phone} value={person.phone} />
+              <ContactLine icon={Clock} label={labels.officeHours} value={person.officeHours} />
             </div>
           </div>
 
@@ -119,7 +132,7 @@ export default function AdministrationDetails() {
               <div className="bg-primary/5 border border-primary/10 rounded-2xl p-4 flex items-center gap-3">
                 <GraduationCap className="w-6 h-6 text-primary shrink-0" />
                 <div>
-                  <h4 className="text-xs font-extrabold text-navy uppercase tracking-wider">{t("common.academicRank", "Academic Rank & Position")}</h4>
+                  <h4 className="text-xs font-extrabold text-navy uppercase tracking-wider">{labels.academicRank}</h4>
                   <p className="text-sm font-bold text-primary leading-snug">{person.degree}</p>
                 </div>
               </div>
@@ -129,7 +142,7 @@ export default function AdministrationDetails() {
               <section className="flex flex-col gap-4">
                 <h3 className="text-lg font-extrabold text-navy flex items-center gap-2 border-b border-gray-100 pb-2">
                   <Briefcase className="w-5 h-5 text-primary shrink-0" />
-                  {t("common.biography", "Professional Biography")}
+                  {labels.biography}
                 </h3>
                 <p className="text-gray-500 text-sm md:text-base leading-relaxed whitespace-pre-line">{person.about}</p>
               </section>
@@ -139,7 +152,7 @@ export default function AdministrationDetails() {
               <section className="flex flex-col gap-4">
                 <h3 className="text-lg font-extrabold text-navy flex items-center gap-2 border-b border-gray-100 pb-2">
                   <FileText className="w-5 h-5 text-primary shrink-0" />
-                  {t("common.dutiesResponsibilities", "Duties & Responsibilities")}
+                  {labels.duties}
                 </h3>
                 <div className="grid grid-cols-1 gap-3">
                   {person.details.split(/[;؛]/).map((duty) => {
@@ -160,7 +173,7 @@ export default function AdministrationDetails() {
               <section className="flex flex-col gap-4">
                 <h3 className="text-lg font-extrabold text-navy flex items-center gap-2 border-b border-gray-100 pb-2">
                   <Award className="w-5 h-5 text-primary shrink-0" />
-                  {t("common.keyAchievements", "Key Achievements & Milestones")}
+                  {labels.achievements}
                 </h3>
                 <ul className="flex flex-col gap-3">
                   {person.achievements.map((achievement) => (
@@ -181,13 +194,16 @@ export default function AdministrationDetails() {
 
 function ContactLine({ icon: Icon, label, value }) {
   if (!value) return null;
+  const isPhone = label.toLowerCase().includes("phone") || /^\+?\d/.test(String(value).trim());
 
   return (
     <div className="flex items-center gap-3">
       <Icon className="w-5 h-5 text-primary shrink-0" />
       <div>
         <p className="text-[10px] text-gray-400 font-extrabold uppercase tracking-wider">{label}</p>
-        <p className="text-navy break-all font-bold">{value}</p>
+        <p className={`text-navy font-bold ${isPhone ? "text-left [unicode-bidi:isolate]" : "break-all"}`} dir={isPhone ? "ltr" : undefined}>
+          {value}
+        </p>
       </div>
     </div>
   );

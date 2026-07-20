@@ -13,8 +13,8 @@ export default function Leadership() {
     let alive = true;
 
     Promise.all([
-      administrationService.getSettings().catch(() => null),
-      administrationService.getProfiles().catch(() => []),
+      administrationService.getSettings(language).catch(() => null),
+      administrationService.getProfiles({}, language).catch(() => []),
     ]).then(([nextSettings, nextLeaders]) => {
       if (!alive) return;
       setSettings(nextSettings || null);
@@ -134,7 +134,11 @@ function LeaderCard({ leader, settings, isRector }) {
               <span className="text-gray-400 block text-[8px] uppercase font-bold tracking-wider mb-0.5">
                 {settings?.phone_label}
               </span>
-              <a href={`tel:${leader.phone.replace(/\s+/g, "")}`} className="text-gray-700 hover:text-primary transition-colors font-bold block leading-tight">
+              <a
+                href={`tel:${leader.phone.replace(/\s+/g, "")}`}
+                dir="ltr"
+                className="text-gray-700 hover:text-primary transition-colors font-bold block leading-tight text-left [unicode-bidi:isolate]"
+              >
                 {leader.phone}
               </a>
             </div>

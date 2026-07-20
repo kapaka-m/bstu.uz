@@ -15,7 +15,8 @@ export class ApiError extends Error {
 async function request(method, path, body = null, options = {}) {
   const locale = localeStorage.getLocale();
   const separator = path.includes("?") ? "&" : "?";
-  const url = `${BASE_URL}${path}${separator}locale=${locale}`;
+  const hasLocale = /(?:[?&])locale=/.test(path);
+  const url = `${BASE_URL}${path}${hasLocale ? "" : `${separator}locale=${locale}`}`;
 
   const headers = {
     "Accept": "application/json",

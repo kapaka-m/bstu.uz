@@ -652,9 +652,7 @@ export const translation = {
     "q4": "BuxDTU ning Ilg'or muhandislik maktabi nima?",
     "a4": "Uzbekneftegaz AJ bilan hamkorlikda tashkil etilgan Ilg'or muhandislik maktabi energetika sohasi talabalari uchun amaliy, yuqori texnologiyali sanoat tayyorgarligi va to'g'ridan-to'g'ri ishga joylashish imkoniyatlarini taqdim etadi.",
     "q5": "Universitetning asosiy kampusi qayerda joylashgan?",
-    "a5": "Universitet kampusi Buxoro shahri, Murtazoyev ko'chasi, 15-uyda joylashgan.",
-    "q6": "Buxoro davlat texnika universiteti rektori kim?",
-    "a6": "Universitet boshqaruv maʼlumotlari tegishli CMS sahifasi orqali boshqariladi va maʼlumotlar bazasidan ko‘rsatiladi."
+    "a5": "Universitet kampusi Buxoro shahri, Murtazoyev ko'chasi, 15-uyda joylashgan."
   },
   "features": {
     "tag": "Bizning afzalliklar",

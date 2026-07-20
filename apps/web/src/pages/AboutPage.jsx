@@ -34,7 +34,7 @@ export default function AboutPage() {
   useEffect(() => {
     let alive = true;
     administrationService
-      .getProfile("rector")
+      .getProfile("rector", language)
       .then((profile) => {
         if (alive) setRectorProfile(profile);
       })

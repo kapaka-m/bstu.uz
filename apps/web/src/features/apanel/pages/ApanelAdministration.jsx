@@ -44,6 +44,14 @@ const emptySettingsTranslations = () =>
         telegram_label: "",
         rector_bot_label: "",
         structure_title: "",
+        profile_category_label: "",
+        email_address_label: "",
+        phone_number_label: "",
+        office_hours_label: "",
+        academic_rank_label: "",
+        biography_label: "",
+        duties_label: "",
+        achievements_label: "",
       },
     ]),
   );
@@ -264,7 +272,24 @@ export default function ApanelAdministration() {
 
           <LocaleTabs active={activeLocale} onChange={setActiveLocale} />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {["home_tag", "home_title", "reception_label", "phone_label", "email_label", "telegram_label", "rector_bot_label", "structure_title"].map((field) => (
+            {[
+              "home_tag",
+              "home_title",
+              "reception_label",
+              "phone_label",
+              "email_label",
+              "telegram_label",
+              "rector_bot_label",
+              "structure_title",
+              "profile_category_label",
+              "email_address_label",
+              "phone_number_label",
+              "office_hours_label",
+              "academic_rank_label",
+              "biography_label",
+              "duties_label",
+              "achievements_label",
+            ].map((field) => (
               <TextField
                 key={field}
                 label={field.replaceAll("_", " ")}

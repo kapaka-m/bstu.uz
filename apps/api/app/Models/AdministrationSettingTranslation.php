@@ -17,6 +17,14 @@ class AdministrationSettingTranslation extends Model
         'telegram_label',
         'rector_bot_label',
         'structure_title',
+        'profile_category_label',
+        'email_address_label',
+        'phone_number_label',
+        'office_hours_label',
+        'academic_rank_label',
+        'biography_label',
+        'duties_label',
+        'achievements_label',
     ];
 
     public function setting()

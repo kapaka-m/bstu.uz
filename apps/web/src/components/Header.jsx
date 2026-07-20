@@ -45,8 +45,8 @@ export default function Header() {
     let alive = true;
 
     Promise.all([
-      administrationService.getSettings().catch(() => null),
-      administrationService.getProfiles().catch(() => []),
+      administrationService.getSettings(language).catch(() => null),
+      administrationService.getProfiles({}, language).catch(() => []),
     ]).then(([settings, profiles]) => {
       if (!alive) return;
       setAdministrationSettings(settings || null);

@@ -4,9 +4,17 @@ import { localeStorage } from "../lib/locale";
 const CACHE_TTL_MS = 30000;
 const cache = new Map();
 
-const cached = (key, fetcher) => {
-  const locale = localeStorage.getLocale();
-  const cacheKey = `${locale}:${key}`;
+const getLocale = (locale) => locale || localeStorage.getLocale();
+
+const withLocale = (path, locale) => {
+  const currentLocale = getLocale(locale);
+  const separator = path.includes("?") ? "&" : "?";
+  return `${path}${separator}locale=${encodeURIComponent(currentLocale)}`;
+};
+
+const cached = (key, fetcher, locale) => {
+  const currentLocale = getLocale(locale);
+  const cacheKey = `${currentLocale}:${key}`;
   const entry = cache.get(cacheKey);
 
   if (entry && Date.now() - entry.time < CACHE_TTL_MS) {
@@ -56,27 +64,32 @@ const normalizeList = (response) => {
 };
 
 export const administrationService = {
-  getSettings() {
-    return cached("administration/settings", () =>
-      api.get("/administration/settings").then((res) => unwrap(res)),
+  getSettings(locale) {
+    return cached(
+      "administration/settings",
+      () => api.get(withLocale("/administration/settings", locale)).then((res) => unwrap(res)),
+      locale,
     );
   },
 
-  getProfiles(options = {}) {
+  getProfiles(options = {}, locale) {
     const query = new URLSearchParams();
     Object.entries(options).forEach(([key, value]) => {
       if (value !== undefined && value !== null && value !== "") {
         query.set(key, value);
       }
     });
+    query.set("locale", getLocale(locale));
 
     const suffix = query.toString() ? `?${query}` : "";
-    return cached(`administration${suffix}`, () =>
-      api.get(`/administration${suffix}`).then(normalizeList),
+    return cached(
+      `administration${suffix}`,
+      () => api.get(`/administration${suffix}`).then(normalizeList),
+      locale,
     );
   },
 
-  getProfile(slug) {
-    return api.get(`/administration/${slug}`).then((res) => normalizeProfile(unwrap(res)));
+  getProfile(slug, locale) {
+    return api.get(withLocale(`/administration/${slug}`, locale)).then((res) => normalizeProfile(unwrap(res)));
   },
 };

@@ -68,11 +68,6 @@ export const faqData = [
     id: 5,
     question: "Where is the main university campus located?",
     answer: "The university campus is located at 15 Q. Murtazoyev Street, Bukhara city, Uzbekistan."
-  },
-  {
-    id: 6,
-    question: "Who is the Rector of Bukhara State Technical University?",
-    answer: "University leadership information is managed through the Administration CMS and displayed from the live database."
   }
 ];
 

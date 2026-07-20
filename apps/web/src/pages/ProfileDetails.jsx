@@ -8,9 +8,10 @@ import { administrationService } from "../services/administrationService";
 
 export default function ProfileDetails() {
   const { id } = useParams();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const navigate = useNavigate();
   const [adminPerson, setAdminPerson] = useState(null);
+  const [adminSettings, setAdminSettings] = useState(null);
   const [adminLoading, setAdminLoading] = useState(true);
 
   useEffect(() => {
@@ -22,9 +23,11 @@ export default function ProfileDetails() {
     setAdminLoading(true);
     setAdminPerson(null);
 
-    administrationService
-      .getProfile(id)
-      .then((profile) => {
+    Promise.all([
+      administrationService.getProfile(id, language),
+      administrationService.getSettings(language).catch(() => null),
+    ])
+      .then(([profile, settings]) => {
         if (!alive) return;
         setAdminPerson({
           name: profile.name,
@@ -39,9 +42,13 @@ export default function ProfileDetails() {
           achievements: profile.achievements,
           slug: profile.slug,
         });
+        setAdminSettings(settings);
       })
       .catch(() => {
-        if (alive) setAdminPerson(null);
+        if (alive) {
+          setAdminPerson(null);
+          setAdminSettings(null);
+        }
       })
       .finally(() => {
         if (alive) setAdminLoading(false);
@@ -50,7 +57,7 @@ export default function ProfileDetails() {
     return () => {
       alive = false;
     };
-  }, [id]);
+  }, [id, language]);
 
   // Find the person
   let person = null;
@@ -59,7 +66,7 @@ export default function ProfileDetails() {
   // 1. Administration profiles are CMS/API driven.
   if (adminPerson) {
     person = adminPerson;
-    category = t("common.administration", t("nav.administration", "Administration"));
+    category = adminSettings?.profile_category_label || t("common.administration", t("nav.administration", "Administration"));
   }
 
   // 2. Search in Faculty Deans / Leadership
@@ -155,6 +162,24 @@ export default function ProfileDetails() {
     return (parts[0][0] + parts[1][0]).toUpperCase();
   };
 
+  const labels = adminPerson ? {
+    email: adminSettings?.email_address_label || adminSettings?.email_label || t("common.email", "Email Address"),
+    phone: adminSettings?.phone_number_label || adminSettings?.phone_label || t("common.phone", "Phone Number"),
+    officeHours: adminSettings?.office_hours_label || adminSettings?.reception_label || t("common.officeHours", "Office Hours"),
+    academicRank: adminSettings?.academic_rank_label || t("common.academicRank", "Academic Rank & Position"),
+    biography: adminSettings?.biography_label || t("common.biography", "Professional Biography"),
+    duties: adminSettings?.duties_label || t("common.dutiesResponsibilities", "Duties & Responsibilities"),
+    achievements: adminSettings?.achievements_label || t("common.keyAchievements", "Key Achievements & Milestones"),
+  } : {
+    email: t("common.email", "Email"),
+    phone: t("common.phone", "Phone"),
+    officeHours: t("common.officeHours", "Office Hours"),
+    academicRank: t("common.academicRank", "Academic Rank & Position"),
+    biography: t("common.biography", "Professional Biography"),
+    duties: t("common.dutiesResponsibilities", "Duties & Responsibilities"),
+    achievements: t("common.keyAchievements", "Key Achievements & Milestones"),
+  };
+
   return (
     <div className="pt-24 bg-white min-h-screen text-start">
       <div className="container mx-auto px-4 md:px-8 max-w-6xl py-12">
@@ -195,21 +220,21 @@ export default function ProfileDetails() {
               <div className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-primary shrink-0" />
                 <div>
-                  <p className="text-[10px] text-gray-400 font-extrabold uppercase tracking-wider">{t("common.email", "Email")}</p>
+                  <p className="text-[10px] text-gray-400 font-extrabold uppercase tracking-wider">{labels.email}</p>
                   <p className="text-navy break-all font-bold">{person.email}</p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
                 <Phone className="w-5 h-5 text-primary shrink-0" />
                 <div>
-                  <p className="text-[10px] text-gray-400 font-extrabold uppercase tracking-wider">{t("common.phone", "Phone")}</p>
-                  <p className="text-navy font-bold">{person.phone}</p>
+                  <p className="text-[10px] text-gray-400 font-extrabold uppercase tracking-wider">{labels.phone}</p>
+                  <p className="text-navy font-bold text-left [unicode-bidi:isolate]" dir="ltr">{person.phone}</p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
                 <Clock className="w-5 h-5 text-primary shrink-0" />
                 <div>
-                  <p className="text-[10px] text-gray-400 font-extrabold uppercase tracking-wider">{t("common.officeHours", "Office Hours")}</p>
+                  <p className="text-[10px] text-gray-400 font-extrabold uppercase tracking-wider">{labels.officeHours}</p>
                   <p className="text-navy font-bold">{person.officeHours}</p>
                 </div>
               </div>
@@ -223,7 +248,7 @@ export default function ProfileDetails() {
               <div className="bg-primary/5 border border-primary/10 rounded-2xl p-4 flex items-center gap-3">
                 <GraduationCap className="w-6 h-6 text-primary shrink-0" />
                 <div>
-                  <h4 className="text-xs font-extrabold text-navy uppercase tracking-wider">{t("common.academicRank", "Academic Rank & Position")}</h4>
+                  <h4 className="text-xs font-extrabold text-navy uppercase tracking-wider">{labels.academicRank}</h4>
                   <p className="text-sm font-bold text-primary leading-snug">{person.degree}</p>
                 </div>
               </div>
@@ -233,7 +258,7 @@ export default function ProfileDetails() {
             <section className="flex flex-col gap-4">
               <h3 className="text-lg font-extrabold text-navy flex items-center gap-2 border-b border-gray-100 pb-2">
                 <Briefcase className="w-5 h-5 text-primary shrink-0" />
-                {t("common.biography", "Professional Biography")}
+                {labels.biography}
               </h3>
               <p className="text-gray-500 text-sm md:text-base leading-relaxed whitespace-pre-line">
                 {person.about}
@@ -245,7 +270,7 @@ export default function ProfileDetails() {
               <section className="flex flex-col gap-4">
                 <h3 className="text-lg font-extrabold text-navy flex items-center gap-2 border-b border-gray-100 pb-2">
                   <FileText className="w-5 h-5 text-primary shrink-0" />
-                  {t("common.dutiesResponsibilities", "Duties & Responsibilities")}
+                  {labels.duties}
                 </h3>
                 <div className="grid grid-cols-1 gap-3">
                   {person.details.split(/[;؛]/).map((duty, idx) => {
@@ -267,7 +292,7 @@ export default function ProfileDetails() {
               <section className="flex flex-col gap-4">
                 <h3 className="text-lg font-extrabold text-navy flex items-center gap-2 border-b border-gray-100 pb-2">
                   <Award className="w-5 h-5 text-primary shrink-0" />
-                  {t("common.keyAchievements", "Key Achievements & Milestones")}
+                  {labels.achievements}
                 </h3>
                 <ul className="flex flex-col gap-3">
                   {person.achievements.map((ach, idx) => (

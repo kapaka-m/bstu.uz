@@ -592,9 +592,7 @@ export const translation = {
       "q4": "What is the Advanced Engineering School at BSTU?",
       "a4": "Established in cooperation with Uzbekneftegaz JSC, the Advanced Engineering School aims to provide energy sector students with hands-on, high-tech industrial training and direct career pathways.",
       "q5": "Where is the main university campus located?",
-      "a5": "The university campus is located at 15 Q. Murtazoyev Street, Bukhara city, Uzbekistan.",
-      "q6": "Who is the Rector of Bukhara State Technical University?",
-      "a6": "University leadership information is managed through the Administration CMS and displayed from the live database."
+      "a5": "The university campus is located at 15 Q. Murtazoyev Street, Bukhara city, Uzbekistan."
     },
     "features": {
       "tag": "Key Advantages",

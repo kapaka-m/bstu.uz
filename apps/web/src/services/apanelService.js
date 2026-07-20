@@ -4,26 +4,37 @@ const unwrapPayload = (response) => response?.data ?? response;
 
 const normalizePage = (response) => {
   const payload = unwrapPayload(response);
+
+  if (Array.isArray(payload?.data)) {
+    return {
+      items: payload.data,
+      total:
+        payload.total ??
+        payload.meta?.total ??
+        payload.pagination?.total ??
+        payload.data.length,
+      lastPage:
+        payload.last_page ?? payload.meta?.last_page ?? payload.pagination?.last_page ?? 1,
+      currentPage:
+        payload.current_page ??
+        payload.meta?.current_page ??
+        payload.pagination?.current_page ??
+        1,
+      perPage:
+        payload.per_page ?? payload.meta?.per_page ?? payload.pagination?.per_page ?? payload.data.length,
+      raw: payload,
+    };
+  }
+
   const page = payload?.data ?? payload;
 
   if (Array.isArray(page)) {
     return {
       items: page,
-      total: page.length,
-      lastPage: 1,
-      currentPage: 1,
-      perPage: page.length,
-      raw: payload,
-    };
-  }
-
-  if (Array.isArray(page?.data)) {
-    return {
-      items: page.data,
-      total: page.total ?? page.data.length,
-      lastPage: page.last_page ?? 1,
-      currentPage: page.current_page ?? 1,
-      perPage: page.per_page ?? page.data.length,
+      total: payload?.total ?? payload?.meta?.total ?? page.length,
+      lastPage: payload?.last_page ?? payload?.meta?.last_page ?? 1,
+      currentPage: payload?.current_page ?? payload?.meta?.current_page ?? 1,
+      perPage: payload?.per_page ?? payload?.meta?.per_page ?? page.length,
       raw: payload,
     };
   }
@@ -136,7 +147,12 @@ export const apanelService = {
         faculties,
         departments,
         progs,
-        news,
+        newsEvents,
+        blogs,
+        videos,
+        newsletterSubscriptions,
+        greenCampusArticles,
+        greenCampusStats,
         media,
         pendingDocs,
         supportTickets,
@@ -149,7 +165,12 @@ export const apanelService = {
         this.list("faculties", { per_page: 1 }).catch(() => ({ total: 0 })),
         this.list("departments", { per_page: 1 }).catch(() => ({ total: 0 })),
         this.list("programs", { per_page: 1 }).catch(() => ({ total: 0 })),
-        this.list("news", { per_page: 1 }).catch(() => ({ total: 0 })),
+        this.list("news", { per_page: 1, news_events_only: 1 }).catch(() => ({ total: 0 })),
+        this.list("blogs", { per_page: 1 }).catch(() => ({ total: 0 })),
+        this.list("videos", { per_page: 1 }).catch(() => ({ total: 0 })),
+        this.list("newsletter-subscriptions", { per_page: 1 }).catch(() => ({ total: 0 })),
+        this.list("green-campus-articles", { per_page: 1 }).catch(() => ({ total: 0 })),
+        this.list("green-campus-stats", { per_page: 1 }).catch(() => ({ total: 0 })),
         this.list("media", { per_page: 1 }).catch(() => ({ total: 0 })),
         this.list("application-documents", { per_page: 1, status: "pending" }).catch(() => ({ total: 0 })),
         this.list("support-tickets", { per_page: 1 }).catch(() => ({ total: 0 })),
@@ -165,7 +186,12 @@ export const apanelService = {
           faculties: pageTotal(faculties),
           departments: pageTotal(departments),
           programs: pageTotal(progs),
-          news: pageTotal(news),
+          newsEvents: pageTotal(newsEvents),
+          blogs: pageTotal(blogs),
+          videos: pageTotal(videos),
+          newsletterSubscriptions: pageTotal(newsletterSubscriptions),
+          greenCampusArticles: pageTotal(greenCampusArticles),
+          greenCampusStats: pageTotal(greenCampusStats),
           media: pageTotal(media),
           pendingDocuments: pageTotal(pendingDocs),
           supportTickets: pageTotal(supportTickets),

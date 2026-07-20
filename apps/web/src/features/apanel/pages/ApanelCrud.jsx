@@ -423,48 +423,6 @@ const RESOURCE_SCHEMAS = {
       },
     ],
   },
-  news: {
-    title: "News Articles",
-    columns: [
-      { key: "slug", label: "Slug", sortable: true },
-      { key: "category", label: "Category", sortable: true },
-      { key: "is_published", label: "Published", type: "boolean" },
-    ],
-    fields: [
-      { name: "slug", label: "Url Slug", type: "text", required: true },
-      {
-        name: "category",
-        label: "Category group",
-        type: "select",
-        options: ["news", "events", "announcements", "blog"],
-        required: true,
-      },
-      { name: "image", label: "Header Picture Banner", type: "media" },
-      { name: "author", label: "Author Name", type: "text" },
-      { name: "author_image", label: "Author Image", type: "media" },
-      { name: "comments_count", label: "Comments Count", type: "number" },
-      { name: "published_at", label: "Publish Date", type: "date" },
-      {
-        name: "is_published",
-        label: "Publish to public feed",
-        type: "boolean",
-      },
-      {
-        name: "title",
-        label: "Press title",
-        type: "text",
-        required: true,
-        translated: true,
-      },
-      {
-        name: "content",
-        label: "Story writeup content",
-        type: "textarea",
-        required: true,
-        translated: true,
-      },
-    ],
-  },
   announcements: {
     title: "Campus Announcements",
     columns: [
@@ -575,45 +533,6 @@ const RESOURCE_SCHEMAS = {
       {
         name: "description",
         label: "Service Details body",
-        type: "textarea",
-        required: true,
-        translated: true,
-      },
-    ],
-  },
-  videos: {
-    title: "Promo Videos",
-    columns: [
-      { key: "slug", label: "Slug", sortable: true },
-      { key: "url", label: "Video URL Link" },
-      { key: "is_active", label: "Active", type: "boolean" },
-    ],
-    fields: [
-      {
-        name: "slug",
-        label: "Unique video slug",
-        type: "text",
-        required: true,
-      },
-      {
-        name: "url",
-        label: "Embed Video URL link",
-        type: "text",
-        required: true,
-      },
-      { name: "thumbnail", label: "Video Thumbnail cover", type: "media" },
-      { name: "is_active", label: "Active Status", type: "boolean" },
-      { name: "sort_order", label: "Sort Index", type: "number" },
-      {
-        name: "title",
-        label: "Video Header title",
-        type: "text",
-        required: true,
-        translated: true,
-      },
-      {
-        name: "description",
-        label: "Video summary context",
         type: "textarea",
         required: true,
         translated: true,

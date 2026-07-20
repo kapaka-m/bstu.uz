@@ -12,6 +12,21 @@ import {
 import ConfirmDialog from "../components/ConfirmDialog";
 import Pagination from "../components/Pagination";
 
+function mediaUrl(path) {
+  if (!path) return "";
+  if (path.startsWith("http://") || path.startsWith("https://")) return path;
+
+  const apiBase =
+    import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/api/v1";
+  const origin = apiBase.replace(/\/api\/v1\/?$/, "");
+  const cleanPath = path
+    .replace(/^public\//, "")
+    .replace(/^\/storage\//, "")
+    .replace(/^storage\//, "");
+
+  return `${origin}/storage/${cleanPath}`;
+}
+
 export default function ApanelMedia() {
   const [mediaList, setMediaList] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -75,11 +90,7 @@ export default function ApanelMedia() {
 
   const handleCopyPath = (media) => {
     const mediaPath = String(media.path || "");
-    const path =
-      mediaPath.startsWith("http") || mediaPath.startsWith("/")
-        ? mediaPath
-        : "/storage/" + mediaPath;
-    navigator.clipboard.writeText(path);
+    navigator.clipboard.writeText(mediaPath);
     setCopiedId(media.id);
     setTimeout(() => setCopiedId(null), 2000);
   };
@@ -205,12 +216,18 @@ export default function ApanelMedia() {
         <div className="space-y-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {mediaList.map((media) => {
-              const mediaPath = String(media.path || "");
-              const fullUrl =
-                mediaPath.startsWith("http") || mediaPath.startsWith("/")
-                  ? mediaPath
-                  : "/storage/" + mediaPath;
-              const isImg = /\.(jpeg|jpg|gif|png|webp)$/i.test(mediaPath);
+              const mediaPath = String(
+                media.path || media.url || media.file_path || ""
+              );
+              const fileName = String(
+                media.filename || media.title || mediaPath || ""
+              );
+              const mimeType = String(media.mime_type || media.mime || "");
+              const fullUrl = mediaUrl(mediaPath);
+              const isImg =
+                /\.(jpeg|jpg|gif|png|webp|avif)$/i.test(
+                  mediaPath || fileName
+                ) || mimeType.startsWith("image/");
               const isCopied = copiedId === media.id;
 
               return (

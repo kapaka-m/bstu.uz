@@ -13,6 +13,9 @@ import {
   History,
   ArrowRight,
   Activity,
+  MailPlus,
+  Video,
+  Leaf,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -23,7 +26,12 @@ export default function ApanelDashboard() {
     programs: 0,
     faculties: 0,
     departments: 0,
-    news: 0,
+    newsEvents: 0,
+    blogs: 0,
+    videos: 0,
+    newsletterSubscriptions: 0,
+    greenCampusArticles: 0,
+    greenCampusStats: 0,
     media: 0,
     pendingDocuments: 0,
     supportTickets: 0,
@@ -85,11 +93,39 @@ export default function ApanelDashboard() {
       path: "/apanel/departments",
     },
     {
-      label: "News",
-      val: stats.news,
+      label: "News & Events",
+      val: stats.newsEvents,
       icon: Newspaper,
       color: "text-rose-600 bg-rose-50 border-rose-100",
-      path: "/apanel/news",
+      path: "/apanel/cms/news-events",
+    },
+    {
+      label: "Blog",
+      val: stats.blogs,
+      icon: BookOpen,
+      color: "text-violet-600 bg-violet-50 border-violet-100",
+      path: "/apanel/cms/blog",
+    },
+    {
+      label: "Video Gallery",
+      val: stats.videos,
+      icon: Video,
+      color: "text-red-600 bg-red-50 border-red-100",
+      path: "/apanel/cms/video-bdtu",
+    },
+    {
+      label: "Green Campus",
+      val: stats.greenCampusArticles,
+      icon: Leaf,
+      color: "text-emerald-700 bg-emerald-50 border-emerald-100",
+      path: "/apanel/cms/green-campus",
+    },
+    {
+      label: "Newsletter Subscriptions",
+      val: stats.newsletterSubscriptions,
+      icon: MailPlus,
+      color: "text-fuchsia-600 bg-fuchsia-50 border-fuchsia-100",
+      path: "/apanel/newsletter/subscriptions",
     },
     {
       label: "Media Assets",
@@ -255,10 +291,24 @@ export default function ApanelDashboard() {
               <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-primary transition-all" />
             </Link>
             <Link
+              to="/apanel/cms/news-events"
+              className="p-3 bg-gray-50/50 hover:bg-primary-light border border-gray-100 hover:border-primary-hover rounded-2xl flex items-center justify-between text-xs font-bold text-navy transition-all group"
+            >
+              <span>Manage News & Events CMS</span>
+              <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-primary transition-all" />
+            </Link>
+            <Link
+              to="/apanel/cms/blog"
+              className="p-3 bg-gray-50/50 hover:bg-primary-light border border-gray-100 hover:border-primary-hover rounded-2xl flex items-center justify-between text-xs font-bold text-navy transition-all group"
+            >
+              <span>Manage Blog CMS</span>
+              <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-primary transition-all" />
+            </Link>
+            <Link
               to="/apanel/media"
               className="p-3 bg-gray-50/50 hover:bg-primary-light border border-gray-100 hover:border-primary-hover rounded-2xl flex items-center justify-between text-xs font-bold text-navy transition-all group"
             >
-              <span>Upload Campus Images</span>
+              <span>Upload Media Assets</span>
               <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-primary transition-all" />
             </Link>
             <Link

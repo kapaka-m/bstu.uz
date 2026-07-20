@@ -99,6 +99,9 @@ const ApanelDashboard = React.lazy(
 const ApanelMedia = React.lazy(
   () => import("./features/apanel/pages/ApanelMedia"),
 );
+const ApanelLocales = React.lazy(
+  () => import("./features/apanel/pages/ApanelLocales"),
+);
 const ApanelApplicationDetail = React.lazy(
   () => import("./features/apanel/pages/ApanelApplicationDetail"),
 );
@@ -393,6 +396,16 @@ function AppContent() {
               }
             />
             <Route
+              path="/apanel/locales"
+              element={
+                <AdminRoute>
+                  <ApanelLayout>
+                    <ApanelLocales />
+                  </ApanelLayout>
+                </AdminRoute>
+              }
+            />
+            <Route
               path="/apanel/translations"
               element={
                 <AdminRoute>
@@ -401,6 +414,14 @@ function AppContent() {
                   </ApanelLayout>
                 </AdminRoute>
               }
+            />
+            <Route
+              path="/apanel/news"
+              element={<Navigate to="/apanel/cms/news-events" replace />}
+            />
+            <Route
+              path="/apanel/videos"
+              element={<Navigate to="/apanel/cms/video-bdtu" replace />}
             />
             <Route
               path="/apanel/cms/footer-web"

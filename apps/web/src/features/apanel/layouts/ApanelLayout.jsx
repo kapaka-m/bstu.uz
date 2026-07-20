@@ -119,14 +119,12 @@ export default function ApanelLayout({ children }) {
         { path: "/apanel/menu-items", label: "Menu Items", icon: MenuIcon },
         { path: "/apanel/pages", label: "Pages", icon: FileText },
         { path: "/apanel/page-blocks", label: "Page Blocks", icon: LayoutGrid },
-        { path: "/apanel/news", label: "News Articles", icon: Newspaper },
         {
           path: "/apanel/announcements",
           label: "Announcements",
           icon: Megaphone,
         },
         { path: "/apanel/services", label: "Services", icon: Briefcase },
-        { path: "/apanel/videos", label: "Promo Videos", icon: Video },
       ],
     },
     {

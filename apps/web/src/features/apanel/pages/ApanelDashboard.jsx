@@ -16,6 +16,7 @@ import {
   MailPlus,
   Video,
   Leaf,
+  Megaphone,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -27,6 +28,7 @@ export default function ApanelDashboard() {
     faculties: 0,
     departments: 0,
     newsEvents: 0,
+    announcements: 0,
     blogs: 0,
     videos: 0,
     newsletterSubscriptions: 0,
@@ -98,6 +100,13 @@ export default function ApanelDashboard() {
       icon: Newspaper,
       color: "text-rose-600 bg-rose-50 border-rose-100",
       path: "/apanel/cms/news-events",
+    },
+    {
+      label: "Announcements",
+      val: stats.announcements,
+      icon: Megaphone,
+      color: "text-amber-600 bg-amber-50 border-amber-100",
+      path: "/apanel/cms/announcements",
     },
     {
       label: "Blog",

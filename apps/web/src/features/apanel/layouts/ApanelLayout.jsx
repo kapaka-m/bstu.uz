@@ -91,6 +91,11 @@ export default function ApanelLayout({ children }) {
           icon: Newspaper,
         },
         {
+          path: "/apanel/cms/announcements",
+          label: "Announcements",
+          icon: Megaphone,
+        },
+        {
           path: "/apanel/cms/blog",
           label: "Blog",
           icon: BookOpen,
@@ -119,11 +124,6 @@ export default function ApanelLayout({ children }) {
         { path: "/apanel/menu-items", label: "Menu Items", icon: MenuIcon },
         { path: "/apanel/pages", label: "Pages", icon: FileText },
         { path: "/apanel/page-blocks", label: "Page Blocks", icon: LayoutGrid },
-        {
-          path: "/apanel/announcements",
-          label: "Announcements",
-          icon: Megaphone,
-        },
         { path: "/apanel/services", label: "Services", icon: Briefcase },
       ],
     },

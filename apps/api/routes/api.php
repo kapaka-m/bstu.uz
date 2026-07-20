@@ -50,6 +50,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/blog/{slug}', [PublicApiController::class, 'blogItem']);
         Route::get('/blog/{slug}/comments', [PublicApiController::class, 'blogComments']);
         Route::post('/blog/{slug}/comments', [PublicApiController::class, 'storeBlogComment'])->middleware(['auth:sanctum', 'throttle:uploads']);
+        Route::get('/announcements/settings', [PublicApiController::class, 'announcementSettings']);
         Route::get('/announcements', [PublicApiController::class, 'announcements']);
         Route::get('/announcements/{slug}', [PublicApiController::class, 'announcement']);
         Route::get('/green-campus/stats', [PublicApiController::class, 'greenCampusStats']);
@@ -121,6 +122,8 @@ Route::prefix('v1')->group(function () {
         Route::put('cms/footer-web', [AdminCrudController::class, 'updateFooterWeb']);
         Route::get('cms/news-events/settings', [AdminCrudController::class, 'showNewsEventSettings']);
         Route::put('cms/news-events/settings', [AdminCrudController::class, 'updateNewsEventSettings']);
+        Route::get('cms/announcements/settings', [AdminCrudController::class, 'showAnnouncementSettings']);
+        Route::put('cms/announcements/settings', [AdminCrudController::class, 'updateAnnouncementSettings']);
         Route::get('cms/blog/settings', [AdminCrudController::class, 'showBlogSettings']);
         Route::put('cms/blog/settings', [AdminCrudController::class, 'updateBlogSettings']);
         Route::get('cms/video-bdtu/settings', [AdminCrudController::class, 'showVideoGallerySettings']);

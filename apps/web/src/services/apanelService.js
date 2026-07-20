@@ -97,6 +97,14 @@ export const apanelService = {
     return api.put("/apanel/cms/news-events/settings", payload).then(unwrapPayload);
   },
 
+  getAnnouncementSettings() {
+    return api.get("/apanel/cms/announcements/settings").then(unwrapPayload);
+  },
+
+  updateAnnouncementSettings(payload) {
+    return api.put("/apanel/cms/announcements/settings", payload).then(unwrapPayload);
+  },
+
   getBlogSettings() {
     return api.get("/apanel/cms/blog/settings").then(unwrapPayload);
   },
@@ -148,6 +156,7 @@ export const apanelService = {
         departments,
         progs,
         newsEvents,
+        announcements,
         blogs,
         videos,
         newsletterSubscriptions,
@@ -166,6 +175,7 @@ export const apanelService = {
         this.list("departments", { per_page: 1 }).catch(() => ({ total: 0 })),
         this.list("programs", { per_page: 1 }).catch(() => ({ total: 0 })),
         this.list("news", { per_page: 1, news_events_only: 1 }).catch(() => ({ total: 0 })),
+        this.list("announcements", { per_page: 1 }).catch(() => ({ total: 0 })),
         this.list("blogs", { per_page: 1 }).catch(() => ({ total: 0 })),
         this.list("videos", { per_page: 1 }).catch(() => ({ total: 0 })),
         this.list("newsletter-subscriptions", { per_page: 1 }).catch(() => ({ total: 0 })),
@@ -187,6 +197,7 @@ export const apanelService = {
           departments: pageTotal(departments),
           programs: pageTotal(progs),
           newsEvents: pageTotal(newsEvents),
+          announcements: pageTotal(announcements),
           blogs: pageTotal(blogs),
           videos: pageTotal(videos),
           newsletterSubscriptions: pageTotal(newsletterSubscriptions),

@@ -423,50 +423,6 @@ const RESOURCE_SCHEMAS = {
       },
     ],
   },
-  announcements: {
-    title: "Campus Announcements",
-    columns: [
-      { key: "slug", label: "Slug", sortable: true },
-      { key: "type", label: "Type", sortable: true },
-      { key: "priority", label: "Priority", sortable: true },
-      { key: "is_published", label: "Published", type: "boolean" },
-    ],
-    fields: [
-      { name: "slug", label: "Url Slug", type: "text", required: true },
-      {
-        name: "type",
-        label: "Type group",
-        type: "select",
-        options: ["general", "exam", "holiday", "academic"],
-        required: true,
-      },
-      {
-        name: "priority",
-        label: "Priority urgency",
-        type: "select",
-        options: ["normal", "high", "critical"],
-        required: true,
-      },
-      { name: "image", label: "Alert Icon Banner", type: "media" },
-      { name: "starts_at", label: "Starts at Date", type: "date" },
-      { name: "ends_at", label: "Ends at Date", type: "date" },
-      { name: "is_published", label: "Publish alert to feed", type: "boolean" },
-      {
-        name: "title",
-        label: "Alert Title Header",
-        type: "text",
-        required: true,
-        translated: true,
-      },
-      {
-        name: "content",
-        label: "Alert warning content",
-        type: "textarea",
-        required: true,
-        translated: true,
-      },
-    ],
-  },
   staff: {
     title: "Staff & Academics Profiles",
     columns: [

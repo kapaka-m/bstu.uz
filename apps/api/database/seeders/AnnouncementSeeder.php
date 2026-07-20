@@ -21,7 +21,9 @@ class AnnouncementSeeder extends Seeder
         $translations = json_decode(file_get_contents($translationsPath), true);
         $annMetadata = json_decode(file_get_contents($announcementsPath), true);
 
-        foreach ($annMetadata as $meta) {
+        usort($annMetadata, fn ($a, $b) => strcmp((string) ($b['date'] ?? ''), (string) ($a['date'] ?? '')));
+
+        foreach ($annMetadata as $index => $meta) {
             $slug = $meta['id'];
             $image = $meta['image'] ?? null;
             if ($image) {
@@ -42,17 +44,21 @@ class AnnouncementSeeder extends Seeder
                 ['slug' => $slug],
                 [
                     'type' => strtolower($meta['category'] ?? 'general'),
-                    'priority' => ($meta['important'] ?? false) ? 'high' : 'normal',
+                    'priority' => $index < 3 ? 'high' : 'normal',
                     'image' => $image,
                     'starts_at' => $startsAt ?: now(),
                     'ends_at' => $startsAt ? $startsAt->copy()->addDays(60) : now()->addDays(60),
                     'is_published' => true,
+                    'views_count' => (int) ($meta['views'] ?? 0),
                 ]
             );
 
             // Seed translations for en, uz, ru, ar
             foreach (['en', 'uz', 'ru', 'ar'] as $locale) {
-                $annTrans = $translations[$locale]['announcements']['items'][$slug] ?? [];
+                $localeAnnouncements = $locale === 'uz'
+                    ? ($translations['announcements'] ?? [])
+                    : ($translations[$locale]['announcements'] ?? []);
+                $annTrans = $localeAnnouncements['items'][$slug] ?? [];
 
                 $title = $annTrans['title'] ?? '';
                 $summary = $annTrans['excerpt'] ?? '';
@@ -78,6 +84,9 @@ class AnnouncementSeeder extends Seeder
                         'locale' => $locale,
                     ],
                     [
+                        'category_label' => $translations[$locale]['announcements']['categories'][strtolower($meta['category'] ?? 'announcements')]
+                            ?? $localeAnnouncements['categories'][strtolower($meta['category'] ?? 'announcements')]
+                            ?? ucfirst(strtolower($meta['category'] ?? 'announcements')),
                         'title' => $title,
                         'summary' => $summary,
                         'content' => $content,

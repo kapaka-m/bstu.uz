@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class AnnouncementTranslation extends Model
 {
-    protected $fillable = ['announcement_id', 'locale', 'title', 'summary', 'content'];
+    protected $fillable = ['announcement_id', 'locale', 'category_label', 'title', 'summary', 'content'];
 
     public function announcement()
     {

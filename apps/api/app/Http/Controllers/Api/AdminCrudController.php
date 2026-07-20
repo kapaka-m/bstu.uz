@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Announcement;
+use App\Models\AnnouncementSetting;
 use App\Models\Application;
 use App\Models\ApplicationDocument;
 use App\Models\ApplicationStatusHistory;
@@ -52,6 +53,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -200,7 +202,7 @@ class AdminCrudController extends Controller
             $query->with(['studentProfile.user', 'program.translations', 'faculty.translations', 'department.translations']);
         }
 
-        if (in_array($resource, ['news', 'blogs', 'videos', 'green-campus-stats', 'green-campus-articles'], true)) {
+        if (in_array($resource, ['news', 'blogs', 'videos', 'announcements', 'green-campus-stats', 'green-campus-articles'], true)) {
             $query->with('translations');
         }
 
@@ -297,6 +299,10 @@ class AdminCrudController extends Controller
                             'locale' => $locale,
                         ], $fields));
                     }
+                }
+
+                if ($resource === 'announcements' && (bool) ($record->is_published ?? false)) {
+                    $this->notifyAnnouncementCreated($record->fresh('translations'));
                 }
             }
 
@@ -538,6 +544,46 @@ class AdminCrudController extends Controller
         }
     }
 
+    protected function notifyAnnouncementCreated(Announcement $announcement): void
+    {
+        $announcement->loadMissing('translations');
+        $translation = $announcement->translations->firstWhere('locale', 'en')
+            ?: $announcement->translations->first();
+
+        $title = $translation?->title ?: $announcement->slug;
+        $summary = $translation?->summary ?: '';
+        $url = rtrim((string) config('app.frontend_url', env('FRONTEND_URL', 'http://localhost:5173')), '/')
+            .'/announcements/'.$announcement->slug;
+
+        User::query()
+            ->select('id')
+            ->chunkById(100, function ($users) use ($title, $summary, $url) {
+                foreach ($users as $user) {
+                    Notification::create([
+                        'user_id' => $user->id,
+                        'title' => $title,
+                        'message' => trim($summary."\n".$url),
+                        'is_read' => false,
+                    ]);
+                }
+            });
+
+        NewsletterSubscription::query()
+            ->where('status', 'active')
+            ->select('id', 'email')
+            ->chunkById(100, function ($subscriptions) use ($title, $summary, $url) {
+                foreach ($subscriptions as $subscription) {
+                    try {
+                        Mail::raw(trim($summary."\n\n".$url), function ($message) use ($subscription, $title) {
+                            $message->to($subscription->email)->subject($title);
+                        });
+                    } catch (Throwable $e) {
+                        report($e);
+                    }
+                }
+            });
+    }
+
     /**
      * Remove the specified resource from storage.
      */
@@ -762,6 +808,80 @@ class AdminCrudController extends Controller
             DB::commit();
 
             return $this->successResponse($setting->fresh('translations'), 'News and events settings updated');
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return $this->transactionErrorResponse($e);
+        }
+    }
+
+    public function showAnnouncementSettings(Request $request)
+    {
+        $setting = AnnouncementSetting::with('translations')->firstOrCreate(
+            ['key' => 'main'],
+            ['home_limit' => 4, 'recent_limit' => 5, 'important_limit' => 3, 'is_active' => true]
+        );
+
+        return $this->successResponse($setting, 'Announcement settings retrieved');
+    }
+
+    public function updateAnnouncementSettings(Request $request)
+    {
+        $rules = [
+            'home_limit' => 'required|integer|min:1|max:12',
+            'recent_limit' => 'required|integer|min:1|max:12',
+            'important_limit' => 'required|integer|min:1|max:12',
+            'is_active' => 'boolean',
+            'translations' => 'required|array',
+            'translations.*.home_tag' => 'nullable|string|max:255',
+            'translations.*.home_title' => 'nullable|string|max:255',
+            'translations.*.view_all_label' => 'nullable|string|max:255',
+            'translations.*.read_details_label' => 'nullable|string|max:255',
+            'translations.*.search_title' => 'nullable|string|max:255',
+            'translations.*.search_placeholder' => 'nullable|string|max:255',
+            'translations.*.categories_title' => 'nullable|string|max:255',
+            'translations.*.recent_title' => 'nullable|string|max:255',
+            'translations.*.all_label' => 'nullable|string|max:255',
+            'translations.*.views_label' => 'nullable|string|max:255',
+            'translations.*.important_label' => 'nullable|string|max:255',
+            'translations.*.loading_label' => 'nullable|string|max:255',
+            'translations.*.no_results_label' => 'nullable|string|max:255',
+            'translations.*.clear_filters_label' => 'nullable|string|max:255',
+            'translations.*.share_label' => 'nullable|string|max:255',
+            'translations.*.copy_link_label' => 'nullable|string|max:255',
+            'translations.*.copied_label' => 'nullable|string|max:255',
+            'translations.*.published_by_label' => 'nullable|string|max:255',
+            'translations.*.publisher_name' => 'nullable|string|max:255',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return $this->errorResponse('Validation error', 422, $validator->errors()->toArray());
+        }
+
+        $validated = $validator->validated();
+
+        DB::beginTransaction();
+        try {
+            $setting = AnnouncementSetting::with('translations')->firstOrCreate(['key' => 'main']);
+            $oldValues = $setting->toArray();
+
+            $setting->update([
+                'home_limit' => $validated['home_limit'],
+                'recent_limit' => $validated['recent_limit'],
+                'important_limit' => $validated['important_limit'],
+                'is_active' => (bool) ($validated['is_active'] ?? true),
+            ]);
+
+            foreach ($validated['translations'] as $locale => $fields) {
+                $setting->translations()->updateOrCreate(['locale' => $locale], $fields);
+            }
+
+            $this->logAction('update', AnnouncementSetting::class, $setting->id, $oldValues, $setting->fresh('translations')->toArray());
+            Cache::forever('public_content_cache_version', (string) now()->getTimestamp());
+            DB::commit();
+
+            return $this->successResponse($setting->fresh('translations'), 'Announcement settings updated');
         } catch (\Exception $e) {
             DB::rollBack();
 
@@ -1073,6 +1193,7 @@ class AdminCrudController extends Controller
             'services',
             'videos',
             'media',
+            'announcement-settings',
             'green-campus-stats',
             'green-campus-articles',
             'green-campus-settings',
@@ -1271,13 +1392,18 @@ class AdminCrudController extends Controller
             case 'announcements':
                 return [
                     'slug' => 'required|string|unique:announcements,slug,'.$id,
-                    'type' => 'required|string',
-                    'priority' => 'string',
+                    'type' => 'required|string|max:255',
+                    'priority' => 'string|in:normal,high',
                     'image' => 'nullable|string',
                     'starts_at' => 'nullable|date',
                     'ends_at' => 'nullable|date',
                     'is_published' => 'boolean',
+                    'views_count' => 'nullable|integer|min:0',
                     'translations' => 'required|array',
+                    'translations.*.title' => 'required|string|max:255',
+                    'translations.*.category_label' => 'nullable|string|max:255',
+                    'translations.*.summary' => 'nullable|string',
+                    'translations.*.content' => 'nullable|string',
                 ];
             case 'staff':
                 return [

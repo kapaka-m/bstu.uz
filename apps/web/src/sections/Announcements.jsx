@@ -1,22 +1,75 @@
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Calendar, Eye, Megaphone } from "lucide-react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
-import { announcementsData } from "../data/announcementsData";
 import { useLanguage } from "../context/LanguageContext";
 import { motion } from "framer-motion";
+import { announcementService } from "../services/announcementService";
 
 // Import Swiper styles
 import "swiper/css";
 
 export default function Announcements() {
-  const { t, language } = useLanguage();
+  const { language } = useLanguage();
+  const [announcements, setAnnouncements] = useState([]);
+  const [settings, setSettings] = useState(null);
 
-  // Sort by date descending and get the latest 4 announcements
-  const latestAnnouncements = [...announcementsData]
-    .sort((a, b) => new Date(b.date) - new Date(a.date))
-    .slice(0, 4);
+  useEffect(() => {
+    let mounted = true;
+    Promise.all([
+      announcementService.getSettings().catch(() => null),
+      announcementService
+        .getAnnouncements({ per_page: 12 })
+        .catch(() => ({ items: [] })),
+    ]).then(([settingsData, listData]) => {
+      if (!mounted) return;
+      setSettings(settingsData);
+      setAnnouncements(listData.items || []);
+    });
+
+    return () => {
+      mounted = false;
+    };
+  }, [language]);
+
+  const latestAnnouncements = useMemo(
+    () => announcements.slice(0, Number(settings?.home_limit || 4)),
+    [announcements, settings?.home_limit],
+  );
+
+  const formatDate = (value) => {
+    if (!value) return "";
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return value;
+    if (language === "uz") {
+      const months = [
+        "Yanvar",
+        "Fevral",
+        "Mart",
+        "Aprel",
+        "May",
+        "Iyun",
+        "Iyul",
+        "Avgust",
+        "Sentabr",
+        "Oktabr",
+        "Noyabr",
+        "Dekabr",
+      ];
+      return `${date.getFullYear()} ${months[date.getMonth()]} ${String(date.getDate()).padStart(2, "0")}`;
+    }
+    const localeMap = { ar: "ar", uz: "uz-Latn-UZ", ru: "ru-RU", en: "en-US" };
+    return new Intl.DateTimeFormat(localeMap[language] || "en-US", {
+      year: "numeric",
+      month: "short",
+      day: "2-digit",
+    }).format(date);
+  };
+
+  if (!latestAnnouncements.length) {
+    return null;
+  }
 
   return (
     <section
@@ -37,7 +90,7 @@ export default function Announcements() {
             className="inline-flex items-center gap-2 px-3.5 py-1 bg-primary/10 text-primary rounded-full text-[11px] font-extrabold uppercase tracking-wider mb-4"
           >
             <Megaphone className="w-3.5 h-3.5" />
-            {t("announcements.tag", "Announcements")}
+            {settings?.home_tag || ""}
           </motion.div>
 
           <motion.h2
@@ -47,7 +100,7 @@ export default function Announcements() {
             transition={{ duration: 0.6 }}
             className="text-3xl md:text-4xl font-extrabold text-navy leading-tight mb-4"
           >
-            {t("announcements.title", "Latest Announcements")}
+            {settings?.home_title || ""}
           </motion.h2>
         </div>
 
@@ -73,64 +126,56 @@ export default function Announcements() {
             }}
             className="pb-2"
           >
-            {latestAnnouncements.map((item) => {
-              const title = t(`announcements.items.${item.id}.title`);
-              const excerpt = t(`announcements.items.${item.id}.excerpt`);
-              const categoryTranslated = t(
-                `announcements.categories.${item.category.toLowerCase()}`,
-                item.category,
-              );
-
-              return (
+            {latestAnnouncements.map((item) => (
                 <SwiperSlide key={item.id} className="h-auto">
-                  <article className="bg-white border border-gray-100/70 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col h-full group text-start">
+                  <article className="bg-white border border-gray-100/70 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col h-[430px] group text-start">
                     {/* Image Container */}
                     <div className="aspect-16/10 overflow-hidden bg-gray-100 relative">
                       <img
                         src={item.image}
-                        alt={title}
+                        alt={item.title}
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                       />
                       <span
                         className={`absolute bottom-3 ${language === "ar" ? "right-3" : "left-3"} bg-navy/80 backdrop-blur-xs text-white text-[10px] font-extrabold uppercase px-3 py-1 rounded-lg`}
                       >
-                        {categoryTranslated}
+                        {item.category_label}
                       </span>
                     </div>
 
                     {/* Card Body */}
-                    <div className="p-6 flex flex-col grow">
+                    <div className="p-6 flex flex-col grow min-h-0">
                       {/* Meta details */}
-                      <div className="flex items-center gap-3 text-xs font-semibold text-gray-400 mb-3">
-                        <span className="flex items-center gap-1.5">
+                      <div className="flex items-center gap-3 text-xs font-semibold text-gray-400 mb-3 min-h-9">
+                        <span className="flex items-center gap-1.5 min-w-0">
                           <Calendar className="w-3.5 h-3.5 text-primary" />
-                          {item.date}
+                          <span className="truncate">{formatDate(item.date)}</span>
                         </span>
                         <span
-                          className={`flex items-center gap-1.5 ${language === "ar" ? "mr-auto" : "ml-auto"}`}
+                          className={`flex items-center gap-1.5 shrink-0 ${language === "ar" ? "mr-auto" : "ml-auto"}`}
                         >
                           <Eye className="w-3.5 h-3.5" />
-                          {item.views} {t("announcements.viewsLabel", "views")}
+                          {item.views} {settings?.views_label || ""}
                         </span>
                       </div>
 
                       {/* Title */}
-                      <h3 className="text-base font-extrabold text-navy group-hover:text-primary transition-colors duration-300 line-clamp-2 mb-3 leading-snug">
-                        <Link to={`/announcements/${item.id}`}>{title}</Link>
+                      <h3 className="text-base font-extrabold text-navy group-hover:text-primary transition-colors duration-300 line-clamp-2 mb-3 leading-snug min-h-12">
+                        <Link to={`/announcements/${item.slug}`}>{item.title}</Link>
                       </h3>
 
                       {/* Excerpt */}
-                      <p className="text-gray-500 text-xs leading-relaxed mb-6 line-clamp-3">
-                        {excerpt}
+                      <p className="text-gray-500 text-xs leading-relaxed mb-6 line-clamp-3 min-h-[60px]">
+                        {item.excerpt}
                       </p>
 
                       {/* Read Details */}
                       <div className="mt-auto pt-3 border-t border-gray-50">
                         <Link
-                          to={`/announcements/${item.id}`}
+                          to={`/announcements/${item.slug}`}
                           className="inline-flex items-center gap-1.5 text-xs font-extrabold text-navy hover:text-primary transition-colors group"
                         >
-                          {t("announcements.readMore", "Read Details")}
+                          {settings?.read_details_label || ""}
                           <ArrowRight
                             className={`w-3.5 h-3.5 transition-transform duration-300 ${language === "ar" ? "rotate-180 group-hover:-translate-x-1" : "group-hover:translate-x-1"}`}
                           />
@@ -139,8 +184,7 @@ export default function Announcements() {
                     </div>
                   </article>
                 </SwiperSlide>
-              );
-            })}
+              ))}
           </Swiper>
         </motion.div>
 
@@ -150,7 +194,7 @@ export default function Announcements() {
             to="/announcements"
             className="inline-flex items-center gap-2 bg-navy hover:bg-primary text-white font-extrabold px-8 py-3.5 rounded-full transition-all duration-300 shadow-md shadow-navy/10 hover:shadow-primary/20 hover:-translate-y-0.5"
           >
-            {t("announcements.viewAll", "All Announcements")}
+            {settings?.view_all_label || ""}
             <ArrowRight
               className={`w-4 h-4 ${language === "ar" ? "rotate-180" : ""}`}
             />

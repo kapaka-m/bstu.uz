@@ -8,6 +8,7 @@ use App\Http\Requests\InquiryRequest;
 use App\Http\Resources\LocalizedCollection;
 use App\Http\Resources\LocalizedResource;
 use App\Models\Announcement;
+use App\Models\AnnouncementSetting;
 use App\Models\Blog;
 use App\Models\BlogComment;
 use App\Models\BlogSetting;
@@ -908,11 +909,63 @@ class PublicApiController extends Controller
         ], 'Blog comment created successfully', 201);
     }
 
+    public function announcementSettings(Request $request)
+    {
+        $locale = $this->getRequestLocale($request);
+        $payload = $this->publicCache($request, 'announcement-settings', [$locale], function () use ($locale) {
+            $setting = AnnouncementSetting::where('key', 'main')
+                ->where('is_active', true)
+                ->with('translations')
+                ->first();
+
+            if (! $setting) {
+                return null;
+            }
+
+            $translation = $setting->translations->firstWhere('locale', $locale)
+                ?: $setting->translations->firstWhere('locale', 'en');
+
+            return array_merge([
+                'key' => $setting->key,
+                'home_limit' => $setting->home_limit,
+                'recent_limit' => $setting->recent_limit,
+                'important_limit' => $setting->important_limit,
+            ], $translation?->only([
+                'home_tag',
+                'home_title',
+                'view_all_label',
+                'read_details_label',
+                'search_title',
+                'search_placeholder',
+                'categories_title',
+                'recent_title',
+                'all_label',
+                'views_label',
+                'important_label',
+                'loading_label',
+                'no_results_label',
+                'clear_filters_label',
+                'share_label',
+                'copy_link_label',
+                'copied_label',
+                'published_by_label',
+                'publisher_name',
+            ]) ?: []);
+        });
+
+        if (! $payload) {
+            return $this->errorResponse('Announcement settings not found', 404);
+        }
+
+        return $this->successResponse($payload, 'Announcement settings retrieved successfully');
+    }
+
     public function announcements(Request $request)
     {
         $locale = $this->getRequestLocale($request);
+        $perPage = max(1, min((int) $request->query('per_page', 15), 100));
 
-        $query = Announcement::where('is_published', true);
+        $query = Announcement::where('is_published', true)->with('translations');
 
         if ($request->boolean('active_only')) {
             $query->where(function ($q) {
@@ -920,13 +973,42 @@ class PublicApiController extends Controller
             });
         }
 
-        $announcements = $query
-            ->with('translations')
-            ->orderBy('priority', 'desc')
-            ->orderBy('created_at', 'desc')
-            ->get();
+        if ($request->filled('category') && strtolower($request->query('category')) !== 'all') {
+            $query->where('type', $request->query('category'));
+        }
 
-        return new LocalizedCollection($announcements, $locale);
+        if ($request->filled('search')) {
+            $search = $request->query('search');
+            $query->whereHas('translations', function ($translationQuery) use ($search) {
+                $translationQuery
+                    ->where('title', 'LIKE', "%{$search}%")
+                    ->orWhere('summary', 'LIKE', "%{$search}%")
+                    ->orWhere('content', 'LIKE', "%{$search}%")
+                    ->orWhere('category_label', 'LIKE', "%{$search}%");
+            });
+        }
+
+        $announcements = $query
+            ->orderBy('starts_at', 'desc')
+            ->orderBy('priority', 'desc')
+            ->paginate($perPage);
+
+        $items = $announcements->getCollection()
+            ->map(fn (Announcement $announcement) => $this->formatAnnouncementItem($request, $announcement, $locale))
+            ->values()
+            ->all();
+
+        return response()->json([
+            'locale' => $locale,
+            'direction' => $locale === 'ar' ? 'rtl' : 'ltr',
+            'data' => $items,
+            'meta' => [
+                'current_page' => $announcements->currentPage(),
+                'last_page' => $announcements->lastPage(),
+                'per_page' => $announcements->perPage(),
+                'total' => $announcements->total(),
+            ],
+        ]);
     }
 
     public function announcement(Request $request, string $slug)
@@ -938,7 +1020,39 @@ class PublicApiController extends Controller
             return $this->errorResponse("Announcement '{$slug}' not found", 404);
         }
 
-        return new LocalizedResource($ann, $locale);
+        $ann->increment('views_count');
+        $ann->refresh();
+
+        return response()->json([
+            'locale' => $locale,
+            'direction' => $locale === 'ar' ? 'rtl' : 'ltr',
+            'data' => $this->formatAnnouncementItem($request, $ann->fresh('translations'), $locale),
+        ]);
+    }
+
+    protected function formatAnnouncementItem(Request $request, Announcement $item, string $locale): array
+    {
+        $data = $this->localizedData($request, $item, $locale);
+        $translation = $item->translations->firstWhere('locale', $locale)
+            ?: $item->translations->firstWhere('locale', 'en');
+
+        $data['id'] = $item->id;
+        $data['slug'] = $item->slug;
+        $data['type'] = $item->type;
+        $data['category'] = $item->type;
+        $data['category_label'] = $translation?->category_label ?: ucfirst((string) $item->type);
+        $data['image'] = $item->image;
+        $data['image_url'] = $this->newsImageUrl($item->image);
+        $data['starts_at'] = $item->starts_at?->toDateString();
+        $data['date'] = $item->starts_at?->toDateString();
+        $data['ends_at'] = $item->ends_at?->toDateString();
+        $data['is_published'] = $item->is_published;
+        $data['priority'] = $item->priority;
+        $data['important'] = $item->priority === 'high';
+        $data['views_count'] = $item->views_count;
+        $data['views'] = $item->views_count;
+
+        return $data;
     }
 
     public function services(Request $request)

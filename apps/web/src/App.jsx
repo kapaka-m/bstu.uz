@@ -114,6 +114,9 @@ const ApanelFooterWeb = React.lazy(
 const ApanelNewsEvents = React.lazy(
   () => import("./features/apanel/pages/ApanelNewsEvents"),
 );
+const ApanelAnnouncements = React.lazy(
+  () => import("./features/apanel/pages/ApanelAnnouncements"),
+);
 const ApanelBlog = React.lazy(
   () => import("./features/apanel/pages/ApanelBlog"),
 );
@@ -424,6 +427,10 @@ function AppContent() {
               element={<Navigate to="/apanel/cms/video-bdtu" replace />}
             />
             <Route
+              path="/apanel/announcements"
+              element={<Navigate to="/apanel/cms/announcements" replace />}
+            />
+            <Route
               path="/apanel/cms/footer-web"
               element={
                 <AdminRoute>
@@ -439,6 +446,16 @@ function AppContent() {
                 <AdminRoute>
                   <ApanelLayout>
                     <ApanelNewsEvents />
+                  </ApanelLayout>
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/apanel/cms/announcements"
+              element={
+                <AdminRoute>
+                  <ApanelLayout>
+                    <ApanelAnnouncements />
                   </ApanelLayout>
                 </AdminRoute>
               }

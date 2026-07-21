@@ -821,7 +821,7 @@ function Checkbox({ label, checked, onChange }) {
   return (
     <label className="space-y-1.5 block">
       <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">{label}</span>
-      <span className="flex min-h-[42px] items-center gap-2 rounded-xl border border-gray-200 px-3 py-2.5 text-sm font-bold text-navy bg-white">
+      <span className="flex min-h-10.5 items-center gap-2 rounded-xl border border-gray-200 px-3 py-2.5 text-sm font-bold text-navy bg-white">
         <input
           type="checkbox"
           checked={Boolean(checked)}

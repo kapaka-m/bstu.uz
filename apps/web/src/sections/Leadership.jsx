@@ -78,7 +78,7 @@ export default function Leadership() {
 
           <div className="sm:hidden flex gap-4 overflow-x-auto no-scrollbar snap-x snap-mandatory pb-4 -mx-4 px-4">
             {viceRectors.map((leader) => (
-              <div key={leader.slug || leader.id} className="min-w-[17rem] snap-center flex">
+              <div key={leader.slug || leader.id} className="min-w-68 snap-center flex">
                 <LeaderCard leader={leader} settings={settings} isRector={false} />
               </div>
             ))}

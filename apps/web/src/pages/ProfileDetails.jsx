@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useLanguage } from "../context/LanguageContext";
 import { Mail, Phone, Clock, Award, Briefcase, FileText, CheckCircle, GraduationCap } from "lucide-react";
-import { facultiesData } from "../data/mockData";
-import { departmentsData, convertToSlug } from "../data/departmentsData";
 import { administrationService } from "../services/administrationService";
 
 export default function ProfileDetails() {
@@ -59,90 +57,16 @@ export default function ProfileDetails() {
     };
   }, [id, language]);
 
-  // Find the person
   let person = null;
   let category = "";
 
-  // 1. Administration profiles are CMS/API driven.
   if (adminPerson) {
     person = adminPerson;
     category = adminSettings?.profile_category_label || t("common.administration", t("nav.administration", "Administration"));
   }
 
-  // 2. Search in Faculty Deans / Leadership
   if (!person && adminLoading) {
     return <div className="pt-24 min-h-[70vh] bg-white" />;
-  }
-
-  if (!person) {
-    for (const faculty of facultiesData) {
-      if (faculty.leadership) {
-        const leadIndex = faculty.leadership.findIndex(l => convertToSlug(l.name) === id);
-        const lead = leadIndex >= 0 ? faculty.leadership[leadIndex] : null;
-        if (lead) {
-          const localizedRole = t(`faculties.${faculty.id}.leadership.${leadIndex}.role`, lead.role);
-          person = {
-            name: lead.name,
-            title: localizedRole,
-            degree: localizedRole,
-            image: lead.image,
-            email: lead.email,
-            phone: lead.phone,
-            officeHours: t(`faculties.${faculty.id}.leadership.${leadIndex}.officeHours`, lead.officeHours),
-            about: t("common.profileFacultyLeadershipAbout", "A member of the faculty leadership team at Bukhara State Technical University, responsible for academic, student, and administrative coordination."),
-            slug: convertToSlug(lead.name)
-          };
-          category = t("common.facultyLeadership", "Faculty Leadership");
-          break;
-        }
-      }
-    }
-  }
-
-  // 3. Search in Department Heads
-  if (!person) {
-    for (const [deptSlug, dept] of Object.entries(departmentsData)) {
-      if (dept.head && convertToSlug(dept.head) === id) {
-        person = {
-          name: dept.head,
-          title: t(`departments.${deptSlug}.headTitle`, dept.headTitle),
-          degree: t("common.headOfDepartment", "Head of Department"),
-          image: dept.headImage || dept.image,
-          email: dept.headEmail,
-          phone: dept.headPhone,
-          officeHours: t(`departments.${deptSlug}.headOfficeHours`, dept.headOfficeHours),
-            about: t("common.profileDepartmentHeadAbout", "Directly leads the department, organizes the academic staff workflow, and is responsible for implementing the department's assigned tasks according to university regulations."),
-          slug: convertToSlug(dept.head)
-        };
-        category = t("common.headOfDepartment", "Head of Department");
-        break;
-      }
-    }
-  }
-
-  // 4. Search in Department Staff
-  if (!person) {
-    for (const [deptSlug, dept] of Object.entries(departmentsData)) {
-      if (dept.staff) {
-        const memberIndex = dept.staff.findIndex(s => convertToSlug(s.name) === id);
-        const member = memberIndex >= 0 ? dept.staff[memberIndex] : null;
-        if (member) {
-          person = {
-            name: member.name,
-            title: t(`departments.${deptSlug}.staff.${memberIndex}.title`, member.title),
-            degree: t(`departments.${deptSlug}.staff.${memberIndex}.title`, member.title),
-            image: member.image,
-            email: `${convertToSlug(member.name)}@bstu.uz`,
-            phone: dept.headPhone,
-            officeHours: t(`departments.${deptSlug}.headOfficeHours`, dept.headOfficeHours),
-            about: t("common.profileAcademicStaffAbout", "A member of the academic staff at Bukhara State Technical University, actively involved in teaching, student mentorship, and scientific research."),
-            slug: convertToSlug(member.name)
-          };
-          category = t("common.academicStaff", "Academic Staff");
-          break;
-        }
-      }
-    }
   }
 
   if (!person) {

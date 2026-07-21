@@ -62,7 +62,6 @@ Route::prefix('v1')->group(function () {
         Route::get('/green-campus/articles/{slug}', [PublicApiController::class, 'greenCampusArticle']);
         Route::get('/services/settings', [PublicApiController::class, 'serviceSettings']);
         Route::get('/services', [PublicApiController::class, 'services']);
-        Route::get('/services/{slug}', [PublicApiController::class, 'service']);
         Route::get('/videos/settings', [PublicApiController::class, 'videoGallerySettings']);
         Route::get('/videos', [PublicApiController::class, 'videos']);
         Route::post('/videos/{slug}/view', [PublicApiController::class, 'videoView'])->middleware('throttle:uploads');

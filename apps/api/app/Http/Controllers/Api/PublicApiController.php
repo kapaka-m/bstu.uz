@@ -1226,25 +1226,6 @@ class PublicApiController extends Controller
         ]);
     }
 
-    public function service(Request $request, string $slug)
-    {
-        $locale = $this->getRequestLocale($request);
-        $service = Service::where('slug', $slug)
-            ->where('is_active', true)
-            ->with('translations')
-            ->first();
-
-        if (! $service) {
-            return $this->errorResponse("Service '{$slug}' not found", 404);
-        }
-
-        return response()->json([
-            'locale' => $locale,
-            'direction' => $locale === 'ar' ? 'rtl' : 'ltr',
-            'data' => $this->formatInteractiveService($service, $locale),
-        ]);
-    }
-
     protected function formatInteractiveService(Service $service, string $locale): array
     {
         $data = $this->localizedData(request(), $service, $locale);

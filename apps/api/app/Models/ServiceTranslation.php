@@ -6,7 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class ServiceTranslation extends Model
 {
-    protected $fillable = ['service_id', 'locale', 'title', 'description', 'content'];
+    protected $fillable = [
+        'service_id',
+        'locale',
+        'title',
+        'description',
+        'action_label',
+    ];
 
     public function service()
     {

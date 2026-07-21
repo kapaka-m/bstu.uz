@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import FormError from "../../../components/common/FormError";
 import { apanelService } from "../../../services/apanelService";
+import ConfirmDialog from "../components/ConfirmDialog";
 
 function formatDate(value) {
   if (!value) return "—";
@@ -31,6 +32,7 @@ export default function ApanelNewsletterSubscriptions() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [deletingId, setDeletingId] = useState(null);
+  const [pendingDelete, setPendingDelete] = useState(null);
 
   const fetchSubscriptions = useCallback(async () => {
     try {
@@ -66,10 +68,12 @@ export default function ApanelNewsletterSubscriptions() {
 
   const latestDate = items[0]?.subscribed_at || items[0]?.created_at;
 
-  const deleteSubscription = async (id) => {
+  const confirmDelete = async () => {
+    if (!pendingDelete) return;
     try {
-      setDeletingId(id);
-      await apanelService.delete("newsletter-subscriptions", id);
+      setDeletingId(pendingDelete.id);
+      await apanelService.delete("newsletter-subscriptions", pendingDelete.id);
+      setPendingDelete(null);
       fetchSubscriptions();
     } catch (err) {
       setError(err?.message || "Failed to delete subscription.");
@@ -211,7 +215,7 @@ export default function ApanelNewsletterSubscriptions() {
                     <td className="px-5 py-4 text-end">
                       <button
                         type="button"
-                        onClick={() => deleteSubscription(item.id)}
+                        onClick={() => setPendingDelete(item)}
                         disabled={deletingId === item.id}
                         className="inline-flex items-center justify-center w-9 h-9 rounded-xl border border-rose-100 text-rose-600 hover:bg-rose-50 disabled:opacity-60 cursor-pointer"
                         aria-label={`Delete ${item.email}`}
@@ -251,6 +255,15 @@ export default function ApanelNewsletterSubscriptions() {
           </button>
         </div>
       </section>
+      <ConfirmDialog
+        isOpen={Boolean(pendingDelete)}
+        title="Delete subscription?"
+        message={`This will permanently delete ${pendingDelete?.email || "this subscription"}. This action cannot be undone.`}
+        confirmText={deletingId ? "Deleting..." : "Delete"}
+        cancelText="Cancel"
+        onConfirm={confirmDelete}
+        onCancel={() => setPendingDelete(null)}
+      />
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Camera, Edit3, Plus, Save, Trash2, UploadCloud, X } from "lucide-react";
 import { apanelService } from "../../../services/apanelService";
+import ConfirmDialog from "../components/ConfirmDialog";
 
 const LOCALES = ["en", "uz", "ru", "ar"];
 const emptyTranslations = () =>
@@ -75,6 +76,7 @@ export default function ApanelAdministration() {
   });
   const [activeLocale, setActiveLocale] = useState("en");
   const [saving, setSaving] = useState(false);
+  const [pendingDelete, setPendingDelete] = useState(null);
 
   const sortedItems = useMemo(
     () => [...items].sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0)),
@@ -124,9 +126,10 @@ export default function ApanelAdministration() {
     }
   };
 
-  const deleteProfile = async (item) => {
-    if (!window.confirm(`Delete ${item.slug}?`)) return;
-    await apanelService.delete("administration-profiles", item.id);
+  const confirmDelete = async () => {
+    if (!pendingDelete) return;
+    await apanelService.delete("administration-profiles", pendingDelete.id);
+    setPendingDelete(null);
     await load();
   };
 
@@ -221,7 +224,7 @@ export default function ApanelAdministration() {
                       <Edit3 className="w-3.5 h-3.5" />
                       Edit
                     </button>
-                    <button onClick={() => deleteProfile(item)} className="inline-flex items-center gap-1.5 rounded-lg border border-rose-100 px-3 py-2 text-xs font-bold text-rose-600 hover:bg-rose-50">
+                    <button onClick={() => setPendingDelete(item)} className="inline-flex items-center gap-1.5 rounded-lg border border-rose-100 px-3 py-2 text-xs font-bold text-rose-600 hover:bg-rose-50">
                       <Trash2 className="w-3.5 h-3.5" />
                       Delete
                     </button>
@@ -317,6 +320,13 @@ export default function ApanelAdministration() {
           </button>
         </form>
       )}
+      <ConfirmDialog
+        isOpen={Boolean(pendingDelete)}
+        title="Delete profile?"
+        message={`This will permanently delete ${pendingDelete?.slug || "this profile"}. This action cannot be undone.`}
+        onConfirm={confirmDelete}
+        onCancel={() => setPendingDelete(null)}
+      />
     </div>
   );
 }

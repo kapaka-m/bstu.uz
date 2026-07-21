@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import FormError from "../../../components/common/FormError";
 import { apanelService } from "../../../services/apanelService";
+import ConfirmDialog from "../components/ConfirmDialog";
 
 const locales = ["en", "uz", "ru", "ar"];
 const emptyTranslation = {
@@ -197,6 +198,7 @@ export default function ApanelBlog() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [deletingId, setDeletingId] = useState(null);
+  const [pendingDelete, setPendingDelete] = useState(null);
   const [error, setError] = useState("");
   const [editingRecord, setEditingRecord] = useState(null);
   const [form, setForm] = useState(emptyForm);
@@ -427,11 +429,13 @@ export default function ApanelBlog() {
     }
   };
 
-  const deleteRecord = async (record) => {
+  const confirmDelete = async () => {
+    if (!pendingDelete) return;
     try {
-      setDeletingId(record.id);
+      setDeletingId(pendingDelete.id);
       setError("");
-      await apanelService.delete("blogs", record.id);
+      await apanelService.delete("blogs", pendingDelete.id);
+      setPendingDelete(null);
       fetchBlog();
     } catch (err) {
       setError(err?.message || "Failed to delete blog post.");
@@ -1115,7 +1119,7 @@ export default function ApanelBlog() {
                             </button>
                             <button
                               type="button"
-                              onClick={() => deleteRecord(item)}
+                              onClick={() => setPendingDelete(item)}
                               disabled={deletingId === item.id}
                               className="w-9 h-9 rounded-xl border border-rose-100 text-rose-600 hover:bg-rose-50 disabled:opacity-60 flex items-center justify-center cursor-pointer"
                             >
@@ -1157,6 +1161,15 @@ export default function ApanelBlog() {
           </div>
         </section>
       )}
+      <ConfirmDialog
+        isOpen={Boolean(pendingDelete)}
+        title="Delete blog post?"
+        message={`This will permanently delete ${pendingDelete?.slug || "this blog post"}. This action cannot be undone.`}
+        confirmText={deletingId ? "Deleting..." : "Delete"}
+        cancelText="Cancel"
+        onConfirm={confirmDelete}
+        onCancel={() => setPendingDelete(null)}
+      />
     </div>
   );
 }

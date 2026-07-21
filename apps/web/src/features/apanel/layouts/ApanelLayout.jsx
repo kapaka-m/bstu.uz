@@ -117,6 +117,16 @@ export default function ApanelLayout({ children }) {
           icon: UsersRound,
         },
         {
+          path: "/apanel/cms/interactive-services",
+          label: "Interactive Services",
+          icon: Briefcase,
+        },
+      ],
+    },
+    {
+      title: "Marketing",
+      links: [
+        {
           path: "/apanel/newsletter/subscriptions",
           label: "Newsletter Subscriptions",
           icon: MailPlus,

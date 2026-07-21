@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
             AnnouncementSeeder::class,
             StaffSeeder::class,
             TechnologyFacultyContentSeeder::class,
-            ServiceSeeder::class,
+            InteractiveServiceSeeder::class,
             VideoSeeder::class,
             GreenCampusSeeder::class,
             AdministrationSeeder::class,

@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import FormError from "../../../components/common/FormError";
 import { apanelService } from "../../../services/apanelService";
+import ConfirmDialog from "../components/ConfirmDialog";
 
 const emptyForm = {
   code: "",
@@ -30,6 +31,7 @@ export default function ApanelLocales() {
   const [error, setError] = useState("");
   const [editing, setEditing] = useState(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [pendingDelete, setPendingDelete] = useState(null);
   const [form, setForm] = useState(emptyForm);
 
   const fetchLocales = useCallback(async () => {
@@ -118,11 +120,11 @@ export default function ApanelLocales() {
     }
   };
 
-  const deleteLocale = async (item) => {
-    if (!window.confirm(`Delete locale ${item.code}?`)) return;
-
+  const confirmDelete = async () => {
+    if (!pendingDelete) return;
     try {
-      await apanelService.delete("locales", item.id);
+      await apanelService.delete("locales", pendingDelete.id);
+      setPendingDelete(null);
       fetchLocales();
     } catch (err) {
       setError(err?.message || "Failed to delete locale.");
@@ -245,7 +247,7 @@ export default function ApanelLocales() {
                           </button>
                           <button
                             type="button"
-                            onClick={() => deleteLocale(item)}
+                            onClick={() => setPendingDelete(item)}
                             className="p-2 rounded-xl border border-rose-100 text-rose-500 hover:bg-rose-50 cursor-pointer"
                           >
                             <Trash2 className="w-4 h-4" />
@@ -307,6 +309,13 @@ export default function ApanelLocales() {
           </section>
         )}
       </div>
+      <ConfirmDialog
+        isOpen={Boolean(pendingDelete)}
+        title="Delete locale?"
+        message={`This will permanently delete ${pendingDelete?.code || "this locale"}. This action cannot be undone.`}
+        onConfirm={confirmDelete}
+        onCancel={() => setPendingDelete(null)}
+      />
     </div>
   );
 }

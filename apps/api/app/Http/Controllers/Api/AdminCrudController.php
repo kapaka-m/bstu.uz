@@ -21,6 +21,7 @@ use App\Models\Faculty;
 use App\Models\GreenCampusArticle;
 use App\Models\GreenCampusSetting;
 use App\Models\GreenCampusStat;
+use App\Models\InteractiveServiceSetting;
 use App\Models\Inquiry;
 use App\Models\Locale;
 use App\Models\Media;
@@ -205,7 +206,7 @@ class AdminCrudController extends Controller
             $query->with(['studentProfile.user', 'program.translations', 'faculty.translations', 'department.translations']);
         }
 
-        if (in_array($resource, ['news', 'blogs', 'videos', 'announcements', 'administration-profiles', 'green-campus-stats', 'green-campus-articles'], true)) {
+        if (in_array($resource, ['news', 'blogs', 'videos', 'announcements', 'administration-profiles', 'green-campus-stats', 'green-campus-articles', 'services'], true)) {
             $query->with('translations');
         }
 
@@ -1149,6 +1150,57 @@ class AdminCrudController extends Controller
         return $this->successResponse($setting, 'Administration settings retrieved');
     }
 
+    public function showInteractiveServiceSettings(Request $request)
+    {
+        $setting = InteractiveServiceSetting::with('translations')->firstOrCreate(
+            ['key' => 'main'],
+            ['home_limit' => 4, 'is_active' => true]
+        );
+
+        return $this->successResponse($setting, 'Interactive service settings retrieved');
+    }
+
+    public function updateInteractiveServiceSettings(Request $request)
+    {
+        $rules = [
+            'home_limit' => 'required|integer|min:1|max:24',
+            'is_active' => 'boolean',
+            'translations' => 'required|array',
+            'translations.*.home_tag' => 'nullable|string|max:255',
+            'translations.*.home_title' => 'nullable|string|max:255',
+            'translations.*.view_all_label' => 'nullable|string|max:255',
+            'translations.*.loading_label' => 'nullable|string|max:255',
+            'translations.*.no_results_label' => 'nullable|string|max:255',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return $this->errorResponse('Validation failed', 422, $validator->errors()->toArray());
+        }
+
+        return DB::transaction(function () use ($validator) {
+            $data = $validator->validated();
+            $setting = InteractiveServiceSetting::with('translations')->firstOrCreate(['key' => 'main']);
+            $oldValues = $setting->toArray();
+
+            $setting->update([
+                'home_limit' => $data['home_limit'],
+                'is_active' => $data['is_active'] ?? true,
+            ]);
+
+            foreach ($data['translations'] as $locale => $fields) {
+                $fields['locale'] = $locale;
+                $setting->translations()->updateOrCreate(['locale' => $locale], $fields);
+            }
+
+            $this->refreshPublicContentCacheVersion('interactive-service-settings');
+            $this->logAction('update', InteractiveServiceSetting::class, $setting->id, $oldValues, $setting->fresh('translations')->toArray());
+
+            return $this->successResponse($setting->fresh('translations'), 'Interactive service settings updated');
+        });
+    }
+
     public function updateAdministrationSettings(Request $request)
     {
         $rules = [
@@ -1258,6 +1310,7 @@ class AdminCrudController extends Controller
             'administration-settings',
             'staff',
             'services',
+            'interactive-service-settings',
             'videos',
             'media',
             'announcement-settings',
@@ -1507,10 +1560,16 @@ class AdminCrudController extends Controller
                 return [
                     'slug' => 'required|string|unique:services,slug,'.$id,
                     'icon' => 'nullable|string',
-                    'image' => 'nullable|string',
+                    'url' => 'nullable|string|max:500',
+                    'color' => 'nullable|string|max:50',
+                    'home_visible' => 'boolean',
+                    'opens_new_tab' => 'boolean',
                     'sort_order' => 'integer',
                     'is_active' => 'boolean',
                     'translations' => 'required|array',
+                    'translations.*.title' => 'required|string|max:255',
+                    'translations.*.description' => 'nullable|string',
+                    'translations.*.action_label' => 'nullable|string|max:255',
                 ];
             case 'videos':
                 return [

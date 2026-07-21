@@ -17,7 +17,6 @@ import LoadingState from "./components/common/LoadingState";
 
 // Lazy loaded page routes
 const Home = React.lazy(() => import("./pages/Home"));
-const ServiceDetails = React.lazy(() => import("./pages/ServiceDetails"));
 const Blog = React.lazy(() => import("./pages/Blog"));
 const BlogDetails = React.lazy(() => import("./pages/BlogDetails"));
 const AboutPage = React.lazy(() => import("./pages/AboutPage"));
@@ -128,6 +127,9 @@ const ApanelGreenCampus = React.lazy(
 );
 const ApanelAdministration = React.lazy(
   () => import("./features/apanel/pages/ApanelAdministration"),
+);
+const ApanelInteractiveServices = React.lazy(
+  () => import("./features/apanel/pages/ApanelInteractiveServices"),
 );
 const ApanelNewsletterSubscriptions = React.lazy(
   () => import("./features/apanel/pages/ApanelNewsletterSubscriptions"),
@@ -254,11 +256,6 @@ function AppContent() {
 
             <Route path="/apply" element={<ApplyPage />} />
             <Route path="/profile/:id" element={<ProfileDetails />} />
-
-            {/* Dynamic & Fallback Details Routes */}
-            <Route path="/services/:id" element={<ServiceDetails />} />
-            <Route path="/service-details" element={<ServiceDetails />} />
-            <Route path="/service-details.html" element={<ServiceDetails />} />
 
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:id" element={<BlogDetails />} />
@@ -499,6 +496,16 @@ function AppContent() {
                 <AdminRoute>
                   <ApanelLayout>
                     <ApanelAdministration />
+                  </ApanelLayout>
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/apanel/cms/interactive-services"
+              element={
+                <AdminRoute>
+                  <ApanelLayout>
+                    <ApanelInteractiveServices />
                   </ApanelLayout>
                 </AdminRoute>
               }

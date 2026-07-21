@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import FormError from "../../../components/common/FormError";
 import { apanelService } from "../../../services/apanelService";
+import ConfirmDialog from "../components/ConfirmDialog";
 
 const locales = ["en", "uz", "ru", "ar"];
 
@@ -210,6 +211,7 @@ export default function ApanelGreenCampus() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [uploading, setUploading] = useState(false);
+  const [pendingDelete, setPendingDelete] = useState(null);
 
   const fetchAll = useCallback(async () => {
     try {
@@ -453,13 +455,10 @@ export default function ApanelGreenCampus() {
     fetchAll();
   };
 
-  const deleteArticle = async (record) => {
-    await apanelService.delete("green-campus-articles", record.id);
-    fetchAll();
-  };
-
-  const deleteStat = async (record) => {
-    await apanelService.delete("green-campus-stats", record.id);
+  const confirmDelete = async () => {
+    if (!pendingDelete) return;
+    await apanelService.delete(pendingDelete.resource, pendingDelete.record.id);
+    setPendingDelete(null);
     fetchAll();
   };
 
@@ -467,6 +466,7 @@ export default function ApanelGreenCampus() {
   const statEditorOpen = editingStat !== null || statForm.sort_order || statForm.translations.en.value;
 
   return (
+    <>
     <div className="space-y-6 animate-in fade-in duration-200">
       <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4">
         <div>
@@ -575,7 +575,7 @@ export default function ApanelGreenCampus() {
                       <button type="button" onClick={() => startEditArticle(item)} className="p-2 rounded-xl border border-gray-200 text-gray-500 hover:text-navy cursor-pointer">
                         <Edit3 className="w-4 h-4" />
                       </button>
-                      <button type="button" onClick={() => deleteArticle(item)} className="p-2 rounded-xl border border-rose-100 text-rose-500 hover:bg-rose-50 cursor-pointer">
+                      <button type="button" onClick={() => setPendingDelete({ resource: "green-campus-articles", record: item, label: "initiative" })} className="p-2 rounded-xl border border-rose-100 text-rose-500 hover:bg-rose-50 cursor-pointer">
                         <Trash2 className="w-4 h-4" />
                       </button>
                     </div>
@@ -658,7 +658,7 @@ export default function ApanelGreenCampus() {
                     <button type="button" onClick={() => startEditStat(item)} className="p-2 rounded-xl border border-gray-200 text-gray-500 hover:text-navy cursor-pointer">
                       <Edit3 className="w-4 h-4" />
                     </button>
-                    <button type="button" onClick={() => deleteStat(item)} className="p-2 rounded-xl border border-rose-100 text-rose-500 hover:bg-rose-50 cursor-pointer">
+                    <button type="button" onClick={() => setPendingDelete({ resource: "green-campus-stats", record: item, label: "stat" })} className="p-2 rounded-xl border border-rose-100 text-rose-500 hover:bg-rose-50 cursor-pointer">
                       <Trash2 className="w-4 h-4" />
                     </button>
                   </div>
@@ -765,6 +765,14 @@ export default function ApanelGreenCampus() {
         </section>
       )}
     </div>
+    <ConfirmDialog
+      isOpen={Boolean(pendingDelete)}
+      title={`Delete ${pendingDelete?.label || "item"}?`}
+      message={`This will permanently delete ${pendingDelete?.record?.slug || pendingDelete?.record?.key || "this item"}. This action cannot be undone.`}
+      onConfirm={confirmDelete}
+      onCancel={() => setPendingDelete(null)}
+    />
+    </>
   );
 }
 

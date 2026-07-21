@@ -72,14 +72,9 @@ console.log("Loading departmentsData.js...");
 const departmentsModule = evaluateFile(sourceFile('departmentsData.js'));
 const departmentsData = departmentsModule.departmentsData;
 
-console.log("Loading mockData.js...");
-const mockDataModule = evaluateFile(sourceFile('mockData.js'));
-const servicesData = mockDataModule.servicesData;
-
 // Write files to JSON
 fs.writeFileSync(path.join(apiDataDir, 'translations.json'), JSON.stringify(translations, null, 2));
 fs.writeFileSync(path.join(apiDataDir, 'programs.json'), JSON.stringify(programsData, null, 2));
 fs.writeFileSync(path.join(apiDataDir, 'departments.json'), JSON.stringify(departmentsData, null, 2));
-fs.writeFileSync(path.join(apiDataDir, 'services.json'), JSON.stringify(servicesData, null, 2));
 
 console.log("Successfully extracted all React content files into JSON files!");

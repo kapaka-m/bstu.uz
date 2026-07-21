@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import FormError from "../../../components/common/FormError";
 import { apanelService } from "../../../services/apanelService";
+import ConfirmDialog from "../components/ConfirmDialog";
 
 const locales = ["en", "uz", "ru", "ar"];
 const emptyTranslation = {
@@ -174,6 +175,7 @@ export default function ApanelNewsEvents() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [deletingId, setDeletingId] = useState(null);
+  const [pendingDelete, setPendingDelete] = useState(null);
   const [error, setError] = useState("");
   const [editingRecord, setEditingRecord] = useState(null);
   const [form, setForm] = useState(emptyForm);
@@ -374,11 +376,13 @@ export default function ApanelNewsEvents() {
     }
   };
 
-  const deleteRecord = async (record) => {
+  const confirmDelete = async () => {
+    if (!pendingDelete) return;
     try {
-      setDeletingId(record.id);
+      setDeletingId(pendingDelete.id);
       setError("");
-      await apanelService.delete("news", record.id);
+      await apanelService.delete("news", pendingDelete.id);
+      setPendingDelete(null);
       fetchNews();
     } catch (err) {
       setError(err?.message || "Failed to delete news item.");
@@ -999,7 +1003,7 @@ export default function ApanelNewsEvents() {
                             </button>
                             <button
                               type="button"
-                              onClick={() => deleteRecord(item)}
+                              onClick={() => setPendingDelete(item)}
                               disabled={deletingId === item.id}
                               className="w-9 h-9 rounded-xl border border-rose-100 text-rose-600 hover:bg-rose-50 disabled:opacity-60 flex items-center justify-center cursor-pointer"
                             >
@@ -1041,6 +1045,15 @@ export default function ApanelNewsEvents() {
           </div>
         </section>
       )}
+      <ConfirmDialog
+        isOpen={Boolean(pendingDelete)}
+        title="Delete news/event?"
+        message={`This will permanently delete ${pendingDelete?.slug || "this item"}. This action cannot be undone.`}
+        confirmText={deletingId ? "Deleting..." : "Delete"}
+        cancelText="Cancel"
+        onConfirm={confirmDelete}
+        onCancel={() => setPendingDelete(null)}
+      />
     </div>
   );
 }

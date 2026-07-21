@@ -21,6 +21,7 @@ use App\Models\Faculty;
 use App\Models\GreenCampusArticle;
 use App\Models\GreenCampusSetting;
 use App\Models\GreenCampusStat;
+use App\Models\InteractiveServiceSetting;
 use App\Models\Inquiry;
 use App\Models\Locale;
 use App\Models\Media;
@@ -1170,21 +1171,95 @@ class PublicApiController extends Controller
     public function services(Request $request)
     {
         $locale = $this->getRequestLocale($request);
-        $services = Service::where('is_active', true)->with('translations')->orderBy('sort_order')->get();
+        $homeOnly = $request->boolean('home');
+        $limit = (int) $request->query('limit', 0);
 
-        return new LocalizedCollection($services, $locale);
+        $payload = $this->publicCache($request, 'interactive-services', [$locale, $homeOnly ? 'home' : 'all', $limit], function () use ($homeOnly, $limit, $locale) {
+            $query = Service::where('is_active', true)
+                ->with('translations')
+                ->orderBy('sort_order');
+
+            if ($homeOnly) {
+                $query->where('home_visible', true);
+            }
+
+            if ($limit > 0) {
+                $query->limit($limit);
+            }
+
+            return $query->get()
+                ->map(fn (Service $service) => $this->formatInteractiveService($service, $locale))
+                ->values()
+                ->all();
+        });
+
+        return response()->json([
+            'locale' => $locale,
+            'direction' => $locale === 'ar' ? 'rtl' : 'ltr',
+            'data' => $payload,
+        ]);
+    }
+
+    public function serviceSettings(Request $request)
+    {
+        $locale = $this->getRequestLocale($request);
+        $payload = $this->publicCache($request, 'interactive-service-settings', [$locale], function () use ($locale) {
+            $setting = InteractiveServiceSetting::where('key', 'main')
+                ->where('is_active', true)
+                ->with('translations')
+                ->first();
+
+            if (! $setting) {
+                return null;
+            }
+
+            return $this->localizedData(request(), $setting, $locale) + [
+                'home_limit' => $setting->home_limit,
+                'is_active' => $setting->is_active,
+            ];
+        });
+
+        return response()->json([
+            'locale' => $locale,
+            'direction' => $locale === 'ar' ? 'rtl' : 'ltr',
+            'data' => $payload,
+        ]);
     }
 
     public function service(Request $request, string $slug)
     {
         $locale = $this->getRequestLocale($request);
-        $service = Service::where('slug', $slug)->where('is_active', true)->with('translations')->first();
+        $service = Service::where('slug', $slug)
+            ->where('is_active', true)
+            ->with('translations')
+            ->first();
 
         if (! $service) {
             return $this->errorResponse("Service '{$slug}' not found", 404);
         }
 
-        return new LocalizedResource($service, $locale);
+        return response()->json([
+            'locale' => $locale,
+            'direction' => $locale === 'ar' ? 'rtl' : 'ltr',
+            'data' => $this->formatInteractiveService($service, $locale),
+        ]);
+    }
+
+    protected function formatInteractiveService(Service $service, string $locale): array
+    {
+        $data = $this->localizedData(request(), $service, $locale);
+
+        return array_merge($data, [
+            'id' => $service->id,
+            'slug' => $service->slug,
+            'icon' => $service->icon,
+            'url' => $service->url,
+            'color' => $service->color ?: 'cyan',
+            'home_visible' => (bool) $service->home_visible,
+            'opens_new_tab' => (bool) $service->opens_new_tab,
+            'sort_order' => $service->sort_order,
+            'is_active' => (bool) $service->is_active,
+        ]);
     }
 
     public function videos(Request $request)

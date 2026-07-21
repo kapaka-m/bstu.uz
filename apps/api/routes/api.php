@@ -60,6 +60,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/green-campus/settings', [PublicApiController::class, 'greenCampusSettings']);
         Route::get('/green-campus/articles', [PublicApiController::class, 'greenCampusArticles']);
         Route::get('/green-campus/articles/{slug}', [PublicApiController::class, 'greenCampusArticle']);
+        Route::get('/services/settings', [PublicApiController::class, 'serviceSettings']);
         Route::get('/services', [PublicApiController::class, 'services']);
         Route::get('/services/{slug}', [PublicApiController::class, 'service']);
         Route::get('/videos/settings', [PublicApiController::class, 'videoGallerySettings']);
@@ -135,6 +136,8 @@ Route::prefix('v1')->group(function () {
         Route::put('cms/green-campus/settings', [AdminCrudController::class, 'updateGreenCampusSettings']);
         Route::get('cms/administration/settings', [AdminCrudController::class, 'showAdministrationSettings']);
         Route::put('cms/administration/settings', [AdminCrudController::class, 'updateAdministrationSettings']);
+        Route::get('cms/interactive-services/settings', [AdminCrudController::class, 'showInteractiveServiceSettings']);
+        Route::put('cms/interactive-services/settings', [AdminCrudController::class, 'updateInteractiveServiceSettings']);
         Route::get('{resource}', [AdminCrudController::class, 'index']);
         Route::post('{resource}', [AdminCrudController::class, 'store'])->middleware('throttle:uploads');
         Route::get('{resource}/{id}', [AdminCrudController::class, 'show']);

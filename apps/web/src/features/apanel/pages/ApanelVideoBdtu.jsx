@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import FormError from "../../../components/common/FormError";
 import { apanelService } from "../../../services/apanelService";
+import ConfirmDialog from "../components/ConfirmDialog";
 
 const locales = ["en", "uz", "ru", "ar"];
 const localeNames = {
@@ -207,6 +208,7 @@ export default function ApanelVideoBdtu() {
   const [activeTab, setActiveTab] = useState("items");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [pendingDelete, setPendingDelete] = useState(null);
   const [error, setError] = useState("");
 
   const fetchVideos = useCallback(async () => {
@@ -368,9 +370,10 @@ export default function ApanelVideoBdtu() {
     fetchVideos();
   };
 
-  const deleteRecord = async (record) => {
-    if (!window.confirm(`Delete video "${record.slug}"?`)) return;
-    await apanelService.delete("videos", record.id);
+  const confirmDelete = async () => {
+    if (!pendingDelete) return;
+    await apanelService.delete("videos", pendingDelete.id);
+    setPendingDelete(null);
     fetchVideos();
   };
 
@@ -737,7 +740,7 @@ export default function ApanelVideoBdtu() {
                         <div className="flex items-center justify-end gap-2">
                           <button type="button" onClick={() => startEdit(item)} className="w-9 h-9 rounded-xl border border-gray-200 text-navy hover:bg-gray-50 flex items-center justify-center"><Edit3 className="w-4 h-4" /></button>
                           <button type="button" onClick={() => togglePublish(item)} className="w-9 h-9 rounded-xl border border-gray-200 text-navy hover:bg-gray-50 flex items-center justify-center">{item.is_active ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}</button>
-                          <button type="button" onClick={() => deleteRecord(item)} className="w-9 h-9 rounded-xl border border-rose-100 text-rose-500 hover:bg-rose-50 flex items-center justify-center"><Trash2 className="w-4 h-4" /></button>
+                          <button type="button" onClick={() => setPendingDelete(item)} className="w-9 h-9 rounded-xl border border-rose-100 text-rose-500 hover:bg-rose-50 flex items-center justify-center"><Trash2 className="w-4 h-4" /></button>
                         </div>
                       </td>
                     </tr>
@@ -748,6 +751,13 @@ export default function ApanelVideoBdtu() {
           </div>
         </section>
       )}
+      <ConfirmDialog
+        isOpen={Boolean(pendingDelete)}
+        title="Delete video?"
+        message={`This will permanently delete ${pendingDelete?.slug || "this video"}. This action cannot be undone.`}
+        onConfirm={confirmDelete}
+        onCancel={() => setPendingDelete(null)}
+      />
     </div>
   );
 }

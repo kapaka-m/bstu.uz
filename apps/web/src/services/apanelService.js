@@ -137,6 +137,14 @@ export const apanelService = {
     return api.put("/apanel/cms/administration/settings", payload).then(unwrapPayload);
   },
 
+  getInteractiveServiceSettings() {
+    return api.get("/apanel/cms/interactive-services/settings").then(unwrapPayload);
+  },
+
+  updateInteractiveServiceSettings(payload) {
+    return api.put("/apanel/cms/interactive-services/settings", payload).then(unwrapPayload);
+  },
+
   uploadMedia(file, metadata = {}) {
     const formData = new FormData();
     formData.append("file", file);

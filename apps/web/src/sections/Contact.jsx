@@ -29,6 +29,7 @@ export default function Contact() {
     message: ""
   });
   const [status, setStatus] = useState("idle");
+  const [submitError, setSubmitError] = useState("");
 
   useEffect(() => {
     let alive = true;
@@ -57,12 +58,16 @@ export default function Contact() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus("loading");
+    setSubmitError("");
 
     try {
       await inquiryService.submitInquiry(formData);
       setStatus("success");
       setFormData({ name: "", email: "", subject: "", message: "" });
-    } catch {
+    } catch (err) {
+      const errors = err?.errors || err?.data?.errors;
+      const firstError = errors && Object.values(errors).flat().find(Boolean);
+      setSubmitError(firstError || err?.message || form.errorMessage || "");
       setStatus("error");
     }
   };
@@ -266,7 +271,7 @@ export default function Contact() {
                   animate={{ opacity: 1, y: 0 }}
                   className="p-4 bg-rose-50 text-rose-700 text-sm font-semibold rounded-xl text-center border border-rose-100"
                 >
-                  {form.errorMessage || ""}
+                  {submitError || form.errorMessage || ""}
                 </motion.div>
               )}
             </form>

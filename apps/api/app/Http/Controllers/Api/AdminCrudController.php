@@ -785,6 +785,148 @@ class AdminCrudController extends Controller
         });
     }
 
+    public function showHeaderNavbar(Request $request)
+    {
+        $menu = Menu::with(['items.translations'])
+            ->firstOrCreate(
+                ['key' => 'main_header'],
+                ['location' => 'header', 'is_active' => true],
+            );
+
+        $menu->load(['items' => fn ($query) => $query
+            ->whereNull('parent_id')
+            ->with(['translations', 'children.translations', 'children.children.translations'])
+            ->orderBy('sort_order')]);
+
+        return $this->successResponse([
+            'id' => $menu->id,
+            'key' => $menu->key,
+            'location' => $menu->location,
+            'is_active' => (bool) $menu->is_active,
+            'items' => $menu->items->map(fn (MenuItem $item) => $this->formatHeaderNavbarItemForAdmin($item))->values(),
+        ], 'Header navbar CMS content retrieved');
+    }
+
+    public function updateHeaderNavbar(Request $request)
+    {
+        $validated = $request->validate([
+            'is_active' => 'nullable|boolean',
+            'items' => 'required|array',
+            'items.*.id' => 'nullable|integer|exists:menu_items,id',
+            'items.*.route_name' => 'required|string|in:link,group,media,faculties,structure,action',
+            'items.*.url' => 'nullable|string|max:500',
+            'items.*.icon' => 'nullable|string|max:255',
+            'items.*.sort_order' => 'required|integer',
+            'items.*.is_active' => 'nullable|boolean',
+            'items.*.translations' => 'required|array',
+            'items.*.translations.*.label' => 'required|string|max:255',
+            'items.*.children' => 'nullable|array',
+            'items.*.children.*.id' => 'nullable|integer|exists:menu_items,id',
+            'items.*.children.*.route_name' => 'required|string|in:link,group,media,faculties,structure,action',
+            'items.*.children.*.url' => 'nullable|string|max:500',
+            'items.*.children.*.icon' => 'nullable|string|max:255',
+            'items.*.children.*.sort_order' => 'required|integer',
+            'items.*.children.*.is_active' => 'nullable|boolean',
+            'items.*.children.*.translations' => 'required|array',
+            'items.*.children.*.translations.*.label' => 'required|string|max:255',
+            'items.*.children.*.children' => 'nullable|array',
+            'items.*.children.*.children.*.id' => 'nullable|integer|exists:menu_items,id',
+            'items.*.children.*.children.*.route_name' => 'required|string|in:link,group,media,faculties,structure,action',
+            'items.*.children.*.children.*.url' => 'nullable|string|max:500',
+            'items.*.children.*.children.*.icon' => 'nullable|string|max:255',
+            'items.*.children.*.children.*.sort_order' => 'required|integer',
+            'items.*.children.*.children.*.is_active' => 'nullable|boolean',
+            'items.*.children.*.children.*.translations' => 'required|array',
+            'items.*.children.*.children.*.translations.*.label' => 'required|string|max:255',
+        ]);
+
+        return DB::transaction(function () use ($validated) {
+            $menu = Menu::firstOrCreate(
+                ['key' => 'main_header'],
+                ['location' => 'header', 'is_active' => true],
+            );
+            $oldValues = $menu->load('items.translations')->toArray();
+
+            $menu->update([
+                'location' => 'header',
+                'is_active' => (bool) ($validated['is_active'] ?? true),
+            ]);
+
+            $keptIds = [];
+            foreach ($validated['items'] as $sortIndex => $itemData) {
+                $this->upsertHeaderNavbarItem($menu, $itemData, null, $sortIndex + 1, $keptIds);
+            }
+
+            MenuItem::where('menu_id', $menu->id)
+                ->whereNotIn('id', $keptIds)
+                ->delete();
+
+            $this->logAction('update', Menu::class, $menu->id, $oldValues, $menu->fresh('items.translations')->toArray());
+            $this->refreshPublicContentCacheVersion('menus');
+
+            return $this->showHeaderNavbar(request());
+        });
+    }
+
+    protected function formatHeaderNavbarItemForAdmin(MenuItem $item): array
+    {
+        return [
+            'id' => $item->id,
+            'parent_id' => $item->parent_id,
+            'route_name' => $item->route_name,
+            'url' => $item->url,
+            'icon' => $item->icon,
+            'sort_order' => $item->sort_order,
+            'is_active' => (bool) $item->is_active,
+            'translations' => $item->translations
+                ->mapWithKeys(fn ($translation) => [$translation->locale => ['label' => $translation->label]])
+                ->toArray(),
+            'children' => $item->children
+                ->sortBy('sort_order')
+                ->map(fn (MenuItem $child) => $this->formatHeaderNavbarItemForAdmin($child))
+                ->values()
+                ->toArray(),
+        ];
+    }
+
+    protected function upsertHeaderNavbarItem(Menu $menu, array $itemData, ?int $parentId, int $sortOrder, array &$keptIds): MenuItem
+    {
+        $item = null;
+        if (! empty($itemData['id'])) {
+            $item = MenuItem::where('menu_id', $menu->id)->find($itemData['id']);
+        }
+
+        $routeName = $itemData['route_name'] ?? 'link';
+        $itemPayload = [
+            'menu_id' => $menu->id,
+            'parent_id' => $parentId,
+            'route_name' => $routeName,
+            'url' => in_array($routeName, ['link', 'group', 'action'], true) ? ($itemData['url'] ?? null) : null,
+            'icon' => $itemData['icon'] ?? null,
+            'sort_order' => $sortOrder,
+            'is_active' => (bool) ($itemData['is_active'] ?? true),
+        ];
+
+        $item = $item
+            ? tap($item)->update($itemPayload)
+            : MenuItem::create($itemPayload);
+
+        $keptIds[] = $item->id;
+
+        foreach (($itemData['translations'] ?? []) as $locale => $fields) {
+            $item->translations()->updateOrCreate(
+                ['locale' => $locale],
+                ['label' => $fields['label']]
+            );
+        }
+
+        foreach (($itemData['children'] ?? []) as $childIndex => $childData) {
+            $this->upsertHeaderNavbarItem($menu, $childData, $item->id, $childIndex + 1, $keptIds);
+        }
+
+        return $item;
+    }
+
     public function updateFooterWeb(Request $request)
     {
         $validator = Validator::make($request->all(), [

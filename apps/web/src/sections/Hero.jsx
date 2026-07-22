@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { ArrowRight, Play, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
@@ -64,15 +65,13 @@ export default function Hero() {
               {t("home.hero.subtitle")}
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
-              <a
-                href="https://student.bstu.uz/"
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                to="/apply"
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary-hover text-white px-8 py-4 rounded-xl font-bold shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all duration-300 hover:-translate-y-0.5 group cursor-pointer"
               >
                 {t("common.applyNow")}
                 <ArrowRight className={`w-4 h-4 transition-transform duration-300 ${language === "ar" ? "rotate-180 group-hover:-translate-x-1" : "group-hover:translate-x-1"}`} />
-              </a>
+              </Link>
               {heroVideo && (
                 <button
                   onClick={() => setIsVideoOpen(true)}

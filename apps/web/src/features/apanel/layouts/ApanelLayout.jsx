@@ -93,6 +93,11 @@ export default function ApanelLayout({ children }) {
           icon: Mail,
         },
         {
+          path: "/apanel/cms/header-navbar",
+          label: "Header Navbar",
+          icon: MenuIcon,
+        },
+        {
           path: "/apanel/cms/footer-web",
           label: "Footer Web",
           icon: PanelBottom,

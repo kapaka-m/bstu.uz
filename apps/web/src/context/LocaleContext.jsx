@@ -13,6 +13,14 @@ const fallbackTranslationLoaders = {
 };
 const fallbackTranslationCache = {};
 
+const normalizeMenuItems = (menu) => {
+  if (Array.isArray(menu)) return menu;
+  if (Array.isArray(menu?.data)) return menu.data;
+  if (Array.isArray(menu?.items)) return menu.items;
+  if (Array.isArray(menu?.data?.items)) return menu.data.items;
+  return [];
+};
+
 async function loadFallbackTranslation(locale) {
   if (!fallbackTranslationCache[locale]) {
     const loader = fallbackTranslationLoaders[locale] || fallbackTranslationLoaders.en;
@@ -94,13 +102,20 @@ export function LocaleProvider({ children }) {
         fallbackTranslation = await loadFallbackTranslation(locale);
         setTranslations(fallbackTranslation);
 
-        const [transData, headerData] = await Promise.all([
+        const [translationsResult, headerResult] = await Promise.allSettled([
           translationService.getTranslations(locale),
           menuService.getMenu("header"),
         ]);
 
-        setTranslations(transData || fallbackTranslation);
-        setHeaderMenu(headerData);
+        if (translationsResult.status === "fulfilled") {
+          setTranslations(translationsResult.value || fallbackTranslation);
+        }
+
+        if (headerResult.status === "fulfilled") {
+          setHeaderMenu(normalizeMenuItems(headerResult.value));
+        } else {
+          setHeaderMenu([]);
+        }
       } catch (e) {
         console.error(`Failed to load data for locale: ${locale}`, e);
         setTranslations(fallbackTranslation);

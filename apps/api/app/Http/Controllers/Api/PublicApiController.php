@@ -152,7 +152,7 @@ class PublicApiController extends Controller
                 $group = $keyModel->group;
                 $k = $keyModel->key;
 
-                $valueModel = $keyModel->values->first();
+                $valueModel = $keyModel->values->firstWhere('locale', $locale);
                 $value = $valueModel ? $valueModel->value : null;
 
                 if (is_null($value) && $locale !== 'en') {
@@ -567,7 +567,7 @@ class PublicApiController extends Controller
     public function menu(Request $request, string $location)
     {
         $locale = $this->getRequestLocale($request);
-        $payload = $this->publicCache($request, 'menu', [$locale, $location], function () use ($request, $locale, $location) {
+        $payload = $this->publicCache($request, 'menu', [$locale, $location], function () use ($locale, $location) {
             $menu = Menu::where('location', $location)->where('is_active', true)->first();
 
             if (! $menu) {
@@ -579,11 +579,19 @@ class PublicApiController extends Controller
                 ->where('is_active', true)
                 ->orderBy('sort_order')
                 ->with(['translations', 'children' => function ($q) {
-                    $q->where('is_active', true)->with('translations')->orderBy('sort_order');
+                    $q->where('is_active', true)
+                        ->with(['translations', 'children' => function ($childQuery) {
+                            $childQuery->where('is_active', true)->with('translations')->orderBy('sort_order');
+                        }])
+                        ->orderBy('sort_order');
                 }])
                 ->get();
 
-            return (new LocalizedCollection($items, $locale))->toArray($request);
+            return [
+                'locale' => $locale,
+                'direction' => $locale === 'ar' ? 'rtl' : 'ltr',
+                'data' => $items->map(fn (MenuItem $item) => $this->formatMenuItem($item, $locale))->values()->all(),
+            ];
         });
 
         if (! $payload) {
@@ -596,7 +604,7 @@ class PublicApiController extends Controller
     public function menus(Request $request)
     {
         $locale = $this->getRequestLocale($request);
-        $data = $this->publicCache($request, 'menus', [$locale], function () use ($request, $locale) {
+        $data = $this->publicCache($request, 'menus', [$locale], function () use ($locale) {
             $menus = Menu::where('is_active', true)->orderBy('location')->get();
             $data = [];
 
@@ -606,7 +614,11 @@ class PublicApiController extends Controller
                     ->where('is_active', true)
                     ->orderBy('sort_order')
                     ->with(['translations', 'children' => function ($q) {
-                        $q->where('is_active', true)->with('translations')->orderBy('sort_order');
+                        $q->where('is_active', true)
+                            ->with(['translations', 'children' => function ($childQuery) {
+                                $childQuery->where('is_active', true)->with('translations')->orderBy('sort_order');
+                            }])
+                            ->orderBy('sort_order');
                     }])
                     ->get();
 
@@ -614,7 +626,7 @@ class PublicApiController extends Controller
                     'id' => $menu->id,
                     'key' => $menu->key,
                     'location' => $menu->location,
-                    'items' => (new LocalizedCollection($items, $locale))->toArray($request)['data'],
+                    'items' => $items->map(fn (MenuItem $item) => $this->formatMenuItem($item, $locale))->values()->all(),
                 ];
             }
 
@@ -622,6 +634,30 @@ class PublicApiController extends Controller
         });
 
         return $this->successResponse($data, 'Menus retrieved successfully');
+    }
+
+    protected function formatMenuItem(MenuItem $item, string $locale): array
+    {
+        $translation = $item->translations->firstWhere('locale', $locale)
+            ?: $item->translations->firstWhere('locale', 'en')
+            ?: $item->translations->first();
+
+        return [
+            'id' => $item->id,
+            'parent_id' => $item->parent_id,
+            'route_name' => $item->route_name,
+            'url' => $item->url,
+            'icon' => $item->icon,
+            'sort_order' => $item->sort_order,
+            'is_active' => (bool) $item->is_active,
+            'label' => $translation?->label ?: '',
+            'children' => $item->children
+                ->where('is_active', true)
+                ->sortBy('sort_order')
+                ->map(fn (MenuItem $child) => $this->formatMenuItem($child, $locale))
+                ->values()
+                ->all(),
+        ];
     }
 
     public function home(Request $request)

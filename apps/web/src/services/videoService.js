@@ -13,10 +13,16 @@ const cached = (key, fetcher) => {
     return Promise.resolve(cachedEntry.value);
   }
 
-  return fetcher().then((value) => {
+  const pending = fetcher().then((value) => {
     responseCache.set(cacheKey, { time: Date.now(), value });
     return value;
+  }).catch((error) => {
+    responseCache.delete(cacheKey);
+    throw error;
   });
+
+  responseCache.set(cacheKey, { time: Date.now(), value: pending });
+  return pending;
 };
 
 const normalizeVideo = (item = {}) => ({

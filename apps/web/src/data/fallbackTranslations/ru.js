@@ -17,7 +17,8 @@ export const translation = {
     "greenCampus": "Зеленый кампус",
     "structure": "Структура",
     "departments": "Кафедры",
-    "media": "Медиа-центр"
+    "media": "Медиа-центр",
+    "applyOnline": "Подать онлайн"
   },
   "common": {
     "backToHome": "Назад на главную",

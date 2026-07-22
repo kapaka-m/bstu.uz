@@ -129,6 +129,8 @@ Route::prefix('v1')->group(function () {
         Route::put('cms/about-page', [AdminCrudController::class, 'updateAboutPage']);
         Route::get('cms/contact-page', [AdminCrudController::class, 'showContactPage']);
         Route::put('cms/contact-page', [AdminCrudController::class, 'updateContactPage']);
+        Route::get('cms/header-navbar', [AdminCrudController::class, 'showHeaderNavbar']);
+        Route::put('cms/header-navbar', [AdminCrudController::class, 'updateHeaderNavbar']);
         Route::get('cms/news-events/settings', [AdminCrudController::class, 'showNewsEventSettings']);
         Route::put('cms/news-events/settings', [AdminCrudController::class, 'updateNewsEventSettings']);
         Route::get('cms/announcements/settings', [AdminCrudController::class, 'showAnnouncementSettings']);

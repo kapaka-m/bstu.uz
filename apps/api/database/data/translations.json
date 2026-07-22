@@ -18,7 +18,8 @@
       "greenCampus": "Green Campus",
       "structure": "Structure",
       "departments": "Departments",
-      "media": "Media Center"
+      "media": "Media Center",
+      "applyOnline": "Apply Online"
     },
     "common": {
       "backToHome": "Back to Home",
@@ -2345,7 +2346,8 @@
       "greenCampus": "Yashil kampus",
       "structure": "Tuzilma",
       "departments": "Kafedralar",
-      "media": "Media markazi"
+      "media": "Media markazi",
+      "applyOnline": "Onlayn ariza"
     },
     "common": {
       "backToHome": "Bosh sahifaga qaytish",
@@ -4792,7 +4794,8 @@
       "greenCampus": "Зеленый кампус",
       "structure": "Структура",
       "departments": "Кафедры",
-      "media": "Медиа-центр"
+      "media": "Медиа-центр",
+      "applyOnline": "Подать онлайн"
     },
     "common": {
       "backToHome": "Назад на главную",
@@ -7046,7 +7049,8 @@
       "greenCampus": "الحرم الجامعي الأخضر",
       "structure": "الهيكل التنظيمي",
       "departments": "الأقسام",
-      "media": "المركز الإعلامي"
+      "media": "المركز الإعلامي",
+      "applyOnline": "التقديم عبر الإنترنت"
     },
     "common": {
       "backToHome": "العودة إلى الصفحة الرئيسية",

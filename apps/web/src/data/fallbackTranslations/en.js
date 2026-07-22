@@ -17,7 +17,8 @@ export const translation = {
     "greenCampus": "Green Campus",
     "structure": "Structure",
     "departments": "Departments",
-    "media": "Media Center"
+    "media": "Media Center",
+    "applyOnline": "Apply Online"
   },
   "common": {
     "backToHome": "Back to Home",

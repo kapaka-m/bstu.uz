@@ -17,7 +17,8 @@ export const translation = {
     "greenCampus": "الحرم الجامعي الأخضر",
     "structure": "الهيكل التنظيمي",
     "departments": "الأقسام",
-    "media": "المركز الإعلامي"
+    "media": "المركز الإعلامي",
+    "applyOnline": "التقديم عبر الإنترنت"
   },
   "common": {
     "backToHome": "العودة إلى الصفحة الرئيسية",

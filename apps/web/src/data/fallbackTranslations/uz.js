@@ -17,7 +17,8 @@ export const translation = {
     "greenCampus": "Yashil kampus",
     "structure": "Tuzilma",
     "departments": "Kafedralar",
-    "media": "Media markazi"
+    "media": "Media markazi",
+    "applyOnline": "Onlayn ariza"
   },
   "common": {
     "backToHome": "Bosh sahifaga qaytish",

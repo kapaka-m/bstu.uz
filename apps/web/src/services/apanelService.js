@@ -161,6 +161,14 @@ export const apanelService = {
     return api.put("/apanel/cms/contact-page", payload).then(unwrapPayload);
   },
 
+  getHeaderNavbar() {
+    return api.get("/apanel/cms/header-navbar").then(unwrapPayload);
+  },
+
+  updateHeaderNavbar(payload) {
+    return api.put("/apanel/cms/header-navbar", payload).then(unwrapPayload);
+  },
+
   uploadMedia(file, metadata = {}) {
     const formData = new FormData();
     formData.append("file", file);

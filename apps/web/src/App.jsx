@@ -435,6 +435,26 @@ function AppContent() {
               element={<Navigate to="/apanel/cms/news-events" replace />}
             />
             <Route
+              path="/apanel/menus"
+              element={<Navigate to="/apanel/cms/header-navbar" replace />}
+            />
+            <Route
+              path="/apanel/menu-items"
+              element={<Navigate to="/apanel/cms/header-navbar" replace />}
+            />
+            <Route
+              path="/apanel/pages"
+              element={<Navigate to="/apanel/dashboard" replace />}
+            />
+            <Route
+              path="/apanel/page-blocks"
+              element={<Navigate to="/apanel/dashboard" replace />}
+            />
+            <Route
+              path="/apanel/services"
+              element={<Navigate to="/apanel/cms/interactive-services" replace />}
+            />
+            <Route
               path="/apanel/videos"
               element={<Navigate to="/apanel/cms/video-bdtu" replace />}
             />

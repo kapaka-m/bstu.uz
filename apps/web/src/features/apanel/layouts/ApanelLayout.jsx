@@ -10,7 +10,6 @@ import {
   History,
   Menu as MenuIcon,
   FileText,
-  LayoutGrid,
   Newspaper,
   Megaphone,
   Briefcase,
@@ -152,16 +151,6 @@ export default function ApanelLayout({ children }) {
           label: "Contact Messages",
           icon: HelpCircle,
         },
-      ],
-    },
-    {
-      title: "Content Engine",
-      links: [
-        { path: "/apanel/menus", label: "Menus", icon: MenuIcon },
-        { path: "/apanel/menu-items", label: "Menu Items", icon: MenuIcon },
-        { path: "/apanel/pages", label: "Pages", icon: FileText },
-        { path: "/apanel/page-blocks", label: "Page Blocks", icon: LayoutGrid },
-        { path: "/apanel/services", label: "Services", icon: Briefcase },
       ],
     },
     {

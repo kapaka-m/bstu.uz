@@ -27,16 +27,6 @@ const defaultTranslations = {
   ar: { label: "" },
 };
 
-const initialItems = [
-  { route_name: "link", url: "/", sort_order: 1, translations: { en: { label: "Home" }, uz: { label: "Bosh sahifa" }, ru: { label: "Главная" }, ar: { label: "الرئيسية" } } },
-  { route_name: "link", url: "/about", sort_order: 2, translations: { en: { label: "About" }, uz: { label: "Biz haqimizda" }, ru: { label: "О нас" }, ar: { label: "عن الجامعة" } } },
-  { route_name: "media", url: "", sort_order: 3, translations: { en: { label: "Media Center" }, uz: { label: "Media markazi" }, ru: { label: "Медиацентр" }, ar: { label: "المركز الإعلامي" } }, children: [] },
-  { route_name: "faculties", url: "", sort_order: 4, translations: { en: { label: "Faculties" }, uz: { label: "Fakultetlar" }, ru: { label: "Факультеты" }, ar: { label: "الكليات" } }, children: [] },
-  { route_name: "structure", url: "", sort_order: 5, translations: { en: { label: "Structure" }, uz: { label: "Tuzilma" }, ru: { label: "Структура" }, ar: { label: "الهيكل" } }, children: [] },
-  { route_name: "link", url: "/services", sort_order: 6, translations: { en: { label: "Services" }, uz: { label: "Xizmatlar" }, ru: { label: "Сервисы" }, ar: { label: "الخدمات" } } },
-  { route_name: "link", url: "/contact", sort_order: 7, translations: { en: { label: "Contact" }, uz: { label: "Aloqa" }, ru: { label: "Контакты" }, ar: { label: "اتصل بنا" } } },
-];
-
 function cloneTranslations(translations = {}) {
   return {
     ...structuredClone(defaultTranslations),
@@ -172,10 +162,10 @@ export default function ApanelHeaderNavbar() {
       const data = await apanelService.getHeaderNavbar();
       const nextItems = (data.items || []).map(normalizeItem);
       setIsActive(data.is_active !== false);
-      setItems(nextItems.length ? nextItems : initialItems.map(normalizeItem));
+      setItems(nextItems);
     } catch (err) {
       setError(err?.message || "Failed to load header navbar.");
-      setItems(initialItems.map(normalizeItem));
+      setItems([]);
     } finally {
       setLoading(false);
     }

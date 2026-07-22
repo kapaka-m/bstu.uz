@@ -30,6 +30,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/settings/public', [PublicApiController::class, 'settings']);
         Route::get('/footer-web', [PublicApiController::class, 'footerWeb']);
         Route::get('/about-page', [PublicApiController::class, 'aboutPage']);
+        Route::get('/contact-page', [PublicApiController::class, 'contactPage']);
         Route::get('/administration/settings', [PublicApiController::class, 'administrationSettings']);
         Route::get('/administration', [PublicApiController::class, 'administration']);
         Route::get('/administration/{slug}', [PublicApiController::class, 'administrationProfile']);
@@ -126,6 +127,8 @@ Route::prefix('v1')->group(function () {
         Route::put('cms/footer-web', [AdminCrudController::class, 'updateFooterWeb']);
         Route::get('cms/about-page', [AdminCrudController::class, 'showAboutPage']);
         Route::put('cms/about-page', [AdminCrudController::class, 'updateAboutPage']);
+        Route::get('cms/contact-page', [AdminCrudController::class, 'showContactPage']);
+        Route::put('cms/contact-page', [AdminCrudController::class, 'updateContactPage']);
         Route::get('cms/news-events/settings', [AdminCrudController::class, 'showNewsEventSettings']);
         Route::put('cms/news-events/settings', [AdminCrudController::class, 'updateNewsEventSettings']);
         Route::get('cms/announcements/settings', [AdminCrudController::class, 'showAnnouncementSettings']);

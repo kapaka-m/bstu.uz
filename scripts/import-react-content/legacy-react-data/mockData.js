@@ -1,31 +1,3 @@
-export const faqData = [
-  {
-    id: 1,
-    question: "When was Bukhara State Technical University (BSTU) established?",
-    answer: "BSTU was officially established in January 2025 by Presidential Resolution No. PP-22, uniting the Bukhara Engineering-Technological Institute and the Bukhara Institute of Natural Resources Management."
-  },
-  {
-    id: 2,
-    question: "What main faculties are available at BSTU?",
-    answer: "The university is structured into 4 faculties and 24 departments, including Chemical & Food Technologies, Oil & Gas Technology, Engineering & Construction, Power Engineering & ICT, Textile & Light Industry, and Natural Resources Management."
-  },
-  {
-    id: 3,
-    question: "Does BSTU offer joint or double-degree educational programs?",
-    answer: "Yes, BSTU active partnerships offer double-degree and joint educational programs with leading technical universities in Latvia, Malaysia, Belarus, and Russia."
-  },
-  {
-    id: 4,
-    question: "What is the Advanced Engineering School at BSTU?",
-    answer: "Established in cooperation with Uzbekneftegaz JSC, the Advanced Engineering School aims to provide energy sector students with hands-on, high-tech industrial training and direct career pathways."
-  },
-  {
-    id: 5,
-    question: "Where is the main university campus located?",
-    answer: "The university campus is located at 15 Q. Murtazoyev Street, Bukhara city, Uzbekistan."
-  }
-];
-
 export const facultiesData = [
   {
     id: "faculty-of-engineering",

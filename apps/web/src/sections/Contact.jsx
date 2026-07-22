@@ -1,17 +1,51 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { MapPin, Phone, Mail, Clock, Send, Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
+import { contactService } from "../services/contactService";
+import { inquiryService } from "../services/inquiryService";
+
+const iconMap = {
+  address: MapPin,
+  phone: Phone,
+  email: Mail,
+  hours: Clock,
+};
+
+const colorMap = {
+  address: "text-blue-600 bg-blue-50/50",
+  phone: "text-orange-600 bg-orange-50/50",
+  email: "text-green-600 bg-green-50/50",
+  hours: "text-pink-600 bg-pink-50/50",
+};
 
 export default function Contact() {
-  const { t } = useLanguage();
+  const { language } = useLanguage();
+  const [page, setPage] = useState(null);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     subject: "",
     message: ""
   });
-  const [status, setStatus] = useState("idle"); // idle, loading, success, error
+  const [status, setStatus] = useState("idle");
+
+  useEffect(() => {
+    let alive = true;
+
+    contactService
+      .getPage(language)
+      .then((nextPage) => {
+        if (alive) setPage(nextPage || null);
+      })
+      .catch(() => {
+        if (alive) setPage(null);
+      });
+
+    return () => {
+      alive = false;
+    };
+  }, [language]);
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -20,61 +54,43 @@ export default function Contact() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus("loading");
 
-    // Simulate form submission
-    setTimeout(() => {
+    try {
+      await inquiryService.submitInquiry(formData);
       setStatus("success");
       setFormData({ name: "", email: "", subject: "", message: "" });
-    }, 1500);
+    } catch {
+      setStatus("error");
+    }
   };
 
-  const contactInfo = [
-    {
-      kind: "address",
-      icon: MapPin,
-      title: t("home.contact.addressTitle", "Address"),
-      details: [
-        t("home.contact.addressLine1", "15 Q. Murtazoyev Street"),
-        t("home.contact.addressLine2", "Bukhara city, Uzbekistan")
-      ],
-      color: "text-blue-600 bg-blue-50/50"
-    },
-    {
-      kind: "phone",
-      icon: Phone,
-      title: t("home.contact.callTitle", "Call Us"),
-      details: ["+998 65 224 64 35", "+998 65 223 28 83"],
-      color: "text-orange-600 bg-orange-50/50"
-    },
-    {
-      kind: "email",
-      icon: Mail,
-      title: t("home.contact.emailTitle", "Email Us"),
-      details: ["info@bstu.uz", "rector@bstu.uz"],
-      color: "text-green-600 bg-green-50/50"
-    },
-    {
-      kind: "hours",
-      icon: Clock,
-      title: t("home.contact.hoursTitle", "Open Hours"),
-      details: [
-        t("home.contact.hoursDays", "Monday - Saturday"),
-        t("home.contact.hoursTime", "8:30 AM - 5:30 PM")
-      ],
-      color: "text-pink-600 bg-pink-50/50"
-    }
-  ];
+  const content = page?.content || {};
+  const form = content.form || {};
+  const contactInfo = useMemo(
+    () =>
+      (content.cards || []).map((info) => ({
+        ...info,
+        icon: iconMap[info.kind] || MapPin,
+        color: colorMap[info.kind] || colorMap.address,
+        details: Array.isArray(info.details) ? info.details : [],
+      })),
+    [content.cards],
+  );
+
+  if (!page) {
+    return null;
+  }
 
   return (
     <section id="contact" className="py-24 bg-white border-t border-gray-50 overflow-hidden">
       <div className="container mx-auto px-4 md:px-8 max-w-7xl">
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <h2 className="text-sm font-extrabold uppercase tracking-widest text-primary mb-3">{t("home.contact.tag", "Contact")}</h2>
-          <p className="text-3xl md:text-4xl font-extrabold text-navy">{t("home.contact.title", "Contact Us")}</p>
+          <h2 className="text-sm font-extrabold uppercase tracking-widest text-primary mb-3">{content.tag || ""}</h2>
+          <p className="text-3xl md:text-4xl font-extrabold text-navy">{content.title || ""}</p>
         </div>
 
         {/* Google Map */}
@@ -86,12 +102,12 @@ export default function Contact() {
           className="mb-12 rounded-3xl overflow-hidden shadow-lg border border-gray-100 h-96 relative"
         >
           <iframe
-            src="https://maps.google.com/maps?q=Buxoro%20muhandislik-texnologiya%20instituti&t=&z=16&ie=UTF8&iwloc=&output=embed"
+            src={page.map_embed_url || ""}
             className="w-full h-full border-0 absolute inset-0"
             allowFullScreen=""
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
-            title={t("home.contact.mapTitle", "Bukhara State Technical University Map")}
+            title={content.mapTitle || ""}
           ></iframe>
         </motion.div>
 
@@ -118,7 +134,12 @@ export default function Contact() {
                     if (info.kind === "phone") {
                       return (
                         <p key={dIdx} className="text-sm text-gray-500 font-semibold leading-relaxed">
-                          <a href={`tel:${detail.replace(/\s+/g, '').replace(/[()]/g, '')}`} className="hover:text-primary transition-colors">
+                          <a
+                            href={`tel:${detail.replace(/\s+/g, '').replace(/[()]/g, '')}`}
+                            dir="ltr"
+                            style={{ unicodeBidi: "isolate" }}
+                            className="inline-block hover:text-primary transition-colors"
+                          >
                             {detail}
                           </a>
                         </p>
@@ -154,7 +175,7 @@ export default function Contact() {
             <form onSubmit={handleSubmit} className="flex flex-col gap-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="flex flex-col gap-2">
-                  <label htmlFor="name" className="text-xs font-bold text-navy uppercase tracking-wider">{t("home.contact.form.nameLabel", "Your Name")}</label>
+                  <label htmlFor="name" className="text-xs font-bold text-navy uppercase tracking-wider">{form.nameLabel || ""}</label>
                   <input
                     type="text"
                     id="name"
@@ -162,12 +183,12 @@ export default function Contact() {
                     value={formData.name}
                     onChange={handleChange}
                     className="w-full bg-white border border-gray-100 rounded-xl px-4 py-3 text-sm focus:border-primary focus:outline-none transition-colors shadow-sm"
-                    placeholder={t("home.contact.form.namePlaceholder", "John Doe")}
+                    placeholder={form.namePlaceholder || ""}
                     required
                   />
                 </div>
                 <div className="flex flex-col gap-2">
-                  <label htmlFor="email" className="text-xs font-bold text-navy uppercase tracking-wider">{t("home.contact.form.emailLabel", "Your Email")}</label>
+                  <label htmlFor="email" className="text-xs font-bold text-navy uppercase tracking-wider">{form.emailLabel || ""}</label>
                   <input
                     type="email"
                     id="email"
@@ -175,14 +196,14 @@ export default function Contact() {
                     value={formData.email}
                     onChange={handleChange}
                     className="w-full bg-white border border-gray-100 rounded-xl px-4 py-3 text-sm focus:border-primary focus:outline-none transition-colors shadow-sm"
-                    placeholder={t("home.contact.form.emailPlaceholder", "john@example.com")}
+                    placeholder={form.emailPlaceholder || ""}
                     required
                   />
                 </div>
               </div>
 
               <div className="flex flex-col gap-2">
-                <label htmlFor="subject" className="text-xs font-bold text-navy uppercase tracking-wider">{t("home.contact.form.subjectLabel", "Subject")}</label>
+                <label htmlFor="subject" className="text-xs font-bold text-navy uppercase tracking-wider">{form.subjectLabel || ""}</label>
                 <input
                   type="text"
                   id="subject"
@@ -190,13 +211,13 @@ export default function Contact() {
                   value={formData.subject}
                   onChange={handleChange}
                   className="w-full bg-white border border-gray-100 rounded-xl px-4 py-3 text-sm focus:border-primary focus:outline-none transition-colors shadow-sm"
-                  placeholder={t("home.contact.form.subjectPlaceholder", "Inquiry about services")}
+                  placeholder={form.subjectPlaceholder || ""}
                   required
                 />
               </div>
 
               <div className="flex flex-col gap-2">
-                <label htmlFor="message" className="text-xs font-bold text-navy uppercase tracking-wider">{t("home.contact.form.messageLabel", "Message")}</label>
+                <label htmlFor="message" className="text-xs font-bold text-navy uppercase tracking-wider">{form.messageLabel || ""}</label>
                 <textarea
                   id="message"
                   name="message"
@@ -204,7 +225,7 @@ export default function Contact() {
                   value={formData.message}
                   onChange={handleChange}
                   className="w-full bg-white border border-gray-100 rounded-xl px-4 py-3 text-sm focus:border-primary focus:outline-none transition-colors shadow-sm resize-none"
-                  placeholder={t("home.contact.form.messagePlaceholder", "Write your message here...")}
+                  placeholder={form.messagePlaceholder || ""}
                   required
                 />
               </div>
@@ -218,12 +239,12 @@ export default function Contact() {
                   {status === "loading" ? (
                     <>
                       <Loader2 className="w-4 h-4 animate-spin" />
-                      {t("home.contact.form.sending", "Sending...")}
+                      {form.sendingLabel || ""}
                     </>
                   ) : (
                     <>
                       <Send className="w-4 h-4" />
-                      {t("home.contact.form.send", "Send Message")}
+                      {form.sendLabel || ""}
                     </>
                   )}
                 </button>
@@ -236,7 +257,16 @@ export default function Contact() {
                   animate={{ opacity: 1, y: 0 }}
                   className="p-4 bg-green-50 text-green-700 text-sm font-semibold rounded-xl text-center border border-green-100"
                 >
-                  {t("home.contact.form.success", "Your message has been sent successfully. Thank you!")}
+                  {form.successMessage || ""}
+                </motion.div>
+              )}
+              {status === "error" && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="p-4 bg-rose-50 text-rose-700 text-sm font-semibold rounded-xl text-center border border-rose-100"
+                >
+                  {form.errorMessage || ""}
                 </motion.div>
               )}
             </form>
@@ -246,4 +276,3 @@ export default function Contact() {
     </section>
   );
 }
-

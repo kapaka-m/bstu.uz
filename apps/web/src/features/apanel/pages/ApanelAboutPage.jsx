@@ -1,6 +1,7 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Plus, Save, Trash2, Upload } from "lucide-react";
 import { apanelService } from "../../../services/apanelService";
+import ConfirmDialog from "../components/ConfirmDialog";
 
 const API_ORIGIN = (import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/api/v1").replace(
   /\/api\/v1\/?$/,
@@ -142,6 +143,8 @@ export default function ApanelAboutPage() {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [confirmAction, setConfirmAction] = useState(null);
+  const [timelineDraft, setTimelineDraft] = useState(null);
 
   const content = form.translations[activeLocale]?.content || defaultContent;
   const activeLocaleLabel = useMemo(
@@ -149,30 +152,35 @@ export default function ApanelAboutPage() {
     [activeLocale],
   );
 
+  const applyPageToForm = useCallback((page) => {
+    const translations = clone(emptyForm.translations);
+    (page.translations || []).forEach((translation) => {
+      translations[translation.locale] = {
+        content: { ...clone(defaultContent), ...clone(translation.content) },
+      };
+    });
+
+    setForm({
+      hero_contact_url: page.hero_contact_url || "/contact",
+      hero_campus_url: page.hero_campus_url || "/video-bdtu",
+      identity_image: page.identity_image || page.identity_image_url || "",
+      rector_profile_slug: page.rector_profile_slug || "rector",
+      is_published: Boolean(page.is_published),
+      translations,
+    });
+  }, []);
+
+  const loadAboutPageForm = useCallback(async (isAlive = () => true) => {
+    const page = await apanelService.getAboutPage();
+    if (isAlive()) applyPageToForm(page);
+    return page;
+  }, [applyPageToForm]);
+
   useEffect(() => {
     let alive = true;
     setLoading(true);
 
-    apanelService
-      .getAboutPage()
-      .then((page) => {
-        if (!alive) return;
-        const translations = clone(emptyForm.translations);
-        (page.translations || []).forEach((translation) => {
-          translations[translation.locale] = {
-            content: { ...clone(defaultContent), ...clone(translation.content) },
-          };
-        });
-
-        setForm({
-          hero_contact_url: page.hero_contact_url || "/contact",
-          hero_campus_url: page.hero_campus_url || "/video-bdtu",
-          identity_image: page.identity_image || "",
-          rector_profile_slug: page.rector_profile_slug || "rector",
-          is_published: Boolean(page.is_published),
-          translations,
-        });
-      })
+    loadAboutPageForm(() => alive)
       .catch((err) => setError(err?.message || "Failed to load About page CMS."))
       .finally(() => {
         if (alive) setLoading(false);
@@ -181,7 +189,7 @@ export default function ApanelAboutPage() {
     return () => {
       alive = false;
     };
-  }, []);
+  }, [loadAboutPageForm]);
 
   const updateField = (field, value) => {
     setForm((current) => ({ ...current, [field]: value }));
@@ -210,13 +218,113 @@ export default function ApanelAboutPage() {
   };
 
   const addArrayItem = (path, item) => {
-    const items = clone(path.split(".").reduce((acc, key) => acc?.[key], content) || []);
-    updateContent(path, [...items, item]);
+    setForm((current) => {
+      const translations = clone(current.translations);
+      LOCALES.forEach((locale) => {
+        const nextContent = { ...clone(defaultContent), ...clone(translations[locale.code]?.content) };
+        const keys = path.split(".");
+        let target = nextContent;
+        keys.slice(0, -1).forEach((key) => {
+          target[key] = target[key] && typeof target[key] === "object" ? target[key] : {};
+          target = target[key];
+        });
+        const items = Array.isArray(target[keys.at(-1)]) ? target[keys.at(-1)] : [];
+        target[keys.at(-1)] = [...items, locale.code === activeLocale ? clone(item) : {}];
+        translations[locale.code] = { content: nextContent };
+      });
+      return { ...current, translations };
+    });
   };
 
-  const removeArrayItem = (path, index) => {
-    const items = clone(path.split(".").reduce((acc, key) => acc?.[key], content) || []);
-    updateContent(path, items.filter((_, itemIndex) => itemIndex !== index));
+  const formWithAddedArrayItem = (sourceForm, path, itemFactory) => {
+    const nextForm = clone(sourceForm);
+    const translations = clone(nextForm.translations);
+
+    LOCALES.forEach((locale) => {
+      const nextContent = { ...clone(defaultContent), ...clone(translations[locale.code]?.content) };
+      const keys = path.split(".");
+      let target = nextContent;
+      keys.slice(0, -1).forEach((key) => {
+        target[key] = target[key] && typeof target[key] === "object" ? target[key] : {};
+        target = target[key];
+      });
+      const items = Array.isArray(target[keys.at(-1)]) ? target[keys.at(-1)] : [];
+      target[keys.at(-1)] = [...items, clone(itemFactory(locale.code))];
+      translations[locale.code] = { content: nextContent };
+    });
+
+    return { ...nextForm, translations };
+  };
+
+  const buildPayload = (sourceForm) => ({
+    hero_contact_url: sourceForm.hero_contact_url || "/contact",
+    hero_campus_url: sourceForm.hero_campus_url || "/video-bdtu",
+    ...(sourceForm.identity_image ? { identity_image: sourceForm.identity_image } : {}),
+    rector_profile_slug: sourceForm.rector_profile_slug || "rector",
+    is_published: Boolean(sourceForm.is_published),
+    translations: Object.fromEntries(
+      LOCALES.map((locale) => [
+        locale.code,
+        {
+          content: {
+            ...clone(defaultContent),
+            ...clone(sourceForm.translations?.[locale.code]?.content),
+          },
+        },
+      ]),
+    ),
+  });
+
+  const persistForm = async (sourceForm, message = "About page content saved successfully.") => {
+    setSaving(true);
+    setError("");
+    setSuccess("");
+    await apanelService.updateAboutPage(buildPayload(sourceForm));
+    await loadAboutPageForm();
+    setSuccess(message);
+  };
+
+  const removeArrayItemFromAllLocales = async (path, index) => {
+    const nextForm = await new Promise((resolve) => {
+      setForm((current) => {
+        const translations = clone(current.translations);
+        LOCALES.forEach((locale) => {
+          const nextContent = { ...clone(defaultContent), ...clone(translations[locale.code]?.content) };
+          const keys = path.split(".");
+          let target = nextContent;
+          keys.slice(0, -1).forEach((key) => {
+            target[key] = target[key] && typeof target[key] === "object" ? target[key] : {};
+            target = target[key];
+          });
+          const items = Array.isArray(target[keys.at(-1)]) ? target[keys.at(-1)] : [];
+          target[keys.at(-1)] = items.filter((_, itemIndex) => itemIndex !== index);
+          translations[locale.code] = { content: nextContent };
+        });
+        const updated = { ...current, translations };
+        resolve(updated);
+        return updated;
+      });
+    });
+
+    await persistForm(nextForm, "Item deleted successfully.");
+  };
+
+  const requestRemoveArrayItem = (path, index, label) => {
+    setConfirmAction({
+      title: `Delete ${label}?`,
+      message: `This will remove ${label} from all languages and save the change to the database.`,
+      confirmText: "Delete",
+      onConfirm: async () => {
+        try {
+          setConfirmAction(null);
+          await removeArrayItemFromAllLocales(path, index);
+        } catch (err) {
+          setError(errorMessage(err, `Failed to delete ${label}.`));
+        } finally {
+          setSaving(false);
+        }
+      },
+    });
   };
 
   const handleUpload = async (event) => {
@@ -241,31 +349,39 @@ export default function ApanelAboutPage() {
 
   const handleSave = async () => {
     try {
-      setSaving(true);
-      setError("");
-      setSuccess("");
-      const payload = {
-        hero_contact_url: form.hero_contact_url || "/contact",
-        hero_campus_url: form.hero_campus_url || "/video-bdtu",
-        identity_image: form.identity_image || "",
-        rector_profile_slug: form.rector_profile_slug || "rector",
-        is_published: Boolean(form.is_published),
-        translations: Object.fromEntries(
-          LOCALES.map((locale) => [
-            locale.code,
-            {
-              content: {
-                ...clone(defaultContent),
-                ...clone(form.translations?.[locale.code]?.content),
-              },
-            },
-          ]),
-        ),
-      };
-      await apanelService.updateAboutPage(payload);
-      setSuccess("About page content saved successfully.");
+      await persistForm(form);
     } catch (err) {
       setError(errorMessage(err, "Failed to save About page content."));
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleAddTimelineItem = async () => {
+    const draft = {
+      year: timelineDraft?.year?.trim() || "",
+      title: timelineDraft?.title?.trim() || "",
+      desc: timelineDraft?.desc?.trim() || "",
+    };
+
+    if (!draft.year || !draft.title || !draft.desc) {
+      setError("Please fill Year, Title, and Description before adding the timeline item.");
+      return;
+    }
+
+    try {
+      setError("");
+      setSuccess("");
+      const nextForm = formWithAddedArrayItem(form, "timeline.items", (localeCode) => ({
+        year: draft.year,
+        title: localeCode === activeLocale ? draft.title : "",
+        desc: localeCode === activeLocale ? draft.desc : "",
+      }));
+      setForm(nextForm);
+      setTimelineDraft(null);
+      await persistForm(nextForm, "Timeline item added successfully.");
+    } catch (err) {
+      setError(errorMessage(err, "Failed to add timeline item."));
     } finally {
       setSaving(false);
     }
@@ -295,7 +411,7 @@ export default function ApanelAboutPage() {
         <div key={index} className="rounded-2xl border border-gray-100 bg-gray-50 p-4">
           <div className="mb-4 flex items-center justify-between">
             <h3 className="text-sm font-extrabold text-navy">Stat #{index + 1}</h3>
-            <button type="button" onClick={() => removeArrayItem("stats.items", index)} className="text-rose-600">
+            <button type="button" onClick={() => requestRemoveArrayItem("stats.items", index, `Stat #${index + 1}`)} className="text-rose-600">
               <Trash2 className="h-4 w-4" />
             </button>
           </div>
@@ -325,7 +441,7 @@ export default function ApanelAboutPage() {
         <div key={index} className="rounded-2xl border border-gray-100 bg-gray-50 p-4">
           <div className="mb-4 flex items-center justify-between">
             <h3 className="text-sm font-extrabold text-navy">Faculty #{index + 1}</h3>
-            <button type="button" onClick={() => removeArrayItem("facultiesList.items", index)} className="text-rose-600">
+            <button type="button" onClick={() => requestRemoveArrayItem("facultiesList.items", index, `Faculty #${index + 1}`)} className="text-rose-600">
               <Trash2 className="h-4 w-4" />
             </button>
           </div>
@@ -357,7 +473,7 @@ export default function ApanelAboutPage() {
         <div key={index} className="rounded-2xl border border-gray-100 bg-gray-50 p-4">
           <div className="mb-4 flex items-center justify-between">
             <h3 className="text-sm font-extrabold text-navy">Timeline Item #{index + 1}</h3>
-            <button type="button" onClick={() => removeArrayItem("timeline.items", index)} className="text-rose-600">
+            <button type="button" onClick={() => requestRemoveArrayItem("timeline.items", index, `Timeline Item #${index + 1}`)} className="text-rose-600">
               <Trash2 className="h-4 w-4" />
             </button>
           </div>
@@ -370,7 +486,7 @@ export default function ApanelAboutPage() {
       ))}
       <button
         type="button"
-        onClick={() => addArrayItem("timeline.items", { year: "", title: "", desc: "" })}
+        onClick={() => setTimelineDraft({ year: "", title: "", desc: "" })}
         className="inline-flex items-center gap-2 rounded-xl border border-primary/20 bg-primary/5 px-4 py-2 text-sm font-extrabold text-primary"
       >
         <Plus className="h-4 w-4" />
@@ -614,6 +730,66 @@ export default function ApanelAboutPage() {
           {sectionContent[activeSection]}
         </div>
       </div>
+      <ConfirmDialog
+        isOpen={Boolean(confirmAction)}
+        title={confirmAction?.title}
+        message={confirmAction?.message}
+        confirmText={confirmAction?.confirmText}
+        onConfirm={confirmAction?.onConfirm}
+        onCancel={() => setConfirmAction(null)}
+      />
+      {timelineDraft && (
+        <div className="fixed inset-0 z-9999 flex items-center justify-center bg-navy/40 p-4 backdrop-blur-xs">
+          <div className="w-full max-w-lg rounded-3xl border border-gray-100 bg-white p-6 shadow-2xl">
+            <div className="mb-5">
+              <p className="text-xs font-extrabold uppercase tracking-widest text-primary">
+                {activeLocaleLabel}
+              </p>
+              <h3 className="mt-1 text-xl font-black text-navy">Add Timeline Item</h3>
+              <p className="mt-1 text-sm font-semibold text-gray-500">
+                This item will be saved to the database immediately.
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              <Field
+                label="Year"
+                value={timelineDraft.year}
+                onChange={(value) => setTimelineDraft((current) => ({ ...current, year: value }))}
+              />
+              <Field
+                label="Title"
+                value={timelineDraft.title}
+                onChange={(value) => setTimelineDraft((current) => ({ ...current, title: value }))}
+              />
+              <Field
+                label="Description"
+                value={timelineDraft.desc}
+                multiline
+                onChange={(value) => setTimelineDraft((current) => ({ ...current, desc: value }))}
+              />
+            </div>
+
+            <div className="mt-6 flex justify-end gap-3">
+              <button
+                type="button"
+                onClick={() => setTimelineDraft(null)}
+                className="rounded-xl border border-gray-200 bg-white px-4 py-2 text-xs font-bold text-navy transition hover:border-gray-300"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleAddTimelineItem}
+                disabled={saving}
+                className="rounded-xl bg-primary px-4 py-2 text-xs font-bold text-white shadow-md shadow-primary/20 transition hover:bg-primary-hover disabled:opacity-60"
+              >
+                {saving ? "Saving..." : "Add Item"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

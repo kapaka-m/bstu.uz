@@ -1,20 +1,62 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ArrowRight, Cpu, Globe, Briefcase, Zap } from "lucide-react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useLanguage } from "../context/LanguageContext";
+import { aboutService } from "../services/aboutService";
+
+const API_ORIGIN = (import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/api/v1").replace(
+  /\/api\/v1\/?$/,
+  "",
+);
+
+const resolveAssetUrl = (path) => {
+  if (!path) return "";
+  if (path.startsWith("http://") || path.startsWith("https://") || path.startsWith("/")) {
+    return path;
+  }
+  if (path.startsWith("assets/")) {
+    return `/${path}`;
+  }
+  return `${API_ORIGIN}/storage/${path}`;
+};
 
 export default function Features() {
-  const { t, language } = useLanguage();
+  const { language } = useLanguage();
+  const [aboutPage, setAboutPage] = useState(null);
 
-  undefined
+  useEffect(() => {
+    let alive = true;
 
+    aboutService
+      .getPage(language)
+      .then((page) => {
+        if (alive) setAboutPage(page || null);
+      })
+      .catch(() => {
+        if (alive) setAboutPage(null);
+      });
+
+    return () => {
+      alive = false;
+    };
+  }, [language]);
+
+  const content = aboutPage?.content || {};
+  const goals = content.goals || {};
+  const values = content.values || {};
+  const identity = content.identity || {};
+  const imageSrc = resolveAssetUrl(aboutPage?.identity_image_url || aboutPage?.identity_image || "");
   const bstuBullets = [
-    { text: t("home.features.bullet1"), icon: Cpu },
-    { text: t("home.features.bullet2"), icon: Globe },
-    { text: t("home.features.bullet3"), icon: Briefcase },
-    { text: t("home.features.bullet4"), icon: Zap }
-  ];
+    { text: goals.missionTitle, icon: Cpu },
+    { text: goals.visionTitle, icon: Globe },
+    { text: values.innovationTitle, icon: Briefcase },
+    { text: values.inclusivityTitle, icon: Zap },
+  ].filter((item) => item.text);
+
+  if (!aboutPage) {
+    return null;
+  }
 
   return (
     <section id="features" className="py-24 bg-white overflow-hidden border-t border-gray-50">
@@ -23,10 +65,10 @@ export default function Features() {
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-20">
           <h2 className="text-sm font-extrabold uppercase tracking-widest text-primary mb-3">
-            {t("home.features.tag")}
+            {goals.badge || ""}
           </h2>
           <p className="text-3xl md:text-4xl font-extrabold text-navy">
-            {t("home.features.title")}
+            {goals.title || ""}
           </p>
           <div className="w-16 h-1 bg-primary mx-auto mt-4 rounded-full" />
         </div>
@@ -42,13 +84,13 @@ export default function Features() {
             className="lg:col-span-6 flex flex-col gap-6 text-start"
           >
             <span className="self-start inline-flex items-center bg-primary/10 text-primary text-[10px] font-extrabold uppercase tracking-widest px-3.5 py-1.5 rounded-full">
-              {t("home.features.subTag")}
+              {identity.badge || ""}
             </span>
             <h3 className="text-2xl md:text-3xl font-extrabold text-navy leading-tight">
-              {t("home.features.subTitle")}
+              {identity.title || ""}
             </h3>
             <p className="text-gray-500 text-sm md:text-base leading-relaxed">
-              {t("home.features.desc")}
+              {identity.desc2 || identity.desc1 || ""}
             </p>
 
             {/* Bullet Points */}
@@ -74,7 +116,7 @@ export default function Features() {
                 to="/about"
                 className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-white px-7 py-3 rounded-xl font-extrabold text-xs transition-all shadow-md shadow-primary/20 hover:shadow-primary/30 hover:-translate-y-0.5"
               >
-                {t("home.about.readMore")}
+                {content.hero?.campusBtn || ""}
                 <ArrowRight className={`w-3.5 h-3.5 transition-transform duration-300 ${language === 'ar' ? 'rotate-180' : ''}`} />
               </Link>
             </div>
@@ -90,8 +132,8 @@ export default function Features() {
           >
             <div className="relative group rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100">
               <img
-                src="/assets/img/features/features.jpg"
-                alt={t("home.features.imageAlt")}
+                src={imageSrc}
+                alt={identity.title || ""}
                 className="w-full max-w-150 object-cover transition-transform duration-750 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-linear-to-t from-navy/20 via-transparent to-transparent" />

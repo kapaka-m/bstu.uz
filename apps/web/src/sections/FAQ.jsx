@@ -1,28 +1,49 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { ChevronDown } from "lucide-react";
-import { faqData } from "../data/mockData";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
+import { contactService } from "../services/contactService";
 
 export default function FAQ() {
-  const [openId, setOpenId] = useState(1); // Keep the first FAQ open by default
-  const { t } = useLanguage();
+  const [openId, setOpenId] = useState(0);
+  const { language } = useLanguage();
+  const [page, setPage] = useState(null);
+
+  useEffect(() => {
+    let alive = true;
+
+    contactService
+      .getPage(language)
+      .then((nextPage) => {
+        if (alive) setPage(nextPage || null);
+      })
+      .catch(() => {
+        if (alive) setPage(null);
+      });
+
+    return () => {
+      alive = false;
+    };
+  }, [language]);
 
   const toggleFAQ = (id) => {
     setOpenId(openId === id ? null : id);
   };
 
-  // Split FAQs into two columns for desktop view
-  const midPoint = Math.ceil(faqData.length / 2);
-  const leftColFaqs = faqData.slice(0, midPoint);
-  const rightColFaqs = faqData.slice(midPoint);
+  const faq = page?.content?.faq || {};
+  const faqItems = useMemo(() => faq.items || [], [faq.items]);
+  const midPoint = Math.ceil(faqItems.length / 2);
+  const leftColFaqs = faqItems.slice(0, midPoint);
+  const rightColFaqs = faqItems.slice(midPoint);
+
+  if (!page || faqItems.length === 0) {
+    return null;
+  }
 
   const renderFaqColumn = (faqs) => (
     <div className="flex flex-col gap-4">
       {faqs.map((faq) => {
         const isOpen = openId === faq.id;
-        const questionText = t(`home.faq.q${faq.id}`);
-        const answerText = t(`home.faq.a${faq.id}`);
 
         return (
           <div
@@ -35,7 +56,7 @@ export default function FAQ() {
               onClick={() => toggleFAQ(faq.id)}
               className="w-full text-start px-6 py-5 flex items-center justify-between gap-4 font-bold text-base text-navy transition-colors hover:text-primary group cursor-pointer"
             >
-              <span>{questionText}</span>
+              <span>{faq.question}</span>
               <ChevronDown
                 className={`w-4 h-4 text-gray-400 group-hover:text-primary transition-transform duration-300 ${
                   isOpen ? "rotate-180 text-primary" : ""
@@ -52,7 +73,7 @@ export default function FAQ() {
                   className="overflow-hidden"
                 >
                   <div className="px-6 pb-6 text-sm text-gray-500 leading-relaxed border-t border-gray-50 pt-4 text-start">
-                    {answerText}
+                    {faq.answer}
                   </div>
                 </motion.div>
               )}
@@ -69,10 +90,10 @@ export default function FAQ() {
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
           <h2 className="text-sm font-extrabold uppercase tracking-widest text-primary mb-3">
-            {t("home.faq.tag")}
+            {faq.tag || ""}
           </h2>
           <p className="text-3xl md:text-4xl font-extrabold text-navy">
-            {t("home.faq.title")}
+            {faq.title || ""}
           </p>
         </div>
 

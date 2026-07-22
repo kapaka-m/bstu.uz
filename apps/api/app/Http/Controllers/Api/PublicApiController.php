@@ -16,6 +16,7 @@ use App\Models\Blog;
 use App\Models\BlogComment;
 use App\Models\BlogSetting;
 use App\Models\Comment;
+use App\Models\ContactPage;
 use App\Models\Course;
 use App\Models\Department;
 use App\Models\Faculty;
@@ -244,6 +245,39 @@ class PublicApiController extends Controller
         }
 
         return $this->successResponse($payload, 'Public about page content retrieved successfully');
+    }
+
+    public function contactPage(Request $request)
+    {
+        $locale = $this->getRequestLocale($request);
+
+        $payload = $this->publicCache($request, 'contact-page', [$locale], function () use ($locale) {
+            $page = ContactPage::where('key', 'main')
+                ->where('is_published', true)
+                ->with('translations')
+                ->first();
+
+            if (! $page) {
+                return null;
+            }
+
+            $translation = $page->translations->firstWhere('locale', $locale)
+                ?: $page->translations->firstWhere('locale', 'en')
+                ?: $page->translations->first();
+
+            return [
+                'key' => $page->key,
+                'map_embed_url' => $page->map_embed_url,
+                'is_published' => (bool) $page->is_published,
+                'content' => $translation?->content ?: [],
+            ];
+        });
+
+        if (! $payload) {
+            return $this->errorResponse('Public contact page content not found', 404);
+        }
+
+        return $this->successResponse($payload, 'Public contact page content retrieved successfully');
     }
 
     public function administrationSettings(Request $request)

@@ -15,6 +15,7 @@ use App\Models\AuditLog;
 use App\Models\Blog;
 use App\Models\BlogSetting;
 use App\Models\Comment;
+use App\Models\ContactPage;
 use App\Models\Contract;
 use App\Models\Course;
 use App\Models\Department;
@@ -699,13 +700,18 @@ class AdminCrudController extends Controller
             $page = AboutPage::with('translations')->firstOrCreate(['key' => 'main']);
             $oldValues = $page->toArray();
 
-            $page->update([
+            $pageUpdate = [
                 'hero_contact_url' => ($validated['hero_contact_url'] ?? null) ?: '/contact',
                 'hero_campus_url' => ($validated['hero_campus_url'] ?? null) ?: '/video-bdtu',
-                'identity_image' => $validated['identity_image'] ?? null,
                 'rector_profile_slug' => ($validated['rector_profile_slug'] ?? null) ?: 'rector',
                 'is_published' => (bool) ($validated['is_published'] ?? true),
-            ]);
+            ];
+
+            if (array_key_exists('identity_image', $validated) && trim((string) $validated['identity_image']) !== '') {
+                $pageUpdate['identity_image'] = $validated['identity_image'];
+            }
+
+            $page->update($pageUpdate);
 
             foreach (($validated['translations'] ?? []) as $locale => $fields) {
                 $content = $fields['content'] ?? [];
@@ -724,6 +730,58 @@ class AdminCrudController extends Controller
             $this->refreshPublicContentCacheVersion('about-page');
 
             return $this->successResponse($page->fresh('translations'), 'About page CMS content updated');
+        });
+    }
+
+    public function showContactPage(Request $request)
+    {
+        $page = ContactPage::with('translations')->firstOrCreate(
+            ['key' => 'main'],
+            [
+                'map_embed_url' => null,
+                'is_published' => true,
+            ]
+        );
+
+        return $this->successResponse($page, 'Contact page CMS content retrieved');
+    }
+
+    public function updateContactPage(Request $request)
+    {
+        $validated = $request->validate([
+            'map_embed_url' => 'nullable|string',
+            'is_published' => 'nullable|boolean',
+            'translations' => 'required|array',
+            'translations.*' => 'nullable|array',
+            'translations.*.content' => 'nullable',
+        ]);
+
+        return DB::transaction(function () use ($validated) {
+            $page = ContactPage::with('translations')->firstOrCreate(['key' => 'main']);
+            $oldValues = $page->toArray();
+
+            $page->update([
+                'map_embed_url' => $validated['map_embed_url'] ?? null,
+                'is_published' => (bool) ($validated['is_published'] ?? true),
+            ]);
+
+            foreach (($validated['translations'] ?? []) as $locale => $fields) {
+                $content = $fields['content'] ?? [];
+                if (is_string($content)) {
+                    $decoded = json_decode($content, true);
+                    $content = is_array($decoded) ? $decoded : [];
+                }
+
+                $page->translations()->updateOrCreate(
+                    ['locale' => $locale],
+                    ['content' => is_array($content) ? $content : []]
+                );
+            }
+
+            $this->logAction('update', ContactPage::class, $page->id, $oldValues, $page->fresh('translations')->toArray());
+            $this->refreshPublicContentCacheVersion('contact-page');
+
+            return $this->successResponse($page->fresh('translations'), 'Contact page CMS content updated');
         });
     }
 
@@ -1379,6 +1437,7 @@ class AdminCrudController extends Controller
             'green-campus-articles',
             'green-campus-settings',
             'about-page',
+            'contact-page',
         ];
     }
 
@@ -1735,7 +1794,11 @@ class AdminCrudController extends Controller
                     'email' => 'required|email',
                     'subject' => 'required|string',
                     'message' => 'required|string',
-                    'status' => 'string',
+                    'status' => 'nullable|string|in:pending,read,replied,resolved,archived',
+                    'read_at' => 'nullable|date',
+                    'reply_message' => 'nullable|string',
+                    'replied_at' => 'nullable|date',
+                    'admin_notes' => 'nullable|string',
                 ];
             case 'support-tickets':
                 return [

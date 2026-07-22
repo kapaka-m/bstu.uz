@@ -231,7 +231,7 @@ export default function AboutPage() {
       {/* SECTION 2: Stacked University Core (Identity, Mission & Vision, Core Values) */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 md:px-8 max-w-7xl space-y-24">
-          {/* Subsection 1: Our Identity */}
+          {/* Subsection 1 */}
           <div className="bg-primary-light/50 border border-primary-light rounded-4xl p-8 md:p-12 shadow-xs">
             <div dir={isRtl ? "rtl" : "ltr"} className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
               <div
@@ -551,7 +551,7 @@ export default function AboutPage() {
                   {text("rector.title")}
                 </h3>
 
-                <p className={`w-full text-gray-500 text-xs md:text-sm leading-relaxed font-semibold italic ${isRtl ? "text-right" : ""}`}>
+                <p className={`w-full text-gray-500 text-xs md:text-sm leading-relaxed font-semibold ${isRtl ? "text-right" : ""}`}>
                   "{text("rector.quote1")}"
                 </p>
                 <p className={`w-full text-gray-500 text-xs md:text-sm leading-relaxed font-semibold ${isRtl ? "text-right" : ""}`}>
@@ -578,7 +578,7 @@ export default function AboutPage() {
                 <h3 className="text-xl md:text-2xl font-extrabold text-navy font-heading mb-3">
                   {text("rector.appealTitle")}
                 </h3>
-                <p className="text-gray-500 text-xs md:text-sm leading-relaxed font-semibold italic">
+                <p className="text-gray-500 text-xs md:text-sm leading-relaxed font-semibold">
                   "{text("rector.appealQuote")}"
                 </p>
               </div>

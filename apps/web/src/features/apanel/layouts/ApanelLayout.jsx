@@ -32,6 +32,7 @@ import {
   Shield,
   UsersRound,
   PanelBottom,
+  Mail,
   MailPlus,
   X,
   ChevronDown,
@@ -87,6 +88,11 @@ export default function ApanelLayout({ children }) {
           icon: FileText,
         },
         {
+          path: "/apanel/cms/contact-page",
+          label: "Contact Page",
+          icon: Mail,
+        },
+        {
           path: "/apanel/cms/footer-web",
           label: "Footer Web",
           icon: PanelBottom,
@@ -136,6 +142,11 @@ export default function ApanelLayout({ children }) {
           label: "Newsletter Subscriptions",
           icon: MailPlus,
         },
+        {
+          path: "/apanel/management/contact",
+          label: "Contact Messages",
+          icon: HelpCircle,
+        },
       ],
     },
     {
@@ -174,7 +185,6 @@ export default function ApanelLayout({ children }) {
         },
         { path: "/apanel/contracts", label: "Contracts", icon: FileCheck },
         { path: "/apanel/payments", label: "Payments", icon: CreditCard },
-        { path: "/apanel/inquiries", label: "Inquiries", icon: HelpCircle },
         {
           path: "/apanel/support-tickets",
           label: "Support Tickets",

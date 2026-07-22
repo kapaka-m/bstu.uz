@@ -26,17 +26,9 @@ class DatabaseSeeder extends Seeder
             DepartmentSeeder::class,
             ProgramSeeder::class,
             CourseSeeder::class,
-            NewsSeeder::class,
-            BlogSeeder::class,
-            AnnouncementSeeder::class,
             StaffSeeder::class,
             TechnologyFacultyContentSeeder::class,
-            InteractiveServiceSeeder::class,
-            VideoSeeder::class,
-            GreenCampusSeeder::class,
-            AdministrationSeeder::class,
             SettingSeeder::class,
-            WebFooterSeeder::class,
         ]);
     }
 }

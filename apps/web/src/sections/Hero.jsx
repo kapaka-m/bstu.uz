@@ -1,11 +1,46 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ArrowRight, Play, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
+import { videoService } from "../services/videoService";
+
+const API_ORIGIN = (import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/api/v1").replace(
+  /\/api\/v1\/?$/,
+  "",
+);
+
+const resolveAssetUrl = (path) => {
+  if (!path) return "";
+  if (path.startsWith("http://") || path.startsWith("https://") || path.startsWith("/")) {
+    return path;
+  }
+  if (path.startsWith("assets/")) {
+    return `/${path}`;
+  }
+  return `${API_ORIGIN}/storage/${path}`;
+};
 
 export default function Hero() {
   const [isVideoOpen, setIsVideoOpen] = useState(false);
+  const [heroVideo, setHeroVideo] = useState(null);
   const { t, language } = useLanguage();
+
+  useEffect(() => {
+    let alive = true;
+
+    videoService
+      .getVideos()
+      .then((videos) => {
+        if (alive) setHeroVideo((videos || [])[0] || null);
+      })
+      .catch(() => {
+        if (alive) setHeroVideo(null);
+      });
+
+    return () => {
+      alive = false;
+    };
+  }, [language]);
 
   return (
     <section
@@ -38,15 +73,17 @@ export default function Hero() {
                 {t("common.applyNow")}
                 <ArrowRight className={`w-4 h-4 transition-transform duration-300 ${language === "ar" ? "rotate-180 group-hover:-translate-x-1" : "group-hover:translate-x-1"}`} />
               </a>
-              <button
-                onClick={() => setIsVideoOpen(true)}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 text-navy hover:text-primary transition-colors py-3 px-6 rounded-xl font-bold group cursor-pointer"
-              >
-                <span className="w-12 h-12 rounded-full border-2 border-primary/20 flex items-center justify-center bg-white transition-all duration-300 group-hover:bg-primary group-hover:text-white group-hover:border-primary shadow-md">
-                  <Play className="w-4 h-4 fill-current ml-0.5" />
-                </span>
-                {t("home.hero.watchVideo")}
-              </button>
+              {heroVideo && (
+                <button
+                  onClick={() => setIsVideoOpen(true)}
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 text-navy hover:text-primary transition-colors py-3 px-6 rounded-xl font-bold group cursor-pointer"
+                >
+                  <span className="w-12 h-12 rounded-full border-2 border-primary/20 flex items-center justify-center bg-white transition-all duration-300 group-hover:bg-primary group-hover:text-white group-hover:border-primary shadow-md">
+                    <Play className="w-4 h-4 fill-current ml-0.5" />
+                  </span>
+                  {t("home.hero.watchVideo")}
+                </button>
+              )}
             </div>
           </motion.div>
 
@@ -100,7 +137,7 @@ export default function Hero() {
 
       {/* Video Modal */}
       <AnimatePresence>
-        {isVideoOpen && (
+        {isVideoOpen && heroVideo && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -115,13 +152,23 @@ export default function Hero() {
               >
                 <X className="w-5 h-5" />
               </button>
-              <video
-                src="/assets/video/promo.mp4"
-                className="w-full h-full object-cover"
-                controls
-                autoPlay
-                playsInline
-              />
+              {heroVideo.youtubeId ? (
+                <iframe
+                  src={`https://www.youtube.com/embed/${heroVideo.youtubeId}?autoplay=1`}
+                  title={heroVideo.title || ""}
+                  className="w-full h-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              ) : (
+                <video
+                  src={resolveAssetUrl(heroVideo.videoUrl)}
+                  className="w-full h-full object-cover"
+                  controls
+                  autoPlay
+                  playsInline
+                />
+              )}
             </div>
           </motion.div>
         )}

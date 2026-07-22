@@ -308,17 +308,6 @@ export const translation = {
         "years5": "5 yil"
       }
     },
-    "about": {
-      "title": "Raqamli muhandislik kelajagini barpo etish",
-      "tag": "Universitet haqida",
-      "whoWeAre": "Biz kimmiz",
-      "body": "Buxoro davlat texnika universiteti (BuxDTU) O'zbekistonning yetakchi oliy ta'lim va tadqiqot maskanlaridan biridir. Biz muhandislik, texnologiya, tabiiy resurslarni boshqarish va raqamli iqtisodiyot sohalarida yuqori malakali mutaxassislar tayyorlaymiz. Universitet zamonaviy laboratoriyalar va kuchli ilmiy salohiyatga ega.",
-      "accredited": "Xalqaro akkreditatsiya",
-      "accreditedDesc": "Bizning ta'lim dasturlarimiz Yevropa va xalqaro sifat standartlariga muvofiq akkreditatsiyadan o'tgan.",
-      "accreditedLinkText": "QS Top Universities portali",
-      "readMore": "Batafsil ma'lumot",
-      "imageAlt": "Buxoro davlat texnika universiteti haqida"
-    },
     "hero": {
       "title": "Kelajagingizni Buxoro davlat texnika universiteti bilan yarating",
       "subtitle": "Muhandislik va tabiiy resurslarni boshqarish sohalarida akademik mukammallik, ilmiy tadqiqot va texnologik innovatsiyalarni rivojlantiramiz.",
@@ -332,15 +321,6 @@ export const translation = {
       "tag": "Hamkorlarimiz",
       "title": "BDTU bilan hamkorlik qiluvchi muassasalar va tashkilotlar",
       "partnerAlt": "Hamkor"
-    },
-    "features": {
-      "imageAlt": "Buxoro davlat texnika universiteti kirish qismi"
-    },
-    "altFeatures": {
-      "imageAlt": "Buxoro davlat texnika universiteti sifat kafolati"
-    },
-    "registrar": {
-      "imageAlt": "Registrator ofisi xizmatlari"
     },
     "testimonials": {
       "tag": "Talabalar fikri",
@@ -389,33 +369,7 @@ export const translation = {
     "application": "Arizalar va murojaatlarni qabul qilish",
     "records": "Baholar va o'quv natijalari hisobi"
   },
-  "contact": {
-    "tag": "Aloqa",
-    "title": "Biz bilan bog'laning",
-    "mapTitle": "Buxoro davlat texnika universiteti xaritasi",
-    "addressTitle": "Manzil",
-    "addressLine1": "M. Murtazoyev ko'chasi, 15-uy",
-    "addressLine2": "Buxoro shahri, O'zbekiston",
-    "callTitle": "Bizga qo'ng'iroq qiling",
-    "emailTitle": "Bizga email yozing",
-    "hoursTitle": "Ish vaqti",
-    "hoursDays": "Dushanba - Shanba",
-    "hoursTime": "8:30 - 17:30",
-    "form": {
-      "nameLabel": "Ismingiz",
-      "namePlaceholder": "Ism Familiya",
-      "emailLabel": "Email manzilingiz",
-      "emailPlaceholder": "email@example.com",
-      "subjectLabel": "Mavzu",
-      "subjectPlaceholder": "Xizmatlar bo'yicha murojaat",
-      "messageLabel": "Xabar",
-      "messagePlaceholder": "Xabaringizni shu yerga yozing...",
-      "sending": "Yuborilmoqda...",
-      "send": "Xabar yuborish",
-      "success": "Xabaringiz muvaffaqiyatli yuborildi. Rahmat!"
-    }
-  },
-  "values": {
+    "values": {
     "tag": "Bizning qadriyatlar",
     "title": "BSTU faoliyatining asosiy tamoyillari",
     "academic": {
@@ -431,21 +385,7 @@ export const translation = {
       "desc": "Dunyoning yetakchi oliygohlari bilan qo'shma dasturlar, talabalar almashinuvini kengaytirish."
     }
   },
-  "faq": {
-    "tag": "Ko'p so'raladigan savollar",
-    "title": "Sizni qiziqtirgan savollarga javoblar",
-    "q1": "Buxoro davlat texnika universiteti qachon tashkil etilgan?",
-    "a1": "BuxDTU rasman 2025-yil yanvar oyida Prezidentning PP-22-sonli Qarori bilan tashkil etilgan bo'lib, Buxoro muhandislik-texnologiya instituti va Buxoro tabiiy resurslarni boshqarish institutini birlashtirdi.",
-    "q2": "BuxDTU da qanday fakultetlar mavjud?",
-    "a2": "Universitet tarkibida 4 ta fakultet va 24 ta kafedra faoliyat ko'rsatmoqda, jumladan kimyoviy va oziq-ovqat texnologiyalari, neft va gaz texnologiyasi, muhandislik va qurilish, energetika va AKT, to'qimachilik va yengil sanoat hamda tabiiy resurslarni boshqarish.",
-    "q3": "BuxDTU qo'shma diplom dasturlarini taklif etadimi?",
-    "a3": "Ha, BuxDTU Latviya, Malayziya, Belarus va Rossiyaning yetakchi texnik universitetlari bilan hamkorlikda qo'shma diplom va ikki tomonlama ta'lim dasturlarini taklif etadi.",
-    "q4": "BuxDTU ning Ilg'or muhandislik maktabi nima?",
-    "a4": "Uzbekneftegaz AJ bilan hamkorlikda tashkil etilgan Ilg'or muhandislik maktabi energetika sohasi talabalari uchun amaliy, yuqori texnologiyali sanoat tayyorgarligi va to'g'ridan-to'g'ri ishga joylashish imkoniyatlarini taqdim etadi.",
-    "q5": "Universitetning asosiy kampusi qayerda joylashgan?",
-    "a5": "Universitet kampusi Buxoro shahri, Murtazoyev ko'chasi, 15-uyda joylashgan."
-  },
-  "features": {
+    "features": {
     "tag": "Bizning afzalliklar",
     "title": "Nega aynan BuxDTU?",
     "desc": "BSTU talabalarga zamonaviy ta'lim olish va yuqori muhandislik ko'nikmalarini rivojlantirish uchun barcha imkoniyatlarni taqdim etadi.",
@@ -455,32 +395,6 @@ export const translation = {
     "bullet2": "Zamonaviy IT-infratuzilma va ilg'or o'quv laboratoriyalari.",
     "bullet3": "Xalqaro qo'shma diplom dasturlari va talabalar almashinuvini kengaytirish.",
     "bullet4": "Yuqori malakali professor-o'qituvchilar va xorijiy mutaxassislar."
-  },
-  "altFeatures": {
-    "feat1": {
-      "title": "Malakali professorlar",
-      "desc": "Darslar tajribali professor-o'qituvchilar va soha mutaxassislari tomonidan olib boriladi."
-    },
-    "feat2": {
-      "title": "Ilg'or laboratoriyalar",
-      "desc": "Zamonaviy jihozlangan muhandislik, kimyo va IT laboratoriyalari."
-    },
-    "feat3": {
-      "title": "Raqamli kutubxona",
-      "desc": "Keng turdagi elektron darsliklar, ilmiy maqolalar va xalqaro ma'lumotlar bazasi."
-    },
-    "feat4": {
-      "title": "Xalqaro hamkorlik",
-      "desc": "Yevropa va Osiyoning yetakchi universitetlari bilan talabalar almashinuv dasturlari."
-    },
-    "feat5": {
-      "title": "Talabalar turar joyi",
-      "desc": "Barcha sharoitlarga ega shinam va xavfsiz talabalar yotoqxonalari."
-    },
-    "feat6": {
-      "title": "Karyera markazi",
-      "desc": "Bitiruvchilarni ishga joylashtirish va amaliyot o'tash bo'yicha ko'mak."
-    }
   },
   "faculties": {
     "faculty-of-engineering": {

@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CountUpComponent from "react-countup";
 import { useInView } from "react-intersection-observer";
 import { Users, GraduationCap, Award, BookOpen, Globe } from "lucide-react";
 import { motion } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
+import { aboutService } from "../services/aboutService";
 
 const CountUp =
   typeof CountUpComponent === "function"
@@ -11,56 +12,55 @@ const CountUp =
     : CountUpComponent.default || CountUpComponent;
 
 export default function Stats() {
-  const { t } = useLanguage();
+  const { language } = useLanguage();
+  const [aboutPage, setAboutPage] = useState(null);
   const { ref, inView } = useInView({
     triggerOnce: true,
     threshold: 0.1,
   });
 
-  const stats = [
-    {
-      value: 18000,
-      suffix: "+",
-      label: t("about.stats.activeStudents"),
-      icon: Users,
-      color: "text-blue-600 bg-blue-50 border-blue-100",
-    },
-    {
-      value: 250,
-      suffix: "+",
-      label: t("about.stats.intStudents"),
-      icon: Globe,
-      color: "text-purple-600 bg-purple-50 border-purple-100",
-    },
-    {
-      value: 700,
-      suffix: "+",
-      label: t("about.stats.professors"),
-      icon: GraduationCap,
-      color: "text-orange-600 bg-orange-50 border-orange-100",
-    },
-    {
-      value: 80,
-      suffix: "+",
-      label: t("common.academicPrograms"),
-      icon: BookOpen,
-      color: "text-cyan-600 bg-cyan-50 border-cyan-100",
-    },
-    {
-      value: 4,
-      suffix: "",
-      label: t("about.stats.faculties"),
-      icon: Award,
-      color: "text-green-600 bg-green-50 border-green-100",
-    },
-    {
-      value: 24,
-      suffix: "",
-      label: t("about.stats.departments"),
-      icon: BookOpen,
-      color: "text-pink-600 bg-pink-50 border-pink-100",
-    },
+  useEffect(() => {
+    let alive = true;
+
+    aboutService
+      .getPage(language)
+      .then((page) => {
+        if (alive) setAboutPage(page || null);
+      })
+      .catch(() => {
+        if (alive) setAboutPage(null);
+      });
+
+    return () => {
+      alive = false;
+    };
+  }, [language]);
+
+  const icons = [Users, Globe, GraduationCap, BookOpen, Award, BookOpen];
+  const colors = [
+    "text-blue-600 bg-blue-50 border-blue-100",
+    "text-purple-600 bg-purple-50 border-purple-100",
+    "text-orange-600 bg-orange-50 border-orange-100",
+    "text-cyan-600 bg-cyan-50 border-cyan-100",
+    "text-green-600 bg-green-50 border-green-100",
+    "text-pink-600 bg-pink-50 border-pink-100",
   ];
+  const stats = (aboutPage?.content?.stats?.items || []).map((item, index) => {
+    const number = String(item.number || "");
+    const match = number.match(/^([\d\s,.]+)(.*)$/);
+
+    return {
+      value: Number((match?.[1] || "0").replace(/[^\d.]/g, "")) || 0,
+      suffix: match?.[2] || "",
+      label: item.label || "",
+      icon: icons[index] || Users,
+      color: colors[index] || colors[0],
+    };
+  });
+
+  if (!aboutPage || stats.length === 0) {
+    return null;
+  }
 
   return (
     <section ref={ref} id="stats" className="py-16 bg-primary-light">

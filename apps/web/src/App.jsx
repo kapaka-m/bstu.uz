@@ -113,6 +113,9 @@ const ApanelFooterWeb = React.lazy(
 const ApanelAboutPage = React.lazy(
   () => import("./features/apanel/pages/ApanelAboutPage"),
 );
+const ApanelContactPage = React.lazy(
+  () => import("./features/apanel/pages/ApanelContactPage"),
+);
 const ApanelNewsEvents = React.lazy(
   () => import("./features/apanel/pages/ApanelNewsEvents"),
 );
@@ -136,6 +139,9 @@ const ApanelInteractiveServices = React.lazy(
 );
 const ApanelNewsletterSubscriptions = React.lazy(
   () => import("./features/apanel/pages/ApanelNewsletterSubscriptions"),
+);
+const ApanelContactManagement = React.lazy(
+  () => import("./features/apanel/pages/ApanelContactManagement"),
 );
 const ApanelCrud = React.lazy(
   () => import("./features/apanel/pages/ApanelCrud"),
@@ -454,6 +460,16 @@ function AppContent() {
               }
             />
             <Route
+              path="/apanel/cms/contact-page"
+              element={
+                <AdminRoute>
+                  <ApanelLayout>
+                    <ApanelContactPage />
+                  </ApanelLayout>
+                </AdminRoute>
+              }
+            />
+            <Route
               path="/apanel/cms/news-events"
               element={
                 <AdminRoute>
@@ -529,6 +545,20 @@ function AppContent() {
                 <AdminRoute>
                   <ApanelLayout>
                     <ApanelNewsletterSubscriptions />
+                  </ApanelLayout>
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/apanel/inquiries"
+              element={<Navigate to="/apanel/management/contact" replace />}
+            />
+            <Route
+              path="/apanel/management/contact"
+              element={
+                <AdminRoute>
+                  <ApanelLayout>
+                    <ApanelContactManagement />
                   </ApanelLayout>
                 </AdminRoute>
               }

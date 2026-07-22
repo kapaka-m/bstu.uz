@@ -153,6 +153,14 @@ export const apanelService = {
     return api.put("/apanel/cms/about-page", payload).then(unwrapPayload);
   },
 
+  getContactPage() {
+    return api.get("/apanel/cms/contact-page").then(unwrapPayload);
+  },
+
+  updateContactPage(payload) {
+    return api.put("/apanel/cms/contact-page", payload).then(unwrapPayload);
+  },
+
   uploadMedia(file, metadata = {}) {
     const formData = new FormData();
     formData.append("file", file);

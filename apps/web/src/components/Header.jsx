@@ -297,6 +297,41 @@ export default function Header() {
             );
           })}
 
+          {/* Listing Dropdown */}
+          <div className="relative group">
+            <button className="flex items-center gap-1 text-navy hover:text-primary transition-colors py-2 cursor-pointer font-semibold">
+              {t("nav.faculties")} <ChevronDown className="w-4 h-4" />
+            </button>
+            <div className="absolute top-full mt-2 w-245 bg-white border border-gray-100 rounded-2xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 p-6 grid grid-cols-4 gap-6 z-50 left-1/2 -translate-x-1/2">
+              {facultyMenuData.map((faculty) => (
+                <div key={faculty.id} className="flex flex-col gap-2.5">
+                  <Link
+                    to={`/faculty/${faculty.slug}`}
+                    className="text-xs font-extrabold uppercase tracking-wider text-primary hover:underline text-start"
+                  >
+                    {t(faculty.titleKey, faculty.name)}
+                  </Link>
+                  <div className="flex flex-col gap-1.5 border-t border-gray-50 pt-2 text-start">
+                    {faculty.departments.map((dept, index) => {
+                      return (
+                        <Link
+                          key={index}
+                          to={dept.to}
+                          className={`${language === "ar" ? "text-xs" : "text-[11px]"} leading-snug text-navy hover:text-primary transition-colors`}
+                        >
+                          {t(
+                            `departments.${dept.translationKey || dept.key}.name`,
+                            dept.label,
+                          )}
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
           {/* Media Center Dropdown */}
           <div className="relative group">
             <button className="flex items-center gap-1 text-navy hover:text-primary transition-colors py-2 cursor-pointer font-semibold">
@@ -339,41 +374,6 @@ export default function Header() {
             </div>
           </div>
 
-          {/* Listing Dropdown */}
-          <div className="relative group">
-            <button className="flex items-center gap-1 text-navy hover:text-primary transition-colors py-2 cursor-pointer font-semibold">
-              {t("nav.faculties")} <ChevronDown className="w-4 h-4" />
-            </button>
-            <div className="absolute top-full mt-2 w-245 bg-white border border-gray-100 rounded-2xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 p-6 grid grid-cols-4 gap-6 z-50 left-1/2 -translate-x-1/2">
-              {facultyMenuData.map((faculty) => (
-                <div key={faculty.id} className="flex flex-col gap-2.5">
-                  <Link
-                    to={`/faculty/${faculty.slug}`}
-                    className="text-xs font-extrabold uppercase tracking-wider text-primary hover:underline text-start"
-                  >
-                    {t(faculty.titleKey, faculty.name)}
-                  </Link>
-                  <div className="flex flex-col gap-1.5 border-t border-gray-50 pt-2 text-start">
-                    {faculty.departments.map((dept, index) => {
-                      return (
-                        <Link
-                          key={index}
-                          to={dept.to}
-                          className={`${language === "ar" ? "text-xs" : "text-[11px]"} leading-snug text-navy hover:text-primary transition-colors`}
-                        >
-                          {t(
-                            `departments.${dept.translationKey || dept.key}.name`,
-                            dept.label,
-                          )}
-                        </Link>
-                      );
-                    })}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
           {/* University Dropdown */}
           <div className="relative group">
             <button className="flex items-center gap-1 text-navy hover:text-primary transition-colors py-2 cursor-pointer font-semibold">
@@ -390,7 +390,8 @@ export default function Header() {
                 {/* Column 1: Administration */}
                 <div className="flex flex-col gap-2.5">
                   <span className="text-xs font-extrabold uppercase tracking-wider text-primary">
-                    {administrationSettings?.structure_title || t("common.administration", "Administration")}
+                    {administrationSettings?.structure_title ||
+                      t("common.administration", "Administration")}
                   </span>
                   <div className="flex flex-col gap-1.5 border-t border-gray-50 pt-2 text-[11px] leading-snug text-navy font-semibold">
                     {administrationLinks.map((item) => (
@@ -660,7 +661,8 @@ export default function Header() {
                     {/* Administration */}
                     <div className="flex flex-col gap-1">
                       <span className="text-xs font-extrabold text-primary py-1 uppercase tracking-wider text-start">
-                        {administrationSettings?.structure_title || t("common.administration", "Administration")}
+                        {administrationSettings?.structure_title ||
+                          t("common.administration", "Administration")}
                       </span>
                       <div className="flex flex-col gap-1.5 border-s ps-2 ms-1 text-start text-xs text-gray-500 font-bold">
                         {administrationLinks.map((item) => (
@@ -859,14 +861,18 @@ export default function Header() {
                           onClick={handleLinkClick}
                           className="hover:text-primary py-0.5"
                         >
-                          {t("faculties.faculty-of-natural-resources-management.name")}
+                          {t(
+                            "faculties.faculty-of-natural-resources-management.name",
+                          )}
                         </Link>
                         <Link
                           to="/faculty/faculty-of-service-and-digitalization"
                           onClick={handleLinkClick}
                           className="hover:text-primary py-0.5"
                         >
-                          {t("faculties.faculty-of-service-and-digitalization.name")}
+                          {t(
+                            "faculties.faculty-of-service-and-digitalization.name",
+                          )}
                         </Link>
                       </div>
                     </div>

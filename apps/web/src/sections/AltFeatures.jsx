@@ -1,43 +1,60 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Award, ClipboardList, Dribbble, Filter, Zap, ShieldCheck } from "lucide-react";
 import { motion } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
+import { aboutService } from "../services/aboutService";
 
 export default function AltFeatures() {
-  const { t } = useLanguage();
+  const { language } = useLanguage();
+  const [aboutPage, setAboutPage] = useState(null);
+
+  useEffect(() => {
+    let alive = true;
+
+    aboutService
+      .getPage(language)
+      .then((page) => {
+        if (alive) setAboutPage(page || null);
+      })
+      .catch(() => {
+        if (alive) setAboutPage(null);
+      });
+
+    return () => {
+      alive = false;
+    };
+  }, [language]);
+
+  const content = aboutPage?.content || {};
+  const values = content.values || {};
+  const stats = content.stats?.items || [];
 
   const features = [
     {
       icon: ShieldCheck,
-      title: t("home.altFeatures.feat1.title"),
-      description: t("home.altFeatures.feat1.desc")
+      title: values.integrityTitle,
+      description: values.integrityDesc,
     },
     {
       icon: ClipboardList,
-      title: t("home.altFeatures.feat2.title"),
-      description: t("home.altFeatures.feat2.desc")
+      title: values.innovationTitle,
+      description: values.innovationDesc,
     },
     {
       icon: Award,
-      title: t("home.altFeatures.feat3.title"),
-      description: t("home.altFeatures.feat3.desc")
+      title: values.inclusivityTitle,
+      description: values.inclusivityDesc,
     },
-    {
-      icon: Zap,
-      title: t("home.altFeatures.feat4.title"),
-      description: t("home.altFeatures.feat4.desc")
-    },
-    {
-      icon: Dribbble,
-      title: t("home.altFeatures.feat5.title"),
-      description: t("home.altFeatures.feat5.desc")
-    },
-    {
-      icon: Filter,
-      title: t("home.altFeatures.feat6.title"),
-      description: t("home.altFeatures.feat6.desc")
-    }
-  ];
+    ...stats.slice(0, 3).map((item, index) => ({
+      icon: [Zap, Dribbble, Filter][index] || Zap,
+      title: item.label,
+      description: item.desc,
+    })),
+  ].filter((item) => item.title || item.description);
+
+  if (!aboutPage || features.length === 0) {
+    return null;
+  }
 
   return (
     <section id="alt-features" className="py-24 bg-white border-t border-gray-50 overflow-hidden">
@@ -88,13 +105,11 @@ export default function AltFeatures() {
             transition={{ duration: 0.8 }}
             className="lg:col-span-5 order-1 lg:order-2 flex justify-center"
           >
-            <div className="relative rounded-3xl overflow-hidden shadow-lg border border-gray-100/80 aspect-4/3 w-full max-w-112.5 lg:max-w-none shrink-0 bg-gray-50">
-              <img
-                src="/assets/img/features/graduation.jpg"
-                alt={t("home.altFeatures.imageAlt")}
-                className="w-full h-full object-cover transition-transform duration-500 hover:scale-103"
-                loading="lazy"
-              />
+            <div className="relative rounded-3xl overflow-hidden shadow-lg border border-gray-100/80 aspect-4/3 w-full max-w-112.5 lg:max-w-none shrink-0 bg-white flex items-center justify-center">
+              <div className="absolute inset-0 bg-[radial-gradient(#0d6efd12_1px,transparent_1px)] bg-size-[18px_18px]" />
+              <div className="relative w-32 h-32 rounded-3xl bg-primary/10 text-primary flex items-center justify-center shadow-sm border border-primary/10">
+                <Award className="w-14 h-14" />
+              </div>
             </div>
           </motion.div>
         </div>

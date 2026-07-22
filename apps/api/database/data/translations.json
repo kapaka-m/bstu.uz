@@ -309,124 +309,7 @@
           "years5": "5 years"
         }
       },
-      "about": {
-        "title": "Building the Future of Digital Engineering",
-        "tag": "About the University",
-        "whoWeAre": "Who We Are",
-        "body": "Bukhara State Technical University (BSTU) is one of the leading educational and research institutions in Uzbekistan. We prepare highly qualified specialists in engineering, technology, natural resources management, and digital economy, supported by modern laboratories and strong scientific potential.",
-        "accredited": "International Accreditation",
-        "accreditedDesc": "Our educational programs are accredited in accordance with European and international quality standards.",
-        "accreditedLinkText": "QS Top Universities Portal",
-        "readMore": "Read More",
-        "imageAlt": "About Bukhara State Technical University"
-      },
-      "registrar": {
-        "tag": "Office of the Registrar",
-        "title": "Academic Support & Student Records",
-        "desc": "The Office of the Registrar manages the academic calendar, grade records, student enrollment, and issuance of official transcripts and certificates. We support you throughout your educational journey at the university.",
-        "online": "Online Services",
-        "support": "Student Academic Support",
-        "document": "Document & Certificate Issuance",
-        "application": "Application & Petition Intake",
-        "records": "Grade & Academic Records",
-        "imageAlt": "Registrar's Office services"
-      },
-      "contact": {
-        "tag": "Contact",
-        "title": "Contact Us",
-        "mapTitle": "Bukhara State Technical University Map",
-        "addressTitle": "Address",
-        "addressLine1": "15 Q. Murtazoyev Street",
-        "addressLine2": "Bukhara city, Uzbekistan",
-        "callTitle": "Call Us",
-        "emailTitle": "Email Us",
-        "hoursTitle": "Open Hours",
-        "hoursDays": "Monday - Saturday",
-        "hoursTime": "8:30 AM - 5:30 PM",
-        "form": {
-          "nameLabel": "Your Name",
-          "namePlaceholder": "John Doe",
-          "emailLabel": "Your Email",
-          "emailPlaceholder": "john@example.com",
-          "subjectLabel": "Subject",
-          "subjectPlaceholder": "Inquiry about services",
-          "messageLabel": "Message",
-          "messagePlaceholder": "Write your message here...",
-          "sending": "Sending...",
-          "send": "Send Message",
-          "success": "Your message has been sent successfully. Thank you!"
-        }
-      },
-      "values": {
-        "tag": "Our Values",
-        "title": "Core Principles Guiding BSTU",
-        "academic": {
-          "title": "Academic Excellence",
-          "desc": "We strive to maintain the highest standards of teaching, learning, and research."
-        },
-        "scientific": {
-          "title": "Scientific Innovation",
-          "desc": "We support research and discovery that address real-world industrial and societal challenges."
-        },
-        "global": {
-          "title": "Global Integration",
-          "desc": "Expanding double-degree programs and academic mobility with top global universities."
-        }
-      },
-      "faq": {
-        "tag": "FAQ",
-        "title": "Answers to Your Frequently Asked Questions",
-        "q1": "When was Bukhara State Technical University (BSTU) established?",
-        "a1": "BSTU was officially established in January 2025 by Presidential Resolution No. PP-22, uniting the Bukhara Engineering-Technological Institute and the Bukhara Institute of Natural Resources Management.",
-        "q2": "What main faculties are available at BSTU?",
-        "a2": "The university is structured into 4 faculties and 24 departments, including Chemical & Food Technologies, Oil & Gas Technology, Engineering & Construction, Power Engineering & ICT, Textile & Light Industry, and Natural Resources Management.",
-        "q3": "Does BSTU offer joint or double-degree educational programs?",
-        "a3": "Yes, BSTU active partnerships offer double-degree and joint educational programs with leading technical universities in Latvia, Malaysia, Belarus, and Russia.",
-        "q4": "What is the Advanced Engineering School at BSTU?",
-        "a4": "Established in cooperation with Uzbekneftegaz JSC, the Advanced Engineering School aims to provide energy sector students with hands-on, high-tech industrial training and direct career pathways.",
-        "q5": "Where is the main university campus located?",
-        "a5": "The university campus is located at 15 Q. Murtazoyev Street, Bukhara city, Uzbekistan."
-      },
-      "features": {
-        "tag": "Key Advantages",
-        "title": "Why Choose BSTU?",
-        "desc": "BSTU provides students with all opportunities to receive a modern education and develop advanced engineering skills.",
-        "subTag": "Innovative Learning",
-        "subTitle": "Integration of Theory & Practice",
-        "bullet1": "Direct collaboration with industrial enterprises and dual education system.",
-        "bullet2": "Modern IT infrastructure and advanced learning laboratories.",
-        "bullet3": "International joint degree programs and student mobility.",
-        "bullet4": "Highly qualified academic staff and foreign experts.",
-        "imageAlt": "Bukhara State Technical University entrance"
-      },
-      "altFeatures": {
-        "feat1": {
-          "title": "Qualified Professors",
-          "desc": "Classes are taught by experienced professors and industry experts."
-        },
-        "feat2": {
-          "title": "Advanced Laboratories",
-          "desc": "Modernly equipped engineering, chemistry, and IT laboratories."
-        },
-        "feat3": {
-          "title": "Digital Library",
-          "desc": "Wide access to electronic textbooks, scientific publications, and international databases."
-        },
-        "feat4": {
-          "title": "International Collaboration",
-          "desc": "Academic exchange programs with leading universities in Europe and Asia."
-        },
-        "feat5": {
-          "title": "Student Dormitories",
-          "desc": "Comfortable and secure dormitories with all necessary facilities."
-        },
-        "feat6": {
-          "title": "Career Center",
-          "desc": "Assisting graduates in job placement and coordinating internships."
-        },
-        "imageAlt": "Bukhara State Technical University quality assurance"
-      },
-      "hero": {
+                  "hero": {
         "title": "Shape Your Future with Bukhara State Technical University",
         "subtitle": "Fostering academic excellence, scientific research, and technological innovation in engineering and natural resources management.",
         "watchVideo": "Watch Video",
@@ -2753,17 +2636,6 @@
           "years5": "5 yil"
         }
       },
-      "about": {
-        "title": "Raqamli muhandislik kelajagini barpo etish",
-        "tag": "Universitet haqida",
-        "whoWeAre": "Biz kimmiz",
-        "body": "Buxoro davlat texnika universiteti (BuxDTU) O'zbekistonning yetakchi oliy ta'lim va tadqiqot maskanlaridan biridir. Biz muhandislik, texnologiya, tabiiy resurslarni boshqarish va raqamli iqtisodiyot sohalarida yuqori malakali mutaxassislar tayyorlaymiz. Universitet zamonaviy laboratoriyalar va kuchli ilmiy salohiyatga ega.",
-        "accredited": "Xalqaro akkreditatsiya",
-        "accreditedDesc": "Bizning ta'lim dasturlarimiz Yevropa va xalqaro sifat standartlariga muvofiq akkreditatsiyadan o'tgan.",
-        "accreditedLinkText": "QS Top Universities portali",
-        "readMore": "Batafsil ma'lumot",
-        "imageAlt": "Buxoro davlat texnika universiteti haqida"
-      },
       "hero": {
         "title": "Kelajagingizni Buxoro davlat texnika universiteti bilan yarating",
         "subtitle": "Muhandislik va tabiiy resurslarni boshqarish sohalarida akademik mukammallik, ilmiy tadqiqot va texnologik innovatsiyalarni rivojlantiramiz.",
@@ -2777,15 +2649,6 @@
         "tag": "Hamkorlarimiz",
         "title": "BDTU bilan hamkorlik qiluvchi muassasalar va tashkilotlar",
         "partnerAlt": "Hamkor"
-      },
-      "features": {
-        "imageAlt": "Buxoro davlat texnika universiteti kirish qismi"
-      },
-      "altFeatures": {
-        "imageAlt": "Buxoro davlat texnika universiteti sifat kafolati"
-      },
-      "registrar": {
-        "imageAlt": "Registrator ofisi xizmatlari"
       },
       "testimonials": {
         "tag": "Talabalar fikri",
@@ -2834,33 +2697,7 @@
       "application": "Arizalar va murojaatlarni qabul qilish",
       "records": "Baholar va o'quv natijalari hisobi"
     },
-    "contact": {
-      "tag": "Aloqa",
-      "title": "Biz bilan bog'laning",
-      "mapTitle": "Buxoro davlat texnika universiteti xaritasi",
-      "addressTitle": "Manzil",
-      "addressLine1": "M. Murtazoyev ko'chasi, 15-uy",
-      "addressLine2": "Buxoro shahri, O'zbekiston",
-      "callTitle": "Bizga qo'ng'iroq qiling",
-      "emailTitle": "Bizga email yozing",
-      "hoursTitle": "Ish vaqti",
-      "hoursDays": "Dushanba - Shanba",
-      "hoursTime": "8:30 - 17:30",
-      "form": {
-        "nameLabel": "Ismingiz",
-        "namePlaceholder": "Ism Familiya",
-        "emailLabel": "Email manzilingiz",
-        "emailPlaceholder": "email@example.com",
-        "subjectLabel": "Mavzu",
-        "subjectPlaceholder": "Xizmatlar bo'yicha murojaat",
-        "messageLabel": "Xabar",
-        "messagePlaceholder": "Xabaringizni shu yerga yozing...",
-        "sending": "Yuborilmoqda...",
-        "send": "Xabar yuborish",
-        "success": "Xabaringiz muvaffaqiyatli yuborildi. Rahmat!"
-      }
-    },
-    "values": {
+        "values": {
       "tag": "Bizning qadriyatlar",
       "title": "BSTU faoliyatining asosiy tamoyillari",
       "academic": {
@@ -2876,21 +2713,7 @@
         "desc": "Dunyoning yetakchi oliygohlari bilan qo'shma dasturlar, talabalar almashinuvini kengaytirish."
       }
     },
-    "faq": {
-      "tag": "Ko'p so'raladigan savollar",
-      "title": "Sizni qiziqtirgan savollarga javoblar",
-      "q1": "Buxoro davlat texnika universiteti qachon tashkil etilgan?",
-      "a1": "BuxDTU rasman 2025-yil yanvar oyida Prezidentning PP-22-sonli Qarori bilan tashkil etilgan bo'lib, Buxoro muhandislik-texnologiya instituti va Buxoro tabiiy resurslarni boshqarish institutini birlashtirdi.",
-      "q2": "BuxDTU da qanday fakultetlar mavjud?",
-      "a2": "Universitet tarkibida 4 ta fakultet va 24 ta kafedra faoliyat ko'rsatmoqda, jumladan kimyoviy va oziq-ovqat texnologiyalari, neft va gaz texnologiyasi, muhandislik va qurilish, energetika va AKT, to'qimachilik va yengil sanoat hamda tabiiy resurslarni boshqarish.",
-      "q3": "BuxDTU qo'shma diplom dasturlarini taklif etadimi?",
-      "a3": "Ha, BuxDTU Latviya, Malayziya, Belarus va Rossiyaning yetakchi texnik universitetlari bilan hamkorlikda qo'shma diplom va ikki tomonlama ta'lim dasturlarini taklif etadi.",
-      "q4": "BuxDTU ning Ilg'or muhandislik maktabi nima?",
-      "a4": "Uzbekneftegaz AJ bilan hamkorlikda tashkil etilgan Ilg'or muhandislik maktabi energetika sohasi talabalari uchun amaliy, yuqori texnologiyali sanoat tayyorgarligi va to'g'ridan-to'g'ri ishga joylashish imkoniyatlarini taqdim etadi.",
-      "q5": "Universitetning asosiy kampusi qayerda joylashgan?",
-      "a5": "Universitet kampusi Buxoro shahri, Murtazoyev ko'chasi, 15-uyda joylashgan."
-    },
-    "features": {
+        "features": {
       "tag": "Bizning afzalliklar",
       "title": "Nega aynan BuxDTU?",
       "desc": "BSTU talabalarga zamonaviy ta'lim olish va yuqori muhandislik ko'nikmalarini rivojlantirish uchun barcha imkoniyatlarni taqdim etadi.",
@@ -2900,32 +2723,6 @@
       "bullet2": "Zamonaviy IT-infratuzilma va ilg'or o'quv laboratoriyalari.",
       "bullet3": "Xalqaro qo'shma diplom dasturlari va talabalar almashinuvini kengaytirish.",
       "bullet4": "Yuqori malakali professor-o'qituvchilar va xorijiy mutaxassislar."
-    },
-    "altFeatures": {
-      "feat1": {
-        "title": "Malakali professorlar",
-        "desc": "Darslar tajribali professor-o'qituvchilar va soha mutaxassislari tomonidan olib boriladi."
-      },
-      "feat2": {
-        "title": "Ilg'or laboratoriyalar",
-        "desc": "Zamonaviy jihozlangan muhandislik, kimyo va IT laboratoriyalari."
-      },
-      "feat3": {
-        "title": "Raqamli kutubxona",
-        "desc": "Keng turdagi elektron darsliklar, ilmiy maqolalar va xalqaro ma'lumotlar bazasi."
-      },
-      "feat4": {
-        "title": "Xalqaro hamkorlik",
-        "desc": "Yevropa va Osiyoning yetakchi universitetlari bilan talabalar almashinuv dasturlari."
-      },
-      "feat5": {
-        "title": "Talabalar turar joyi",
-        "desc": "Barcha sharoitlarga ega shinam va xavfsiz talabalar yotoqxonalari."
-      },
-      "feat6": {
-        "title": "Karyera markazi",
-        "desc": "Bitiruvchilarni ishga joylashtirish va amaliyot o'tash bo'yicha ko'mak."
-      }
     },
     "faculties": {
       "faculty-of-engineering": {
@@ -5286,124 +5083,7 @@
           "years5": "5 лет"
         }
       },
-      "about": {
-        "title": "Строим будущее цифровой инженерии",
-        "tag": "Об университете",
-        "whoWeAre": "Кто мы",
-        "body": "Бухарский государственный технический университет (БГТУ) — один из ведущих вузов и исследовательских центров Узбекистана. Мы готовим высококлассных специалистов в области инженерии, технологий, управления природными ресурсами и цифровой экономики, опираясь на современные лаборатории и сильный научный потенциал.",
-        "accredited": "Международная аккредитация",
-        "accreditedDesc": "Наши образовательные программы аккредитованы в соответствии с европейскими и международными стандартами качества.",
-        "accreditedLinkText": "Портал QS Top Universities",
-        "readMore": "Подробнее",
-        "imageAlt": "О Бухарском государственном техническом университете"
-      },
-      "registrar": {
-        "tag": "Офис регистратора",
-        "title": "Академическая поддержка и учет студентов",
-        "desc": "Офис регистратора занимается ведением академического календаря, учетом успеваемости, выдачей справок и транскриптов. Мы поддерживаем вас на протяжении всего вашего обучения в университете.",
-        "online": "Онлайн-услуги",
-        "support": "Академическая поддержка студентов",
-        "document": "Выдача документов и справок",
-        "application": "Прием заявлений и обращений",
-        "records": "Учет успеваемости и результатов обучения",
-        "imageAlt": "Услуги офиса регистратора"
-      },
-      "contact": {
-        "tag": "Контакты",
-        "title": "Свяжитесь с нами",
-        "mapTitle": "Карта Бухарского государственного технического университета",
-        "addressTitle": "Адрес",
-        "addressLine1": "ул. М. Муртазаева, 15",
-        "addressLine2": "г. Бухара, Узбекистан",
-        "callTitle": "Позвоните нам",
-        "emailTitle": "Напишите нам",
-        "hoursTitle": "Часы работы",
-        "hoursDays": "Понедельник - Суббота",
-        "hoursTime": "8:30 - 17:30",
-        "form": {
-          "nameLabel": "Ваше имя",
-          "namePlaceholder": "Иван Иванов",
-          "emailLabel": "Ваш email",
-          "emailPlaceholder": "email@example.com",
-          "subjectLabel": "Тема",
-          "subjectPlaceholder": "Обращение по услугам",
-          "messageLabel": "Сообщение",
-          "messagePlaceholder": "Напишите ваше сообщение здесь...",
-          "sending": "Отправка...",
-          "send": "Отправить сообщение",
-          "success": "Ваше сообщение успешно отправлено. Спасибо!"
-        }
-      },
-      "values": {
-        "tag": "Наши ценности",
-        "title": "Основные принципы деятельности БГТУ",
-        "academic": {
-          "title": "Академическое превосходство",
-          "desc": "Мы стремимся поддерживать высокие стандарты обучения и внедрять передовые образовательные технологии."
-        },
-        "scientific": {
-          "title": "Научные инновации",
-          "desc": "Мы поддерживаем исследования и разработки, направленные на решение актуальных задач промышленности."
-        },
-        "global": {
-          "title": "Глобальное сотрудничество",
-          "desc": "Развитие совместных программ и академического обмена с ведущими вузами мира."
-        }
-      },
-      "faq": {
-        "tag": "Часто задаваемые вопросы",
-        "title": "Ответы на интересующие вас вопросы",
-        "q1": "Когда был основан Бухарский государственный технический университет (БГТУ)?",
-        "a1": "БГТУ был официально основан в январе 2025 года Постановлением Президента № ПП-22, объединив Бухарский инженерно-технологический институт и Бухарский институт управления природными ресурсами.",
-        "q2": "Какие основные факультеты есть в БГТУ?",
-        "a2": "Университет состоит из 4 факультетов и 24 кафедр, включая химические и пищевые технологии, нефтегазовые технологии, строительство и инженерию, энергетику и ИКТ, текстильную и легкую промышленность, а также управление природными ресурсами.",
-        "q3": "Предлагает ли БГТУ программы двойного диплома?",
-        "a3": "Да, БГТУ предлагает программы совместного обучения и двойного диплома в партнерстве с ведущими техническими университетами Латвии, Малайзии, Беларуси и России.",
-        "q4": "Что такое Передовая инженерная школа БГТУ?",
-        "a4": "Созданная совместно с АО «Узбекнефтегаз», Передовая инженерная школа призвана обеспечить студентам энергетического сектора практическую подготовку на высокотехнологичном производстве и прямое трудоустройство.",
-        "q5": "Где расположен главный кампус университета?",
-        "a5": "Кампус университета расположен по адресу: Узбекистан, город Бухара, улица М. Муртазаева, 15."
-      },
-      "features": {
-        "tag": "Наши преимущества",
-        "title": "Почему именно БГТУ?",
-        "desc": "БГТУ предоставляет студентам все возможности для получения современного образования и развития передовых инженерных навыков.",
-        "subTag": "Инновационное обучение",
-        "subTitle": "Сочетание теории и практики",
-        "bullet1": "Прямое сотрудничество с промышленными предприятиями и система дуального образования.",
-        "bullet2": "Современная ИТ-инфраструктура и передовые учебные лаборатории.",
-        "bullet3": "Международные совместные программы и академическая мобильность.",
-        "bullet4": "Высококвалифицированный преподавательский состав и зарубежные эксперты.",
-        "imageAlt": "Вход в Бухарский государственный технический университет"
-      },
-      "altFeatures": {
-        "feat1": {
-          "title": "Квалифицированные профессора",
-          "desc": "Занятия ведут опытные профессора и специалисты-практики."
-        },
-        "feat2": {
-          "title": "Передовые лаборатории",
-          "desc": "Современно оборудованные инженерные, химические и ИТ-лаборатории."
-        },
-        "feat3": {
-          "title": "Цифровая библиотека",
-          "desc": "Широкий доступ к электронным учебникам, научным публикациям и базам данных."
-        },
-        "feat4": {
-          "title": "Международное сотрудничество",
-          "desc": "Программы академического обмена с ведущими вузами Европы и Азии."
-        },
-        "feat5": {
-          "title": "Студенческое общежитие",
-          "desc": "Уютные и безопасные общежития со всеми необходимыми удобствами."
-        },
-        "feat6": {
-          "title": "Центр карьеры",
-          "desc": "Помощь в трудоустройстве выпускников и организация стажировок."
-        },
-        "imageAlt": "Обеспечение качества Бухарского государственного технического университета"
-      },
-      "hero": {
+                  "hero": {
         "title": "Создайте свое будущее с Бухарским государственным техническим университетом",
         "subtitle": "Мы развиваем академическое качество, научные исследования и технологические инновации в инженерии и управлении природными ресурсами.",
         "watchVideo": "Смотреть видео",
@@ -7657,124 +7337,7 @@
           "years5": "5 سنوات"
         }
       },
-      "about": {
-        "title": "بناء مستقبل الهندسة الرقمية",
-        "tag": "عن الجامعة",
-        "whoWeAre": "من نحن",
-        "body": "جامعة بخارى الحكومية التقنية (BSTU) هي واحدة من المؤسسات التعليمية والبحثية الرائدة في أوزبكستان. نحن نعد متخصصين ذوي مؤهلات عالية في الهندسة والتكنولوجيا وإدارة الموارد الطبيعية والاقتصاد الرقمي، بدعم من المختبرات الحديثة والإمكانات العلمية القوية.",
-        "accredited": "الاعتماد الدولي",
-        "accreditedDesc": "تم اعتماد برامجنا التعليمية وفقاً لمعايير الجودة الأوروبية والدولية.",
-        "accreditedLinkText": "بوابة QS Top Universities",
-        "readMore": "اقرأ المزيد",
-        "imageAlt": "عن جامعة بخارى الحكومية التقنية"
-      },
-      "registrar": {
-        "tag": "مكتب مسجل عام الجامعة",
-        "title": "الدعم الأكاديمي وسجلات الطلاب",
-        "desc": "يدير مكتب مسجل عام الجامعة التقويم الأكاديمي، وسجلات الدرجات، وقبول الطلاب، وإصدار الشهادات الرسمية وكشوف الدرجات. نحن هنا لدعمك طوال مسيرتك الدراسية بالجامعة.",
-        "online": "الخدمات الإلكترونية",
-        "support": "الدعم الأكاديمي للطلاب",
-        "document": "إصدار الوثائق والشهادات",
-        "application": "استلام الطلبات والالتماسات",
-        "records": "سجلات الدرجات والمخرجات التعليمية",
-        "imageAlt": "خدمات مكتب التسجيل"
-      },
-      "contact": {
-        "tag": "اتصل بنا",
-        "title": "تواصل معنا",
-        "mapTitle": "خريطة جامعة بخارى الحكومية التقنية",
-        "addressTitle": "العنوان",
-        "addressLine1": "شارع م. مرتضاييف 15",
-        "addressLine2": "بخارى، أوزبكستان",
-        "callTitle": "اتصل بنا",
-        "emailTitle": "راسلنا عبر البريد",
-        "hoursTitle": "ساعات العمل",
-        "hoursDays": "الاثنين - السبت",
-        "hoursTime": "8:30 صباحًا - 5:30 مساءً",
-        "form": {
-          "nameLabel": "الاسم",
-          "namePlaceholder": "الاسم الكامل",
-          "emailLabel": "البريد الإلكتروني",
-          "emailPlaceholder": "email@example.com",
-          "subjectLabel": "الموضوع",
-          "subjectPlaceholder": "استفسار حول الخدمات",
-          "messageLabel": "الرسالة",
-          "messagePlaceholder": "اكتب رسالتك هنا...",
-          "sending": "جارٍ الإرسال...",
-          "send": "إرسال الرسالة",
-          "success": "تم إرسال رسالتك بنجاح. شكرًا لك!"
-        }
-      },
-      "values": {
-        "tag": "قيمنا الأساسية",
-        "title": "المبادئ الأساسية التي توجه جامعة بخارى الحكومية التقنية",
-        "academic": {
-          "title": "التميز الأكاديمي",
-          "desc": "نسعى جاهدين للحفاظ على أعلى معايير التعليم والتعلم والبحث العلمي."
-        },
-        "scientific": {
-          "title": "الابتكار العلمي",
-          "desc": "ندعم الأبحاث والاكتشافات العلمية التي تسهم في حل التحديات الصناعية الحقيقية."
-        },
-        "global": {
-          "title": "التعاون العالمي",
-          "desc": "توسيع البرامج المشتركة والتبادل الأكاديمي مع الجامعات الرائدة عالمياً."
-        }
-      },
-      "faq": {
-        "tag": "الأسئلة الشائعة",
-        "title": "إجابات على أسئلتك الشائعة",
-        "q1": "متى تأسست جامعة بخارى الحكومية التقنية (BSTU)؟",
-        "a1": "تأسست BSTU رسمياً في يناير 2025 بموجب القرار الرئاسي رقم PP-22، الذي دمج معهد بخارى للهندسة والتكنولوجيا ومعهد بخارى لإدارة الموارد الطبيعية.",
-        "q2": "ما هي الكليات الرئيسية المتاحة في BSTU؟",
-        "a2": "تتكون الجامعة من 4 كليات و24 قسماً، تشمل التكنولوجيا الكيميائية والغذائية، تكنولوجيا النفط والغاز، الهندسة والبناء، هندسة الطاقة وتكنولوجيا المعلومات والاتصالات، المنسوجات والصناعات الخفيفة، وإدارة الموارد الطبيعية.",
-        "q3": "هل تقدم BSTU برامج دراسية مشتركة أو مزدوجة الشهادة؟",
-        "a3": "نعم، تقدم BSTU برامج دراسية مشتركة ومزدوجة الشهادة بالتعاون مع جامعات تقنية رائدة في لاتفيا وماليزيا وبيلاروسيا وروسيا.",
-        "q4": "ما هي مدرسة الهندسة المتقدمة في BSTU؟",
-        "a4": "تأسست مدرسة الهندسة المتقدمة بالتعاون مع شركة Uzbekneftegaz JSC، وتهدف إلى تزويد طلاب قطاع الطاقة بتدريب صناعي عملي عالي التقنية ومسارات مهنية مباشرة.",
-        "q5": "أين يقع الحرم الجامعي الرئيسي للجامعة؟",
-        "a5": "يقع الحرم الجامعي للجامعة في شارع م. مرتضاييف، 15، مدينة بخارى، أوزبكستان."
-      },
-      "features": {
-        "tag": "ميزاتنا الفريدة",
-        "title": "لماذا تختار جامعة بخارى الحكومية التقنية؟",
-        "desc": "توفر الجامعة للطلاب جميع الفرص للحصول على تعليم حديث وتطوير مهارات هندسية متقدمة.",
-        "subTag": "التعليم المبتكر",
-        "subTitle": "الجمع بين النظرية والتطبيق",
-        "bullet1": "التعاون المباشر مع المؤسسات الصناعية ونظام التعليم المزدوج.",
-        "bullet2": "بنية تحتية حديثة لتكنولوجيا المعلومات ومختبرات تدريبية متقدمة.",
-        "bullet3": "برامج الشهادات المزدوجة المشتركة والتبادل الأكاديمي الدولي.",
-        "bullet4": "هيئة تدريس ذات مؤهلات عالية وخبراء أجانب.",
-        "imageAlt": "مدخل جامعة بخارى الحكومية التقنية"
-      },
-      "altFeatures": {
-        "feat1": {
-          "title": "أساتذة مؤهلون",
-          "desc": "يتم تدريس المقررات من قبل أساتذة ذوي خبرة ومتخصصين في الصناعة."
-        },
-        "feat2": {
-          "title": "مختبرات متقدمة",
-          "desc": "مختبرات هندسية وكيميائية وتكنولوجية مجهزة بأحدث التقنيات."
-        },
-        "feat3": {
-          "title": "مكتبة رقمية",
-          "desc": "وصول واسع إلى الكتب الإلكترونية والمنشورات العلمية وقواعد البيانات الدولية."
-        },
-        "feat4": {
-          "title": "التعاون الدولي",
-          "desc": "برامج التبادل الأكاديمي مع الجامعات الرائدة في أوروبا وآسيا."
-        },
-        "feat5": {
-          "title": "السكن الجامعي",
-          "desc": "سكن جامعي مريح وآمن ومجهز بجميع المرافق اللازمة."
-        },
-        "feat6": {
-          "title": "مركز التطوير المهني",
-          "desc": "مساعدة الخريجين في الحصول على وظائف وتنظيم التدريب الميداني."
-        },
-        "imageAlt": "ضمان الجودة في جامعة بخارى الحكومية التقنية"
-      },
-      "hero": {
+                  "hero": {
         "title": "اصنع مستقبلك مع جامعة بخارى الحكومية التقنية",
         "subtitle": "نعزز التميز الأكاديمي والبحث العلمي والابتكار التقني في الهندسة وإدارة الموارد الطبيعية.",
         "watchVideo": "شاهد الفيديو",

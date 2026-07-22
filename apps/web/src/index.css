@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&family=Noto+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600;1,700&family=Noto+Sans+Arabic:wght@300;400;500;600;700;800;900&display=swap');
 
 @import "tailwindcss";
 
@@ -10,8 +10,8 @@
   --color-navy-light: #444444;
   --color-navy-dark: #011944;
 
-  --font-sans: "Nunito", "Poppins", "sans-serif";
-  --font-heading: "Nunito", "sans-serif";
+  --font-sans: var(--app-font-sans);
+  --font-heading: var(--app-font-heading);
 
   --animate-float-slow: floatSlow 4s ease-in-out infinite;
 
@@ -21,9 +21,37 @@
   }
 }
 
+html {
+  --app-font-sans: "Inter", "Noto Sans", Arial, sans-serif;
+  --app-font-heading: "Inter", "Noto Sans", Arial, sans-serif;
+}
+
+html[lang="en"],
+html[lang="uz"] {
+  --app-font-sans: "Inter", "Noto Sans", Arial, sans-serif;
+  --app-font-heading: "Inter", "Noto Sans", Arial, sans-serif;
+}
+
+html[lang="ru"] {
+  --app-font-sans: "Noto Sans", "Inter", Arial, sans-serif;
+  --app-font-heading: "Noto Sans", "Inter", Arial, sans-serif;
+}
+
+html[lang="ar"] {
+  --app-font-sans: "Noto Sans Arabic", "Noto Sans", Arial, sans-serif;
+  --app-font-heading: "Noto Sans Arabic", "Noto Sans", Arial, sans-serif;
+}
+
 body {
   @apply font-sans text-navy-light bg-white overflow-x-hidden;
   scroll-behavior: smooth;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
 }
 
 h1, h2, h3, h4, h5, h6 {

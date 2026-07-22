@@ -19,8 +19,8 @@ export default {
         }
       },
       fontFamily: {
-        sans: ['Nunito', 'Poppins', 'sans-serif'],
-        heading: ['Nunito', 'sans-serif'],
+        sans: ['var(--app-font-sans)'],
+        heading: ['var(--app-font-heading)'],
       },
       animation: {
         'float-slow': 'floatSlow 4s ease-in-out infinite',

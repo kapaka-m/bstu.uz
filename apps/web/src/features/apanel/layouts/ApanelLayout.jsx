@@ -82,6 +82,11 @@ export default function ApanelLayout({ children }) {
       title: "CMS",
       links: [
         {
+          path: "/apanel/cms/about-page",
+          label: "About Page",
+          icon: FileText,
+        },
+        {
           path: "/apanel/cms/footer-web",
           label: "Footer Web",
           icon: PanelBottom,

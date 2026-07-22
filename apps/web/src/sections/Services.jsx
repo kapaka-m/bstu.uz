@@ -132,7 +132,7 @@ export default function Services({ limit }) {
     return (
       <div
         key={service.slug || index}
-        className={`group bg-white border ${colors.border} p-8 rounded-3xl shadow-sm hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 flex flex-col relative overflow-hidden text-start h-full`}
+        className={`group bg-white border ${colors.border} p-8 rounded-3xl shadow-sm hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 flex flex-col relative overflow-hidden text-start h-full min-h-80`}
       >
         <div
           className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 transition-all duration-300 ${colors.icon}`}
@@ -140,10 +140,10 @@ export default function Services({ limit }) {
           <Icon className="w-6 h-6" />
         </div>
 
-        <h3 className="text-xl font-bold text-navy mb-4">
+        <h3 className="text-xl font-bold text-navy mb-4 min-h-14 line-clamp-2">
           {service.title}
         </h3>
-        <p className="text-gray-500 mb-8 leading-relaxed text-sm">
+        <p className="text-gray-500 mb-8 leading-relaxed text-sm min-h-24 line-clamp-4">
           {service.description}
         </p>
 
@@ -207,10 +207,10 @@ export default function Services({ limit }) {
                 1024: { slidesPerView: 3 },
                 1280: { slidesPerView: 4 },
               }}
-              className="pb-2"
+              className="pt-3 pb-6 !overflow-visible [&_.swiper-wrapper]:items-stretch"
             >
               {displayServices.map((service, index) => (
-                <SwiperSlide key={service.slug || index} className="h-auto">
+                <SwiperSlide key={service.slug || index} className="h-auto flex">
                   {renderServiceCard(service, index)}
                 </SwiperSlide>
               ))}

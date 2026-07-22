@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\AboutPage;
 use App\Models\Announcement;
 use App\Models\AnnouncementSetting;
 use App\Models\AdministrationProfile;
@@ -66,9 +67,9 @@ class AdminCrudController extends Controller
 {
     use ApiResponse;
 
-    protected function currentUserId(): int
+    protected function currentUserId(): ?int
     {
-        return (int) Auth::id();
+        return Auth::id();
     }
 
     /**
@@ -664,6 +665,66 @@ class AdminCrudController extends Controller
         );
 
         return $this->successResponse($footer, 'Footer web CMS content retrieved');
+    }
+
+    public function showAboutPage(Request $request)
+    {
+        $page = AboutPage::with('translations')->firstOrCreate(
+            ['key' => 'main'],
+            [
+                'hero_contact_url' => '/contact',
+                'hero_campus_url' => '/video-bdtu',
+                'rector_profile_slug' => 'rector',
+                'is_published' => true,
+            ]
+        );
+
+        return $this->successResponse($page, 'About page CMS content retrieved');
+    }
+
+    public function updateAboutPage(Request $request)
+    {
+        $validated = $request->validate([
+            'hero_contact_url' => 'nullable|string|max:2048',
+            'hero_campus_url' => 'nullable|string|max:2048',
+            'identity_image' => 'nullable|string|max:2048',
+            'rector_profile_slug' => 'nullable|string|max:255',
+            'is_published' => 'nullable|boolean',
+            'translations' => 'nullable|array',
+            'translations.*' => 'nullable|array',
+            'translations.*.content' => 'nullable',
+        ]);
+
+        return DB::transaction(function () use ($validated) {
+            $page = AboutPage::with('translations')->firstOrCreate(['key' => 'main']);
+            $oldValues = $page->toArray();
+
+            $page->update([
+                'hero_contact_url' => ($validated['hero_contact_url'] ?? null) ?: '/contact',
+                'hero_campus_url' => ($validated['hero_campus_url'] ?? null) ?: '/video-bdtu',
+                'identity_image' => $validated['identity_image'] ?? null,
+                'rector_profile_slug' => ($validated['rector_profile_slug'] ?? null) ?: 'rector',
+                'is_published' => (bool) ($validated['is_published'] ?? true),
+            ]);
+
+            foreach (($validated['translations'] ?? []) as $locale => $fields) {
+                $content = $fields['content'] ?? [];
+                if (is_string($content)) {
+                    $decoded = json_decode($content, true);
+                    $content = is_array($decoded) ? $decoded : [];
+                }
+
+                $page->translations()->updateOrCreate(
+                    ['locale' => $locale],
+                    ['content' => is_array($content) ? $content : []]
+                );
+            }
+
+            $this->logAction('update', AboutPage::class, $page->id, $oldValues, $page->fresh('translations')->toArray());
+            $this->refreshPublicContentCacheVersion('about-page');
+
+            return $this->successResponse($page->fresh('translations'), 'About page CMS content updated');
+        });
     }
 
     public function updateFooterWeb(Request $request)
@@ -1317,6 +1378,7 @@ class AdminCrudController extends Controller
             'green-campus-stats',
             'green-campus-articles',
             'green-campus-settings',
+            'about-page',
         ];
     }
 

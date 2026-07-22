@@ -29,6 +29,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/settings', [PublicApiController::class, 'settings']);
         Route::get('/settings/public', [PublicApiController::class, 'settings']);
         Route::get('/footer-web', [PublicApiController::class, 'footerWeb']);
+        Route::get('/about-page', [PublicApiController::class, 'aboutPage']);
         Route::get('/administration/settings', [PublicApiController::class, 'administrationSettings']);
         Route::get('/administration', [PublicApiController::class, 'administration']);
         Route::get('/administration/{slug}', [PublicApiController::class, 'administrationProfile']);
@@ -123,6 +124,8 @@ Route::prefix('v1')->group(function () {
         Route::get('application-documents/{id}/download', [AdminCrudController::class, 'downloadApplicationDocument']);
         Route::get('cms/footer-web', [AdminCrudController::class, 'showFooterWeb']);
         Route::put('cms/footer-web', [AdminCrudController::class, 'updateFooterWeb']);
+        Route::get('cms/about-page', [AdminCrudController::class, 'showAboutPage']);
+        Route::put('cms/about-page', [AdminCrudController::class, 'updateAboutPage']);
         Route::get('cms/news-events/settings', [AdminCrudController::class, 'showNewsEventSettings']);
         Route::put('cms/news-events/settings', [AdminCrudController::class, 'updateNewsEventSettings']);
         Route::get('cms/announcements/settings', [AdminCrudController::class, 'showAnnouncementSettings']);

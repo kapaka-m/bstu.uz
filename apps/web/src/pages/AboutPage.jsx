@@ -22,9 +22,38 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useLanguage } from "../context/LanguageContext";
 import { administrationService } from "../services/administrationService";
+import { aboutService } from "../services/aboutService";
+
+const ABOUT_ICON_MAP = {
+  users: Users,
+  "graduation-cap": GraduationCap,
+  building: Building2,
+  "book-open": BookOpen,
+  microscope: Microscope,
+  cpu: Cpu,
+  globe: Globe,
+  landmark: Landmark,
+};
+
+const API_ORIGIN = (import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/api/v1").replace(
+  /\/api\/v1\/?$/,
+  "",
+);
+
+const resolveAssetUrl = (path) => {
+  if (!path) return "";
+  if (path.startsWith("http://") || path.startsWith("https://") || path.startsWith("/")) {
+    return path;
+  }
+  if (path.startsWith("assets/")) {
+    return `/${path}`;
+  }
+  return `${API_ORIGIN}/storage/${path}`;
+};
 
 export default function AboutPage() {
-  const { t, language } = useLanguage();
+  const { language } = useLanguage();
+  const [aboutPage, setAboutPage] = useState(null);
   const [rectorProfile, setRectorProfile] = useState(null);
 
   useEffect(() => {
@@ -33,13 +62,24 @@ export default function AboutPage() {
 
   useEffect(() => {
     let alive = true;
-    administrationService
-      .getProfile("rector", language)
+
+    aboutService
+      .getPage(language)
+      .then((page) => {
+        if (!alive) return;
+        setAboutPage(page);
+        return administrationService
+          .getProfile(page?.rector_profile_slug || "rector", language)
+          .catch(() => null);
+      })
       .then((profile) => {
-        if (alive) setRectorProfile(profile);
+        if (alive) setRectorProfile(profile || null);
       })
       .catch(() => {
-        if (alive) setRectorProfile(null);
+        if (alive) {
+          setAboutPage(null);
+          setRectorProfile(null);
+        }
       });
 
     return () => {
@@ -47,136 +87,25 @@ export default function AboutPage() {
     };
   }, [language]);
 
-  const stats = [
-    {
-      number: "18,000+",
-      label: t("about.stats.activeStudents"),
-      desc: t("about.stats.activeStudentsDesc"),
-      icon: Users,
-      color: "from-blue-500 to-cyan-500",
-    },
-    {
-      number: "730+",
-      label: t("about.stats.professors"),
-      desc: t("about.stats.professorsDesc"),
-      icon: GraduationCap,
-      color: "from-purple-500 to-indigo-500",
-    },
-    {
-      number: "4",
-      label: t("about.stats.faculties"),
-      desc: t("about.stats.facultiesDesc"),
-      icon: Building2,
-      color: "from-emerald-500 to-teal-500",
-    },
-    {
-      number: "24",
-      label: t("about.stats.departments"),
-      desc: t("about.stats.departmentsDesc"),
-      icon: BookOpen,
-      color: "from-amber-500 to-orange-500",
-    },
-    {
-      number: "13",
-      label: t("about.stats.research"),
-      desc: t("about.stats.researchDesc"),
-      icon: Microscope,
-      color: "from-rose-500 to-pink-500",
-    },
-    {
-      number: "2",
-      label: t("about.stats.techParks"),
-      desc: t("about.stats.techParksDesc"),
-      icon: Cpu,
-      color: "from-indigo-500 to-blue-500",
-    },
-    {
-      number: "250+",
-      label: t("about.stats.intStudents"),
-      desc: t("about.stats.intStudentsDesc"),
-      icon: Globe,
-      color: "from-cyan-500 to-teal-500",
-    },
-    {
-      number: "18",
-      label: t("about.stats.techSchools"),
-      desc: t("about.stats.techSchoolsDesc"),
-      icon: Landmark,
-      color: "from-violet-500 to-purple-500",
-    },
-  ];
-
-  const timelineEvents = [
-    {
-      year: "1959",
-      title: t("about.timeline.year1959Title"),
-      desc: t("about.timeline.year1959Desc"),
-    },
-    {
-      year: "1978",
-      title: t("about.timeline.year1978Title"),
-      desc: t("about.timeline.year1978Desc"),
-    },
-    {
-      year: "2011/2013",
-      title: t("about.timeline.year2011Title"),
-      desc: t("about.timeline.year2011Desc"),
-    },
-    {
-      year: "2025",
-      title: t("about.timeline.year2025Title"),
-      desc: t("about.timeline.year2025Desc"),
-    },
-    {
-      year: "2026",
-      title: t("about.timeline.year2026Title"),
-      desc: t("about.timeline.year2026Desc"),
-    },
-  ];
-
-  const faculties = [
-    {
-      id: "faculty-of-engineering",
-      name: t("about.facultiesList.engineering"),
-      dean: t("about.facultiesList.engineeringDean"),
-      count: t("about.facultiesList.engineeringCount", "7 Departments"),
-      desc: t("about.facultiesList.engineeringDesc"),
-      link: "/faculty/faculty-of-engineering",
-      color: "border-blue-500/20 hover:border-blue-500",
-    },
-    {
-      id: "faculty-of-technology",
-      name: t("about.facultiesList.technology"),
-      dean: t("about.facultiesList.technologyDean"),
-      count: t("about.facultiesList.technologyCount", "6 Departments"),
-      desc: t("about.facultiesList.technologyDesc"),
-      link: "/faculty/faculty-of-technology",
-      color: "border-purple-500/20 hover:border-purple-500",
-    },
-    {
-      id: "faculty-of-service-and-digitalization",
-      name: t("about.facultiesList.service"),
-      dean: t("about.facultiesList.serviceDean"),
-      count: t("about.facultiesList.serviceCount", "7 Departments"),
-      desc: t("about.facultiesList.serviceDesc"),
-      link: "/faculty/faculty-of-service-and-digitalization",
-      color: "border-emerald-500/20 hover:border-emerald-500",
-    },
-    {
-      id: "faculty-of-natural-resources-management",
-      name: t("about.facultiesList.natural"),
-      dean: t("about.facultiesList.naturalDean"),
-      count: t("about.facultiesList.naturalCount", "6 Departments"),
-      desc: t("about.facultiesList.naturalDesc"),
-      link: "/faculty/faculty-of-natural-resources-management",
-      color: "border-amber-500/20 hover:border-amber-500",
-    },
-  ];
+  const content = aboutPage?.content || {};
+  const text = (path) =>
+    path.split(".").reduce((value, key) => (value && value[key] !== undefined ? value[key] : ""), content) || "";
+  const stats = (content.stats?.items || []).map((item) => ({
+    ...item,
+    icon: ABOUT_ICON_MAP[item.icon] || Users,
+  }));
+  const timelineEvents = content.timeline?.items || [];
+  const faculties = content.facultiesList?.items || [];
+  const identityImageSrc = resolveAssetUrl(aboutPage?.identity_image_url || aboutPage?.identity_image || "");
 
   const isRtl = language === "ar";
 
+  if (!aboutPage) {
+    return <div className="bg-white min-h-screen" />;
+  }
+
   return (
-    <div className={`bg-white min-h-screen ${isRtl ? "text-right" : ""}`}>
+    <div dir={isRtl ? "rtl" : "ltr"} className={`bg-white min-h-screen ${isRtl ? "text-right" : ""}`}>
       {/* SECTION 1: Immersive Hero Section (No standard breadcrumbs) */}
       <section className="relative pt-32 pb-24 overflow-hidden bg-linear-to-br from-navy-dark via-navy to-navy-dark text-white">
         {/* Glow Effects */}
@@ -186,50 +115,48 @@ export default function AboutPage() {
         <div className="absolute inset-0 bg-[radial-gradient(#ffffff0a_1px,transparent_1px)] bg-size-[16px_16px] pointer-events-none" />
 
         <div className="container mx-auto px-4 md:px-8 max-w-7xl relative z-10">
-          <div
-            className={`grid grid-cols-1 lg:grid-cols-12 gap-12 items-center ${isRtl ? "direction-rtl" : ""}`}
-          >
+          <div dir={isRtl ? "rtl" : "ltr"} className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             {/* Left Headline */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className={`lg:col-span-7 flex flex-col gap-6 ${isRtl ? "items-start text-right" : ""}`}
+              className={`lg:col-span-7 flex flex-col gap-6 ${isRtl ? "items-start text-right" : "items-start"}`}
             >
               <div
-                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/10 self-start text-xs font-bold uppercase tracking-widest text-white!"
+                className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/10 text-xs font-bold uppercase tracking-widest text-white! ${isRtl ? "self-start text-right" : "self-start"}`}
                 style={{ color: "#ffffff" }}
               >
                 <Sparkles className="w-3.5 h-3.5 text-white" />
-                {t("about.hero.badge")}
+                {text("hero.badge")}
               </div>
 
               <h1
-                className="text-4xl md:text-6xl font-black tracking-tight leading-tight uppercase font-heading text-white!"
+                className={`w-full text-4xl md:text-6xl font-black tracking-tight leading-tight uppercase font-heading text-white! ${isRtl ? "text-right" : ""}`}
                 style={{ color: "#ffffff" }}
               >
-                {t("about.hero.title")}
+                {text("hero.title")}
               </h1>
 
-              <p className="text-white/80 text-sm md:text-base leading-relaxed max-w-2xl font-semibold">
-                {t("about.hero.subtitle")}
+              <p className={`w-full text-white/80 text-sm md:text-base leading-relaxed max-w-2xl font-semibold ${isRtl ? "text-right self-start" : ""}`}>
+                {text("hero.subtitle")}
               </p>
 
-              <div className="flex flex-wrap gap-4 mt-4">
+              <div className={`flex w-full flex-wrap gap-4 mt-4 ${isRtl ? "justify-start self-start text-right" : ""}`}>
                 <Link
-                  to="/contact"
-                  className="bg-primary hover:bg-primary-hover text-white px-8 py-4 rounded-2xl text-sm font-extrabold transition-all shadow-lg shadow-primary/20 flex items-center gap-2 group"
+                  to={aboutPage.hero_contact_url || "/contact"}
+                  className={`bg-primary hover:bg-primary-hover text-white px-8 py-4 rounded-2xl text-sm font-extrabold transition-all shadow-lg shadow-primary/20 flex items-center gap-2 group ${isRtl ? "text-right" : ""}`}
                 >
-                  {t("about.hero.admissionsBtn")}
+                  {text("hero.admissionsBtn")}
                   <ArrowRight
                     className={`w-4 h-4 transition-transform ${isRtl ? "rotate-180 group-hover:-translate-x-1" : "group-hover:translate-x-1"}`}
                   />
                 </Link>
                 <Link
-                  to="/video-bdtu"
-                  className="bg-white/10 hover:bg-white/20 text-white border border-white/20 px-8 py-4 rounded-2xl text-sm font-extrabold transition-all backdrop-blur-xs flex items-center gap-2"
+                  to={aboutPage.hero_campus_url || "/video-bdtu"}
+                  className={`bg-white/10 hover:bg-white/20 text-white border border-white/20 px-8 py-4 rounded-2xl text-sm font-extrabold transition-all backdrop-blur-xs flex items-center gap-2 ${isRtl ? "text-right" : ""}`}
                 >
-                  {t("about.hero.campusBtn")}
+                  {text("hero.campusBtn")}
                 </Link>
               </div>
             </motion.div>
@@ -244,16 +171,16 @@ export default function AboutPage() {
               <div className="bg-white/5 border border-white/10 rounded-3xl p-8 backdrop-blur-xl shadow-2xl relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-2xl pointer-events-none" />
                 <h3
-                  className={`text-xl font-bold mb-6 text-white! flex items-center gap-2 ${isRtl ? "flex-row-reverse" : ""}`}
+                  className="text-xl font-bold mb-6 text-white! flex items-center gap-2"
                   style={{ color: "#ffffff" }}
                 >
                   <Compass className="w-5 h-5 text-white" />
-                  {t("about.hero.profileTitle")}
+                  {text("hero.profileTitle")}
                 </h3>
 
                 <ul className="flex flex-col gap-4 font-semibold text-xs text-white/90">
                   <li
-                    className={`flex items-start gap-3 bg-white/5 p-4 rounded-2xl ${isRtl ? "flex-row-reverse" : ""}`}
+                    className="flex items-start gap-3 bg-white/5 p-4 rounded-2xl"
                   >
                     <ShieldCheck className="w-5 h-5 text-white shrink-0 mt-0.5" />
                     <div className={isRtl ? "text-right" : ""}>
@@ -261,13 +188,13 @@ export default function AboutPage() {
                         className="block text-white! text-sm mb-0.5"
                         style={{ color: "#ffffff" }}
                       >
-                        {t("about.hero.autonomyTitle")}
+                        {text("hero.autonomyTitle")}
                       </strong>
-                      {t("about.hero.autonomyDesc")}
+                      {text("hero.autonomyDesc")}
                     </div>
                   </li>
                   <li
-                    className={`flex items-start gap-3 bg-white/5 p-4 rounded-2xl ${isRtl ? "flex-row-reverse" : ""}`}
+                    className="flex items-start gap-3 bg-white/5 p-4 rounded-2xl"
                   >
                     <Award className="w-5 h-5 text-white shrink-0 mt-0.5" />
                     <div className={isRtl ? "text-right" : ""}>
@@ -275,13 +202,13 @@ export default function AboutPage() {
                         className="block text-white! text-sm mb-0.5"
                         style={{ color: "#ffffff" }}
                       >
-                        {t("about.hero.qsTitle")}
+                        {text("hero.qsTitle")}
                       </strong>
-                      {t("about.hero.qsDesc")}
+                      {text("hero.qsDesc")}
                     </div>
                   </li>
                   <li
-                    className={`flex items-start gap-3 bg-white/5 p-4 rounded-2xl ${isRtl ? "flex-row-reverse" : ""}`}
+                    className="flex items-start gap-3 bg-white/5 p-4 rounded-2xl"
                   >
                     <History className="w-5 h-5 text-white shrink-0 mt-0.5" />
                     <div className={isRtl ? "text-right" : ""}>
@@ -289,9 +216,9 @@ export default function AboutPage() {
                         className="block text-white! text-sm mb-0.5"
                         style={{ color: "#ffffff" }}
                       >
-                        {t("about.hero.legacyTitle")}
+                        {text("hero.legacyTitle")}
                       </strong>
-                      {t("about.hero.legacyDesc")}
+                      {text("hero.legacyDesc")}
                     </div>
                   </li>
                 </ul>
@@ -306,30 +233,28 @@ export default function AboutPage() {
         <div className="container mx-auto px-4 md:px-8 max-w-7xl space-y-24">
           {/* Subsection 1: Our Identity */}
           <div className="bg-primary-light/50 border border-primary-light rounded-4xl p-8 md:p-12 shadow-xs">
-            <div
-              className={`grid grid-cols-1 lg:grid-cols-12 gap-8 items-center ${isRtl ? "direction-rtl" : ""}`}
-            >
+            <div dir={isRtl ? "rtl" : "ltr"} className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
               <div
-                className={`lg:col-span-7 flex flex-col gap-5 ${isRtl ? "items-start text-right" : ""}`}
+                className={`lg:col-span-7 flex flex-col gap-5 ${isRtl ? "items-start text-right" : "items-start"}`}
               >
-                <span className="self-start inline-flex bg-primary/10 text-primary text-[10px] font-extrabold uppercase tracking-widest px-3 py-1.5 rounded-full">
-                  {t("about.identity.badge")}
+                <span className={`inline-flex bg-primary/10 text-primary text-[10px] font-extrabold uppercase tracking-widest px-3 py-1.5 rounded-full ${isRtl ? "self-start text-right" : "self-start"}`}>
+                  {text("identity.badge")}
                 </span>
-                <h2 className="text-2xl md:text-3xl font-extrabold text-navy uppercase leading-tight font-heading">
-                  {t("about.identity.title")}
+                <h2 className={`w-full text-2xl md:text-3xl font-extrabold text-navy uppercase leading-tight font-heading ${isRtl ? "text-right" : ""}`}>
+                  {text("identity.title")}
                 </h2>
-                <p className="text-gray-500 text-sm leading-relaxed font-semibold">
-                  {t("about.identity.desc1")}
+                <p className={`w-full text-gray-500 text-sm leading-relaxed font-semibold ${isRtl ? "text-right" : ""}`}>
+                  {text("identity.desc1")}
                 </p>
-                <p className="text-gray-500 text-sm leading-relaxed font-semibold">
-                  {t("about.identity.desc2")}
+                <p className={`w-full text-gray-500 text-sm leading-relaxed font-semibold ${isRtl ? "text-right" : ""}`}>
+                  {text("identity.desc2")}
                 </p>
               </div>
               <div className="lg:col-span-5 relative">
                 <div className="aspect-4/3 rounded-3xl overflow-hidden shadow-lg bg-gray-50 border border-gray-100">
                   <img
-                    src="/assets/img/bb30a27931a9.jpg"
-                    alt={t("about.identity.title")}
+                    src={identityImageSrc}
+                    alt={text("identity.title")}
                     width="1200"
                     height="800"
                     className="w-full h-full object-cover"
@@ -343,10 +268,10 @@ export default function AboutPage() {
           <div>
             <div className="text-center max-w-2xl mx-auto mb-12">
               <span className="bg-primary/10 text-primary text-[10px] font-extrabold uppercase tracking-widest px-3 py-1.5 rounded-full mb-3 inline-block font-heading">
-                {t("about.goals.badge")}
+                {text("goals.badge")}
               </span>
               <h2 className="text-3xl font-extrabold text-navy font-heading">
-                {t("about.goals.title")}
+                {text("goals.title")}
               </h2>
             </div>
 
@@ -354,34 +279,42 @@ export default function AboutPage() {
               <div
                 className={`bg-white border border-gray-100 p-8 rounded-3xl shadow-xs relative overflow-hidden group hover:shadow-md transition-shadow ${isRtl ? "text-right" : ""}`}
               >
-                <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-full translate-x-6 -translate-y-6" />
                 <div
-                  className={`w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-6 ${isRtl ? "mr-0 ml-auto" : ""}`}
+                  className={`absolute top-0 w-24 h-24 bg-primary/5 rounded-full -translate-y-6 ${
+                    isRtl ? "left-0 -translate-x-6" : "right-0 translate-x-6"
+                  }`}
+                />
+                <div
+                  className={`w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-6 ${isRtl ? "mr-0 ml-auto" : "ml-0 mr-auto"}`}
                 >
                   <Target className="w-6 h-6" />
                 </div>
                 <h3 className="text-xl font-extrabold text-navy mb-3 font-heading">
-                  {t("about.goals.missionTitle")}
+                  {text("goals.missionTitle")}
                 </h3>
                 <p className="text-gray-500 text-xs md:text-sm leading-relaxed font-semibold">
-                  {t("about.goals.missionDesc")}
+                  {text("goals.missionDesc")}
                 </p>
               </div>
 
               <div
                 className={`bg-white border border-gray-100 p-8 rounded-3xl shadow-xs relative overflow-hidden group hover:shadow-md transition-shadow ${isRtl ? "text-right" : ""}`}
               >
-                <div className="absolute top-0 right-0 w-24 h-24 bg-indigo-500/5 rounded-full translate-x-6 -translate-y-6" />
                 <div
-                  className={`w-12 h-12 rounded-xl bg-indigo-500/10 text-indigo-500 flex items-center justify-center mb-6 ${isRtl ? "mr-0 ml-auto" : ""}`}
+                  className={`absolute top-0 w-24 h-24 bg-indigo-500/5 rounded-full -translate-y-6 ${
+                    isRtl ? "left-0 -translate-x-6" : "right-0 translate-x-6"
+                  }`}
+                />
+                <div
+                  className={`w-12 h-12 rounded-xl bg-indigo-500/10 text-indigo-500 flex items-center justify-center mb-6 ${isRtl ? "mr-0 ml-auto" : "ml-0 mr-auto"}`}
                 >
                   <Eye className="w-6 h-6" />
                 </div>
                 <h3 className="text-xl font-extrabold text-navy mb-3 font-heading">
-                  {t("about.goals.visionTitle")}
+                  {text("goals.visionTitle")}
                 </h3>
                 <p className="text-gray-500 text-xs md:text-sm leading-relaxed font-semibold">
-                  {t("about.goals.visionDesc")}
+                  {text("goals.visionDesc")}
                 </p>
               </div>
             </div>
@@ -391,10 +324,10 @@ export default function AboutPage() {
           <div>
             <div className="text-center max-w-2xl mx-auto mb-12">
               <span className="bg-primary/10 text-primary text-[10px] font-extrabold uppercase tracking-widest px-3 py-1.5 rounded-full mb-3 inline-block font-heading">
-                {t("about.values.badge")}
+                {text("values.badge")}
               </span>
               <h2 className="text-3xl font-extrabold text-navy font-heading">
-                {t("about.values.title")}
+                {text("values.title")}
               </h2>
             </div>
 
@@ -408,10 +341,10 @@ export default function AboutPage() {
                   <ShieldCheck className="w-5 h-5" />
                 </div>
                 <h4 className="font-extrabold text-navy mb-2 font-heading">
-                  {t("about.values.integrityTitle")}
+                  {text("values.integrityTitle")}
                 </h4>
                 <p className="text-gray-500 text-xs leading-relaxed font-semibold">
-                  {t("about.values.integrityDesc")}
+                  {text("values.integrityDesc")}
                 </p>
               </div>
 
@@ -424,10 +357,10 @@ export default function AboutPage() {
                   <Zap className="w-5 h-5" />
                 </div>
                 <h4 className="font-extrabold text-navy mb-2 font-heading">
-                  {t("about.values.innovationTitle")}
+                  {text("values.innovationTitle")}
                 </h4>
                 <p className="text-gray-500 text-xs leading-relaxed font-semibold">
-                  {t("about.values.innovationDesc")}
+                  {text("values.innovationDesc")}
                 </p>
               </div>
 
@@ -440,10 +373,10 @@ export default function AboutPage() {
                   <Globe className="w-5 h-5" />
                 </div>
                 <h4 className="font-extrabold text-navy mb-2 font-heading">
-                  {t("about.values.inclusivityTitle")}
+                  {text("values.inclusivityTitle")}
                 </h4>
                 <p className="text-gray-500 text-xs leading-relaxed font-semibold">
-                  {t("about.values.inclusivityDesc")}
+                  {text("values.inclusivityDesc")}
                 </p>
               </div>
             </div>
@@ -456,13 +389,13 @@ export default function AboutPage() {
         <div className="container mx-auto px-4 md:px-8 max-w-7xl">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <span className="bg-primary/10 text-primary text-[10px] font-extrabold uppercase tracking-widest px-3 py-1.5 rounded-full mb-3 inline-block font-heading">
-              {t("about.stats.badge")}
+              {text("stats.badge")}
             </span>
             <h2 className="text-3xl font-extrabold text-navy font-heading">
-              {t("about.stats.title")}
+              {text("stats.title")}
             </h2>
             <p className="text-gray-500 text-xs md:text-sm font-semibold mt-2">
-              {t("about.stats.subtitle")}
+              {text("stats.subtitle")}
             </p>
           </div>
 
@@ -506,13 +439,13 @@ export default function AboutPage() {
         <div className="container mx-auto px-4 md:px-8 max-w-7xl">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <span className="bg-primary/10 text-primary text-[10px] font-extrabold uppercase tracking-widest px-3 py-1.5 rounded-full mb-3 inline-block font-heading">
-              {t("about.facultiesList.badge")}
+              {text("facultiesList.badge")}
             </span>
             <h2 className="text-3xl font-extrabold text-navy font-heading">
-              {t("about.facultiesList.title")}
+              {text("facultiesList.title")}
             </h2>
             <p className="text-gray-500 text-xs md:text-sm font-semibold mt-2">
-              {t("about.facultiesList.subtitle")}
+              {text("facultiesList.subtitle")}
             </p>
           </div>
 
@@ -528,11 +461,11 @@ export default function AboutPage() {
               >
                 <div>
                   <div
-                    className={`flex justify-between items-start mb-6 ${isRtl ? "flex-row-reverse" : ""}`}
+                    className="flex justify-between items-start mb-6"
                   >
-                    <div>
+                    <div className={isRtl ? "text-right" : ""}>
                       <span className="text-[10px] text-primary font-bold uppercase tracking-wider block mb-1">
-                        {t("about.facultiesList.facultyBadge")}
+                        {text("facultiesList.facultyBadge")}
                       </span>
                       <h3 className="text-xl font-extrabold text-navy group-hover:text-primary transition-colors duration-300 font-heading">
                         {f.name}
@@ -549,7 +482,7 @@ export default function AboutPage() {
 
                   <div className="border-t border-gray-100 pt-4 mb-8">
                     <span className="text-xs text-gray-400 font-semibold block mb-0.5">
-                      {t("about.facultiesList.deanLabel")}
+                      {text("facultiesList.deanLabel")}
                     </span>
                     <span className="text-sm font-extrabold text-navy font-heading">
                       {f.dean}
@@ -559,9 +492,9 @@ export default function AboutPage() {
 
                 <Link
                   to={f.link}
-                  className={`inline-flex items-center gap-2 text-xs font-bold text-primary group-hover:text-primary-hover hover:underline ${isRtl ? "flex-row-reverse" : ""}`}
+                  className="inline-flex items-center gap-2 text-xs font-bold text-primary group-hover:text-primary-hover hover:underline"
                 >
-                  {t("about.facultiesList.exploreBtn")}
+                  {text("facultiesList.exploreBtn")}
                   <ArrowRight
                     className={`w-4 h-4 transition-transform ${isRtl ? "rotate-180 group-hover:-translate-x-1" : "group-hover:translate-x-1"}`}
                   />
@@ -577,7 +510,8 @@ export default function AboutPage() {
         <div className="container mx-auto px-4 md:px-8 max-w-7xl">
           <div className="bg-white border border-gray-100 rounded-4xl p-8 md:p-12 shadow-xs">
             <div
-              className={`grid grid-cols-1 lg:grid-cols-12 gap-12 items-center ${isRtl ? "direction-rtl" : ""}`}
+              dir={isRtl ? "rtl" : "ltr"}
+              className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center"
             >
               {/* Photo */}
               <div className="lg:col-span-4 flex flex-col items-center">
@@ -595,41 +529,41 @@ export default function AboutPage() {
                 </div>
                 <div className="text-center mt-5">
                   <h4 className="text-lg font-extrabold text-navy font-heading">
-                    {rectorProfile?.name || t("about.rector.name")}
+                    {rectorProfile?.name || text("rector.name")}
                   </h4>
                   <p className="text-xs text-primary font-bold uppercase tracking-wider mt-1 font-heading">
-                    {rectorProfile?.position || rectorProfile?.title || t("about.rector.name")}
+                    {rectorProfile?.position || rectorProfile?.title || text("rector.name")}
                   </p>
                   <p className="text-[10px] text-gray-400 font-semibold mt-0.5">
-                    {rectorProfile?.degree || t("about.rector.degree")}
+                    {rectorProfile?.degree || text("rector.degree")}
                   </p>
                 </div>
               </div>
 
               {/* Message */}
               <div
-                className={`lg:col-span-8 flex flex-col gap-5 ${isRtl ? "items-start text-right" : ""}`}
+                className={`lg:col-span-8 flex flex-col gap-5 ${isRtl ? "items-start text-right" : "items-start"}`}
               >
-                <span className="self-start inline-flex items-center gap-1 bg-primary/10 text-primary text-[10px] font-extrabold uppercase tracking-widest px-3 py-1.5 rounded-full font-heading">
-                  {t("about.rector.badge")}
+                <span className={`inline-flex items-center gap-1 bg-primary/10 text-primary text-[10px] font-extrabold uppercase tracking-widest px-3 py-1.5 rounded-full font-heading ${isRtl ? "self-start text-right" : "self-start"}`}>
+                  {text("rector.badge")}
                 </span>
-                <h3 className="text-2xl md:text-3xl font-extrabold text-navy leading-snug font-heading">
-                  {t("about.rector.title")}
+                <h3 className={`w-full text-2xl md:text-3xl font-extrabold text-navy leading-snug font-heading ${isRtl ? "text-right" : ""}`}>
+                  {text("rector.title")}
                 </h3>
 
-                <p className="text-gray-500 text-xs md:text-sm leading-relaxed font-semibold italic">
-                  "{t("about.rector.quote1")}"
+                <p className={`w-full text-gray-500 text-xs md:text-sm leading-relaxed font-semibold italic ${isRtl ? "text-right" : ""}`}>
+                  "{text("rector.quote1")}"
                 </p>
-                <p className="text-gray-500 text-xs md:text-sm leading-relaxed font-semibold">
-                  "{t("about.rector.quote2")}"
+                <p className={`w-full text-gray-500 text-xs md:text-sm leading-relaxed font-semibold ${isRtl ? "text-right" : ""}`}>
+                  "{text("rector.quote2")}"
                 </p>
 
-                <div className="flex gap-4 mt-4 border-t border-gray-100 pt-6">
+                <div className={`flex w-full gap-4 mt-4 border-t border-gray-100 pt-6 ${isRtl ? "justify-start self-start text-right" : ""}`}>
                   <Link
-                    to="/profile/rector"
+                    to={`/profile/${aboutPage.rector_profile_slug || "rector"}`}
                     className="bg-navy hover:bg-navy-dark text-white px-6 py-3 rounded-xl text-xs font-bold transition-colors shadow-sm inline-flex items-center gap-2"
                   >
-                    {t("about.rector.profileBtn")}
+                    {text("rector.profileBtn")}
                   </Link>
                 </div>
               </div>
@@ -639,13 +573,13 @@ export default function AboutPage() {
             <div className="border-t border-gray-100 my-10 pt-10">
               <div className="max-w-3xl mx-auto text-center mb-8">
                 <span className="inline-flex items-center gap-1 bg-red-500/10 text-red-500 text-[10px] font-extrabold uppercase tracking-widest px-3 py-1.5 rounded-full font-heading mb-3">
-                  {t("about.rector.appealBadge")}
+                  {text("rector.appealBadge")}
                 </span>
                 <h3 className="text-xl md:text-2xl font-extrabold text-navy font-heading mb-3">
-                  {t("about.rector.appealTitle")}
+                  {text("rector.appealTitle")}
                 </h3>
                 <p className="text-gray-500 text-xs md:text-sm leading-relaxed font-semibold italic">
-                  "{t("about.rector.appealQuote")}"
+                  "{text("rector.appealQuote")}"
                 </p>
               </div>
 
@@ -661,10 +595,10 @@ export default function AboutPage() {
                     <Users className="w-5 h-5" />
                   </div>
                   <h4 className="text-md font-bold text-navy mb-2 font-heading">
-                    {t("about.rector.studentsTitle")}
+                    {text("rector.studentsTitle")}
                   </h4>
                   <p className="text-gray-500 text-xs leading-relaxed font-semibold">
-                    {t("about.rector.studentsDesc")}
+                    {text("rector.studentsDesc")}
                   </p>
                 </div>
 
@@ -678,10 +612,10 @@ export default function AboutPage() {
                     <Compass className="w-5 h-5" />
                   </div>
                   <h4 className="text-md font-bold text-navy mb-2 font-heading">
-                    {t("about.rector.parentsTitle")}
+                    {text("rector.parentsTitle")}
                   </h4>
                   <p className="text-gray-500 text-xs leading-relaxed font-semibold">
-                    {t("about.rector.parentsDesc")}
+                    {text("rector.parentsDesc")}
                   </p>
                 </div>
 
@@ -695,10 +629,10 @@ export default function AboutPage() {
                     <GraduationCap className="w-5 h-5" />
                   </div>
                   <h4 className="text-md font-bold text-navy mb-2 font-heading">
-                    {t("about.rector.teachersTitle")}
+                    {text("rector.teachersTitle")}
                   </h4>
                   <p className="text-gray-500 text-xs leading-relaxed font-semibold">
-                    {t("about.rector.teachersDesc")}
+                    {text("rector.teachersDesc")}
                   </p>
                 </div>
               </div>
@@ -712,13 +646,13 @@ export default function AboutPage() {
         <div className="container mx-auto px-4 md:px-8 max-w-5xl">
           <div className="text-center max-w-2xl mx-auto mb-20">
             <span className="inline-flex items-center gap-1.5 bg-primary/10 text-primary text-[10px] font-extrabold uppercase tracking-widest px-3 py-1.5 rounded-full mb-3 font-heading">
-              <History className="w-3.5 h-3.5" /> {t("about.timeline.badge")}
+              <History className="w-3.5 h-3.5" /> {text("timeline.badge")}
             </span>
             <h2 className="text-3xl font-extrabold text-navy font-heading">
-              {t("about.timeline.title")}
+              {text("timeline.title")}
             </h2>
             <p className="text-gray-500 text-xs md:text-sm font-semibold mt-2">
-              {t("about.timeline.subtitle")}
+              {text("timeline.subtitle")}
             </p>
           </div>
 
@@ -764,3 +698,4 @@ export default function AboutPage() {
     </div>
   );
 }
+

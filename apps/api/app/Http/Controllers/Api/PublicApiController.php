@@ -7,6 +7,7 @@ use App\Http\Requests\CommentRequest;
 use App\Http\Requests\InquiryRequest;
 use App\Http\Resources\LocalizedCollection;
 use App\Http\Resources\LocalizedResource;
+use App\Models\AboutPage;
 use App\Models\Announcement;
 use App\Models\AnnouncementSetting;
 use App\Models\AdministrationProfile;
@@ -205,6 +206,44 @@ class PublicApiController extends Controller
         }
 
         return $this->successResponse($payload, 'Public footer content retrieved successfully');
+    }
+
+    public function aboutPage(Request $request)
+    {
+        $locale = $this->getRequestLocale($request);
+
+        $payload = $this->publicCache($request, 'about-page', [$locale], function () use ($request, $locale) {
+            $page = AboutPage::where('key', 'main')
+                ->where('is_published', true)
+                ->with('translations')
+                ->first();
+
+            if (! $page) {
+                return null;
+            }
+
+            $translation = $page->translations->firstWhere('locale', $locale)
+                ?: $page->translations->firstWhere('locale', 'en')
+                ?: $page->translations->first();
+
+            $data = [
+                'key' => $page->key,
+                'hero_contact_url' => $page->hero_contact_url,
+                'hero_campus_url' => $page->hero_campus_url,
+                'identity_image' => $page->identity_image,
+                'rector_profile_slug' => $page->rector_profile_slug,
+                'is_published' => (bool) $page->is_published,
+                'content' => $translation?->content ?: [],
+            ];
+
+            return $this->withPublicImageUrl($data, 'identity_image');
+        });
+
+        if (! $payload) {
+            return $this->errorResponse('Public about page content not found', 404);
+        }
+
+        return $this->successResponse($payload, 'Public about page content retrieved successfully');
     }
 
     public function administrationSettings(Request $request)

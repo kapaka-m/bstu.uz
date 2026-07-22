@@ -88,7 +88,7 @@ export default function Header() {
   const facultyMenuData = [
     {
       id: "faculty-of-engineering",
-      titleKey: "about.facultiesList.engineering",
+      titleKey: "faculties.faculty-of-engineering.name",
       name: "Faculty of Engineering",
       slug: "faculty-of-engineering",
       departments: [
@@ -128,7 +128,7 @@ export default function Header() {
     },
     {
       id: "faculty-of-technology",
-      titleKey: "about.facultiesList.technology",
+      titleKey: "faculties.faculty-of-technology.name",
       name: "Faculty of Technology",
       slug: "faculty-of-technology",
       departments: [
@@ -173,7 +173,7 @@ export default function Header() {
     },
     {
       id: "faculty-of-natural-resources-management",
-      titleKey: "about.facultiesList.natural",
+      titleKey: "faculties.faculty-of-natural-resources-management.name",
       name: "Faculty of Natural Resources Management",
       slug: "faculty-of-natural-resources-management",
       departments: [
@@ -216,7 +216,7 @@ export default function Header() {
     },
     {
       id: "faculty-of-service-and-digitalization",
-      titleKey: "about.facultiesList.service",
+      titleKey: "faculties.faculty-of-service-and-digitalization.name",
       name: "Faculty of Service and Digitalization",
       slug: "faculty-of-service-and-digitalization",
       departments: [
@@ -845,28 +845,28 @@ export default function Header() {
                           onClick={handleLinkClick}
                           className="hover:text-primary py-0.5"
                         >
-                          {t("about.facultiesList.engineering")}
+                          {t("faculties.faculty-of-engineering.name")}
                         </Link>
                         <Link
                           to="/faculty/faculty-of-technology"
                           onClick={handleLinkClick}
                           className="hover:text-primary py-0.5"
                         >
-                          {t("about.facultiesList.technology")}
+                          {t("faculties.faculty-of-technology.name")}
                         </Link>
                         <Link
                           to="/faculty/faculty-of-natural-resources-management"
                           onClick={handleLinkClick}
                           className="hover:text-primary py-0.5"
                         >
-                          {t("about.facultiesList.natural")}
+                          {t("faculties.faculty-of-natural-resources-management.name")}
                         </Link>
                         <Link
                           to="/faculty/faculty-of-service-and-digitalization"
                           onClick={handleLinkClick}
                           className="hover:text-primary py-0.5"
                         >
-                          {t("about.facultiesList.service")}
+                          {t("faculties.faculty-of-service-and-digitalization.name")}
                         </Link>
                       </div>
                     </div>

@@ -40,9 +40,12 @@ class AboutPage extends Model
         $content = [];
 
         foreach ($entries as $entry) {
-            $translation = $entry->translations->firstWhere('locale', $locale)
-                ?: $entry->translations->firstWhere('locale', 'en')
-                ?: $entry->translations->first();
+            $translation = $entry->translations
+                ->first(fn ($item) => $item->locale === $locale && $item->value !== null && $item->value !== '')
+                ?: $entry->translations
+                    ->first(fn ($item) => $item->locale === 'en' && $item->value !== null && $item->value !== '')
+                ?: $entry->translations
+                    ->first(fn ($item) => $item->value !== null && $item->value !== '');
 
             if (! $translation) {
                 continue;
@@ -60,6 +63,16 @@ class AboutPage extends Model
             'locale' => $locale,
             'content' => $this->contentForLocale($locale),
         ])->all();
+    }
+
+    public function syncTranslationsMirror(array $locales = ['en', 'uz', 'ru', 'ar']): void
+    {
+        foreach ($this->cmsTranslationsPayload($locales) as $translation) {
+            $this->translations()->updateOrCreate(
+                ['locale' => $translation['locale']],
+                ['content' => $translation['content']]
+            );
+        }
     }
 
     public function replaceContentTranslations(array $translations): void
@@ -104,6 +117,8 @@ class AboutPage extends Model
                 ->whereNotIn('path', array_keys($knownPaths))
                 ->delete();
         }
+
+        $this->syncTranslationsMirror(array_keys($translations));
     }
 
     protected static function flattenContent(array $content, string $prefix = ''): array

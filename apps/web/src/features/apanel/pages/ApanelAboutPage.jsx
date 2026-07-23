@@ -86,20 +86,6 @@ const facultyColors = [
 
 const clone = (value) => JSON.parse(JSON.stringify(value || {}));
 
-const sortDeep = (value) => {
-  if (Array.isArray(value)) return value.map(sortDeep);
-  if (!value || typeof value !== "object") return value;
-  return Object.keys(value)
-    .sort()
-    .reduce((result, key) => {
-      result[key] = sortDeep(value[key]);
-      return result;
-    }, {});
-};
-
-const sameJson = (left, right) =>
-  JSON.stringify(sortDeep(left || {})) === JSON.stringify(sortDeep(right || {}));
-
 const resolveAssetUrl = (path) => {
   if (!path) return "";
   if (
@@ -122,7 +108,7 @@ const errorMessage = (err, fallback) => {
   return err?.message || fallback;
 };
 
-function Field({ label, value, onChange, multiline = false }) {
+function Field({ label, value, onChange, multiline = false, name }) {
   const className =
     "mt-2 w-full rounded-xl border border-gray-200 px-3 py-2 text-sm font-semibold text-gray-700 outline-none focus:border-primary";
 
@@ -131,6 +117,7 @@ function Field({ label, value, onChange, multiline = false }) {
       {label}
       {multiline ? (
         <textarea
+          name={name}
           value={value || ""}
           onChange={(event) => onChange(event.target.value)}
           rows={4}
@@ -138,6 +125,7 @@ function Field({ label, value, onChange, multiline = false }) {
         />
       ) : (
         <input
+          name={name}
           value={value || ""}
           onChange={(event) => onChange(event.target.value)}
           className={className}
@@ -147,11 +135,12 @@ function Field({ label, value, onChange, multiline = false }) {
   );
 }
 
-function SelectField({ label, value, options, onChange }) {
+function SelectField({ label, value, options, onChange, name }) {
   return (
     <label className="block text-xs font-extrabold uppercase tracking-wide text-gray-400">
       {label}
       <select
+        name={name}
         value={value || ""}
         onChange={(event) => onChange(event.target.value)}
         className="mt-2 w-full rounded-xl border border-gray-200 px-3 py-2 text-sm font-semibold text-gray-700 outline-none focus:border-primary"
@@ -177,13 +166,9 @@ export default function ApanelAboutPage() {
   const [success, setSuccess] = useState("");
   const [confirmAction, setConfirmAction] = useState(null);
   const [timelineDraft, setTimelineDraft] = useState(null);
+  const [statDraft, setStatDraft] = useState(null);
+  const [facultyDraft, setFacultyDraft] = useState(null);
   const formRef = useRef(emptyForm);
-  const savedControlsRef = useRef({
-    hero_contact_url: "",
-    hero_campus_url: "",
-    rector_profile_slug: "",
-    identity_image: "",
-  });
 
   const content = form.translations[activeLocale]?.content || defaultContent;
   const activeLocaleLabel = useMemo(
@@ -207,7 +192,6 @@ export default function ApanelAboutPage() {
       identity_image: page.identity_image || page.identity_image_url || "",
       rector_profile_slug: page.rector_profile_slug || "",
     };
-    savedControlsRef.current = controls;
 
     const nextForm = {
       ...controls,
@@ -282,7 +266,7 @@ export default function ApanelAboutPage() {
     updateContent(path, items);
   };
 
-  const addArrayItem = (path, item) => {
+  const updateSharedArrayItem = (path, index, field, value) => {
     setForm((current) => {
       const translations = clone(current.translations);
       LOCALES.forEach((locale) => {
@@ -300,10 +284,9 @@ export default function ApanelAboutPage() {
         const items = Array.isArray(target[keys.at(-1)])
           ? target[keys.at(-1)]
           : [];
-        target[keys.at(-1)] = [
-          ...items,
-          locale.code === activeLocale ? clone(item) : {},
-        ];
+        target[keys.at(-1)] = items.map((item, itemIndex) =>
+          itemIndex === index ? { ...(item || {}), [field]: value } : item,
+        );
         translations[locale.code] = { content: nextContent };
       });
       const updated = { ...current, translations };
@@ -339,22 +322,10 @@ export default function ApanelAboutPage() {
   };
 
   const buildPayload = (sourceForm) => ({
-    hero_contact_url:
-      sourceForm.hero_contact_url ||
-      savedControlsRef.current.hero_contact_url ||
-      "",
-    hero_campus_url:
-      sourceForm.hero_campus_url ||
-      savedControlsRef.current.hero_campus_url ||
-      "",
-    identity_image:
-      sourceForm.identity_image ||
-      savedControlsRef.current.identity_image ||
-      "",
-    rector_profile_slug:
-      sourceForm.rector_profile_slug ||
-      savedControlsRef.current.rector_profile_slug ||
-      "",
+    hero_contact_url: sourceForm.hero_contact_url ?? "",
+    hero_campus_url: sourceForm.hero_campus_url ?? "",
+    identity_image: sourceForm.identity_image ?? "",
+    rector_profile_slug: sourceForm.rector_profile_slug ?? "",
     is_published: Boolean(sourceForm.is_published),
     translations: Object.fromEntries(
       LOCALES.map((locale) => [
@@ -378,21 +349,7 @@ export default function ApanelAboutPage() {
     setSuccess("");
     const payload = buildPayload(sourceForm);
     await apanelService.updateAboutPage(payload);
-    const reloadedPage = await loadAboutPageForm();
-    const reloadedTranslations = Object.fromEntries(
-      (reloadedPage?.translations || []).map((translation) => [
-        translation.locale,
-        translation.content || {},
-      ]),
-    );
-    const activePayload = payload.translations?.[activeLocale]?.content || {};
-    const activeSaved = reloadedTranslations[activeLocale] || {};
-
-    if (!sameJson(activeSaved, activePayload)) {
-      throw new Error(
-        "The server accepted the request, but the saved content did not match the submitted data. Please reload the CMS and try again.",
-      );
-    }
+    await loadAboutPageForm();
     setSuccess(message);
   };
 
@@ -478,11 +435,12 @@ export default function ApanelAboutPage() {
     }
   };
 
-  const handleAddTimelineItem = async () => {
+  const handleAddTimelineItem = async (values = null) => {
+    const source = values || timelineDraft || {};
     const draft = {
-      year: timelineDraft?.year?.trim() || "",
-      title: timelineDraft?.title?.trim() || "",
-      desc: timelineDraft?.desc?.trim() || "",
+      year: source.year?.trim() || "",
+      title: source.title?.trim() || "",
+      desc: source.desc?.trim() || "",
     };
 
     if (!draft.year || !draft.title || !draft.desc) {
@@ -510,6 +468,90 @@ export default function ApanelAboutPage() {
       await persistForm(nextForm, "Timeline item added successfully.");
     } catch (err) {
       setError(errorMessage(err, "Failed to add timeline item."));
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleAddStatItem = async (values = null) => {
+    const source = values || statDraft || {};
+    const draft = {
+      number: source.number?.trim() || "",
+      label: source.label?.trim() || "",
+      desc: source.desc?.trim() || "",
+      icon: source.icon || "users",
+      color: source.color || statColors[0],
+    };
+
+    if (!draft.number || !draft.label) {
+      setError("Please fill Number and Label before adding the stat item.");
+      return;
+    }
+
+    try {
+      setError("");
+      setSuccess("");
+      const nextForm = formWithAddedArrayItem(
+        formRef.current,
+        "stats.items",
+        (localeCode) => ({
+          number: draft.number,
+          label: localeCode === activeLocale ? draft.label : "",
+          desc: localeCode === activeLocale ? draft.desc : "",
+          icon: draft.icon,
+          color: draft.color,
+        }),
+      );
+      formRef.current = nextForm;
+      setForm(nextForm);
+      setStatDraft(null);
+      await persistForm(nextForm, "Stat item added successfully.");
+    } catch (err) {
+      setError(errorMessage(err, "Failed to add stat item."));
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleAddFacultyItem = async (values = null) => {
+    const source = values || facultyDraft || {};
+    const draft = {
+      id: source.id?.trim() || "",
+      name: source.name?.trim() || "",
+      dean: source.dean?.trim() || "",
+      count: source.count?.trim() || "",
+      link: source.link?.trim() || "",
+      color: source.color || facultyColors[0],
+      desc: source.desc?.trim() || "",
+    };
+
+    if (!draft.id || !draft.name || !draft.link) {
+      setError("Please fill ID, Name, and Link before adding the faculty item.");
+      return;
+    }
+
+    try {
+      setError("");
+      setSuccess("");
+      const nextForm = formWithAddedArrayItem(
+        formRef.current,
+        "facultiesList.items",
+        (localeCode) => ({
+          id: draft.id,
+          name: localeCode === activeLocale ? draft.name : "",
+          dean: localeCode === activeLocale ? draft.dean : "",
+          count: draft.count,
+          desc: localeCode === activeLocale ? draft.desc : "",
+          link: draft.link,
+          color: draft.color,
+        }),
+      );
+      formRef.current = nextForm;
+      setForm(nextForm);
+      setFacultyDraft(null);
+      await persistForm(nextForm, "Faculty item added successfully.");
+    } catch (err) {
+      setError(errorMessage(err, "Failed to add faculty item."));
     } finally {
       setSaving(false);
     }
@@ -569,7 +611,7 @@ export default function ApanelAboutPage() {
               label="Number"
               value={item.number}
               onChange={(value) =>
-                updateArrayItem("stats.items", index, "number", value)
+                updateSharedArrayItem("stats.items", index, "number", value)
               }
             />
             <Field
@@ -592,7 +634,7 @@ export default function ApanelAboutPage() {
               value={item.icon}
               options={statIcons}
               onChange={(value) =>
-                updateArrayItem("stats.items", index, "icon", value)
+                updateSharedArrayItem("stats.items", index, "icon", value)
               }
             />
             <SelectField
@@ -600,7 +642,7 @@ export default function ApanelAboutPage() {
               value={item.color}
               options={statColors}
               onChange={(value) =>
-                updateArrayItem("stats.items", index, "color", value)
+                updateSharedArrayItem("stats.items", index, "color", value)
               }
             />
           </div>
@@ -609,7 +651,7 @@ export default function ApanelAboutPage() {
       <button
         type="button"
         onClick={() =>
-          addArrayItem("stats.items", {
+          setStatDraft({
             number: "",
             label: "",
             desc: "",
@@ -655,7 +697,7 @@ export default function ApanelAboutPage() {
               label="ID"
               value={item.id}
               onChange={(value) =>
-                updateArrayItem("facultiesList.items", index, "id", value)
+                updateSharedArrayItem("facultiesList.items", index, "id", value)
               }
             />
             <Field
@@ -676,14 +718,14 @@ export default function ApanelAboutPage() {
               label="Count"
               value={item.count}
               onChange={(value) =>
-                updateArrayItem("facultiesList.items", index, "count", value)
+                updateSharedArrayItem("facultiesList.items", index, "count", value)
               }
             />
             <Field
               label="Link"
               value={item.link}
               onChange={(value) =>
-                updateArrayItem("facultiesList.items", index, "link", value)
+                updateSharedArrayItem("facultiesList.items", index, "link", value)
               }
             />
             <SelectField
@@ -691,7 +733,7 @@ export default function ApanelAboutPage() {
               value={item.color}
               options={facultyColors}
               onChange={(value) =>
-                updateArrayItem("facultiesList.items", index, "color", value)
+                updateSharedArrayItem("facultiesList.items", index, "color", value)
               }
             />
             <Field
@@ -708,7 +750,7 @@ export default function ApanelAboutPage() {
       <button
         type="button"
         onClick={() =>
-          addArrayItem("facultiesList.items", {
+          setFacultyDraft({
             id: "",
             name: "",
             dean: "",
@@ -756,7 +798,7 @@ export default function ApanelAboutPage() {
               label="Year"
               value={item.year}
               onChange={(value) =>
-                updateArrayItem("timeline.items", index, "year", value)
+                updateSharedArrayItem("timeline.items", index, "year", value)
               }
             />
             <Field
@@ -1063,7 +1105,14 @@ export default function ApanelAboutPage() {
       />
       {timelineDraft && (
         <div className="fixed inset-0 z-9999 flex items-center justify-center bg-navy/40 p-4 backdrop-blur-xs">
-          <div className="w-full max-w-lg rounded-3xl border border-gray-100 bg-white p-6 shadow-2xl">
+          <form
+            onSubmit={(event) => {
+              event.preventDefault();
+              const values = Object.fromEntries(new FormData(event.currentTarget).entries());
+              handleAddTimelineItem(values);
+            }}
+            className="w-full max-w-lg rounded-3xl border border-gray-100 bg-white p-6 shadow-2xl"
+          >
             <div className="mb-5">
               <p className="text-xs font-extrabold uppercase tracking-widest text-primary">
                 {activeLocaleLabel}
@@ -1079,6 +1128,7 @@ export default function ApanelAboutPage() {
             <div className="space-y-4">
               <Field
                 label="Year"
+                name="year"
                 value={timelineDraft.year}
                 onChange={(value) =>
                   setTimelineDraft((current) => ({ ...current, year: value }))
@@ -1086,6 +1136,7 @@ export default function ApanelAboutPage() {
               />
               <Field
                 label="Title"
+                name="title"
                 value={timelineDraft.title}
                 onChange={(value) =>
                   setTimelineDraft((current) => ({ ...current, title: value }))
@@ -1093,6 +1144,7 @@ export default function ApanelAboutPage() {
               />
               <Field
                 label="Description"
+                name="desc"
                 value={timelineDraft.desc}
                 multiline
                 onChange={(value) =>
@@ -1110,15 +1162,201 @@ export default function ApanelAboutPage() {
                 Cancel
               </button>
               <button
-                type="button"
-                onClick={handleAddTimelineItem}
+                type="submit"
                 disabled={saving}
                 className="rounded-xl bg-primary px-4 py-2 text-xs font-bold text-white shadow-md shadow-primary/20 transition hover:bg-primary-hover disabled:opacity-60"
               >
                 {saving ? "Saving..." : "Add Item"}
               </button>
             </div>
-          </div>
+          </form>
+        </div>
+      )}
+      {statDraft && (
+        <div className="fixed inset-0 z-9999 flex items-center justify-center bg-navy/40 p-4 backdrop-blur-xs">
+          <form
+            onSubmit={(event) => {
+              event.preventDefault();
+              const values = Object.fromEntries(new FormData(event.currentTarget).entries());
+              handleAddStatItem(values);
+            }}
+            className="w-full max-w-2xl rounded-3xl border border-gray-100 bg-white p-6 shadow-2xl"
+          >
+            <div className="mb-5">
+              <p className="text-xs font-extrabold uppercase tracking-widest text-primary">
+                {activeLocaleLabel}
+              </p>
+              <h3 className="mt-1 text-xl font-black text-navy">Add Stat</h3>
+              <p className="mt-1 text-sm font-semibold text-gray-500">
+                This item will be saved to the database immediately.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              <Field
+                label="Number"
+                name="number"
+                value={statDraft.number}
+                onChange={(value) =>
+                  setStatDraft((current) => ({ ...current, number: value }))
+                }
+              />
+              <Field
+                label="Label"
+                name="label"
+                value={statDraft.label}
+                onChange={(value) =>
+                  setStatDraft((current) => ({ ...current, label: value }))
+                }
+              />
+              <Field
+                label="Description"
+                name="desc"
+                value={statDraft.desc}
+                multiline
+                onChange={(value) =>
+                  setStatDraft((current) => ({ ...current, desc: value }))
+                }
+              />
+              <SelectField
+                label="Icon"
+                name="icon"
+                value={statDraft.icon}
+                options={statIcons}
+                onChange={(value) =>
+                  setStatDraft((current) => ({ ...current, icon: value }))
+                }
+              />
+              <SelectField
+                label="Color"
+                name="color"
+                value={statDraft.color}
+                options={statColors}
+                onChange={(value) =>
+                  setStatDraft((current) => ({ ...current, color: value }))
+                }
+              />
+            </div>
+
+            <div className="mt-6 flex justify-end gap-3">
+              <button
+                type="button"
+                onClick={() => setStatDraft(null)}
+                className="rounded-xl border border-gray-200 bg-white px-4 py-2 text-xs font-bold text-navy transition hover:border-gray-300"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={saving}
+                className="rounded-xl bg-primary px-4 py-2 text-xs font-bold text-white shadow-md shadow-primary/20 transition hover:bg-primary-hover disabled:opacity-60"
+              >
+                {saving ? "Saving..." : "Add Stat"}
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
+      {facultyDraft && (
+        <div className="fixed inset-0 z-9999 flex items-center justify-center bg-navy/40 p-4 backdrop-blur-xs">
+          <form
+            onSubmit={(event) => {
+              event.preventDefault();
+              const values = Object.fromEntries(new FormData(event.currentTarget).entries());
+              handleAddFacultyItem(values);
+            }}
+            className="max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-3xl border border-gray-100 bg-white p-6 shadow-2xl"
+          >
+            <div className="mb-5">
+              <p className="text-xs font-extrabold uppercase tracking-widest text-primary">
+                {activeLocaleLabel}
+              </p>
+              <h3 className="mt-1 text-xl font-black text-navy">Add Faculty</h3>
+              <p className="mt-1 text-sm font-semibold text-gray-500">
+                This item will be saved to the database immediately.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              <Field
+                label="ID"
+                name="id"
+                value={facultyDraft.id}
+                onChange={(value) =>
+                  setFacultyDraft((current) => ({ ...current, id: value }))
+                }
+              />
+              <Field
+                label="Name"
+                name="name"
+                value={facultyDraft.name}
+                onChange={(value) =>
+                  setFacultyDraft((current) => ({ ...current, name: value }))
+                }
+              />
+              <Field
+                label="Dean"
+                name="dean"
+                value={facultyDraft.dean}
+                onChange={(value) =>
+                  setFacultyDraft((current) => ({ ...current, dean: value }))
+                }
+              />
+              <Field
+                label="Count"
+                name="count"
+                value={facultyDraft.count}
+                onChange={(value) =>
+                  setFacultyDraft((current) => ({ ...current, count: value }))
+                }
+              />
+              <Field
+                label="Link"
+                name="link"
+                value={facultyDraft.link}
+                onChange={(value) =>
+                  setFacultyDraft((current) => ({ ...current, link: value }))
+                }
+              />
+              <SelectField
+                label="Color"
+                name="color"
+                value={facultyDraft.color}
+                options={facultyColors}
+                onChange={(value) =>
+                  setFacultyDraft((current) => ({ ...current, color: value }))
+                }
+              />
+              <div className="md:col-span-2">
+                <Field
+                  label="Description"
+                  name="desc"
+                  value={facultyDraft.desc}
+                  multiline
+                  onChange={(value) =>
+                    setFacultyDraft((current) => ({ ...current, desc: value }))
+                  }
+                />
+              </div>
+            </div>
+
+            <div className="mt-6 flex justify-end gap-3">
+              <button
+                type="button"
+                onClick={() => setFacultyDraft(null)}
+                className="rounded-xl border border-gray-200 bg-white px-4 py-2 text-xs font-bold text-navy transition hover:border-gray-300"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={saving}
+                className="rounded-xl bg-primary px-4 py-2 text-xs font-bold text-white shadow-md shadow-primary/20 transition hover:bg-primary-hover disabled:opacity-60"
+              >
+                {saving ? "Saving..." : "Add Faculty"}
+              </button>
+            </div>
+          </form>
         </div>
       )}
     </div>

@@ -677,6 +677,9 @@ class AdminCrudController extends Controller
             ]
         );
 
+        $page->syncTranslationsMirror();
+        $page = $page->fresh('contentEntries.translations');
+
         return $this->successResponse($this->formatAboutPageCmsPayload($page), 'About page CMS content retrieved');
     }
 
@@ -696,22 +699,17 @@ class AdminCrudController extends Controller
         return DB::transaction(function () use ($validated) {
             $page = AboutPage::with('contentEntries.translations')->firstOrCreate(['key' => 'main']);
             $oldValues = $page->toArray();
-            $stringOrCurrent = fn (string $field) => array_key_exists($field, $validated) && trim((string) $validated[$field]) !== ''
-                ? $validated[$field]
-                : $page->{$field};
+            $stringValue = fn (string $field) => array_key_exists($field, $validated)
+                ? trim((string) ($validated[$field] ?? ''))
+                : (string) ($page->{$field} ?? '');
 
             $pageUpdate = [
-                'hero_contact_url' => $stringOrCurrent('hero_contact_url'),
-                'hero_campus_url' => $stringOrCurrent('hero_campus_url'),
-                'rector_profile_slug' => $stringOrCurrent('rector_profile_slug'),
+                'hero_contact_url' => $stringValue('hero_contact_url'),
+                'hero_campus_url' => $stringValue('hero_campus_url'),
+                'rector_profile_slug' => $stringValue('rector_profile_slug'),
+                'identity_image' => $stringValue('identity_image'),
                 'is_published' => (bool) ($validated['is_published'] ?? true),
             ];
-
-            if (array_key_exists('identity_image', $validated)) {
-                $pageUpdate['identity_image'] = trim((string) $validated['identity_image']) !== ''
-                    ? $validated['identity_image']
-                    : $page->identity_image;
-            }
 
             $page->update($pageUpdate);
 

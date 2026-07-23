@@ -26,6 +26,11 @@ export default function VideoGallery() {
         if (!active) return;
         setSettings(settingsData);
         setVideos(videoItems);
+        setActiveVideo((current) => {
+          if (!current) return null;
+          const currentKey = current.slug || current.id;
+          return videoItems.find((video) => (video.slug || video.id) === currentKey) || null;
+        });
       })
       .catch(() => {
         if (!active) return;
@@ -105,7 +110,7 @@ export default function VideoGallery() {
         </div>
 
         {/* Swiper Slider */}
-        <div className="relative px-2">
+        <div className="relative px-2 overflow-visible">
           <Swiper
             modules={[Autoplay, Navigation]}
             spaceBetween={30}
@@ -133,7 +138,7 @@ export default function VideoGallery() {
                 slidesPerView: 4,
               },
             }}
-            className="pb-16"
+            className="pb-16 pt-4 px-2 !overflow-visible"
           >
             {videos.slice(0, Number(settings.home_limit || 4)).map((video) => (
               <SwiperSlide key={video.id}>

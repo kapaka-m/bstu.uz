@@ -90,7 +90,11 @@ export default function VideoBDTU() {
         if (!active) return;
         setSettings(settingsData);
         setVideos(videoItems);
-        setActiveVideo((current) => current || videoItems[0] || null);
+        setActiveVideo((current) => {
+          if (!current) return videoItems[0] || null;
+          const currentKey = current.slug || current.id;
+          return videoItems.find((video) => (video.slug || video.id) === currentKey) || videoItems[0] || null;
+        });
         setSubCount(Number(settingsData.subscriber_count || 0));
       })
       .catch(() => {

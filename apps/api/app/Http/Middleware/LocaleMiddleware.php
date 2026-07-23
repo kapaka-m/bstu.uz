@@ -14,6 +14,15 @@ class LocaleMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
+        if ($request->isMethod('PUT') || $request->isMethod('POST')) {
+            \Log::info('Incoming request raw body content', [
+                'url' => $request->fullUrl(),
+                'method' => $request->method(),
+                'parsed' => $request->all(),
+                'raw' => $request->getContent()
+            ]);
+        }
+
         $locale = $request->input('lang') ?? $request->header('Accept-Language');
 
         if ($locale) {

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { GripVertical, Plus, Save, Trash2 } from "lucide-react";
 import FormError from "../../../components/common/FormError";
 import { apanelService } from "../../../services/apanelService";
@@ -49,7 +49,7 @@ function normalizeItem(item, index = 0) {
     sort_order: item.sort_order ?? index + 1,
     is_active: item.is_active !== false,
     translations: cloneTranslations(item.translations),
-    children: (item.children || []).map(normalizeItem),
+    children: sortTree((item.children || []).map((c, i) => normalizeItem(c, i))),
   };
 }
 
@@ -68,6 +68,7 @@ function createItem(sortOrder = 1, routeName = "link") {
 }
 
 function sortTree(items) {
+  if (!Array.isArray(items)) return [];
   return [...items]
     .sort((a, b) => Number(a.sort_order || 0) - Number(b.sort_order || 0))
     .map((item, index) => ({
@@ -116,7 +117,8 @@ function moveInTree(items, path, direction) {
 }
 
 function prepareItems(items) {
-  return sortTree(items).map((item) => ({
+  if (!Array.isArray(items)) return [];
+  return items.map((item) => ({
     id: item.id,
     route_name: item.route_name,
     url: ["link", "group", "action"].includes(item.route_name) ? item.url || "" : "",
@@ -153,14 +155,14 @@ export default function ApanelHeaderNavbar() {
   const [success, setSuccess] = useState("");
   const [pendingDelete, setPendingDelete] = useState(null);
 
-  const sortedItems = useMemo(() => sortTree(items), [items]);
+  const sortedItems = items;
 
   const loadNavbar = useCallback(async () => {
     try {
       setLoading(true);
       setError("");
       const data = await apanelService.getHeaderNavbar();
-      const nextItems = (data.items || []).map(normalizeItem);
+      const nextItems = sortTree((data.items || []).map(normalizeItem));
       setIsActive(data.is_active !== false);
       setItems(nextItems);
     } catch (err) {
@@ -176,45 +178,51 @@ export default function ApanelHeaderNavbar() {
   }, [loadNavbar]);
 
   const updateItem = (path, field, value) => {
-    setItems((current) =>
-      updateTree(current, path, (item) => {
+    setItems((current) => {
+      const updated = updateTree(current, path, (item) => {
         const next = { ...item, [field]: value };
         if (field === "route_name" && !["link", "group", "action"].includes(value)) next.url = "";
         if (field === "route_name" && value === "link" && !next.url) next.url = "/";
         if (field === "route_name" && value === "action" && !next.url) next.url = "/login";
         return next;
-      }),
-    );
+      });
+      return sortTree(updated);
+    });
   };
 
   const updateLabel = (path, locale, label) => {
-    setItems((current) =>
-      updateTree(current, path, (item) => ({
+    setItems((current) => {
+      const updated = updateTree(current, path, (item) => ({
         ...item,
         translations: {
           ...item.translations,
           [locale]: { label },
         },
-      })),
-    );
+      }));
+      return sortTree(updated);
+    });
   };
 
   const addItem = () => {
-    setItems((current) => [...current, createItem(current.length + 1)]);
+    setItems((current) => sortTree([...current, createItem(current.length + 1)]));
   };
 
   const addChild = (path) => {
-    setItems((current) =>
-      updateTree(current, path, (item) => ({
+    setItems((current) => {
+      const updated = updateTree(current, path, (item) => ({
         ...item,
         children: [...(item.children || []), createItem((item.children || []).length + 1)],
-      })),
-    );
+      }));
+      return sortTree(updated);
+    });
   };
 
   const removeItem = () => {
     if (!pendingDelete) return;
-    setItems((current) => removeFromTree(current, pendingDelete.path));
+    setItems((current) => {
+      const updated = removeFromTree(current, pendingDelete.path);
+      return sortTree(updated);
+    });
     setPendingDelete(null);
   };
 
@@ -223,10 +231,12 @@ export default function ApanelHeaderNavbar() {
       setSaving(true);
       setError("");
       setSuccess("");
-      await apanelService.updateHeaderNavbar({
+      const payload = {
         is_active: isActive,
         items: prepareItems(items),
-      });
+      };
+      console.log("SAVE NAVBAR PAYLOAD:", payload);
+      await apanelService.updateHeaderNavbar(payload);
       await loadNavbar();
       setSuccess("Header navbar saved successfully.");
     } catch (err) {
@@ -238,7 +248,7 @@ export default function ApanelHeaderNavbar() {
 
   const renderItems = (list, parentPath = []) => (
     <div className="space-y-4">
-      {sortTree(list).map((item, index) => {
+      {(list || []).map((item, index) => {
         const path = [...parentPath, index];
         const label = item.translations?.[activeLocale]?.label || item.translations?.en?.label || "Menu Item";
         const canHaveChildren = !["link", "action"].includes(item.route_name) && parentPath.length < 2;
@@ -258,14 +268,14 @@ export default function ApanelHeaderNavbar() {
               <div className="flex flex-wrap gap-2">
                 <button
                   type="button"
-                  onClick={() => setItems((current) => moveInTree(current, path, -1))}
+                  onClick={() => setItems((current) => sortTree(moveInTree(current, path, -1)))}
                   className="rounded-xl border border-gray-200 bg-white px-3 py-2 text-xs font-bold text-gray-500"
                 >
                   Up
                 </button>
                 <button
                   type="button"
-                  onClick={() => setItems((current) => moveInTree(current, path, 1))}
+                  onClick={() => setItems((current) => sortTree(moveInTree(current, path, 1)))}
                   className="rounded-xl border border-gray-200 bg-white px-3 py-2 text-xs font-bold text-gray-500"
                 >
                   Down

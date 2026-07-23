@@ -30,7 +30,7 @@ export default function Header() {
   const [openDropdowns, setOpenDropdowns] = useState({});
   const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
 
-  const { language, changeLanguage, t, logoSrc, headerMenu } = useLanguage();
+  const { language, changeLanguage, t, logoSrc, headerMenu, locales } = useLanguage();
   const location = useLocation();
   const langDropdownRef = useRef(null);
 
@@ -61,14 +61,26 @@ export default function Header() {
     };
   const isRtl = language === "ar";
 
-  const languages = [
-    { code: "en", label: "English", short: "EN" },
-    { code: "uz", label: "O'zbek", short: "UZ" },
-    { code: "ru", label: "Русский", short: "RU" },
-    { code: "ar", label: "العربية", short: "AR" },
-  ];
+  const languages = React.useMemo(() => {
+    const list = (locales || []).filter((l) => l.is_active !== false);
+    if (list.length === 0) {
+      return [
+        { code: "en", label: "English", short: "EN" },
+        { code: "uz", label: "O'zbek", short: "UZ" },
+        { code: "ru", label: "Русский", short: "RU" },
+        { code: "ar", label: "العربية", short: "AR" },
+      ];
+    }
+    return [...list]
+      .sort((a, b) => Number(a.sort_order || 0) - Number(b.sort_order || 0))
+      .map((l) => ({
+        code: l.code,
+        label: l.native_name || l.name,
+        short: l.code.toUpperCase(),
+      }));
+  }, [locales]);
 
-  const currentLang = languages.find((l) => l.code === language) || languages[0];
+  const currentLang = languages.find((l) => l.code === language) || languages[0] || { code: "en", label: "English", short: "EN" };
 
   const handleLinkClick = () => {
     setIsMobileMenuOpen(false);

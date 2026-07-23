@@ -11,10 +11,10 @@ return new class extends Migration
         Schema::create('about_pages', function (Blueprint $table) {
             $table->id();
             $table->string('key')->unique()->default('main');
-            $table->string('hero_contact_url')->default('/contact');
-            $table->string('hero_campus_url')->default('/video-bdtu');
+            $table->string('hero_contact_url')->nullable();
+            $table->string('hero_campus_url')->nullable();
             $table->string('identity_image')->nullable();
-            $table->string('rector_profile_slug')->default('rector');
+            $table->string('rector_profile_slug')->nullable();
             $table->boolean('is_published')->default(true);
             $table->timestamps();
         });

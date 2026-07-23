@@ -1,12 +1,17 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { Plus, Save, Trash2, Upload } from "lucide-react";
 import { apanelService } from "../../../services/apanelService";
 import ConfirmDialog from "../components/ConfirmDialog";
 
-const API_ORIGIN = (import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/api/v1").replace(
-  /\/api\/v1\/?$/,
-  "",
-);
+const API_ORIGIN = (
+  import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/api/v1"
+).replace(/\/api\/v1\/?$/, "");
 
 const LOCALES = [
   { code: "en", label: "English" },
@@ -39,17 +44,29 @@ const defaultContent = {
 };
 
 const emptyForm = {
-  hero_contact_url: "/contact",
-  hero_campus_url: "/video-bdtu",
+  hero_contact_url: "",
+  hero_campus_url: "",
   identity_image: "",
-  rector_profile_slug: "rector",
+  rector_profile_slug: "",
   is_published: true,
   translations: Object.fromEntries(
-    LOCALES.map((locale) => [locale.code, { content: structuredClone(defaultContent) }]),
+    LOCALES.map((locale) => [
+      locale.code,
+      { content: structuredClone(defaultContent) },
+    ]),
   ),
 };
 
-const statIcons = ["users", "graduation-cap", "building", "book-open", "microscope", "cpu", "globe", "landmark"];
+const statIcons = [
+  "users",
+  "graduation-cap",
+  "building",
+  "book-open",
+  "microscope",
+  "cpu",
+  "globe",
+  "landmark",
+];
 const statColors = [
   "from-blue-500 to-cyan-500",
   "from-purple-500 to-indigo-500",
@@ -69,13 +86,28 @@ const facultyColors = [
 
 const clone = (value) => JSON.parse(JSON.stringify(value || {}));
 
+const sortDeep = (value) => {
+  if (Array.isArray(value)) return value.map(sortDeep);
+  if (!value || typeof value !== "object") return value;
+  return Object.keys(value)
+    .sort()
+    .reduce((result, key) => {
+      result[key] = sortDeep(value[key]);
+      return result;
+    }, {});
+};
+
+const sameJson = (left, right) =>
+  JSON.stringify(sortDeep(left || {})) === JSON.stringify(sortDeep(right || {}));
+
 const resolveAssetUrl = (path) => {
   if (!path) return "";
-  if (path.startsWith("http://") || path.startsWith("https://") || path.startsWith("/")) {
+  if (
+    path.startsWith("http://") ||
+    path.startsWith("https://") ||
+    path.startsWith("/")
+  ) {
     return path;
-  }
-  if (path.startsWith("assets/")) {
-    return `/${path}`;
   }
   return `${API_ORIGIN}/storage/${path}`;
 };
@@ -145,10 +177,19 @@ export default function ApanelAboutPage() {
   const [success, setSuccess] = useState("");
   const [confirmAction, setConfirmAction] = useState(null);
   const [timelineDraft, setTimelineDraft] = useState(null);
+  const formRef = useRef(emptyForm);
+  const savedControlsRef = useRef({
+    hero_contact_url: "",
+    hero_campus_url: "",
+    rector_profile_slug: "",
+    identity_image: "",
+  });
 
   const content = form.translations[activeLocale]?.content || defaultContent;
   const activeLocaleLabel = useMemo(
-    () => LOCALES.find((locale) => locale.code === activeLocale)?.label || activeLocale,
+    () =>
+      LOCALES.find((locale) => locale.code === activeLocale)?.label ||
+      activeLocale,
     [activeLocale],
   );
 
@@ -160,28 +201,40 @@ export default function ApanelAboutPage() {
       };
     });
 
-    setForm({
-      hero_contact_url: page.hero_contact_url || "/contact",
-      hero_campus_url: page.hero_campus_url || "/video-bdtu",
+    const controls = {
+      hero_contact_url: page.hero_contact_url || "",
+      hero_campus_url: page.hero_campus_url || "",
       identity_image: page.identity_image || page.identity_image_url || "",
-      rector_profile_slug: page.rector_profile_slug || "rector",
+      rector_profile_slug: page.rector_profile_slug || "",
+    };
+    savedControlsRef.current = controls;
+
+    const nextForm = {
+      ...controls,
       is_published: Boolean(page.is_published),
       translations,
-    });
+    };
+    formRef.current = nextForm;
+    setForm(nextForm);
   }, []);
 
-  const loadAboutPageForm = useCallback(async (isAlive = () => true) => {
-    const page = await apanelService.getAboutPage();
-    if (isAlive()) applyPageToForm(page);
-    return page;
-  }, [applyPageToForm]);
+  const loadAboutPageForm = useCallback(
+    async (isAlive = () => true) => {
+      const page = await apanelService.getAboutPage();
+      if (isAlive()) applyPageToForm(page);
+      return page;
+    },
+    [applyPageToForm],
+  );
 
   useEffect(() => {
     let alive = true;
     setLoading(true);
 
     loadAboutPageForm(() => alive)
-      .catch((err) => setError(err?.message || "Failed to load About page CMS."))
+      .catch((err) =>
+        setError(err?.message || "Failed to load About page CMS."),
+      )
       .finally(() => {
         if (alive) setLoading(false);
       });
@@ -192,27 +245,39 @@ export default function ApanelAboutPage() {
   }, [loadAboutPageForm]);
 
   const updateField = (field, value) => {
-    setForm((current) => ({ ...current, [field]: value }));
+    setForm((current) => {
+      const updated = { ...current, [field]: value };
+      formRef.current = updated;
+      return updated;
+    });
   };
 
   const updateContent = (path, value) => {
     setForm((current) => {
       const translations = clone(current.translations);
-      const nextContent = { ...clone(defaultContent), ...clone(translations[activeLocale]?.content) };
+      const nextContent = {
+        ...clone(defaultContent),
+        ...clone(translations[activeLocale]?.content),
+      };
       const keys = path.split(".");
       let target = nextContent;
       keys.slice(0, -1).forEach((key) => {
-        target[key] = target[key] && typeof target[key] === "object" ? target[key] : {};
+        target[key] =
+          target[key] && typeof target[key] === "object" ? target[key] : {};
         target = target[key];
       });
       target[keys.at(-1)] = value;
       translations[activeLocale] = { content: nextContent };
-      return { ...current, translations };
+      const updated = { ...current, translations };
+      formRef.current = updated;
+      return updated;
     });
   };
 
   const updateArrayItem = (path, index, field, value) => {
-    const items = clone(path.split(".").reduce((acc, key) => acc?.[key], content) || []);
+    const items = clone(
+      path.split(".").reduce((acc, key) => acc?.[key], content) || [],
+    );
     items[index] = { ...(items[index] || {}), [field]: value };
     updateContent(path, items);
   };
@@ -221,18 +286,29 @@ export default function ApanelAboutPage() {
     setForm((current) => {
       const translations = clone(current.translations);
       LOCALES.forEach((locale) => {
-        const nextContent = { ...clone(defaultContent), ...clone(translations[locale.code]?.content) };
+        const nextContent = {
+          ...clone(defaultContent),
+          ...clone(translations[locale.code]?.content),
+        };
         const keys = path.split(".");
         let target = nextContent;
         keys.slice(0, -1).forEach((key) => {
-          target[key] = target[key] && typeof target[key] === "object" ? target[key] : {};
+          target[key] =
+            target[key] && typeof target[key] === "object" ? target[key] : {};
           target = target[key];
         });
-        const items = Array.isArray(target[keys.at(-1)]) ? target[keys.at(-1)] : [];
-        target[keys.at(-1)] = [...items, locale.code === activeLocale ? clone(item) : {}];
+        const items = Array.isArray(target[keys.at(-1)])
+          ? target[keys.at(-1)]
+          : [];
+        target[keys.at(-1)] = [
+          ...items,
+          locale.code === activeLocale ? clone(item) : {},
+        ];
         translations[locale.code] = { content: nextContent };
       });
-      return { ...current, translations };
+      const updated = { ...current, translations };
+      formRef.current = updated;
+      return updated;
     });
   };
 
@@ -241,14 +317,20 @@ export default function ApanelAboutPage() {
     const translations = clone(nextForm.translations);
 
     LOCALES.forEach((locale) => {
-      const nextContent = { ...clone(defaultContent), ...clone(translations[locale.code]?.content) };
+      const nextContent = {
+        ...clone(defaultContent),
+        ...clone(translations[locale.code]?.content),
+      };
       const keys = path.split(".");
       let target = nextContent;
       keys.slice(0, -1).forEach((key) => {
-        target[key] = target[key] && typeof target[key] === "object" ? target[key] : {};
+        target[key] =
+          target[key] && typeof target[key] === "object" ? target[key] : {};
         target = target[key];
       });
-      const items = Array.isArray(target[keys.at(-1)]) ? target[keys.at(-1)] : [];
+      const items = Array.isArray(target[keys.at(-1)])
+        ? target[keys.at(-1)]
+        : [];
       target[keys.at(-1)] = [...items, clone(itemFactory(locale.code))];
       translations[locale.code] = { content: nextContent };
     });
@@ -257,10 +339,22 @@ export default function ApanelAboutPage() {
   };
 
   const buildPayload = (sourceForm) => ({
-    hero_contact_url: sourceForm.hero_contact_url || "/contact",
-    hero_campus_url: sourceForm.hero_campus_url || "/video-bdtu",
-    ...(sourceForm.identity_image ? { identity_image: sourceForm.identity_image } : {}),
-    rector_profile_slug: sourceForm.rector_profile_slug || "rector",
+    hero_contact_url:
+      sourceForm.hero_contact_url ||
+      savedControlsRef.current.hero_contact_url ||
+      "",
+    hero_campus_url:
+      sourceForm.hero_campus_url ||
+      savedControlsRef.current.hero_campus_url ||
+      "",
+    identity_image:
+      sourceForm.identity_image ||
+      savedControlsRef.current.identity_image ||
+      "",
+    rector_profile_slug:
+      sourceForm.rector_profile_slug ||
+      savedControlsRef.current.rector_profile_slug ||
+      "",
     is_published: Boolean(sourceForm.is_published),
     translations: Object.fromEntries(
       LOCALES.map((locale) => [
@@ -275,12 +369,30 @@ export default function ApanelAboutPage() {
     ),
   });
 
-  const persistForm = async (sourceForm, message = "About page content saved successfully.") => {
+  const persistForm = async (
+    sourceForm,
+    message = "About page content saved successfully.",
+  ) => {
     setSaving(true);
     setError("");
     setSuccess("");
-    await apanelService.updateAboutPage(buildPayload(sourceForm));
-    await loadAboutPageForm();
+    const payload = buildPayload(sourceForm);
+    await apanelService.updateAboutPage(payload);
+    const reloadedPage = await loadAboutPageForm();
+    const reloadedTranslations = Object.fromEntries(
+      (reloadedPage?.translations || []).map((translation) => [
+        translation.locale,
+        translation.content || {},
+      ]),
+    );
+    const activePayload = payload.translations?.[activeLocale]?.content || {};
+    const activeSaved = reloadedTranslations[activeLocale] || {};
+
+    if (!sameJson(activeSaved, activePayload)) {
+      throw new Error(
+        "The server accepted the request, but the saved content did not match the submitted data. Please reload the CMS and try again.",
+      );
+    }
     setSuccess(message);
   };
 
@@ -289,18 +401,27 @@ export default function ApanelAboutPage() {
       setForm((current) => {
         const translations = clone(current.translations);
         LOCALES.forEach((locale) => {
-          const nextContent = { ...clone(defaultContent), ...clone(translations[locale.code]?.content) };
+          const nextContent = {
+            ...clone(defaultContent),
+            ...clone(translations[locale.code]?.content),
+          };
           const keys = path.split(".");
           let target = nextContent;
           keys.slice(0, -1).forEach((key) => {
-            target[key] = target[key] && typeof target[key] === "object" ? target[key] : {};
+            target[key] =
+              target[key] && typeof target[key] === "object" ? target[key] : {};
             target = target[key];
           });
-          const items = Array.isArray(target[keys.at(-1)]) ? target[keys.at(-1)] : [];
-          target[keys.at(-1)] = items.filter((_, itemIndex) => itemIndex !== index);
+          const items = Array.isArray(target[keys.at(-1)])
+            ? target[keys.at(-1)]
+            : [];
+          target[keys.at(-1)] = items.filter(
+            (_, itemIndex) => itemIndex !== index,
+          );
           translations[locale.code] = { content: nextContent };
         });
         const updated = { ...current, translations };
+        formRef.current = updated;
         resolve(updated);
         return updated;
       });
@@ -349,7 +470,7 @@ export default function ApanelAboutPage() {
 
   const handleSave = async () => {
     try {
-      await persistForm(form);
+      await persistForm(formRef.current);
     } catch (err) {
       setError(errorMessage(err, "Failed to save About page content."));
     } finally {
@@ -365,18 +486,25 @@ export default function ApanelAboutPage() {
     };
 
     if (!draft.year || !draft.title || !draft.desc) {
-      setError("Please fill Year, Title, and Description before adding the timeline item.");
+      setError(
+        "Please fill Year, Title, and Description before adding the timeline item.",
+      );
       return;
     }
 
     try {
       setError("");
       setSuccess("");
-      const nextForm = formWithAddedArrayItem(form, "timeline.items", (localeCode) => ({
-        year: draft.year,
-        title: localeCode === activeLocale ? draft.title : "",
-        desc: localeCode === activeLocale ? draft.desc : "",
-      }));
+      const nextForm = formWithAddedArrayItem(
+        formRef.current,
+        "timeline.items",
+        (localeCode) => ({
+          year: draft.year,
+          title: localeCode === activeLocale ? draft.title : "",
+          desc: localeCode === activeLocale ? draft.desc : "",
+        }),
+      );
+      formRef.current = nextForm;
       setForm(nextForm);
       setTimelineDraft(null);
       await persistForm(nextForm, "Timeline item added successfully.");
@@ -388,7 +516,11 @@ export default function ApanelAboutPage() {
   };
 
   if (loading) {
-    return <div className="p-8 text-sm font-bold text-gray-500">Loading About page CMS...</div>;
+    return (
+      <div className="p-8 text-sm font-bold text-gray-500">
+        Loading About page CMS...
+      </div>
+    );
   }
 
   const renderBasicSection = (sectionKey, fields) => (
@@ -399,7 +531,9 @@ export default function ApanelAboutPage() {
           label={field.label}
           value={content[sectionKey]?.[field.key]}
           multiline={field.multiline}
-          onChange={(value) => updateContent(`${sectionKey}.${field.key}`, value)}
+          onChange={(value) =>
+            updateContent(`${sectionKey}.${field.key}`, value)
+          }
         />
       ))}
     </div>
@@ -408,25 +542,81 @@ export default function ApanelAboutPage() {
   const renderStats = () => (
     <div className="space-y-4">
       {(content.stats?.items || []).map((item, index) => (
-        <div key={index} className="rounded-2xl border border-gray-100 bg-gray-50 p-4">
+        <div
+          key={index}
+          className="rounded-2xl border border-gray-100 bg-gray-50 p-4"
+        >
           <div className="mb-4 flex items-center justify-between">
-            <h3 className="text-sm font-extrabold text-navy">Stat #{index + 1}</h3>
-            <button type="button" onClick={() => requestRemoveArrayItem("stats.items", index, `Stat #${index + 1}`)} className="text-rose-600">
+            <h3 className="text-sm font-extrabold text-navy">
+              Stat #{index + 1}
+            </h3>
+            <button
+              type="button"
+              onClick={() =>
+                requestRemoveArrayItem(
+                  "stats.items",
+                  index,
+                  `Stat #${index + 1}`,
+                )
+              }
+              className="text-rose-600"
+            >
               <Trash2 className="h-4 w-4" />
             </button>
           </div>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <Field label="Number" value={item.number} onChange={(value) => updateArrayItem("stats.items", index, "number", value)} />
-            <Field label="Label" value={item.label} onChange={(value) => updateArrayItem("stats.items", index, "label", value)} />
-            <Field label="Description" value={item.desc} multiline onChange={(value) => updateArrayItem("stats.items", index, "desc", value)} />
-            <SelectField label="Icon" value={item.icon} options={statIcons} onChange={(value) => updateArrayItem("stats.items", index, "icon", value)} />
-            <SelectField label="Color" value={item.color} options={statColors} onChange={(value) => updateArrayItem("stats.items", index, "color", value)} />
+            <Field
+              label="Number"
+              value={item.number}
+              onChange={(value) =>
+                updateArrayItem("stats.items", index, "number", value)
+              }
+            />
+            <Field
+              label="Label"
+              value={item.label}
+              onChange={(value) =>
+                updateArrayItem("stats.items", index, "label", value)
+              }
+            />
+            <Field
+              label="Description"
+              value={item.desc}
+              multiline
+              onChange={(value) =>
+                updateArrayItem("stats.items", index, "desc", value)
+              }
+            />
+            <SelectField
+              label="Icon"
+              value={item.icon}
+              options={statIcons}
+              onChange={(value) =>
+                updateArrayItem("stats.items", index, "icon", value)
+              }
+            />
+            <SelectField
+              label="Color"
+              value={item.color}
+              options={statColors}
+              onChange={(value) =>
+                updateArrayItem("stats.items", index, "color", value)
+              }
+            />
           </div>
         </div>
       ))}
       <button
         type="button"
-        onClick={() => addArrayItem("stats.items", { number: "", label: "", desc: "", icon: "users", color: statColors[0] })}
+        onClick={() =>
+          addArrayItem("stats.items", {
+            number: "",
+            label: "",
+            desc: "",
+            icon: "users",
+            color: statColors[0],
+          })
+        }
         className="inline-flex items-center gap-2 rounded-xl border border-primary/20 bg-primary/5 px-4 py-2 text-sm font-extrabold text-primary"
       >
         <Plus className="h-4 w-4" />
@@ -438,27 +628,96 @@ export default function ApanelAboutPage() {
   const renderFaculties = () => (
     <div className="space-y-4">
       {(content.facultiesList?.items || []).map((item, index) => (
-        <div key={index} className="rounded-2xl border border-gray-100 bg-gray-50 p-4">
+        <div
+          key={index}
+          className="rounded-2xl border border-gray-100 bg-gray-50 p-4"
+        >
           <div className="mb-4 flex items-center justify-between">
-            <h3 className="text-sm font-extrabold text-navy">Faculty #{index + 1}</h3>
-            <button type="button" onClick={() => requestRemoveArrayItem("facultiesList.items", index, `Faculty #${index + 1}`)} className="text-rose-600">
+            <h3 className="text-sm font-extrabold text-navy">
+              Faculty #{index + 1}
+            </h3>
+            <button
+              type="button"
+              onClick={() =>
+                requestRemoveArrayItem(
+                  "facultiesList.items",
+                  index,
+                  `Faculty #${index + 1}`,
+                )
+              }
+              className="text-rose-600"
+            >
               <Trash2 className="h-4 w-4" />
             </button>
           </div>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <Field label="ID" value={item.id} onChange={(value) => updateArrayItem("facultiesList.items", index, "id", value)} />
-            <Field label="Name" value={item.name} onChange={(value) => updateArrayItem("facultiesList.items", index, "name", value)} />
-            <Field label="Dean" value={item.dean} onChange={(value) => updateArrayItem("facultiesList.items", index, "dean", value)} />
-            <Field label="Count" value={item.count} onChange={(value) => updateArrayItem("facultiesList.items", index, "count", value)} />
-            <Field label="Link" value={item.link} onChange={(value) => updateArrayItem("facultiesList.items", index, "link", value)} />
-            <SelectField label="Color" value={item.color} options={facultyColors} onChange={(value) => updateArrayItem("facultiesList.items", index, "color", value)} />
-            <Field label="Description" value={item.desc} multiline onChange={(value) => updateArrayItem("facultiesList.items", index, "desc", value)} />
+            <Field
+              label="ID"
+              value={item.id}
+              onChange={(value) =>
+                updateArrayItem("facultiesList.items", index, "id", value)
+              }
+            />
+            <Field
+              label="Name"
+              value={item.name}
+              onChange={(value) =>
+                updateArrayItem("facultiesList.items", index, "name", value)
+              }
+            />
+            <Field
+              label="Dean"
+              value={item.dean}
+              onChange={(value) =>
+                updateArrayItem("facultiesList.items", index, "dean", value)
+              }
+            />
+            <Field
+              label="Count"
+              value={item.count}
+              onChange={(value) =>
+                updateArrayItem("facultiesList.items", index, "count", value)
+              }
+            />
+            <Field
+              label="Link"
+              value={item.link}
+              onChange={(value) =>
+                updateArrayItem("facultiesList.items", index, "link", value)
+              }
+            />
+            <SelectField
+              label="Color"
+              value={item.color}
+              options={facultyColors}
+              onChange={(value) =>
+                updateArrayItem("facultiesList.items", index, "color", value)
+              }
+            />
+            <Field
+              label="Description"
+              value={item.desc}
+              multiline
+              onChange={(value) =>
+                updateArrayItem("facultiesList.items", index, "desc", value)
+              }
+            />
           </div>
         </div>
       ))}
       <button
         type="button"
-        onClick={() => addArrayItem("facultiesList.items", { id: "", name: "", dean: "", count: "", desc: "", link: "", color: facultyColors[0] })}
+        onClick={() =>
+          addArrayItem("facultiesList.items", {
+            id: "",
+            name: "",
+            dean: "",
+            count: "",
+            desc: "",
+            link: "",
+            color: facultyColors[0],
+          })
+        }
         className="inline-flex items-center gap-2 rounded-xl border border-primary/20 bg-primary/5 px-4 py-2 text-sm font-extrabold text-primary"
       >
         <Plus className="h-4 w-4" />
@@ -470,17 +729,51 @@ export default function ApanelAboutPage() {
   const renderTimeline = () => (
     <div className="space-y-4">
       {(content.timeline?.items || []).map((item, index) => (
-        <div key={index} className="rounded-2xl border border-gray-100 bg-gray-50 p-4">
+        <div
+          key={index}
+          className="rounded-2xl border border-gray-100 bg-gray-50 p-4"
+        >
           <div className="mb-4 flex items-center justify-between">
-            <h3 className="text-sm font-extrabold text-navy">Timeline Item #{index + 1}</h3>
-            <button type="button" onClick={() => requestRemoveArrayItem("timeline.items", index, `Timeline Item #${index + 1}`)} className="text-rose-600">
+            <h3 className="text-sm font-extrabold text-navy">
+              Timeline Item #{index + 1}
+            </h3>
+            <button
+              type="button"
+              onClick={() =>
+                requestRemoveArrayItem(
+                  "timeline.items",
+                  index,
+                  `Timeline Item #${index + 1}`,
+                )
+              }
+              className="text-rose-600"
+            >
               <Trash2 className="h-4 w-4" />
             </button>
           </div>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <Field label="Year" value={item.year} onChange={(value) => updateArrayItem("timeline.items", index, "year", value)} />
-            <Field label="Title" value={item.title} onChange={(value) => updateArrayItem("timeline.items", index, "title", value)} />
-            <Field label="Description" value={item.desc} multiline onChange={(value) => updateArrayItem("timeline.items", index, "desc", value)} />
+            <Field
+              label="Year"
+              value={item.year}
+              onChange={(value) =>
+                updateArrayItem("timeline.items", index, "year", value)
+              }
+            />
+            <Field
+              label="Title"
+              value={item.title}
+              onChange={(value) =>
+                updateArrayItem("timeline.items", index, "title", value)
+              }
+            />
+            <Field
+              label="Description"
+              value={item.desc}
+              multiline
+              onChange={(value) =>
+                updateArrayItem("timeline.items", index, "desc", value)
+              }
+            />
           </div>
         </div>
       ))}
@@ -518,7 +811,9 @@ export default function ApanelAboutPage() {
         onChange={(value) => updateField("identity_image", value)}
       />
       <div className="rounded-2xl border border-gray-100 bg-gray-50 p-3">
-        <p className="mb-2 text-xs font-extrabold uppercase tracking-wide text-gray-400">Identity Image Preview</p>
+        <p className="mb-2 text-xs font-extrabold uppercase tracking-wide text-gray-400">
+          Identity Image Preview
+        </p>
         <div className="aspect-16/10 overflow-hidden rounded-xl border border-gray-100 bg-white">
           {form.identity_image ? (
             <img
@@ -542,14 +837,21 @@ export default function ApanelAboutPage() {
           <input
             type="checkbox"
             checked={form.is_published}
-            onChange={(event) => updateField("is_published", event.target.checked)}
+            onChange={(event) =>
+              updateField("is_published", event.target.checked)
+            }
             className="h-4 w-4 accent-primary"
           />
         </label>
         <label className="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-dashed border-primary/40 bg-primary/5 px-4 py-2.5 text-xs font-extrabold text-primary">
           <Upload className="h-4 w-4" />
           {uploading ? "Uploading..." : "Upload Identity Image"}
-          <input type="file" accept="image/*" onChange={handleUpload} className="hidden" />
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleUpload}
+            className="hidden"
+          />
         </label>
       </div>
     </div>
@@ -591,9 +893,17 @@ export default function ApanelAboutPage() {
       { key: "integrityTitle", label: "Integrity Title" },
       { key: "integrityDesc", label: "Integrity Description", multiline: true },
       { key: "innovationTitle", label: "Innovation Title" },
-      { key: "innovationDesc", label: "Innovation Description", multiline: true },
+      {
+        key: "innovationDesc",
+        label: "Innovation Description",
+        multiline: true,
+      },
       { key: "inclusivityTitle", label: "Inclusivity Title" },
-      { key: "inclusivityDesc", label: "Inclusivity Description", multiline: true },
+      {
+        key: "inclusivityDesc",
+        label: "Inclusivity Description",
+        multiline: true,
+      },
     ]),
     stats: (
       <div className="space-y-6">
@@ -630,11 +940,23 @@ export default function ApanelAboutPage() {
       { key: "appealTitle", label: "Appeal Title" },
       { key: "appealQuote", label: "Appeal Quote", multiline: true },
       { key: "studentsTitle", label: "Students Card Title" },
-      { key: "studentsDesc", label: "Students Card Description", multiline: true },
+      {
+        key: "studentsDesc",
+        label: "Students Card Description",
+        multiline: true,
+      },
       { key: "parentsTitle", label: "Parents Card Title" },
-      { key: "parentsDesc", label: "Parents Card Description", multiline: true },
+      {
+        key: "parentsDesc",
+        label: "Parents Card Description",
+        multiline: true,
+      },
       { key: "teachersTitle", label: "Teachers Card Title" },
-      { key: "teachersDesc", label: "Teachers Card Description", multiline: true },
+      {
+        key: "teachersDesc",
+        label: "Teachers Card Description",
+        multiline: true,
+      },
     ]),
     timeline: (
       <div className="space-y-6">
@@ -652,7 +974,6 @@ export default function ApanelAboutPage() {
     <div className="space-y-6">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div>
-          <p className="text-xs font-extrabold uppercase tracking-widest text-primary">CMS</p>
           <h1 className="mt-1 text-2xl font-black text-navy">About Page CMS</h1>
           <p className="mt-1 text-sm font-semibold text-gray-500">
             Full control for the public About page at /about.
@@ -670,7 +991,9 @@ export default function ApanelAboutPage() {
       </div>
 
       {(error || success) && (
-        <div className={`rounded-2xl border p-4 text-sm font-bold ${error ? "border-rose-100 bg-rose-50 text-rose-700" : "border-emerald-100 bg-emerald-50 text-emerald-700"}`}>
+        <div
+          className={`rounded-2xl border p-4 text-sm font-bold ${error ? "border-rose-100 bg-rose-50 text-rose-700" : "border-emerald-100 bg-emerald-50 text-emerald-700"}`}
+        >
           {error || success}
         </div>
       )}
@@ -745,7 +1068,9 @@ export default function ApanelAboutPage() {
               <p className="text-xs font-extrabold uppercase tracking-widest text-primary">
                 {activeLocaleLabel}
               </p>
-              <h3 className="mt-1 text-xl font-black text-navy">Add Timeline Item</h3>
+              <h3 className="mt-1 text-xl font-black text-navy">
+                Add Timeline Item
+              </h3>
               <p className="mt-1 text-sm font-semibold text-gray-500">
                 This item will be saved to the database immediately.
               </p>
@@ -755,18 +1080,24 @@ export default function ApanelAboutPage() {
               <Field
                 label="Year"
                 value={timelineDraft.year}
-                onChange={(value) => setTimelineDraft((current) => ({ ...current, year: value }))}
+                onChange={(value) =>
+                  setTimelineDraft((current) => ({ ...current, year: value }))
+                }
               />
               <Field
                 label="Title"
                 value={timelineDraft.title}
-                onChange={(value) => setTimelineDraft((current) => ({ ...current, title: value }))}
+                onChange={(value) =>
+                  setTimelineDraft((current) => ({ ...current, title: value }))
+                }
               />
               <Field
                 label="Description"
                 value={timelineDraft.desc}
                 multiline
-                onChange={(value) => setTimelineDraft((current) => ({ ...current, desc: value }))}
+                onChange={(value) =>
+                  setTimelineDraft((current) => ({ ...current, desc: value }))
+                }
               />
             </div>
 

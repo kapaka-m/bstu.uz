@@ -14,9 +14,6 @@ const resolveAssetUrl = (path) => {
   if (path.startsWith("http://") || path.startsWith("https://") || path.startsWith("/")) {
     return path;
   }
-  if (path.startsWith("assets/")) {
-    return `/${path}`;
-  }
   return `${API_ORIGIN}/storage/${path}`;
 };
 

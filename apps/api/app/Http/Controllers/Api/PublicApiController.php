@@ -216,16 +216,12 @@ class PublicApiController extends Controller
         $payload = $this->publicCache($request, 'about-page', [$locale], function () use ($request, $locale) {
             $page = AboutPage::where('key', 'main')
                 ->where('is_published', true)
-                ->with('translations')
+                ->with('contentEntries.translations')
                 ->first();
 
             if (! $page) {
                 return null;
             }
-
-            $translation = $page->translations->firstWhere('locale', $locale)
-                ?: $page->translations->firstWhere('locale', 'en')
-                ?: $page->translations->first();
 
             $data = [
                 'key' => $page->key,
@@ -234,7 +230,7 @@ class PublicApiController extends Controller
                 'identity_image' => $page->identity_image,
                 'rector_profile_slug' => $page->rector_profile_slug,
                 'is_published' => (bool) $page->is_published,
-                'content' => $translation?->content ?: [],
+                'content' => $page->contentForLocale($locale),
             ];
 
             return $this->withPublicImageUrl($data, 'identity_image');

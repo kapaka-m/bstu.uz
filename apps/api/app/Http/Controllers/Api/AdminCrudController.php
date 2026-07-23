@@ -670,17 +670,14 @@ class AdminCrudController extends Controller
 
     public function showAboutPage(Request $request)
     {
-        $page = AboutPage::with('translations')->firstOrCreate(
+        $page = AboutPage::with('contentEntries.translations')->firstOrCreate(
             ['key' => 'main'],
             [
-                'hero_contact_url' => '/contact',
-                'hero_campus_url' => '/video-bdtu',
-                'rector_profile_slug' => 'rector',
                 'is_published' => true,
             ]
         );
 
-        return $this->successResponse($page, 'About page CMS content retrieved');
+        return $this->successResponse($this->formatAboutPageCmsPayload($page), 'About page CMS content retrieved');
     }
 
     public function updateAboutPage(Request $request)
@@ -693,44 +690,57 @@ class AdminCrudController extends Controller
             'is_published' => 'nullable|boolean',
             'translations' => 'nullable|array',
             'translations.*' => 'nullable|array',
-            'translations.*.content' => 'nullable',
+            'translations.*.content' => 'nullable|array',
         ]);
 
         return DB::transaction(function () use ($validated) {
-            $page = AboutPage::with('translations')->firstOrCreate(['key' => 'main']);
+            $page = AboutPage::with('contentEntries.translations')->firstOrCreate(['key' => 'main']);
             $oldValues = $page->toArray();
+            $stringOrCurrent = fn (string $field) => array_key_exists($field, $validated) && trim((string) $validated[$field]) !== ''
+                ? $validated[$field]
+                : $page->{$field};
 
             $pageUpdate = [
-                'hero_contact_url' => ($validated['hero_contact_url'] ?? null) ?: '/contact',
-                'hero_campus_url' => ($validated['hero_campus_url'] ?? null) ?: '/video-bdtu',
-                'rector_profile_slug' => ($validated['rector_profile_slug'] ?? null) ?: 'rector',
+                'hero_contact_url' => $stringOrCurrent('hero_contact_url'),
+                'hero_campus_url' => $stringOrCurrent('hero_campus_url'),
+                'rector_profile_slug' => $stringOrCurrent('rector_profile_slug'),
                 'is_published' => (bool) ($validated['is_published'] ?? true),
             ];
 
-            if (array_key_exists('identity_image', $validated) && trim((string) $validated['identity_image']) !== '') {
-                $pageUpdate['identity_image'] = $validated['identity_image'];
+            if (array_key_exists('identity_image', $validated)) {
+                $pageUpdate['identity_image'] = trim((string) $validated['identity_image']) !== ''
+                    ? $validated['identity_image']
+                    : $page->identity_image;
             }
 
             $page->update($pageUpdate);
 
-            foreach (($validated['translations'] ?? []) as $locale => $fields) {
-                $content = $fields['content'] ?? [];
-                if (is_string($content)) {
-                    $decoded = json_decode($content, true);
-                    $content = is_array($decoded) ? $decoded : [];
-                }
-
-                $page->translations()->updateOrCreate(
-                    ['locale' => $locale],
-                    ['content' => is_array($content) ? $content : []]
-                );
+            if (array_key_exists('translations', $validated) && is_array($validated['translations'])) {
+                $page->replaceContentTranslations($validated['translations']);
             }
 
-            $this->logAction('update', AboutPage::class, $page->id, $oldValues, $page->fresh('translations')->toArray());
+            $freshPage = $page->fresh('contentEntries.translations');
+            $this->logAction('update', AboutPage::class, $page->id, $oldValues, $this->formatAboutPageCmsPayload($freshPage));
             $this->refreshPublicContentCacheVersion('about-page');
 
-            return $this->successResponse($page->fresh('translations'), 'About page CMS content updated');
+            return $this->successResponse($this->formatAboutPageCmsPayload($freshPage), 'About page CMS content updated');
         });
+    }
+
+    protected function formatAboutPageCmsPayload(AboutPage $page): array
+    {
+        return [
+            'id' => $page->id,
+            'key' => $page->key,
+            'hero_contact_url' => $page->hero_contact_url,
+            'hero_campus_url' => $page->hero_campus_url,
+            'identity_image' => $page->identity_image,
+            'rector_profile_slug' => $page->rector_profile_slug,
+            'is_published' => (bool) $page->is_published,
+            'created_at' => $page->created_at,
+            'updated_at' => $page->updated_at,
+            'translations' => $page->cmsTranslationsPayload(),
+        ];
     }
 
     public function showContactPage(Request $request)

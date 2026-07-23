@@ -17,6 +17,8 @@ import {
   ArrowRight,
   Compass,
   Sparkles,
+  Loader2,
+  AlertCircle,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
@@ -45,9 +47,6 @@ const resolveAssetUrl = (path) => {
   if (path.startsWith("http://") || path.startsWith("https://") || path.startsWith("/")) {
     return path;
   }
-  if (path.startsWith("assets/")) {
-    return `/${path}`;
-  }
   return `${API_ORIGIN}/storage/${path}`;
 };
 
@@ -55,6 +54,8 @@ export default function AboutPage() {
   const { language } = useLanguage();
   const [aboutPage, setAboutPage] = useState(null);
   const [rectorProfile, setRectorProfile] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -62,15 +63,18 @@ export default function AboutPage() {
 
   useEffect(() => {
     let alive = true;
+    setLoading(true);
+    setError("");
+    setRectorProfile(null);
 
     aboutService
       .getPage(language)
       .then((page) => {
         if (!alive) return;
         setAboutPage(page);
-        return administrationService
-          .getProfile(page?.rector_profile_slug || "rector", language)
-          .catch(() => null);
+        const profileSlug = page?.rector_profile_slug || "";
+        if (!profileSlug) return null;
+        return administrationService.getProfile(profileSlug, language).catch(() => null);
       })
       .then((profile) => {
         if (alive) setRectorProfile(profile || null);
@@ -79,7 +83,11 @@ export default function AboutPage() {
         if (alive) {
           setAboutPage(null);
           setRectorProfile(null);
+          setError("Unable to load page contents.");
         }
+      })
+      .finally(() => {
+        if (alive) setLoading(false);
       });
 
     return () => {
@@ -97,11 +105,29 @@ export default function AboutPage() {
   const timelineEvents = content.timeline?.items || [];
   const faculties = content.facultiesList?.items || [];
   const identityImageSrc = resolveAssetUrl(aboutPage?.identity_image_url || aboutPage?.identity_image || "");
+  const heroContactUrl = aboutPage?.hero_contact_url || "";
+  const heroCampusUrl = aboutPage?.hero_campus_url || "";
+  const rectorProfileSlug = aboutPage?.rector_profile_slug || "";
 
   const isRtl = language === "ar";
 
-  if (!aboutPage) {
-    return <div className="bg-white min-h-screen" />;
+  if (loading) {
+    return (
+      <div className="bg-white min-h-screen flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  if (!aboutPage || error) {
+    return (
+      <div className="bg-white min-h-screen flex items-center justify-center px-4">
+        <div className="flex items-center gap-3 rounded-2xl border border-red-100 bg-red-50 px-5 py-4 text-sm font-bold text-red-600">
+          <AlertCircle className="w-5 h-5 shrink-0" />
+          <span>{error || "Unable to load page contents."}</span>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -143,21 +169,25 @@ export default function AboutPage() {
               </p>
 
               <div className={`flex w-full flex-wrap gap-4 mt-4 ${isRtl ? "justify-start self-start text-right" : ""}`}>
-                <Link
-                  to={aboutPage.hero_contact_url || "/contact"}
-                  className={`bg-primary hover:bg-primary-hover text-white px-8 py-4 rounded-2xl text-sm font-extrabold transition-all shadow-lg shadow-primary/20 flex items-center gap-2 group ${isRtl ? "text-right" : ""}`}
-                >
-                  {text("hero.admissionsBtn")}
-                  <ArrowRight
-                    className={`w-4 h-4 transition-transform ${isRtl ? "rotate-180 group-hover:-translate-x-1" : "group-hover:translate-x-1"}`}
-                  />
-                </Link>
-                <Link
-                  to={aboutPage.hero_campus_url || "/video-bdtu"}
-                  className={`bg-white/10 hover:bg-white/20 text-white border border-white/20 px-8 py-4 rounded-2xl text-sm font-extrabold transition-all backdrop-blur-xs flex items-center gap-2 ${isRtl ? "text-right" : ""}`}
-                >
-                  {text("hero.campusBtn")}
-                </Link>
+                {heroContactUrl && text("hero.admissionsBtn") && (
+                  <Link
+                    to={heroContactUrl}
+                    className={`bg-primary hover:bg-primary-hover text-white px-8 py-4 rounded-2xl text-sm font-extrabold transition-all shadow-lg shadow-primary/20 flex items-center gap-2 group ${isRtl ? "text-right" : ""}`}
+                  >
+                    {text("hero.admissionsBtn")}
+                    <ArrowRight
+                      className={`w-4 h-4 transition-transform ${isRtl ? "rotate-180 group-hover:-translate-x-1" : "group-hover:translate-x-1"}`}
+                    />
+                  </Link>
+                )}
+                {heroCampusUrl && text("hero.campusBtn") && (
+                  <Link
+                    to={heroCampusUrl}
+                    className={`bg-white/10 hover:bg-white/20 text-white border border-white/20 px-8 py-4 rounded-2xl text-sm font-extrabold transition-all backdrop-blur-xs flex items-center gap-2 ${isRtl ? "text-right" : ""}`}
+                  >
+                    {text("hero.campusBtn")}
+                  </Link>
+                )}
               </div>
             </motion.div>
 
@@ -559,17 +589,18 @@ export default function AboutPage() {
                 </p>
 
                 <div className={`flex w-full gap-4 mt-4 border-t border-gray-100 pt-6 ${isRtl ? "justify-start self-start text-right" : ""}`}>
-                  <Link
-                    to={`/profile/${aboutPage.rector_profile_slug || "rector"}`}
-                    className="bg-navy hover:bg-navy-dark text-white px-6 py-3 rounded-xl text-xs font-bold transition-colors shadow-sm inline-flex items-center gap-2"
-                  >
-                    {text("rector.profileBtn")}
-                  </Link>
+                  {rectorProfileSlug && text("rector.profileBtn") && (
+                    <Link
+                      to={`/profile/${rectorProfileSlug}`}
+                      className="bg-navy hover:bg-navy-dark text-white px-6 py-3 rounded-xl text-xs font-bold transition-colors shadow-sm inline-flex items-center gap-2"
+                    >
+                      {text("rector.profileBtn")}
+                    </Link>
+                  )}
                 </div>
               </div>
             </div>
 
-            {/* Rector's Special Appeal (Awareness & Safety) */}
             <div className="border-t border-gray-100 my-10 pt-10">
               <div className="max-w-3xl mx-auto text-center mb-8">
                 <span className="inline-flex items-center gap-1 bg-red-500/10 text-red-500 text-[10px] font-extrabold uppercase tracking-widest px-3 py-1.5 rounded-full font-heading mb-3">

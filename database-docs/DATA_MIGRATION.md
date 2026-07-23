@@ -33,7 +33,7 @@ The extracted JSON datasets were mapped onto the normalized, multi-language MySQ
 - **`locales`** — Configured system language codes (`en`, `uz`, `ru`, `ar`) with text direction traits (`ltr` or `rtl`).
 - **`translation_keys` & `translation_values`** — Flat-mapped UI labels grouped under system categories.
 - **`pages` & `page_translations`** — Metadata and global details for `home` and `about` routes.
-- **`page_blocks` & `page_block_translations`** — Dynamic homepage sections such as `home_hero` and `home_rector`.
+- **`page_blocks` & `page_block_translations`** — Dynamic legacy homepage sections such as `home_hero`; current Administration content is managed by the dedicated Administration CMS tables.
 - **`menus` & `menu_items` & `menu_item_translations`** — Dynamic navigation links.
 - **`faculties` & `faculty_translations`** — Seeded the 4 core university faculties (`engineering`, `technology`, `service`, `natural`).
 - **`departments` & `department_translations`** — Seeded all department subdivisions.

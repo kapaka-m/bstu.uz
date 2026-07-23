@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Menu;
 use App\Models\MenuItem;
 use App\Models\MenuItemTranslation;
+use App\Models\AdministrationProfile;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
 
@@ -135,14 +136,24 @@ class MenuSeeder extends Seeder
 
     private function administrationItems(): array
     {
-        return [
-            $this->link('/profile/rector', null, ['en' => 'Rector of the University', 'uz' => 'Universitet rektori', 'ru' => 'Ректор университета', 'ar' => 'رئيسة الجامعة']),
-            $this->link('/profile/vice-rector-youth', null, ['en' => 'First Vice Rector for Youth Affairs and Spiritual and Educational Work', 'uz' => 'Yoshlar masalalari va ma’naviy-ma’rifiy ishlar bo‘yicha birinchi prorektor', 'ru' => 'Первый проректор по делам молодежи и духовно-просветительской работе', 'ar' => 'النائب الأول للرئيس لشؤون الشباب والعمل الروحي والتربوي']),
-            $this->link('/profile/vice-rector-research', null, ['en' => 'Vice Rector for Research and Innovation', 'uz' => 'Ilmiy ishlar va innovatsiyalar bo‘yicha prorektor', 'ru' => 'Проректор по научной работе и инновациям', 'ar' => 'نائب الرئيس للبحث والابتكار']),
-            $this->link('/profile/vice-rector-academic', null, ['en' => 'Vice Rector for Academic Affairs', 'uz' => 'O‘quv ishlari bo‘yicha prorektor', 'ru' => 'Проректор по учебной работе', 'ar' => 'نائب الرئيس للشؤون الأكاديمية']),
-            $this->link('/profile/vice-rector-finance', null, ['en' => 'Vice Rector for Finance and Economy', 'uz' => 'Moliyaviy-iqtisodiy ishlar bo‘yicha prorektor', 'ru' => 'Проректор по финансово-экономической работе', 'ar' => 'نائب الرئيس للشؤون المالية والاقتصادية']),
-            $this->link('/profile/vice-rector-international', null, ['en' => 'Vice Rector for International Cooperation', 'uz' => 'Xalqaro hamkorlik bo‘yicha prorektor', 'ru' => 'Проректор по международному сотрудничеству', 'ar' => 'نائب الرئيس للتعاون الدولي']),
-        ];
+        return AdministrationProfile::query()
+            ->with('translations')
+            ->where('is_published', true)
+            ->orderBy('sort_order')
+            ->orderBy('id')
+            ->get()
+            ->map(function (AdministrationProfile $profile) {
+                $translations = $profile->translations->keyBy('locale');
+                $labels = [];
+
+                foreach (['en', 'uz', 'ru', 'ar'] as $locale) {
+                    $translation = $translations->get($locale);
+                    $labels[$locale] = $translation?->position ?: $translation?->name ?: $profile->slug;
+                }
+
+                return $this->link("/profile/{$profile->slug}", null, $labels);
+            })
+            ->all();
     }
 
     private function centerItems(): array

@@ -55,42 +55,6 @@ class PageBlockSeeder extends Seeder
                     ]
                 );
             }
-
-            // 2. Rector Address Block
-            $rectorBlock = PageBlock::updateOrCreate(
-                [
-                    'page_id' => $homePage->id,
-                    'block_key' => 'home_rector',
-                ],
-                [
-                    'type' => 'rector',
-                    'sort_order' => 2,
-                    'settings_json' => ['photo' => 'assets/img/administration/rector.jpg'],
-                    'is_active' => true,
-                ]
-            );
-
-            foreach (['en', 'uz', 'ru', 'ar'] as $locale) {
-                $t = $translations[$locale] ?? [];
-
-                $title = $t['about']['rector']['title'] ?? 'Dr. Saddidin M. Turabdjanov';
-                $subtitle = $t['about']['rector']['badge'] ?? "Rector's Address";
-                $content = $t['about']['rector']['quote'] ?? 'Welcome message from the Rector.';
-                $buttonText = $t['about']['rector']['btnText'] ?? 'View Structure';
-
-                PageBlockTranslation::updateOrCreate(
-                    [
-                        'page_block_id' => $rectorBlock->id,
-                        'locale' => $locale,
-                    ],
-                    [
-                        'title' => $title,
-                        'subtitle' => $subtitle,
-                        'content' => $content,
-                        'button_text' => $buttonText,
-                    ]
-                );
-            }
         }
     }
 }

@@ -2,6 +2,8 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Save, Loader2, Plus, Trash2 } from "lucide-react";
 import FormError from "../../../components/common/FormError";
 import { footerService } from "../../../services/footerService";
+import ConfirmDialog from "../components/ConfirmDialog";
+
 
 const LOCALES = ["en", "uz", "ru", "ar"];
 const TRANSLATION_FIELDS = [
@@ -113,15 +115,11 @@ function TextField({ label, value, onChange, type = "text", textarea = false }) 
   );
 }
 
-function LinkEditor({ title, links, onChange, labelValues, onLabelChange }) {
+function LinkEditor({ title, links, onChange, labelValues, onLabelChange, onDeleteClick }) {
   const updateLink = (index, field, value) => {
     const next = [...links];
     next[index] = { ...next[index], [field]: value };
     onChange(next);
-  };
-
-  const removeLink = (index) => {
-    onChange(links.filter((_, itemIndex) => itemIndex !== index));
   };
 
   return (
@@ -173,7 +171,7 @@ function LinkEditor({ title, links, onChange, labelValues, onLabelChange }) {
             <div className="lg:col-span-1 flex items-end">
               <button
                 type="button"
-                onClick={() => removeLink(index)}
+                onClick={() => onDeleteClick(index)}
                 className="w-full h-10 rounded-xl border border-rose-100 text-rose-600 hover:bg-rose-50 cursor-pointer inline-flex items-center justify-center"
                 aria-label="Remove link"
               >
@@ -194,6 +192,34 @@ export default function ApanelFooterWeb() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [saved, setSaved] = useState(false);
+  const [pendingDelete, setPendingDelete] = useState(null);
+
+  const handleDeleteClick = (type, index, item) => {
+    const label = item?.key || `Item ${index + 1}`;
+    setPendingDelete({ type, index, label });
+  };
+
+  const handleSocialDeleteClick = (index, social) => {
+    const label = social?.label || social?.key || `Social ${index + 1}`;
+    setPendingDelete({ type: "social", index, label });
+  };
+
+  const confirmDelete = () => {
+    if (!pendingDelete) return;
+    const { type, index } = pendingDelete;
+    if (type === "useful") {
+      const next = footer.useful_links.filter((_, i) => i !== index);
+      updateRoot("useful_links", next);
+    } else if (type === "faculty") {
+      const next = footer.faculty_links.filter((_, i) => i !== index);
+      updateRoot("faculty_links", next);
+    } else if (type === "social") {
+      const next = footer.social_links.filter((_, i) => i !== index);
+      updateRoot("social_links", next);
+    }
+    setPendingDelete(null);
+  };
+
 
   useEffect(() => {
     const loadFooter = async () => {
@@ -422,6 +448,7 @@ export default function ApanelFooterWeb() {
         onLabelChange={(locale, key, value) =>
           updateLinkLabel("useful", locale, key, value)
         }
+        onDeleteClick={(index) => handleDeleteClick("useful", index, footer.useful_links[index])}
       />
 
       <LinkEditor
@@ -432,6 +459,7 @@ export default function ApanelFooterWeb() {
         onLabelChange={(locale, key, value) =>
           updateLinkLabel("faculty", locale, key, value)
         }
+        onDeleteClick={(index) => handleDeleteClick("faculty", index, footer.faculty_links[index])}
       />
 
       <section className="bg-white border border-gray-100 rounded-3xl p-5 shadow-xs space-y-4">
@@ -475,14 +503,7 @@ export default function ApanelFooterWeb() {
               <div className="md:col-span-3 flex items-end">
                 <button
                   type="button"
-                  onClick={() =>
-                    updateRoot(
-                      "social_links",
-                      footer.social_links.filter(
-                        (_, itemIndex) => itemIndex !== index,
-                      ),
-                    )
-                  }
+                  onClick={() => handleSocialDeleteClick(index, social)}
                   className="w-full h-10 rounded-xl border border-rose-100 text-rose-600 hover:bg-rose-50 cursor-pointer inline-flex items-center justify-center"
                   aria-label="Remove social link"
                 >
@@ -493,6 +514,22 @@ export default function ApanelFooterWeb() {
           ))}
         </div>
       </section>
+
+      <ConfirmDialog
+        isOpen={Boolean(pendingDelete)}
+        title={
+          pendingDelete?.type === "useful"
+            ? "Delete Link?"
+            : pendingDelete?.type === "faculty"
+            ? "Delete Faculty Link?"
+            : "Delete Social Media Link?"
+        }
+        message={`Are you sure you want to delete the link "${pendingDelete?.label || ""}"? This will remove it from the list. You will need to click "Save Footer" to apply the changes.`}
+        confirmText="Delete"
+        cancelText="Cancel"
+        onConfirm={confirmDelete}
+        onCancel={() => setPendingDelete(null)}
+      />
     </div>
   );
 }

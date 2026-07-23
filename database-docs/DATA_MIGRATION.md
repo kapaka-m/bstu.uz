@@ -44,13 +44,13 @@ The extracted JSON datasets were mapped onto the normalized, multi-language MySQ
 - **`staff_profiles` & `staff_profile_translations`** — Faculty deans and department instructors.
 - **`administration_profiles` & `administration_profile_translations`** — University leadership profiles managed through `/apanel/cms/administration`.
 - **`administration_settings` & `administration_setting_translations`** — Homepage and Structure menu labels for Administration.
-- **`services` & `service_translations`** — Core university services seeded by `ServiceSeeder`.
+- **`services` & `service_translations`** — Interactive Services content managed through `/apanel/cms/interactive-services`.
 - **`videos` & `video_translations`** — Video Gallery records managed through `/apanel/cms/video-bdtu`.
 - **`green_campus_stats` & `green_campus_stat_translations`** — Sustainability metrics.
 - **`green_campus_articles` & `green_campus_article_translations`** — Green Campus initiative articles.
 - **`settings`** — Site contacts, emails, and social media profiles.
 
-Generated `services.json` is retained as an import output for review/future migration while `ServiceSeeder` uses curated inline service rows. Blog content is managed only through the Blog CMS tables and `/apanel/cms/blog`.
+Interactive Services content is managed only through the Interactive Services CMS tables and `/apanel/cms/interactive-services`. Blog content is managed only through the Blog CMS tables and `/apanel/cms/blog`.
 
 ---
 
@@ -100,7 +100,7 @@ Current JSON dataset ownership:
 - `programs.json`: consumed by `ProgramSeeder`.
 - `translations.json`: consumed by translation, menu, page, faculty, department, program, course, staff, and announcement seeders.
 - Video Gallery content is not seeded from JSON. It is managed through `/apanel/cms/video-bdtu`.
-- `services.json`: retained import output; current service records are curated inline in `ServiceSeeder`.
+- Interactive Services content is not consumed from JSON or static seed rows. It is managed through `/apanel/cms/interactive-services`.
 
 To clean the database, execute migrations, and re-populate the tables with migrated content, run:
 
@@ -170,7 +170,6 @@ It writes:
 - `apps/api/database/data/translations.json`
 - `apps/api/database/data/programs.json`
 - `apps/api/database/data/departments.json`
-- `apps/api/database/data/services.json`
 
 Run it from the repository root:
 
@@ -189,7 +188,7 @@ Current seeders consume these JSON files directly:
 - `programs.json`: program metadata.
 - Administration leadership is managed only through `/apanel/cms/administration`; no reviewed static restore file is maintained for it.
 
-`services.json` is generated but not consumed by current seeders. Blog, News & Events, Video Gallery, Announcements, and footer content are not generated from static JSON.
+Interactive Services, Blog, News & Events, Video Gallery, Announcements, and footer content are not generated from static JSON.
 
 ---
 

@@ -164,12 +164,12 @@ export default function ApanelContactManagement() {
     <div className="space-y-6 animate-in fade-in duration-200">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div>
-          <p className="text-xs font-extrabold uppercase tracking-widest text-primary">Marketing</p>
           <h1 className="mt-1 text-2xl font-black uppercase tracking-wider text-navy">
             Contact Messages
           </h1>
           <p className="mt-1 text-xs font-semibold text-gray-400">
-            Read, classify, and reply to inquiries submitted from the public Contact page.
+            Read, classify, and reply to inquiries submitted from the public
+            Contact page.
           </p>
         </div>
         <button
@@ -193,15 +193,24 @@ export default function ApanelContactManagement() {
         {[
           { label: "Total messages", value: total, icon: Mail },
           { label: "Unread on this page", value: stats.unread, icon: MailOpen },
-          { label: "Latest message", value: stats.latest ? formatDate(stats.latest) : "-", icon: Clock3 },
+          {
+            label: "Latest message",
+            value: stats.latest ? formatDate(stats.latest) : "-",
+            icon: Clock3,
+          },
         ].map((stat) => {
           const Icon = stat.icon;
           return (
-            <div key={stat.label} className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
+            <div
+              key={stat.label}
+              className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm"
+            >
               <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
                 <Icon className="h-5 w-5" />
               </div>
-              <p className="text-xs font-extrabold uppercase tracking-widest text-gray-400">{stat.label}</p>
+              <p className="text-xs font-extrabold uppercase tracking-widest text-gray-400">
+                {stat.label}
+              </p>
               <p className="mt-1 text-2xl font-black text-navy">{stat.value}</p>
             </div>
           );
@@ -248,7 +257,9 @@ export default function ApanelContactManagement() {
                 Loading messages...
               </div>
             ) : items.length === 0 ? (
-              <div className="p-8 text-center text-sm font-bold text-gray-400">No contact messages found.</div>
+              <div className="p-8 text-center text-sm font-bold text-gray-400">
+                No contact messages found.
+              </div>
             ) : (
               <div className="space-y-2">
                 {items.map((item) => (
@@ -263,7 +274,9 @@ export default function ApanelContactManagement() {
                     }`}
                   >
                     <div className="mb-2 flex items-center justify-between gap-3">
-                      <span className="truncate text-sm font-black text-navy">{item.subject}</span>
+                      <span className="truncate text-sm font-black text-navy">
+                        {item.subject}
+                      </span>
                       <span className="rounded-full bg-white px-2 py-1 text-[10px] font-black uppercase text-gray-500">
                         {item.status}
                       </span>
@@ -298,7 +311,9 @@ export default function ApanelContactManagement() {
             <button
               type="button"
               disabled={page >= lastPage}
-              onClick={() => setPage((current) => Math.min(lastPage, current + 1))}
+              onClick={() =>
+                setPage((current) => Math.min(lastPage, current + 1))
+              }
               className="rounded-xl border border-gray-200 px-3 py-2 disabled:opacity-40"
             >
               Next
@@ -318,10 +333,15 @@ export default function ApanelContactManagement() {
                   <p className="text-xs font-extrabold uppercase tracking-widest text-primary">
                     Message #{selected.id}
                   </p>
-                  <h2 className="mt-1 text-2xl font-black text-navy">{selected.subject}</h2>
+                  <h2 className="mt-1 text-2xl font-black text-navy">
+                    {selected.subject}
+                  </h2>
                   <p className="mt-2 text-sm font-bold text-gray-500">
                     {selected.name} ·{" "}
-                    <a href={`mailto:${selected.email}`} className="text-primary hover:underline">
+                    <a
+                      href={`mailto:${selected.email}`}
+                      className="text-primary hover:underline"
+                    >
                       {selected.email}
                     </a>
                   </p>
@@ -352,7 +372,9 @@ export default function ApanelContactManagement() {
               </div>
 
               <div className="rounded-2xl bg-gray-50 p-5">
-                <p className="mb-2 text-xs font-extrabold uppercase tracking-widest text-gray-400">Message</p>
+                <p className="mb-2 text-xs font-extrabold uppercase tracking-widest text-gray-400">
+                  Message
+                </p>
                 <p className="whitespace-pre-line text-sm font-semibold leading-relaxed text-gray-700">
                   {selected.message}
                 </p>
@@ -363,21 +385,27 @@ export default function ApanelContactManagement() {
                   Status
                   <select
                     value={selected.status}
-                    onChange={(event) => updateSelectedField("status", event.target.value)}
+                    onChange={(event) =>
+                      updateSelectedField("status", event.target.value)
+                    }
                     className="mt-2 w-full rounded-xl border border-gray-200 px-3 py-2 text-sm font-bold text-gray-700 outline-none focus:border-primary"
                   >
-                    {statusOptions.filter((option) => option.value).map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
+                    {statusOptions
+                      .filter((option) => option.value)
+                      .map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
                   </select>
                 </label>
                 <label className="block text-xs font-extrabold uppercase tracking-wide text-gray-400">
                   Admin Notes
                   <textarea
                     value={selected.admin_notes}
-                    onChange={(event) => updateSelectedField("admin_notes", event.target.value)}
+                    onChange={(event) =>
+                      updateSelectedField("admin_notes", event.target.value)
+                    }
                     rows={4}
                     className="mt-2 w-full resize-y rounded-xl border border-gray-200 px-3 py-2 text-sm font-semibold text-gray-700 outline-none focus:border-primary"
                   />
@@ -388,7 +416,9 @@ export default function ApanelContactManagement() {
                 Reply Message
                 <textarea
                   value={selected.reply_message}
-                  onChange={(event) => updateSelectedField("reply_message", event.target.value)}
+                  onChange={(event) =>
+                    updateSelectedField("reply_message", event.target.value)
+                  }
                   rows={7}
                   placeholder="Write the reply that should be recorded for this inquiry..."
                   className="mt-2 w-full resize-y rounded-xl border border-gray-200 px-3 py-2 text-sm font-semibold leading-relaxed text-gray-700 outline-none focus:border-primary"
@@ -410,7 +440,11 @@ export default function ApanelContactManagement() {
                   disabled={saving}
                   className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-xs font-extrabold text-white shadow-sm hover:bg-primary-hover disabled:opacity-60"
                 >
-                  {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Reply className="h-4 w-4" />}
+                  {saving ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <Reply className="h-4 w-4" />
+                  )}
                   Save Reply
                 </button>
               </div>

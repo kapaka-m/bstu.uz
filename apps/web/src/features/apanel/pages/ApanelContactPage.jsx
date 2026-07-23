@@ -293,9 +293,12 @@ export default function ApanelContactPage() {
     <div className="space-y-6">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div>
-          <p className="text-xs font-extrabold uppercase tracking-widest text-primary">CMS</p>
-          <h1 className="mt-1 text-2xl font-black text-navy">Contact Page CMS</h1>
-          <p className="mt-1 text-sm font-semibold text-gray-500">Full control for the public Contact page at /contact.</p>
+          <h1 className="mt-1 text-2xl font-black text-navy">
+            Contact Page CMS
+          </h1>
+          <p className="mt-1 text-sm font-semibold text-gray-500">
+            Full control for the public Contact page at /contact.
+          </p>
         </div>
         <button
           type="button"
@@ -309,7 +312,9 @@ export default function ApanelContactPage() {
       </div>
 
       {(error || success) && (
-        <div className={`rounded-2xl border p-4 text-sm font-bold ${error ? "border-rose-100 bg-rose-50 text-rose-700" : "border-emerald-100 bg-emerald-50 text-emerald-700"}`}>
+        <div
+          className={`rounded-2xl border p-4 text-sm font-bold ${error ? "border-rose-100 bg-rose-50 text-rose-700" : "border-emerald-100 bg-emerald-50 text-emerald-700"}`}
+        >
           {error || success}
         </div>
       )}
@@ -353,24 +358,49 @@ export default function ApanelContactPage() {
 
         <div className="pt-6">
           {activeSection !== "controls" && (
-            <p className="mb-4 text-xs font-extrabold uppercase tracking-widest text-primary">{activeLocaleLabel}</p>
+            <p className="mb-4 text-xs font-extrabold uppercase tracking-widest text-primary">
+              {activeLocaleLabel}
+            </p>
           )}
 
           {activeSection === "controls" && (
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1fr_auto]">
-              <Field label="Map Embed URL" value={form.map_embed_url} onChange={(value) => updateField("map_embed_url", value)} />
+              <Field
+                label="Map Embed URL"
+                value={form.map_embed_url}
+                onChange={(value) => updateField("map_embed_url", value)}
+              />
               <label className="flex min-h-10 items-center justify-between gap-3 rounded-xl border border-gray-200 px-3 py-2 text-xs font-bold text-gray-600">
                 Active
-                <input type="checkbox" checked={form.is_published} onChange={(event) => updateField("is_published", event.target.checked)} className="h-4 w-4 accent-primary" />
+                <input
+                  type="checkbox"
+                  checked={form.is_published}
+                  onChange={(event) =>
+                    updateField("is_published", event.target.checked)
+                  }
+                  className="h-4 w-4 accent-primary"
+                />
               </label>
             </div>
           )}
 
           {activeSection === "content" && (
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-              <Field label="Tag" value={content.tag} onChange={(value) => updateContent("tag", value)} />
-              <Field label="Title" value={content.title} onChange={(value) => updateContent("title", value)} />
-              <Field label="Map Title" value={content.mapTitle} onChange={(value) => updateContent("mapTitle", value)} />
+              <Field
+                label="Tag"
+                value={content.tag}
+                onChange={(value) => updateContent("tag", value)}
+              />
+              <Field
+                label="Title"
+                value={content.title}
+                onChange={(value) => updateContent("title", value)}
+              />
+              <Field
+                label="Map Title"
+                value={content.mapTitle}
+                onChange={(value) => updateContent("mapTitle", value)}
+              />
             </div>
           )}
 
@@ -379,7 +409,13 @@ export default function ApanelContactPage() {
           {activeSection === "form" && (
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
               {Object.keys(defaultContent.form).map((key) => (
-                <Field key={key} label={key} value={content.form?.[key]} multiline={key.includes("Message")} onChange={(value) => updateContent(`form.${key}`, value)} />
+                <Field
+                  key={key}
+                  label={key}
+                  value={content.form?.[key]}
+                  multiline={key.includes("Message")}
+                  onChange={(value) => updateContent(`form.${key}`, value)}
+                />
               ))}
             </div>
           )}
@@ -387,8 +423,16 @@ export default function ApanelContactPage() {
           {activeSection === "faq" && (
             <div className="space-y-6">
               <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-                <Field label="FAQ Tag" value={content.faq?.tag} onChange={(value) => updateContent("faq.tag", value)} />
-                <Field label="FAQ Title" value={content.faq?.title} onChange={(value) => updateContent("faq.title", value)} />
+                <Field
+                  label="FAQ Tag"
+                  value={content.faq?.tag}
+                  onChange={(value) => updateContent("faq.tag", value)}
+                />
+                <Field
+                  label="FAQ Title"
+                  value={content.faq?.title}
+                  onChange={(value) => updateContent("faq.title", value)}
+                />
               </div>
               {renderFaq()}
             </div>

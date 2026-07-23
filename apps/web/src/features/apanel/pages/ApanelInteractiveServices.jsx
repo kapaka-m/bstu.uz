@@ -360,7 +360,7 @@ export default function ApanelInteractiveServices() {
               </div>
             ) : (
               <div className="overflow-x-auto rounded-2xl border border-gray-100">
-                <table className="w-full min-w-[860px] text-left text-sm">
+                <table className="w-full min-w-215 text-left text-sm">
                   <thead className="bg-gray-50 text-xs uppercase tracking-wide text-gray-500">
                     <tr>
                       <th className="px-4 py-3">Service</th>

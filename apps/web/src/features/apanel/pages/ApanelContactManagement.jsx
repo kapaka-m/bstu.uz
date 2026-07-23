@@ -250,7 +250,7 @@ export default function ApanelContactManagement() {
             </select>
           </div>
 
-          <div className="max-h-[640px] overflow-y-auto p-3">
+          <div className="max-h-160 overflow-y-auto p-3">
             {loading ? (
               <div className="flex items-center justify-center gap-2 p-8 text-sm font-bold text-gray-400">
                 <Loader2 className="h-4 w-4 animate-spin" />

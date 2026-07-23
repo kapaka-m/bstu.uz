@@ -138,7 +138,7 @@ export default function VideoGallery() {
                 slidesPerView: 4,
               },
             }}
-            className="pb-16 pt-4 px-2 !overflow-visible"
+            className="pb-16 pt-4 px-2 overflow-visible!"
           >
             {videos.slice(0, Number(settings.home_limit || 4)).map((video) => (
               <SwiperSlide key={video.id}>

@@ -149,10 +149,6 @@ export const apanelService = {
     return api.get("/apanel/cms/about-page").then(unwrapPayload);
   },
 
-  updateAboutPage(payload) {
-    return api.put("/apanel/cms/about-page", payload).then(unwrapPayload);
-  },
-
   updateAboutPageSettings(payload) {
     return api.put("/apanel/cms/about-page/settings", payload).then(unwrapPayload);
   },

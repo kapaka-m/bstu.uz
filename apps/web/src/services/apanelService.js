@@ -153,6 +153,26 @@ export const apanelService = {
     return api.put("/apanel/cms/about-page", payload).then(unwrapPayload);
   },
 
+  updateAboutPageSettings(payload) {
+    return api.put("/apanel/cms/about-page/settings", payload).then(unwrapPayload);
+  },
+
+  createAboutPageEntry(payload) {
+    return api.post("/apanel/cms/about-page/entries", payload).then(unwrapPayload);
+  },
+
+  updateAboutPageEntry(entry, payload) {
+    return api.put(`/apanel/cms/about-page/entries/${encodeURIComponent(entry)}`, payload).then(unwrapPayload);
+  },
+
+  deleteAboutPageEntry(entry) {
+    return api.delete(`/apanel/cms/about-page/entries/${encodeURIComponent(entry)}`).then(unwrapPayload);
+  },
+
+  reorderAboutPageEntries(payload) {
+    return api.post("/apanel/cms/about-page/entries/reorder", payload).then(unwrapPayload);
+  },
+
   getContactPage() {
     return api.get("/apanel/cms/contact-page").then(unwrapPayload);
   },

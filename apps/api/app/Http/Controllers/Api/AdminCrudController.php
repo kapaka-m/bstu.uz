@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\AboutPage;
+use App\Models\AboutPageContentEntry;
 use App\Models\Announcement;
 use App\Models\AnnouncementSetting;
 use App\Models\AdministrationProfile;
@@ -723,6 +724,367 @@ class AdminCrudController extends Controller
 
             return $this->successResponse($this->formatAboutPageCmsPayload($freshPage), 'About page CMS content updated');
         });
+    }
+
+    public function updateAboutPageSettings(Request $request)
+    {
+        $validated = $request->validate([
+            'hero_contact_url' => 'nullable|string|max:2048',
+            'hero_campus_url' => 'nullable|string|max:2048',
+            'identity_image' => 'nullable|string|max:2048',
+            'rector_profile_slug' => 'nullable|string|max:255',
+            'is_published' => 'nullable|boolean',
+        ]);
+
+        return DB::transaction(function () use ($validated) {
+            $page = AboutPage::firstOrCreate(['key' => 'main'], ['is_published' => true]);
+            $oldValues = $page->toArray();
+
+            $page->update([
+                'hero_contact_url' => trim((string) ($validated['hero_contact_url'] ?? '')),
+                'hero_campus_url' => trim((string) ($validated['hero_campus_url'] ?? '')),
+                'identity_image' => trim((string) ($validated['identity_image'] ?? '')),
+                'rector_profile_slug' => trim((string) ($validated['rector_profile_slug'] ?? '')),
+                'is_published' => (bool) ($validated['is_published'] ?? true),
+            ]);
+
+            $freshPage = $page->fresh('contentEntries.translations');
+            $this->logAction('update', AboutPage::class, $page->id, $oldValues, $this->formatAboutPageCmsPayload($freshPage));
+            $this->refreshPublicContentCacheVersion('about-page');
+
+            return $this->successResponse($this->formatAboutPageCmsPayload($freshPage), 'About page settings updated');
+        });
+    }
+
+    public function storeAboutPageEntry(Request $request)
+    {
+        $validated = $this->validateAboutPageEntryPayload($request);
+
+        return DB::transaction(function () use ($validated) {
+            $page = AboutPage::firstOrCreate(['key' => 'main'], ['is_published' => true]);
+            $section = $this->normalizeAboutSection($validated['section']);
+            $index = $this->nextAboutRepeatedIndex($page, $section);
+            $this->writeAboutLogicalEntry($page, $validated, $index);
+
+            $freshPage = $page->fresh('contentEntries.translations');
+            $this->logAction('create', AboutPageContentEntry::class, $page->id, null, $validated);
+            $this->refreshPublicContentCacheVersion('about-page');
+
+            return $this->successResponse($this->formatAboutPageCmsPayload($freshPage), 'About page entry created', 201);
+        });
+    }
+
+    public function updateAboutPageEntry(Request $request, string $entry)
+    {
+        $validated = $this->validateAboutPageEntryPayload($request, true);
+
+        return DB::transaction(function () use ($validated, $entry) {
+            $page = AboutPage::firstOrCreate(['key' => 'main'], ['is_published' => true]);
+            [$section, $index] = $this->resolveAboutEntryIdentifier($entry, $validated['section'] ?? null);
+            $validated['section'] = $section;
+            $this->writeAboutLogicalEntry($page, $validated, $index);
+
+            $freshPage = $page->fresh('contentEntries.translations');
+            $this->logAction('update', AboutPageContentEntry::class, $page->id, null, ['entry' => $entry, 'payload' => $validated]);
+            $this->refreshPublicContentCacheVersion('about-page');
+
+            return $this->successResponse($this->formatAboutPageCmsPayload($freshPage), 'About page entry updated');
+        });
+    }
+
+    public function deleteAboutPageEntry(string $entry)
+    {
+        return DB::transaction(function () use ($entry) {
+            $page = AboutPage::firstOrCreate(['key' => 'main'], ['is_published' => true]);
+            [$section, $index] = $this->resolveAboutEntryIdentifier($entry);
+            $prefix = $this->aboutRepeatedPrefix($section);
+
+            $page->contentEntries()
+                ->where('path', 'like', "{$prefix}.items.{$index}.%")
+                ->delete();
+
+            $this->reindexAboutRepeatedEntries($page, $section, $index);
+
+            $freshPage = $page->fresh('contentEntries.translations');
+            $this->logAction('delete', AboutPageContentEntry::class, $page->id, null, ['entry' => $entry]);
+            $this->refreshPublicContentCacheVersion('about-page');
+
+            return $this->successResponse($this->formatAboutPageCmsPayload($freshPage), 'About page entry deleted');
+        });
+    }
+
+    public function reorderAboutPageEntries(Request $request)
+    {
+        $validated = $request->validate([
+            'section' => 'required|string',
+            'order' => 'required|array',
+            'order.*' => 'integer|min:0',
+        ]);
+
+        return DB::transaction(function () use ($validated) {
+            $page = AboutPage::firstOrCreate(['key' => 'main'], ['is_published' => true]);
+            $section = $this->normalizeAboutSection($validated['section']);
+            $prefix = $this->aboutRepeatedPrefix($section);
+            $paths = $page->contentEntries()
+                ->where('path', 'like', "{$prefix}.items.%.%")
+                ->get();
+
+            foreach ($paths as $entry) {
+                if (preg_match('/^'.preg_quote($prefix, '/').'\.items\.(\d+)\.(.+)$/', $entry->path, $matches)) {
+                    $oldIndex = (int) $matches[1];
+                    $newIndex = array_search($oldIndex, $validated['order'], true);
+                    if ($newIndex !== false) {
+                        $entry->update(['path' => "{$prefix}.items.__tmp_{$newIndex}.{$matches[2]}"]);
+                    }
+                }
+            }
+
+            $page->contentEntries()
+                ->where('path', 'like', "{$prefix}.items.__tmp_%")
+                ->get()
+                ->each(function (AboutPageContentEntry $entry) use ($prefix) {
+                    $entry->update([
+                        'path' => preg_replace('/^'.preg_quote($prefix, '/').'\.items\.__tmp_(\d+)\./', "{$prefix}.items.$1.", $entry->path),
+                    ]);
+                });
+
+            $freshPage = $page->fresh('contentEntries.translations');
+            $this->refreshPublicContentCacheVersion('about-page');
+
+            return $this->successResponse($this->formatAboutPageCmsPayload($freshPage), 'About page entries reordered');
+        });
+    }
+
+    protected function validateAboutPageEntryPayload(Request $request, bool $partial = false): array
+    {
+        $required = $partial ? 'sometimes' : 'required';
+
+        return $request->validate([
+            'section' => "{$required}|string",
+            'type' => 'nullable|string|max:80',
+            'key' => 'nullable|string|max:120',
+            'sort_order' => 'nullable|integer|min:0',
+            'is_active' => 'nullable|boolean',
+            'metadata' => 'nullable|array',
+            'translations' => 'nullable|array',
+            'translations.ar' => 'nullable|array',
+            'translations.en' => 'nullable|array',
+            'translations.ru' => 'nullable|array',
+            'translations.uz' => 'nullable|array',
+        ]);
+    }
+
+    protected function normalizeAboutSection(?string $section): string
+    {
+        return match ($section) {
+            'faculties', 'facultiesList' => 'facultiesList',
+            'mission', 'vision', 'goals' => 'goals',
+            default => (string) $section,
+        };
+    }
+
+    protected function aboutRepeatedPrefix(string $section): string
+    {
+        $section = $this->normalizeAboutSection($section);
+
+        return match ($section) {
+            'stats' => 'stats',
+            'facultiesList' => 'facultiesList',
+            'timeline' => 'timeline',
+            'values' => 'values',
+            default => $section,
+        };
+    }
+
+    protected function resolveAboutEntryIdentifier(string $entry, ?string $section = null): array
+    {
+        $decoded = urldecode($entry);
+
+        if (str_contains($decoded, ':')) {
+            [$rawSection, $rawIndex] = explode(':', $decoded, 2);
+
+            return [$this->normalizeAboutSection($rawSection), (int) $rawIndex];
+        }
+
+        if ($section !== null && is_numeric($decoded)) {
+            return [$this->normalizeAboutSection($section), (int) $decoded];
+        }
+
+        return [$this->normalizeAboutSection($decoded), null];
+    }
+
+    protected function nextAboutRepeatedIndex(AboutPage $page, string $section): int
+    {
+        $prefix = $this->aboutRepeatedPrefix($section);
+        $indexes = $page->contentEntries()
+            ->where('path', 'like', "{$prefix}.items.%.%")
+            ->pluck('path')
+            ->map(function (string $path) use ($prefix) {
+                return preg_match('/^'.preg_quote($prefix, '/').'\.items\.(\d+)\./', $path, $matches)
+                    ? (int) $matches[1]
+                    : null;
+            })
+            ->filter(fn ($value) => $value !== null);
+
+        return $indexes->isEmpty() ? 0 : ((int) $indexes->max()) + 1;
+    }
+
+    protected function writeAboutLogicalEntry(AboutPage $page, array $payload, ?int $index = null): void
+    {
+        $section = $this->normalizeAboutSection($payload['section']);
+        $metadata = $payload['metadata'] ?? [];
+        $translations = $this->aboutSupportedTranslations($payload['translations'] ?? []);
+
+        if ($index === null) {
+            foreach ($translations as $locale => $fields) {
+                foreach ($fields as $field => $value) {
+                    $this->writeAboutPathValue($page, "{$section}.{$field}", [$locale => $value]);
+                }
+            }
+
+            foreach ($metadata as $field => $value) {
+                $this->writeAboutPathValue($page, "{$section}.{$field}", $this->sameAboutValueForAllLocales($value));
+            }
+
+            return;
+        }
+
+        $prefix = $this->aboutRepeatedPrefix($section);
+        $base = "{$prefix}.items.{$index}";
+
+        foreach ($this->aboutRepeatedSharedFields($section) as $field) {
+            if (array_key_exists($field, $metadata)) {
+                $this->writeAboutPathValue($page, "{$base}.{$field}", $this->sameAboutValueForAllLocales($metadata[$field]));
+            }
+        }
+
+        foreach ($translations as $locale => $fields) {
+            foreach ($this->aboutRepeatedTranslatedFieldMap($section) as $requestField => $pathField) {
+                if (array_key_exists($requestField, $fields)) {
+                    $this->writeAboutPathValue($page, "{$base}.{$pathField}", [$locale => $fields[$requestField]]);
+                }
+            }
+        }
+    }
+
+    protected function writeAboutPathValue(AboutPage $page, string $path, array $localeValues): void
+    {
+        $firstValue = collect($localeValues)->first(fn ($value) => $value !== null);
+        $existingEntry = $page->contentEntries()->where('path', $path)->first();
+        $entry = $page->contentEntries()->updateOrCreate(
+            ['path' => $path],
+            [
+                'value_type' => $this->detectAboutValueType($firstValue),
+                'sort_order' => $existingEntry?->sort_order
+                    ?? ((int) $page->contentEntries()->max('sort_order') + 1),
+                'is_active' => true,
+            ]
+        );
+
+        foreach ($this->aboutSupportedTranslations($localeValues, true) as $locale => $value) {
+            $entry->translations()->updateOrCreate(
+                ['locale' => $locale],
+                ['value' => $this->aboutValueToStorage($value)]
+            );
+        }
+    }
+
+    protected function aboutSupportedTranslations(array $values, bool $allowScalarValues = false): array
+    {
+        $supported = ['en', 'uz', 'ru', 'ar'];
+        $normalized = [];
+
+        foreach ($supported as $locale) {
+            if (! array_key_exists($locale, $values)) {
+                continue;
+            }
+
+            if ($allowScalarValues || is_array($values[$locale])) {
+                $normalized[$locale] = $values[$locale];
+            }
+        }
+
+        return $normalized;
+    }
+
+    protected function sameAboutValueForAllLocales(mixed $value): array
+    {
+        return [
+            'en' => $value,
+            'uz' => $value,
+            'ru' => $value,
+            'ar' => $value,
+        ];
+    }
+
+    protected function aboutRepeatedSharedFields(string $section): array
+    {
+        return match ($this->normalizeAboutSection($section)) {
+            'stats' => ['number', 'icon', 'color'],
+            'facultiesList' => ['id', 'count', 'link', 'color'],
+            'timeline' => ['year', 'icon'],
+            'values' => ['icon', 'color'],
+            default => [],
+        };
+    }
+
+    protected function aboutRepeatedTranslatedFieldMap(string $section): array
+    {
+        return match ($this->normalizeAboutSection($section)) {
+            'stats' => ['label' => 'label', 'description' => 'desc', 'desc' => 'desc'],
+            'facultiesList' => ['name' => 'name', 'dean' => 'dean', 'description' => 'desc', 'desc' => 'desc'],
+            'timeline' => ['title' => 'title', 'description' => 'desc', 'desc' => 'desc'],
+            'values' => ['title' => 'title', 'description' => 'desc', 'desc' => 'desc'],
+            default => [],
+        };
+    }
+
+    protected function reindexAboutRepeatedEntries(AboutPage $page, string $section, int $deletedIndex): void
+    {
+        $prefix = $this->aboutRepeatedPrefix($section);
+        $entries = $page->contentEntries()
+            ->where('path', 'like', "{$prefix}.items.%.%")
+            ->orderBy('path')
+            ->get();
+
+        foreach ($entries as $entry) {
+            if (! preg_match('/^'.preg_quote($prefix, '/').'\.items\.(\d+)\.(.+)$/', $entry->path, $matches)) {
+                continue;
+            }
+
+            $index = (int) $matches[1];
+            if ($index <= $deletedIndex) {
+                continue;
+            }
+
+            $entry->update(['path' => "{$prefix}.items.".($index - 1).".{$matches[2]}"]);
+        }
+    }
+
+    protected function detectAboutValueType(mixed $value): string
+    {
+        if (is_bool($value)) {
+            return 'boolean';
+        }
+
+        if (is_int($value) || is_float($value)) {
+            return 'number';
+        }
+
+        return 'text';
+    }
+
+    protected function aboutValueToStorage(mixed $value): ?string
+    {
+        if ($value === null) {
+            return null;
+        }
+
+        if (is_bool($value)) {
+            return $value ? '1' : '0';
+        }
+
+        return (string) $value;
     }
 
     protected function formatAboutPageCmsPayload(AboutPage $page): array

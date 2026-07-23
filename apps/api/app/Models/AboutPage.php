@@ -54,7 +54,7 @@ class AboutPage extends Model
             self::setContentPath($content, $entry->path, self::castContentValue($translation->value, $entry->value_type));
         }
 
-        return $content;
+        return self::normalizeContentArrays($content);
     }
 
     public function cmsTranslationsPayload(array $locales = ['en', 'uz', 'ru', 'ar']): array
@@ -163,6 +163,26 @@ class AboutPage extends Model
 
             $target =& $target[$key];
         }
+    }
+
+    protected static function normalizeContentArrays(array $content): array
+    {
+        foreach ($content as $key => $value) {
+            if (is_array($value)) {
+                $content[$key] = self::normalizeContentArrays($value);
+            }
+        }
+
+        $keys = array_keys($content);
+        $numericKeys = array_filter($keys, fn ($key) => is_int($key) || ctype_digit((string) $key));
+
+        if ($keys !== [] && count($numericKeys) === count($keys)) {
+            ksort($content, SORT_NUMERIC);
+
+            return array_values($content);
+        }
+
+        return $content;
     }
 
     protected static function detectContentType(mixed $value): string

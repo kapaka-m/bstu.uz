@@ -127,6 +127,11 @@ Route::prefix('v1')->group(function () {
         Route::put('cms/footer-web', [AdminCrudController::class, 'updateFooterWeb']);
         Route::get('cms/about-page', [AdminCrudController::class, 'showAboutPage']);
         Route::put('cms/about-page', [AdminCrudController::class, 'updateAboutPage']);
+        Route::put('cms/about-page/settings', [AdminCrudController::class, 'updateAboutPageSettings']);
+        Route::post('cms/about-page/entries', [AdminCrudController::class, 'storeAboutPageEntry']);
+        Route::put('cms/about-page/entries/{entry}', [AdminCrudController::class, 'updateAboutPageEntry']);
+        Route::delete('cms/about-page/entries/{entry}', [AdminCrudController::class, 'deleteAboutPageEntry']);
+        Route::post('cms/about-page/entries/reorder', [AdminCrudController::class, 'reorderAboutPageEntries']);
         Route::get('cms/contact-page', [AdminCrudController::class, 'showContactPage']);
         Route::put('cms/contact-page', [AdminCrudController::class, 'updateContactPage']);
         Route::get('cms/header-navbar', [AdminCrudController::class, 'showHeaderNavbar']);

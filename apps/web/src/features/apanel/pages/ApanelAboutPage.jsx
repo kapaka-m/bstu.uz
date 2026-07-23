@@ -84,6 +84,24 @@ const facultyColors = [
   "border-amber-500/20 hover:border-amber-500",
 ];
 
+const repeatedSectionMap = {
+  stats: { section: "stats", type: "stat_item", itemPath: "stats.items" },
+  facultiesList: {
+    section: "faculties",
+    type: "faculty_item",
+    itemPath: "facultiesList.items",
+  },
+  timeline: {
+    section: "timeline",
+    type: "timeline_item",
+    itemPath: "timeline.items",
+  },
+};
+
+const sectionAliases = {
+  facultiesList: "faculties",
+};
+
 const clone = (value) => JSON.parse(JSON.stringify(value || {}));
 
 const resolveAssetUrl = (path) => {
@@ -177,6 +195,13 @@ export default function ApanelAboutPage() {
       activeLocale,
     [activeLocale],
   );
+  const activeSectionLabel =
+    SECTIONS.find((section) => section.key === activeSection)?.label ||
+    "About Page";
+  const saveButtonLabel =
+    activeSection === "controls"
+      ? "Save Page Settings"
+      : `Save ${activeSectionLabel}`;
 
   const applyPageToForm = useCallback((page) => {
     const translations = clone(emptyForm.translations);
@@ -295,96 +320,149 @@ export default function ApanelAboutPage() {
     });
   };
 
-  const formWithAddedArrayItem = (sourceForm, path, itemFactory) => {
-    const nextForm = clone(sourceForm);
-    const translations = clone(nextForm.translations);
+  const contentForLocale = (sourceForm, locale) => ({
+    ...clone(defaultContent),
+    ...clone(sourceForm.translations?.[locale]?.content),
+  });
 
-    LOCALES.forEach((locale) => {
-      const nextContent = {
-        ...clone(defaultContent),
-        ...clone(translations[locale.code]?.content),
-      };
-      const keys = path.split(".");
-      let target = nextContent;
-      keys.slice(0, -1).forEach((key) => {
-        target[key] =
-          target[key] && typeof target[key] === "object" ? target[key] : {};
-        target = target[key];
-      });
-      const items = Array.isArray(target[keys.at(-1)])
-        ? target[keys.at(-1)]
-        : [];
-      target[keys.at(-1)] = [...items, clone(itemFactory(locale.code))];
-      translations[locale.code] = { content: nextContent };
-    });
+  const getByPath = (source, path, fallback = null) =>
+    path.split(".").reduce((acc, key) => acc?.[key], source) ?? fallback;
 
-    return { ...nextForm, translations };
-  };
-
-  const buildPayload = (sourceForm) => ({
+  const pageSettingsPayload = (sourceForm) => ({
     hero_contact_url: sourceForm.hero_contact_url ?? "",
     hero_campus_url: sourceForm.hero_campus_url ?? "",
     identity_image: sourceForm.identity_image ?? "",
     rector_profile_slug: sourceForm.rector_profile_slug ?? "",
     is_published: Boolean(sourceForm.is_published),
+  });
+
+  const fixedSectionPayload = (sourceForm, sectionKey) => ({
+    section: sectionAliases[sectionKey] || sectionKey,
+    type: "section",
+    key: sectionKey,
     translations: Object.fromEntries(
       LOCALES.map((locale) => [
         locale.code,
-        {
-          content: {
-            ...clone(defaultContent),
-            ...clone(sourceForm.translations?.[locale.code]?.content),
-          },
-        },
+        clone(contentForLocale(sourceForm, locale.code)?.[sectionKey] || {}),
       ]),
     ),
   });
 
-  const persistForm = async (
-    sourceForm,
-    message = "About page content saved successfully.",
-  ) => {
+  const repeatedItemPayload = (sourceForm, sectionKey, index) => {
+    const config = repeatedSectionMap[sectionKey];
+    const activeItem = getByPath(
+      contentForLocale(sourceForm, activeLocale),
+      `${config.itemPath}.${index}`,
+      {},
+    );
+
+    const metadata =
+      sectionKey === "stats"
+        ? {
+            number: activeItem.number || "",
+            icon: activeItem.icon || "users",
+            color: activeItem.color || statColors[0],
+          }
+        : sectionKey === "facultiesList"
+          ? {
+              id: activeItem.id || "",
+              count: activeItem.count || "",
+              link: activeItem.link || "",
+              color: activeItem.color || facultyColors[0],
+            }
+          : {
+              year: activeItem.year || "",
+              icon: activeItem.icon || "",
+            };
+
+    return {
+      section: config.section,
+      type: config.type,
+      key: `${config.section}_${index}`,
+      metadata,
+      translations: Object.fromEntries(
+        LOCALES.map((locale) => {
+          const item = getByPath(
+            contentForLocale(sourceForm, locale.code),
+            `${config.itemPath}.${index}`,
+            {},
+          );
+          if (sectionKey === "stats") {
+            return [
+              locale.code,
+              { label: item.label || "", description: item.desc || "" },
+            ];
+          }
+          if (sectionKey === "facultiesList") {
+            return [
+              locale.code,
+              {
+                name: item.name || "",
+                dean: item.dean || "",
+                description: item.desc || "",
+              },
+            ];
+          }
+          return [
+            locale.code,
+            { title: item.title || "", description: item.desc || "" },
+          ];
+        }),
+      ),
+    };
+  };
+
+  const reloadAfterMutation = async (message) => {
+    const page = await loadAboutPageForm();
+    setSuccess(message);
+    return page;
+  };
+
+  const persistForm = async (sourceForm, message = "About page content saved successfully.") => {
     setSaving(true);
     setError("");
     setSuccess("");
-    const payload = buildPayload(sourceForm);
-    await apanelService.updateAboutPage(payload);
-    await loadAboutPageForm();
-    setSuccess(message);
+    if (activeSection === "controls") {
+      await apanelService.updateAboutPageSettings(pageSettingsPayload(sourceForm));
+      await reloadAfterMutation("Page settings saved successfully.");
+      return;
+    }
+
+    if (repeatedSectionMap[activeSection]) {
+      const items = getByPath(
+        contentForLocale(sourceForm, activeLocale),
+        repeatedSectionMap[activeSection].itemPath,
+        [],
+      );
+      await Promise.all(
+        items.map((_, index) =>
+          apanelService.updateAboutPageEntry(
+            `${repeatedSectionMap[activeSection].section}:${index}`,
+            repeatedItemPayload(sourceForm, activeSection, index),
+          ),
+        ),
+      );
+      await reloadAfterMutation(`${SECTIONS.find((item) => item.key === activeSection)?.label} saved successfully.`);
+      return;
+    }
+
+    await apanelService.updateAboutPageEntry(
+      sectionAliases[activeSection] || activeSection,
+      fixedSectionPayload(sourceForm, activeSection),
+    );
+    await reloadAfterMutation(message);
   };
 
   const removeArrayItemFromAllLocales = async (path, index) => {
-    const nextForm = await new Promise((resolve) => {
-      setForm((current) => {
-        const translations = clone(current.translations);
-        LOCALES.forEach((locale) => {
-          const nextContent = {
-            ...clone(defaultContent),
-            ...clone(translations[locale.code]?.content),
-          };
-          const keys = path.split(".");
-          let target = nextContent;
-          keys.slice(0, -1).forEach((key) => {
-            target[key] =
-              target[key] && typeof target[key] === "object" ? target[key] : {};
-            target = target[key];
-          });
-          const items = Array.isArray(target[keys.at(-1)])
-            ? target[keys.at(-1)]
-            : [];
-          target[keys.at(-1)] = items.filter(
-            (_, itemIndex) => itemIndex !== index,
-          );
-          translations[locale.code] = { content: nextContent };
-        });
-        const updated = { ...current, translations };
-        formRef.current = updated;
-        resolve(updated);
-        return updated;
-      });
-    });
+    const sectionKey = Object.keys(repeatedSectionMap).find(
+      (key) => repeatedSectionMap[key].itemPath === path,
+    );
+    if (!sectionKey) return;
 
-    await persistForm(nextForm, "Item deleted successfully.");
+    await apanelService.deleteAboutPageEntry(
+      `${repeatedSectionMap[sectionKey].section}:${index}`,
+    );
+    await reloadAfterMutation("Item deleted successfully.");
   };
 
   const requestRemoveArrayItem = (path, index, label) => {
@@ -395,6 +473,7 @@ export default function ApanelAboutPage() {
       onConfirm: async () => {
         try {
           setConfirmAction(null);
+          setSaving(true);
           await removeArrayItemFromAllLocales(path, index);
         } catch (err) {
           setError(errorMessage(err, `Failed to delete ${label}.`));
@@ -453,19 +532,24 @@ export default function ApanelAboutPage() {
     try {
       setError("");
       setSuccess("");
-      const nextForm = formWithAddedArrayItem(
-        formRef.current,
-        "timeline.items",
-        (localeCode) => ({
-          year: draft.year,
-          title: localeCode === activeLocale ? draft.title : "",
-          desc: localeCode === activeLocale ? draft.desc : "",
-        }),
-      );
-      formRef.current = nextForm;
-      setForm(nextForm);
+      setSaving(true);
+      await apanelService.createAboutPageEntry({
+        section: "timeline",
+        type: "timeline_item",
+        key: `timeline_${Date.now()}`,
+        metadata: { year: draft.year },
+        translations: Object.fromEntries(
+          LOCALES.map((locale) => [
+            locale.code,
+            {
+              title: draft.title,
+              description: draft.desc,
+            },
+          ]),
+        ),
+      });
       setTimelineDraft(null);
-      await persistForm(nextForm, "Timeline item added successfully.");
+      await reloadAfterMutation("Timeline item added successfully.");
     } catch (err) {
       setError(errorMessage(err, "Failed to add timeline item."));
     } finally {
@@ -491,21 +575,28 @@ export default function ApanelAboutPage() {
     try {
       setError("");
       setSuccess("");
-      const nextForm = formWithAddedArrayItem(
-        formRef.current,
-        "stats.items",
-        (localeCode) => ({
+      setSaving(true);
+      await apanelService.createAboutPageEntry({
+        section: "stats",
+        type: "stat_item",
+        key: `stat_${Date.now()}`,
+        metadata: {
           number: draft.number,
-          label: localeCode === activeLocale ? draft.label : "",
-          desc: localeCode === activeLocale ? draft.desc : "",
           icon: draft.icon,
           color: draft.color,
-        }),
-      );
-      formRef.current = nextForm;
-      setForm(nextForm);
+        },
+        translations: Object.fromEntries(
+          LOCALES.map((locale) => [
+            locale.code,
+            {
+              label: draft.label,
+              description: draft.desc,
+            },
+          ]),
+        ),
+      });
       setStatDraft(null);
-      await persistForm(nextForm, "Stat item added successfully.");
+      await reloadAfterMutation("Stat item added successfully.");
     } catch (err) {
       setError(errorMessage(err, "Failed to add stat item."));
     } finally {
@@ -533,23 +624,30 @@ export default function ApanelAboutPage() {
     try {
       setError("");
       setSuccess("");
-      const nextForm = formWithAddedArrayItem(
-        formRef.current,
-        "facultiesList.items",
-        (localeCode) => ({
+      setSaving(true);
+      await apanelService.createAboutPageEntry({
+        section: "faculties",
+        type: "faculty_item",
+        key: draft.id,
+        metadata: {
           id: draft.id,
-          name: localeCode === activeLocale ? draft.name : "",
-          dean: localeCode === activeLocale ? draft.dean : "",
           count: draft.count,
-          desc: localeCode === activeLocale ? draft.desc : "",
           link: draft.link,
           color: draft.color,
-        }),
-      );
-      formRef.current = nextForm;
-      setForm(nextForm);
+        },
+        translations: Object.fromEntries(
+          LOCALES.map((locale) => [
+            locale.code,
+            {
+              name: draft.name,
+              dean: draft.dean,
+              description: draft.desc,
+            },
+          ]),
+        ),
+      });
       setFacultyDraft(null);
-      await persistForm(nextForm, "Faculty item added successfully.");
+      await reloadAfterMutation("Faculty item added successfully.");
     } catch (err) {
       setError(errorMessage(err, "Failed to add faculty item."));
     } finally {
@@ -1028,7 +1126,7 @@ export default function ApanelAboutPage() {
           className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-extrabold text-white shadow-sm transition hover:bg-primary-hover disabled:opacity-60"
         >
           <Save className="h-4 w-4" />
-          {saving ? "Saving..." : "Save About Page"}
+          {saving ? "Saving..." : saveButtonLabel}
         </button>
       </div>
 

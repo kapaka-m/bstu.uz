@@ -359,10 +359,12 @@ export default function ApanelHeaderNavbar() {
     <div className="space-y-6 animate-in fade-in duration-200">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div>
-          <p className="text-xs font-extrabold uppercase tracking-widest text-primary">CMS</p>
-          <h1 className="mt-1 text-2xl font-black text-navy">Header Navbar CMS</h1>
+          <h1 className="mt-1 text-2xl font-black text-navy">
+            Header Navbar CMS
+          </h1>
           <p className="mt-1 text-sm font-semibold text-gray-500">
-            Controls public header navigation, order, labels, dropdown groups, and child links.
+            Controls public header navigation, order, labels, dropdown groups,
+            and child links.
           </p>
         </div>
         <button

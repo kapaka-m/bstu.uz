@@ -199,10 +199,12 @@ export const apanelService = {
         announcements,
         blogs,
         videos,
+        interactiveServices,
         newsletterSubscriptions,
         greenCampusArticles,
         greenCampusStats,
         administrationProfiles,
+        contactPage,
         media,
         pendingDocs,
         supportTickets,
@@ -219,10 +221,14 @@ export const apanelService = {
         this.list("announcements", { per_page: 1 }).catch(() => ({ total: 0 })),
         this.list("blogs", { per_page: 1 }).catch(() => ({ total: 0 })),
         this.list("videos", { per_page: 1 }).catch(() => ({ total: 0 })),
+        this.list("services", { per_page: 1 }).catch(() => ({ total: 0 })),
         this.list("newsletter-subscriptions", { per_page: 1 }).catch(() => ({ total: 0 })),
         this.list("green-campus-articles", { per_page: 1 }).catch(() => ({ total: 0 })),
         this.list("green-campus-stats", { per_page: 1 }).catch(() => ({ total: 0 })),
         this.list("administration-profiles", { per_page: 1 }).catch(() => ({ total: 0 })),
+        this.getContactPage()
+          .then((page) => ({ data: [], total: page?.id || page?.key ? 1 : 0 }))
+          .catch(() => ({ data: [], total: 0 })),
         this.list("media", { per_page: 1 }).catch(() => ({ total: 0 })),
         this.list("application-documents", { per_page: 1, status: "pending" }).catch(() => ({ total: 0 })),
         this.list("support-tickets", { per_page: 1 }).catch(() => ({ total: 0 })),
@@ -242,10 +248,12 @@ export const apanelService = {
           announcements: pageTotal(announcements),
           blogs: pageTotal(blogs),
           videos: pageTotal(videos),
+          interactiveServices: pageTotal(interactiveServices),
           newsletterSubscriptions: pageTotal(newsletterSubscriptions),
           greenCampusArticles: pageTotal(greenCampusArticles),
           greenCampusStats: pageTotal(greenCampusStats),
           administrationProfiles: pageTotal(administrationProfiles),
+          contactPage: pageTotal(contactPage),
           media: pageTotal(media),
           pendingDocuments: pageTotal(pendingDocs),
           supportTickets: pageTotal(supportTickets),
@@ -257,7 +265,7 @@ export const apanelService = {
     } catch (err) {
       console.error("Dashboard stats failed", err);
       return {
-        stats: { users: 0, applications: 0, programs: 0, administrationProfiles: 0, inquiries: 0, comments: 0 },
+        stats: { users: 0, applications: 0, programs: 0, administrationProfiles: 0, contactPage: 0, interactiveServices: 0, inquiries: 0, comments: 0 },
         recentLogs: []
       };
     }

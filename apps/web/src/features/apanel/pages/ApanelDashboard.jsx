@@ -18,6 +18,7 @@ import {
   Leaf,
   Megaphone,
   UsersRound,
+  MousePointerClick,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -32,10 +33,12 @@ export default function ApanelDashboard() {
     announcements: 0,
     blogs: 0,
     videos: 0,
+    interactiveServices: 0,
     newsletterSubscriptions: 0,
     greenCampusArticles: 0,
     greenCampusStats: 0,
     administrationProfiles: 0,
+    contactPage: 0,
     media: 0,
     pendingDocuments: 0,
     supportTickets: 0,
@@ -125,6 +128,13 @@ export default function ApanelDashboard() {
       path: "/apanel/cms/video-bdtu",
     },
     {
+      label: "Interactive Services",
+      val: stats.interactiveServices,
+      icon: MousePointerClick,
+      color: "text-cyan-700 bg-cyan-50 border-cyan-100",
+      path: "/apanel/cms/interactive-services",
+    },
+    {
       label: "Green Campus",
       val: stats.greenCampusArticles,
       icon: Leaf,
@@ -137,6 +147,13 @@ export default function ApanelDashboard() {
       icon: UsersRound,
       color: "text-slate-700 bg-slate-50 border-slate-100",
       path: "/apanel/cms/administration",
+    },
+    {
+      label: "Contact Page",
+      val: stats.contactPage,
+      icon: MessageSquare,
+      color: "text-blue-700 bg-blue-50 border-blue-100",
+      path: "/apanel/cms/contact-page",
     },
     {
       label: "Newsletter Subscriptions",
@@ -167,11 +184,11 @@ export default function ApanelDashboard() {
       path: "/apanel/support-tickets",
     },
     {
-      label: "Support Inquiries",
+      label: "Contact Messages",
       val: stats.inquiries,
       icon: MessageSquare,
       color: "text-amber-600 bg-amber-50 border-amber-100",
-      path: "/apanel/inquiries",
+      path: "/apanel/management/contact",
     },
   ];
 
@@ -320,6 +337,27 @@ export default function ApanelDashboard() {
               className="p-3 bg-gray-50/50 hover:bg-primary-light border border-gray-100 hover:border-primary-hover rounded-2xl flex items-center justify-between text-xs font-bold text-navy transition-all group"
             >
               <span>Manage Blog CMS</span>
+              <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-primary transition-all" />
+            </Link>
+            <Link
+              to="/apanel/cms/interactive-services"
+              className="p-3 bg-gray-50/50 hover:bg-primary-light border border-gray-100 hover:border-primary-hover rounded-2xl flex items-center justify-between text-xs font-bold text-navy transition-all group"
+            >
+              <span>Manage Interactive Services</span>
+              <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-primary transition-all" />
+            </Link>
+            <Link
+              to="/apanel/cms/contact-page"
+              className="p-3 bg-gray-50/50 hover:bg-primary-light border border-gray-100 hover:border-primary-hover rounded-2xl flex items-center justify-between text-xs font-bold text-navy transition-all group"
+            >
+              <span>Manage Contact Page</span>
+              <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-primary transition-all" />
+            </Link>
+            <Link
+              to="/apanel/management/contact"
+              className="p-3 bg-gray-50/50 hover:bg-primary-light border border-gray-100 hover:border-primary-hover rounded-2xl flex items-center justify-between text-xs font-bold text-navy transition-all group"
+            >
+              <span>Review Contact Messages</span>
               <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-primary transition-all" />
             </Link>
             <Link

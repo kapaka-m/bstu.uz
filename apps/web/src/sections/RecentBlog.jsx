@@ -131,7 +131,7 @@ export default function RecentBlog() {
             slidesPerView={1}
             autoplay={{ delay: 4500, disableOnInteraction: false, pauseOnMouseEnter: true }}
             breakpoints={{ 768: { slidesPerView: 2 } }}
-            className="pb-2"
+            className="pt-3 pb-6 !overflow-visible [&_.swiper-wrapper]:items-stretch"
           >
             {recentPosts.map((post, index) => (
               <SwiperSlide key={post.slug || post.id} className="h-auto">

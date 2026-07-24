@@ -2,16 +2,9 @@ export const translations = {
   "en": {
     "nav": {
       "home": "Home",
-      "aboutUs": "About",
-      "services": "Services",
-      "blog": "Blog",
-      "contact": "Contact",
       "login": "Login",
       "register": "Register",
       "administration": "Administration",
-      "announcements": "Announcements",
-      "videoBdtu": "Video BDTU",
-      "news": "News",
       "faculties": "Faculties",
       "centers": "Centres and departments",
       "logout": "Logout",
@@ -24,27 +17,16 @@ export const translations = {
     "common": {
       "backToHome": "Back to Home",
       "backToFaculty": "Back to Faculty",
-      "backToNews": "Back to News",
-      "backToServices": "Back to Services",
       "backToPrograms": "Back to Programs",
       "backToCenters": "Back to Centers",
       "search": "Search",
       "searchPlaceholder": "Type to search...",
       "categories": "Categories",
-      "news": "News",
-      "recentPosts": "Recent Posts",
       "views": "Views",
-      "readDetails": "Read Details",
-      "readMore": "Read More",
-      "contactUs": "Contact Us",
-      "allNews": "All News",
-      "allBlog": "All Blog",
-      "allServices": "All Services",
       "allPrograms": "All Programs",
       "allCenters": "All Centers",
       "facultyHelpdesk": "Faculty Helpdesk",
       "facultyHelpdeskDesc": "Have questions about admission, curriculum, or exams? Reach out directly.",
-      "contactUniversity": "Contact University",
       "aboutFaculty": "About the Faculty",
       "managementDean": "Management & Dean's Office",
       "deanDesc": "Responsible for supervising the educational development, scientific innovations, academic quality assurance, and international relations of the faculty.",
@@ -142,8 +124,6 @@ export const translations = {
       "logoAlt": "BSTU logo",
       "previousSlide": "Previous slide",
       "nextSlide": "Next slide",
-      "closeVideoModal": "Close video modal",
-      "youtubeVideoPlayer": "YouTube video player",
       "scrollToTop": "Scroll to top",
       "toggleMobileMenu": "Toggle mobile menu"
     },
@@ -310,7 +290,7 @@ export const translations = {
           "years5": "5 years"
         }
       },
-                  "hero": {
+      "hero": {
         "title": "Shape Your Future with Bukhara State Technical University",
         "subtitle": "Fostering academic excellence, scientific research, and technological innovation in engineering and natural resources management.",
         "watchVideo": "Watch Video",
@@ -2330,16 +2310,9 @@ export const translations = {
   "uz": {
     "nav": {
       "home": "Bosh sahifa",
-      "aboutUs": "Biz haqimizda",
-      "services": "Xizmatlar",
-      "blog": "Blog",
-      "contact": "Aloqa",
       "login": "Tizimga kirish",
       "register": "Ro'yxatdan o'tish",
       "administration": "Raxbariyat",
-      "announcements": "E'lonlar",
-      "videoBdtu": "BDTU Videolari",
-      "news": "Yangiliklar",
       "faculties": "Fakultetlar",
       "centers": "Markazlar va bo'limlar",
       "logout": "Chiqish",
@@ -2352,27 +2325,16 @@ export const translations = {
     "common": {
       "backToHome": "Bosh sahifaga qaytish",
       "backToFaculty": "Fakultetga qaytish",
-      "backToNews": "Yangiliklarga qaytish",
-      "backToServices": "Xizmatlarga qaytish",
       "backToPrograms": "Dasturlarga qaytish",
       "backToCenters": "Markazlarga qaytish",
       "search": "Qidiruv",
       "searchPlaceholder": "Qidirish...",
       "categories": "Kategoriyalar",
-      "news": "Yangiliklar",
-      "recentPosts": "Oxirgi maqolalar",
       "views": "Ko'rishlar",
-      "readDetails": "Batafsil o'qish",
-      "readMore": "Batafsil",
-      "contactUs": "Aloqa",
-      "allNews": "Barcha yangiliklar",
-      "allBlog": "Barcha maqolalar",
-      "allServices": "Barcha xizmatlar",
       "allPrograms": "Barcha dasturlar",
       "allCenters": "Barcha markazlar",
       "facultyHelpdesk": "Fakultet yordam xizmati",
       "facultyHelpdeskDesc": "Qabul, o'quv dasturi yoki imtihonlar haqida savollaringiz bormi? To'g'ridan-to'g'ri murojaat qiling.",
-      "contactUniversity": "Universitet bilan aloqa",
       "aboutFaculty": "Fakultet haqida",
       "managementDean": "Raxbariyat va Dekanat",
       "deanDesc": "Fakultetning o'quv jarayonini rivojlantirish, ilmiy innovatsiyalar, ta'lim sifatini ta'minlash va xalqaro aloqalarini nazorat qilish uchun mas'ul.",
@@ -2470,8 +2432,6 @@ export const translations = {
       "logoAlt": "BDTU logotipi",
       "previousSlide": "Oldingi slayd",
       "nextSlide": "Keyingi slayd",
-      "closeVideoModal": "Video oynasini yopish",
-      "youtubeVideoPlayer": "YouTube video pleyeri",
       "scrollToTop": "Yuqoriga qaytish",
       "toggleMobileMenu": "Mobil menyuni almashtirish"
     },
@@ -2699,7 +2659,7 @@ export const translations = {
       "application": "Arizalar va murojaatlarni qabul qilish",
       "records": "Baholar va o'quv natijalari hisobi"
     },
-        "values": {
+    "values": {
       "tag": "Bizning qadriyatlar",
       "title": "BSTU faoliyatining asosiy tamoyillari",
       "academic": {
@@ -2715,7 +2675,7 @@ export const translations = {
         "desc": "Dunyoning yetakchi oliygohlari bilan qo'shma dasturlar, talabalar almashinuvini kengaytirish."
       }
     },
-        "features": {
+    "features": {
       "tag": "Bizning afzalliklar",
       "title": "Nega aynan BuxDTU?",
       "desc": "BSTU talabalarga zamonaviy ta'lim olish va yuqori muhandislik ko'nikmalarini rivojlantirish uchun barcha imkoniyatlarni taqdim etadi.",
@@ -4778,16 +4738,9 @@ export const translations = {
   "ru": {
     "nav": {
       "home": "Главная",
-      "aboutUs": "О нас",
-      "services": "Услуги",
-      "blog": "Блог",
-      "contact": "Контакты",
       "login": "Войти",
       "register": "Регистрация",
       "administration": "Руководство",
-      "announcements": "Объявления",
-      "videoBdtu": "Видео БГТУ",
-      "news": "Новости",
       "faculties": "Факультеты",
       "centers": "Центры и отделы",
       "logout": "Выйти",
@@ -4800,27 +4753,16 @@ export const translations = {
     "common": {
       "backToHome": "Назад на главную",
       "backToFaculty": "Назад к факультету",
-      "backToNews": "Назад к новостям",
-      "backToServices": "Назад к услугам",
       "backToPrograms": "Назад к программам",
       "backToCenters": "Назад к центрам",
       "search": "Поиск",
       "searchPlaceholder": "Введите для поиска...",
       "categories": "Категории",
-      "news": "Новости",
-      "recentPosts": "Свежие записи",
       "views": "Просмотры",
-      "readDetails": "Подробнее",
-      "readMore": "Читать далее",
-      "contactUs": "Контакты",
-      "allNews": "Все новости",
-      "allBlog": "Все записи блога",
-      "allServices": "Все услуги",
       "allPrograms": "Все программы",
       "allCenters": "Все центры",
       "facultyHelpdesk": "Служба поддержки факультета",
       "facultyHelpdeskDesc": "Вопросы о поступлении, учебной программе или экзаменах? Обращайтесь напрямую.",
-      "contactUniversity": "Связаться с университетом",
       "aboutFaculty": "О факультете",
       "managementDean": "Руководство и деканат",
       "deanDesc": "Отвечает за руководство учебным процессом, научные инновации, обеспечение качества образования и международные связи факультета.",
@@ -4918,8 +4860,6 @@ export const translations = {
       "logoAlt": "Логотип БГТУ",
       "previousSlide": "Предыдущий слайд",
       "nextSlide": "Следующий слайд",
-      "closeVideoModal": "Закрыть видео",
-      "youtubeVideoPlayer": "Видеоплеер YouTube",
       "scrollToTop": "Наверх",
       "toggleMobileMenu": "Открыть или закрыть мобильное меню"
     },
@@ -5086,7 +5026,7 @@ export const translations = {
           "years5": "5 лет"
         }
       },
-                  "hero": {
+      "hero": {
         "title": "Создайте свое будущее с Бухарским государственным техническим университетом",
         "subtitle": "Мы развиваем академическое качество, научные исследования и технологические инновации в инженерии и управлении природными ресурсами.",
         "watchVideo": "Смотреть видео",
@@ -7033,16 +6973,9 @@ export const translations = {
   "ar": {
     "nav": {
       "home": "الرئيسية",
-      "aboutUs": "عن الجامعة",
-      "services": "الخدمات",
-      "blog": "المدونة",
-      "contact": "اتصل بنا",
       "login": "تسجيل الدخول",
       "register": "إنشاء حساب",
       "administration": "إدارة الجامعة",
-      "announcements": "الإعلانات",
-      "videoBdtu": "فيديوهات الجامعة",
-      "news": "الأخبار",
       "faculties": "الكليات",
       "centers": "المراكز والأقسام",
       "logout": "تسجيل الخروج",
@@ -7055,27 +6988,16 @@ export const translations = {
     "common": {
       "backToHome": "العودة إلى الصفحة الرئيسية",
       "backToFaculty": "العودة إلى الكلية",
-      "backToNews": "العودة إلى الأخبار",
-      "backToServices": "العودة إلى الخدمات",
       "backToPrograms": "العودة إلى البرامج",
       "backToCenters": "العودة إلى المراكز",
       "search": "البحث",
       "searchPlaceholder": "اكتب للبحث...",
       "categories": "الفئات",
-      "news": "الأخبار",
-      "recentPosts": "المنشورات الأخيرة",
       "views": "المشاهدات",
-      "readDetails": "اقرأ التفاصيل",
-      "readMore": "اقرأ المزيد",
-      "contactUs": "اتصل بنا",
-      "allNews": "كل الأخبار",
-      "allBlog": "كل منشورات المدونة",
-      "allServices": "كل الخدمات",
       "allPrograms": "كل البرامج",
       "allCenters": "كل المراكز",
       "facultyHelpdesk": "مكتب المساعدة بالكلية",
       "facultyHelpdeskDesc": "لديك أسئلة حول القبول أو المناهج الدراسية أو الامتحانات؟ تواصل معنا مباشرة.",
-      "contactUniversity": "الاتصال بالجامعة",
       "aboutFaculty": "حول الكلية",
       "managementDean": "الإدارة ومكتب العميد",
       "deanDesc": "مسؤول عن الإشراف على التطوير التعليمي، والابتكارات العلمية، وضمان الجودة الأكاديمية، والعلاقات الدولية للكلية.",
@@ -7173,8 +7095,6 @@ export const translations = {
       "logoAlt": "شعار جامعة بخارى التقنية",
       "previousSlide": "الشريحة السابقة",
       "nextSlide": "الشريحة التالية",
-      "closeVideoModal": "إغلاق نافذة الفيديو",
-      "youtubeVideoPlayer": "مشغل فيديو يوتيوب",
       "scrollToTop": "العودة إلى الأعلى",
       "toggleMobileMenu": "فتح أو إغلاق قائمة الهاتف"
     },
@@ -7341,7 +7261,7 @@ export const translations = {
           "years5": "5 سنوات"
         }
       },
-                  "hero": {
+      "hero": {
         "title": "اصنع مستقبلك مع جامعة بخارى الحكومية التقنية",
         "subtitle": "نعزز التميز الأكاديمي والبحث العلمي والابتكار التقني في الهندسة وإدارة الموارد الطبيعية.",
         "watchVideo": "شاهد الفيديو",

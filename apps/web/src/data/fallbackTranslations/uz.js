@@ -1,20 +1,11 @@
 export const translation = {
   "nav": {
     "home": "Bosh sahifa",
-    "aboutUs": "Biz haqimizda",
-    "services": "Xizmatlar",
-    "blog": "Blog",
-    "contact": "Aloqa",
     "login": "Tizimga kirish",
     "register": "Ro'yxatdan o'tish",
-    "administration": "Raxbariyat",
-    "announcements": "E'lonlar",
-    "videoBdtu": "BDTU Videolari",
-    "news": "Yangiliklar",
     "faculties": "Fakultetlar",
     "centers": "Markazlar va bo'limlar",
     "logout": "Chiqish",
-    "greenCampus": "Yashil kampus",
     "structure": "Tuzilma",
     "departments": "Kafedralar",
     "media": "Media markazi",
@@ -23,27 +14,16 @@ export const translation = {
   "common": {
     "backToHome": "Bosh sahifaga qaytish",
     "backToFaculty": "Fakultetga qaytish",
-    "backToNews": "Yangiliklarga qaytish",
-    "backToServices": "Xizmatlarga qaytish",
     "backToPrograms": "Dasturlarga qaytish",
     "backToCenters": "Markazlarga qaytish",
     "search": "Qidiruv",
     "searchPlaceholder": "Qidirish...",
     "categories": "Kategoriyalar",
-    "news": "Yangiliklar",
-    "recentPosts": "Oxirgi maqolalar",
     "views": "Ko'rishlar",
-    "readDetails": "Batafsil o'qish",
-    "readMore": "Batafsil",
-    "contactUs": "Aloqa",
-    "allNews": "Barcha yangiliklar",
-    "allBlog": "Barcha maqolalar",
-    "allServices": "Barcha xizmatlar",
     "allPrograms": "Barcha dasturlar",
     "allCenters": "Barcha markazlar",
     "facultyHelpdesk": "Fakultet yordam xizmati",
     "facultyHelpdeskDesc": "Qabul, o'quv dasturi yoki imtihonlar haqida savollaringiz bormi? To'g'ridan-to'g'ri murojaat qiling.",
-    "contactUniversity": "Universitet bilan aloqa",
     "aboutFaculty": "Fakultet haqida",
     "managementDean": "Raxbariyat va Dekanat",
     "deanDesc": "Fakultetning o'quv jarayonini rivojlantirish, ilmiy innovatsiyalar, ta'lim sifatini ta'minlash va xalqaro aloqalarini nazorat qilish uchun mas'ul.",
@@ -59,9 +39,6 @@ export const translation = {
     "centerSupportDesc": "Maxsus kurslar, ilmiy uskunalar yoki jihozlar haqida savollaringiz bormi? Direktorga murojaat qiling.",
     "aboutCenter": "Markaz haqida",
     "centerStructure": "Markaz tuzilishi va xodimlari",
-    "rectorateOffice": "Rektorat idorasi",
-    "rectorateOfficeDesc": "Masʼul bo‘lim bilan uchrashuv belgilash yoki rasmiy takliflar yuborish kerakmi?",
-    "aboutMember": "Ma'muriyat a'zosi haqida",
     "responsibilities": "Asosiy vazifalar va yutuqlar",
     "receptionHours": "Qabul vaqtlari",
     "phone": "Telefon raqami",
@@ -91,7 +68,6 @@ export const translation = {
     "intakeDate": "2026-yil sentabr",
     "programLanguages": "O'zbek / Rus / Ingliz",
     "structure": "Tuzilma",
-    "administration": "Raxbariyat",
     "clearFilters": "Qidiruv filtrlarini tozalash",
     "facultyLeadership": "Fakultet rahbariyati",
     "academicStaff": "Professor-o'qituvchilar tarkibi",
@@ -141,8 +117,6 @@ export const translation = {
     "logoAlt": "BDTU logotipi",
     "previousSlide": "Oldingi slayd",
     "nextSlide": "Keyingi slayd",
-    "closeVideoModal": "Video oynasini yopish",
-    "youtubeVideoPlayer": "YouTube video pleyeri",
     "scrollToTop": "Yuqoriga qaytish",
     "toggleMobileMenu": "Mobil menyuni almashtirish"
   },
@@ -370,7 +344,7 @@ export const translation = {
     "application": "Arizalar va murojaatlarni qabul qilish",
     "records": "Baholar va o'quv natijalari hisobi"
   },
-    "values": {
+  "values": {
     "tag": "Bizning qadriyatlar",
     "title": "BSTU faoliyatining asosiy tamoyillari",
     "academic": {
@@ -386,7 +360,7 @@ export const translation = {
       "desc": "Dunyoning yetakchi oliygohlari bilan qo'shma dasturlar, talabalar almashinuvini kengaytirish."
     }
   },
-    "features": {
+  "features": {
     "tag": "Bizning afzalliklar",
     "title": "Nega aynan BuxDTU?",
     "desc": "BSTU talabalarga zamonaviy ta'lim olish va yuqori muhandislik ko'nikmalarini rivojlantirish uchun barcha imkoniyatlarni taqdim etadi.",

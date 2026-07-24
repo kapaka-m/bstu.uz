@@ -29,11 +29,15 @@ export default function Leadership() {
   const { rector, viceRectors } = useMemo(() => {
     const sorted = [...leaders].sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
     const rectorProfile = sorted.find((leader) => leader.is_rector) || sorted[0] || null;
+    const limit = Number(settings?.home_limit || 6);
+    const allowedViceRectorsCount = Math.max(0, limit - (rectorProfile ? 1 : 0));
     return {
       rector: rectorProfile,
-      viceRectors: sorted.filter((leader) => leader.slug !== rectorProfile?.slug),
+      viceRectors: sorted
+        .filter((leader) => leader.slug !== rectorProfile?.slug)
+        .slice(0, allowedViceRectorsCount),
     };
-  }, [leaders]);
+  }, [leaders, settings]);
 
   if (!settings || (!rector && leaders.length === 0)) {
     return null;

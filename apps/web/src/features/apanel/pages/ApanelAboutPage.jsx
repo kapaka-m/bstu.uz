@@ -366,7 +366,6 @@ export default function ApanelAboutPage() {
         : sectionKey === "facultiesList"
           ? {
               id: activeItem.id || "",
-              count: activeItem.count || "",
               link: activeItem.link || "",
               color: activeItem.color || facultyColors[0],
             }
@@ -399,6 +398,7 @@ export default function ApanelAboutPage() {
               {
                 name: item.name || "",
                 dean: item.dean || "",
+                count: item.count || "",
                 description: item.desc || "",
               },
             ];
@@ -816,7 +816,7 @@ export default function ApanelAboutPage() {
               label="Count"
               value={item.count}
               onChange={(value) =>
-                updateSharedArrayItem("facultiesList.items", index, "count", value)
+                updateArrayItem("facultiesList.items", index, "count", value)
               }
             />
             <Field

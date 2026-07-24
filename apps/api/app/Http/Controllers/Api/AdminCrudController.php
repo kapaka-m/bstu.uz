@@ -1021,7 +1021,7 @@ class AdminCrudController extends Controller
     {
         return match ($this->normalizeAboutSection($section)) {
             'stats' => ['number', 'icon', 'color'],
-            'facultiesList' => ['id', 'count', 'link', 'color'],
+            'facultiesList' => ['id', 'link', 'color'],
             'timeline' => ['year', 'icon'],
             'values' => ['icon', 'color'],
             default => [],
@@ -1032,7 +1032,7 @@ class AdminCrudController extends Controller
     {
         return match ($this->normalizeAboutSection($section)) {
             'stats' => ['label' => 'label', 'description' => 'desc', 'desc' => 'desc'],
-            'facultiesList' => ['name' => 'name', 'dean' => 'dean', 'description' => 'desc', 'desc' => 'desc'],
+            'facultiesList' => ['name' => 'name', 'dean' => 'dean', 'count' => 'count', 'description' => 'desc', 'desc' => 'desc'],
             'timeline' => ['title' => 'title', 'description' => 'desc', 'desc' => 'desc'],
             'values' => ['title' => 'title', 'description' => 'desc', 'desc' => 'desc'],
             default => [],

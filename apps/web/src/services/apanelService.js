@@ -193,7 +193,11 @@ export const apanelService = {
     } else {
       Object.entries(metadata).forEach(([key, value]) => {
         if (value !== undefined && value !== null && value !== "") {
-          formData.append(key, value);
+          if (typeof value === "boolean") {
+            formData.append(key, value ? "1" : "0");
+          } else {
+            formData.append(key, value);
+          }
         }
       });
     }

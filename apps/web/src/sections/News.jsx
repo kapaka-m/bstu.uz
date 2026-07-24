@@ -161,7 +161,7 @@ export default function News() {
             slidesPerView={1}
             autoplay={{ delay: 4500, disableOnInteraction: false, pauseOnMouseEnter: true }}
             breakpoints={{ 768: { slidesPerView: 2 } }}
-            className="pt-3 pb-6 !overflow-visible [&_.swiper-wrapper]:items-stretch"
+            className="pt-3 pb-6 overflow-visible! [&_.swiper-wrapper]:items-stretch"
           >
             {homeNews.map((item, index) => (
               <SwiperSlide key={item.id} className="h-auto">

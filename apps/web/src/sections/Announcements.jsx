@@ -124,7 +124,7 @@ export default function Announcements() {
               1024: { slidesPerView: 3 },
               1280: { slidesPerView: 4 },
             }}
-            className="pt-3 pb-6 !overflow-visible [&_.swiper-wrapper]:items-stretch"
+            className="pt-3 pb-6 overflow-visible! [&_.swiper-wrapper]:items-stretch"
           >
             {latestAnnouncements.map((item) => (
                 <SwiperSlide key={item.id} className="h-auto flex">

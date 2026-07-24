@@ -69,7 +69,6 @@ export default function ApanelLayout({ children }) {
           icon: LayoutDashboard,
         },
         { path: "/apanel/settings", label: "Settings", icon: Settings },
-        { path: "/apanel/locales", label: "Locales", icon: Globe },
         {
           path: "/apanel/translations",
           label: "Translation Dict",
@@ -100,6 +99,11 @@ export default function ApanelLayout({ children }) {
           path: "/apanel/cms/footer-web",
           label: "Footer Web",
           icon: PanelBottom,
+        },
+        {
+          path: "/apanel/cms/locales",
+          label: "Locales",
+          icon: Globe,
         },
         {
           path: "/apanel/cms/news-events",

@@ -411,6 +411,16 @@ function AppContent() {
               }
             />
             <Route
+              path="/apanel/cms/locales"
+              element={
+                <AdminRoute>
+                  <ApanelLayout>
+                    <ApanelLocales />
+                  </ApanelLayout>
+                </AdminRoute>
+              }
+            />
+            <Route
               path="/apanel/locales"
               element={
                 <AdminRoute>

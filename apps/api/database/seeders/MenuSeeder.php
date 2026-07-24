@@ -221,8 +221,38 @@ class MenuSeeder extends Seeder
     {
         $labels = [];
         foreach (['en', 'uz', 'ru', 'ar'] as $locale) {
-            $labels[$locale] = Arr::get($this->translations, "{$locale}.{$path}")
-                ?: ($fallbackLabels[$locale] ?? $fallbackLabels['en'] ?? $path);
+            $val = null;
+
+            if ($locale === 'uz') {
+                $val = Arr::get($this->translations, $path);
+
+                if ($val === null && str_ends_with($path, '.name')) {
+                    $parentVal = Arr::get($this->translations, substr($path, 0, -5));
+                    if (is_string($parentVal)) {
+                        $val = $parentVal;
+                    }
+                }
+
+                if ($val === null) {
+                    $val = Arr::get($this->translations, "uz.{$path}");
+                }
+            } else {
+                $val = Arr::get($this->translations, "{$locale}.{$path}");
+            }
+
+            if ($val === null && str_ends_with($path, '.name')) {
+                $prefix = $locale === 'uz' ? '' : "{$locale}.";
+                $parentVal = Arr::get($this->translations, $prefix . substr($path, 0, -5));
+                if (is_string($parentVal)) {
+                    $val = $parentVal;
+                }
+            }
+
+            if (is_array($val)) {
+                $val = $val['name'] ?? null;
+            }
+
+            $labels[$locale] = $val ?: ($fallbackLabels[$locale] ?? $fallbackLabels['en'] ?? $path);
         }
 
         return $labels;

@@ -22,7 +22,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        RateLimiter::for('api', function (Request $request) {
+            return app()->environment('local')
+                ? Limit::none()
+                : Limit::perMinute(600)->by($request->ip());
+        });
+
         RateLimiter::for('auth', function (Request $request) {
+            if (app()->environment('local')) {
+                return Limit::none();
+            }
             $email = strtolower((string) $request->input('email'));
             $key = trim($email) !== '' ? $email.'|'.$request->ip() : $request->ip();
 
@@ -30,10 +39,15 @@ class AppServiceProvider extends ServiceProvider
         });
 
         RateLimiter::for('auth-register', function (Request $request) {
-            return Limit::perMinute(3)->by($request->ip());
+            return app()->environment('local')
+                ? Limit::none()
+                : Limit::perMinute(3)->by($request->ip());
         });
 
         RateLimiter::for('password-reset', function (Request $request) {
+            if (app()->environment('local')) {
+                return Limit::none();
+            }
             $email = strtolower((string) $request->input('email'));
             $key = trim($email) !== '' ? $email.'|'.$request->ip() : $request->ip();
 
@@ -41,19 +55,27 @@ class AppServiceProvider extends ServiceProvider
         });
 
         RateLimiter::for('public-api', function (Request $request) {
-            return Limit::perMinute(600)->by($request->ip());
+            return app()->environment('local')
+                ? Limit::none()
+                : Limit::perMinute(600)->by($request->ip());
         });
 
         RateLimiter::for('student-api', function (Request $request) {
-            return Limit::perMinute(90)->by(optional($request->user())->id ?: $request->ip());
+            return app()->environment('local')
+                ? Limit::none()
+                : Limit::perMinute(90)->by(optional($request->user())->id ?: $request->ip());
         });
 
         RateLimiter::for('apanel-api', function (Request $request) {
-            return Limit::perMinute(600)->by(optional($request->user())->id ?: $request->ip());
+            return app()->environment('local')
+                ? Limit::none()
+                : Limit::perMinute(600)->by(optional($request->user())->id ?: $request->ip());
         });
 
         RateLimiter::for('uploads', function (Request $request) {
-            return Limit::perMinute(20)->by(optional($request->user())->id ?: $request->ip());
+            return app()->environment('local')
+                ? Limit::none()
+                : Limit::perMinute(20)->by(optional($request->user())->id ?: $request->ip());
         });
     }
 }

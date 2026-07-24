@@ -101,6 +101,9 @@ const ApanelMedia = React.lazy(
 const ApanelLocales = React.lazy(
   () => import("./features/apanel/pages/ApanelLocales"),
 );
+const ApanelCenters = React.lazy(
+  () => import("./features/apanel/pages/ApanelCenters"),
+);
 const ApanelApplicationDetail = React.lazy(
   () => import("./features/apanel/pages/ApanelApplicationDetail"),
 );
@@ -426,6 +429,16 @@ function AppContent() {
                 <AdminRoute>
                   <ApanelLayout>
                     <ApanelLocales />
+                  </ApanelLayout>
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/apanel/centres-and-departments"
+              element={
+                <AdminRoute>
+                  <ApanelLayout>
+                    <ApanelCenters />
                   </ApanelLayout>
                 </AdminRoute>
               }

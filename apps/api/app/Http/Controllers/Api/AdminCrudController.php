@@ -47,6 +47,8 @@ use App\Models\StudentProfile;
 use App\Models\SupportTicket;
 use App\Models\TranslationKey;
 use App\Models\TranslationValue;
+use App\Models\UniversityCenter;
+use App\Models\UniversityCenterSetting;
 use App\Models\User;
 use App\Models\Video;
 use App\Models\VideoGallerySetting;
@@ -115,6 +117,7 @@ class AdminCrudController extends Controller
         'green-campus-stats' => GreenCampusStat::class,
         'green-campus-articles' => GreenCampusArticle::class,
         'application-status-histories' => ApplicationStatusHistory::class,
+        'university-centers' => UniversityCenter::class,
     ];
 
     /**
@@ -209,7 +212,7 @@ class AdminCrudController extends Controller
             $query->with(['studentProfile.user', 'program.translations', 'faculty.translations', 'department.translations']);
         }
 
-        if (in_array($resource, ['news', 'blogs', 'videos', 'announcements', 'administration-profiles', 'green-campus-stats', 'green-campus-articles', 'services'], true)) {
+        if (in_array($resource, ['news', 'blogs', 'videos', 'announcements', 'administration-profiles', 'green-campus-stats', 'green-campus-articles', 'services', 'university-centers'], true)) {
             $query->with('translations');
         }
 
@@ -1832,6 +1835,59 @@ class AdminCrudController extends Controller
         });
     }
 
+    public function showUniversityCenterSettings(Request $request)
+    {
+        $setting = UniversityCenterSetting::with('translations')->firstOrCreate(
+            ['id' => 1],
+            ['is_active' => true]
+        );
+
+        return $this->successResponse($setting, 'University center settings retrieved');
+    }
+
+    public function updateUniversityCenterSettings(Request $request)
+    {
+        $rules = [
+            'is_active' => 'boolean',
+            'translations' => 'required|array',
+            'translations.*.sidebar_title' => 'required|string|max:255',
+            'translations.*.structure_label' => 'required|string|max:255',
+            'translations.*.about_label' => 'required|string|max:255',
+            'translations.*.staff_label' => 'required|string|max:255',
+            'translations.*.default_head_desc' => 'required|string',
+            'translations.*.mission_label' => 'required|string|max:255',
+            'translations.*.support_title' => 'required|string|max:255',
+            'translations.*.support_desc' => 'required|string',
+            'translations.*.contact_btn_label' => 'required|string|max:255',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return $this->errorResponse('Validation failed', 422, $validator->errors()->toArray());
+        }
+
+        return DB::transaction(function () use ($validator) {
+            $data = $validator->validated();
+            $setting = UniversityCenterSetting::with('translations')->firstOrCreate(['id' => 1]);
+            $oldValues = $setting->toArray();
+
+            $setting->update([
+                'is_active' => $data['is_active'] ?? true,
+            ]);
+
+            foreach ($data['translations'] as $locale => $fields) {
+                $fields['locale'] = $locale;
+                $setting->translations()->updateOrCreate(['locale' => $locale], $fields);
+            }
+
+            $this->refreshPublicContentCacheVersion('university-centers');
+            $this->logAction('update', UniversityCenterSetting::class, $setting->id, $oldValues, $setting->fresh('translations')->toArray());
+
+            return $this->successResponse($setting->fresh('translations'), 'University center settings updated');
+        });
+    }
+
     public function updateAdministrationSettings(Request $request)
     {
         $rules = [
@@ -2064,6 +2120,22 @@ class AdminCrudController extends Controller
                     'sort_order' => 'integer',
                     'is_active' => 'boolean',
                     'translations' => 'required|array',
+                ];
+            case 'university-centers':
+                return [
+                    'slug' => 'required|string|unique:university_centers,slug,'.$id,
+                    'image' => 'nullable|string',
+                    'email' => 'nullable|string',
+                    'phone' => 'nullable|string',
+                    'sort_order' => 'integer',
+                    'is_active' => 'boolean',
+                    'translations' => 'required|array',
+                    'translations.*.name' => 'required|string',
+                    'translations.*.head' => 'required|string',
+                    'translations.*.head_title' => 'required|string',
+                    'translations.*.office_hours' => 'required|string',
+                    'translations.*.about' => 'required|string',
+                    'translations.*.functions' => 'nullable|array',
                 ];
             case 'departments':
                 return [

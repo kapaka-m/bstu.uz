@@ -62,6 +62,9 @@ Route::prefix('v1')->group(function () {
         Route::get('/green-campus/settings', [PublicApiController::class, 'greenCampusSettings']);
         Route::get('/green-campus/articles', [PublicApiController::class, 'greenCampusArticles']);
         Route::get('/green-campus/articles/{slug}', [PublicApiController::class, 'greenCampusArticle']);
+        Route::get('/university-centers/settings', [PublicApiController::class, 'universityCenterSettings']);
+        Route::get('/university-centers', [PublicApiController::class, 'universityCenters']);
+        Route::get('/university-centers/{slug}', [PublicApiController::class, 'universityCenter']);
         Route::get('/services/settings', [PublicApiController::class, 'serviceSettings']);
         Route::get('/services', [PublicApiController::class, 'services']);
         Route::get('/videos/settings', [PublicApiController::class, 'videoGallerySettings']);
@@ -150,6 +153,8 @@ Route::prefix('v1')->group(function () {
         Route::put('cms/administration/settings', [AdminCrudController::class, 'updateAdministrationSettings']);
         Route::get('cms/interactive-services/settings', [AdminCrudController::class, 'showInteractiveServiceSettings']);
         Route::put('cms/interactive-services/settings', [AdminCrudController::class, 'updateInteractiveServiceSettings']);
+        Route::get('cms/university-centers/settings', [AdminCrudController::class, 'showUniversityCenterSettings']);
+        Route::put('cms/university-centers/settings', [AdminCrudController::class, 'updateUniversityCenterSettings']);
         Route::get('{resource}', [AdminCrudController::class, 'index']);
         Route::post('{resource}', [AdminCrudController::class, 'store'])->middleware('throttle:uploads');
         Route::get('{resource}/{id}', [AdminCrudController::class, 'show']);

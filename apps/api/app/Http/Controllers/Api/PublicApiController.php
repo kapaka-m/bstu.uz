@@ -38,6 +38,8 @@ use App\Models\Program;
 use App\Models\Service;
 use App\Models\Setting;
 use App\Models\StaffProfile;
+use App\Models\UniversityCenter;
+use App\Models\UniversityCenterSetting;
 use App\Models\TranslationKey;
 use App\Models\Video;
 use App\Models\VideoComment;
@@ -1830,5 +1832,102 @@ class PublicApiController extends Controller
             'content' => $translation?->content ?: '',
             'author' => $translation?->author ?: '',
         ];
+     }
+
+    public function universityCenters(Request $request)
+    {
+        $locale = $this->getRequestLocale($request);
+
+        $payload = $this->publicCache($request, 'university_centers', [$locale], function () use ($locale) {
+            return UniversityCenter::where('is_active', true)
+                ->orderBy('sort_order')
+                ->with('translations')
+                ->get()
+                ->map(fn (UniversityCenter $center) => $this->formatUniversityCenter($center, $locale))
+                ->values()
+                ->all();
+        });
+
+        return $this->successResponse(
+            $payload,
+            'University centers retrieved successfully'
+        );
+    }
+
+    public function universityCenter(Request $request, string $slug)
+    {
+        $locale = $this->getRequestLocale($request);
+        $center = UniversityCenter::where('slug', $slug)
+            ->where('is_active', true)
+            ->with('translations')
+            ->first();
+
+        if (! $center) {
+            return $this->errorResponse("University center '{$slug}' not found", 404);
+        }
+
+        return $this->successResponse(
+            $this->formatUniversityCenter($center, $locale),
+            'University center retrieved successfully'
+        );
+    }
+
+    protected function formatUniversityCenter(UniversityCenter $center, string $locale): array
+    {
+        $translation = $center->translations->where('locale', $locale)->first()
+            ?: $center->translations->where('locale', 'en')->first();
+
+        return [
+            'id' => $center->id,
+            'slug' => $center->slug,
+            'image' => $center->image ? url(\Illuminate\Support\Facades\Storage::url($center->image)) : null,
+            'email' => $center->email,
+            'phone' => $center->phone,
+            'sort_order' => $center->sort_order,
+            'is_active' => $center->is_active,
+            'created_at' => $center->created_at?->toISOString(),
+            'updated_at' => $center->updated_at?->toISOString(),
+            'name' => $translation?->name ?: $center->slug,
+            'head' => $translation?->head ?: '',
+            'headTitle' => $translation?->head_title ?: '',
+            'officeHours' => $translation?->office_hours ?: '',
+            'about' => $translation?->about ?: '',
+            'functions' => $translation?->functions ?: [],
+        ];
+    }
+
+    public function universityCenterSettings(Request $request)
+    {
+        $locale = $this->getRequestLocale($request);
+        $payload = $this->publicCache($request, 'university_center_settings', [$locale], function () use ($locale) {
+            $setting = UniversityCenterSetting::where('is_active', true)
+                ->with('translations')
+                ->first();
+
+            if (! $setting) {
+                return null;
+            }
+
+            $translation = $setting->translations->firstWhere('locale', $locale)
+                ?: $setting->translations->firstWhere('locale', 'en');
+
+            return array_merge([
+                'id' => $setting->id,
+                'is_active' => $setting->is_active,
+            ], $translation?->only([
+                'sidebar_title',
+                'structure_label',
+                'about_label',
+                'staff_label',
+                'default_head_desc',
+                'mission_label',
+                'support_title',
+                'support_desc',
+                'contact_btn_label',
+            ]) ?: []);
+        });
+
+        return $this->successResponse($payload, 'University center settings retrieved successfully');
     }
 }
+

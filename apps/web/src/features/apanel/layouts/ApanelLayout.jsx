@@ -136,6 +136,11 @@ export default function ApanelLayout({ children }) {
           icon: UsersRound,
         },
         {
+          path: "/apanel/centres-and-departments",
+          label: "Centres & Depts",
+          icon: Building2,
+        },
+        {
           path: "/apanel/cms/interactive-services",
           label: "Interactive Services",
           icon: Briefcase,

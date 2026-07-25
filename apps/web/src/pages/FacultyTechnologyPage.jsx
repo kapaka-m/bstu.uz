@@ -6,7 +6,6 @@ import {
   BookOpen,
   BriefcaseBusiness,
   Building2,
-  ChevronRight,
   Clock,
   GraduationCap,
   Mail,
@@ -15,12 +14,17 @@ import {
   UserCheck,
   Users,
 } from "lucide-react";
-import { facultyTechnology, technologyDepartments } from "../data/facultyTechnology";
+import {
+  facultyTechnology,
+  technologyDepartments,
+} from "../data/facultyTechnology";
 import { useLanguage } from "../context/LanguageContext";
 
 const getLocalized = (value, language) => {
   if (!value || typeof value !== "object") return value;
-  return value[language] || value.en || Object.values(value).find(Boolean) || "";
+  return (
+    value[language] || value.en || Object.values(value).find(Boolean) || ""
+  );
 };
 
 const getInitials = (name) => {
@@ -37,16 +41,18 @@ const shortText = (text, max = 170) => {
   return text.length > max ? `${text.slice(0, max).trim()}...` : text;
 };
 
-function ImageWithFallback({ src, fallbackSrc, alt, className, initialsClassName }) {
+function ImageWithFallback({
+  src,
+  fallbackSrc,
+  alt,
+  className,
+  initialsClassName,
+}) {
   const [currentSrc, setCurrentSrc] = useState(src);
   const [failed, setFailed] = useState(false);
 
   if (failed || !currentSrc) {
-    return (
-      <div className={initialsClassName}>
-        {getInitials(alt)}
-      </div>
-    );
+    return <div className={initialsClassName}>{getInitials(alt)}</div>;
   }
 
   return (
@@ -93,7 +99,9 @@ function ProgramGrid({ programs, label, icon: Icon, t }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       {programs.map((program, index) => {
-        const programName = program.id ? t(`programs.${program.id}.name`, program.name) : program.name;
+        const programName = program.id
+          ? t(`programs.${program.id}.name`, program.name)
+          : program.name;
         const content = (
           <>
             <div className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
@@ -106,7 +114,9 @@ function ProgramGrid({ programs, label, icon: Icon, t }) {
               <h3 className="text-sm md:text-base font-bold text-navy leading-snug mt-1">
                 {programName}
               </h3>
-              <p className="text-xs font-semibold text-gray-400 mt-2">{label}</p>
+              <p className="text-xs font-semibold text-gray-400 mt-2">
+                {label}
+              </p>
             </div>
           </>
         );
@@ -141,7 +151,10 @@ export default function FacultyTechnologyPage() {
     faculties: t("common.faculties", "Faculties"),
     departments: t("common.departments", "Departments"),
     bachelorPrograms: t("common.bachelorPrograms", "Bachelor Programs"),
-    masterSpecializations: t("facultyTechnology.masterSpecializations", "Master Specializations"),
+    masterSpecializations: t(
+      "facultyTechnology.masterSpecializations",
+      "Master Specializations",
+    ),
     contact: t("common.contact", "Contact"),
     overview: t("common.aboutFaculty", "Faculty Overview"),
     leadership: t("common.managementDean", "Faculty Leadership"),
@@ -150,11 +163,23 @@ export default function FacultyTechnologyPage() {
     reception: t("facultyTechnology.reception", "Reception"),
     phone: t("common.phone", "Phone"),
     email: t("common.email", "Email"),
-    quickDepartmentLinks: t("facultyTechnology.quickDepartmentLinks", "Quick Department Links"),
+    quickDepartmentLinks: t(
+      "facultyTechnology.quickDepartmentLinks",
+      "Quick Department Links",
+    ),
     deanContact: t("facultyTechnology.deanContact", "Dean Contact"),
-    deputyDeanContacts: t("facultyTechnology.deputyDeanContacts", "Deputy Dean Contacts"),
-    industryCooperation: t("facultyTechnology.industryCooperation", "Industry Cooperation"),
-    academicPathways: t("facultyTechnology.academicPathways", "Academic Pathways"),
+    deputyDeanContacts: t(
+      "facultyTechnology.deputyDeanContacts",
+      "Deputy Dean Contacts",
+    ),
+    industryCooperation: t(
+      "facultyTechnology.industryCooperation",
+      "Industry Cooperation",
+    ),
+    academicPathways: t(
+      "facultyTechnology.academicPathways",
+      "Academic Pathways",
+    ),
   };
 
   const title = getLocalized(facultyTechnology.title, language);
@@ -187,16 +212,6 @@ export default function FacultyTechnologyPage() {
               transition={{ duration: 0.45 }}
               className="lg:col-span-8 text-start"
             >
-              <nav className="flex flex-wrap items-center gap-2 text-xs md:text-sm font-semibold text-gray-500 mb-6">
-                <Link to="/" className="hover:text-primary transition-colors">
-                  {labels.home}
-                </Link>
-                <ChevronRight className="w-3.5 h-3.5 text-gray-300 shrink-0" />
-                <span>{labels.faculties}</span>
-                <ChevronRight className="w-3.5 h-3.5 text-gray-300 shrink-0" />
-                <span className="text-gray-400 font-bold">{title}</span>
-              </nav>
-
               <span className="inline-flex items-center gap-2 text-[11px] font-extrabold uppercase tracking-wider text-primary bg-white/70 border border-white px-3 py-1.5 rounded-full mb-5">
                 <BriefcaseBusiness className="w-4 h-4" />
                 {labels.industryCooperation}
@@ -221,7 +236,9 @@ export default function FacultyTechnologyPage() {
                     className="inline-flex items-center justify-center gap-2 bg-white border border-gray-100 hover:border-primary/30 text-navy hover:text-primary px-5 py-3 rounded-xl text-xs font-extrabold transition-all shadow-sm"
                   >
                     {label}
-                    <ArrowRight className={`w-4 h-4 ${isRtl ? "rotate-180" : ""}`} />
+                    <ArrowRight
+                      className={`w-4 h-4 ${isRtl ? "rotate-180" : ""}`}
+                    />
                   </a>
                 ))}
               </div>
@@ -268,7 +285,10 @@ export default function FacultyTechnologyPage() {
       </section>
 
       <div className="container mx-auto px-4 md:px-8 max-w-7xl py-12 md:py-16 flex flex-col gap-16">
-        <section id="overview" className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <section
+          id="overview"
+          className="grid grid-cols-1 lg:grid-cols-12 gap-8"
+        >
           <div className="lg:col-span-4">
             <SectionTitle
               icon={BookOpen}
@@ -291,7 +311,10 @@ export default function FacultyTechnologyPage() {
             icon={UserCheck}
             eyebrow={labels.leadership}
             title={labels.leadership}
-            description={t("facultyTechnology.leadershipDesc", "Faculty leadership and contact details for academic, youth, and administrative affairs.")}
+            description={t(
+              "facultyTechnology.leadershipDesc",
+              "Faculty leadership and contact details for academic, youth, and administrative affairs.",
+            )}
           />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {facultyTechnology.leadership.map((member) => (
@@ -317,11 +340,17 @@ export default function FacultyTechnologyPage() {
                     <Clock className="w-4 h-4 text-primary shrink-0 mt-0.5" />
                     <span>{member.reception}</span>
                   </span>
-                  <a href={telHref(member.phone)} className="flex items-center gap-2 hover:text-primary transition-colors">
+                  <a
+                    href={telHref(member.phone)}
+                    className="flex items-center gap-2 hover:text-primary transition-colors"
+                  >
                     <Phone className="w-4 h-4 text-primary shrink-0" />
                     <span dir="ltr">{member.phone}</span>
                   </a>
-                  <a href={`mailto:${member.email}`} className="flex items-center gap-2 hover:text-primary transition-colors min-w-0">
+                  <a
+                    href={`mailto:${member.email}`}
+                    className="flex items-center gap-2 hover:text-primary transition-colors min-w-0"
+                  >
                     <Mail className="w-4 h-4 text-primary shrink-0" />
                     <span className="truncate">{member.email}</span>
                   </a>
@@ -336,11 +365,19 @@ export default function FacultyTechnologyPage() {
             icon={ShieldCheck}
             eyebrow={labels.departments}
             title={labels.departments}
-            description={t("facultyTechnology.departmentsDesc", "Six specialized departments connect academic training with industrial practice and applied research.")}
+            description={t(
+              "facultyTechnology.departmentsDesc",
+              "Six specialized departments connect academic training with industrial practice and applied research.",
+            )}
           />
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
             {technologyDepartments.map((department, index) => {
-              const summary = shortText(department.history?.[0] || department.rawContent?.original || "", 160);
+              const summary = shortText(
+                department.history?.[0] ||
+                  department.rawContent?.original ||
+                  "",
+                160,
+              );
               return (
                 <Link
                   key={department.slug}
@@ -369,14 +406,18 @@ export default function FacultyTechnologyPage() {
                     <div className="border-t border-gray-100 pt-4 text-xs font-semibold text-gray-500 flex items-start gap-2">
                       <Users className="w-4 h-4 text-primary shrink-0 mt-0.5" />
                       <span>
-                        <span className="text-navy font-bold">{labels.head}: </span>
+                        <span className="text-navy font-bold">
+                          {labels.head}:{" "}
+                        </span>
                         {department.contact.name}
                       </span>
                     </div>
                   )}
                   <span className="inline-flex items-center gap-2 text-xs font-extrabold text-primary mt-auto">
                     {labels.learnMore}
-                    <ArrowRight className={`w-4 h-4 ${isRtl ? "rotate-180" : ""}`} />
+                    <ArrowRight
+                      className={`w-4 h-4 ${isRtl ? "rotate-180" : ""}`}
+                    />
                   </span>
                 </Link>
               );
@@ -389,9 +430,17 @@ export default function FacultyTechnologyPage() {
             icon={GraduationCap}
             eyebrow={labels.academicPathways}
             title={labels.bachelorPrograms}
-            description={t("facultyTechnology.bachelorDesc", "Bachelor degree programs offered by the Faculty of Technology.")}
+            description={t(
+              "facultyTechnology.bachelorDesc",
+              "Bachelor degree programs offered by the Faculty of Technology.",
+            )}
           />
-          <ProgramGrid programs={facultyTechnology.bachelorPrograms} label={labels.bachelorPrograms} icon={GraduationCap} t={t} />
+          <ProgramGrid
+            programs={facultyTechnology.bachelorPrograms}
+            label={labels.bachelorPrograms}
+            icon={GraduationCap}
+            t={t}
+          />
         </section>
 
         <section id="master-specializations" className="flex flex-col gap-8">
@@ -399,32 +448,54 @@ export default function FacultyTechnologyPage() {
             icon={BookOpen}
             eyebrow={labels.academicPathways}
             title={labels.masterSpecializations}
-            description={t("facultyTechnology.masterDesc", "Master degree specializations available through the Faculty of Technology.")}
+            description={t(
+              "facultyTechnology.masterDesc",
+              "Master degree specializations available through the Faculty of Technology.",
+            )}
           />
-          <ProgramGrid programs={facultyTechnology.masterSpecializations} label={labels.masterSpecializations} icon={BookOpen} t={t} />
+          <ProgramGrid
+            programs={facultyTechnology.masterSpecializations}
+            label={labels.masterSpecializations}
+            icon={BookOpen}
+            t={t}
+          />
         </section>
 
-        <section id="contact" className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <section
+          id="contact"
+          className="grid grid-cols-1 lg:grid-cols-12 gap-8"
+        >
           <div className="lg:col-span-4">
             <SectionTitle
               icon={Mail}
               eyebrow={labels.contact}
               title={labels.contact}
-              description={t("facultyTechnology.contactDesc", "Faculty and department contact paths for students, applicants, and partners.")}
+              description={t(
+                "facultyTechnology.contactDesc",
+                "Faculty and department contact paths for students, applicants, and partners.",
+              )}
             />
           </div>
           <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-5">
             <div className="bg-primary-light border border-gray-100 rounded-3xl p-6 shadow-sm text-start">
-              <h3 className="text-lg font-extrabold text-navy mb-4">{labels.deanContact}</h3>
+              <h3 className="text-lg font-extrabold text-navy mb-4">
+                {labels.deanContact}
+              </h3>
               <div className="flex flex-col gap-3 text-sm font-semibold text-gray-500">
                 {facultyTechnology.leadership.slice(0, 1).map((member) => (
                   <React.Fragment key={member.email}>
                     <p className="text-navy font-extrabold">{member.name}</p>
-                    <a href={telHref(member.phone)} className="flex items-center gap-2 hover:text-primary transition-colors">
+                    <a
+                      href={telHref(member.phone)}
+                      className="flex items-center gap-2 hover:text-primary transition-colors"
+                    >
                       <Phone className="w-4 h-4 text-primary shrink-0" />
                       <span dir="ltr">{member.phone}</span>
                     </a>
-                    <a href={`mailto:${member.email}`} className="flex items-center gap-2 hover:text-primary transition-colors min-w-0">
+                    <a
+                      href={`mailto:${member.email}`}
+                      className="flex items-center gap-2 hover:text-primary transition-colors min-w-0"
+                    >
                       <Mail className="w-4 h-4 text-primary shrink-0" />
                       <span className="truncate">{member.email}</span>
                     </a>
@@ -434,17 +505,33 @@ export default function FacultyTechnologyPage() {
             </div>
 
             <div className="bg-white border border-gray-100 rounded-3xl p-6 shadow-sm text-start">
-              <h3 className="text-lg font-extrabold text-navy mb-4">{labels.deputyDeanContacts}</h3>
+              <h3 className="text-lg font-extrabold text-navy mb-4">
+                {labels.deputyDeanContacts}
+              </h3>
               <div className="flex flex-col gap-4">
                 {facultyTechnology.leadership.slice(1).map((member) => (
-                  <div key={member.email} className="border-b border-gray-100 last:border-b-0 pb-4 last:pb-0">
-                    <p className="text-sm font-extrabold text-navy">{member.name}</p>
-                    <p className="text-[11px] font-bold text-primary uppercase tracking-wider mt-1">{member.role}</p>
+                  <div
+                    key={member.email}
+                    className="border-b border-gray-100 last:border-b-0 pb-4 last:pb-0"
+                  >
+                    <p className="text-sm font-extrabold text-navy">
+                      {member.name}
+                    </p>
+                    <p className="text-[11px] font-bold text-primary uppercase tracking-wider mt-1">
+                      {member.role}
+                    </p>
                     <div className="flex flex-col gap-1.5 mt-3 text-xs font-semibold text-gray-500">
-                      <a href={telHref(member.phone)} className="hover:text-primary transition-colors" dir="ltr">
+                      <a
+                        href={telHref(member.phone)}
+                        className="hover:text-primary transition-colors"
+                        dir="ltr"
+                      >
                         {member.phone}
                       </a>
-                      <a href={`mailto:${member.email}`} className="hover:text-primary transition-colors truncate">
+                      <a
+                        href={`mailto:${member.email}`}
+                        className="hover:text-primary transition-colors truncate"
+                      >
                         {member.email}
                       </a>
                     </div>
@@ -454,7 +541,9 @@ export default function FacultyTechnologyPage() {
             </div>
 
             <div className="md:col-span-2 bg-white border border-gray-100 rounded-3xl p-6 shadow-sm text-start">
-              <h3 className="text-lg font-extrabold text-navy mb-5">{labels.quickDepartmentLinks}</h3>
+              <h3 className="text-lg font-extrabold text-navy mb-5">
+                {labels.quickDepartmentLinks}
+              </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {technologyDepartments.map((department) => (
                   <Link
@@ -463,14 +552,15 @@ export default function FacultyTechnologyPage() {
                     className="flex items-center justify-between gap-3 border border-gray-100 rounded-2xl px-4 py-3 text-sm font-bold text-gray-500 hover:text-primary hover:border-primary/20 transition-colors"
                   >
                     <span>{department.name}</span>
-                    <ArrowRight className={`w-4 h-4 shrink-0 ${isRtl ? "rotate-180" : ""}`} />
+                    <ArrowRight
+                      className={`w-4 h-4 shrink-0 ${isRtl ? "rotate-180" : ""}`}
+                    />
                   </Link>
                 ))}
               </div>
             </div>
           </div>
         </section>
-
       </div>
     </div>
   );

@@ -6,7 +6,6 @@ import {
   BookOpen,
   BriefcaseBusiness,
   Building2,
-  ChevronRight,
   Clock,
   GraduationCap,
   Mail,
@@ -22,7 +21,10 @@ import { useLanguage } from "../context/LanguageContext";
 
 const getInitials = (name) => {
   if (!name) return "";
-  const cleanName = name.replace(/^(Dr\.|Prof\.|Candidate|Associate|PhD|M\.Sc\.|B\.Sc\.)\s+/i, "");
+  const cleanName = name.replace(
+    /^(Dr\.|Prof\.|Candidate|Associate|PhD|M\.Sc\.|B\.Sc\.)\s+/i,
+    "",
+  );
   const parts = cleanName.trim().split(/\s+/);
   if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
   return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
@@ -41,40 +43,50 @@ const parseProgramString = (str) => {
   if (codeMatch) {
     return {
       code: codeMatch[1],
-      name: codeMatch[2].replace(/\[[^\]]*\]/g, "").trim()
+      name: codeMatch[2].replace(/\[[^\]]*\]/g, "").trim(),
     };
   }
   return {
     code: "",
-    name: str.replace(/\[[^\]]*\]/g, "").trim()
+    name: str.replace(/\[[^\]]*\]/g, "").trim(),
   };
 };
 
 // Helper function for matching
 const findProgramMatch = (pName, tName, list) => {
   if (!pName) return null;
-  const clean = (n) => n.replace(/\[\s*(b\.sc\.|m\.sc\.|phd|dsc|phd\/dsc|bachelor|master)\s*\]/gi, "").replace(/^\d+[\s–-–]+/, "").trim().toLowerCase();
+  const clean = (n) =>
+    n
+      .replace(
+        /\[\s*(b\.sc\.|m\.sc\.|phd|dsc|phd\/dsc|bachelor|master)\s*\]/gi,
+        "",
+      )
+      .replace(/^\d+[\s–-–]+/, "")
+      .trim()
+      .toLowerCase();
   const cleanOrig = clean(pName);
   const cleanTrans = clean(tName || "");
 
   // Match by original cleaned name first to avoid collisions from stale translations
-  let found = list.find(p => clean(p.name) === cleanOrig);
+  let found = list.find((p) => clean(p.name) === cleanOrig);
   if (found) return found;
 
   // Then match by translated name when available
-  found = list.find(p => clean(p.name) === cleanTrans);
+  found = list.find((p) => clean(p.name) === cleanTrans);
   if (found) return found;
 
   // Match by code fallback (for legacy strings with exact numeric identifiers)
   const codeMatch = pName.match(/\b\d{8}\b|\b\d{2}\.\d{2}\.\d{2}\b/);
   if (codeMatch) {
-    found = list.find(p => p.code && p.code.replace(/-.*/, "") === codeMatch[0]);
+    found = list.find(
+      (p) => p.code && p.code.replace(/-.*/, "") === codeMatch[0],
+    );
     if (found) return found;
   }
-  
+
   // Match by substring (longest name first to avoid "Management" false positives)
   const sorted = [...list].sort((a, b) => b.name.length - a.name.length);
-  found = sorted.find(p => {
+  found = sorted.find((p) => {
     const cName = clean(p.name);
     if (cName.length < 4) return false;
     return cleanOrig.includes(cName) || cleanTrans.includes(cName);
@@ -82,16 +94,18 @@ const findProgramMatch = (pName, tName, list) => {
   return found;
 };
 
-function ImageWithFallback({ src, fallbackSrc, alt, className, initialsClassName }) {
+function ImageWithFallback({
+  src,
+  fallbackSrc,
+  alt,
+  className,
+  initialsClassName,
+}) {
   const [currentSrc, setCurrentSrc] = useState(src);
   const [failed, setFailed] = useState(false);
 
   if (failed || !currentSrc) {
-    return (
-      <div className={initialsClassName}>
-        {getInitials(alt)}
-      </div>
-    );
+    return <div className={initialsClassName}>{getInitials(alt)}</div>;
   }
 
   return (
@@ -141,20 +155,23 @@ function ProgramGrid({ programs, label, icon: Icon, t }) {
         const keyMap = {
           "software-engineering": "softwareEngineering",
           "mechanical-engineering": "mechanicalEngineering",
-          "architecture": "architecture",
-          "economics": "economics",
+          architecture: "architecture",
+          economics: "economics",
           "oil-gas-engineering": "oilGasEngineering",
           "power-engineering": "powerEngineering",
-          "construction": "construction",
-          "metallurgy": "metallurgy",
+          construction: "construction",
+          metallurgy: "metallurgy",
           "automotive-engineering": "automotiveEngineering",
-          "cybersecurity": "cybersecurity",
+          cybersecurity: "cybersecurity",
           "food-technology": "foodTechnology",
           "food-technology-60720100": "foodTechnology",
-          "textile-engineering": "textileEngineering"
+          "textile-engineering": "textileEngineering",
         };
         const displayName = program.id
-          ? t(`home.programs.list.${keyMap[program.id] || program.id}.name`, program.name)
+          ? t(
+              `home.programs.list.${keyMap[program.id] || program.id}.name`,
+              program.name,
+            )
           : program.name;
 
         const content = (
@@ -171,7 +188,9 @@ function ProgramGrid({ programs, label, icon: Icon, t }) {
               <h3 className="text-sm md:text-base font-bold text-navy leading-snug mt-1">
                 {displayName}
               </h3>
-              <p className="text-xs font-semibold text-gray-400 mt-2">{label}</p>
+              <p className="text-xs font-semibold text-gray-400 mt-2">
+                {label}
+              </p>
             </div>
           </>
         );
@@ -215,7 +234,10 @@ export default function FacultyDetails() {
     faculties: t("common.faculties", "Faculties"),
     departments: t("common.departments", "Departments"),
     bachelorPrograms: t("common.bachelorPrograms", "Bachelor Programs"),
-    masterSpecializations: t("facultyTechnology.masterSpecializations", "Master Specializations"),
+    masterSpecializations: t(
+      "facultyTechnology.masterSpecializations",
+      "Master Specializations",
+    ),
     contact: t("common.contact", "Contact"),
     overview: t("common.aboutFaculty", "Faculty Overview"),
     leadership: t("common.managementDean", "Faculty Leadership"),
@@ -223,11 +245,23 @@ export default function FacultyDetails() {
     head: t("common.headOfDepartment", "Head of Department"),
     phone: t("common.phone", "Phone"),
     email: t("common.email", "Email"),
-    quickDepartmentLinks: t("facultyTechnology.quickDepartmentLinks", "Quick Department Links"),
+    quickDepartmentLinks: t(
+      "facultyTechnology.quickDepartmentLinks",
+      "Quick Department Links",
+    ),
     deanContact: t("facultyTechnology.deanContact", "Dean Contact"),
-    deputyDeanContacts: t("facultyTechnology.deputyDeanContacts", "Deputy Dean Contacts"),
-    industryCooperation: t("facultyTechnology.industryCooperation", "Industry Cooperation"),
-    academicPathways: t("facultyTechnology.academicPathways", "Academic Pathways"),
+    deputyDeanContacts: t(
+      "facultyTechnology.deputyDeanContacts",
+      "Deputy Dean Contacts",
+    ),
+    industryCooperation: t(
+      "facultyTechnology.industryCooperation",
+      "Industry Cooperation",
+    ),
+    academicPathways: t(
+      "facultyTechnology.academicPathways",
+      "Academic Pathways",
+    ),
   };
 
   const title = t(`faculties.${faculty.id}.name`, faculty.name);
@@ -249,18 +283,25 @@ export default function FacultyDetails() {
       }
     });
 
-  const facultyDepartmentsList = Array.from(uniqueDeptsMap.values()).map(({ key, dept }) => ({
-    slug: key,
-    name: dept.name,
-    route: `/department/${key}`,
-    about: dept.about || "",
-    contact: dept.head ? {
-      name: t(`departments.${key}.head`, dept.head),
-      role: t(`departments.${key}.headTitle`, dept.headTitle || "Head of Department"),
-      phone: dept.headPhone,
-      email: dept.headEmail,
-    } : null
-  }));
+  const facultyDepartmentsList = Array.from(uniqueDeptsMap.values()).map(
+    ({ key, dept }) => ({
+      slug: key,
+      name: dept.name,
+      route: `/department/${key}`,
+      about: dept.about || "",
+      contact: dept.head
+        ? {
+            name: t(`departments.${key}.head`, dept.head),
+            role: t(
+              `departments.${key}.headTitle`,
+              dept.headTitle || "Head of Department",
+            ),
+            phone: dept.headPhone,
+            email: dept.headEmail,
+          }
+        : null,
+    }),
+  );
 
   // 2. Parse the programs array from mockData into Bachelor and Master grids
   const bachelorPrograms = [];
@@ -268,7 +309,10 @@ export default function FacultyDetails() {
 
   if (faculty.programs) {
     faculty.programs.forEach((progStr, index) => {
-      const localizedStr = t(`faculties.${faculty.id}.programs.${index}`, progStr);
+      const localizedStr = t(
+        `faculties.${faculty.id}.programs.${index}`,
+        progStr,
+      );
       const { code, name } = parseProgramString(localizedStr);
       const matched = findProgramMatch(progStr, localizedStr, programsData);
 
@@ -277,11 +321,14 @@ export default function FacultyDetails() {
         name: name,
         id: matched?.id || "",
         route: matched ? `/programs/${matched.id}` : "",
-        originalStr: progStr
+        originalStr: progStr,
       };
 
-      const hasBachelor = /b\.sc\.|bachelor/i.test(localizedStr) || /b\.sc\.|bachelor/i.test(progStr);
-      const hasMaster = /m\.sc\.|master/i.test(localizedStr) || /m\.sc\.|master/i.test(progStr);
+      const hasBachelor =
+        /b\.sc\.|bachelor/i.test(localizedStr) ||
+        /b\.sc\.|bachelor/i.test(progStr);
+      const hasMaster =
+        /m\.sc\.|master/i.test(localizedStr) || /m\.sc\.|master/i.test(progStr);
       const hasPhD = /phd|dsc/i.test(localizedStr) || /phd|dsc/i.test(progStr);
 
       const isBachelor = hasBachelor || (!hasMaster && !hasPhD);
@@ -292,13 +339,19 @@ export default function FacultyDetails() {
       if (hasMaster) {
         masterPrograms.push({
           ...programObj,
-          name: programObj.name.includes("Master") ? programObj.name : `${programObj.name} [M.Sc.]`
+          name: programObj.name.includes("Master")
+            ? programObj.name
+            : `${programObj.name} [M.Sc.]`,
         });
       }
       if (hasPhD) {
         masterPrograms.push({
           ...programObj,
-          name: programObj.name.includes("PhD") || programObj.name.includes("Doctoral") ? programObj.name : `${programObj.name} [PhD]`
+          name:
+            programObj.name.includes("PhD") ||
+            programObj.name.includes("Doctoral")
+              ? programObj.name
+              : `${programObj.name} [PhD]`,
         });
       }
     });
@@ -309,38 +362,68 @@ export default function FacultyDetails() {
   if (faculty.id === "faculty-of-natural-resources-management") {
     leadership = [
       {
-        name: t("faculties.faculty-of-natural-resources-management.dean", faculty.management.dean),
-        role: t("faculties.faculty-of-natural-resources-management.deanTitle", faculty.management.title),
-        reception: t("faculties.faculty-of-natural-resources-management.deanOfficeHours", faculty.management.officeHours),
+        name: t(
+          "faculties.faculty-of-natural-resources-management.dean",
+          faculty.management.dean,
+        ),
+        role: t(
+          "faculties.faculty-of-natural-resources-management.deanTitle",
+          faculty.management.title,
+        ),
+        reception: t(
+          "faculties.faculty-of-natural-resources-management.deanOfficeHours",
+          faculty.management.officeHours,
+        ),
         phone: faculty.management.phone,
         email: faculty.management.email,
         image: null,
         fallbackImage: null,
       },
       {
-        name: t("faculties.faculty-of-natural-resources-management.deputy1Name", "To be announced"),
-        role: t("faculties.faculty-of-natural-resources-management.deputy1Role", "Deputy Dean for Academic Affairs"),
-        reception: t("faculties.faculty-of-natural-resources-management.deputy1Hours", "Every day 14:00–16:00"),
+        name: t(
+          "faculties.faculty-of-natural-resources-management.deputy1Name",
+          "To be announced",
+        ),
+        role: t(
+          "faculties.faculty-of-natural-resources-management.deputy1Role",
+          "Deputy Dean for Academic Affairs",
+        ),
+        reception: t(
+          "faculties.faculty-of-natural-resources-management.deputy1Hours",
+          "Every day 14:00–16:00",
+        ),
         phone: faculty.management.phone,
         email: "resources-dean@bstu.uz",
         image: null,
         fallbackImage: null,
       },
       {
-        name: t("faculties.faculty-of-natural-resources-management.deputy2Name", "Gadoyeva Abera Hasanovna"),
-        role: t("faculties.faculty-of-natural-resources-management.deputy2Role", "Deputy Dean for Youth Affairs"),
-        reception: t("faculties.faculty-of-natural-resources-management.deputy2Hours", "Every day 14:00–16:00"),
+        name: t(
+          "faculties.faculty-of-natural-resources-management.deputy2Name",
+          "Gadoyeva Abera Hasanovna",
+        ),
+        role: t(
+          "faculties.faculty-of-natural-resources-management.deputy2Role",
+          "Deputy Dean for Youth Affairs",
+        ),
+        reception: t(
+          "faculties.faculty-of-natural-resources-management.deputy2Hours",
+          "Every day 14:00–16:00",
+        ),
         phone: faculty.management.phone,
         email: "resources-dean@bstu.uz",
         image: null,
         fallbackImage: null,
-      }
+      },
     ];
   } else if (faculty.leadership) {
     leadership = faculty.leadership.map((member, idx) => ({
       name: t(`faculties.${faculty.id}.leadership.${idx}.name`, member.name),
       role: t(`faculties.${faculty.id}.leadership.${idx}.role`, member.role),
-      reception: t(`faculties.${faculty.id}.leadership.${idx}.officeHours`, member.officeHours || member.reception),
+      reception: t(
+        `faculties.${faculty.id}.leadership.${idx}.officeHours`,
+        member.officeHours || member.reception,
+      ),
       phone: member.phone,
       email: member.email,
       image: member.image,
@@ -350,17 +433,32 @@ export default function FacultyDetails() {
     leadership = [
       {
         name: faculty.management.dean,
-        role: t(`faculties.${faculty.id}.management.title`, faculty.management.title),
-        reception: t(`faculties.${faculty.id}.management.officeHours`, faculty.management.officeHours),
+        role: t(
+          `faculties.${faculty.id}.management.title`,
+          faculty.management.title,
+        ),
+        reception: t(
+          `faculties.${faculty.id}.management.officeHours`,
+          faculty.management.officeHours,
+        ),
         phone: faculty.management.phone,
         email: faculty.management.email,
         image: null,
         fallbackImage: null,
       },
       {
-        name: t(`faculties.${faculty.id}.deputyAcademicName`, "To be announced"),
-        role: t(`faculties.${faculty.id}.deputyAcademicRole`, "Deputy Dean for Academic Affairs"),
-        reception: t(`faculties.${faculty.id}.deputyAcademicHours`, faculty.management.officeHours),
+        name: t(
+          `faculties.${faculty.id}.deputyAcademicName`,
+          "To be announced",
+        ),
+        role: t(
+          `faculties.${faculty.id}.deputyAcademicRole`,
+          "Deputy Dean for Academic Affairs",
+        ),
+        reception: t(
+          `faculties.${faculty.id}.deputyAcademicHours`,
+          faculty.management.officeHours,
+        ),
         phone: faculty.management.phone,
         email: faculty.management.email,
         image: null,
@@ -368,13 +466,19 @@ export default function FacultyDetails() {
       },
       {
         name: t(`faculties.${faculty.id}.deputyYouthName`, "To be announced"),
-        role: t(`faculties.${faculty.id}.deputyYouthRole`, "Deputy Dean for Youth Affairs"),
-        reception: t(`faculties.${faculty.id}.deputyYouthHours`, faculty.management.officeHours),
+        role: t(
+          `faculties.${faculty.id}.deputyYouthRole`,
+          "Deputy Dean for Youth Affairs",
+        ),
+        reception: t(
+          `faculties.${faculty.id}.deputyYouthHours`,
+          faculty.management.officeHours,
+        ),
         phone: faculty.management.phone,
         email: faculty.management.email,
         image: null,
         fallbackImage: null,
-      }
+      },
     ];
   }
 
@@ -390,16 +494,6 @@ export default function FacultyDetails() {
               transition={{ duration: 0.45 }}
               className="lg:col-span-8 text-start"
             >
-              <nav className="flex flex-wrap items-center gap-2 text-xs md:text-sm font-semibold text-gray-500 mb-6">
-                <Link to="/" className="hover:text-primary transition-colors">
-                  {labels.home}
-                </Link>
-                <ChevronRight className={`w-3.5 h-3.5 text-gray-300 shrink-0 ${isRtl ? "rotate-180" : ""}`} />
-                <span>{labels.faculties}</span>
-                <ChevronRight className={`w-3.5 h-3.5 text-gray-300 shrink-0 ${isRtl ? "rotate-180" : ""}`} />
-                <span className="text-gray-400 font-bold">{title}</span>
-              </nav>
-
               <span className="inline-flex items-center gap-2 text-[11px] font-extrabold uppercase tracking-wider text-primary bg-white/70 border border-white px-3 py-1.5 rounded-full mb-5">
                 <BriefcaseBusiness className="w-4 h-4" />
                 {labels.industryCooperation}
@@ -424,7 +518,9 @@ export default function FacultyDetails() {
                     className="inline-flex items-center justify-center gap-2 bg-white border border-gray-100 hover:border-primary/30 text-navy hover:text-primary px-5 py-3 rounded-xl text-xs font-extrabold transition-all shadow-sm"
                   >
                     {label}
-                    <ArrowRight className={`w-4 h-4 ${isRtl ? "rotate-180" : ""}`} />
+                    <ArrowRight
+                      className={`w-4 h-4 ${isRtl ? "rotate-180" : ""}`}
+                    />
                   </a>
                 ))}
               </div>
@@ -472,9 +568,11 @@ export default function FacultyDetails() {
 
       {/* Main Content Area */}
       <div className="container mx-auto px-4 md:px-8 max-w-7xl py-12 md:py-16 flex flex-col gap-16">
-        
         {/* Faculty Overview */}
-        <section id="overview" className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <section
+          id="overview"
+          className="grid grid-cols-1 lg:grid-cols-12 gap-8"
+        >
           <div className="lg:col-span-4">
             <SectionTitle
               icon={BookOpen}
@@ -498,7 +596,10 @@ export default function FacultyDetails() {
             icon={UserCheck}
             eyebrow={labels.leadership}
             title={labels.leadership}
-            description={t("facultyTechnology.leadershipDesc", "Faculty leadership and contact details for academic, youth, and administrative affairs.")}
+            description={t(
+              "facultyTechnology.leadershipDesc",
+              "Faculty leadership and contact details for academic, youth, and administrative affairs.",
+            )}
           />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {leadership.map((member, idx) => (
@@ -527,13 +628,19 @@ export default function FacultyDetails() {
                     </span>
                   )}
                   {member.phone && (
-                    <a href={telHref(member.phone)} className="flex items-center gap-2 hover:text-primary transition-colors">
+                    <a
+                      href={telHref(member.phone)}
+                      className="flex items-center gap-2 hover:text-primary transition-colors"
+                    >
                       <Phone className="w-4 h-4 text-primary shrink-0" />
                       <span dir="ltr">{member.phone}</span>
                     </a>
                   )}
                   {member.email && (
-                    <a href={`mailto:${member.email}`} className="flex items-center gap-2 hover:text-primary transition-colors min-w-0">
+                    <a
+                      href={`mailto:${member.email}`}
+                      className="flex items-center gap-2 hover:text-primary transition-colors min-w-0"
+                    >
                       <Mail className="w-4 h-4 text-primary shrink-0" />
                       <span className="truncate">{member.email}</span>
                     </a>
@@ -550,11 +657,17 @@ export default function FacultyDetails() {
             icon={ShieldCheck}
             eyebrow={labels.departments}
             title={labels.departments}
-            description={t("facultyTechnology.departmentsDesc", "Specialized departments connect academic training with industrial practice and applied research.")}
+            description={t(
+              "facultyTechnology.departmentsDesc",
+              "Specialized departments connect academic training with industrial practice and applied research.",
+            )}
           />
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
             {facultyDepartmentsList.map((department, index) => {
-              const summary = shortText(t(`departments.${department.slug}.about`, department.about), 160);
+              const summary = shortText(
+                t(`departments.${department.slug}.about`, department.about),
+                160,
+              );
               return (
                 <Link
                   key={department.slug}
@@ -571,7 +684,10 @@ export default function FacultyDetails() {
                   </div>
                   <div>
                     <h3 className="text-base font-extrabold text-navy group-hover:text-primary transition-colors leading-snug">
-                      {t(`departments.${department.slug}.name`, department.name)}
+                      {t(
+                        `departments.${department.slug}.name`,
+                        department.name,
+                      )}
                     </h3>
                     {summary && (
                       <p className="text-xs md:text-sm text-gray-500 font-medium leading-relaxed mt-3">
@@ -583,14 +699,18 @@ export default function FacultyDetails() {
                     <div className="border-t border-gray-100 pt-4 text-xs font-semibold text-gray-500 flex items-start gap-2 mt-auto">
                       <Users className="w-4 h-4 text-primary shrink-0 mt-0.5" />
                       <span>
-                        <span className="text-navy font-bold">{labels.head}: </span>
+                        <span className="text-navy font-bold">
+                          {labels.head}:{" "}
+                        </span>
                         {department.contact.name}
                       </span>
                     </div>
                   )}
                   <span className="inline-flex items-center gap-2 text-xs font-extrabold text-primary mt-auto">
                     {labels.learnMore}
-                    <ArrowRight className={`w-4 h-4 ${isRtl ? "rotate-180" : ""}`} />
+                    <ArrowRight
+                      className={`w-4 h-4 ${isRtl ? "rotate-180" : ""}`}
+                    />
                   </span>
                 </Link>
               );
@@ -605,9 +725,17 @@ export default function FacultyDetails() {
               icon={GraduationCap}
               eyebrow={labels.academicPathways}
               title={labels.bachelorPrograms}
-              description={t("facultyTechnology.bachelorDesc", "Bachelor degree programs offered by the Faculty.")}
+              description={t(
+                "facultyTechnology.bachelorDesc",
+                "Bachelor degree programs offered by the Faculty.",
+              )}
             />
-            <ProgramGrid programs={bachelorPrograms} label={labels.bachelorPrograms} icon={GraduationCap} t={t} />
+            <ProgramGrid
+              programs={bachelorPrograms}
+              label={labels.bachelorPrograms}
+              icon={GraduationCap}
+              t={t}
+            />
           </section>
         )}
 
@@ -618,38 +746,60 @@ export default function FacultyDetails() {
               icon={BookOpen}
               eyebrow={labels.academicPathways}
               title={labels.masterSpecializations}
-              description={t("facultyTechnology.masterDesc", "Master and PhD degree specializations available through the Faculty.")}
+              description={t(
+                "facultyTechnology.masterDesc",
+                "Master and PhD degree specializations available through the Faculty.",
+              )}
             />
-            <ProgramGrid programs={masterPrograms} label={labels.masterSpecializations} icon={BookOpen} t={t} />
+            <ProgramGrid
+              programs={masterPrograms}
+              label={labels.masterSpecializations}
+              icon={BookOpen}
+              t={t}
+            />
           </section>
         )}
 
         {/* Contact and Footer Links */}
-        <section id="contact" className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <section
+          id="contact"
+          className="grid grid-cols-1 lg:grid-cols-12 gap-8"
+        >
           <div className="lg:col-span-4">
             <SectionTitle
               icon={Mail}
               eyebrow={labels.contact}
               title={labels.contact}
-              description={t("facultyTechnology.contactDesc", "Faculty and department contact paths for students, applicants, and partners.")}
+              description={t(
+                "facultyTechnology.contactDesc",
+                "Faculty and department contact paths for students, applicants, and partners.",
+              )}
             />
           </div>
           <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-5">
             {/* Dean Contact Card */}
             <div className="bg-primary-light border border-gray-100 rounded-3xl p-6 shadow-sm text-start">
-              <h3 className="text-lg font-extrabold text-navy mb-4">{labels.deanContact}</h3>
+              <h3 className="text-lg font-extrabold text-navy mb-4">
+                {labels.deanContact}
+              </h3>
               <div className="flex flex-col gap-3 text-sm font-semibold text-gray-500">
                 {leadership.slice(0, 1).map((member, idx) => (
                   <React.Fragment key={idx}>
                     <p className="text-navy font-extrabold">{member.name}</p>
                     {member.phone && (
-                      <a href={telHref(member.phone)} className="flex items-center gap-2 hover:text-primary transition-colors">
+                      <a
+                        href={telHref(member.phone)}
+                        className="flex items-center gap-2 hover:text-primary transition-colors"
+                      >
                         <Phone className="w-4 h-4 text-primary shrink-0" />
                         <span dir="ltr">{member.phone}</span>
                       </a>
                     )}
                     {member.email && (
-                      <a href={`mailto:${member.email}`} className="flex items-center gap-2 hover:text-primary transition-colors min-w-0">
+                      <a
+                        href={`mailto:${member.email}`}
+                        className="flex items-center gap-2 hover:text-primary transition-colors min-w-0"
+                      >
                         <Mail className="w-4 h-4 text-primary shrink-0" />
                         <span className="truncate">{member.email}</span>
                       </a>
@@ -660,20 +810,36 @@ export default function FacultyDetails() {
             </div>
 
             <div className="bg-white border border-gray-100 rounded-3xl p-6 shadow-sm text-start">
-              <h3 className="text-lg font-extrabold text-navy mb-4">{labels.deputyDeanContacts}</h3>
+              <h3 className="text-lg font-extrabold text-navy mb-4">
+                {labels.deputyDeanContacts}
+              </h3>
               <div className="flex flex-col gap-4">
                 {leadership.slice(1).map((member, idx) => (
-                  <div key={idx} className="border-b border-gray-100 last:border-b-0 pb-4 last:pb-0">
-                    <p className="text-sm font-extrabold text-navy">{member.name}</p>
-                    <p className="text-[11px] font-bold text-primary uppercase tracking-wider mt-1">{member.role}</p>
+                  <div
+                    key={idx}
+                    className="border-b border-gray-100 last:border-b-0 pb-4 last:pb-0"
+                  >
+                    <p className="text-sm font-extrabold text-navy">
+                      {member.name}
+                    </p>
+                    <p className="text-[11px] font-bold text-primary uppercase tracking-wider mt-1">
+                      {member.role}
+                    </p>
                     <div className="flex flex-col gap-1.5 mt-3 text-xs font-semibold text-gray-500">
                       {member.phone && (
-                        <a href={telHref(member.phone)} className="hover:text-primary transition-colors" dir="ltr">
+                        <a
+                          href={telHref(member.phone)}
+                          className="hover:text-primary transition-colors"
+                          dir="ltr"
+                        >
                           {member.phone}
                         </a>
                       )}
                       {member.email && (
-                        <a href={`mailto:${member.email}`} className="hover:text-primary transition-colors truncate">
+                        <a
+                          href={`mailto:${member.email}`}
+                          className="hover:text-primary transition-colors truncate"
+                        >
                           {member.email}
                         </a>
                       )}
@@ -685,7 +851,9 @@ export default function FacultyDetails() {
 
             {/* Quick Department Links */}
             <div className="md:col-span-2 bg-white border border-gray-100 rounded-3xl p-6 shadow-sm text-start">
-              <h3 className="text-lg font-extrabold text-navy mb-5">{labels.quickDepartmentLinks}</h3>
+              <h3 className="text-lg font-extrabold text-navy mb-5">
+                {labels.quickDepartmentLinks}
+              </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {facultyDepartmentsList.map((department) => (
                   <Link
@@ -693,15 +861,21 @@ export default function FacultyDetails() {
                     to={department.route}
                     className="flex items-center justify-between gap-3 border border-gray-100 rounded-2xl px-4 py-3 text-sm font-bold text-gray-500 hover:text-primary hover:border-primary/20 transition-colors"
                   >
-                    <span>{t(`departments.${department.slug}.name`, department.name)}</span>
-                    <ArrowRight className={`w-4 h-4 shrink-0 ${isRtl ? "rotate-180" : ""}`} />
+                    <span>
+                      {t(
+                        `departments.${department.slug}.name`,
+                        department.name,
+                      )}
+                    </span>
+                    <ArrowRight
+                      className={`w-4 h-4 shrink-0 ${isRtl ? "rotate-180" : ""}`}
+                    />
                   </Link>
                 ))}
               </div>
             </div>
           </div>
         </section>
-
       </div>
     </div>
   );

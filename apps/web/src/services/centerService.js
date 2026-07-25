@@ -21,22 +21,26 @@ const cached = (key, fetcher) => {
 
 const unwrap = (response) => response?.data ?? response;
 
-const normalizeCenter = (item = {}) => ({
-  id: item.slug || item.id,
-  numeric_id: item.id,
-  slug: item.slug || item.id,
-  name: item.name || "",
-  head: item.head || "",
-  headTitle: item.headTitle || "",
-  officeHours: item.officeHours || "",
-  about: item.about || "",
-  functions: Array.isArray(item.functions) ? item.functions : [],
-  image: item.image || "",
-  email: item.email || "",
-  phone: item.phone || "",
-  sort_order: Number(item.sort_order ?? 0),
-  is_active: Boolean(item.is_active ?? true),
-});
+const normalizeCenter = (item = {}) => {
+  const defaultTrans = item.translations?.find((t) => t.locale === "en") || item.translations?.[0] || {};
+  return {
+    id: item.slug || item.id,
+    numeric_id: item.id,
+    slug: item.slug || item.id,
+    name: item.name || defaultTrans.name || "",
+    head: item.head || defaultTrans.head || "",
+    headTitle: item.headTitle || defaultTrans.head_title || defaultTrans.headTitle || "",
+    officeHours: item.officeHours || defaultTrans.office_hours || defaultTrans.officeHours || "",
+    about: item.about || defaultTrans.about || "",
+    functions: Array.isArray(item.functions) ? item.functions : (Array.isArray(defaultTrans.functions) ? defaultTrans.functions : []),
+    image: item.image || "",
+    email: item.email || "",
+    phone: item.phone || "",
+    sort_order: Number(item.sort_order ?? 0),
+    is_active: Boolean(item.is_active ?? true),
+    headDescription: item.headDescription || defaultTrans.head_description || defaultTrans.headDescription || "",
+  };
+};
 
 export const centerService = {
   getCenters() {

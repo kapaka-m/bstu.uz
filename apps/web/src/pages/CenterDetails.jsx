@@ -233,7 +233,7 @@ export default function CenterDetails() {
                       </p>
                     )}
                     <p className="text-gray-500 text-sm leading-relaxed mt-2">
-                      {settings?.default_head_desc || t(
+                      {center.headDescription || settings?.default_head_desc || t(
                         "common.headDesc",
                         "Supervises daily operations, instructional standards development, training partnerships, and compliance metrics within the center.",
                       )}
@@ -278,7 +278,7 @@ export default function CenterDetails() {
                           {fn}
                         </p>
                         <span className="text-[10px] text-primary font-bold uppercase tracking-wider">
-                          {settings?.sidebar_title ? settings.sidebar_title.substring(0, 10) : t("about.goals.missionTitle", "Mission")}
+                          {settings?.function_badge_label || t("about.goals.missionTitle", "Mission")}
                         </span>
                       </div>
                     </div>

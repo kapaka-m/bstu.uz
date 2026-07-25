@@ -1859,6 +1859,7 @@ class AdminCrudController extends Controller
             'translations.*.support_title' => 'required|string|max:255',
             'translations.*.support_desc' => 'required|string',
             'translations.*.contact_btn_label' => 'required|string|max:255',
+            'translations.*.function_badge_label' => 'required|string|max:255',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -2134,6 +2135,7 @@ class AdminCrudController extends Controller
                     'translations.*.name' => 'required|string',
                     'translations.*.head' => 'required|string',
                     'translations.*.head_title' => 'required|string',
+                    'translations.*.head_description' => 'nullable|string',
                     'translations.*.office_hours' => 'required|string',
                     'translations.*.about' => 'required|string',
                     'translations.*.functions' => 'nullable|array',

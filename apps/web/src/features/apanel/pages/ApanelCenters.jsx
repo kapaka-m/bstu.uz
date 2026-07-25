@@ -17,6 +17,7 @@ const emptyTranslations = () =>
         office_hours: "",
         about: "",
         functions: [],
+        head_description: "",
       },
     ]),
   );
@@ -45,6 +46,7 @@ const emptySettingsTranslations = () =>
         support_title: "",
         support_desc: "",
         contact_btn_label: "",
+        function_badge_label: "",
       },
     ]),
   );
@@ -478,6 +480,12 @@ export default function ApanelCenters() {
               />
 
               <TextArea
+                label="Supervisor Specific Description (If left empty, will use the default description)"
+                value={form.translations[activeLocale]?.head_description || ""}
+                onChange={(val) => setTranslation("head_description", val)}
+              />
+
+              <TextArea
                 label="Functions & Activities (One per line)"
                 value={(form.translations[activeLocale]?.functions || []).join("\n")}
                 onChange={(val) =>
@@ -582,6 +590,13 @@ export default function ApanelCenters() {
                 value={settingsForm.translations[activeLocale]?.contact_btn_label || ""}
                 required
                 onChange={(val) => setSettingsTranslation("contact_btn_label", val)}
+              />
+
+              <TextField
+                label="Mission / Function Badge Label"
+                value={settingsForm.translations[activeLocale]?.function_badge_label || ""}
+                required
+                onChange={(val) => setSettingsTranslation("function_badge_label", val)}
               />
             </div>
 
@@ -720,6 +735,7 @@ function normalizeCenterForm(item = {}) {
       office_hours: translation.office_hours || "",
       about: translation.about || "",
       functions: Array.isArray(translation.functions) ? translation.functions : [],
+      head_description: translation.head_description || "",
     };
   });
 
@@ -747,6 +763,7 @@ function normalizeSettingsForm(data = {}) {
       support_title: translation.support_title || "",
       support_desc: translation.support_desc || "",
       contact_btn_label: translation.contact_btn_label || "",
+      function_badge_label: translation.function_badge_label || "",
     };
   });
 

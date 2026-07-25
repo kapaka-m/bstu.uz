@@ -15,6 +15,7 @@ class UniversityCenterTranslation extends Model
         'office_hours',
         'about',
         'functions',
+        'head_description',
     ];
 
     protected $casts = [

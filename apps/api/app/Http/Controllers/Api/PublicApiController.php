@@ -1893,6 +1893,7 @@ class PublicApiController extends Controller
             'officeHours' => $translation?->office_hours ?: '',
             'about' => $translation?->about ?: '',
             'functions' => $translation?->functions ?: [],
+            'headDescription' => $translation?->head_description ?: '',
         ];
     }
 
@@ -1924,6 +1925,7 @@ class PublicApiController extends Controller
                 'support_title',
                 'support_desc',
                 'contact_btn_label',
+                'function_badge_label',
             ]) ?: []);
         });
 

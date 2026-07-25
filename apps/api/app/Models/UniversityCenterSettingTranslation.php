@@ -18,6 +18,7 @@ class UniversityCenterSettingTranslation extends Model
         'support_title',
         'support_desc',
         'contact_btn_label',
+        'function_badge_label',
     ];
 
     public function setting()

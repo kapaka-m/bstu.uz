@@ -42,6 +42,9 @@ export default function CenterDetails() {
       })
       .catch((err) => {
         console.error("Failed to fetch center details:", err);
+        if (active) {
+          setCenter(null);
+        }
       })
       .finally(() => {
         if (active) setLoading(false);
@@ -157,15 +160,27 @@ export default function CenterDetails() {
           {/* Right Main Content */}
           <div className="lg:col-span-8 flex flex-col gap-10 lg:pl-8">
             {/* Banner Image */}
-            {center.image && (
-              <div className="rounded-3xl overflow-hidden shadow-lg aspect-video bg-gray-100 border border-gray-50">
+            <div className="rounded-3xl overflow-hidden shadow-lg aspect-video bg-gray-100 border border-gray-55 relative flex items-center justify-center">
+              {center.image ? (
                 <img
                   src={center.image}
                   alt={center.name}
                   className="w-full h-full object-cover"
                 />
-              </div>
-            )}
+              ) : (
+                <div className="w-full h-full bg-gradient-to-tr from-navy via-navy/95 to-primary flex flex-col items-center justify-center p-8 text-center relative overflow-hidden select-none">
+                  <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white/5 to-transparent opacity-40 pointer-events-none" />
+                  <div className="relative z-10 space-y-3">
+                    <span className="inline-flex rounded-full bg-white/10 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-primary-light">
+                      {settings?.structure_label || t("common.universityStructure", "University Structure")}
+                    </span>
+                    <h2 className="text-xl md:text-2xl lg:text-3xl font-black text-white max-w-lg leading-tight">
+                      {center.name}
+                    </h2>
+                  </div>
+                </div>
+              )}
+            </div>
 
             {/* Center Title */}
             <div>
@@ -199,12 +214,16 @@ export default function CenterDetails() {
                   {settings?.staff_label || t("common.centerStructure", "Center Structure & Staff")}
                 </h3>
                 <div className="bg-gray-50 border border-gray-100 rounded-3xl p-6 md:p-8 flex flex-col md:flex-row items-center md:items-start gap-6">
-                  {center.image && (
+                  {center.image ? (
                     <img
                       src={center.image}
                       alt={center.head}
                       className="w-20 h-20 rounded-full object-cover border-2 border-white shadow-md shrink-0"
                     />
+                  ) : (
+                    <div className="w-20 h-20 rounded-full bg-gradient-to-br from-primary/10 to-primary/20 flex items-center justify-center border border-primary/20 shrink-0 shadow-sm text-primary">
+                      <UserCheck className="w-8 h-8" />
+                    </div>
                   )}
                   <div className="grow text-center md:text-start flex flex-col gap-2">
                     <h4 className="text-lg font-bold text-navy">{center.head}</h4>

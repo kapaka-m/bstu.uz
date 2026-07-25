@@ -2006,6 +2006,7 @@ class AdminCrudController extends Controller
             'green-campus-settings',
             'about-page',
             'contact-page',
+            'university-centers',
         ];
     }
 

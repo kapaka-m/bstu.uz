@@ -41,6 +41,9 @@ export const apanelApplicationsService = {
   reviewPayment(id, paymentId, payload) {
     return api.post(`/apanel/applications-workflow/${id}/payments/${paymentId}/review`, payload).then(unwrap);
   },
+  reviewContractPayment(id, paymentId, payload) {
+    return api.post(`/apanel/applications-workflow/${id}/contract-payments/${paymentId}/review`, payload).then(unwrap);
+  },
   finalReview(id) {
     return api.get(`/apanel/applications-workflow/${id}/final-review`).then(unwrap);
   },
@@ -58,6 +61,15 @@ export const apanelApplicationsService = {
   },
   issueAdmission(id) {
     return api.post(`/apanel/applications-workflow/${id}/admission/issue`).then(unwrap);
+  },
+  downloadAdmission(id) {
+    return downloadPrivate(`/apanel/applications-workflow/${id}/admission/download`);
+  },
+  issueEnrollment(id) {
+    return api.post(`/apanel/applications-workflow/${id}/enrollment/issue`).then(unwrap);
+  },
+  downloadEnrollment(id) {
+    return downloadPrivate(`/apanel/applications-workflow/${id}/enrollment/download`);
   },
 };
 

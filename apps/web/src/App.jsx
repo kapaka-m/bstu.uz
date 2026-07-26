@@ -93,6 +93,9 @@ const StudentEquivalency = React.lazy(
 const StudentAdmission = React.lazy(
   () => import("./features/student/pages/StudentPortalPhaseTwo"),
 );
+const StudentEnrollment = React.lazy(
+  () => import("./features/student/pages/StudentPortalPhaseTwo"),
+);
 
 // Lazy loaded admin apanel routes
 const ApanelLogin = React.lazy(
@@ -407,6 +410,16 @@ function AppContent() {
                 <StudentRoute>
                   <StudentLayout>
                     <StudentAdmission />
+                  </StudentLayout>
+                </StudentRoute>
+              }
+            />
+            <Route
+              path="/student/enrollment"
+              element={
+                <StudentRoute>
+                  <StudentLayout>
+                    <StudentEnrollment />
                   </StudentLayout>
                 </StudentRoute>
               }
@@ -738,6 +751,16 @@ function AppContent() {
             />
             <Route
               path="/apanel/applications/:id/admission"
+              element={
+                <AdminRoute>
+                  <ApanelLayout>
+                    <ApanelApplicationsWorkflow />
+                  </ApanelLayout>
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/apanel/applications/:id/enrollment"
               element={
                 <AdminRoute>
                   <ApanelLayout>

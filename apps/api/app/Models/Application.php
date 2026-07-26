@@ -98,4 +98,9 @@ class Application extends Model
     {
         return $this->hasOne(Admission::class);
     }
+
+    public function enrollment()
+    {
+        return $this->hasOne(Enrollment::class);
+    }
 }

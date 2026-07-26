@@ -43,8 +43,25 @@ export const studentPortalService = {
     form.append("file", file);
     return api.post(`/applications/${applicationId}/application-fee/receipt`, form).then(unwrap);
   },
+  contractAdvance() {
+    return api.get("/student/contract-advance").then(unwrap);
+  },
+  uploadContractAdvanceReceipt(applicationId, file) {
+    const form = new FormData();
+    form.append("file", file);
+    return api.post(`/applications/${applicationId}/contract-advance/receipt`, form).then(unwrap);
+  },
   admission() {
     return api.get("/student/admission").then(unwrap);
+  },
+  downloadAdmission() {
+    return downloadPrivate("/student/admission/download");
+  },
+  enrollment() {
+    return api.get("/student/enrollment").then(unwrap);
+  },
+  downloadEnrollment() {
+    return downloadPrivate("/student/enrollment/download");
   },
 };
 

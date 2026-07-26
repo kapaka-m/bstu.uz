@@ -6,8 +6,11 @@ use App\Models\Admission;
 use App\Models\Application;
 use App\Models\ApplicationFeePayment;
 use App\Models\ApplicationStatusHistory;
+use App\Models\Contract;
 use App\Models\DocumentRequirement;
+use App\Models\Enrollment;
 use App\Models\Notification;
+use App\Models\Payment;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use RuntimeException;
@@ -49,6 +52,11 @@ class ApplicationWorkflowService
         'ADMISSION_ISSUED',
         'APPLICATION_REJECTED',
     ];
+
+    public function __construct(
+        private readonly AdmissionPdfService $admissionPdf,
+        private readonly EnrollmentCertificatePdfService $enrollmentPdf,
+    ) {}
 
     public function requiredDocuments(Application $application): array
     {
@@ -112,6 +120,10 @@ class ApplicationWorkflowService
 
     public function applicationSnapshot(Application $application): array
     {
+        if ($application->admission) {
+            $this->ensureContract($application);
+        }
+
         $application->loadMissing([
             'studentProfile.user',
             'program.translations',
@@ -122,6 +134,8 @@ class ApplicationWorkflowService
             'equivalency.courses',
             'applicationFeePayments',
             'admission',
+            'contracts.payments',
+            'enrollment',
         ]);
 
         $requirements = $this->requiredDocuments($application);
@@ -146,6 +160,8 @@ class ApplicationWorkflowService
             || in_array($application->equivalency?->status, ['STUDENT_ACCEPTED', 'APPROVED'], true);
         $paymentApproved = $application->applicationFeePayments->contains('status', 'APPROVED');
         $admissionIssued = (bool) $application->admission;
+        $contractAdvanceApproved = $application->contracts->flatMap->payments->contains(fn ($payment) => $payment->payment_type === 'contract_advance' && $payment->status === 'APPROVED');
+        $enrollmentIssued = (bool) $application->enrollment;
 
         $checks = [
             'profile_complete' => $this->profileComplete($application),
@@ -156,6 +172,8 @@ class ApplicationWorkflowService
             'payment_approved' => $paymentApproved,
             'final_review_approved' => $application->final_review_status === 'APPROVED',
             'admission_issued' => $admissionIssued,
+            'contract_advance_paid' => $contractAdvanceApproved,
+            'enrollment_issued' => $enrollmentIssued,
         ];
 
         $completion = (int) floor((collect($checks)->filter()->count() / count($checks)) * 100);
@@ -208,7 +226,80 @@ class ApplicationWorkflowService
             $status = 'DOCUMENTS_REQUIRED';
         }
 
+        $documentsStatus = 'DOCUMENTS_REQUIRED';
+        if ($hasRejected) {
+            $documentsStatus = 'REUPLOAD_REQUIRED';
+        } elseif ($hasUnreviewed) {
+            $documentsStatus = 'UNDER_REVIEW';
+        } elseif (! $hasMissing && $checks['documents_approved']) {
+            $documentsStatus = 'APPROVED';
+        }
+
+        $application->forceFill(['documents_status' => $documentsStatus])->save();
+
         return $this->transition($application, $status, $actorId, $note ?: 'Workflow state synchronized');
+    }
+
+    public function ensureContract(Application $application): Contract
+    {
+        $amount = (float) ($application->program?->tuition_fee ?: 0);
+        $advanceAmount = $amount > 0 ? round($amount * 0.30, 2) : null;
+
+        return Contract::firstOrCreate(
+            ['application_id' => $application->id],
+            [
+                'contract_number' => $this->nextContractNumber(),
+                'amount' => $amount,
+                'currency' => $application->program?->currency ?: 'USD',
+                'advance_percentage' => 30,
+                'advance_amount' => $advanceAmount,
+                'status' => 'issued',
+            ]
+        );
+    }
+
+    public function contractAdvanceApproved(Application $application): bool
+    {
+        $application->loadMissing('contracts.payments');
+
+        return $application->contracts->flatMap->payments->contains(fn (Payment $payment) => $payment->payment_type === 'contract_advance' && $payment->status === 'APPROVED');
+    }
+
+    public function issueEnrollment(Application $application, int $actorId): Enrollment
+    {
+        if (! $application->admission) {
+            throw new RuntimeException('Enrollment cannot be issued before admission.');
+        }
+        if (! $this->contractAdvanceApproved($application)) {
+            throw new RuntimeException('Enrollment cannot be issued before the 30% contract payment is approved.');
+        }
+
+        return DB::transaction(function () use ($application, $actorId) {
+            $existing = Enrollment::where('application_id', $application->id)->first();
+            if ($existing) {
+                $this->enrollmentPdf->ensureDocument($existing);
+
+                return $existing;
+            }
+
+            $enrollment = Enrollment::create([
+                'application_id' => $application->id,
+                'admission_id' => $application->admission->id,
+                'student_profile_id' => $application->student_profile_id,
+                'program_id' => $application->program_id,
+                'student_number' => $this->nextEnrollmentNumber(),
+                'academic_year' => $this->academicYear($application->intended_intake),
+                'issue_date' => now()->toDateString(),
+                'status' => 'active',
+                'issued_by' => $actorId,
+                'issued_at' => now(),
+            ]);
+
+            $this->enrollmentPdf->generate($enrollment);
+            $this->notify($application, 'Enrollment certificate issued', 'Your student enrollment certificate is ready.', 'enrollment', '/student/enrollment');
+
+            return $enrollment;
+        });
     }
 
     public function transition(Application $application, string $newStatus, ?int $actorId = null, ?string $note = null): Application
@@ -252,6 +343,8 @@ class ApplicationWorkflowService
         return DB::transaction(function () use ($application, $actorId) {
             $existing = Admission::where('application_id', $application->id)->first();
             if ($existing) {
+                $this->ensureContract($application);
+
                 return $existing;
             }
 
@@ -270,6 +363,8 @@ class ApplicationWorkflowService
                 'issued_by' => $actorId,
                 'issued_at' => now(),
             ]);
+            $this->admissionPdf->generate($admission);
+            $this->ensureContract($application);
 
             $application->forceFill(['admission_status' => 'ISSUED'])->save();
             $this->transition($application, 'ADMISSION_ISSUED', $actorId, 'Final admission issued.');
@@ -319,7 +414,7 @@ class ApplicationWorkflowService
         $items = [
             ['key' => 'account', 'label' => 'Account Created', 'status' => 'Completed'],
             ['key' => 'documents_required', 'label' => 'Documents Required', 'status' => $checks['documents_approved'] ? 'Completed' : 'Action Required'],
-            ['key' => 'documents_review', 'label' => 'Documents Under Review', 'status' => $application->documents_status === 'APPROVED' ? 'Approved' : 'In Progress'],
+            ['key' => 'documents_review', 'label' => 'Documents Under Review', 'status' => $checks['documents_approved'] ? 'Approved' : 'In Progress'],
         ];
         if ($transfer) {
             $items[] = ['key' => 'academic_review', 'label' => 'Academic Review', 'status' => $checks['equivalency_complete'] ? 'Approved' : 'Under Review'];
@@ -328,6 +423,8 @@ class ApplicationWorkflowService
         $items[] = ['key' => 'payment_review', 'label' => 'Payment Under Review', 'status' => $application->application_fee_status === 'APPROVED' ? 'Approved' : 'Not Started'];
         $items[] = ['key' => 'final_review', 'label' => 'Final Application Review', 'status' => $checks['final_review_approved'] ? 'Approved' : 'Not Started'];
         $items[] = ['key' => 'admission', 'label' => 'Admission Issued', 'status' => $checks['admission_issued'] ? 'Completed' : 'Not Started'];
+        $items[] = ['key' => 'contract_advance', 'label' => '30% Contract Payment', 'status' => $checks['contract_advance_paid'] ? 'Completed' : ($checks['admission_issued'] ? 'Action Required' : 'Not Started')];
+        $items[] = ['key' => 'enrollment', 'label' => 'Enrollment Certificate', 'status' => $checks['enrollment_issued'] ? 'Completed' : 'Not Started'];
 
         return $items;
     }
@@ -351,6 +448,12 @@ class ApplicationWorkflowService
         if (! $checks['admission_issued']) {
             return 'Wait for admission issuance.';
         }
+        if (! $checks['contract_advance_paid']) {
+            return 'Upload the 30% contract payment receipt.';
+        }
+        if (! $checks['enrollment_issued']) {
+            return 'Wait for enrollment certificate issuance.';
+        }
         return 'Admission issued.';
     }
 
@@ -363,11 +466,56 @@ class ApplicationWorkflowService
         return $number;
     }
 
+    private function nextContractNumber(): string
+    {
+        do {
+            $number = 'CTR-'.now()->format('Y').'-'.strtoupper(Str::random(6));
+        } while (Contract::where('contract_number', $number)->exists());
+
+        return $number;
+    }
+
+    private function nextEnrollmentNumber(): string
+    {
+        do {
+            $number = 'ENR-'.now()->format('Y').'-'.strtoupper(Str::random(6));
+        } while (Enrollment::where('student_number', $number)->exists());
+
+        return $number;
+    }
+
+    private function academicYear(?string $intake): string
+    {
+        if (preg_match('/(fall|autumn)[-_ ]?(20\d{2})/i', (string) $intake, $match)) {
+            $year = (int) $match[2];
+
+            return $year.'–'.($year + 1);
+        }
+        if (preg_match('/spring[-_ ]?(20\d{2})/i', (string) $intake, $match)) {
+            $year = (int) $match[1] - 1;
+
+            return $year.'–'.($year + 1);
+        }
+
+        $year = (int) now()->format('Y');
+
+        return $year.'–'.($year + 1);
+    }
+
     public function nextPaymentNumber(): string
     {
         do {
             $number = 'FEE-'.now()->format('Y').'-'.strtoupper(Str::random(6));
         } while (ApplicationFeePayment::where('payment_number', $number)->exists());
+
+        return $number;
+    }
+
+    public function nextContractPaymentNumber(): string
+    {
+        do {
+            $number = 'ADV-'.now()->format('Y').'-'.strtoupper(Str::random(6));
+        } while (Payment::where('payment_number', $number)->exists());
 
         return $number;
     }

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Contract extends Model
 {
-    protected $fillable = ['application_id', 'contract_number', 'amount', 'status'];
+    protected $fillable = ['application_id', 'contract_number', 'amount', 'currency', 'advance_percentage', 'advance_amount', 'status'];
 
     public function application()
     {

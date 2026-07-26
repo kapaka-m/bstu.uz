@@ -90,6 +90,7 @@ export default function StudentPortalPhaseTwo() {
     if (path.includes("/equivalency")) return "equivalency";
     if (path.includes("/payments")) return "payments";
     if (path.includes("/admission")) return "admission";
+    if (path.includes("/enrollment")) return "enrollment";
     if (path.includes("/notifications")) return "notifications";
     if (path.includes("/application")) return "application";
     return "dashboard";
@@ -171,6 +172,25 @@ export default function StudentPortalPhaseTwo() {
     }
   };
 
+  const uploadContractReceipt = async (file) => {
+    if (!file) return;
+    if (file.size > maxUploadSize) {
+      setError("File exceeds maximum allowed size (10 MB).");
+      return;
+    }
+
+    try {
+      setBusy("contract_advance");
+      await studentPortalService.uploadContractAdvanceReceipt(applicationId, file);
+      setSuccess("30% contract payment receipt uploaded for review.");
+      await load();
+    } catch (err) {
+      setError(apiErrorMessage(err, "Contract payment receipt upload failed."));
+    } finally {
+      setBusy("");
+    }
+  };
+
   const acceptEquivalency = async () => {
     setBusy("equivalency");
     await studentPortalService.acceptEquivalency(applicationId);
@@ -196,11 +216,12 @@ export default function StudentPortalPhaseTwo() {
         <h1 className="mt-2 text-2xl md:text-3xl font-extrabold">{student.full_name_english || user.name}</h1>
         <p className="mt-2 text-xs font-semibold text-white/70">{app.application_number} · {programName}</p>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 gap-4">
         <Metric label="Completion" value={`${summary.completion_percentage}%`} icon={CheckCircle} />
         <Metric label="Current Status" value={labelize(app.status)} icon={ClipboardList} />
         <Metric label="Documents" value={labelize(app.documents_status)} icon={FileCheck} />
         <Metric label="Admission" value={labelize(app.admission_status)} icon={ShieldCheck} />
+        <Metric label="Enrollment" value={summary.checks?.enrollment_issued ? "Issued" : "Pending"} icon={ShieldCheck} />
       </div>
       <Panel title="Next Step" icon={ClipboardList}>
         <p className="text-sm font-bold text-navy">{summary.next_action}</p>
@@ -234,6 +255,7 @@ export default function StudentPortalPhaseTwo() {
           ...(showEquivalency ? [["/student/equivalency", "Academic Equivalency", GraduationCap]] : []),
           ["/student/payments", "Payments", CreditCard],
           ["/student/admission", "Admission", ShieldCheck],
+          ["/student/enrollment", "Enrollment", ShieldCheck],
           ["/student/notifications", "Notifications", Bell],
         ].map(([to, label, Icon]) => (
           <Link key={to} to={to} className="rounded-2xl border border-gray-100 p-4 hover:border-primary/30 hover:bg-primary/5 transition-all">
@@ -397,60 +419,149 @@ export default function StudentPortalPhaseTwo() {
   };
 
   const renderPayments = () => (
-    <Panel title="Application Fee Payment" icon={CreditCard}>
-      <InfoGrid rows={[
-        ["Fee", "50 USD"],
-        ["Status", labelize(app.application_fee_status)],
-        ["Can Upload Receipt", summary.checks?.documents_approved && summary.checks?.equivalency_complete ? "Yes" : "Not yet"],
-      ]} />
-      <div className="space-y-3">
-        {(app.application_fee_payments || []).map((payment) => (
-          <div key={payment.id} className="rounded-2xl border border-gray-100 p-4 flex justify-between">
-            <div>
-              <p className="text-xs font-extrabold text-navy">{payment.payment_number}</p>
-              <p className="text-[11px] text-gray-500">{payment.receipt_original_name}</p>
-              {payment.rejection_reason && <p className="text-[11px] font-bold text-rose-600">{payment.rejection_reason}</p>}
+    <div className="space-y-6">
+      <Panel title="Application Fee Payment" icon={CreditCard}>
+        <InfoGrid rows={[
+          ["Fee", "50 USD"],
+          ["Status", labelize(app.application_fee_status)],
+          ["Can Upload Receipt", summary.checks?.documents_approved && summary.checks?.equivalency_complete ? "Yes" : "Not yet"],
+        ]} />
+        <div className="space-y-3">
+          {(app.application_fee_payments || []).map((payment) => (
+            <div key={payment.id} className="rounded-2xl border border-gray-100 p-4 flex justify-between">
+              <div>
+                <p className="text-xs font-extrabold text-navy">{payment.payment_number}</p>
+                <p className="text-[11px] text-gray-500">{payment.receipt_original_name}</p>
+                {payment.rejection_reason && <p className="text-[11px] font-bold text-rose-600">{payment.rejection_reason}</p>}
+              </div>
+              <StatusPill status={payment.status} />
             </div>
-            <StatusPill status={payment.status} />
+          ))}
+        </div>
+        {summary.checks?.documents_approved && summary.checks?.equivalency_complete && !summary.checks?.payment_approved && (
+          <label className="inline-flex px-4 py-2 rounded-xl bg-primary text-white text-xs font-extrabold cursor-pointer">
+            {busy === "payment" ? <Loader2 className="w-4 h-4 animate-spin" /> : "Upload 50 USD Receipt"}
+            <input
+              className="hidden"
+              type="file"
+              accept={uploadAccept}
+              onChange={(e) => {
+                uploadReceipt(e.target.files?.[0]);
+                e.target.value = "";
+              }}
+            />
+          </label>
+        )}
+      </Panel>
+
+      <Panel title="30% Contract Payment" icon={CreditCard}>
+        {(app.contracts || []).length > 0 ? (app.contracts || []).map((contract) => (
+          <div key={contract.id} className="space-y-4">
+            <InfoGrid rows={[
+              ["Contract Number", contract.contract_number],
+              ["Total Amount", Number(contract.amount) > 0 ? `${contract.amount} ${contract.currency || "USD"}` : "To be calculated"],
+              ["Required Advance", Number(contract.advance_amount) > 0 ? `${contract.advance_amount} ${contract.currency || "USD"}` : "30% of contract"],
+              ["Status", summary.checks?.contract_advance_paid ? "Approved" : "Waiting payment"],
+            ]} />
+            <div className="space-y-3">
+              {(contract.payments || []).map((payment) => (
+                <div key={payment.id} className="rounded-2xl border border-gray-100 p-4 flex justify-between">
+                  <div>
+                    <p className="text-xs font-extrabold text-navy">{payment.payment_number}</p>
+                    <p className="text-[11px] text-gray-500">{payment.receipt_original_name}</p>
+                    {payment.rejection_reason && <p className="text-[11px] font-bold text-rose-600">{payment.rejection_reason}</p>}
+                  </div>
+                  <StatusPill status={payment.status} />
+                </div>
+              ))}
+            </div>
+            {!summary.checks?.contract_advance_paid && (
+              <label className="inline-flex px-4 py-2 rounded-xl bg-primary text-white text-xs font-extrabold cursor-pointer">
+                {busy === "contract_advance" ? <Loader2 className="w-4 h-4 animate-spin" /> : "Upload 30% Contract Receipt"}
+                <input
+                  className="hidden"
+                  type="file"
+                  accept={uploadAccept}
+                  onChange={(e) => {
+                    uploadContractReceipt(e.target.files?.[0]);
+                    e.target.value = "";
+                  }}
+                />
+              </label>
+            )}
           </div>
-        ))}
-      </div>
-      {summary.checks?.documents_approved && summary.checks?.equivalency_complete && !summary.checks?.payment_approved && (
-        <label className="inline-flex px-4 py-2 rounded-xl bg-primary text-white text-xs font-extrabold cursor-pointer">
-          {busy === "payment" ? <Loader2 className="w-4 h-4 animate-spin" /> : "Upload 50 USD Receipt"}
-          <input
-            className="hidden"
-            type="file"
-            accept={uploadAccept}
-            onChange={(e) => {
-              uploadReceipt(e.target.files?.[0]);
-              e.target.value = "";
-            }}
-          />
-        </label>
-      )}
-    </Panel>
+        )) : (
+          <p className="text-xs font-bold text-gray-500">The 30% contract payment opens after admission is issued.</p>
+        )}
+      </Panel>
+    </div>
   );
 
   const renderAdmission = () => (
     <Panel title="Admission" icon={ShieldCheck}>
       <p className="text-xs font-bold text-gray-500">Application Number is not an Admission Number.</p>
       {app.admission ? (
-        <InfoGrid rows={[
-          ["Student Name", student.full_name_english || user.name],
-          ["Application Number", app.application_number],
-          ["Admission Number", app.admission.admission_number],
-          ["Issue Date", app.admission.issue_date],
-          ["Degree", app.degree_level],
-          ["Faculty", facultyName],
-          ["Program", programName],
-          ["Status", app.admission.status],
-        ]} />
+        <div className="space-y-4">
+          <InfoGrid rows={[
+            ["Student Name", student.full_name_english || user.name],
+            ["Application Number", app.application_number],
+            ["Admission Number", app.admission.admission_number],
+            ["Issue Date", app.admission.issue_date],
+            ["Degree", app.degree_level],
+            ["Faculty", facultyName],
+            ["Program", programName],
+            ["Status", app.admission.status],
+          ]} />
+          <button
+            type="button"
+            onClick={() => studentPortalService.downloadAdmission()}
+            className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2 text-xs font-extrabold text-white hover:bg-primary-hover"
+          >
+            <Download className="h-4 w-4" />
+            Download Admission PDF
+          </button>
+        </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {Object.entries(summary.checks || {}).map(([key, value]) => (
             <div key={key} className="rounded-2xl border border-gray-100 p-4 flex justify-between">
               <span className="text-xs font-extrabold text-navy">{labelize(key)}</span>
+              <StatusPill status={value ? "Completed" : "Not Started"} />
+            </div>
+          ))}
+        </div>
+      )}
+    </Panel>
+  );
+
+  const renderEnrollment = () => (
+    <Panel title="Enrollment Certificate" icon={ShieldCheck}>
+      {app.enrollment ? (
+        <div className="space-y-4">
+          <InfoGrid rows={[
+            ["Student Number", app.enrollment.student_number],
+            ["Academic Year", app.enrollment.academic_year],
+            ["Issue Date", app.enrollment.issue_date],
+            ["Status", app.enrollment.status],
+          ]} />
+          <button
+            type="button"
+            onClick={() => studentPortalService.downloadEnrollment()}
+            className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2 text-xs font-extrabold text-white hover:bg-primary-hover"
+          >
+            <Download className="h-4 w-4" />
+            Download Enrollment PDF
+          </button>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          {[
+            ["Admission issued", summary.checks?.admission_issued],
+            ["30% contract payment approved", summary.checks?.contract_advance_paid],
+            ["Enrollment certificate issued", summary.checks?.enrollment_issued],
+          ].map(([label, value]) => (
+            <div key={label} className="rounded-2xl border border-gray-100 p-4 flex justify-between">
+              <span className="text-xs font-extrabold text-navy">{label}</span>
               <StatusPill status={value ? "Completed" : "Not Started"} />
             </div>
           ))}
@@ -483,6 +594,7 @@ export default function StudentPortalPhaseTwo() {
       {mode === "equivalency" && renderEquivalency()}
       {mode === "payments" && renderPayments()}
       {mode === "admission" && renderAdmission()}
+      {mode === "enrollment" && renderEnrollment()}
       {mode === "notifications" && renderNotifications()}
     </div>
   );

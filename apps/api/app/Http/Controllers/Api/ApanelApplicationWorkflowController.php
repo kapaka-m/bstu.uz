@@ -8,7 +8,10 @@ use App\Models\ApplicationDocument;
 use App\Models\ApplicationEquivalency;
 use App\Models\ApplicationFeePayment;
 use App\Models\DocumentRequirement;
+use App\Models\Payment;
+use App\Services\AdmissionPdfService;
 use App\Services\ApplicationWorkflowService;
+use App\Services\EnrollmentCertificatePdfService;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,7 +23,11 @@ class ApanelApplicationWorkflowController extends Controller
 {
     use ApiResponse;
 
-    public function __construct(private readonly ApplicationWorkflowService $workflow) {}
+    public function __construct(
+        private readonly ApplicationWorkflowService $workflow,
+        private readonly AdmissionPdfService $admissionPdf,
+        private readonly EnrollmentCertificatePdfService $enrollmentPdf,
+    ) {}
 
     public function index(Request $request)
     {
@@ -244,6 +251,26 @@ class ApanelApplicationWorkflowController extends Controller
         return $this->successResponse($fee->fresh(), 'Payment reviewed');
     }
 
+    public function reviewContractPayment(Request $request, int $application, int $payment)
+    {
+        $validated = $request->validate([
+            'status' => ['required', Rule::in(['APPROVED', 'REJECTED', 'REUPLOAD_REQUIRED', 'UNDER_REVIEW'])],
+            'rejection_reason' => ['nullable', 'required_if:status,REJECTED,REUPLOAD_REQUIRED', 'string', 'max:2000'],
+        ]);
+        $app = $this->findApplication($application);
+        $contractIds = $app->contracts()->pluck('id');
+        $contractPayment = Payment::where('id', $payment)->whereIn('contract_id', $contractIds)->firstOrFail();
+        $contractPayment->update([
+            'status' => $validated['status'],
+            'reviewer_id' => Auth::id(),
+            'reviewed_at' => now(),
+            'rejection_reason' => $validated['rejection_reason'] ?? null,
+        ]);
+        $this->workflow->notify($app, '30% contract payment reviewed', 'Your 30% contract payment receipt is '.$validated['status'].'.', 'payment', '/student/payments');
+
+        return $this->successResponse($contractPayment->fresh(), 'Contract payment reviewed');
+    }
+
     public function finalReview(Request $request, int $application)
     {
         $app = $this->findApplication($application);
@@ -305,8 +332,46 @@ class ApanelApplicationWorkflowController extends Controller
         return $this->successResponse($admission, 'Admission issued');
     }
 
+    public function downloadAdmission(Request $request, int $application)
+    {
+        $app = $this->findApplication($application);
+        if (! $app->admission) {
+            return $this->errorResponse('Admission is not issued yet.', 404);
+        }
+
+        $path = $this->admissionPdf->ensureDocument($app->admission);
+        $filename = 'admission-'.$app->admission->admission_number.'.pdf';
+
+        return Storage::disk('local')->download($path, $filename);
+    }
+
+    public function issueEnrollment(Request $request, int $application)
+    {
+        $app = $this->findApplication($application);
+        try {
+            $enrollment = $this->workflow->issueEnrollment($app, Auth::id());
+        } catch (\RuntimeException $e) {
+            return $this->errorResponse($e->getMessage(), 422);
+        }
+
+        return $this->successResponse($enrollment, 'Enrollment certificate issued');
+    }
+
+    public function downloadEnrollment(Request $request, int $application)
+    {
+        $app = $this->findApplication($application);
+        if (! $app->enrollment) {
+            return $this->errorResponse('Enrollment certificate is not issued yet.', 404);
+        }
+
+        $path = $this->enrollmentPdf->ensureDocument($app->enrollment);
+        $filename = 'enrollment-'.$app->enrollment->student_number.'.pdf';
+
+        return Storage::disk('local')->download($path, $filename);
+    }
+
     private function findApplication(int $id): Application
     {
-        return Application::with(['studentProfile.user', 'program.translations', 'faculty.translations', 'department.translations'])->findOrFail($id);
+        return Application::with(['studentProfile.user', 'program.translations', 'faculty.translations', 'department.translations', 'equivalency', 'admission', 'contracts.payments', 'enrollment'])->findOrFail($id);
     }
 }

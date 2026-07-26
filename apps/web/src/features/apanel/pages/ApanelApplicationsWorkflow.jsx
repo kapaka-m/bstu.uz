@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
-import { CheckCircle, Plus, Search, XCircle } from "lucide-react";
+import { CheckCircle, Download, Plus, Search, XCircle } from "lucide-react";
 import LoadingState from "../../../components/common/LoadingState";
 import FormError from "../../../components/common/FormError";
 import { apanelApplicationsService } from "../../../services/apanelApplicationsService";
@@ -44,6 +44,7 @@ export default function ApanelApplicationsWorkflow() {
     if (path.endsWith("/payments")) return "payments";
     if (path.endsWith("/final-review")) return "final";
     if (path.endsWith("/admission")) return "admission";
+    if (path.endsWith("/enrollment")) return "enrollment";
     return id ? "overview" : "list";
   }, [location.pathname, id]);
 
@@ -157,6 +158,7 @@ export default function ApanelApplicationsWorkflow() {
         [`${base}/payments`, "Payments"],
         [`${base}/final-review`, "Final Review"],
         [`${base}/admission`, "Admission"],
+        [`${base}/enrollment`, "Enrollment"],
       ].map(([to, label]) => (
         <Link key={to} to={to} className={`px-3 py-2 rounded-xl text-xs font-extrabold border ${location.pathname === to ? "bg-primary text-white border-primary" : "bg-white text-navy border-gray-100"}`}>{label}</Link>
       ))}
@@ -227,21 +229,42 @@ export default function ApanelApplicationsWorkflow() {
 
   const renderPayments = () => (
     <Panel title="Payments Review">
-      <div className="space-y-3">
-        {(app.application_fee_payments || []).map((payment) => (
-          <div key={payment.id} className="rounded-2xl border border-gray-100 p-4 flex justify-between gap-4">
-            <div>
-              <p className="text-xs font-extrabold text-navy">{payment.payment_number}</p>
-              <p className="text-[11px] text-gray-500">{payment.amount} {payment.currency} · {payment.receipt_original_name}</p>
-              {payment.rejection_reason && <p className="text-[11px] font-bold text-rose-600">{payment.rejection_reason}</p>}
+      <div className="space-y-6">
+        <div className="space-y-3">
+          <h3 className="text-xs font-extrabold text-navy uppercase tracking-wider">Application Fee</h3>
+          {(app.application_fee_payments || []).map((payment) => (
+            <div key={payment.id} className="rounded-2xl border border-gray-100 p-4 flex justify-between gap-4">
+              <div>
+                <p className="text-xs font-extrabold text-navy">{payment.payment_number}</p>
+                <p className="text-[11px] text-gray-500">{payment.amount} {payment.currency} · {payment.receipt_original_name}</p>
+                {payment.rejection_reason && <p className="text-[11px] font-bold text-rose-600">{payment.rejection_reason}</p>}
+              </div>
+              <div className="flex gap-2">
+                <Status value={payment.status} />
+                <button onClick={() => action(() => apanelApplicationsService.reviewPayment(id, payment.id, { status: "APPROVED" }), "Payment approved")} className="px-3 py-2 rounded-xl bg-emerald-600 text-white text-xs font-extrabold">Approve</button>
+                <button onClick={() => rejectPayment(action, payment.id)} className="px-3 py-2 rounded-xl bg-rose-600 text-white text-xs font-extrabold">Reject</button>
+              </div>
             </div>
-            <div className="flex gap-2">
-              <Status value={payment.status} />
-              <button onClick={() => action(() => apanelApplicationsService.reviewPayment(id, payment.id, { status: "APPROVED" }), "Payment approved")} className="px-3 py-2 rounded-xl bg-emerald-600 text-white text-xs font-extrabold">Approve</button>
-              <button onClick={() => rejectPayment(action, payment.id)} className="px-3 py-2 rounded-xl bg-rose-600 text-white text-xs font-extrabold">Reject</button>
+          ))}
+        </div>
+        <div className="space-y-3">
+          <h3 className="text-xs font-extrabold text-navy uppercase tracking-wider">30% Contract Payment</h3>
+          {(app.contracts || []).flatMap((contract) => (contract.payments || []).map((payment) => ({ ...payment, contract }))).map((payment) => (
+            <div key={payment.id} className="rounded-2xl border border-gray-100 p-4 flex justify-between gap-4">
+              <div>
+                <p className="text-xs font-extrabold text-navy">{payment.payment_number}</p>
+                <p className="text-[11px] text-gray-500">{payment.amount} {payment.currency} · {payment.receipt_original_name}</p>
+                <p className="text-[10px] font-bold text-gray-400">{payment.contract.contract_number}</p>
+                {payment.rejection_reason && <p className="text-[11px] font-bold text-rose-600">{payment.rejection_reason}</p>}
+              </div>
+              <div className="flex gap-2">
+                <Status value={payment.status} />
+                <button onClick={() => action(() => apanelApplicationsService.reviewContractPayment(id, payment.id, { status: "APPROVED" }), "30% payment approved")} className="px-3 py-2 rounded-xl bg-emerald-600 text-white text-xs font-extrabold">Approve</button>
+                <button onClick={() => action(() => apanelApplicationsService.reviewContractPayment(id, payment.id, { status: "REUPLOAD_REQUIRED", rejection_reason: window.prompt("Rejection reason:") || "Please upload a clearer contract payment receipt." }), "30% payment rejected")} className="px-3 py-2 rounded-xl bg-rose-600 text-white text-xs font-extrabold">Reject</button>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </Panel>
   );
@@ -266,8 +289,33 @@ export default function ApanelApplicationsWorkflow() {
 
   const renderAdmission = () => (
     <Panel title="Admission">
-      {app.admission ? <Info rows={[["Admission Number", app.admission.admission_number], ["Issue Date", app.admission.issue_date], ["Status", app.admission.status]]} /> : <p className="text-xs font-bold text-gray-500">Admission is not issued yet.</p>}
+      {app.admission ? (
+        <div className="space-y-4">
+          <Info rows={[["Admission Number", app.admission.admission_number], ["Issue Date", app.admission.issue_date], ["Status", app.admission.status]]} />
+          <button onClick={() => apanelApplicationsService.downloadAdmission(id)} className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-navy text-white text-xs font-extrabold">
+            <Download className="h-4 w-4" />
+            Download Admission PDF
+          </button>
+        </div>
+      ) : <p className="text-xs font-bold text-gray-500">Admission is not issued yet.</p>}
       <button onClick={() => action(() => apanelApplicationsService.issueAdmission(id), "Admission issued")} className="px-4 py-2 rounded-xl bg-primary text-white text-xs font-extrabold">Issue Admission</button>
+    </Panel>
+  );
+
+  const renderEnrollment = () => (
+    <Panel title="Enrollment">
+      {app.enrollment ? (
+        <div className="space-y-4">
+          <Info rows={[["Student Number", app.enrollment.student_number], ["Academic Year", app.enrollment.academic_year], ["Issue Date", app.enrollment.issue_date], ["Status", app.enrollment.status]]} />
+          <button onClick={() => apanelApplicationsService.downloadEnrollment(id)} className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-navy text-white text-xs font-extrabold">
+            <Download className="h-4 w-4" />
+            Download Enrollment PDF
+          </button>
+        </div>
+      ) : (
+        <Info rows={[["Admission Issued", snapshot.checks?.admission_issued ? "Yes" : "No"], ["30% Payment Approved", snapshot.checks?.contract_advance_paid ? "Yes" : "No"]]} />
+      )}
+      <button onClick={() => action(() => apanelApplicationsService.issueEnrollment(id), "Enrollment certificate issued")} className="px-4 py-2 rounded-xl bg-primary text-white text-xs font-extrabold">Issue Enrollment Certificate</button>
     </Panel>
   );
 
@@ -287,6 +335,7 @@ export default function ApanelApplicationsWorkflow() {
       {section === "payments" && renderPayments()}
       {section === "final" && renderFinal()}
       {section === "admission" && renderAdmission()}
+      {section === "enrollment" && renderEnrollment()}
     </div>
   );
 }

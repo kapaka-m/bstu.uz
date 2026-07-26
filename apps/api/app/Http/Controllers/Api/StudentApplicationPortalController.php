@@ -6,9 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Models\Application;
 use App\Models\ApplicationDocument;
 use App\Models\ApplicationFeePayment;
+use App\Models\Payment;
 use App\Models\Notification;
 use App\Models\StudentProfile;
+use App\Services\AdmissionPdfService;
 use App\Services\ApplicationWorkflowService;
+use App\Services\EnrollmentCertificatePdfService;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,7 +24,11 @@ class StudentApplicationPortalController extends Controller
 {
     use ApiResponse;
 
-    public function __construct(private readonly ApplicationWorkflowService $workflow) {}
+    public function __construct(
+        private readonly ApplicationWorkflowService $workflow,
+        private readonly AdmissionPdfService $admissionPdf,
+        private readonly EnrollmentCertificatePdfService $enrollmentPdf,
+    ) {}
 
     public function summary(Request $request)
     {
@@ -251,6 +258,105 @@ class StudentApplicationPortalController extends Controller
             'checks' => $snapshot['checks'],
             'application' => $application,
         ], 'Admission status retrieved');
+    }
+
+    public function downloadAdmission(Request $request)
+    {
+        $application = $this->currentApplication();
+        if (! $application || ! $application->admission) {
+            return $this->errorResponse('Admission is not issued yet.', 404);
+        }
+
+        $path = $this->admissionPdf->ensureDocument($application->admission);
+        $filename = 'admission-'.$application->admission->admission_number.'.pdf';
+
+        return Storage::disk('local')->download($path, $filename);
+    }
+
+    public function contractAdvance(Request $request)
+    {
+        $application = $this->currentApplication();
+        if (! $application) {
+            return $this->errorResponse('Application not found', 404);
+        }
+
+        $contract = $application->admission ? $this->workflow->ensureContract($application) : null;
+        $contract?->load('payments');
+
+        return $this->successResponse([
+            'contract' => $contract,
+            'can_upload' => (bool) $application->admission && ! $this->workflow->contractAdvanceApproved($application),
+            'requires_admission' => ! $application->admission,
+            'required_percentage' => 30,
+        ], 'Contract advance payment status retrieved');
+    }
+
+    public function uploadContractAdvanceReceipt(Request $request, int $applicationId)
+    {
+        $application = $this->ownedApplication($applicationId);
+        if (! $application) {
+            return $this->errorResponse('Application not found or unauthorized', 404);
+        }
+        if (! $application->admission) {
+            return $this->errorResponse('Admission must be issued before contract payment.', 422);
+        }
+        if ($this->workflow->contractAdvanceApproved($application)) {
+            return $this->errorResponse('The 30% contract payment is already approved.', 422);
+        }
+
+        $validated = $request->validate([
+            'file' => $this->uploadFileRules(),
+        ]);
+
+        $contract = $this->workflow->ensureContract($application);
+        $file = $validated['file'];
+        $path = $file->storeAs('private/contract-payments/'.$application->id, Str::uuid().'.'.strtolower($file->getClientOriginalExtension()), 'local');
+
+        $payment = Payment::create([
+            'contract_id' => $contract->id,
+            'payment_number' => $this->workflow->nextContractPaymentNumber(),
+            'payment_type' => 'contract_advance',
+            'amount' => $contract->advance_amount ?: 0,
+            'currency' => $contract->currency ?: 'USD',
+            'payment_date' => now(),
+            'status' => 'UPLOADED',
+            'receipt_path' => $path,
+            'receipt_original_name' => $file->getClientOriginalName(),
+            'receipt_mime_type' => $file->getMimeType(),
+            'receipt_size' => $file->getSize(),
+        ]);
+        $this->workflow->notify($application, '30% contract receipt uploaded', 'Your 30% contract payment receipt is waiting for review.', 'payment', '/student/payments');
+
+        return $this->successResponse($payment, 'Contract advance receipt uploaded successfully', 201);
+    }
+
+    public function enrollment(Request $request)
+    {
+        $application = $this->currentApplication();
+        if (! $application) {
+            return $this->errorResponse('Application not found', 404);
+        }
+
+        $snapshot = $this->workflow->applicationSnapshot($application);
+
+        return $this->successResponse([
+            'enrollment' => $application->enrollment,
+            'checks' => $snapshot['checks'],
+            'application' => $application,
+        ], 'Enrollment status retrieved');
+    }
+
+    public function downloadEnrollment(Request $request)
+    {
+        $application = $this->currentApplication();
+        if (! $application || ! $application->enrollment) {
+            return $this->errorResponse('Enrollment certificate is not issued yet.', 404);
+        }
+
+        $path = $this->enrollmentPdf->ensureDocument($application->enrollment);
+        $filename = 'enrollment-'.$application->enrollment->student_number.'.pdf';
+
+        return Storage::disk('local')->download($path, $filename);
     }
 
     private function canUploadFeeReceipt(Application $application): bool

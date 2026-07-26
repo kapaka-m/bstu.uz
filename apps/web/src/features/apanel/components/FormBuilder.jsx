@@ -292,6 +292,57 @@ export default function FormBuilder({
                     </option>
                   ))}
                 </select>
+              ) : field.type === "checkbox-group" ? (
+                (() => {
+                  const selectedValues = typeof value === "string"
+                    ? value.split(",").map(v => v.trim().toLowerCase())
+                    : Array.isArray(value)
+                      ? value.map(v => String(v).trim().toLowerCase())
+                      : [];
+
+                  const handleCheckboxGroupChange = (optVal, checked) => {
+                    let nextList = [...selectedValues];
+                    const normOptVal = String(optVal).trim().toLowerCase();
+                    if (checked) {
+                      if (!nextList.includes(normOptVal)) {
+                        nextList.push(normOptVal);
+                      }
+                    } else {
+                      nextList = nextList.filter((v) => v !== normOptVal);
+                    }
+                    const formattedList = (field.options || []).map(opt => {
+                      const val = typeof opt === "object" ? opt.value : opt;
+                      const lbl = typeof opt === "object" ? opt.label : opt;
+                      return nextList.includes(String(val).toLowerCase()) ? lbl : null;
+                    }).filter(Boolean);
+
+                    handleRootChange(field.name, formattedList.join(", "));
+                  };
+
+                  return (
+                    <div className="flex flex-wrap gap-4 py-2">
+                      {(field.options || []).map((opt) => {
+                        const optVal = typeof opt === "object" ? opt.value : opt;
+                        const optLabel = typeof opt === "object" ? opt.label : opt;
+                        const isChecked = selectedValues.includes(String(optVal).toLowerCase());
+
+                        return (
+                          <label key={optVal} className="flex items-center gap-2 cursor-pointer">
+                            <input
+                              type="checkbox"
+                              checked={isChecked}
+                              onChange={(e) => handleCheckboxGroupChange(optVal, e.target.checked)}
+                              className="w-4 h-4 text-primary border-gray-300 rounded-sm focus:ring-primary focus:ring-1"
+                            />
+                            <span className="text-xs font-semibold text-navy">
+                              {optLabel}
+                            </span>
+                          </label>
+                        );
+                      })}
+                    </div>
+                  );
+                })()
               ) : field.type === "boolean" ? (
                 <label className="flex items-center gap-2 cursor-pointer py-2">
                   <input

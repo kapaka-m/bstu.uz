@@ -14,10 +14,8 @@ import {
   UserCheck,
   Users,
 } from "lucide-react";
-import { facultiesData } from "../data/mockData";
-import { programsData } from "../data/programsData";
-import { departmentsData } from "../data/departmentsData";
 import { useLanguage } from "../context/LanguageContext";
+import { facultyService } from "../services/facultyService";
 
 const getInitials = (name) => {
   if (!name) return "";
@@ -37,62 +35,7 @@ const shortText = (text, max = 170) => {
   return text.length > max ? `${text.slice(0, max).trim()}...` : text;
 };
 
-const parseProgramString = (str) => {
-  if (!str) return { code: "", name: "" };
-  const codeMatch = str.match(/^(\d+)\s*[-–—]\s*(.*)$/);
-  if (codeMatch) {
-    return {
-      code: codeMatch[1],
-      name: codeMatch[2].replace(/\[[^\]]*\]/g, "").trim(),
-    };
-  }
-  return {
-    code: "",
-    name: str.replace(/\[[^\]]*\]/g, "").trim(),
-  };
-};
-
-// Helper function for matching
-const findProgramMatch = (pName, tName, list) => {
-  if (!pName) return null;
-  const clean = (n) =>
-    n
-      .replace(
-        /\[\s*(b\.sc\.|m\.sc\.|phd|dsc|phd\/dsc|bachelor|master)\s*\]/gi,
-        "",
-      )
-      .replace(/^\d+[\s–-–]+/, "")
-      .trim()
-      .toLowerCase();
-  const cleanOrig = clean(pName);
-  const cleanTrans = clean(tName || "");
-
-  // Match by original cleaned name first to avoid collisions from stale translations
-  let found = list.find((p) => clean(p.name) === cleanOrig);
-  if (found) return found;
-
-  // Then match by translated name when available
-  found = list.find((p) => clean(p.name) === cleanTrans);
-  if (found) return found;
-
-  // Match by code fallback (for legacy strings with exact numeric identifiers)
-  const codeMatch = pName.match(/\b\d{8}\b|\b\d{2}\.\d{2}\.\d{2}\b/);
-  if (codeMatch) {
-    found = list.find(
-      (p) => p.code && p.code.replace(/-.*/, "") === codeMatch[0],
-    );
-    if (found) return found;
-  }
-
-  // Match by substring (longest name first to avoid "Management" false positives)
-  const sorted = [...list].sort((a, b) => b.name.length - a.name.length);
-  found = sorted.find((p) => {
-    const cName = clean(p.name);
-    if (cName.length < 4) return false;
-    return cleanOrig.includes(cName) || cleanTrans.includes(cName);
-  });
-  return found;
-};
+const normalizeDegree = (degree) => String(degree || "").toLowerCase();
 
 function ImageWithFallback({
   src,
@@ -148,31 +91,11 @@ function SectionTitle({ icon: Icon, eyebrow, title, description }) {
   );
 }
 
-function ProgramGrid({ programs, label, icon: Icon, t }) {
+function ProgramGrid({ programs, label, icon: Icon }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       {programs.map((program, index) => {
-        const keyMap = {
-          "software-engineering": "softwareEngineering",
-          "mechanical-engineering": "mechanicalEngineering",
-          architecture: "architecture",
-          economics: "economics",
-          "oil-gas-engineering": "oilGasEngineering",
-          "power-engineering": "powerEngineering",
-          construction: "construction",
-          metallurgy: "metallurgy",
-          "automotive-engineering": "automotiveEngineering",
-          cybersecurity: "cybersecurity",
-          "food-technology": "foodTechnology",
-          "food-technology-60720100": "foodTechnology",
-          "textile-engineering": "textileEngineering",
-        };
-        const displayName = program.id
-          ? t(
-              `home.programs.list.${keyMap[program.id] || program.id}.name`,
-              program.name,
-            )
-          : program.name;
+        const displayName = program.name;
 
         const content = (
           <>
@@ -219,15 +142,40 @@ function ProgramGrid({ programs, label, icon: Icon, t }) {
 export default function FacultyDetails() {
   const { id } = useParams();
   const { t, language } = useLanguage();
+  const [faculty, setFaculty] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   const isRtl = language === "ar";
-
-  // Find dynamic faculty
-  const faculty = facultiesData.find((f) => f.id === id) || facultiesData[0];
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    document.title = `${t(`faculties.${faculty.id}.name`, faculty.name)} | BSTU`;
-  }, [id, faculty, t]);
+  }, [id]);
+
+  useEffect(() => {
+    let active = true;
+    setLoading(true);
+    setError("");
+
+    facultyService
+      .getFaculty(id)
+      .then((data) => {
+        if (!active) return;
+        setFaculty(data || null);
+        document.title = `${data?.name || "Faculty"} | BSTU`;
+      })
+      .catch(() => {
+        if (!active) return;
+        setFaculty(null);
+        setError(t("common.notFoundDesc", "The requested content could not be loaded."));
+      })
+      .finally(() => {
+        if (active) setLoading(false);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [id, language, t]);
 
   const labels = {
     home: t("nav.home", "Home"),
@@ -256,7 +204,7 @@ export default function FacultyDetails() {
     ),
     industryCooperation: t(
       "facultyTechnology.industryCooperation",
-      "Industry Cooperation",
+      "Faculty Information",
     ),
     academicPathways: t(
       "facultyTechnology.academicPathways",
@@ -264,223 +212,87 @@ export default function FacultyDetails() {
     ),
   };
 
-  const title = t(`faculties.${faculty.id}.name`, faculty.name);
-  const overview = t(`faculties.${faculty.id}.about`, faculty.about);
+  if (loading) {
+    return (
+      <div className="pt-20 min-h-screen bg-white flex items-center justify-center">
+        <div className="w-8 h-8 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  if (!faculty || error) {
+    return (
+      <div className="pt-20 min-h-screen bg-primary-light flex flex-col items-center justify-center text-center p-8">
+        <h1 className="text-3xl font-extrabold text-navy mb-2">{t("common.notFound", "Content Not Found")}</h1>
+        <p className="text-gray-500 max-w-md mb-8">
+          {error || t("common.notFoundDesc", "The requested content could not be loaded.")}
+        </p>
+        <Link
+          to="/"
+          className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-white px-6 py-3 rounded-xl font-bold transition-all shadow-md"
+        >
+          {labels.home}
+        </Link>
+      </div>
+    );
+  }
+
+  const title = faculty.name || "";
+  const overview = faculty.description || "";
   const overviewParagraphs = overview.split(/(?<=\.)\s+/).filter(Boolean);
 
-  // 1. Resolve and deduplicate departments belonging to this faculty
-  const uniqueDeptsMap = new Map();
-  Object.entries(departmentsData)
-    .filter(([_, dept]) => dept.facultyId === faculty.id)
-    .forEach(([key, dept]) => {
-      const normalizedName = dept.name.toLowerCase().trim();
-      if (!uniqueDeptsMap.has(normalizedName)) {
-        uniqueDeptsMap.set(normalizedName, { key, dept });
-      } else {
-        if (key.includes("-and-")) {
-          uniqueDeptsMap.set(normalizedName, { key, dept });
+  const facultyDepartmentsList = (faculty.departments || []).map((dept) => ({
+    slug: dept.slug,
+    name: dept.name,
+    route: `/department/${dept.slug}`,
+    about: dept.description || "",
+    contact: dept.head_name
+      ? {
+          name: dept.head_name,
+          route: dept.head_profile_slug ? `/profile/${dept.head_profile_slug}` : "",
+          role: labels.head,
+          phone: dept.phone,
+          email: dept.email,
         }
-      }
-    });
+      : null,
+  }));
 
-  const facultyDepartmentsList = Array.from(uniqueDeptsMap.values()).map(
-    ({ key, dept }) => ({
-      slug: key,
-      name: dept.name,
-      route: `/department/${key}`,
-      about: dept.about || "",
-      contact: dept.head
-        ? {
-            name: t(`departments.${key}.head`, dept.head),
-            role: t(
-              `departments.${key}.headTitle`,
-              dept.headTitle || "Head of Department",
-            ),
-            phone: dept.headPhone,
-            email: dept.headEmail,
-          }
-        : null,
-    }),
-  );
+  const toProgramCard = (program) => ({
+    code: program.display_code || program.official_code || program.code || "",
+    name: program.name || "",
+    id: program.slug,
+    route: `/programs/${program.slug}`,
+  });
+  const bachelorPrograms = (faculty.programs || [])
+    .filter((program) => normalizeDegree(program.degree) === "bachelor")
+    .map(toProgramCard);
+  const masterPrograms = (faculty.programs || [])
+    .filter((program) => ["master", "phd", "doctoral"].includes(normalizeDegree(program.degree)))
+    .map(toProgramCard);
+  const sectionLinks = [
+    [labels.departments, "#departments"],
+    ...(bachelorPrograms.length > 0
+      ? [[labels.bachelorPrograms, "#bachelor-programs"]]
+      : []),
+    ...(masterPrograms.length > 0
+      ? [[labels.masterSpecializations, "#master-specializations"]]
+      : []),
+    [labels.contact, "#contact"],
+  ];
 
-  // 2. Parse the programs array from mockData into Bachelor and Master grids
-  const bachelorPrograms = [];
-  const masterPrograms = [];
-
-  if (faculty.programs) {
-    faculty.programs.forEach((progStr, index) => {
-      const localizedStr = t(
-        `faculties.${faculty.id}.programs.${index}`,
-        progStr,
-      );
-      const { code, name } = parseProgramString(localizedStr);
-      const matched = findProgramMatch(progStr, localizedStr, programsData);
-
-      const programObj = {
-        code: code || matched?.code || "",
-        name: name,
-        id: matched?.id || "",
-        route: matched ? `/programs/${matched.id}` : "",
-        originalStr: progStr,
-      };
-
-      const hasBachelor =
-        /b\.sc\.|bachelor/i.test(localizedStr) ||
-        /b\.sc\.|bachelor/i.test(progStr);
-      const hasMaster =
-        /m\.sc\.|master/i.test(localizedStr) || /m\.sc\.|master/i.test(progStr);
-      const hasPhD = /phd|dsc/i.test(localizedStr) || /phd|dsc/i.test(progStr);
-
-      const isBachelor = hasBachelor || (!hasMaster && !hasPhD);
-
-      if (isBachelor) {
-        bachelorPrograms.push(programObj);
-      }
-      if (hasMaster) {
-        masterPrograms.push({
-          ...programObj,
-          name: programObj.name.includes("Master")
-            ? programObj.name
-            : `${programObj.name} [M.Sc.]`,
-        });
-      }
-      if (hasPhD) {
-        masterPrograms.push({
-          ...programObj,
-          name:
-            programObj.name.includes("PhD") ||
-            programObj.name.includes("Doctoral")
-              ? programObj.name
-              : `${programObj.name} [PhD]`,
-        });
-      }
-    });
-  }
-
-  // 3. Set up leadership list
-  let leadership = [];
-  if (faculty.id === "faculty-of-natural-resources-management") {
-    leadership = [
-      {
-        name: t(
-          "faculties.faculty-of-natural-resources-management.dean",
-          faculty.management.dean,
-        ),
-        role: t(
-          "faculties.faculty-of-natural-resources-management.deanTitle",
-          faculty.management.title,
-        ),
-        reception: t(
-          "faculties.faculty-of-natural-resources-management.deanOfficeHours",
-          faculty.management.officeHours,
-        ),
-        phone: faculty.management.phone,
-        email: faculty.management.email,
-        image: null,
-        fallbackImage: null,
-      },
-      {
-        name: t(
-          "faculties.faculty-of-natural-resources-management.deputy1Name",
-          "To be announced",
-        ),
-        role: t(
-          "faculties.faculty-of-natural-resources-management.deputy1Role",
-          "Deputy Dean for Academic Affairs",
-        ),
-        reception: t(
-          "faculties.faculty-of-natural-resources-management.deputy1Hours",
-          "Every day 14:00–16:00",
-        ),
-        phone: faculty.management.phone,
-        email: "resources-dean@bstu.uz",
-        image: null,
-        fallbackImage: null,
-      },
-      {
-        name: t(
-          "faculties.faculty-of-natural-resources-management.deputy2Name",
-          "Gadoyeva Abera Hasanovna",
-        ),
-        role: t(
-          "faculties.faculty-of-natural-resources-management.deputy2Role",
-          "Deputy Dean for Youth Affairs",
-        ),
-        reception: t(
-          "faculties.faculty-of-natural-resources-management.deputy2Hours",
-          "Every day 14:00–16:00",
-        ),
-        phone: faculty.management.phone,
-        email: "resources-dean@bstu.uz",
-        image: null,
-        fallbackImage: null,
-      },
-    ];
-  } else if (faculty.leadership) {
-    leadership = faculty.leadership.map((member, idx) => ({
-      name: t(`faculties.${faculty.id}.leadership.${idx}.name`, member.name),
-      role: t(`faculties.${faculty.id}.leadership.${idx}.role`, member.role),
-      reception: t(
-        `faculties.${faculty.id}.leadership.${idx}.officeHours`,
-        member.officeHours || member.reception,
-      ),
+  const leadership = (faculty.leadership || faculty.staff || [])
+    .filter((member) => !member.department_id)
+    .map((member) => ({
+      slug: member.slug,
+      route: member.slug ? `/profile/${member.slug}` : "",
+      name: member.full_name || member.name || "",
+      role: member.position || "",
+      reception: member.office || "",
       phone: member.phone,
       email: member.email,
-      image: member.image,
-      fallbackImage: member.fallbackImage,
+      image: member.photo_url || member.photo,
+      fallbackImage: null,
     }));
-  } else if (faculty.management) {
-    leadership = [
-      {
-        name: faculty.management.dean,
-        role: t(
-          `faculties.${faculty.id}.management.title`,
-          faculty.management.title,
-        ),
-        reception: t(
-          `faculties.${faculty.id}.management.officeHours`,
-          faculty.management.officeHours,
-        ),
-        phone: faculty.management.phone,
-        email: faculty.management.email,
-        image: null,
-        fallbackImage: null,
-      },
-      {
-        name: t(
-          `faculties.${faculty.id}.deputyAcademicName`,
-          "To be announced",
-        ),
-        role: t(
-          `faculties.${faculty.id}.deputyAcademicRole`,
-          "Deputy Dean for Academic Affairs",
-        ),
-        reception: t(
-          `faculties.${faculty.id}.deputyAcademicHours`,
-          faculty.management.officeHours,
-        ),
-        phone: faculty.management.phone,
-        email: faculty.management.email,
-        image: null,
-        fallbackImage: null,
-      },
-      {
-        name: t(`faculties.${faculty.id}.deputyYouthName`, "To be announced"),
-        role: t(
-          `faculties.${faculty.id}.deputyYouthRole`,
-          "Deputy Dean for Youth Affairs",
-        ),
-        reception: t(
-          `faculties.${faculty.id}.deputyYouthHours`,
-          faculty.management.officeHours,
-        ),
-        phone: faculty.management.phone,
-        email: faculty.management.email,
-        image: null,
-        fallbackImage: null,
-      },
-    ];
-  }
 
   return (
     <div className="pt-20 bg-white" dir={isRtl ? "rtl" : "ltr"}>
@@ -506,12 +318,7 @@ export default function FacultyDetails() {
               </p>
 
               <div className="flex flex-wrap gap-3 mt-8">
-                {[
-                  [labels.departments, "#departments"],
-                  [labels.bachelorPrograms, "#bachelor-programs"],
-                  [labels.masterSpecializations, "#master-specializations"],
-                  [labels.contact, "#contact"],
-                ].map(([label, href]) => (
+                {sectionLinks.map(([label, href]) => (
                   <a
                     key={href}
                     href={href}
@@ -542,7 +349,7 @@ export default function FacultyDetails() {
                 <p className="text-xs font-extrabold uppercase tracking-wider text-primary mt-1">
                   {labels.departments}
                 </p>
-                <div className="mt-6 grid grid-cols-2 gap-3">
+                <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div className="bg-primary-light rounded-2xl p-4">
                     <p className="text-xl font-extrabold text-navy">
                       {bachelorPrograms.length}
@@ -551,14 +358,16 @@ export default function FacultyDetails() {
                       {labels.bachelorPrograms}
                     </p>
                   </div>
-                  <div className="bg-primary-light rounded-2xl p-4">
-                    <p className="text-xl font-extrabold text-navy">
-                      {masterPrograms.length}
-                    </p>
-                    <p className="text-[10px] font-bold text-gray-500 mt-1">
-                      {labels.masterSpecializations}
-                    </p>
-                  </div>
+                  {masterPrograms.length > 0 && (
+                    <div className="bg-primary-light rounded-2xl p-4">
+                      <p className="text-xl font-extrabold text-navy">
+                        {masterPrograms.length}
+                      </p>
+                      <p className="text-[10px] font-bold text-gray-500 mt-1">
+                        {labels.masterSpecializations}
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
             </motion.div>
@@ -578,7 +387,6 @@ export default function FacultyDetails() {
               icon={BookOpen}
               eyebrow={labels.overview}
               title={labels.overview}
-              description={labels.industryCooperation}
             />
           </div>
           <div className="lg:col-span-8 bg-white border border-gray-100 rounded-3xl p-6 md:p-8 shadow-sm">
@@ -618,7 +426,13 @@ export default function FacultyDetails() {
                   {member.role}
                 </p>
                 <h3 className="text-base font-extrabold text-navy leading-snug">
-                  {member.name}
+                  {member.route ? (
+                    <Link to={member.route} className="hover:text-primary transition-colors">
+                      {member.name}
+                    </Link>
+                  ) : (
+                    member.name
+                  )}
                 </h3>
                 <div className="w-full border-t border-gray-200/60 mt-5 pt-4 flex flex-col gap-2 text-xs font-semibold text-gray-500 text-start">
                   {member.reception && (
@@ -669,9 +483,8 @@ export default function FacultyDetails() {
                 160,
               );
               return (
-                <Link
+                <article
                   key={department.slug}
-                  to={department.route}
                   className="group bg-white border border-gray-100 rounded-3xl p-6 shadow-sm hover:shadow-xl hover:border-primary/20 transition-all flex flex-col gap-5 text-start w-full"
                 >
                   <div className="flex items-start justify-between gap-4">
@@ -683,11 +496,16 @@ export default function FacultyDetails() {
                     </span>
                   </div>
                   <div>
-                    <h3 className="text-base font-extrabold text-navy group-hover:text-primary transition-colors leading-snug">
-                      {t(
-                        `departments.${department.slug}.name`,
-                        department.name,
-                      )}
+                    <h3 className="text-base font-extrabold text-navy leading-snug">
+                      <Link
+                        to={department.route}
+                        className="hover:text-primary transition-colors"
+                      >
+                        {t(
+                          `departments.${department.slug}.name`,
+                          department.name,
+                        )}
+                      </Link>
                     </h3>
                     {summary && (
                       <p className="text-xs md:text-sm text-gray-500 font-medium leading-relaxed mt-3">
@@ -702,17 +520,26 @@ export default function FacultyDetails() {
                         <span className="text-navy font-bold">
                           {labels.head}:{" "}
                         </span>
-                        {department.contact.name}
+                        {department.contact.route ? (
+                          <Link to={department.contact.route} className="hover:text-primary transition-colors">
+                            {department.contact.name}
+                          </Link>
+                        ) : (
+                          department.contact.name
+                        )}
                       </span>
                     </div>
                   )}
-                  <span className="inline-flex items-center gap-2 text-xs font-extrabold text-primary mt-auto">
+                  <Link
+                    to={department.route}
+                    className="inline-flex items-center gap-2 text-xs font-extrabold text-primary mt-auto hover:text-primary-hover transition-colors"
+                  >
                     {labels.learnMore}
                     <ArrowRight
                       className={`w-4 h-4 ${isRtl ? "rotate-180" : ""}`}
                     />
-                  </span>
-                </Link>
+                  </Link>
+                </article>
               );
             })}
           </div>
@@ -734,7 +561,6 @@ export default function FacultyDetails() {
               programs={bachelorPrograms}
               label={labels.bachelorPrograms}
               icon={GraduationCap}
-              t={t}
             />
           </section>
         )}
@@ -755,7 +581,6 @@ export default function FacultyDetails() {
               programs={masterPrograms}
               label={labels.masterSpecializations}
               icon={BookOpen}
-              t={t}
             />
           </section>
         )}
@@ -785,7 +610,13 @@ export default function FacultyDetails() {
               <div className="flex flex-col gap-3 text-sm font-semibold text-gray-500">
                 {leadership.slice(0, 1).map((member, idx) => (
                   <React.Fragment key={idx}>
-                    <p className="text-navy font-extrabold">{member.name}</p>
+                    {member.route ? (
+                      <Link to={member.route} className="text-navy font-extrabold hover:text-primary transition-colors">
+                        {member.name}
+                      </Link>
+                    ) : (
+                      <p className="text-navy font-extrabold">{member.name}</p>
+                    )}
                     {member.phone && (
                       <a
                         href={telHref(member.phone)}
@@ -820,7 +651,13 @@ export default function FacultyDetails() {
                     className="border-b border-gray-100 last:border-b-0 pb-4 last:pb-0"
                   >
                     <p className="text-sm font-extrabold text-navy">
-                      {member.name}
+                      {member.route ? (
+                        <Link to={member.route} className="hover:text-primary transition-colors">
+                          {member.name}
+                        </Link>
+                      ) : (
+                        member.name
+                      )}
                     </p>
                     <p className="text-[11px] font-bold text-primary uppercase tracking-wider mt-1">
                       {member.role}

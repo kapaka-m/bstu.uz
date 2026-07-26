@@ -13,12 +13,11 @@ evaluates them inside a Node.js VM context, and exports JSON datasets into
 are not imported by public React pages.
 
 1. **`translations.js`** — UI translation dictionaries, structural text, and department metadata translations.
-2. **`programsData.js`** — Study programs metadata (degree, duration, coordinators, accreditations).
-3. **`departmentsData.js`** — Academic departments, lab titles, and subject list curriculum.
-4. **Green Campus CMS** — Sustainability statistics and green campus initiatives are managed through `/apanel/cms/green-campus`.
-5. **Announcements CMS** — Campus announcements are managed through `/apanel/cms/announcements`.
-6. **Administration CMS** — University leadership is managed through `/apanel/cms/administration` and stored in the Administration CMS tables.
-7. **`mockData.js`** — Services priorities data and additional blog elements.
+2. **`departmentsData.js`** — Academic departments, lab titles, and subject list curriculum.
+3. **Green Campus CMS** — Sustainability statistics and green campus initiatives are managed through `/apanel/cms/green-campus`.
+4. **Announcements CMS** — Campus announcements are managed through `/apanel/cms/announcements`.
+5. **Administration CMS** — University leadership is managed through `/apanel/cms/administration` and stored in the Administration CMS tables.
+6. **`mockData.js`** — Services priorities data and additional blog elements.
 
 `facultyTechnology.js` and `facultyTechnologyRequirements.cleaned.txt` are kept
 only as historical source captures in the same legacy archive. Faculty and
@@ -97,7 +96,7 @@ Current JSON dataset ownership:
 - `announcements.json`: consumed by `AnnouncementSeeder`.
 - `departments.json`: consumed by department, course, and staff seeding.
 - Green Campus content is not consumed from JSON. It is managed through `/apanel/cms/green-campus`.
-- `programs.json`: consumed by `ProgramSeeder`.
+- `programs.json`: legacy non-Engineering program metadata consumed by `ProgramSeeder`; Faculty of Engineering programs are seeded canonically by the Engineering academic structure seeders and are skipped by `ProgramSeeder`.
 - `translations.json`: consumed by translation, menu, page, faculty, department, program, course, staff, and announcement seeders.
 - Video Gallery content is not seeded from JSON. It is managed through `/apanel/cms/video-bdtu`.
 - Interactive Services content is not consumed from JSON or static seed rows. It is managed through `/apanel/cms/interactive-services`.
@@ -161,14 +160,12 @@ source captures. It reads content files from
 file. It reads:
 
 - `apps/web/src/data/translations.js` or `scripts/import-react-content/legacy-react-data/translations.js`
-- `scripts/import-react-content/legacy-react-data/programsData.js`
 - `scripts/import-react-content/legacy-react-data/departmentsData.js`
 - `scripts/import-react-content/legacy-react-data/mockData.js`
 
 It writes:
 
 - `apps/api/database/data/translations.json`
-- `apps/api/database/data/programs.json`
 - `apps/api/database/data/departments.json`
 
 Run it from the repository root:
@@ -185,7 +182,7 @@ Current seeders consume these JSON files directly:
 
 - `translations.json`: translations, menus, pages, page blocks, faculties, departments, programs, courses, staff, and UI translation keys/values.
 - `departments.json`: departments, courses, and staff metadata.
-- `programs.json`: program metadata.
+- Faculty of Engineering program metadata is maintained by canonical Engineering seeders, not legacy React static files.
 - Administration leadership is managed only through `/apanel/cms/administration`; no reviewed static restore file is maintained for it.
 
 Interactive Services, Blog, News & Events, Video Gallery, Announcements, and footer content are not generated from static JSON.

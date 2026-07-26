@@ -212,7 +212,7 @@ class AdminCrudController extends Controller
             $query->with(['studentProfile.user', 'program.translations', 'faculty.translations', 'department.translations']);
         }
 
-        if (in_array($resource, ['news', 'blogs', 'videos', 'announcements', 'administration-profiles', 'green-campus-stats', 'green-campus-articles', 'services', 'university-centers'], true)) {
+        if (in_array($resource, ['faculties', 'departments', 'programs', 'courses', 'staff', 'news', 'blogs', 'videos', 'announcements', 'administration-profiles', 'green-campus-stats', 'green-campus-articles', 'services', 'university-centers'], true)) {
             $query->with('translations');
         }
 
@@ -2118,7 +2118,6 @@ class AdminCrudController extends Controller
                     'email' => 'nullable|email',
                     'phone' => 'nullable|string',
                     'reception_time' => 'nullable|string',
-                    'source_url' => 'nullable|url',
                     'sort_order' => 'integer',
                     'is_active' => 'boolean',
                     'translations' => 'required|array',
@@ -2147,6 +2146,10 @@ class AdminCrudController extends Controller
                     'code' => 'nullable|string|unique:departments,code,'.$id,
                     'image' => 'nullable|string',
                     'icon' => 'nullable|string',
+                    'head_name' => 'nullable|string',
+                    'email' => 'nullable|email',
+                    'phone' => 'nullable|string',
+                    'reception_time' => 'nullable|string',
                     'sort_order' => 'integer',
                     'is_active' => 'boolean',
                     'translations' => 'required|array',

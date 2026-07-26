@@ -207,9 +207,10 @@ const RESOURCE_SCHEMAS = {
   faculties: {
     title: "Faculties",
     columns: [
+      { key: "translations.0.name", label: "Name" },
       { key: "slug", label: "Slug", sortable: true },
       { key: "code", label: "Code", sortable: true },
-      { key: "is_active", label: "ActiveStatus", type: "boolean" },
+      { key: "is_active", label: "Active", type: "boolean" },
     ],
     fields: [
       { name: "slug", label: "Slug Url", type: "text", required: true },
@@ -243,9 +244,10 @@ const RESOURCE_SCHEMAS = {
   departments: {
     title: "Departments",
     columns: [
+      { key: "translations.0.name", label: "Name" },
+      { key: "faculty_id", label: "Faculty ID", sortable: true },
       { key: "slug", label: "Slug", sortable: true },
-      { key: "code", label: "Code", sortable: true },
-      { key: "is_active", label: "ActiveStatus", type: "boolean" },
+      { key: "is_active", label: "Active", type: "boolean" },
     ],
     fields: [
       {
@@ -294,10 +296,10 @@ const RESOURCE_SCHEMAS = {
   programs: {
     title: "Study Programs",
     columns: [
-      { key: "slug", label: "Slug", sortable: true },
-      { key: "code", label: "Code", sortable: true },
-      { key: "degree", label: "Degree Level", sortable: true },
-      { key: "tuition_fee", label: "Yearly Fee", sortable: true },
+      { key: "translations.0.name", label: "Name" },
+      { key: "department_id", label: "Dept ID", sortable: true },
+      { key: "degree", label: "Degree", sortable: true },
+      { key: "duration_years", label: "Years", sortable: true },
       { key: "is_active", label: "Active", type: "boolean" },
     ],
     fields: [
@@ -340,8 +342,13 @@ const RESOURCE_SCHEMAS = {
       {
         name: "language_of_study",
         label: "Language of study",
-        type: "select",
-        options: ["english", "uzbek", "russian", "arabic"],
+        type: "checkbox-group",
+        options: [
+          { value: "english", label: "English" },
+          { value: "uzbek", label: "Uzbek" },
+          { value: "russian", label: "Russian" },
+          { value: "arabic", label: "Arabic" }
+        ],
         required: true,
       },
       {
@@ -387,6 +394,7 @@ const RESOURCE_SCHEMAS = {
   courses: {
     title: "Courses",
     columns: [
+      { key: "translations.0.name", label: "Course Name" },
       { key: "code", label: "Code", sortable: true },
       { key: "credits", label: "Credits", sortable: true },
       { key: "semester", label: "Semester", sortable: true },
@@ -426,9 +434,9 @@ const RESOURCE_SCHEMAS = {
   staff: {
     title: "Staff & Academics Profiles",
     columns: [
+      { key: "translations.0.full_name", label: "Full Name" },
+      { key: "translations.0.position", label: "Position" },
       { key: "email", label: "Email Address", sortable: true },
-      { key: "phone", label: "Phone Number" },
-      { key: "sort_order", label: "Sort", sortable: true },
       { key: "is_active", label: "Active", type: "boolean" },
     ],
     fields: [
@@ -1023,6 +1031,14 @@ export default function ApanelCrud() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState(null);
 
+  const [toast, setToast] = useState(null);
+  const showToast = (message, type = "success") => {
+    setToast({ message, type });
+    setTimeout(() => {
+      setToast(null);
+    }, 4000);
+  };
+
   const fetchRecords = React.useCallback(async () => {
     if (!RESOURCE_SCHEMAS[resource]) return;
     try {
@@ -1071,9 +1087,11 @@ export default function ApanelCrud() {
 
       const payload = { ...item, [statusField]: nextVal };
       await apanelService.update(resource, id, payload);
+      showToast("Status updated successfully!");
       fetchRecords();
     } catch {
       setError("Failed to toggle status flag.");
+      showToast("Failed to toggle status flag.", "error");
     }
   };
 
@@ -1106,8 +1124,10 @@ export default function ApanelCrud() {
 
       if (editItem) {
         await apanelService.update(resource, editItem.id, formState);
+        showToast("Record updated successfully!");
       } else {
         await apanelService.create(resource, formState);
+        showToast("Record created successfully!");
       }
 
       setIsFormOpen(false);
@@ -1116,8 +1136,11 @@ export default function ApanelCrud() {
     } catch (err) {
       if (err?.status === 422 && err?.errors) {
         setValidationErrors(err.errors);
+        showToast("Please correct the highlighted validation errors.", "error");
       } else {
-        setError(err?.message || "Failed to save record.");
+        const errMsg = err?.message || "Failed to save record.";
+        setError(errMsg);
+        showToast(errMsg, "error");
       }
     } finally {
       setIsSubmitting(false);
@@ -1130,10 +1153,12 @@ export default function ApanelCrud() {
     try {
       setError("");
       await apanelService.delete(resource, deleteTarget.id);
+      showToast("Record deleted successfully!");
       setDeleteTarget(null);
       fetchRecords();
     } catch {
       setError("Failed to delete record.");
+      showToast("Failed to delete record.", "error");
     }
   };
 
@@ -1167,6 +1192,20 @@ export default function ApanelCrud() {
 
   return (
     <div className="space-y-6 animate-in fade-in duration-200">
+      {/* Toast Notification */}
+      {toast && (
+        <div className={`fixed top-6 right-6 z-9999 flex items-center gap-3 rounded-2xl border px-5 py-3 text-xs font-bold text-white shadow-xl animate-in fade-in slide-in-from-top-4 duration-300 backdrop-blur-md ${
+          toast.type === "error" 
+            ? "bg-rose-950/90 border-rose-500/20" 
+            : "bg-navy/90 border-navy/10"
+        }`}>
+          <div className={`h-2 w-2 rounded-full animate-pulse ${
+            toast.type === "error" ? "bg-rose-500" : "bg-primary"
+          }`} />
+          {toast.message}
+        </div>
+      )}
+
       {/* Header title */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>

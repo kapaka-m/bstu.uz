@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useLanguage } from "../context/LanguageContext";
 import { Mail, Phone, Clock, Award, Briefcase, FileText, CheckCircle, GraduationCap } from "lucide-react";
 import { administrationService } from "../services/administrationService";
+import { staffService } from "../services/staffService";
 
 export default function ProfileDetails() {
   const { id } = useParams();
@@ -22,23 +23,28 @@ export default function ProfileDetails() {
     setAdminPerson(null);
 
     Promise.all([
-      administrationService.getProfile(id, language),
+      administrationService
+        .getProfile(id, language)
+        .then((profile) => ({ profile, source: "administration" }))
+        .catch(() => staffService.getStaffProfile(id).then((profile) => ({ profile, source: "staff" }))),
       administrationService.getSettings(language).catch(() => null),
     ])
-      .then(([profile, settings]) => {
+      .then(([profileResult, settings]) => {
         if (!alive) return;
+        const { profile, source } = profileResult;
         setAdminPerson({
-          name: profile.name,
+          name: profile.name || profile.full_name,
           title: profile.position,
           degree: profile.degree,
-          image: profile.image,
+          image: profile.image || profile.photo_url || profile.photo,
           email: profile.email,
           phone: profile.phone,
-          officeHours: profile.officeHours,
-          about: profile.about,
+          officeHours: profile.officeHours || profile.office || profile.office_hours,
+          about: profile.about || profile.bio,
           details: profile.details,
           achievements: profile.achievements,
           slug: profile.slug,
+          profileType: source,
         });
         setAdminSettings(settings);
       })
@@ -62,7 +68,9 @@ export default function ProfileDetails() {
 
   if (adminPerson) {
     person = adminPerson;
-    category = adminSettings?.profile_category_label || t("common.administration", t("nav.administration", "Administration"));
+    if (adminPerson.profileType === "administration") {
+      category = adminSettings?.profile_category_label || t("common.administration", t("nav.administration", "Administration"));
+    }
   }
 
   if (!person && adminLoading) {
@@ -86,7 +94,8 @@ export default function ProfileDetails() {
     return (parts[0][0] + parts[1][0]).toUpperCase();
   };
 
-  const labels = adminPerson ? {
+  const isAdministrationProfile = adminPerson?.profileType === "administration";
+  const labels = isAdministrationProfile ? {
     email: adminSettings?.email_address_label || adminSettings?.email_label || t("common.email", "Email Address"),
     phone: adminSettings?.phone_number_label || adminSettings?.phone_label || t("common.phone", "Phone Number"),
     officeHours: adminSettings?.office_hours_label || adminSettings?.reception_label || t("common.officeHours", "Office Hours"),
@@ -132,9 +141,11 @@ export default function ProfileDetails() {
             </div>
 
             <div className="flex flex-col gap-2">
-              <span className="inline-block text-[10px] font-extrabold uppercase tracking-wider text-primary bg-primary/10 px-3 py-1 rounded-full w-fit mx-auto">
-                {category}
-              </span>
+              {category && (
+                <span className="inline-block text-[10px] font-extrabold uppercase tracking-wider text-primary bg-primary/10 px-3 py-1 rounded-full w-fit mx-auto">
+                  {category}
+                </span>
+              )}
               <h1 className="text-xl font-extrabold text-navy leading-snug mt-2">{person.name}</h1>
               <p className="text-xs font-semibold text-gray-500">{person.title}</p>
             </div>

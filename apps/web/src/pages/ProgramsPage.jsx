@@ -8,7 +8,7 @@ export default function ProgramsPage() {
 
   return (
     <div className="pt-20 bg-white">
-      <Programs showRemaining={true} />
+      <Programs />
     </div>
   );
 }

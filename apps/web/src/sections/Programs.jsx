@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Clock, GraduationCap, Search, X } from "lucide-react";
-import { programsData } from "../data/programsData";
 import { useLanguage } from "../context/LanguageContext";
+import { programService } from "../services/programService";
+import { facultyService } from "../services/facultyService";
 
 const colorConfig = {
   cyan: {
@@ -62,46 +63,64 @@ const colorConfig = {
   }
 };
 
-const keyMap = {
-  "software-engineering": "softwareEngineering",
-  "mechanical-engineering": "mechanicalEngineering",
-  "architecture": "architecture",
-  "economics": "economics",
-  "oil-gas-engineering": "oilGasEngineering",
-  "power-engineering": "powerEngineering",
-  "construction": "construction",
-  "metallurgy": "metallurgy",
-  "automotive-engineering": "automotiveEngineering",
-  "cybersecurity": "cybersecurity",
-  "food-technology": "foodTechnology",
-  "food-technology-60720100": "foodTechnology",
-  "textile-engineering": "textileEngineering"
-};
+const paletteKeys = Object.keys(colorConfig);
+
+const normalizeDegree = (degree) => String(degree || "").toLowerCase();
+const normalizeProgram = (program, index) => ({
+  ...program,
+  id: program.slug || program.id,
+  code: program.display_code || program.official_code || program.code || "",
+  name: program.name || "",
+  description: program.description || "",
+  degree: normalizeDegree(program.degree || "bachelor"),
+  duration: program.duration_years ? `${program.duration_years} years` : program.duration || "",
+  facultyId: program.faculty?.slug || program.faculty_slug || program.faculty_id,
+  departmentId: program.department?.slug || program.department_slug || program.department_id,
+  color: program.color || paletteKeys[index % paletteKeys.length],
+  icon: GraduationCap,
+});
 
 export default function Programs({ limit, showRemaining }) {
   const { t, language } = useLanguage();
   const [selectedFaculty, setSelectedFaculty] = useState("all");
   const [selectedDegree, setSelectedDegree] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
+  const [programs, setPrograms] = useState([]);
+  const [faculties, setFaculties] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const getProgramKey = (program) => keyMap[program.id] || program.id;
-  const getProgramName = (program) => t(`programs.${program.id}.name`, t(`home.programs.list.${getProgramKey(program)}.name`, program.name));
-  const getProgramDescription = (program) => t(`programs.${program.id}.description`, t(`home.programs.list.${getProgramKey(program)}.desc`, program.description));
+  useEffect(() => {
+    let active = true;
+    setLoading(true);
+
+    Promise.all([programService.getPrograms(), facultyService.getFaculties()])
+      .then(([programItems, facultyItems]) => {
+        if (!active) return;
+        setPrograms((programItems || []).map(normalizeProgram));
+        setFaculties(facultyItems || []);
+      })
+      .catch(() => {
+        if (!active) return;
+        setPrograms([]);
+        setFaculties([]);
+      })
+      .finally(() => {
+        if (active) setLoading(false);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [language]);
+
+  const getProgramName = (program) => program.name;
+  const getProgramDescription = (program) => program.description;
   
-  const featuredIds = [
-    "power-engineering",
-    "mechanical-engineering",
-    "oil-gas-engineering",
-    "automotive-engineering",
-    "software-engineering",
-    "cybersecurity"
-  ];
-  
-  let displayPrograms = programsData;
+  let displayPrograms = programs;
   if (limit) {
-    displayPrograms = programsData.filter(p => featuredIds.includes(p.id));
+    displayPrograms = programs.slice(0, Number(limit || 6));
   } else if (showRemaining) {
-    displayPrograms = programsData.filter(p => !featuredIds.includes(p.id));
+    displayPrograms = programs.slice(Number(limit || 6));
   }
 
   // Filter full catalog dynamically
@@ -110,7 +129,7 @@ export default function Programs({ limit, showRemaining }) {
       displayPrograms = displayPrograms.filter(p => p.facultyId === selectedFaculty);
     }
     if (selectedDegree !== "all") {
-      displayPrograms = displayPrograms.filter(p => p.degree.toLowerCase() === selectedDegree.toLowerCase());
+      displayPrograms = displayPrograms.filter(p => normalizeDegree(p.degree) === selectedDegree.toLowerCase());
     }
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
@@ -124,6 +143,14 @@ export default function Programs({ limit, showRemaining }) {
       );
     }
   }
+
+  const facultyFilters = useMemo(() => [
+    { id: "all", label: t("common.allFaculties", "All Faculties") },
+    ...faculties.map((faculty) => ({
+      id: faculty.slug || faculty.id,
+      label: faculty.short_name || faculty.name || faculty.slug,
+    })),
+  ], [faculties, t]);
 
   return (
     <section id="programs" className="py-24 bg-primary-light/50 border-t border-gray-100">
@@ -167,13 +194,7 @@ export default function Programs({ limit, showRemaining }) {
             <div className="flex flex-col lg:flex-row justify-between items-stretch lg:items-center gap-4 bg-white p-5 rounded-3xl border border-gray-100 shadow-sm">
               {/* Faculty Filters */}
               <div className="flex flex-wrap gap-2 text-start justify-center lg:justify-start">
-                {[
-                  { id: "all", label: t("common.allFaculties", "All Faculties") },
-                  { id: "faculty-of-technology", label: t("faculties.faculty-of-technology.short", "Technology") },
-                  { id: "faculty-of-engineering", label: t("faculties.faculty-of-engineering.short", "Engineering") },
-                  { id: "faculty-of-service-and-digitalization", label: t("faculties.faculty-of-service-and-digitalization.short", "Service & Digitalization") },
-                  { id: "faculty-of-natural-resources-management", label: t("faculties.faculty-of-natural-resources-management.short", "Natural Resources") }
-                ].map(fac => (
+                {facultyFilters.map(fac => (
                   <button
                     key={fac.id}
                     onClick={() => setSelectedFaculty(fac.id)}
@@ -221,7 +242,12 @@ export default function Programs({ limit, showRemaining }) {
         )}
 
         {/* Programs Grid */}
-        {displayPrograms.length === 0 ? (
+        {loading ? (
+          <div className="text-center py-16 bg-white rounded-3xl border border-gray-100 shadow-xs max-w-lg mx-auto">
+            <GraduationCap className="w-12 h-12 text-gray-300 mx-auto mb-4 animate-pulse" />
+            <p className="text-sm text-gray-500">{t("common.loading", "Loading...")}</p>
+          </div>
+        ) : displayPrograms.length === 0 ? (
           <div className="text-center py-16 bg-white rounded-3xl border border-gray-100 shadow-xs max-w-lg mx-auto">
             <GraduationCap className="w-12 h-12 text-gray-300 mx-auto mb-4 animate-bounce" />
             <p className="text-lg font-extrabold text-navy mb-1">{t("programs.noResults.title", "No programs found")}</p>
@@ -230,7 +256,7 @@ export default function Programs({ limit, showRemaining }) {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {displayPrograms.map((program) => {
-            const Icon = program.icon;
+            const Icon = program.icon || GraduationCap;
             const colors = colorConfig[program.color] || colorConfig.cyan;
             
             const pName = getProgramName(program);

@@ -108,6 +108,25 @@ class PublicApiController extends Controller
         }, $programs);
     }
 
+    protected function withDepartmentHeadProfile(array $data, Department $department): array
+    {
+        $staffProfiles = $department->relationLoaded('staffProfiles')
+            ? $department->staffProfiles
+            : $department->staffProfiles()->where('is_active', true)->with('translations')->orderBy('sort_order')->get();
+
+        $headName = trim((string) $department->head_name);
+        $head = $staffProfiles->first(function (StaffProfile $profile) use ($headName) {
+            return $headName !== '' && trim((string) $profile->translate('full_name', 'en')) === $headName;
+        }) ?: $staffProfiles->first(function (StaffProfile $profile) use ($department) {
+            return $department->email && $profile->email === $department->email;
+        }) ?: $staffProfiles->first();
+
+        unset($data['staff_profiles']);
+        $data['head_profile_slug'] = $head?->slug;
+
+        return $data;
+    }
+
     protected function withPublicImageUrl(array $data, string $field = 'image'): array
     {
         $value = $data[$field] ?? null;
@@ -126,6 +145,22 @@ class PublicApiController extends Controller
         }
 
         return $data;
+    }
+
+    protected function formatStaffProfile(Request $request, StaffProfile $profile, string $locale): array
+    {
+        $data = $this->withPublicImageUrl($this->localizedData($request, $profile, $locale), 'photo');
+        $data['image'] = $data['photo_url'] ?? $data['photo'] ?? null;
+
+        return $data;
+    }
+
+    protected function localizedStaffList(Request $request, mixed $profiles, string $locale): array
+    {
+        return collect($profiles)
+            ->map(fn (StaffProfile $profile) => $this->formatStaffProfile($request, $profile, $locale))
+            ->values()
+            ->all();
     }
 
     public function locales(Request $request)
@@ -757,7 +792,7 @@ class PublicApiController extends Controller
                 ->where('is_active', true)
                 ->with([
                     'translations',
-                    'departments' => fn ($query) => $query->where('is_active', true)->with('translations')->orderBy('sort_order'),
+                    'departments' => fn ($query) => $query->where('is_active', true)->with(['translations', 'staffProfiles.translations'])->orderBy('sort_order'),
                     'programs' => fn ($query) => $query->where('is_active', true)->with('translations')->orderBy('sort_order'),
                     'staffProfiles' => fn ($query) => $query->where('is_active', true)->with('translations')->orderBy('sort_order'),
                 ])
@@ -768,9 +803,13 @@ class PublicApiController extends Controller
             }
 
             $data = $this->withPublicImageUrl($this->localizedData($request, $faculty, $locale));
-            $data['departments'] = $this->localizedList($request, $faculty->departments, $locale);
+            $data['departments'] = $faculty->departments
+                ->map(function (Department $department) use ($request, $locale) {
+                    return $this->withDepartmentHeadProfile($this->localizedData($request, $department, $locale), $department);
+                })
+                ->all();
             $data['programs'] = $this->withProgramDisplayCodes($this->localizedList($request, $faculty->programs, $locale));
-            $data['staff'] = $this->localizedList($request, $faculty->staffProfiles, $locale);
+            $data['staff'] = $this->localizedStaffList($request, $faculty->staffProfiles, $locale);
             $data['leadership'] = array_values(array_filter($data['staff'], fn ($member) => empty($member['department_id'])));
 
             return [
@@ -791,9 +830,15 @@ class PublicApiController extends Controller
     {
         $locale = $this->getRequestLocale($request);
         $payload = $this->publicCache($request, 'departments', [$locale], function () use ($request, $locale) {
-            $departments = Department::where('is_active', true)->with('translations')->orderBy('sort_order')->get();
+            $departments = Department::where('is_active', true)->with(['translations', 'staffProfiles.translations'])->orderBy('sort_order')->get();
 
-            return (new LocalizedCollection($departments, $locale))->toArray($request);
+            return [
+                'data' => $departments
+                    ->map(function (Department $department) use ($request, $locale) {
+                        return $this->withDepartmentHeadProfile($this->localizedData($request, $department, $locale), $department);
+                    })
+                    ->all(),
+            ];
         });
 
         return response()->json($payload);
@@ -817,9 +862,10 @@ class PublicApiController extends Controller
         }
 
         $data = $this->withPublicImageUrl($this->localizedData($request, $department, $locale));
+        $data = $this->withDepartmentHeadProfile($data, $department);
         $data['faculty'] = $department->faculty ? $this->localizedData($request, $department->faculty, $locale) : null;
         $data['programs'] = $this->withProgramDisplayCodes($this->localizedList($request, $department->programs, $locale));
-        $data['staff'] = $this->localizedList($request, $department->staffProfiles, $locale);
+        $data['staff'] = $this->localizedStaffList($request, $department->staffProfiles, $locale);
         $data['courses'] = $department->programs
             ->flatMap(fn ($program) => $program->courses)
             ->unique('id')
@@ -837,11 +883,41 @@ class PublicApiController extends Controller
     public function programs(Request $request)
     {
         $locale = $this->getRequestLocale($request);
-        $programs = $this->publicCache($request, 'programs', [$locale], function () use ($request, $locale) {
-            $programs = Program::where('is_active', true)->with('translations')->orderBy('sort_order')->get();
+        $programs = Program::where('is_active', true)
+            ->with(['translations', 'faculty.translations', 'department.translations'])
+            ->orderBy('sort_order')
+            ->get()
+            ->map(function (Program $program) use ($request, $locale) {
+                $data = $this->localizedData($request, $program, $locale);
+                $data['display_code'] = $data['official_code'] ?: ($data['code'] ?? null);
 
-            return $this->withProgramDisplayCodes($this->localizedList($request, $programs, $locale));
-        });
+                if ($program->faculty) {
+                    $faculty = $this->localizedData($request, $program->faculty, $locale);
+                    $data['faculty'] = [
+                        'id' => $faculty['id'] ?? null,
+                        'slug' => $faculty['slug'] ?? null,
+                        'name' => $faculty['name'] ?? null,
+                        'short_name' => $faculty['short_name'] ?? null,
+                    ];
+                } else {
+                    $data['faculty'] = null;
+                }
+
+                if ($program->department) {
+                    $department = $this->localizedData($request, $program->department, $locale);
+                    $data['department'] = [
+                        'id' => $department['id'] ?? null,
+                        'slug' => $department['slug'] ?? null,
+                        'name' => $department['name'] ?? null,
+                        'short_name' => $department['short_name'] ?? null,
+                    ];
+                } else {
+                    $data['department'] = null;
+                }
+
+                return $data;
+            })
+            ->all();
 
         return $this->successResponse(
             $programs,
@@ -854,7 +930,13 @@ class PublicApiController extends Controller
         $locale = $this->getRequestLocale($request);
         $program = Program::where('slug', $slug)
             ->where('is_active', true)
-            ->with(['translations', 'faculty.translations', 'department.translations', 'courses.translations'])
+            ->with([
+                'translations',
+                'faculty.translations',
+                'department.translations',
+                'department.staffProfiles' => fn ($query) => $query->where('is_active', true)->with('translations')->orderBy('sort_order'),
+                'courses.translations',
+            ])
             ->first();
 
         if (! $program) {
@@ -864,7 +946,8 @@ class PublicApiController extends Controller
         $data = $this->withPublicImageUrl($this->localizedData($request, $program, $locale));
         $data['display_code'] = $data['official_code'] ?: ($data['code'] ?? null);
         $data['faculty'] = $program->faculty ? $this->localizedData($request, $program->faculty, $locale) : null;
-        $data['department'] = $program->department ? $this->localizedData($request, $program->department, $locale) : null;
+        $data['department'] = $program->department ? $this->withDepartmentHeadProfile($this->localizedData($request, $program->department, $locale), $program->department) : null;
+        $data['staff'] = $program->department ? $this->localizedStaffList($request, $program->department->staffProfiles, $locale) : [];
         $data['courses'] = $this->localizedList($request, $program->courses, $locale);
 
         return response()->json([
@@ -1572,7 +1655,11 @@ class PublicApiController extends Controller
             ->orderBy('sort_order')
             ->get();
 
-        return new LocalizedCollection($staff, $locale);
+        return response()->json([
+            'locale' => $locale,
+            'direction' => $locale === 'ar' ? 'rtl' : 'ltr',
+            'data' => $this->localizedStaffList($request, $staff, $locale),
+        ]);
     }
 
     public function staffProfile(Request $request, string $slug)
@@ -1591,10 +1678,22 @@ class PublicApiController extends Controller
             ->first();
 
         if (! $staff) {
+            $inactiveMatch = StaffProfile::where('slug', $slug)->first();
+
+            if ($inactiveMatch?->email) {
+                $staff = StaffProfile::where('is_active', true)
+                    ->where('email', $inactiveMatch->email)
+                    ->with(['faculty', 'department'])
+                    ->with('translations')
+                    ->first();
+            }
+        }
+
+        if (! $staff) {
             return $this->errorResponse("Staff profile '{$slug}' not found", 404);
         }
 
-        $data = $this->withPublicImageUrl($this->localizedData($request, $staff, $locale), 'photo');
+        $data = $this->formatStaffProfile($request, $staff, $locale);
         $data['faculty'] = $staff->faculty ? $this->localizedData($request, $staff->faculty, $locale) : null;
         $data['department'] = $staff->department ? $this->localizedData($request, $staff->department, $locale) : null;
 
@@ -1932,4 +2031,3 @@ class PublicApiController extends Controller
         return $this->successResponse($payload, 'University center settings retrieved successfully');
     }
 }
-

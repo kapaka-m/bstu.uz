@@ -25,6 +25,9 @@ class DatabaseSeeder extends Seeder
             CourseSeeder::class,
             StaffSeeder::class,
             TechnologyFacultyContentSeeder::class,
+            CanonicalAcademicStructureSeeder::class,
+            AcademicDepartmentDetailsSeeder::class,
+            EngineeringFacultyContentSeeder::class,
             SettingSeeder::class,
         ]);
     }

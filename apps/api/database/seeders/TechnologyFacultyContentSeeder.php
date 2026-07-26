@@ -106,7 +106,6 @@ class TechnologyFacultyContentSeeder extends Seeder
                 'email' => 'ochilov82@gmail.ru',
                 'phone' => '+998 91 411 00 16',
                 'reception' => 'Dushanba-Juma 14:00-16:00',
-                'source' => 'https://old.bstu.uz/kafedra/neft-va-gazni-qayta-ishlash-texnologiyasi',
                 'names' => ['en' => 'Department of Oil and Gas Processing Technology', 'uz' => 'Neft va gazni qayta ishlash texnologiyasi kafedrasi', 'ru' => 'Кафедра технологии переработки нефти и газа', 'ar' => 'قسم تكنولوجيا معالجة النفط والغاز'],
                 'about' => ['en' => 'The department trains specialists for oil and gas processing enterprises, including petroleum refining, hydrocarbon gas processing, product quality control, petroleum chemistry, corrosion protection and modern physical and chemical analysis.', 'uz' => 'Kafedra neft va gazni qayta ishlash korxonalari uchun mutaxassislar tayyorlaydi hamda neftni qayta ishlash, uglevodorod gazlarini chuqur qayta ishlash, mahsulot sifatini nazorat qilish, neft kimyosi va korroziyadan himoyalash yo‘nalishlarini qamrab oladi.', 'ru' => 'Кафедра готовит специалистов для предприятий переработки нефти и газа, включая нефтепереработку, глубокую переработку углеводородных газов, контроль качества продукции, нефтехимию и защиту от коррозии.', 'ar' => 'يعد القسم متخصصين لمؤسسات معالجة النفط والغاز، ويغطي تكرير النفط، والمعالجة العميقة للغازات الهيدروكربونية، ومراقبة جودة المنتجات، وكيمياء النفط والحماية من التآكل.'],
                 'sections' => [
@@ -121,7 +120,6 @@ class TechnologyFacultyContentSeeder extends Seeder
                 'email' => 'kurbanov.m@rambler.ru',
                 'phone' => '+998 90 299 85 48',
                 'reception' => 'Dushanba-Shanba 15:00-17:00',
-                'source' => 'https://old.bstu.uz/kafedra/oziq-ovqat-texnologiyasi',
                 'names' => ['en' => 'Department of Food Technology and Service', 'uz' => 'Oziq-ovqat texnologiyasi va servis kafedrasi', 'ru' => 'Кафедра пищевой технологии и сервиса', 'ar' => 'قسم تكنولوجيا الأغذية والخدمات'],
                 'about' => ['en' => 'The department trains specialists in food production, grain storage and processing, bakery and confectionery technologies, fermentation products, soft drinks, conservation technology, food safety, microbiology and catering service.', 'uz' => 'Kafedra oziq-ovqat ishlab chiqarish, donni saqlash va qayta ishlash, non, makaron va qandolat texnologiyalari, bijg‘ish mahsulotlari, alkogolsiz ichimliklar, konservatsiya, oziq-ovqat xavfsizligi va servis yo‘nalishlarida mutaxassislar tayyorlaydi.', 'ru' => 'Кафедра готовит специалистов по пищевому производству, хранению и переработке зерна, хлебобулочным и кондитерским технологиям, продуктам брожения, безалкогольным напиткам, консервированию, пищевой безопасности и сервису.', 'ar' => 'يعد القسم متخصصين في إنتاج الأغذية، وتخزين الحبوب ومعالجتها، وتقنيات المخبوزات والحلويات، ومنتجات التخمير، والمشروبات غير الكحولية، والحفظ، وسلامة الأغذية والخدمات.'],
                 'sections' => [
@@ -136,7 +134,6 @@ class TechnologyFacultyContentSeeder extends Seeder
                 'email' => 'vohid7@mail.ru',
                 'phone' => '+998 90 511 59 58',
                 'reception' => 'Dushanba-Juma 14:00-16:00',
-                'source' => 'https://old.bstu.uz/kafedra/kimyo-texnologiyasi',
                 'names' => ['en' => 'Department of Chemical Engineering', 'uz' => 'Kimyoviy muhandislik kafedrasi', 'ru' => 'Кафедра химической инженерии', 'ar' => 'قسم الهندسة الكيميائية'],
                 'about' => ['en' => 'The department covers inorganic and organic chemical technology, high-molecular compounds, silicate and refractory nonmetallic materials, mineral fertilizers, chemical process design and environmentally responsible production.', 'uz' => 'Kafedra noorganik va organik moddalar kimyoviy texnologiyasi, yuqori molekulyar birikmalar, silikat va qiyin eriydigan nometall materiallar, mineral o‘g‘itlar, kimyoviy jarayonlarni loyihalash va ekologik mas’uliyatli ishlab chiqarishni qamrab oladi.', 'ru' => 'Кафедра охватывает химическую технологию неорганических и органических веществ, высокомолекулярные соединения, силикатные и тугоплавкие неметаллические материалы, минеральные удобрения и проектирование химических процессов.', 'ar' => 'يغطي القسم تكنولوجيا المواد الكيميائية غير العضوية والعضوية، والمركبات عالية الجزيئية، والمواد السيليكاتية وغير المعدنية المقاومة للحرارة، والأسمدة المعدنية وتصميم العمليات الكيميائية.'],
                 'sections' => [
@@ -151,7 +148,6 @@ class TechnologyFacultyContentSeeder extends Seeder
                 'email' => 'nargiz-1234n@mail.ru',
                 'phone' => '+998 97 305 95 59',
                 'reception' => 'Dushanba-Juma 14:00-16:00',
-                'source' => 'https://old.bstu.uz/kafedra/qishloq-xo-jalik-maxsulotlarini-saqlash-qayta-ishlash-va-yog-moy-texnologiyasi',
                 'names' => ['en' => 'Department of Storage, Processing, and Oil-Fat Technology of Agricultural Products', 'uz' => 'Qishloq xo‘jaligi mahsulotlarini saqlash, qayta ishlash va yog‘-moy texnologiyasi kafedrasi', 'ru' => 'Кафедра хранения, переработки и масложировой технологии сельскохозяйственной продукции', 'ar' => 'قسم تكنولوجيا تخزين ومعالجة المنتجات الزراعية والزيوت والدهون'],
                 'about' => ['en' => 'The department began in August 2022 after separation from Food Technology. It trains specialists in storage and processing of agricultural products, horticulture and viticulture, food technology oil-product tracks and oil processing technology.', 'uz' => 'Kafedra 2022-yil avgust oyida Oziq-ovqat texnologiyasi kafedrasidan ajralib chiqqan holda faoliyat boshlagan. U qishloq xo‘jaligi mahsulotlarini saqlash va qayta ishlash, meva-sabzavotchilik va uzumchilik, yog‘-moy mahsulotlari hamda moyni qayta ishlash yo‘nalishlari bo‘yicha mutaxassislar tayyorlaydi.', 'ru' => 'Кафедра начала деятельность в августе 2022 года после выделения из кафедры пищевой технологии. Она готовит специалистов по хранению и переработке сельхозпродукции, плодоовощеводству и виноградарству, пищевым масложировым направлениям и технологии переработки масел.', 'ar' => 'بدأ القسم عمله في أغسطس 2022 بعد انفصاله عن قسم تكنولوجيا الأغذية، ويعد متخصصين في تخزين ومعالجة المنتجات الزراعية، والبستنة والكروم، ومسارات تكنولوجيا الأغذية المرتبطة بالزيوت ومنتجاتها.'],
                 'sections' => [
@@ -166,7 +162,6 @@ class TechnologyFacultyContentSeeder extends Seeder
                 'email' => 'kahramon.sharipov@mail.ru',
                 'phone' => '+998 93 453 69 69',
                 'reception' => 'Every day 15:00-16:00',
-                'source' => 'https://old.bstu.uz/kafedra/neft-gaz-ishi',
                 'names' => ['en' => 'Department of Oil and Gas Engineering', 'uz' => 'Neft-gaz ishi kafedrasi', 'ru' => 'Кафедра нефтегазового дела', 'ar' => 'قسم هندسة النفط والغاز'],
                 'about' => ['en' => 'The department trains specialists for oil and gas field development, start-up and exploitation of oil and gas fields, drilling, field machinery, gas supply and energy-efficient operation of petroleum infrastructure.', 'uz' => 'Kafedra neft va gaz konlarini ishlatish, konlarni ishga tushirish va ekspluatatsiya qilish, burg‘ilash, kon mashina-uskunalari, gaz ta’minoti hamda neft-gaz infratuzilmasini energiya tejamkor boshqarish bo‘yicha mutaxassislar tayyorlaydi.', 'ru' => 'Кафедра готовит специалистов по разработке нефтяных и газовых месторождений, вводу и эксплуатации месторождений, бурению, оборудованию промыслов, газоснабжению и энергоэффективной эксплуатации нефтегазовой инфраструктуры.', 'ar' => 'يعد القسم متخصصين في تطوير حقول النفط والغاز، وتشغيل واستثمار الحقول، والحفر، ومعدات الحقول، وإمدادات الغاز والتشغيل الموفر للطاقة للبنية التحتية النفطية.'],
                 'sections' => [
@@ -181,7 +176,6 @@ class TechnologyFacultyContentSeeder extends Seeder
                 'email' => 'b.toirov@mail.ru',
                 'phone' => '+998 93 471 00 65',
                 'reception' => 'Dushanba-Juma 14:00-16:00',
-                'source' => 'https://old.bstu.uz/kafedra/metrologiya-va-standartlashtirish',
                 'names' => ['en' => 'Department of Metrology and Standardization', 'uz' => 'Metrologiya va standartlashtirish kafedrasi', 'ru' => 'Кафедра метрологии и стандартизации', 'ar' => 'قسم المترولوجيا والتقييس'],
                 'about' => ['en' => 'The department began in August 2019 and trains specialists in metrology, standardization, certification and product quality management. Its scientific potential includes professors, associate professors, senior teachers, assistants, doctoral students and independent researchers.', 'uz' => 'Kafedra 2019-yil avgust oyida faoliyat boshlagan bo‘lib, metrologiya, standartlashtirish, sertifikatlashtirish va mahsulot sifati menejmenti bo‘yicha mutaxassislar tayyorlaydi. Ilmiy salohiyat professor-o‘qituvchilar, doktorantlar va mustaqil tadqiqotchilar faoliyati bilan mustahkamlanadi.', 'ru' => 'Кафедра начала деятельность в августе 2019 года и готовит специалистов по метрологии, стандартизации, сертификации и управлению качеством продукции. Научный потенциал поддерживается профессорами, доцентами, старшими преподавателями, ассистентами, докторантами и независимыми исследователями.', 'ar' => 'بدأ القسم نشاطه في أغسطس 2019 ويعد متخصصين في المترولوجيا والتقييس والشهادات وإدارة جودة المنتجات. وتدعمه هيئة علمية تضم أساتذة وأساتذة مشاركين ومدرسين ومساعدين وطلبة دكتوراه وباحثين مستقلين.'],
                 'sections' => [
@@ -207,7 +201,7 @@ class TechnologyFacultyContentSeeder extends Seeder
                     'email' => $item['email'],
                     'phone' => $item['phone'],
                     'reception_time' => $item['reception'],
-                    'source_url' => $item['source'],
+                    'source_url' => null,
                     'sort_order' => $sort++,
                     'is_active' => true,
                 ]

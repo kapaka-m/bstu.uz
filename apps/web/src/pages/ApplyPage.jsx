@@ -7,7 +7,7 @@ import {
   ChevronLeft, ArrowLeft, Loader2, Shield, Star
 } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
-import { programsData } from "../data/programsData";
+import { programService } from "../services/programService";
 
 const STEPS = [1, 2, 3];
 
@@ -229,23 +229,6 @@ const applyT = {
   }
 };
 
-// ── Program ID → translation key map ─────────────────────────────────────────
-const programKeyMap = {
-  "computer-science": "computerScience",
-  "engineering": "engineering",
-  "architecture": "architecture",
-  "economics": "economics",
-  "chemical-technology": "chemicalTechnology",
-  "power-engineering": "powerEngineering",
-  "construction": "construction",
-  "metallurgy": "metallurgy",
-  "ecology": "ecology",
-  "information-technology": "informationTechnology",
-  "food-technology": "foodTechnology",
-  "food-technology-60720100": "foodTechnology",
-  "textile-engineering": "textileEngineering"
-};
-
 function generateRefNumber() {
   return "BSTU-" + new Date().getFullYear() + "-" + Math.random().toString(36).toUpperCase().slice(2, 8);
 }
@@ -317,7 +300,7 @@ function ReviewRow({ label, value }) {
 
 // ── Main Page Component ───────────────────────────────────────────────────────
 export default function ApplyPage() {
-  const { language, t } = useLanguage();
+  const { language } = useLanguage();
   const T = applyT[language] || applyT.en;
   const isRtl = language === "ar";
 
@@ -328,6 +311,8 @@ export default function ApplyPage() {
   const [refNumber, setRefNumber] = useState("");
   const [agreed, setAgreed] = useState(false);
   const [errors, setErrors] = useState({});
+  const [programs, setPrograms] = useState([]);
+  const [programsLoading, setProgramsLoading] = useState(true);
 
   const [form, setForm] = useState({
     firstName: "", lastName: "", dateOfBirth: "", nationality: "",
@@ -337,6 +322,27 @@ export default function ApplyPage() {
   });
 
   useEffect(() => { window.scrollTo(0, 0); }, []);
+
+  useEffect(() => {
+    let active = true;
+    setProgramsLoading(true);
+
+    programService
+      .getPrograms()
+      .then((items) => {
+        if (active) setPrograms(items || []);
+      })
+      .catch(() => {
+        if (active) setPrograms([]);
+      })
+      .finally(() => {
+        if (active) setProgramsLoading(false);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [language]);
 
   const handleChange = (field) => (e) => {
     setForm(f => ({ ...f, [field]: e.target.value }));
@@ -394,21 +400,19 @@ export default function ApplyPage() {
   const programOptions = [
     {
       value: "",
-      label: isRtl ? "— اختر برنامجًا —"
+      label: programsLoading ? T.submitting : isRtl ? "— اختر برنامجًا —"
         : language === "uz" ? "— Dastur tanlang —"
         : language === "ru" ? "— Выберите программу —"
         : "— Select a Program —"
     },
-    ...programsData.map(p => ({
-      value: p.id,
-      label: t(`home.programs.list.${programKeyMap[p.id] || p.id}.name`, p.name)
+    ...programs.map(p => ({
+      value: p.slug || p.id,
+      label: [p.display_code || p.official_code, p.name].filter(Boolean).join(" - ")
     }))
   ];
 
-  const selectedProgram = programsData.find(p => p.id === form.program);
-  const selectedProgramName = selectedProgram
-    ? t(`home.programs.list.${programKeyMap[selectedProgram.id] || selectedProgram.id}.name`, selectedProgram.name)
-    : "—";
+  const selectedProgram = programs.find(p => (p.slug || p.id) === form.program);
+  const selectedProgramName = selectedProgram?.name || "—";
 
   // ── Success screen ──────────────────────────────────────────────────────────
   if (submitted) {

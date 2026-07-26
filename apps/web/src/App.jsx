@@ -24,9 +24,6 @@ const ServicesPage = React.lazy(() => import("./pages/ServicesPage"));
 const ContactPage = React.lazy(() => import("./pages/ContactPage"));
 const LoginPage = React.lazy(() => import("./pages/LoginPage"));
 const RegisterPage = React.lazy(() => import("./pages/RegisterPage"));
-const FacultyTechnologyPage = React.lazy(
-  () => import("./pages/FacultyTechnologyPage"),
-);
 const FacultyDetails = React.lazy(() => import("./pages/FacultyDetails"));
 const DepartmentPage = React.lazy(() => import("./pages/DepartmentPage"));
 const ForgotPassword = React.lazy(() => import("./pages/ForgotPassword"));
@@ -244,10 +241,6 @@ function AppContent() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route
-              path="/faculty/faculty-of-technology"
-              element={<FacultyTechnologyPage />}
-            />
             <Route path="/faculty/:id" element={<FacultyDetails />} />
             <Route path="/department/:id" element={<DepartmentPage />} />
             <Route
@@ -484,6 +477,22 @@ function AppContent() {
             <Route
               path="/apanel/announcements"
               element={<Navigate to="/apanel/cms/announcements" replace />}
+            />
+            <Route
+              path="/apanel/Facultys"
+              element={<Navigate to="/apanel/faculties" replace />}
+            />
+            <Route
+              path="/apanel/dr-staf"
+              element={<Navigate to="/apanel/staff" replace />}
+            />
+            <Route
+              path="/apanel/den-faculties"
+              element={<Navigate to="/apanel/staff" replace />}
+            />
+            <Route
+              path="/apanel/man-department"
+              element={<Navigate to="/apanel/staff" replace />}
             />
             <Route
               path="/apanel/cms/footer-web"

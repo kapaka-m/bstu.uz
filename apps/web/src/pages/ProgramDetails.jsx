@@ -2,40 +2,62 @@ import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { 
   GraduationCap, Clock, BookOpen, Briefcase, 
-  HelpCircle, ArrowLeft, Mail, Phone, MapPin, ShieldCheck
+  HelpCircle, ArrowLeft, Mail, Phone, MapPin, ShieldCheck, Users
 } from "lucide-react";
 import PageHeader from "../components/PageHeader";
-import { programsData } from "../data/programsData";
-import { facultiesData } from "../data/mockData";
-import { departmentsData } from "../data/departmentsData";
-import { technologyDepartments } from "../data/facultyTechnology";
 import { useLanguage } from "../context/LanguageContext";
 import { footerService } from "../services/footerService";
+import { programService } from "../services/programService";
 
-const keyMap = {
-  "computer-science": "computerScience",
-  "engineering": "engineering",
-  "architecture": "architecture",
-  "economics": "economics",
-  "chemical-technology": "chemicalTechnology",
-  "power-engineering": "powerEngineering",
-  "construction": "construction",
-  "metallurgy": "metallurgy",
-  "ecology": "ecology",
-  "information-technology": "informationTechnology",
-  "food-technology": "foodTechnology",
-  "food-technology-60720100": "foodTechnology",
-  "textile-engineering": "textileEngineering"
-};
+const splitLines = (value) =>
+  String(value || "")
+    .split(/\n+/)
+    .map((item) => item.trim())
+    .filter(Boolean);
+
+const degreeLabelKey = (degree) => String(degree || "").toLowerCase();
 
 export default function ProgramDetails() {
   const { id } = useParams();
   const { t, language } = useLanguage();
+  const [program, setProgram] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   const [footerContact, setFooterContact] = useState(null);
   
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [id]);
+
+  useEffect(() => {
+    let active = true;
+    setLoading(true);
+    setError("");
+
+    const idAliases = {
+      "food-technology-60720100": "food-technology",
+      "oil-and-gas-engineering-upstream-downstream": "oil-gas-engineering",
+    };
+
+    programService
+      .getProgram(idAliases[id] || id)
+      .then((data) => {
+        if (!active) return;
+        setProgram(data || null);
+      })
+      .catch(() => {
+        if (!active) return;
+        setProgram(null);
+        setError(t("common.notFoundDesc", "The academic program you are looking for does not exist or has been relocated."));
+      })
+      .finally(() => {
+        if (active) setLoading(false);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [id, language, t]);
 
   useEffect(() => {
     let active = true;
@@ -54,21 +76,21 @@ export default function ProgramDetails() {
     };
   }, []);
 
-    const idAliases = {
-      "food-technology-60720100": "food-technology",
-      "oil-and-gas-engineering-upstream-downstream": "oil-gas-engineering"
-    };
+  if (loading) {
+    return (
+      <div className="pt-20 min-h-screen bg-white flex items-center justify-center">
+        <div className="w-8 h-8 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
+      </div>
+    );
+  }
 
-    const resolvedId = idAliases[id] || id;
-    const program = programsData.find((p) => p.id === resolvedId);
-
-  if (!program) {
+  if (!program || error) {
     return (
       <div className="pt-20 min-h-screen bg-primary-light flex flex-col items-center justify-center text-center p-8">
         <HelpCircle className="w-16 h-16 text-red-500 mb-4 animate-bounce" />
         <h1 className="text-3xl font-extrabold text-navy mb-2">{t("common.notFound", "Program Not Found")}</h1>
         <p className="text-gray-500 max-w-md mb-8">
-          {t("common.notFoundDesc", "The academic program you are looking for does not exist or has been relocated.")}
+          {error || t("common.notFoundDesc", "The academic program you are looking for does not exist or has been relocated.")}
         </p>
         <Link
           to="/programs"
@@ -80,36 +102,34 @@ export default function ProgramDetails() {
     );
   }
 
-  const Icon = program.icon;
-  const key = keyMap[program.id] || program.id;
-  const pName = t(`programs.${program.id}.name`, t(`home.programs.list.${key}.name`, program.name));
+  const Icon = GraduationCap;
+  const pName = program.name || "";
   
-  const degreeKey = program.degree.toLowerCase();
+  const degreeKey = degreeLabelKey(program.degree);
   const pDegree = t(`home.programs.degrees.${degreeKey}`, program.degree);
   
-  const durationKey = program.duration.includes("4") ? "years4" : program.duration.includes("5") ? "years5" : "years2";
-  const pDuration = t(`home.programs.durations.${durationKey}`, program.duration);
-
-  const parentFaculty = facultiesData.find((f) => f.id === program.facultyId);
-  const technologyDepartment = technologyDepartments.find((department) => department.slug === program.departmentId);
-  const parentDept = departmentsData[program.departmentId] || technologyDepartment;
-
-  const facultyName = parentFaculty 
-    ? t(`faculties.${parentFaculty.id}.name`, parentFaculty.name)
-    : "";
-  const departmentName = parentDept
-    ? t(`departments.${program.departmentId}.name`, parentDept.name)
-    : "";
-  const pCoordinator = t(`programs.${program.id}.coordinator`, program.coordinator);
+  const durationYears = Number(program.duration_years || 0);
+  const durationKey = durationYears >= 5 ? "years5" : durationYears <= 2 ? "years2" : "years4";
+  const pDuration = t(`home.programs.durations.${durationKey}`, durationYears ? `${durationYears} years` : "");
+  const curriculum = splitLines(program.curriculum_summary);
+  const requirements = splitLines(program.requirements);
+  const careerOpportunities = splitLines(program.career_opportunities);
+  const documents = splitLines(program.documents);
+  const facultyName = program.faculty?.name || "";
+  const departmentName = program.department?.name || "";
+  const pCoordinator = program.department?.head_name || program.department?.name || "";
+  const pCoordinatorRoute = program.department?.head_profile_slug ? `/profile/${program.department.head_profile_slug}` : "";
+  const programStaff = (program.staff || []).map((member) => ({
+    slug: member.slug,
+    route: member.slug ? `/profile/${member.slug}` : "",
+    name: member.full_name || member.name || "",
+    position: member.position || "",
+  })).filter((member) => member.name);
 
   return (
     <div className="pt-20 bg-white">
       <PageHeader 
-        title={pName} 
-        breadcrumbs={[
-          { label: t("common.academicPrograms", "Programs"), path: "/programs" },
-          { label: pName }
-        ]} 
+        title={pName}
       />
 
       <div className="py-16 md:py-24 bg-white">
@@ -133,7 +153,7 @@ export default function ProgramDetails() {
                   </div>
                 </div>
                 <p className="text-gray-600 text-sm md:text-base leading-relaxed whitespace-pre-line">
-                  {t(`programs.${program.id}.detailedDescription`, program.detailedDescription)}
+                  {program.description}
                 </p>
               </div>
 
@@ -143,11 +163,11 @@ export default function ProgramDetails() {
                   <BookOpen className="w-5 h-5 text-primary" /> {t("common.courseCurriculum", "Core Curriculum & Subjects")}
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {program.curriculum.map((subject, idx) => (
+                  {curriculum.map((subject, idx) => (
                     <div key={idx} className="flex items-center gap-3 p-3.5 bg-gray-50 border border-gray-100 rounded-2xl hover:border-primary/20 transition-all duration-300">
                       <div className="w-2.5 h-2.5 rounded-full bg-primary shrink-0" />
                       <span className="text-sm font-bold text-gray-700">
-                        {t(`programs.${program.id}.curriculum.${idx}`, subject)}
+                        {subject}
                       </span>
                     </div>
                   ))}
@@ -160,13 +180,13 @@ export default function ProgramDetails() {
                   <GraduationCap className="w-5 h-5 text-primary" /> {t("common.admissionRequirements", "Admission Requirements")}
                 </h3>
                 <ul className="space-y-4">
-                  {program.requirements.map((req, idx) => (
+                  {requirements.map((req, idx) => (
                     <li key={idx} className="flex gap-3 items-start">
                       <div className="w-6 h-6 rounded-full bg-green-50 text-green-600 flex items-center justify-center shrink-0 mt-0.5 border border-green-100">
                         ✓
                       </div>
                       <span className="text-sm font-semibold text-gray-600 leading-relaxed">
-                        {t(`programs.${program.id}.requirements.${idx}`, req)}
+                        {req}
                       </span>
                     </li>
                   ))}
@@ -174,19 +194,19 @@ export default function ProgramDetails() {
               </div>
 
               {/* Professional Accreditations */}
-              {program.accreditations && program.accreditations.length > 0 && (
+              {documents.length > 0 && (
                 <div className="border border-gray-100 rounded-3xl p-8 shadow-sm text-start">
                   <h3 className="text-xl font-extrabold text-navy mb-6 flex items-center gap-2">
                     <ShieldCheck className="w-5 h-5 text-primary" /> {t("common.accreditations", "Accreditations & Quality Certifications")}
                   </h3>
                   <ul className="space-y-4">
-                    {program.accreditations.map((acc, idx) => (
+                    {documents.map((acc, idx) => (
                       <li key={idx} className="flex gap-3 items-start">
                         <div className="w-6 h-6 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 mt-0.5 border border-blue-100">
                           ✓
                         </div>
                         <span className="text-sm font-semibold text-gray-600 leading-relaxed">
-                          {t(`programs.${program.id}.accreditations.${idx}`, acc)}
+                          {acc}
                         </span>
                       </li>
                     ))}
@@ -247,9 +267,9 @@ export default function ProgramDetails() {
                   </div>
                   <div className="flex flex-col gap-1 text-sm font-semibold border-b border-gray-200/20 pb-3">
                     <span className="text-gray-400 text-[10px] uppercase tracking-wider font-extrabold">{t("common.parentFaculty", "Parent Faculty")}</span>
-                    {parentFaculty ? (
+                    {program.faculty ? (
                       <Link 
-                        to={`/faculty/${parentFaculty.id}`}
+                        to={`/faculty/${program.faculty.slug}`}
                         className="text-primary hover:text-primary-hover font-bold hover:underline text-xs"
                       >
                         {facultyName}
@@ -260,9 +280,9 @@ export default function ProgramDetails() {
                   </div>
                   <div className="flex flex-col gap-1 text-sm font-semibold border-b border-gray-200/20 pb-3">
                     <span className="text-gray-400 text-[10px] uppercase tracking-wider font-extrabold">{t("common.parentDepartment", "Parent Department")}</span>
-                    {parentDept ? (
+                    {program.department ? (
                       <Link 
-                        to={`/department/${program.departmentId}`}
+                        to={`/department/${program.department.slug}`}
                         className="text-primary hover:text-primary-hover font-bold hover:underline text-xs"
                       >
                         {departmentName}
@@ -273,10 +293,42 @@ export default function ProgramDetails() {
                   </div>
                   <div className="flex flex-col gap-1 text-sm font-semibold">
                     <span className="text-gray-400 text-[10px] uppercase tracking-wider font-extrabold">{t("common.programCoordinator", "Program Coordinator")}</span>
-                    <span className="text-navy font-bold text-xs">{pCoordinator}</span>
+                    {pCoordinatorRoute ? (
+                      <Link to={pCoordinatorRoute} className="text-primary hover:text-primary-hover font-bold hover:underline text-xs">
+                        {pCoordinator}
+                      </Link>
+                    ) : (
+                      <span className="text-navy font-bold text-xs">{pCoordinator}</span>
+                    )}
                   </div>
                 </div>
               </div>
+
+              {programStaff.length > 0 && (
+                <div className="border border-gray-100 p-8 rounded-3xl shadow-sm">
+                  <h3 className="text-lg font-extrabold text-navy mb-6 border-b border-gray-200/50 pb-3 flex items-center gap-2">
+                    <Users className="w-5 h-5 text-primary" /> {t("common.programStaff", "Program Staff")}
+                  </h3>
+                  <div className="flex flex-col gap-3">
+                    {programStaff.slice(0, 8).map((member) => (
+                      <div key={member.slug || member.name} className="p-3 bg-gray-50/50 border border-gray-100 rounded-xl">
+                        {member.route ? (
+                          <Link to={member.route} className="text-xs font-extrabold text-navy hover:text-primary transition-colors">
+                            {member.name}
+                          </Link>
+                        ) : (
+                          <p className="text-xs font-extrabold text-navy">{member.name}</p>
+                        )}
+                        {member.position && (
+                          <p className="text-[11px] font-semibold text-gray-500 mt-1 leading-relaxed">
+                            {member.position}
+                          </p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {/* Career Opportunities */}
               <div className="border border-gray-100 p-8 rounded-3xl shadow-sm">
@@ -284,13 +336,13 @@ export default function ProgramDetails() {
                   <Briefcase className="w-5 h-5 text-primary" /> {t("common.careerOpportunities", "Career Paths")}
                 </h3>
                 <div className="flex flex-col gap-3">
-                  {program.careerOpportunities.map((opportunity, idx) => (
+                  {careerOpportunities.map((opportunity, idx) => (
                     <div key={idx} className="flex gap-2.5 items-start p-3 bg-gray-50/50 border border-gray-100 rounded-xl hover:bg-white transition-colors duration-300">
                       <div className="w-5 h-5 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0 mt-0.5">
                         →
                       </div>
                       <span className="text-xs font-bold text-navy">
-                        {t(`programs.${program.id}.careerOpportunities.${idx}`, opportunity)}
+                        {opportunity}
                       </span>
                     </div>
                   ))}

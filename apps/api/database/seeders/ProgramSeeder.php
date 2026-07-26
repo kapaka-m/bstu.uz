@@ -29,6 +29,10 @@ class ProgramSeeder extends Seeder
             $facultySlug = $meta['facultyId'] ?? 'faculty-of-technology';
             $deptSlug = $meta['departmentId'] ?? 'oil-gas-refining-technology';
 
+            if ($facultySlug === 'faculty-of-engineering') {
+                continue;
+            }
+
             // Aliases normalize
             $aliases = [
                 'faculty-of-engineering' => 'faculty-of-engineering',

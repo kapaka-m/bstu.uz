@@ -7,11 +7,14 @@ use App\Models\Application;
 use App\Models\ApplicationDocument;
 use App\Models\ApplicationFeePayment;
 use App\Models\Payment;
+use App\Models\ServiceFeePayment;
 use App\Models\Notification;
 use App\Models\StudentProfile;
 use App\Services\AdmissionPdfService;
 use App\Services\ApplicationWorkflowService;
 use App\Services\EnrollmentCertificatePdfService;
+use App\Services\PrikazPdfService;
+use App\Services\StudyContractPdfService;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -28,6 +31,8 @@ class StudentApplicationPortalController extends Controller
         private readonly ApplicationWorkflowService $workflow,
         private readonly AdmissionPdfService $admissionPdf,
         private readonly EnrollmentCertificatePdfService $enrollmentPdf,
+        private readonly StudyContractPdfService $contractPdf,
+        private readonly PrikazPdfService $prikazPdf,
     ) {}
 
     public function summary(Request $request)
@@ -330,6 +335,19 @@ class StudentApplicationPortalController extends Controller
         return $this->successResponse($payment, 'Contract advance receipt uploaded successfully', 201);
     }
 
+    public function downloadContract(Request $request)
+    {
+        $application = $this->currentApplication();
+        if (! $application || ! $application->admission) {
+            return $this->errorResponse('Study contract is not issued yet.', 404);
+        }
+
+        $contract = $this->workflow->ensureContract($application);
+        $path = $this->contractPdf->ensureDocument($contract);
+
+        return Storage::disk('local')->download($path, 'study-contract-'.$contract->contract_number.'.pdf');
+    }
+
     public function enrollment(Request $request)
     {
         $application = $this->currentApplication();
@@ -357,6 +375,137 @@ class StudentApplicationPortalController extends Controller
         $filename = 'enrollment-'.$application->enrollment->student_number.'.pdf';
 
         return Storage::disk('local')->download($path, $filename);
+    }
+
+    public function prikaz(Request $request)
+    {
+        $application = $this->currentApplication();
+        if (! $application) {
+            return $this->errorResponse('Application not found', 404);
+        }
+        $snapshot = $this->workflow->applicationSnapshot($application);
+
+        return $this->successResponse([
+            'prikaz' => $application->prikaz,
+            'checks' => $snapshot['checks'],
+            'application' => $application,
+        ], 'Prikaz status retrieved');
+    }
+
+    public function downloadPrikaz(Request $request)
+    {
+        $application = $this->currentApplication();
+        if (! $application || ! $application->prikaz) {
+            return $this->errorResponse('Prikaz is not issued yet.', 404);
+        }
+
+        $path = $this->prikazPdf->ensureDocument($application->prikaz);
+
+        return Storage::disk('local')->download($path, 'prikaz-'.$application->prikaz->prikaz_number.'.pdf');
+    }
+
+    public function serviceFee(Request $request)
+    {
+        $application = $this->currentApplication();
+        if (! $application) {
+            return $this->errorResponse('Application not found', 404);
+        }
+        $application->load('serviceFeePayments');
+
+        return $this->successResponse([
+            'amount' => 300,
+            'currency' => 'USD',
+            'payments' => $application->serviceFeePayments,
+            'can_upload' => (bool) $application->prikaz && ! $this->workflow->serviceFeeApproved($application),
+        ], 'Service fee status retrieved');
+    }
+
+    public function uploadServiceFeeReceipt(Request $request, int $applicationId)
+    {
+        $application = $this->ownedApplication($applicationId);
+        if (! $application) {
+            return $this->errorResponse('Application not found or unauthorized', 404);
+        }
+        if (! $application->prikaz) {
+            return $this->errorResponse('Service fee opens after prikaz is issued.', 422);
+        }
+        if ($this->workflow->serviceFeeApproved($application)) {
+            return $this->errorResponse('The service fee is already approved.', 422);
+        }
+
+        $validated = $request->validate(['file' => $this->uploadFileRules()]);
+        $file = $validated['file'];
+        $path = $file->storeAs('private/service-fees/'.$application->id, Str::uuid().'.'.strtolower($file->getClientOriginalExtension()), 'local');
+
+        $payment = ServiceFeePayment::create([
+            'application_id' => $application->id,
+            'payment_number' => $this->workflow->nextServiceFeePaymentNumber(),
+            'amount' => 300,
+            'currency' => 'USD',
+            'status' => 'UPLOADED',
+            'receipt_path' => $path,
+            'receipt_original_name' => $file->getClientOriginalName(),
+            'receipt_mime_type' => $file->getMimeType(),
+            'receipt_size' => $file->getSize(),
+            'paid_at' => now(),
+        ]);
+        $this->workflow->notify($application, 'Service fee receipt uploaded', 'Your 300 USD service fee receipt is waiting for review.', 'payment', '/student/service-fee');
+
+        return $this->successResponse($payment, 'Service fee receipt uploaded successfully', 201);
+    }
+
+    public function visa(Request $request)
+    {
+        $application = $this->currentApplication();
+        if (! $application) {
+            return $this->errorResponse('Application not found', 404);
+        }
+
+        return $this->successResponse($this->workflow->ensureVisaProcess($application), 'Visa and telex status retrieved');
+    }
+
+    public function housing(Request $request)
+    {
+        $application = $this->currentApplication();
+        if (! $application) {
+            return $this->errorResponse('Application not found', 404);
+        }
+
+        return $this->successResponse($this->workflow->ensureHousingRequest($application), 'Housing request retrieved');
+    }
+
+    public function submitHousingRequest(Request $request, int $applicationId)
+    {
+        $application = $this->ownedApplication($applicationId);
+        if (! $application) {
+            return $this->errorResponse('Application not found or unauthorized', 404);
+        }
+        if (! $application->enrollment) {
+            return $this->errorResponse('Housing request opens after enrollment is issued.', 422);
+        }
+
+        $validated = $request->validate([
+            'preferred_room_type' => ['nullable', 'string', 'max:120'],
+            'notes' => ['nullable', 'string', 'max:2000'],
+        ]);
+        $housing = $this->workflow->ensureHousingRequest($application);
+        $housing->update(array_merge($validated, [
+            'requested' => true,
+            'status' => 'UNDER_REVIEW',
+        ]));
+        $this->workflow->notify($application, 'Housing request submitted', 'Your housing request is waiting for review.', 'housing', '/student/housing');
+
+        return $this->successResponse($housing->fresh(), 'Housing request submitted');
+    }
+
+    public function residence(Request $request)
+    {
+        $application = $this->currentApplication();
+        if (! $application) {
+            return $this->errorResponse('Application not found', 404);
+        }
+
+        return $this->successResponse($this->workflow->ensureResidencePermitProcess($application), 'Residence permit status retrieved');
     }
 
     private function canUploadFeeReceipt(Application $application): bool

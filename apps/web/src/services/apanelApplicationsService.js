@@ -65,11 +65,32 @@ export const apanelApplicationsService = {
   downloadAdmission(id) {
     return downloadPrivate(`/apanel/applications-workflow/${id}/admission/download`);
   },
+  downloadContract(id) {
+    return downloadPrivate(`/apanel/applications-workflow/${id}/contract/download`);
+  },
   issueEnrollment(id) {
     return api.post(`/apanel/applications-workflow/${id}/enrollment/issue`).then(unwrap);
   },
   downloadEnrollment(id) {
     return downloadPrivate(`/apanel/applications-workflow/${id}/enrollment/download`);
+  },
+  issuePrikaz(id) {
+    return api.post(`/apanel/applications-workflow/${id}/prikaz/issue`).then(unwrap);
+  },
+  downloadPrikaz(id) {
+    return downloadPrivate(`/apanel/applications-workflow/${id}/prikaz/download`);
+  },
+  reviewServiceFee(id, paymentId, payload) {
+    return api.post(`/apanel/applications-workflow/${id}/service-fees/${paymentId}/review`, payload).then(unwrap);
+  },
+  updateVisa(id, payload) {
+    return api.put(`/apanel/applications-workflow/${id}/visa`, payload).then(unwrap);
+  },
+  reviewHousing(id, payload) {
+    return api.post(`/apanel/applications-workflow/${id}/housing/review`, payload).then(unwrap);
+  },
+  updateResidence(id, payload) {
+    return api.put(`/apanel/applications-workflow/${id}/residence`, payload).then(unwrap);
   },
 };
 

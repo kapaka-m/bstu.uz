@@ -98,14 +98,23 @@ Route::prefix('v1')->group(function () {
         Route::get('/student/admission', [StudentApplicationPortalController::class, 'admission']);
         Route::get('/student/admission/download', [StudentApplicationPortalController::class, 'downloadAdmission']);
         Route::get('/student/contract-advance', [StudentApplicationPortalController::class, 'contractAdvance']);
+        Route::get('/student/contract/download', [StudentApplicationPortalController::class, 'downloadContract']);
         Route::get('/student/enrollment', [StudentApplicationPortalController::class, 'enrollment']);
         Route::get('/student/enrollment/download', [StudentApplicationPortalController::class, 'downloadEnrollment']);
+        Route::get('/student/prikaz', [StudentApplicationPortalController::class, 'prikaz']);
+        Route::get('/student/prikaz/download', [StudentApplicationPortalController::class, 'downloadPrikaz']);
+        Route::get('/student/service-fee', [StudentApplicationPortalController::class, 'serviceFee']);
+        Route::get('/student/visa', [StudentApplicationPortalController::class, 'visa']);
+        Route::get('/student/housing', [StudentApplicationPortalController::class, 'housing']);
+        Route::get('/student/residence', [StudentApplicationPortalController::class, 'residence']);
         Route::post('/applications/{id}/documents/private', [StudentApplicationPortalController::class, 'uploadDocument'])->middleware('throttle:uploads');
         Route::get('/student/private-documents/{id}/download', [StudentApplicationPortalController::class, 'downloadDocument']);
         Route::post('/applications/{id}/equivalency/accept', [StudentApplicationPortalController::class, 'acceptEquivalency']);
         Route::post('/applications/{id}/equivalency/request-review', [StudentApplicationPortalController::class, 'requestEquivalencyReview']);
         Route::post('/applications/{id}/application-fee/receipt', [StudentApplicationPortalController::class, 'uploadPaymentReceipt'])->middleware('throttle:uploads');
         Route::post('/applications/{id}/contract-advance/receipt', [StudentApplicationPortalController::class, 'uploadContractAdvanceReceipt'])->middleware('throttle:uploads');
+        Route::post('/applications/{id}/service-fee/receipt', [StudentApplicationPortalController::class, 'uploadServiceFeeReceipt'])->middleware('throttle:uploads');
+        Route::post('/applications/{id}/housing/request', [StudentApplicationPortalController::class, 'submitHousingRequest']);
 
         // --- Profile ---
         Route::get('/student/profile', [StudentApiController::class, 'showProfile']);
@@ -166,8 +175,15 @@ Route::prefix('v1')->group(function () {
         Route::get('applications-workflow/{application}/admission', [ApanelApplicationWorkflowController::class, 'admission']);
         Route::post('applications-workflow/{application}/admission/issue', [ApanelApplicationWorkflowController::class, 'issueAdmission']);
         Route::get('applications-workflow/{application}/admission/download', [ApanelApplicationWorkflowController::class, 'downloadAdmission']);
+        Route::get('applications-workflow/{application}/contract/download', [ApanelApplicationWorkflowController::class, 'downloadContract']);
         Route::post('applications-workflow/{application}/enrollment/issue', [ApanelApplicationWorkflowController::class, 'issueEnrollment']);
         Route::get('applications-workflow/{application}/enrollment/download', [ApanelApplicationWorkflowController::class, 'downloadEnrollment']);
+        Route::post('applications-workflow/{application}/prikaz/issue', [ApanelApplicationWorkflowController::class, 'issuePrikaz']);
+        Route::get('applications-workflow/{application}/prikaz/download', [ApanelApplicationWorkflowController::class, 'downloadPrikaz']);
+        Route::post('applications-workflow/{application}/service-fees/{payment}/review', [ApanelApplicationWorkflowController::class, 'reviewServiceFee']);
+        Route::put('applications-workflow/{application}/visa', [ApanelApplicationWorkflowController::class, 'updateVisa']);
+        Route::post('applications-workflow/{application}/housing/review', [ApanelApplicationWorkflowController::class, 'reviewHousing']);
+        Route::put('applications-workflow/{application}/residence', [ApanelApplicationWorkflowController::class, 'updateResidence']);
 
         Route::get('application-documents/{id}/download', [AdminCrudController::class, 'downloadApplicationDocument']);
         Route::get('cms/footer-web', [AdminCrudController::class, 'showFooterWeb']);

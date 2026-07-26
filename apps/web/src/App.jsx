@@ -96,6 +96,21 @@ const StudentAdmission = React.lazy(
 const StudentEnrollment = React.lazy(
   () => import("./features/student/pages/StudentPortalPhaseTwo"),
 );
+const StudentPrikaz = React.lazy(
+  () => import("./features/student/pages/StudentPortalPhaseTwo"),
+);
+const StudentServiceFee = React.lazy(
+  () => import("./features/student/pages/StudentPortalPhaseTwo"),
+);
+const StudentVisa = React.lazy(
+  () => import("./features/student/pages/StudentPortalPhaseTwo"),
+);
+const StudentHousing = React.lazy(
+  () => import("./features/student/pages/StudentPortalPhaseTwo"),
+);
+const StudentResidence = React.lazy(
+  () => import("./features/student/pages/StudentPortalPhaseTwo"),
+);
 
 // Lazy loaded admin apanel routes
 const ApanelLogin = React.lazy(
@@ -420,6 +435,56 @@ function AppContent() {
                 <StudentRoute>
                   <StudentLayout>
                     <StudentEnrollment />
+                  </StudentLayout>
+                </StudentRoute>
+              }
+            />
+            <Route
+              path="/student/prikaz"
+              element={
+                <StudentRoute>
+                  <StudentLayout>
+                    <StudentPrikaz />
+                  </StudentLayout>
+                </StudentRoute>
+              }
+            />
+            <Route
+              path="/student/service-fee"
+              element={
+                <StudentRoute>
+                  <StudentLayout>
+                    <StudentServiceFee />
+                  </StudentLayout>
+                </StudentRoute>
+              }
+            />
+            <Route
+              path="/student/visa"
+              element={
+                <StudentRoute>
+                  <StudentLayout>
+                    <StudentVisa />
+                  </StudentLayout>
+                </StudentRoute>
+              }
+            />
+            <Route
+              path="/student/housing"
+              element={
+                <StudentRoute>
+                  <StudentLayout>
+                    <StudentHousing />
+                  </StudentLayout>
+                </StudentRoute>
+              }
+            />
+            <Route
+              path="/student/residence"
+              element={
+                <StudentRoute>
+                  <StudentLayout>
+                    <StudentResidence />
                   </StudentLayout>
                 </StudentRoute>
               }
@@ -769,6 +834,25 @@ function AppContent() {
                 </AdminRoute>
               }
             />
+            {[
+              "/apanel/applications/:id/prikaz",
+              "/apanel/applications/:id/service-fee",
+              "/apanel/applications/:id/visa",
+              "/apanel/applications/:id/housing",
+              "/apanel/applications/:id/residence",
+            ].map((path) => (
+              <Route
+                key={path}
+                path={path}
+                element={
+                  <AdminRoute>
+                    <ApanelLayout>
+                      <ApanelApplicationsWorkflow />
+                    </ApanelLayout>
+                  </AdminRoute>
+                }
+              />
+            ))}
             <Route
               path="/apanel/:resource"
               element={

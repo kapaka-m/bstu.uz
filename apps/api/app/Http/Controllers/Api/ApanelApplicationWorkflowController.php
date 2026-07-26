@@ -8,10 +8,13 @@ use App\Models\ApplicationDocument;
 use App\Models\ApplicationEquivalency;
 use App\Models\ApplicationFeePayment;
 use App\Models\DocumentRequirement;
+use App\Models\ServiceFeePayment;
 use App\Models\Payment;
 use App\Services\AdmissionPdfService;
 use App\Services\ApplicationWorkflowService;
 use App\Services\EnrollmentCertificatePdfService;
+use App\Services\PrikazPdfService;
+use App\Services\StudyContractPdfService;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -27,6 +30,8 @@ class ApanelApplicationWorkflowController extends Controller
         private readonly ApplicationWorkflowService $workflow,
         private readonly AdmissionPdfService $admissionPdf,
         private readonly EnrollmentCertificatePdfService $enrollmentPdf,
+        private readonly StudyContractPdfService $contractPdf,
+        private readonly PrikazPdfService $prikazPdf,
     ) {}
 
     public function index(Request $request)
@@ -345,6 +350,19 @@ class ApanelApplicationWorkflowController extends Controller
         return Storage::disk('local')->download($path, $filename);
     }
 
+    public function downloadContract(Request $request, int $application)
+    {
+        $app = $this->findApplication($application);
+        if (! $app->admission) {
+            return $this->errorResponse('Study contract is not issued yet.', 404);
+        }
+
+        $contract = $this->workflow->ensureContract($app);
+        $path = $this->contractPdf->ensureDocument($contract);
+
+        return Storage::disk('local')->download($path, 'study-contract-'.$contract->contract_number.'.pdf');
+    }
+
     public function issueEnrollment(Request $request, int $application)
     {
         $app = $this->findApplication($application);
@@ -370,8 +388,109 @@ class ApanelApplicationWorkflowController extends Controller
         return Storage::disk('local')->download($path, $filename);
     }
 
+    public function issuePrikaz(Request $request, int $application)
+    {
+        $app = $this->findApplication($application);
+        try {
+            $prikaz = $this->workflow->issuePrikaz($app, Auth::id());
+        } catch (\RuntimeException $e) {
+            return $this->errorResponse($e->getMessage(), 422);
+        }
+
+        return $this->successResponse($prikaz, 'Prikaz issued');
+    }
+
+    public function downloadPrikaz(Request $request, int $application)
+    {
+        $app = $this->findApplication($application);
+        if (! $app->prikaz) {
+            return $this->errorResponse('Prikaz is not issued yet.', 404);
+        }
+
+        $path = $this->prikazPdf->ensureDocument($app->prikaz);
+
+        return Storage::disk('local')->download($path, 'prikaz-'.$app->prikaz->prikaz_number.'.pdf');
+    }
+
+    public function reviewServiceFee(Request $request, int $application, int $payment)
+    {
+        $validated = $request->validate([
+            'status' => ['required', Rule::in(['APPROVED', 'REJECTED', 'REUPLOAD_REQUIRED', 'UNDER_REVIEW'])],
+            'rejection_reason' => ['nullable', 'required_if:status,REJECTED,REUPLOAD_REQUIRED', 'string', 'max:2000'],
+        ]);
+        $app = $this->findApplication($application);
+        $fee = ServiceFeePayment::where('id', $payment)->where('application_id', $app->id)->firstOrFail();
+        $fee->update([
+            'status' => $validated['status'],
+            'reviewer_id' => Auth::id(),
+            'reviewed_at' => now(),
+            'rejection_reason' => $validated['rejection_reason'] ?? null,
+        ]);
+        $this->workflow->notify($app, 'Service fee reviewed', 'Your 300 USD service fee receipt is '.$validated['status'].'.', 'payment', '/student/service-fee');
+
+        return $this->successResponse($fee->fresh(), 'Service fee reviewed');
+    }
+
+    public function updateVisa(Request $request, int $application)
+    {
+        $validated = $request->validate([
+            'telex_number' => ['nullable', 'string', 'max:120'],
+            'telex_status' => ['nullable', Rule::in(['NOT_STARTED', 'IN_PROGRESS', 'ISSUED', 'COMPLETED'])],
+            'visa_status' => ['nullable', Rule::in(['NOT_STARTED', 'IN_PROGRESS', 'APPROVED', 'ISSUED', 'COMPLETED', 'REJECTED'])],
+            'visa_notes' => ['nullable', 'string', 'max:3000'],
+        ]);
+        $app = $this->findApplication($application);
+        $process = $this->workflow->ensureVisaProcess($app);
+        $process->update(array_merge($validated, [
+            'reviewer_id' => Auth::id(),
+            'telex_issued_at' => in_array(($validated['telex_status'] ?? $process->telex_status), ['ISSUED', 'COMPLETED'], true) ? now() : $process->telex_issued_at,
+            'visa_updated_at' => now(),
+        ]));
+        $this->workflow->notify($app, 'Visa and telex updated', 'Your telex and visa process has been updated.', 'visa', '/student/visa');
+
+        return $this->successResponse($process->fresh(), 'Visa process updated');
+    }
+
+    public function reviewHousing(Request $request, int $application)
+    {
+        $validated = $request->validate([
+            'status' => ['required', Rule::in(['APPROVED', 'REJECTED', 'UNDER_REVIEW', 'NOT_REQUIRED', 'COMPLETED'])],
+            'admin_notes' => ['nullable', 'string', 'max:3000'],
+        ]);
+        $app = $this->findApplication($application);
+        $housing = $this->workflow->ensureHousingRequest($app);
+        $housing->update([
+            'status' => $validated['status'],
+            'admin_notes' => $validated['admin_notes'] ?? null,
+            'reviewer_id' => Auth::id(),
+            'reviewed_at' => now(),
+        ]);
+        $this->workflow->notify($app, 'Housing request updated', 'Your housing request is '.$validated['status'].'.', 'housing', '/student/housing');
+
+        return $this->successResponse($housing->fresh(), 'Housing request reviewed');
+    }
+
+    public function updateResidence(Request $request, int $application)
+    {
+        $validated = $request->validate([
+            'status' => ['required', Rule::in(['NOT_STARTED', 'IN_PROGRESS', 'ISSUED', 'COMPLETED', 'REJECTED'])],
+            'notes' => ['nullable', 'string', 'max:3000'],
+            'admin_notes' => ['nullable', 'string', 'max:3000'],
+            'expires_at' => ['nullable', 'date'],
+        ]);
+        $app = $this->findApplication($application);
+        $residence = $this->workflow->ensureResidencePermitProcess($app);
+        $residence->update(array_merge($validated, [
+            'reviewer_id' => Auth::id(),
+            'issued_at' => in_array($validated['status'], ['ISSUED', 'COMPLETED'], true) ? now() : $residence->issued_at,
+        ]));
+        $this->workflow->notify($app, 'Residence permit updated', 'Your residence permit process is '.$validated['status'].'.', 'residence', '/student/residence');
+
+        return $this->successResponse($residence->fresh(), 'Residence permit updated');
+    }
+
     private function findApplication(int $id): Application
     {
-        return Application::with(['studentProfile.user', 'program.translations', 'faculty.translations', 'department.translations', 'equivalency', 'admission', 'contracts.payments', 'enrollment'])->findOrFail($id);
+        return Application::with(['studentProfile.user', 'program.translations', 'faculty.translations', 'department.translations', 'equivalency', 'admission', 'contracts.payments', 'enrollment', 'prikaz', 'visaProcess', 'housingRequest', 'residencePermitProcess', 'serviceFeePayments'])->findOrFail($id);
     }
 }

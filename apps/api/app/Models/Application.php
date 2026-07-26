@@ -103,4 +103,29 @@ class Application extends Model
     {
         return $this->hasOne(Enrollment::class);
     }
+
+    public function prikaz()
+    {
+        return $this->hasOne(Prikaz::class);
+    }
+
+    public function visaProcess()
+    {
+        return $this->hasOne(StudentVisaProcess::class);
+    }
+
+    public function housingRequest()
+    {
+        return $this->hasOne(HousingRequest::class);
+    }
+
+    public function residencePermitProcess()
+    {
+        return $this->hasOne(ResidencePermitProcess::class);
+    }
+
+    public function serviceFeePayments()
+    {
+        return $this->hasMany(ServiceFeePayment::class);
+    }
 }

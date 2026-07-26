@@ -89,8 +89,13 @@ export default function StudentPortalPhaseTwo() {
     if (path.includes("/documents")) return "documents";
     if (path.includes("/equivalency")) return "equivalency";
     if (path.includes("/payments")) return "payments";
+    if (path.includes("/service-fee")) return "serviceFee";
     if (path.includes("/admission")) return "admission";
     if (path.includes("/enrollment")) return "enrollment";
+    if (path.includes("/prikaz")) return "prikaz";
+    if (path.includes("/visa")) return "visa";
+    if (path.includes("/housing")) return "housing";
+    if (path.includes("/residence")) return "residence";
     if (path.includes("/notifications")) return "notifications";
     if (path.includes("/application")) return "application";
     return "dashboard";
@@ -191,6 +196,43 @@ export default function StudentPortalPhaseTwo() {
     }
   };
 
+  const uploadServiceFeeReceipt = async (file) => {
+    if (!file) return;
+    if (file.size > maxUploadSize) {
+      setError("File exceeds maximum allowed size (10 MB).");
+      return;
+    }
+
+    try {
+      setBusy("service_fee");
+      await studentPortalService.uploadServiceFeeReceipt(applicationId, file);
+      setSuccess("300 USD service fee receipt uploaded for review.");
+      await load();
+    } catch (err) {
+      setError(apiErrorMessage(err, "Service fee receipt upload failed."));
+    } finally {
+      setBusy("");
+    }
+  };
+
+  const submitHousingRequest = async () => {
+    const preferredRoomType = window.prompt("Preferred room type, optional:");
+    const notes = window.prompt("Housing notes, optional:");
+    try {
+      setBusy("housing");
+      await studentPortalService.submitHousingRequest(applicationId, {
+        preferred_room_type: preferredRoomType || "",
+        notes: notes || "",
+      });
+      setSuccess("Housing request submitted.");
+      await load();
+    } catch (err) {
+      setError(apiErrorMessage(err, "Housing request failed."));
+    } finally {
+      setBusy("");
+    }
+  };
+
   const acceptEquivalency = async () => {
     setBusy("equivalency");
     await studentPortalService.acceptEquivalency(applicationId);
@@ -256,6 +298,11 @@ export default function StudentPortalPhaseTwo() {
           ["/student/payments", "Payments", CreditCard],
           ["/student/admission", "Admission", ShieldCheck],
           ["/student/enrollment", "Enrollment", ShieldCheck],
+          ["/student/prikaz", "Prikaz", FileCheck],
+          ["/student/service-fee", "Service Fee", CreditCard],
+          ["/student/visa", "Telex & Visa", ShieldCheck],
+          ["/student/housing", "Housing", ClipboardList],
+          ["/student/residence", "Residence", FileCheck],
           ["/student/notifications", "Notifications", Bell],
         ].map(([to, label, Icon]) => (
           <Link key={to} to={to} className="rounded-2xl border border-gray-100 p-4 hover:border-primary/30 hover:bg-primary/5 transition-all">
@@ -463,6 +510,14 @@ export default function StudentPortalPhaseTwo() {
               ["Required Advance", Number(contract.advance_amount) > 0 ? `${contract.advance_amount} ${contract.currency || "USD"}` : "30% of contract"],
               ["Status", summary.checks?.contract_advance_paid ? "Approved" : "Waiting payment"],
             ]} />
+            <button
+              type="button"
+              onClick={() => studentPortalService.downloadContract()}
+              className="inline-flex items-center gap-2 rounded-xl bg-navy px-4 py-2 text-xs font-extrabold text-white"
+            >
+              <Download className="h-4 w-4" />
+              Download Study Contract PDF
+            </button>
             <div className="space-y-3">
               {(contract.payments || []).map((payment) => (
                 <div key={payment.id} className="rounded-2xl border border-gray-100 p-4 flex justify-between">
@@ -570,6 +625,111 @@ export default function StudentPortalPhaseTwo() {
     </Panel>
   );
 
+  const renderPrikaz = () => (
+    <Panel title="Prikaz" icon={FileCheck}>
+      {app.prikaz ? (
+        <div className="space-y-4">
+          <InfoGrid rows={[
+            ["Prikaz Number", app.prikaz.prikaz_number],
+            ["Academic Year", app.prikaz.academic_year],
+            ["Issue Date", app.prikaz.issue_date],
+            ["Status", app.prikaz.status],
+          ]} />
+          <button
+            type="button"
+            onClick={() => studentPortalService.downloadPrikaz()}
+            className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2 text-xs font-extrabold text-white hover:bg-primary-hover"
+          >
+            <Download className="h-4 w-4" />
+            Download Prikaz PDF
+          </button>
+        </div>
+      ) : (
+        <InfoGrid rows={[
+          ["Enrollment issued", summary.checks?.enrollment_issued ? "Yes" : "No"],
+          ["Prikaz status", "Waiting university issuance"],
+        ]} />
+      )}
+    </Panel>
+  );
+
+  const renderServiceFee = () => (
+    <Panel title="Service Fee" icon={CreditCard}>
+      {error && <FormError message={error} />}
+      <InfoGrid rows={[
+        ["Required Fee", "300 USD"],
+        ["Prikaz Issued", summary.checks?.prikaz_issued ? "Yes" : "No"],
+        ["Service Fee", summary.checks?.service_fee_paid ? "Approved" : "Pending"],
+      ]} />
+      <div className="space-y-3">
+        {(app.service_fee_payments || []).map((payment) => (
+          <div key={payment.id} className="rounded-2xl border border-gray-100 p-4 flex justify-between">
+            <div>
+              <p className="text-xs font-extrabold text-navy">{payment.payment_number}</p>
+              <p className="text-[11px] text-gray-500">{payment.amount} {payment.currency} · {payment.receipt_original_name}</p>
+              {payment.rejection_reason && <p className="text-[11px] font-bold text-rose-600">{payment.rejection_reason}</p>}
+            </div>
+            <StatusPill status={payment.status} />
+          </div>
+        ))}
+      </div>
+      {summary.checks?.prikaz_issued && !summary.checks?.service_fee_paid && (
+        <label className="inline-flex px-4 py-2 rounded-xl bg-primary text-white text-xs font-extrabold cursor-pointer">
+          {busy === "service_fee" ? <Loader2 className="w-4 h-4 animate-spin" /> : "Upload 300 USD Receipt"}
+          <input
+            className="hidden"
+            type="file"
+            accept={uploadAccept}
+            onChange={(e) => {
+              uploadServiceFeeReceipt(e.target.files?.[0]);
+              e.target.value = "";
+            }}
+          />
+        </label>
+      )}
+    </Panel>
+  );
+
+  const renderVisa = () => (
+    <Panel title="Telex & Visa" icon={ShieldCheck}>
+      <InfoGrid rows={[
+        ["Telex Number", app.visa_process?.telex_number],
+        ["Telex Status", labelize(app.visa_process?.telex_status)],
+        ["Visa Status", labelize(app.visa_process?.visa_status)],
+        ["Notes", app.visa_process?.visa_notes],
+      ]} />
+    </Panel>
+  );
+
+  const renderHousing = () => (
+    <Panel title="Housing" icon={ClipboardList}>
+      <InfoGrid rows={[
+        ["Requested", app.housing_request?.requested ? "Yes" : "No"],
+        ["Status", labelize(app.housing_request?.status)],
+        ["Preferred Room", app.housing_request?.preferred_room_type],
+        ["Notes", app.housing_request?.notes],
+        ["Administration Notes", app.housing_request?.admin_notes],
+      ]} />
+      {summary.checks?.enrollment_issued && !app.housing_request?.requested && (
+        <button onClick={submitHousingRequest} className="px-4 py-2 rounded-xl bg-primary text-white text-xs font-extrabold">
+          Request Housing
+        </button>
+      )}
+    </Panel>
+  );
+
+  const renderResidence = () => (
+    <Panel title="Residence Permit" icon={FileCheck}>
+      <InfoGrid rows={[
+        ["Status", labelize(app.residence_permit_process?.status)],
+        ["Issued At", app.residence_permit_process?.issued_at],
+        ["Expires At", app.residence_permit_process?.expires_at],
+        ["Notes", app.residence_permit_process?.notes],
+        ["Administration Notes", app.residence_permit_process?.admin_notes],
+      ]} />
+    </Panel>
+  );
+
   const renderNotifications = () => (
     <Panel title="Notifications" icon={Bell}>
       <div className="space-y-3">
@@ -595,6 +755,11 @@ export default function StudentPortalPhaseTwo() {
       {mode === "payments" && renderPayments()}
       {mode === "admission" && renderAdmission()}
       {mode === "enrollment" && renderEnrollment()}
+      {mode === "prikaz" && renderPrikaz()}
+      {mode === "serviceFee" && renderServiceFee()}
+      {mode === "visa" && renderVisa()}
+      {mode === "housing" && renderHousing()}
+      {mode === "residence" && renderResidence()}
       {mode === "notifications" && renderNotifications()}
     </div>
   );

@@ -45,6 +45,11 @@ export default function ApanelApplicationsWorkflow() {
     if (path.endsWith("/final-review")) return "final";
     if (path.endsWith("/admission")) return "admission";
     if (path.endsWith("/enrollment")) return "enrollment";
+    if (path.endsWith("/prikaz")) return "prikaz";
+    if (path.endsWith("/service-fee")) return "serviceFee";
+    if (path.endsWith("/visa")) return "visa";
+    if (path.endsWith("/housing")) return "housing";
+    if (path.endsWith("/residence")) return "residence";
     return id ? "overview" : "list";
   }, [location.pathname, id]);
 
@@ -159,6 +164,11 @@ export default function ApanelApplicationsWorkflow() {
         [`${base}/final-review`, "Final Review"],
         [`${base}/admission`, "Admission"],
         [`${base}/enrollment`, "Enrollment"],
+        [`${base}/prikaz`, "Prikaz"],
+        [`${base}/service-fee`, "Service Fee"],
+        [`${base}/visa`, "Telex & Visa"],
+        [`${base}/housing`, "Housing"],
+        [`${base}/residence`, "Residence"],
       ].map(([to, label]) => (
         <Link key={to} to={to} className={`px-3 py-2 rounded-xl text-xs font-extrabold border ${location.pathname === to ? "bg-primary text-white border-primary" : "bg-white text-navy border-gray-100"}`}>{label}</Link>
       ))}
@@ -249,6 +259,15 @@ export default function ApanelApplicationsWorkflow() {
         </div>
         <div className="space-y-3">
           <h3 className="text-xs font-extrabold text-navy uppercase tracking-wider">30% Contract Payment</h3>
+          {(app.contracts || []).map((contract) => (
+            <div key={contract.id} className="rounded-2xl border border-gray-100 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <Info rows={[["Contract Number", contract.contract_number], ["Amount", `${contract.amount || 0} ${contract.currency || "USD"}`], ["Advance", `${contract.advance_amount || "30%"} ${contract.currency || ""}`]]} />
+              <button onClick={() => apanelApplicationsService.downloadContract(id)} className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-navy text-white text-xs font-extrabold">
+                <Download className="h-4 w-4" />
+                Contract PDF
+              </button>
+            </div>
+          ))}
           {(app.contracts || []).flatMap((contract) => (contract.payments || []).map((payment) => ({ ...payment, contract }))).map((payment) => (
             <div key={payment.id} className="rounded-2xl border border-gray-100 p-4 flex justify-between gap-4">
               <div>
@@ -319,6 +338,92 @@ export default function ApanelApplicationsWorkflow() {
     </Panel>
   );
 
+  const renderPrikaz = () => (
+    <Panel title="Prikaz">
+      {app.prikaz ? (
+        <div className="space-y-4">
+          <Info rows={[["Prikaz Number", app.prikaz.prikaz_number], ["Academic Year", app.prikaz.academic_year], ["Issue Date", app.prikaz.issue_date], ["Status", app.prikaz.status]]} />
+          <button onClick={() => apanelApplicationsService.downloadPrikaz(id)} className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-navy text-white text-xs font-extrabold">
+            <Download className="h-4 w-4" />
+            Download Prikaz PDF
+          </button>
+        </div>
+      ) : (
+        <Info rows={[["Enrollment Issued", snapshot.checks?.enrollment_issued ? "Yes" : "No"], ["Prikaz", "Not issued"]]} />
+      )}
+      <button onClick={() => action(() => apanelApplicationsService.issuePrikaz(id), "Prikaz issued")} className="px-4 py-2 rounded-xl bg-primary text-white text-xs font-extrabold">Issue Prikaz</button>
+    </Panel>
+  );
+
+  const renderServiceFee = () => (
+    <Panel title="Service Fee Review">
+      <Info rows={[["Required Amount", "300 USD"], ["Prikaz Issued", snapshot.checks?.prikaz_issued ? "Yes" : "No"], ["Service Fee Approved", snapshot.checks?.service_fee_paid ? "Yes" : "No"]]} />
+      <div className="space-y-3">
+        {(app.service_fee_payments || []).map((payment) => (
+          <div key={payment.id} className="rounded-2xl border border-gray-100 p-4 flex justify-between gap-4">
+            <div>
+              <p className="text-xs font-extrabold text-navy">{payment.payment_number}</p>
+              <p className="text-[11px] text-gray-500">{payment.amount} {payment.currency} · {payment.receipt_original_name}</p>
+              {payment.rejection_reason && <p className="text-[11px] font-bold text-rose-600">{payment.rejection_reason}</p>}
+            </div>
+            <div className="flex gap-2">
+              <Status value={payment.status} />
+              <button onClick={() => action(() => apanelApplicationsService.reviewServiceFee(id, payment.id, { status: "APPROVED" }), "Service fee approved")} className="px-3 py-2 rounded-xl bg-emerald-600 text-white text-xs font-extrabold">Approve</button>
+              <button onClick={() => action(() => apanelApplicationsService.reviewServiceFee(id, payment.id, { status: "REUPLOAD_REQUIRED", rejection_reason: window.prompt("Rejection reason:") || "Please upload a clearer service fee receipt." }), "Service fee rejected")} className="px-3 py-2 rounded-xl bg-rose-600 text-white text-xs font-extrabold">Reject</button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </Panel>
+  );
+
+  const renderVisa = () => (
+    <Panel title="Telex & Visa">
+      <Info rows={[
+        ["Telex Number", app.visa_process?.telex_number],
+        ["Telex Status", app.visa_process?.telex_status],
+        ["Visa Status", app.visa_process?.visa_status],
+        ["Notes", app.visa_process?.visa_notes],
+      ]} />
+      <div className="flex flex-wrap gap-2">
+        <button onClick={() => updateVisa(action, id, "telex")} className="px-4 py-2 rounded-xl bg-primary text-white text-xs font-extrabold">Mark Telex Issued</button>
+        <button onClick={() => action(() => apanelApplicationsService.updateVisa(id, { visa_status: "ISSUED", visa_notes: "Visa is ready." }), "Visa marked ready")} className="px-4 py-2 rounded-xl bg-emerald-600 text-white text-xs font-extrabold">Mark Visa Ready</button>
+      </div>
+    </Panel>
+  );
+
+  const renderHousing = () => (
+    <Panel title="Housing">
+      <Info rows={[
+        ["Requested", app.housing_request?.requested ? "Yes" : "No"],
+        ["Status", app.housing_request?.status],
+        ["Preferred Room", app.housing_request?.preferred_room_type],
+        ["Student Notes", app.housing_request?.notes],
+        ["Admin Notes", app.housing_request?.admin_notes],
+      ]} />
+      <div className="flex flex-wrap gap-2">
+        <button onClick={() => action(() => apanelApplicationsService.reviewHousing(id, { status: "APPROVED", admin_notes: window.prompt("Housing notes:") || "" }), "Housing approved")} className="px-4 py-2 rounded-xl bg-emerald-600 text-white text-xs font-extrabold">Approve Housing</button>
+        <button onClick={() => action(() => apanelApplicationsService.reviewHousing(id, { status: "REJECTED", admin_notes: window.prompt("Housing rejection reason:") || "Housing is not available." }), "Housing rejected")} className="px-4 py-2 rounded-xl bg-rose-600 text-white text-xs font-extrabold">Reject Housing</button>
+        <button onClick={() => action(() => apanelApplicationsService.reviewHousing(id, { status: "NOT_REQUIRED", admin_notes: "Housing is not required by the student." }), "Housing marked not required")} className="px-4 py-2 rounded-xl border border-gray-200 text-navy text-xs font-extrabold">Not Required</button>
+      </div>
+    </Panel>
+  );
+
+  const renderResidence = () => (
+    <Panel title="Residence Permit">
+      <Info rows={[
+        ["Status", app.residence_permit_process?.status],
+        ["Issued At", app.residence_permit_process?.issued_at],
+        ["Expires At", app.residence_permit_process?.expires_at],
+        ["Admin Notes", app.residence_permit_process?.admin_notes],
+      ]} />
+      <div className="flex flex-wrap gap-2">
+        <button onClick={() => action(() => apanelApplicationsService.updateResidence(id, { status: "IN_PROGRESS", admin_notes: "Residence permit is being processed." }), "Residence marked in progress")} className="px-4 py-2 rounded-xl bg-primary text-white text-xs font-extrabold">Mark In Progress</button>
+        <button onClick={() => action(() => apanelApplicationsService.updateResidence(id, { status: "ISSUED", expires_at: window.prompt("Residence expiry date YYYY-MM-DD, optional:") || "", admin_notes: "Residence permit issued." }), "Residence issued")} className="px-4 py-2 rounded-xl bg-emerald-600 text-white text-xs font-extrabold">Mark Issued</button>
+      </div>
+    </Panel>
+  );
+
   return (
     <div className="space-y-6 animate-in fade-in duration-200">
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
@@ -336,6 +441,11 @@ export default function ApanelApplicationsWorkflow() {
       {section === "final" && renderFinal()}
       {section === "admission" && renderAdmission()}
       {section === "enrollment" && renderEnrollment()}
+      {section === "prikaz" && renderPrikaz()}
+      {section === "serviceFee" && renderServiceFee()}
+      {section === "visa" && renderVisa()}
+      {section === "housing" && renderHousing()}
+      {section === "residence" && renderResidence()}
     </div>
   );
 }
@@ -376,6 +486,23 @@ function rejectPayment(action, paymentId) {
   const reason = window.prompt("Payment rejection reason shown to student:");
   if (!reason) return;
   action(() => apanelApplicationsService.reviewPayment(window.location.pathname.split("/")[3], paymentId, { status: "REJECTED", rejection_reason: reason }), "Payment rejected");
+}
+
+function updateVisa(action, id, type) {
+  if (type === "telex") {
+    const telexNumber = window.prompt("Telex number:");
+    if (!telexNumber) return;
+    action(
+      () =>
+        apanelApplicationsService.updateVisa(id, {
+          telex_number: telexNumber,
+          telex_status: "ISSUED",
+          visa_status: "IN_PROGRESS",
+          visa_notes: "Telex issued. Visa processing started.",
+        }),
+      "Telex issued",
+    );
+  }
 }
 
 function requestExtraDocument(action) {

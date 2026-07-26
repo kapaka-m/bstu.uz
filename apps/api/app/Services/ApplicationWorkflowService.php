@@ -9,8 +9,13 @@ use App\Models\ApplicationStatusHistory;
 use App\Models\Contract;
 use App\Models\DocumentRequirement;
 use App\Models\Enrollment;
+use App\Models\HousingRequest;
 use App\Models\Notification;
 use App\Models\Payment;
+use App\Models\Prikaz;
+use App\Models\ResidencePermitProcess;
+use App\Models\ServiceFeePayment;
+use App\Models\StudentVisaProcess;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use RuntimeException;
@@ -56,6 +61,8 @@ class ApplicationWorkflowService
     public function __construct(
         private readonly AdmissionPdfService $admissionPdf,
         private readonly EnrollmentCertificatePdfService $enrollmentPdf,
+        private readonly StudyContractPdfService $contractPdf,
+        private readonly PrikazPdfService $prikazPdf,
     ) {}
 
     public function requiredDocuments(Application $application): array
@@ -136,6 +143,11 @@ class ApplicationWorkflowService
             'admission',
             'contracts.payments',
             'enrollment',
+            'prikaz',
+            'visaProcess',
+            'housingRequest',
+            'residencePermitProcess',
+            'serviceFeePayments',
         ]);
 
         $requirements = $this->requiredDocuments($application);
@@ -160,8 +172,15 @@ class ApplicationWorkflowService
             || in_array($application->equivalency?->status, ['STUDENT_ACCEPTED', 'APPROVED'], true);
         $paymentApproved = $application->applicationFeePayments->contains('status', 'APPROVED');
         $admissionIssued = (bool) $application->admission;
+        $studyContractIssued = $application->contracts->contains(fn (Contract $contract) => filled($contract->document_path));
         $contractAdvanceApproved = $application->contracts->flatMap->payments->contains(fn ($payment) => $payment->payment_type === 'contract_advance' && $payment->status === 'APPROVED');
         $enrollmentIssued = (bool) $application->enrollment;
+        $prikazIssued = (bool) $application->prikaz;
+        $serviceFeeApproved = $application->serviceFeePayments->contains('status', 'APPROVED');
+        $telexIssued = in_array($application->visaProcess?->telex_status, ['ISSUED', 'COMPLETED'], true);
+        $visaReady = in_array($application->visaProcess?->visa_status, ['APPROVED', 'ISSUED', 'COMPLETED'], true);
+        $housingCompleted = ! $application->housingRequest?->requested || in_array($application->housingRequest?->status, ['APPROVED', 'COMPLETED', 'NOT_REQUIRED'], true);
+        $residenceCompleted = in_array($application->residencePermitProcess?->status, ['ISSUED', 'COMPLETED'], true);
 
         $checks = [
             'profile_complete' => $this->profileComplete($application),
@@ -172,8 +191,15 @@ class ApplicationWorkflowService
             'payment_approved' => $paymentApproved,
             'final_review_approved' => $application->final_review_status === 'APPROVED',
             'admission_issued' => $admissionIssued,
+            'study_contract_issued' => $studyContractIssued,
             'contract_advance_paid' => $contractAdvanceApproved,
             'enrollment_issued' => $enrollmentIssued,
+            'prikaz_issued' => $prikazIssued,
+            'service_fee_paid' => $serviceFeeApproved,
+            'telex_issued' => $telexIssued,
+            'visa_ready' => $visaReady,
+            'housing_completed' => $housingCompleted,
+            'residence_completed' => $residenceCompleted,
         ];
 
         $completion = (int) floor((collect($checks)->filter()->count() / count($checks)) * 100);
@@ -245,7 +271,7 @@ class ApplicationWorkflowService
         $amount = (float) ($application->program?->tuition_fee ?: 0);
         $advanceAmount = $amount > 0 ? round($amount * 0.30, 2) : null;
 
-        return Contract::firstOrCreate(
+        $contract = Contract::firstOrCreate(
             ['application_id' => $application->id],
             [
                 'contract_number' => $this->nextContractNumber(),
@@ -256,6 +282,9 @@ class ApplicationWorkflowService
                 'status' => 'issued',
             ]
         );
+        $this->contractPdf->ensureDocument($contract);
+
+        return $contract->fresh('payments');
     }
 
     public function contractAdvanceApproved(Application $application): bool
@@ -300,6 +329,71 @@ class ApplicationWorkflowService
 
             return $enrollment;
         });
+    }
+
+    public function issuePrikaz(Application $application, int $actorId): Prikaz
+    {
+        if (! $application->enrollment) {
+            throw new RuntimeException('Prikaz cannot be issued before enrollment certificate.');
+        }
+
+        return DB::transaction(function () use ($application, $actorId) {
+            $existing = Prikaz::where('application_id', $application->id)->first();
+            if ($existing) {
+                $this->prikazPdf->ensureDocument($existing);
+
+                return $existing;
+            }
+
+            $prikaz = Prikaz::create([
+                'application_id' => $application->id,
+                'enrollment_id' => $application->enrollment->id,
+                'student_profile_id' => $application->student_profile_id,
+                'program_id' => $application->program_id,
+                'prikaz_number' => $this->nextPrikazNumber(),
+                'issue_date' => now()->toDateString(),
+                'academic_year' => $application->enrollment->academic_year,
+                'status' => 'ISSUED',
+                'issued_by' => $actorId,
+                'issued_at' => now(),
+            ]);
+
+            $this->prikazPdf->generate($prikaz);
+            $this->notify($application, 'Prikaz issued', 'Your university enrollment order is ready.', 'prikaz', '/student/prikaz');
+
+            return $prikaz;
+        });
+    }
+
+    public function serviceFeeApproved(Application $application): bool
+    {
+        $application->loadMissing('serviceFeePayments');
+
+        return $application->serviceFeePayments->contains('status', 'APPROVED');
+    }
+
+    public function ensureVisaProcess(Application $application): StudentVisaProcess
+    {
+        return StudentVisaProcess::firstOrCreate(
+            ['application_id' => $application->id],
+            ['student_profile_id' => $application->student_profile_id]
+        );
+    }
+
+    public function ensureHousingRequest(Application $application): HousingRequest
+    {
+        return HousingRequest::firstOrCreate(
+            ['application_id' => $application->id],
+            ['student_profile_id' => $application->student_profile_id]
+        );
+    }
+
+    public function ensureResidencePermitProcess(Application $application): ResidencePermitProcess
+    {
+        return ResidencePermitProcess::firstOrCreate(
+            ['application_id' => $application->id],
+            ['student_profile_id' => $application->student_profile_id]
+        );
     }
 
     public function transition(Application $application, string $newStatus, ?int $actorId = null, ?string $note = null): Application
@@ -423,8 +517,15 @@ class ApplicationWorkflowService
         $items[] = ['key' => 'payment_review', 'label' => 'Payment Under Review', 'status' => $application->application_fee_status === 'APPROVED' ? 'Approved' : 'Not Started'];
         $items[] = ['key' => 'final_review', 'label' => 'Final Application Review', 'status' => $checks['final_review_approved'] ? 'Approved' : 'Not Started'];
         $items[] = ['key' => 'admission', 'label' => 'Admission Issued', 'status' => $checks['admission_issued'] ? 'Completed' : 'Not Started'];
+        $items[] = ['key' => 'study_contract', 'label' => 'Study Contract', 'status' => $checks['study_contract_issued'] ? 'Issued' : ($checks['admission_issued'] ? 'Action Required' : 'Not Started')];
         $items[] = ['key' => 'contract_advance', 'label' => '30% Contract Payment', 'status' => $checks['contract_advance_paid'] ? 'Completed' : ($checks['admission_issued'] ? 'Action Required' : 'Not Started')];
         $items[] = ['key' => 'enrollment', 'label' => 'Enrollment Certificate', 'status' => $checks['enrollment_issued'] ? 'Completed' : 'Not Started'];
+        $items[] = ['key' => 'prikaz', 'label' => 'Prikaz', 'status' => $checks['prikaz_issued'] ? 'Issued' : 'Not Started'];
+        $items[] = ['key' => 'service_fee', 'label' => 'Service Fee', 'status' => $checks['service_fee_paid'] ? 'Completed' : ($checks['prikaz_issued'] ? 'Action Required' : 'Not Started')];
+        $items[] = ['key' => 'telex', 'label' => 'Telex', 'status' => $checks['telex_issued'] ? 'Issued' : 'Not Started'];
+        $items[] = ['key' => 'visa', 'label' => 'Visa', 'status' => $checks['visa_ready'] ? 'Ready' : 'Not Started'];
+        $items[] = ['key' => 'housing', 'label' => 'Housing', 'status' => $checks['housing_completed'] ? 'Completed' : 'In Progress'];
+        $items[] = ['key' => 'residence', 'label' => 'Residence Permit', 'status' => $checks['residence_completed'] ? 'Completed' : 'Not Started'];
 
         return $items;
     }
@@ -448,13 +549,34 @@ class ApplicationWorkflowService
         if (! $checks['admission_issued']) {
             return 'Wait for admission issuance.';
         }
+        if (! $checks['study_contract_issued']) {
+            return 'Download and review the study contract.';
+        }
         if (! $checks['contract_advance_paid']) {
             return 'Upload the 30% contract payment receipt.';
         }
         if (! $checks['enrollment_issued']) {
             return 'Wait for enrollment certificate issuance.';
         }
-        return 'Admission issued.';
+        if (! $checks['prikaz_issued']) {
+            return 'Wait for prikaz issuance.';
+        }
+        if (! $checks['service_fee_paid']) {
+            return 'Upload the 300 USD service fee receipt.';
+        }
+        if (! $checks['telex_issued']) {
+            return 'Wait for telex processing.';
+        }
+        if (! $checks['visa_ready']) {
+            return 'Wait for visa processing.';
+        }
+        if (! $checks['housing_completed']) {
+            return 'Wait for housing request review.';
+        }
+        if (! $checks['residence_completed']) {
+            return 'Wait for residence permit processing.';
+        }
+        return 'All current admission workflow steps are completed.';
     }
 
     private function nextAdmissionNumber(): string
@@ -480,6 +602,15 @@ class ApplicationWorkflowService
         do {
             $number = 'ENR-'.now()->format('Y').'-'.strtoupper(Str::random(6));
         } while (Enrollment::where('student_number', $number)->exists());
+
+        return $number;
+    }
+
+    private function nextPrikazNumber(): string
+    {
+        do {
+            $number = 'PRK-'.now()->format('Y').'-'.strtoupper(Str::random(6));
+        } while (Prikaz::where('prikaz_number', $number)->exists());
 
         return $number;
     }
@@ -516,6 +647,15 @@ class ApplicationWorkflowService
         do {
             $number = 'ADV-'.now()->format('Y').'-'.strtoupper(Str::random(6));
         } while (Payment::where('payment_number', $number)->exists());
+
+        return $number;
+    }
+
+    public function nextServiceFeePaymentNumber(): string
+    {
+        do {
+            $number = 'SRV-'.now()->format('Y').'-'.strtoupper(Str::random(6));
+        } while (ServiceFeePayment::where('payment_number', $number)->exists());
 
         return $number;
     }

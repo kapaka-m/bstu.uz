@@ -4,23 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Contract extends Model
+class ResidencePermitProcess extends Model
 {
     protected $fillable = [
         'application_id',
-        'contract_number',
-        'amount',
-        'currency',
-        'advance_percentage',
-        'advance_amount',
+        'student_profile_id',
         'status',
-        'document_path',
-        'issued_by',
+        'notes',
+        'admin_notes',
+        'reviewer_id',
         'issued_at',
+        'expires_at',
     ];
 
     protected $casts = [
         'issued_at' => 'datetime',
+        'expires_at' => 'date',
     ];
 
     public function application()
@@ -28,8 +27,8 @@ class Contract extends Model
         return $this->belongsTo(Application::class);
     }
 
-    public function payments()
+    public function studentProfile()
     {
-        return $this->hasMany(Payment::class);
+        return $this->belongsTo(StudentProfile::class);
     }
 }

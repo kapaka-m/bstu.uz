@@ -78,6 +78,11 @@ export default function StudentLayout({ children }) {
     { path: "/student/payments", label: "Payments", icon: CreditCard },
     { path: "/student/admission", label: "Admission", icon: FileCheck },
     { path: "/student/enrollment", label: "Enrollment", icon: FileCheck },
+    { path: "/student/prikaz", label: "Prikaz", icon: FileCheck },
+    { path: "/student/service-fee", label: "Service Fee", icon: CreditCard },
+    { path: "/student/visa", label: "Telex & Visa", icon: FileCheck },
+    { path: "/student/housing", label: "Housing", icon: ClipboardList },
+    { path: "/student/residence", label: "Residence", icon: FileCheck },
     { path: "/student/notifications", label: "Notifications", icon: Bell },
     { path: "/student/support", label: "Support Center", icon: MessageSquare },
   ];

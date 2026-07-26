@@ -63,6 +63,35 @@ export const studentPortalService = {
   downloadEnrollment() {
     return downloadPrivate("/student/enrollment/download");
   },
+  downloadContract() {
+    return downloadPrivate("/student/contract/download");
+  },
+  prikaz() {
+    return api.get("/student/prikaz").then(unwrap);
+  },
+  downloadPrikaz() {
+    return downloadPrivate("/student/prikaz/download");
+  },
+  serviceFee() {
+    return api.get("/student/service-fee").then(unwrap);
+  },
+  uploadServiceFeeReceipt(applicationId, file) {
+    const form = new FormData();
+    form.append("file", file);
+    return api.post(`/applications/${applicationId}/service-fee/receipt`, form).then(unwrap);
+  },
+  visa() {
+    return api.get("/student/visa").then(unwrap);
+  },
+  housing() {
+    return api.get("/student/housing").then(unwrap);
+  },
+  submitHousingRequest(applicationId, payload) {
+    return api.post(`/applications/${applicationId}/housing/request`, payload).then(unwrap);
+  },
+  residence() {
+    return api.get("/student/residence").then(unwrap);
+  },
 };
 
 async function downloadPrivate(path) {

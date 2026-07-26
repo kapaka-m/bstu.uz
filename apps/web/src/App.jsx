@@ -58,31 +58,40 @@ const StudentRegister = React.lazy(
   () => import("./features/student/pages/StudentRegister"),
 );
 const StudentDashboard = React.lazy(
-  () => import("./features/student/pages/StudentDashboard"),
+  () => import("./features/student/pages/StudentPortalPhaseTwo"),
 );
 const StudentProfile = React.lazy(
-  () => import("./features/student/pages/StudentProfile"),
+  () => import("./features/student/pages/StudentPortalPhaseTwo"),
 );
 const StudentApplication = React.lazy(
-  () => import("./features/student/pages/StudentApplication"),
+  () => import("./features/student/pages/StudentPortalPhaseTwo"),
 );
 const StudentApplicationStatus = React.lazy(
   () => import("./features/student/pages/StudentApplicationStatus"),
 );
 const StudentDocuments = React.lazy(
-  () => import("./features/student/pages/StudentDocuments"),
+  () => import("./features/student/pages/StudentPortalPhaseTwo"),
 );
 const StudentNotifications = React.lazy(
-  () => import("./features/student/pages/StudentNotifications"),
+  () => import("./features/student/pages/StudentPortalPhaseTwo"),
 );
 const StudentContracts = React.lazy(
   () => import("./features/student/pages/StudentContracts"),
 );
 const StudentPayments = React.lazy(
-  () => import("./features/student/pages/StudentPayments"),
+  () => import("./features/student/pages/StudentPortalPhaseTwo"),
 );
 const StudentSupport = React.lazy(
   () => import("./features/student/pages/StudentSupport"),
+);
+const StudentAcademicInformation = React.lazy(
+  () => import("./features/student/pages/StudentPortalPhaseTwo"),
+);
+const StudentEquivalency = React.lazy(
+  () => import("./features/student/pages/StudentPortalPhaseTwo"),
+);
+const StudentAdmission = React.lazy(
+  () => import("./features/student/pages/StudentPortalPhaseTwo"),
 );
 
 // Lazy loaded admin apanel routes
@@ -101,8 +110,8 @@ const ApanelLocales = React.lazy(
 const ApanelCenters = React.lazy(
   () => import("./features/apanel/pages/ApanelCenters"),
 );
-const ApanelApplicationDetail = React.lazy(
-  () => import("./features/apanel/pages/ApanelApplicationDetail"),
+const ApanelApplicationsWorkflow = React.lazy(
+  () => import("./features/apanel/pages/ApanelApplicationsWorkflow"),
 );
 const ApanelTranslations = React.lazy(
   () => import("./features/apanel/pages/ApanelTranslations"),
@@ -155,13 +164,22 @@ const ApanelLayout = React.lazy(
 
 // Student Protected Route wrapper — redirects to /student/login if not authenticated
 function StudentRoute({ children }) {
-  const { isAuthenticated, loading } = useAuth();
+  const { isAuthenticated, loading, user } = useAuth();
 
   if (loading) {
     return <LoadingState message="Checking session..." height="h-screen" />;
   }
 
   if (!isAuthenticated) {
+    return <Navigate to="/student/login" replace />;
+  }
+
+  const roles = user?.roles || [];
+  if (roles.includes("apanel")) {
+    return <Navigate to="/apanel/dashboard" replace />;
+  }
+
+  if (roles.length > 0 && !roles.includes("student")) {
     return <Navigate to="/student/login" replace />;
   }
 
@@ -334,6 +352,26 @@ function AppContent() {
               }
             />
             <Route
+              path="/student/academic-information"
+              element={
+                <StudentRoute>
+                  <StudentLayout>
+                    <StudentAcademicInformation />
+                  </StudentLayout>
+                </StudentRoute>
+              }
+            />
+            <Route
+              path="/student/equivalency"
+              element={
+                <StudentRoute>
+                  <StudentLayout>
+                    <StudentEquivalency />
+                  </StudentLayout>
+                </StudentRoute>
+              }
+            />
+            <Route
               path="/student/notifications"
               element={
                 <StudentRoute>
@@ -359,6 +397,16 @@ function AppContent() {
                 <StudentRoute>
                   <StudentLayout>
                     <StudentPayments />
+                  </StudentLayout>
+                </StudentRoute>
+              }
+            />
+            <Route
+              path="/student/admission"
+              element={
+                <StudentRoute>
+                  <StudentLayout>
+                    <StudentAdmission />
                   </StudentLayout>
                 </StudentRoute>
               }
@@ -629,11 +677,71 @@ function AppContent() {
               }
             />
             <Route
+              path="/apanel/applications"
+              element={
+                <AdminRoute>
+                  <ApanelLayout>
+                    <ApanelApplicationsWorkflow />
+                  </ApanelLayout>
+                </AdminRoute>
+              }
+            />
+            <Route
               path="/apanel/applications/:id"
               element={
                 <AdminRoute>
                   <ApanelLayout>
-                    <ApanelApplicationDetail />
+                    <ApanelApplicationsWorkflow />
+                  </ApanelLayout>
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/apanel/applications/:id/documents"
+              element={
+                <AdminRoute>
+                  <ApanelLayout>
+                    <ApanelApplicationsWorkflow />
+                  </ApanelLayout>
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/apanel/applications/:id/equivalency"
+              element={
+                <AdminRoute>
+                  <ApanelLayout>
+                    <ApanelApplicationsWorkflow />
+                  </ApanelLayout>
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/apanel/applications/:id/payments"
+              element={
+                <AdminRoute>
+                  <ApanelLayout>
+                    <ApanelApplicationsWorkflow />
+                  </ApanelLayout>
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/apanel/applications/:id/final-review"
+              element={
+                <AdminRoute>
+                  <ApanelLayout>
+                    <ApanelApplicationsWorkflow />
+                  </ApanelLayout>
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/apanel/applications/:id/admission"
+              element={
+                <AdminRoute>
+                  <ApanelLayout>
+                    <ApanelApplicationsWorkflow />
                   </ApanelLayout>
                 </AdminRoute>
               }

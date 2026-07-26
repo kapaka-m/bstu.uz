@@ -176,18 +176,58 @@ export default function ApanelLayout({ children }) {
       title: "Admissions & Students",
       links: [
         { path: "/apanel/students", label: "Students", icon: User },
+      ],
+    },
+    {
+      title: "Applications",
+      links: [
         {
           path: "/apanel/applications",
-          label: "Applications",
+          label: "All Applications",
           icon: ClipboardList,
         },
         {
-          path: "/apanel/application-documents",
-          label: "Documents",
+          path: "/apanel/applications?stage=documents",
+          label: "Documents Review",
           icon: FileCheck,
         },
-        { path: "/apanel/contracts", label: "Contracts", icon: FileCheck },
-        { path: "/apanel/payments", label: "Payments", icon: CreditCard },
+        {
+          path: "/apanel/applications?stage=equivalency",
+          label: "Academic Review",
+          icon: GraduationCap,
+        },
+        {
+          path: "/apanel/applications?stage=payments",
+          label: "Payments Review",
+          icon: CreditCard,
+        },
+        {
+          path: "/apanel/applications?stage=final-review",
+          label: "Final Review",
+          icon: FileCheck,
+        },
+        {
+          path: "/apanel/applications?stage=admissions",
+          label: "Admissions",
+          icon: Shield,
+        },
+        {
+          path: "/apanel/countries",
+          label: "Countries",
+          icon: Globe,
+        },
+        {
+          path: "/apanel/nationalities",
+          label: "Nationalities",
+          icon: Globe,
+        },
+      ],
+    },
+    {
+      title: "Student Services",
+      links: [
+        { path: "/apanel/application-documents", label: "Legacy Documents", icon: FileCheck },
+        { path: "/apanel/payments", label: "Legacy Payments", icon: CreditCard },
         {
           path: "/apanel/support-tickets",
           label: "Support Tickets",

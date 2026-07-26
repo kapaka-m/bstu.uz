@@ -10,7 +10,9 @@ use App\Models\AnnouncementSetting;
 use App\Models\AdministrationProfile;
 use App\Models\AdministrationSetting;
 use App\Models\Application;
+use App\Models\ApplicationCountry;
 use App\Models\ApplicationDocument;
+use App\Models\ApplicationNationality;
 use App\Models\ApplicationStatusHistory;
 use App\Models\AuditLog;
 use App\Models\Blog;
@@ -106,6 +108,8 @@ class AdminCrudController extends Controller
         'permissions' => Permission::class,
         'students' => StudentProfile::class,
         'applications' => Application::class,
+        'countries' => ApplicationCountry::class,
+        'nationalities' => ApplicationNationality::class,
         'application-documents' => ApplicationDocument::class,
         'contracts' => Contract::class,
         'payments' => Payment::class,
@@ -2023,6 +2027,12 @@ class AdminCrudController extends Controller
             }
         }
 
+        if (in_array($resource, ['countries', 'nationalities'], true)) {
+            if (array_key_exists('code', $validated) && trim((string) $validated['code']) === '') {
+                $validated['code'] = null;
+            }
+        }
+
         return $validated;
     }
 
@@ -2350,6 +2360,21 @@ class AdminCrudController extends Controller
                     'status' => 'required|string|in:draft,submitted,under_review,missing_documents,accepted,rejected,contract_pending,payment_pending,enrolled,active_student,graduated',
                     'note' => 'nullable|string',
                     'comment' => 'nullable|string',
+                ];
+            case 'countries':
+                return [
+                    'name' => 'required|string|max:120|unique:application_countries,name,'.$id,
+                    'code' => 'nullable|string|max:3|unique:application_countries,code,'.$id,
+                    'is_active' => 'boolean',
+                    'sort_order' => 'nullable|integer|min:0',
+                ];
+            case 'nationalities':
+                return [
+                    'name' => 'required|string|max:120|unique:application_nationalities,name,'.$id,
+                    'country_name' => 'nullable|string|max:120',
+                    'code' => 'nullable|string|max:3|unique:application_nationalities,code,'.$id,
+                    'is_active' => 'boolean',
+                    'sort_order' => 'nullable|integer|min:0',
                 ];
             case 'application-documents':
                 return [

@@ -8,17 +8,28 @@ class StudentProfile extends Model
 {
     protected $fillable = [
         'user_id',
+        'full_name_english',
         'phone',
+        'alternative_phone',
+        'preferred_messenger',
+        'telegram_username',
         'gender',
         'birth_date',
+        'country_of_birth',
+        'place_of_birth',
         'passport_number',
+        'passport_type',
+        'passport_issue_date',
         'passport_expiry_date',
+        'passport_issuing_country',
+        'passport_place_of_issue',
         'nationality',
         'address',
     ];
 
     protected $casts = [
         'birth_date' => 'date',
+        'passport_issue_date' => 'date',
         'passport_expiry_date' => 'date',
     ];
 

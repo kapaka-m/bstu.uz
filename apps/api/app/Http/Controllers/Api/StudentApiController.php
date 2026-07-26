@@ -436,7 +436,7 @@ class StudentApiController extends Controller
             return $this->errorResponse('Notification not found', 404);
         }
 
-        $notif->update(['is_read' => true]);
+        $notif->update(['is_read' => true, 'read_at' => now()]);
 
         return $this->successResponse($notif, 'Notification marked as read');
     }
@@ -445,7 +445,7 @@ class StudentApiController extends Controller
     {
         Notification::where('user_id', $this->currentUserId())
             ->where('is_read', false)
-            ->update(['is_read' => true]);
+            ->update(['is_read' => true, 'read_at' => now()]);
 
         return $this->successResponse(null, 'All notifications marked as read');
     }

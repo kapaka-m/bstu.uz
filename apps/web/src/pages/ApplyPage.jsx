@@ -1,706 +1,570 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import {
-  User, Mail, Phone, Globe, Calendar, FileText,
-  GraduationCap, BookOpen, CheckCircle2, ChevronRight,
-  ChevronLeft, ArrowLeft, Loader2, Shield, Star
+  AlertCircle,
+  Calendar,
+  CheckCircle2,
+  ChevronLeft,
+  ChevronRight,
+  Eye,
+  EyeOff,
+  GraduationCap,
+  Loader2,
+  Lock,
+  Mail,
+  Phone,
+  Shield,
+  User,
 } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
-import { programService } from "../services/programService";
+import { authStorage } from "../lib/auth";
+import { initialApplicationService } from "../services/initialApplicationService";
 
-const STEPS = [1, 2, 3];
+const steps = ["personal", "academic", "review"];
 
-const stepVariants = {
-  enter: (dir) => ({ opacity: 0, x: dir > 0 ? 60 : -60 }),
-  center: { opacity: 1, x: 0 },
-  exit: (dir) => ({ opacity: 0, x: dir > 0 ? -60 : 60 }),
-};
-
-// ── Translations ──────────────────────────────────────────────────────────────
-const applyT = {
+const labels = {
   en: {
-    pageTitle: "Apply to BSTU",
-    pageSubtitle: "Begin your academic journey — Complete your application in 3 easy steps",
-    step1Label: "Personal Info",
-    step2Label: "Academic Info",
-    step3Label: "Review & Submit",
-    firstName: "First Name",
-    lastName: "Last Name",
-    dateOfBirth: "Date of Birth",
+    title: "International Student Application",
+    subtitle: "Create your student account and submit the first application step.",
+    personal: "Personal Info",
+    academic: "Academic Info",
+    review: "Login, Security & Review Submit",
+    passportHint: "Enter your full name exactly as shown in your passport.",
+    fullName: "Full Name in English",
+    birthDate: "Date of Birth",
+    countryBirth: "Country of Birth",
+    placeBirth: "Place of Birth",
     nationality: "Nationality",
-    email: "Email Address",
-    emailPlaceholder: "you@example.com",
-    phone: "Phone Number",
     gender: "Gender",
-    male: "Male",
-    female: "Female",
-    passport: "Passport / National ID No.",
-    chooseProgram: "Choose Your Program",
-    degreeLevel: "Degree Level",
-    bachelor: "Bachelor",
-    master: "Master",
-    phd: "PhD",
-    prevInstitution: "Previous Educational Institution",
-    gradYear: "Graduation Year",
-    gpa: "GPA / Final Grade Average",
-    studyLanguage: "Preferred Language of Study",
-    uzbek: "Uzbek",
-    russian: "Russian",
-    english: "English",
-    motivation: "Motivation Letter (Optional)",
-    motivationPlaceholder: "Briefly describe why you want to study at BSTU and what drives your interest in the chosen program...",
-    reviewTitle: "Review Your Application",
-    reviewSubtitle: "Please verify all details before submitting.",
-    personalSection: "Personal Information",
-    academicSection: "Academic Information",
-    editBtn: "Edit",
-    agree: "I confirm that all information provided is accurate and I agree to the",
-    termsLink: "Terms & Conditions",
-    submitBtn: "Submit Application",
-    submitting: "Submitting...",
+    passportNumber: "Passport Number",
+    passportType: "Passport Type",
+    issueDate: "Passport Issue Date",
+    expiryDate: "Passport Expiry Date",
+    issuingCountry: "Passport Issuing Country",
+    placeIssue: "Passport Place of Issue",
+    primaryPhone: "Primary Phone Number",
+    messenger: "Preferred Messenger",
+    telegram: "Telegram Username",
+    alternativePhone: "Alternative Phone Number",
+    degree: "Degree Level",
+    studentType: "Student Type",
+    educationType: "Education Type",
+    faculty: "Faculty",
+    program: "Program / Specialization",
+    language: "Study Language",
+    intake: "Intended Intake",
+    duration: "Estimated Duration",
+    transferNote: "Your study year and final study duration will be determined after the university reviews your transcript and completes the academic equivalency.",
+    email: "Email Address",
+    password: "Password",
+    confirmPassword: "Confirm Password",
+    terms: "I agree to the Terms and Conditions and Privacy Policy.",
+    confirm: "I confirm that the information entered is accurate and matches my passport.",
+    personalInfo: "Personal Information",
+    academicInfo: "Academic Information",
+    accountInfo: "Account Information",
+    editPersonal: "Edit Personal Info",
+    editAcademic: "Edit Academic Info",
+    editLogin: "Edit Login Information",
+    submit: "Create Account & Submit Application",
     next: "Next Step",
     back: "Back",
-    successTitle: "Application Submitted!",
-    successMsg: "Thank you for applying to Bukhara State Technical University. We have received your application and will contact you at the email address you provided within 3-5 business days.",
-    successRef: "Your reference number:",
-    backHome: "Back to Home",
-    viewPrograms: "View Programs",
-    required: "This field is required",
-    invalidEmail: "Please enter a valid email address",
-    invalidPhone: "Please enter a valid phone number",
-    stepOf: "Step {current} of {total}",
+    required: "This field is required.",
+    invalidName: "Use English capital letters, spaces, hyphen, and apostrophe only.",
+    invalidEmail: "Enter a valid email address.",
+    invalidPhone: "Use international E.164 format, for example +998901234567.",
+    duplicatePhone: "Alternative phone must be different from the primary phone.",
+    expiredPassport: "Passport must not be expired.",
+    expiryAfterIssue: "Expiry date must be after issue date.",
+    passwordWeak: "Password must be at least 8 characters and contain letters and numbers.",
+    passwordMatch: "Passwords do not match.",
+    unavailableProgram: "The selected program is not available for these options.",
+    successTitle: "Initial Application Created",
+    successText: "This is not a final admission decision. Sign in to complete documents, payments, and the next admission procedures.",
+    dashboard: "Go to Student Dashboard",
+    applicationNumber: "Application Number",
+    loading: "Loading...",
+    submitting: "Submitting...",
+    apiFailed: "Unable to submit the application. Please review the fields and try again.",
   },
-  uz: {
-    pageTitle: "BSTUga hujjat topshirish",
-    pageSubtitle: "Akademik sayohatingizni boshlang — 3 oddiy qadamda ariza to'ldiring",
-    step1Label: "Shaxsiy ma'lumot",
-    step2Label: "Ta'lim ma'lumoti",
-    step3Label: "Ko'rib chiqish va yuborish",
-    firstName: "Ism",
-    lastName: "Familiya",
-    dateOfBirth: "Tug'ilgan sana",
-    nationality: "Fuqaroligi",
-    email: "Elektron pochta",
-    emailPlaceholder: "siz@example.com",
-    phone: "Telefon raqami",
-    gender: "Jinsi",
-    male: "Erkak",
-    female: "Ayol",
-    passport: "Pasport / Milliy ID raqami",
-    chooseProgram: "Dasturni tanlang",
-    degreeLevel: "Ta'lim darajasi",
-    bachelor: "Bakalavr",
-    master: "Magistr",
-    phd: "PhD",
-    prevInstitution: "Avvalgi ta'lim muassasasi",
-    gradYear: "Bitirish yili",
-    gpa: "O'rtacha baho (GPA)",
-    studyLanguage: "O'qish tili",
-    uzbek: "O'zbek",
-    russian: "Rus",
-    english: "Ingliz",
-    motivation: "Motivatsiya xati (ixtiyoriy)",
-    motivationPlaceholder: "BSTUda o'qishni nima uchun xohlashingiz va tanlagan dasturga qiziqishingiz sababini qisqacha tasvirlab bering...",
-    reviewTitle: "Arizangizni ko'rib chiqing",
-    reviewSubtitle: "Yuborishdan oldin barcha ma'lumotlarni tekshiring.",
-    personalSection: "Shaxsiy ma'lumotlar",
-    academicSection: "Ta'lim ma'lumotlari",
-    editBtn: "Tahrirlash",
-    agree: "Barcha taqdim etilgan ma'lumotlar to'g'ri ekanligini tasdiqlaymen va",
-    termsLink: "Shartlar va qoidalar",
-    submitBtn: "Arizani yuborish",
-    submitting: "Yuborilmoqda...",
-    next: "Keyingi qadam",
-    back: "Orqaga",
-    successTitle: "Ariza yuborildi!",
-    successMsg: "Buxoro Davlat Texnik Universitetiga arizangiz uchun rahmat. Arizangizni qabul qildik va 3-5 ish kuni ichida siz ko'rsatgan elektron pochta manzilingizga murojaat qilamiz.",
-    successRef: "Sizning ma'lumotnoma raqamingiz:",
-    backHome: "Bosh sahifaga qaytish",
-    viewPrograms: "Dasturlarni ko'rish",
-    required: "Bu maydon majburiy",
-    invalidEmail: "Iltimos, to'g'ri elektron pochta manzilini kiriting",
-    invalidPhone: "Iltimos, to'g'ri telefon raqamini kiriting",
-    stepOf: "{current}/{total}-qadam",
-  },
-  ru: {
-    pageTitle: "Подать заявку в БГТУ",
-    pageSubtitle: "Начните свой академический путь — заполните заявку в 3 простых шага",
-    step1Label: "Личная информация",
-    step2Label: "Учебная информация",
-    step3Label: "Проверка и отправка",
-    firstName: "Имя",
-    lastName: "Фамилия",
-    dateOfBirth: "Дата рождения",
-    nationality: "Гражданство",
-    email: "Электронная почта",
-    emailPlaceholder: "you@example.com",
-    phone: "Номер телефона",
-    gender: "Пол",
-    male: "Мужской",
-    female: "Женский",
-    passport: "Паспорт / Номер удостоверения личности",
-    chooseProgram: "Выберите программу",
-    degreeLevel: "Уровень образования",
-    bachelor: "Бакалавриат",
-    master: "Магистратура",
-    phd: "Докторантура",
-    prevInstitution: "Предыдущее учебное заведение",
-    gradYear: "Год окончания",
-    gpa: "Средний балл (GPA)",
-    studyLanguage: "Язык обучения",
-    uzbek: "Узбекский",
-    russian: "Русский",
-    english: "Английский",
-    motivation: "Мотивационное письмо (по желанию)",
-    motivationPlaceholder: "Кратко опишите, почему вы хотите учиться в БГТУ и что побуждает вас к выбранной программе...",
-    reviewTitle: "Проверьте свою заявку",
-    reviewSubtitle: "Пожалуйста, проверьте все данные перед отправкой.",
-    personalSection: "Личная информация",
-    academicSection: "Учебная информация",
-    editBtn: "Изменить",
-    agree: "Я подтверждаю, что все предоставленные данные достоверны, и соглашаюсь с",
-    termsLink: "Правилами и условиями",
-    submitBtn: "Отправить заявку",
-    submitting: "Отправка...",
-    next: "Следующий шаг",
-    back: "Назад",
-    successTitle: "Заявка подана!",
-    successMsg: "Спасибо за вашу заявку в Бухарский государственный технический университет. Мы получили вашу заявку и свяжемся с вами по указанному адресу электронной почты в течение 3-5 рабочих дней.",
-    successRef: "Ваш регистрационный номер:",
-    backHome: "На главную",
-    viewPrograms: "Просмотр программ",
-    required: "Это поле обязательно",
-    invalidEmail: "Пожалуйста, введите действительный адрес электронной почты",
-    invalidPhone: "Пожалуйста, введите действительный номер телефона",
-    stepOf: "Шаг {current} из {total}",
-  },
-  ar: {
-    pageTitle: "التقديم في BSTU",
-    pageSubtitle: "ابدأ رحلتك الأكاديمية — أكمل طلبك في 3 خطوات بسيطة",
-    step1Label: "المعلومات الشخصية",
-    step2Label: "المعلومات الأكاديمية",
-    step3Label: "المراجعة والإرسال",
-    firstName: "الاسم الأول",
-    lastName: "الاسم الأخير",
-    dateOfBirth: "تاريخ الميلاد",
-    nationality: "الجنسية",
-    email: "البريد الإلكتروني",
-    emailPlaceholder: "you@example.com",
-    phone: "رقم الهاتف",
-    gender: "الجنس",
-    male: "ذكر",
-    female: "أنثى",
-    passport: "رقم جواز السفر / الهوية الوطنية",
-    chooseProgram: "اختر برنامجك",
-    degreeLevel: "مستوى الدراسة",
-    bachelor: "بكالوريوس",
-    master: "ماجستير",
-    phd: "دكتوراه",
-    prevInstitution: "المؤسسة التعليمية السابقة",
-    gradYear: "سنة التخرج",
-    gpa: "المعدل التراكمي / متوسط الدرجات",
-    studyLanguage: "لغة الدراسة المفضلة",
-    uzbek: "الأوزبكية",
-    russian: "الروسية",
-    english: "الإنجليزية",
-    motivation: "خطاب الدوافع (اختياري)",
-    motivationPlaceholder: "صف باختصار سبب رغبتك في الدراسة في BSTU وما الذي يحفزك نحو البرنامج المختار...",
-    reviewTitle: "راجع طلبك",
-    reviewSubtitle: "يرجى التحقق من جميع التفاصيل قبل الإرسال.",
-    personalSection: "المعلومات الشخصية",
-    academicSection: "المعلومات الأكاديمية",
-    editBtn: "تعديل",
-    agree: "أؤكد أن جميع المعلومات المقدمة دقيقة وأوافق على",
-    termsLink: "الشروط والأحكام",
-    submitBtn: "إرسال الطلب",
-    submitting: "جارٍ الإرسال...",
-    next: "الخطوة التالية",
-    back: "رجوع",
-    successTitle: "تم إرسال الطلب!",
-    successMsg: "شكراً لتقديم طلبك في جامعة بخارى التقنية الحكومية. لقد استلمنا طلبك وسنتواصل معك على عنوان البريد الإلكتروني المقدم خلال 3-5 أيام عمل.",
-    successRef: "رقم مرجعك:",
-    backHome: "العودة للرئيسية",
-    viewPrograms: "عرض البرامج",
-    required: "هذا الحقل مطلوب",
-    invalidEmail: "يرجى إدخال عنوان بريد إلكتروني صحيح",
-    invalidPhone: "يرجى إدخال رقم هاتف صحيح",
-    stepOf: "الخطوة {current} من {total}",
-  }
+  uz: {},
+  ru: {},
+  ar: {},
 };
 
-function generateRefNumber() {
-  return "BSTU-" + new Date().getFullYear() + "-" + Math.random().toString(36).toUpperCase().slice(2, 8);
+labels.uz = { ...labels.en, title: "Xalqaro talaba arizasi", subtitle: "Talaba akkauntini yarating va dastlabki arizani yuboring.", personal: "Shaxsiy ma'lumot", academic: "Ta'lim ma'lumoti", review: "Kirish, xavfsizlik va yuborish", next: "Keyingi", back: "Orqaga", dashboard: "Talaba kabinetiga o'tish" };
+labels.ru = { ...labels.en, title: "Заявка иностранного студента", subtitle: "Создайте аккаунт студента и отправьте первый этап заявки.", personal: "Личная информация", academic: "Учебная информация", review: "Логин, безопасность и отправка", next: "Далее", back: "Назад", dashboard: "Перейти в кабинет студента" };
+labels.ar = { ...labels.en, title: "تقديم الطلاب الدوليين", subtitle: "أنشئ حساب الطالب وأرسل المرحلة الأولى من الطلب.", personal: "المعلومات الشخصية", academic: "المعلومات الأكاديمية", review: "الدخول والأمان والمراجعة", next: "التالي", back: "رجوع", dashboard: "الدخول إلى لوحة الطالب" };
+
+const initialForm = {
+  full_name_english: "",
+  birth_date: "",
+  country_of_birth: "",
+  place_of_birth: "",
+  nationality: "",
+  gender: "",
+  passport_number: "",
+  passport_type: "",
+  passport_issue_date: "",
+  passport_expiry_date: "",
+  passport_issuing_country: "",
+  passport_place_of_issue: "",
+  primary_phone: "",
+  preferred_messenger: "",
+  telegram_username: "",
+  alternative_phone: "",
+  degree_level: "",
+  student_type: "new",
+  education_type: "",
+  faculty_id: "",
+  program_id: "",
+  study_language: "",
+  intended_intake: "",
+  email: "",
+  password: "",
+  password_confirmation: "",
+  terms_agreement: false,
+  information_confirmation: false,
+};
+
+const cleanPhone = (value) => value.replace(/[^\d+]/g, "");
+const titleCase = (value) => String(value || "").replace(/_/g, " ").replace(/\b\w/g, (char) => char.toUpperCase());
+
+function Field({ id, label, error, children, hint }) {
+  return (
+    <div className="space-y-1.5">
+      <label htmlFor={id} className="text-[11px] font-extrabold text-navy uppercase tracking-wider">
+        {label}
+      </label>
+      {children}
+      {hint && <p className="text-[11px] font-semibold text-gray-400">{hint}</p>}
+      {error && <p className="text-xs font-bold text-red-500">{error}</p>}
+    </div>
+  );
 }
 
-// ── Shared form sub-components (defined OUTSIDE render) ───────────────────────
-function InputField({ label, id, type = "text", value, onChange, placeholder, required, error, icon: Icon }) {
+function Input({ id, label, error, hint, icon: Icon, ...props }) {
   return (
-    <div className="flex flex-col gap-1.5">
-      <label htmlFor={id} className="text-xs font-bold text-navy">
-        {label}{required && <span className="text-red-500 ms-1">*</span>}
-      </label>
+    <Field id={id} label={label} error={error} hint={hint}>
       <div className="relative">
-        {Icon && (
-          <span className="absolute inset-s-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
-            <Icon className="w-4 h-4" />
-          </span>
-        )}
+        {Icon && <Icon className="absolute left-3 top-3.5 w-4 h-4 text-gray-400" />}
         <input
           id={id}
-          type={type}
-          value={value}
-          onChange={onChange}
-          placeholder={placeholder}
-          className={`w-full bg-white border ${error ? "border-red-400 focus:ring-red-200" : "border-gray-200 focus:ring-primary/20"} rounded-xl px-4 py-2.5 text-sm text-navy placeholder:text-gray-300 outline-none focus:border-primary focus:ring-2 transition-all duration-200 ${Icon ? "ps-10" : ""}`}
+          aria-invalid={Boolean(error)}
+          className={`w-full ${Icon ? "pl-10" : "pl-4"} pr-4 py-3 rounded-xl border text-sm font-semibold outline-none focus:ring-2 bg-white ${error ? "border-red-300 focus:ring-red-100" : "border-gray-200 focus:border-primary focus:ring-primary/15"}`}
+          {...props}
         />
       </div>
-      {error && <span className="text-xs text-red-500 font-semibold">{error}</span>}
-    </div>
+    </Field>
   );
 }
 
-function SelectField({ label, id, value, onChange, options, required, error, icon: Icon }) {
+function Select({ id, label, error, options, ...props }) {
   return (
-    <div className="flex flex-col gap-1.5">
-      <label htmlFor={id} className="text-xs font-bold text-navy">
-        {label}{required && <span className="text-red-500 ms-1">*</span>}
-      </label>
-      <div className="relative">
-        {Icon && (
-          <span className="absolute inset-s-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
-            <Icon className="w-4 h-4" />
-          </span>
-        )}
-        <select
-          id={id}
-          value={value}
-          onChange={onChange}
-          className={`w-full bg-white border ${error ? "border-red-400 focus:ring-red-200" : "border-gray-200 focus:ring-primary/20"} rounded-xl px-4 py-2.5 text-sm text-navy outline-none focus:border-primary focus:ring-2 transition-all duration-200 ${Icon ? "ps-10" : ""} appearance-none`}
-        >
-          {options.map(opt => (
-            <option key={opt.value} value={opt.value} disabled={opt.value === ""}>{opt.label}</option>
-          ))}
-        </select>
+    <Field id={id} label={label} error={error}>
+      <select
+        id={id}
+        aria-invalid={Boolean(error)}
+        className={`w-full px-4 py-3 rounded-xl border text-sm font-semibold outline-none focus:ring-2 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-400 ${error ? "border-red-300 focus:ring-red-100" : "border-gray-200 bg-white focus:border-primary focus:ring-primary/15"}`}
+        {...props}
+      >
+        <option value="">--</option>
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>{option.label}</option>
+        ))}
+      </select>
+    </Field>
+  );
+}
+
+function ReviewBox({ title, action, children }) {
+  return (
+    <section className="rounded-2xl border border-gray-100 bg-gray-50/70 p-5">
+      <div className="mb-4 flex items-center justify-between gap-3">
+        <h3 className="text-sm font-extrabold text-navy">{title}</h3>
+        <button type="button" onClick={action.onClick} className="text-xs font-extrabold text-primary hover:underline">
+          {action.label}
+        </button>
       </div>
-      {error && <span className="text-xs text-red-500 font-semibold">{error}</span>}
-    </div>
+      <div className="divide-y divide-gray-100">{children}</div>
+    </section>
   );
 }
 
-// ReviewRow is a simple presentational component — defined at module level
-function ReviewRow({ label, value }) {
+function Row({ label, value }) {
   return (
-    <div className="flex justify-between items-start gap-4 py-2.5 border-b border-gray-50 last:border-0">
-      <span className="text-xs text-gray-400 font-semibold w-40 shrink-0">{label}</span>
-      <span className="text-xs font-bold text-navy text-end break-all">{value || "—"}</span>
+    <div className="flex justify-between gap-4 py-2 text-xs">
+      <span className="font-bold text-gray-400">{label}</span>
+      <span className="text-right font-extrabold text-navy">{value || "--"}</span>
     </div>
   );
 }
 
-// ── Main Page Component ───────────────────────────────────────────────────────
 export default function ApplyPage() {
   const { language } = useLanguage();
-  const T = applyT[language] || applyT.en;
+  const t = labels[language] || labels.en;
   const isRtl = language === "ar";
-
-  const [step, setStep] = useState(1);
-  const [dir, setDir] = useState(1);
-  const [submitted, setSubmitted] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
-  const [refNumber, setRefNumber] = useState("");
-  const [agreed, setAgreed] = useState(false);
+  const firstErrorRef = useRef(null);
+  const [step, setStep] = useState(0);
+  const [direction, setDirection] = useState(1);
+  const [form, setForm] = useState(initialForm);
+  const [metadata, setMetadata] = useState(null);
   const [errors, setErrors] = useState({});
-  const [programs, setPrograms] = useState([]);
-  const [programsLoading, setProgramsLoading] = useState(true);
-
-  const [form, setForm] = useState({
-    firstName: "", lastName: "", dateOfBirth: "", nationality: "",
-    email: "", phone: "", gender: "", passport: "",
-    program: "", degreeLevel: "bachelor", prevInstitution: "",
-    gradYear: "", gpa: "", studyLanguage: "uzbek", motivation: ""
-  });
-
-  useEffect(() => { window.scrollTo(0, 0); }, []);
+  const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [success, setSuccess] = useState(null);
 
   useEffect(() => {
     let active = true;
-    setProgramsLoading(true);
-
-    programService
-      .getPrograms()
-      .then((items) => {
-        if (active) setPrograms(items || []);
+    initialApplicationService.getMetadata()
+      .then((data) => {
+        if (!active) return;
+        setMetadata(data);
+        setForm((current) => ({
+          ...current,
+          passport_type: data.passport_types?.includes("ordinary") ? "ordinary" : data.passport_types?.[0] || "",
+          degree_level: "",
+          education_type: "",
+          study_language: "",
+          intended_intake: data.intakes?.[0] || "",
+        }));
       })
-      .catch(() => {
-        if (active) setPrograms([]);
-      })
-      .finally(() => {
-        if (active) setProgramsLoading(false);
-      });
-
-    return () => {
-      active = false;
-    };
+      .finally(() => active && setLoading(false));
+    return () => { active = false; };
   }, [language]);
 
-  const handleChange = (field) => (e) => {
-    setForm(f => ({ ...f, [field]: e.target.value }));
-    setErrors(err => ({ ...err, [field]: "" }));
+  const programs = useMemo(() => metadata?.programs || [], [metadata]);
+  const filteredFaculties = useMemo(() => {
+    if (!form.degree_level) return [];
+
+    const map = new Map();
+    programs
+      .filter((program) => program.degree === form.degree_level)
+      .forEach((program) => {
+        if (program.faculty?.id) map.set(program.faculty.id, program.faculty);
+      });
+    return [...map.values()];
+  }, [programs, form.degree_level]);
+
+  const availablePrograms = useMemo(() => {
+    if (!form.degree_level || !form.faculty_id) return [];
+
+    return programs.filter((program) =>
+      program.degree === form.degree_level
+      && String(program.faculty?.id) === String(form.faculty_id)
+    );
+  }, [programs, form.degree_level, form.faculty_id]);
+
+  const selectedProgram = programs.find((program) => String(program.id) === String(form.program_id));
+  const selectedProgramEducationTypes = selectedProgram?.available_education_types || [];
+  const selectedProgramLanguages = selectedProgram?.available_study_languages || [];
+  const passwordScore = [
+    form.password.length >= 8,
+    /[A-Za-z]/.test(form.password),
+    /\d/.test(form.password),
+    /[^A-Za-z0-9]/.test(form.password),
+  ].filter(Boolean).length;
+
+  const setValue = (field, value) => {
+    let next = value;
+    if (field === "full_name_english") next = value.toUpperCase().replace(/[^A-Z\s'-]/g, "");
+    if (field === "place_of_birth") next = value.replace(/[^A-Za-z\s'-]/g, "");
+    if (field === "passport_number") next = value.toUpperCase().replace(/\s+/g, "").replace(/[^A-Z0-9-]/g, "");
+    if (field === "email") next = value.trim().toLowerCase();
+    if (field.includes("phone")) next = cleanPhone(value);
+
+    setForm((current) => {
+      const updated = { ...current, [field]: next };
+      if (field === "degree_level") {
+        updated.faculty_id = "";
+        updated.program_id = "";
+        updated.education_type = "";
+        updated.study_language = "";
+      }
+      if (field === "faculty_id") {
+        updated.program_id = "";
+        updated.education_type = "";
+        updated.study_language = "";
+      }
+      if (field === "program_id") {
+        updated.education_type = "";
+        updated.study_language = "";
+      }
+      return updated;
+    });
+    setErrors((current) => ({ ...current, [field]: "" }));
   };
 
-  const validateStep1 = () => {
+  const validate = (targetStep = step) => {
     const e = {};
-    if (!form.firstName.trim()) e.firstName = T.required;
-    if (!form.lastName.trim()) e.lastName = T.required;
-    if (!form.dateOfBirth) e.dateOfBirth = T.required;
-    if (!form.nationality.trim()) e.nationality = T.required;
-    if (!form.email.trim()) e.email = T.required;
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = T.invalidEmail;
-    if (!form.phone.trim()) e.phone = T.required;
-    else if (!/^[\d\s+\-()]{7,}$/.test(form.phone)) e.phone = T.invalidPhone;
-    if (!form.gender) e.gender = T.required;
+    const required = (field) => { if (!String(form[field] || "").trim()) e[field] = t.required; };
+
+    if (targetStep === 0) {
+      ["full_name_english", "birth_date", "country_of_birth", "place_of_birth", "nationality", "gender", "passport_number", "passport_type", "passport_issue_date", "passport_expiry_date", "passport_issuing_country", "passport_place_of_issue", "primary_phone", "preferred_messenger"].forEach(required);
+      if (form.full_name_english && !/^[A-Z][A-Z\s'-]*$/.test(form.full_name_english)) e.full_name_english = t.invalidName;
+      if (form.place_of_birth && !/^[A-Za-z][A-Za-z\s'-]*$/.test(form.place_of_birth)) e.place_of_birth = t.invalidName;
+      if (form.birth_date && form.birth_date > new Date().toISOString().slice(0, 10)) e.birth_date = t.required;
+      if (form.passport_expiry_date && form.passport_expiry_date <= new Date().toISOString().slice(0, 10)) e.passport_expiry_date = t.expiredPassport;
+      if (form.passport_issue_date && form.passport_expiry_date && form.passport_expiry_date <= form.passport_issue_date) e.passport_expiry_date = t.expiryAfterIssue;
+      if (form.primary_phone && !/^\+[1-9]\d{7,14}$/.test(form.primary_phone)) e.primary_phone = t.invalidPhone;
+      if (form.alternative_phone && !/^\+[1-9]\d{7,14}$/.test(form.alternative_phone)) e.alternative_phone = t.invalidPhone;
+      if (form.alternative_phone && form.alternative_phone === form.primary_phone) e.alternative_phone = t.duplicatePhone;
+    }
+
+    if (targetStep === 1) {
+      ["degree_level", "student_type", "education_type", "faculty_id", "program_id", "study_language", "intended_intake"].forEach(required);
+      if (form.program_id && !availablePrograms.some((program) => String(program.id) === String(form.program_id))) e.program_id = t.unavailableProgram;
+      if (form.education_type && !selectedProgramEducationTypes.includes(form.education_type)) e.education_type = t.unavailableProgram;
+      if (form.study_language && !selectedProgramLanguages.includes(form.study_language)) e.study_language = t.unavailableProgram;
+    }
+
+    if (targetStep === 2) {
+      ["email", "password", "password_confirmation"].forEach(required);
+      if (form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = t.invalidEmail;
+      if (form.password && !/^(?=.*[A-Za-z])(?=.*\d).{8,}$/.test(form.password)) e.password = t.passwordWeak;
+      if (form.password !== form.password_confirmation) e.password_confirmation = t.passwordMatch;
+      if (!form.terms_agreement) e.terms_agreement = t.required;
+      if (!form.information_confirmation) e.information_confirmation = t.required;
+    }
+
     setErrors(e);
-    return Object.keys(e).length === 0;
+    return e;
   };
 
-  const validateStep2 = () => {
-    const e = {};
-    if (!form.program) e.program = T.required;
-    if (!form.prevInstitution.trim()) e.prevInstitution = T.required;
-    if (!form.gradYear) e.gradYear = T.required;
-    setErrors(e);
-    return Object.keys(e).length === 0;
+  const focusFirstError = () => {
+    setTimeout(() => {
+      const first = document.querySelector("[aria-invalid='true']");
+      if (first) first.focus();
+      firstErrorRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 0);
   };
 
-  const goNext = () => {
-    let valid = false;
-    if (step === 1) valid = validateStep1();
-    if (step === 2) valid = validateStep2();
-    if (step === 3) valid = true;
-    if (valid) { setDir(1); setStep(s => s + 1); window.scrollTo(0, 0); }
-  };
-
-  const goBack = () => {
-    setDir(-1);
-    setStep(s => s - 1);
+  const next = () => {
+    const e = validate(step);
+    if (Object.keys(e).length) return focusFirstError();
+    setDirection(1);
+    setStep((current) => current + 1);
     window.scrollTo(0, 0);
   };
 
-  const handleSubmit = async () => {
-    if (!agreed) { setErrors(e => ({ ...e, agreed: T.required })); return; }
+  const back = () => {
+    setDirection(-1);
+    setStep((current) => Math.max(0, current - 1));
+    window.scrollTo(0, 0);
+  };
+
+  const submit = async () => {
+    const e = validate(2);
+    if (Object.keys(e).length) return focusFirstError();
     setSubmitting(true);
-    await new Promise(r => setTimeout(r, 2000));
-    setRefNumber(generateRefNumber());
-    setSubmitted(true);
-    setSubmitting(false);
-    window.scrollTo(0, 0);
+    setErrors({});
+    try {
+      const data = await initialApplicationService.submit(form);
+      authStorage.setToken(data.access_token);
+      authStorage.setUser(data.user);
+      setSuccess(data);
+      window.scrollTo(0, 0);
+    } catch (err) {
+      setErrors(err?.errors || { form: err?.message || t.apiFailed });
+      focusFirstError();
+    } finally {
+      setSubmitting(false);
+    }
   };
 
-  const programOptions = [
-    {
-      value: "",
-      label: programsLoading ? T.submitting : isRtl ? "— اختر برنامجًا —"
-        : language === "uz" ? "— Dastur tanlang —"
-        : language === "ru" ? "— Выберите программу —"
-        : "— Select a Program —"
-    },
-    ...programs.map(p => ({
-      value: p.slug || p.id,
-      label: [p.display_code || p.official_code, p.name].filter(Boolean).join(" - ")
-    }))
-  ];
+  const goDashboard = () => {
+    window.location.assign("/student/dashboard");
+  };
 
-  const selectedProgram = programs.find(p => (p.slug || p.id) === form.program);
-  const selectedProgramName = selectedProgram?.name || "—";
+  if (loading) {
+    return <div className="min-h-screen pt-24 flex items-center justify-center"><Loader2 className="w-8 h-8 animate-spin text-primary" /></div>;
+  }
 
-  // ── Success screen ──────────────────────────────────────────────────────────
-  if (submitted) {
+  if (success) {
     return (
-      <div className="min-h-screen pt-20 bg-primary-light/30 flex items-center justify-center p-6">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.92 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="bg-white border border-gray-100 rounded-4xl shadow-xl max-w-lg w-full p-10 text-center"
-        >
-          <div className="w-20 h-20 rounded-full bg-emerald-100 text-emerald-500 flex items-center justify-center mx-auto mb-6">
-            <CheckCircle2 className="w-10 h-10" />
+      <div className="min-h-screen pt-24 bg-primary-light/40 px-4 py-10">
+        <div className="mx-auto max-w-2xl rounded-3xl border border-gray-100 bg-white p-8 text-center shadow-sm">
+          <CheckCircle2 className="mx-auto mb-5 h-14 w-14 text-emerald-500" />
+          <h1 className="mb-2 text-2xl font-extrabold text-navy">{t.successTitle}</h1>
+          <p className="mx-auto mb-6 max-w-xl text-sm font-semibold leading-relaxed text-gray-500">{t.successText}</p>
+          <div className="mb-6 rounded-2xl border border-primary/10 bg-primary/5 p-5">
+            <p className="text-xs font-bold text-gray-400">{t.fullName}</p>
+            <p className="mb-3 text-lg font-extrabold text-navy">{form.full_name_english}</p>
+            <p className="text-xs font-bold text-gray-400">{t.applicationNumber}</p>
+            <p className="text-xl font-black tracking-widest text-primary">{success.application_number}</p>
+            <p className="mt-3 text-xs font-bold text-gray-400">{form.email}</p>
           </div>
-          <h1 className="text-2xl font-extrabold text-navy mb-3">{T.successTitle}</h1>
-          <p className="text-gray-500 text-sm leading-relaxed mb-6">{T.successMsg}</p>
-          <div className="bg-primary/5 border border-primary/20 rounded-2xl px-6 py-4 mb-8">
-            <p className="text-xs text-gray-400 font-semibold mb-1">{T.successRef}</p>
-            <p className="text-xl font-black text-primary tracking-widest">{refNumber}</p>
-          </div>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link to="/" className="inline-flex items-center justify-center gap-2 bg-navy text-white px-6 py-3 rounded-xl text-sm font-bold hover:bg-primary transition-colors">
-              {T.backHome}
-            </Link>
-            <Link to="/programs" className="inline-flex items-center justify-center gap-2 border border-gray-200 text-navy px-6 py-3 rounded-xl text-sm font-bold hover:border-primary hover:text-primary transition-colors">
-              {T.viewPrograms}
-            </Link>
-          </div>
-        </motion.div>
+          <button onClick={goDashboard} className="rounded-xl bg-primary px-6 py-3 text-sm font-extrabold text-white shadow-md shadow-primary/20 hover:bg-primary-hover">
+            {t.dashboard}
+          </button>
+        </div>
       </div>
     );
   }
 
-  // ── Main form ───────────────────────────────────────────────────────────────
   return (
-    <div className="min-h-screen pt-20 bg-primary-light/30" dir={isRtl ? "rtl" : "ltr"}>
-      {/* Hero Header */}
-      <div className="bg-navy py-12 px-4">
-        <div className="container mx-auto max-w-4xl text-center">
-          <div className="inline-flex items-center gap-2 bg-white/10 text-white text-[11px] font-extrabold uppercase tracking-widest px-4 py-1.5 rounded-full mb-4">
-            <GraduationCap className="w-4 h-4" />
-            {T.pageTitle}
-          </div>
-          <h1 className="text-2xl md:text-3xl font-extrabold text-white mb-2">{T.pageTitle}</h1>
-          <p className="text-white/70 text-sm font-semibold">{T.pageSubtitle}</p>
+    <div className="min-h-screen bg-primary-light/35 pt-20" dir={isRtl ? "rtl" : "ltr"}>
+      <header className="bg-navy px-4 py-12 text-center text-white">
+        <div className="mx-auto max-w-4xl">
+          <GraduationCap className="mx-auto mb-3 h-10 w-10 text-primary" />
+          <h1 className="text-2xl font-extrabold md:text-4xl">{t.title}</h1>
+          <p className="mt-3 text-sm font-semibold text-white/70">{t.subtitle}</p>
         </div>
-      </div>
+      </header>
 
-      <div className="container mx-auto max-w-3xl px-4 py-12">
-
-        {/* ── Stepper ── */}
-        <div className="flex items-center justify-center gap-0 mb-12">
-          {STEPS.map((s, i) => (
-            <React.Fragment key={s}>
-              <div className="flex flex-col items-center">
-                <div className={`w-10 h-10 rounded-full flex items-center justify-center font-black text-sm border-2 transition-all duration-300 ${
-                  step > s ? "bg-emerald-500 border-emerald-500 text-white" :
-                  step === s ? "bg-primary border-primary text-white shadow-lg shadow-primary/30" :
-                  "bg-white border-gray-200 text-gray-400"
-                }`}>
-                  {step > s ? <CheckCircle2 className="w-5 h-5" /> : s}
-                </div>
-                <span className={`text-[10px] font-extrabold mt-2 max-w-20 text-center ${step === s ? "text-primary" : step > s ? "text-emerald-500" : "text-gray-400"}`}>
-                  {s === 1 ? T.step1Label : s === 2 ? T.step2Label : T.step3Label}
-                </span>
-              </div>
-              {i < STEPS.length - 1 && (
-                <div className={`h-0.5 flex-1 mx-3 -mt-4.5 transition-all duration-500 ${step > s ? "bg-emerald-400" : "bg-gray-200"}`} />
-              )}
-            </React.Fragment>
+      <main className="mx-auto max-w-5xl px-4 py-10">
+        <div className="mb-8 grid grid-cols-3 gap-2">
+          {steps.map((item, index) => (
+            <button key={item} type="button" onClick={() => index < step && setStep(index)} className={`rounded-2xl border p-3 text-center text-xs font-extrabold ${index <= step ? "border-primary/20 bg-white text-primary" : "border-gray-100 bg-white/70 text-gray-400"}`}>
+              <span className={`mx-auto mb-2 flex h-8 w-8 items-center justify-center rounded-full ${index < step ? "bg-emerald-500 text-white" : index === step ? "bg-primary text-white" : "bg-gray-100 text-gray-400"}`}>
+                {index < step ? <CheckCircle2 className="h-4 w-4" /> : index + 1}
+              </span>
+              {t[item]}
+            </button>
           ))}
         </div>
 
-        {/* ── Step Content ── */}
-        <div className="relative overflow-hidden">
-          <AnimatePresence mode="wait" custom={dir}>
-            <motion.div
-              key={step}
-              custom={dir}
-              variants={stepVariants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              transition={{ duration: 0.28, ease: "easeInOut" }}
-            >
+        {errors.form && (
+          <div ref={firstErrorRef} className="mb-5 flex gap-2 rounded-2xl border border-red-100 bg-red-50 p-4 text-sm font-bold text-red-600">
+            <AlertCircle className="h-5 w-5 shrink-0" /> {errors.form}
+          </div>
+        )}
 
-              {/* ── STEP 1: Personal Info ── */}
-              {step === 1 && (
-                <div className="bg-white border border-gray-100 rounded-3xl shadow-sm p-8">
-                  <div className="flex items-center gap-3 mb-8">
-                    <div className="w-10 h-10 rounded-2xl bg-primary/10 text-primary flex items-center justify-center">
-                      <User className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <h2 className="text-lg font-extrabold text-navy">{T.step1Label}</h2>
-                      <p className="text-xs text-gray-400 font-semibold">{T.stepOf.replace("{current}", "1").replace("{total}", "3")}</p>
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                    <InputField label={T.firstName} id="firstName" value={form.firstName} onChange={handleChange("firstName")} icon={User} required error={errors.firstName} />
-                    <InputField label={T.lastName} id="lastName" value={form.lastName} onChange={handleChange("lastName")} icon={User} required error={errors.lastName} />
-                    <InputField label={T.dateOfBirth} id="dateOfBirth" type="date" value={form.dateOfBirth} onChange={handleChange("dateOfBirth")} icon={Calendar} required error={errors.dateOfBirth} />
-                    <InputField label={T.nationality} id="nationality" value={form.nationality} onChange={handleChange("nationality")} icon={Globe} required error={errors.nationality}
-                      placeholder={language === "ar" ? "مثلاً: أوزبكستاني" : language === "uz" ? "Masalan: O'zbekiston" : language === "ru" ? "Например: Узбекистан" : "e.g. Uzbekistan"} />
-                    <InputField label={T.email} id="email" type="email" value={form.email} onChange={handleChange("email")} icon={Mail} required error={errors.email} placeholder={T.emailPlaceholder} />
-                    <InputField label={T.phone} id="phone" type="tel" value={form.phone} onChange={handleChange("phone")} icon={Phone} required error={errors.phone} placeholder="+998 __ ___ __ __" />
-                    <SelectField
-                      label={T.gender} id="gender" value={form.gender} onChange={handleChange("gender")} required error={errors.gender}
-                      options={[{ value: "", label: "—" }, { value: "male", label: T.male }, { value: "female", label: T.female }]}
-                    />
-                    <InputField label={T.passport} id="passport" value={form.passport} onChange={handleChange("passport")} icon={FileText} />
-                  </div>
+        <AnimatePresence mode="wait" custom={direction}>
+          <motion.section
+            key={step}
+            custom={direction}
+            initial={{ opacity: 0, x: direction > 0 ? 40 : -40 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: direction > 0 ? -40 : 40 }}
+            transition={{ duration: 0.2 }}
+            className="rounded-3xl border border-gray-100 bg-white p-5 shadow-sm md:p-8"
+          >
+            {step === 0 && (
+              <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+                <div className="md:col-span-2 rounded-2xl bg-primary/5 p-4 text-sm font-semibold text-primary">{t.passportHint}</div>
+                <Input id="full_name_english" label={t.fullName} value={form.full_name_english} onChange={(e) => setValue("full_name_english", e.target.value)} error={errors.full_name_english} icon={User} />
+                <Input id="birth_date" label={t.birthDate} type="date" max={new Date().toISOString().slice(0, 10)} value={form.birth_date} onChange={(e) => setValue("birth_date", e.target.value)} error={errors.birth_date} icon={Calendar} />
+                <Select id="country_of_birth" label={t.countryBirth} value={form.country_of_birth} onChange={(e) => setValue("country_of_birth", e.target.value)} error={errors.country_of_birth} options={(metadata?.countries || []).map((x) => ({ value: x, label: x }))} />
+                <Input id="place_of_birth" label={t.placeBirth} value={form.place_of_birth} onChange={(e) => setValue("place_of_birth", e.target.value)} error={errors.place_of_birth} />
+                <Select id="nationality" label={t.nationality} value={form.nationality} onChange={(e) => setValue("nationality", e.target.value)} error={errors.nationality} options={(metadata?.nationalities || []).map((x) => ({ value: x, label: x }))} />
+                <Select id="gender" label={t.gender} value={form.gender} onChange={(e) => setValue("gender", e.target.value)} error={errors.gender} options={(metadata?.genders || []).map((x) => ({ value: x, label: titleCase(x) }))} />
+                <Input id="passport_number" label={t.passportNumber} value={form.passport_number} onChange={(e) => setValue("passport_number", e.target.value)} error={errors.passport_number} />
+                <Select id="passport_type" label={t.passportType} value={form.passport_type} onChange={(e) => setValue("passport_type", e.target.value)} error={errors.passport_type} options={(metadata?.passport_types || []).map((x) => ({ value: x, label: titleCase(x) }))} />
+                <Input id="passport_issue_date" label={t.issueDate} type="date" max={new Date().toISOString().slice(0, 10)} value={form.passport_issue_date} onChange={(e) => setValue("passport_issue_date", e.target.value)} error={errors.passport_issue_date} />
+                <Input id="passport_expiry_date" label={t.expiryDate} type="date" value={form.passport_expiry_date} onChange={(e) => setValue("passport_expiry_date", e.target.value)} error={errors.passport_expiry_date} />
+                <Select id="passport_issuing_country" label={t.issuingCountry} value={form.passport_issuing_country} onChange={(e) => setValue("passport_issuing_country", e.target.value)} error={errors.passport_issuing_country} options={(metadata?.countries || []).map((x) => ({ value: x, label: x }))} />
+                <Input id="passport_place_of_issue" label={t.placeIssue} value={form.passport_place_of_issue} onChange={(e) => setValue("passport_place_of_issue", e.target.value)} error={errors.passport_place_of_issue} />
+                <Input id="primary_phone" label={t.primaryPhone} value={form.primary_phone} onChange={(e) => setValue("primary_phone", e.target.value)} error={errors.primary_phone} icon={Phone} placeholder="+998901234567" />
+                <Select id="preferred_messenger" label={t.messenger} value={form.preferred_messenger} onChange={(e) => setValue("preferred_messenger", e.target.value)} error={errors.preferred_messenger} options={["whatsapp", "telegram", "both"].map((x) => ({ value: x, label: titleCase(x) }))} />
+                {(form.preferred_messenger === "telegram" || form.preferred_messenger === "both") && <Input id="telegram_username" label={t.telegram} value={form.telegram_username} onChange={(e) => setValue("telegram_username", e.target.value)} error={errors.telegram_username} />}
+                <Input id="alternative_phone" label={t.alternativePhone} value={form.alternative_phone} onChange={(e) => setValue("alternative_phone", e.target.value)} error={errors.alternative_phone} icon={Phone} placeholder="+998901234568" />
+              </div>
+            )}
+
+            {step === 1 && (
+              <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+                <Select id="degree_level" label={t.degree} value={form.degree_level} onChange={(e) => setValue("degree_level", e.target.value)} error={errors.degree_level} options={(metadata?.degrees || []).map((x) => ({ value: x, label: titleCase(x === "phd" ? "Doctorate" : x) }))} />
+                <Select id="student_type" label={t.studentType} value={form.student_type} onChange={(e) => setValue("student_type", e.target.value)} error={errors.student_type} options={(metadata?.student_types || []).map((x) => ({ value: x, label: x === "new" ? "New Student" : "Transfer Student" }))} />
+                <Select id="faculty_id" label={t.faculty} value={form.faculty_id} onChange={(e) => setValue("faculty_id", e.target.value)} error={errors.faculty_id} disabled={!form.degree_level} options={filteredFaculties.map((x) => ({ value: x.id, label: x.name }))} />
+                <Select id="program_id" label={t.program} value={form.program_id} onChange={(e) => setValue("program_id", e.target.value)} error={errors.program_id} disabled={!form.faculty_id} options={availablePrograms.map((x) => ({ value: x.id, label: `${x.code} - ${x.name}` }))} />
+                <Select
+                  id="education_type"
+                  label={t.educationType}
+                  value={form.education_type}
+                  onChange={(e) => setValue("education_type", e.target.value)}
+                  error={errors.education_type}
+                  disabled={!selectedProgram}
+                  options={selectedProgramEducationTypes.map((x) => ({ value: x, label: titleCase(x) }))}
+                />
+                <Select
+                  id="study_language"
+                  label={t.language}
+                  value={form.study_language}
+                  onChange={(e) => setValue("study_language", e.target.value)}
+                  error={errors.study_language}
+                  disabled={!selectedProgram}
+                  options={selectedProgramLanguages.map((x) => ({ value: x, label: titleCase(x) }))}
+                />
+                <Select id="intended_intake" label={t.intake} value={form.intended_intake} onChange={(e) => setValue("intended_intake", e.target.value)} error={errors.intended_intake} options={(metadata?.intakes || []).map((x) => ({ value: x, label: titleCase(x) }))} />
+                <div className="rounded-2xl border border-gray-100 bg-gray-50 p-4">
+                  <p className="text-[11px] font-extrabold uppercase tracking-wider text-gray-400">{t.duration}</p>
+                  <p className="mt-1 text-sm font-extrabold text-navy">{selectedProgram?.duration_years ? `${selectedProgram.duration_years} years` : "--"}</p>
                 </div>
-              )}
+                {form.student_type === "transfer" && <div className="md:col-span-2 rounded-2xl border border-amber-100 bg-amber-50 p-4 text-sm font-bold text-amber-700">{t.transferNote}</div>}
+              </div>
+            )}
 
-              {/* ── STEP 2: Academic Info ── */}
-              {step === 2 && (
-                <div className="bg-white border border-gray-100 rounded-3xl shadow-sm p-8">
-                  <div className="flex items-center gap-3 mb-8">
-                    <div className="w-10 h-10 rounded-2xl bg-primary/10 text-primary flex items-center justify-center">
-                      <BookOpen className="w-5 h-5" />
+            {step === 2 && (
+              <div className="space-y-6">
+                <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+                  <Input id="email" label={t.email} type="email" value={form.email} onChange={(e) => setValue("email", e.target.value)} error={errors.email} icon={Mail} />
+                  <Field id="password" label={t.password} error={errors.password}>
+                    <div className="relative">
+                      <Lock className="absolute left-3 top-3.5 h-4 w-4 text-gray-400" />
+                      <input id="password" type={showPassword ? "text" : "password"} aria-invalid={Boolean(errors.password)} value={form.password} onChange={(e) => setValue("password", e.target.value)} className={`w-full rounded-xl border bg-white py-3 pl-10 pr-11 text-sm font-semibold outline-none focus:ring-2 ${errors.password ? "border-red-300 focus:ring-red-100" : "border-gray-200 focus:border-primary focus:ring-primary/15"}`} />
+                      <button type="button" onClick={() => setShowPassword((x) => !x)} className="absolute right-3 top-3 text-gray-400">{showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}</button>
                     </div>
-                    <div>
-                      <h2 className="text-lg font-extrabold text-navy">{T.step2Label}</h2>
-                      <p className="text-xs text-gray-400 font-semibold">{T.stepOf.replace("{current}", "2").replace("{total}", "3")}</p>
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                    <div className="sm:col-span-2">
-                      <SelectField label={T.chooseProgram} id="program" value={form.program} onChange={handleChange("program")} required error={errors.program}
-                        icon={GraduationCap} options={programOptions} />
-                    </div>
-                    <SelectField label={T.degreeLevel} id="degreeLevel" value={form.degreeLevel} onChange={handleChange("degreeLevel")}
-                      options={[
-                        { value: "bachelor", label: T.bachelor },
-                        { value: "master", label: T.master },
-                        { value: "phd", label: T.phd }
-                      ]}
-                    />
-                    <SelectField label={T.studyLanguage} id="studyLanguage" value={form.studyLanguage} onChange={handleChange("studyLanguage")}
-                      options={[
-                        { value: "uzbek", label: T.uzbek },
-                        { value: "russian", label: T.russian },
-                        { value: "english", label: T.english }
-                      ]}
-                    />
-                    <InputField label={T.prevInstitution} id="prevInstitution" value={form.prevInstitution} onChange={handleChange("prevInstitution")} icon={BookOpen} required error={errors.prevInstitution} />
-                    <InputField label={T.gradYear} id="gradYear" type="number" value={form.gradYear} onChange={handleChange("gradYear")} icon={Calendar} required error={errors.gradYear} placeholder="2024" />
-                    <div className="sm:col-span-2">
-                      <InputField label={T.gpa} id="gpa" value={form.gpa} onChange={handleChange("gpa")} placeholder="4.5 / 5.0" />
-                    </div>
-                    <div className="sm:col-span-2 flex flex-col gap-1.5">
-                      <label htmlFor="motivation" className="text-xs font-bold text-navy">{T.motivation}</label>
-                      <textarea
-                        id="motivation"
-                        value={form.motivation}
-                        onChange={handleChange("motivation")}
-                        placeholder={T.motivationPlaceholder}
-                        rows={5}
-                        className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm text-navy placeholder:text-gray-300 outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all resize-none"
-                      />
-                    </div>
-                  </div>
+                    <div className="mt-2 flex gap-1">{[1, 2, 3, 4].map((x) => <span key={x} className={`h-1.5 flex-1 rounded-full ${passwordScore >= x ? "bg-primary" : "bg-gray-100"}`} />)}</div>
+                  </Field>
+                  <Input id="password_confirmation" label={t.confirmPassword} type={showPassword ? "text" : "password"} value={form.password_confirmation} onChange={(e) => setValue("password_confirmation", e.target.value)} error={errors.password_confirmation} icon={Lock} />
                 </div>
-              )}
 
-              {/* ── STEP 3: Review & Submit ── */}
-              {step === 3 && (
-                <div className="bg-white border border-gray-100 rounded-3xl shadow-sm p-8">
-                  <div className="flex items-center gap-3 mb-8">
-                    <div className="w-10 h-10 rounded-2xl bg-primary/10 text-primary flex items-center justify-center">
-                      <Star className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <h2 className="text-lg font-extrabold text-navy">{T.reviewTitle}</h2>
-                      <p className="text-xs text-gray-400 font-semibold">{T.reviewSubtitle}</p>
-                    </div>
-                  </div>
+                <ReviewBox title={t.personalInfo} action={{ label: t.editPersonal, onClick: () => setStep(0) }}>
+                  <Row label={t.fullName} value={form.full_name_english} />
+                  <Row label={t.birthDate} value={form.birth_date} />
+                  <Row label={t.nationality} value={form.nationality} />
+                  <Row label={t.passportNumber} value={form.passport_number} />
+                  <Row label={t.primaryPhone} value={form.primary_phone} />
+                  <Row label={t.messenger} value={titleCase(form.preferred_messenger)} />
+                </ReviewBox>
+                <ReviewBox title={t.academicInfo} action={{ label: t.editAcademic, onClick: () => setStep(1) }}>
+                  <Row label={t.degree} value={titleCase(form.degree_level)} />
+                  <Row label={t.studentType} value={form.student_type === "transfer" ? "Transfer Student" : "New Student"} />
+                  <Row label={t.educationType} value={titleCase(form.education_type)} />
+                  <Row label={t.faculty} value={selectedProgram?.faculty?.name} />
+                  <Row label={t.program} value={selectedProgram?.name} />
+                  <Row label={t.language} value={titleCase(form.study_language)} />
+                  <Row label={t.intake} value={titleCase(form.intended_intake)} />
+                </ReviewBox>
+                <ReviewBox title={t.accountInfo} action={{ label: t.editLogin, onClick: () => document.getElementById("email")?.focus() }}>
+                  <Row label={t.email} value={form.email} />
+                </ReviewBox>
 
-                  <div className="space-y-6">
-                    {/* Personal review */}
-                    <div className="bg-gray-50/60 border border-gray-100 rounded-2xl p-6">
-                      <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-sm font-extrabold text-navy flex items-center gap-2">
-                          <User className="w-4 h-4 text-primary" /> {T.personalSection}
-                        </h3>
-                        <button onClick={() => { setDir(-1); setStep(1); }} className="text-xs text-primary font-bold hover:underline">{T.editBtn}</button>
-                      </div>
-                      <ReviewRow label={T.firstName} value={form.firstName} />
-                      <ReviewRow label={T.lastName} value={form.lastName} />
-                      <ReviewRow label={T.dateOfBirth} value={form.dateOfBirth} />
-                      <ReviewRow label={T.nationality} value={form.nationality} />
-                      <ReviewRow label={T.email} value={form.email} />
-                      <ReviewRow label={T.phone} value={form.phone} />
-                      <ReviewRow label={T.gender} value={form.gender === "male" ? T.male : form.gender === "female" ? T.female : "—"} />
-                      {form.passport && <ReviewRow label={T.passport} value={form.passport} />}
-                    </div>
+                <label className="flex gap-3 rounded-2xl border border-gray-100 bg-gray-50 p-4 text-sm font-bold text-gray-600">
+                  <input type="checkbox" checked={form.terms_agreement} onChange={(e) => setValue("terms_agreement", e.target.checked)} className="mt-1 accent-primary" />
+                  <span>{t.terms}{errors.terms_agreement && <em className="ml-2 not-italic text-red-500">{errors.terms_agreement}</em>}</span>
+                </label>
+                <label className="flex gap-3 rounded-2xl border border-gray-100 bg-gray-50 p-4 text-sm font-bold text-gray-600">
+                  <input type="checkbox" checked={form.information_confirmation} onChange={(e) => setValue("information_confirmation", e.target.checked)} className="mt-1 accent-primary" />
+                  <span>{t.confirm}{errors.information_confirmation && <em className="ml-2 not-italic text-red-500">{errors.information_confirmation}</em>}</span>
+                </label>
+              </div>
+            )}
+          </motion.section>
+        </AnimatePresence>
 
-                    {/* Academic review */}
-                    <div className="bg-gray-50/60 border border-gray-100 rounded-2xl p-6">
-                      <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-sm font-extrabold text-navy flex items-center gap-2">
-                          <GraduationCap className="w-4 h-4 text-primary" /> {T.academicSection}
-                        </h3>
-                        <button onClick={() => { setDir(-1); setStep(2); }} className="text-xs text-primary font-bold hover:underline">{T.editBtn}</button>
-                      </div>
-                      <ReviewRow label={T.chooseProgram} value={selectedProgramName} />
-                      <ReviewRow label={T.degreeLevel} value={form.degreeLevel === "bachelor" ? T.bachelor : form.degreeLevel === "master" ? T.master : T.phd} />
-                      <ReviewRow label={T.studyLanguage} value={form.studyLanguage === "uzbek" ? T.uzbek : form.studyLanguage === "russian" ? T.russian : T.english} />
-                      <ReviewRow label={T.prevInstitution} value={form.prevInstitution} />
-                      <ReviewRow label={T.gradYear} value={form.gradYear} />
-                      {form.gpa && <ReviewRow label={T.gpa} value={form.gpa} />}
-                      {form.motivation && (
-                        <ReviewRow
-                          label={T.motivation}
-                          value={form.motivation.slice(0, 120) + (form.motivation.length > 120 ? "..." : "")}
-                        />
-                      )}
-                    </div>
+        <div className="mt-8 flex items-center justify-between gap-4">
+          {step > 0 ? (
+            <button type="button" onClick={back} className="inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-5 py-3 text-sm font-extrabold text-navy hover:border-primary hover:text-primary">
+              <ChevronLeft className="h-4 w-4" /> {t.back}
+            </button>
+          ) : <Link to="/programs" className="text-sm font-bold text-gray-400 hover:text-primary">{t.back}</Link>}
 
-                    {/* Agreement */}
-                    <div className={`flex items-start gap-3 p-4 border rounded-2xl ${errors.agreed ? "border-red-300 bg-red-50/50" : "border-gray-200 bg-gray-50/40"}`}>
-                      <input
-                        id="agreed"
-                        type="checkbox"
-                        checked={agreed}
-                        onChange={e => { setAgreed(e.target.checked); setErrors(er => ({ ...er, agreed: "" })); }}
-                        className="mt-0.5 w-4 h-4 accent-primary cursor-pointer"
-                      />
-                      <label htmlFor="agreed" className="text-xs text-gray-500 leading-relaxed font-semibold cursor-pointer">
-                        {T.agree}{" "}
-                        <Link to="/contact" className="text-primary underline font-bold">{T.termsLink}</Link>.
-                      </label>
-                    </div>
-                    {errors.agreed && <p className="text-xs text-red-500 font-semibold -mt-3">{T.required}</p>}
-                  </div>
-                </div>
-              )}
-
-            </motion.div>
-          </AnimatePresence>
-        </div>
-
-        {/* ── Navigation Buttons ── */}
-        <div className={`flex justify-between items-center mt-8 ${isRtl ? "flex-row-reverse" : ""}`}>
-          {step > 1 ? (
-            <button
-              onClick={goBack}
-              className="inline-flex items-center gap-2 border border-gray-200 text-navy px-5 py-2.5 rounded-xl text-sm font-bold hover:border-primary hover:text-primary transition-all"
-            >
-              <ChevronLeft className={`w-4 h-4 ${isRtl ? "rotate-180" : ""}`} />
-              {T.back}
+          {step < 2 ? (
+            <button type="button" onClick={next} className="inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-extrabold text-white shadow-md shadow-primary/20 hover:bg-primary-hover">
+              {t.next} <ChevronRight className="h-4 w-4" />
             </button>
           ) : (
-            <Link to="/programs" className="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-primary font-bold transition-colors">
-              <ArrowLeft className={`w-4 h-4 ${isRtl ? "rotate-180" : ""}`} />
-              {language === "ar" ? "العودة" : language === "uz" ? "Orqaga" : language === "ru" ? "Назад" : "Back"}
-            </Link>
-          )}
-
-          {step < 3 ? (
-            <button
-              onClick={goNext}
-              className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-white px-7 py-2.5 rounded-xl text-sm font-extrabold shadow-md shadow-primary/20 hover:shadow-primary/30 hover:-translate-y-0.5 transition-all"
-            >
-              {T.next}
-              <ChevronRight className={`w-4 h-4 ${isRtl ? "rotate-180" : ""}`} />
-            </button>
-          ) : (
-            <button
-              onClick={handleSubmit}
-              disabled={submitting}
-              className="inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white px-7 py-2.5 rounded-xl text-sm font-extrabold shadow-md shadow-emerald-500/20 hover:-translate-y-0.5 transition-all disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
-            >
-              {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Shield className="w-4 h-4" />}
-              {submitting ? T.submitting : T.submitBtn}
+            <button type="button" disabled={submitting} onClick={submit} className="inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-extrabold text-white shadow-md shadow-primary/20 hover:bg-primary-hover disabled:opacity-70">
+              {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Shield className="h-4 w-4" />}
+              {submitting ? t.submitting : t.submit}
             </button>
           )}
         </div>
-
-        {/* Security note */}
-        <p className="text-center text-[11px] text-gray-400 font-semibold mt-6 flex items-center justify-center gap-1.5">
-          <Shield className="w-3.5 h-3.5" />
-          {language === "ar" ? "معلوماتك آمنة ومحمية بالتشفير الكامل"
-            : language === "uz" ? "Ma'lumotlaringiz xavfsiz va to'liq shifrlangan"
-            : language === "ru" ? "Ваши данные защищены и полностью зашифрованы"
-            : "Your information is secure and fully encrypted"}
-        </p>
-      </div>
+      </main>
     </div>
   );
 }

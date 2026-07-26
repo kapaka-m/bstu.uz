@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useLanguage } from "../../../context/LanguageContext";
 import { useAuth } from "../../../context/AuthContext";
@@ -17,6 +17,7 @@ import {
   X,
   Home,
 } from "lucide-react";
+import { studentPortalService } from "../../../services/studentPortalService";
 
 export default function StudentLayout({ children }) {
   const { language, changeLanguage } = useLanguage();
@@ -26,8 +27,21 @@ export default function StudentLayout({ children }) {
 
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
+  const [isTransferStudent, setIsTransferStudent] = useState(false);
 
   const isRtl = language === "ar";
+
+  useEffect(() => {
+    studentPortalService
+      .summary()
+      .then((summary) => {
+        setIsTransferStudent(
+          String(summary?.application?.student_type || "").toLowerCase() ===
+            "transfer",
+        );
+      })
+      .catch(() => setIsTransferStudent(false));
+  }, []);
 
   const handleLogout = async () => {
     try {
@@ -40,20 +54,30 @@ export default function StudentLayout({ children }) {
 
   const menuLinks = [
     { path: "/student/dashboard", label: "Dashboard", icon: LayoutDashboard },
-    { path: "/student/profile", label: "Complete Profile", icon: User },
+    { path: "/student/profile", label: "Personal Information", icon: User },
     {
       path: "/student/application",
-      label: "Program Application",
+      label: "Application Overview",
       icon: ClipboardList,
     },
-    { path: "/student/documents", label: "Upload Documents", icon: FileCheck },
-    { path: "/student/notifications", label: "Notifications", icon: Bell },
     {
-      path: "/student/contracts",
-      label: "Contracts & Billing",
-      icon: CreditCard,
+      path: "/student/academic-information",
+      label: "Academic Information",
+      icon: ClipboardList,
     },
+    { path: "/student/documents", label: "Required Documents", icon: FileCheck },
+    ...(isTransferStudent
+      ? [
+          {
+            path: "/student/equivalency",
+            label: "Academic Equivalency",
+            icon: FileCheck,
+          },
+        ]
+      : []),
     { path: "/student/payments", label: "Payments", icon: CreditCard },
+    { path: "/student/admission", label: "Admission", icon: FileCheck },
+    { path: "/student/notifications", label: "Notifications", icon: Bell },
     { path: "/student/support", label: "Support Center", icon: MessageSquare },
   ];
 

@@ -97,6 +97,14 @@ const normalizeApiDepartment = (data) => {
     || null;
   const description = meaningfulText(data.description) || meaningfulText(textSection(sections, "history")) || meaningfulText(textSection(sections, "overview"));
 
+  const preparedSpecialists = (data.programs || []).map((program) => ({
+    id: program.slug,
+    code: program.display_code || program.official_code || program.code || "",
+    name: program.name || "",
+    level: String(program.degree || "programs").toLowerCase(),
+    route: `/programs/${program.slug}`,
+  }));
+
   return {
     ...data,
     id: data.slug,
@@ -117,13 +125,7 @@ const normalizeApiDepartment = (data) => {
       image: head?.photo_url || head?.photo || "",
       fallbackImage: null,
     },
-    preparedSpecialists: (data.programs || []).map((program) => ({
-      id: program.slug,
-      code: program.display_code || program.official_code || program.code || "",
-      name: program.name || "",
-      level: String(program.degree || "programs").toLowerCase(),
-      route: `/programs/${program.slug}`,
-    })),
+    preparedSpecialists,
     subjects: subjectGroupsFromSections(sections),
     staff: (data.staff || []).map((member) => ({
       slug: member.slug,
@@ -143,7 +145,7 @@ const normalizeApiDepartment = (data) => {
     news: [],
     gallery: [],
     dynamicSections: sections,
-    rawPreparedSpecialistsText: textSection(sections, "prepared_specialists"),
+    rawPreparedSpecialistsText: preparedSpecialists.length > 0 ? [] : textSection(sections, "prepared_specialists"),
     rawPublicationText: textSection(sections, "publications"),
     rawResearchText: textSection(sections, "research"),
     cooperationText: textSection(sections, "cooperation"),

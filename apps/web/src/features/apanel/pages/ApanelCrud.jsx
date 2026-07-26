@@ -95,6 +95,38 @@ const RESOURCE_SCHEMAS = {
       { name: "is_public", label: "Expose on Public Site", type: "boolean" },
     ],
   },
+  countries: {
+    title: "Application Countries",
+    columns: [
+      { key: "name", label: "Country", sortable: true },
+      { key: "code", label: "Code", sortable: true },
+      { key: "is_active", label: "Active", type: "boolean" },
+      { key: "sort_order", label: "Sort", sortable: true },
+    ],
+    fields: [
+      { name: "name", label: "Country Name", type: "text", required: true },
+      { name: "code", label: "ISO / Short Code", type: "text" },
+      { name: "is_active", label: "Available in Apply Form", type: "boolean" },
+      { name: "sort_order", label: "Sort Order", type: "number" },
+    ],
+  },
+  nationalities: {
+    title: "Application Nationalities",
+    columns: [
+      { key: "name", label: "Nationality", sortable: true },
+      { key: "country_name", label: "Country", sortable: true },
+      { key: "code", label: "Code", sortable: true },
+      { key: "is_active", label: "Active", type: "boolean" },
+      { key: "sort_order", label: "Sort", sortable: true },
+    ],
+    fields: [
+      { name: "name", label: "Nationality Name", type: "text", required: true },
+      { name: "country_name", label: "Related Country", type: "text" },
+      { name: "code", label: "ISO / Short Code", type: "text" },
+      { name: "is_active", label: "Available in Apply Form", type: "boolean" },
+      { name: "sort_order", label: "Sort Order", type: "number" },
+    ],
+  },
   menus: {
     title: "Navigation Menus",
     columns: [

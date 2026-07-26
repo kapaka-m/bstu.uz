@@ -96,7 +96,7 @@ Current JSON dataset ownership:
 - `announcements.json`: consumed by `AnnouncementSeeder`.
 - `departments.json`: consumed by department, course, and staff seeding.
 - Green Campus content is not consumed from JSON. It is managed through `/apanel/cms/green-campus`.
-- `programs.json`: legacy non-Engineering program metadata consumed by `ProgramSeeder`; Faculty of Engineering programs are seeded canonically by the Engineering academic structure seeders and are skipped by `ProgramSeeder`.
+- `programs.json`: legacy program metadata consumed by `ProgramSeeder`.
 - `translations.json`: consumed by translation, menu, page, faculty, department, program, course, staff, and announcement seeders.
 - Video Gallery content is not seeded from JSON. It is managed through `/apanel/cms/video-bdtu`.
 - Interactive Services content is not consumed from JSON or static seed rows. It is managed through `/apanel/cms/interactive-services`.
@@ -182,7 +182,6 @@ Current seeders consume these JSON files directly:
 
 - `translations.json`: translations, menus, pages, page blocks, faculties, departments, programs, courses, staff, and UI translation keys/values.
 - `departments.json`: departments, courses, and staff metadata.
-- Faculty of Engineering program metadata is maintained by canonical Engineering seeders, not legacy React static files.
 - Administration leadership is managed only through `/apanel/cms/administration`; no reviewed static restore file is maintained for it.
 
 Interactive Services, Blog, News & Events, Video Gallery, Announcements, and footer content are not generated from static JSON.

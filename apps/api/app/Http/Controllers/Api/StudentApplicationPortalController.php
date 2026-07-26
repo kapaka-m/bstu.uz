@@ -1,0 +1,301 @@
+<?php
+
+namespace App\Http\Controllers\Api;
+
+use App\Http\Controllers\Controller;
+use App\Models\Application;
+use App\Models\ApplicationDocument;
+use App\Models\ApplicationFeePayment;
+use App\Models\Notification;
+use App\Models\StudentProfile;
+use App\Services\ApplicationWorkflowService;
+use App\Traits\ApiResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
+
+class StudentApplicationPortalController extends Controller
+{
+    use ApiResponse;
+
+    public function __construct(private readonly ApplicationWorkflowService $workflow) {}
+
+    public function summary(Request $request)
+    {
+        $application = $this->currentApplication();
+        if (! $application) {
+            return $this->successResponse(null, 'No active application found');
+        }
+
+        $this->workflow->syncApplicationState($application, Auth::id(), 'Student portal opened');
+
+        return $this->successResponse($this->workflow->applicationSnapshot($application->refresh()), 'Application summary retrieved');
+    }
+
+    public function profile(Request $request)
+    {
+        $profile = $this->studentProfile();
+        if (! $profile) {
+            return $this->errorResponse('Student profile not found', 404);
+        }
+
+        $profile->load('user', 'educationBackgrounds');
+        return $this->successResponse($profile, 'Student profile retrieved');
+    }
+
+    public function academicInformation(Request $request)
+    {
+        $application = $this->currentApplication();
+        if (! $application) {
+            return $this->errorResponse('Application not found', 404);
+        }
+        $application->load(['program.translations', 'faculty.translations', 'department.translations']);
+
+        return $this->successResponse($application, 'Academic information retrieved');
+    }
+
+    public function documents(Request $request)
+    {
+        $application = $this->currentApplication();
+        if (! $application) {
+            return $this->errorResponse('Application not found', 404);
+        }
+
+        return $this->successResponse($this->workflow->applicationSnapshot($application)['requirements'], 'Document checklist retrieved');
+    }
+
+    public function uploadDocument(Request $request, int $applicationId)
+    {
+        $application = $this->ownedApplication($applicationId);
+        if (! $application) {
+            return $this->errorResponse('Application not found or unauthorized', 404);
+        }
+
+        $validated = $request->validate([
+            'document_type' => ['required', 'string', 'max:120'],
+            'document_name' => ['nullable', 'string', 'max:255'],
+            'student_notes' => ['nullable', 'string', 'max:1000'],
+            'file' => $this->uploadFileRules(),
+        ]);
+
+        $requirements = collect($this->workflow->requiredDocuments($application));
+        $requirement = $requirements->firstWhere('document_type', $validated['document_type']);
+        if (! $requirement) {
+            return $this->errorResponse('This document type is not required for the current application.', 422);
+        }
+
+        $current = ApplicationDocument::where('application_id', $application->id)
+            ->where('document_type', $validated['document_type'])
+            ->latest('current_version')
+            ->first();
+        if ($current && $current->review_status === 'APPROVED') {
+            return $this->errorResponse('Approved documents cannot be replaced unless administration reopens them.', 422);
+        }
+
+        $file = $request->file('file');
+        $extension = strtolower($file->getClientOriginalExtension() ?: 'bin');
+        $filename = Str::uuid()->toString().'.'.$extension;
+        $path = $file->storeAs('private/application-documents/'.$application->id, $filename, 'local');
+
+        $document = ApplicationDocument::create([
+            'application_id' => $application->id,
+            'student_profile_id' => $application->student_profile_id,
+            'document_name' => $validated['document_name'] ?? $requirement['name'],
+            'document_type' => $validated['document_type'],
+            'file_path' => $path,
+            'storage_disk' => 'local',
+            'stored_filename' => $filename,
+            'original_name' => $file->getClientOriginalName(),
+            'mime_type' => $file->getMimeType(),
+            'size' => $file->getSize(),
+            'current_version' => $current ? $current->current_version + 1 : 1,
+            'status' => 'uploaded',
+            'review_status' => 'UPLOADED',
+            'student_notes' => $validated['student_notes'] ?? null,
+            'previous_document_id' => $current?->id,
+            'is_required' => (bool) $requirement['is_required'],
+        ]);
+
+        $application->forceFill(['documents_status' => 'UNDER_REVIEW'])->save();
+        $this->workflow->notify($application, 'Document uploaded', $document->document_name.' was uploaded and is waiting for review.', 'document', '/student/documents');
+        $this->workflow->syncApplicationState($application, Auth::id(), 'Student uploaded '.$document->document_type);
+
+        return $this->successResponse($document, 'Document uploaded successfully', 201);
+    }
+
+    public function downloadDocument(Request $request, int $documentId)
+    {
+        $profile = $this->studentProfile();
+        $document = ApplicationDocument::where('id', $documentId)
+            ->where('student_profile_id', $profile?->id)
+            ->first();
+
+        if (! $document || ! Storage::disk($document->storage_disk ?: 'local')->exists($document->file_path)) {
+            return $this->errorResponse('Document not found or unauthorized', 404);
+        }
+
+        return Storage::disk($document->storage_disk ?: 'local')->download($document->file_path, $document->original_name ?: basename($document->file_path));
+    }
+
+    public function equivalency(Request $request)
+    {
+        $application = $this->currentApplication();
+        if (! $application || ! $this->workflow->isTransfer($application)) {
+            return $this->errorResponse('Academic equivalency is available only for transfer students.', 404);
+        }
+
+        $application->load('equivalency.courses');
+        return $this->successResponse($application->equivalency, 'Equivalency retrieved');
+    }
+
+    public function acceptEquivalency(Request $request, int $applicationId)
+    {
+        $application = $this->ownedApplication($applicationId);
+        if (! $application || ! $application->equivalency) {
+            return $this->errorResponse('Equivalency result not found.', 404);
+        }
+        if (! in_array($application->equivalency->status, ['RESULT_ISSUED', 'STUDENT_REVIEW_REQUIRED'], true)) {
+            return $this->errorResponse('Equivalency result is not waiting for student approval.', 422);
+        }
+
+        $application->equivalency->update(['status' => 'STUDENT_ACCEPTED', 'student_responded_at' => now()]);
+        $application->forceFill(['equivalency_status' => 'STUDENT_ACCEPTED'])->save();
+        $this->workflow->syncApplicationState($application, Auth::id(), 'Student accepted equivalency result');
+
+        return $this->successResponse($application->equivalency->fresh('courses'), 'Equivalency accepted');
+    }
+
+    public function requestEquivalencyReview(Request $request, int $applicationId)
+    {
+        $validated = $request->validate(['reason' => ['required', 'string', 'max:2000']]);
+        $application = $this->ownedApplication($applicationId);
+        if (! $application || ! $application->equivalency) {
+            return $this->errorResponse('Equivalency result not found.', 404);
+        }
+
+        $application->equivalency->update([
+            'status' => 'REVIEW_REQUESTED',
+            'student_review_reason' => $validated['reason'],
+            'student_responded_at' => now(),
+        ]);
+        $application->forceFill(['equivalency_status' => 'REVIEW_REQUESTED'])->save();
+        $this->workflow->transition($application, 'EQUIVALENCY_REVIEW_REQUESTED', Auth::id(), 'Student requested equivalency review');
+
+        return $this->successResponse($application->equivalency->fresh('courses'), 'Review request submitted');
+    }
+
+    public function payment(Request $request)
+    {
+        $application = $this->currentApplication();
+        if (! $application) {
+            return $this->errorResponse('Application not found', 404);
+        }
+        $application->load('applicationFeePayments');
+
+        return $this->successResponse([
+            'amount' => 50,
+            'currency' => 'USD',
+            'status' => $application->application_fee_status,
+            'payments' => $application->applicationFeePayments,
+            'can_upload' => $this->canUploadFeeReceipt($application),
+        ], 'Application fee status retrieved');
+    }
+
+    public function uploadPaymentReceipt(Request $request, int $applicationId)
+    {
+        $application = $this->ownedApplication($applicationId);
+        if (! $application) {
+            return $this->errorResponse('Application not found or unauthorized', 404);
+        }
+        if (! $this->canUploadFeeReceipt($application)) {
+            return $this->errorResponse('Application fee is not open yet.', 422);
+        }
+
+        $validated = $request->validate([
+            'file' => $this->uploadFileRules(),
+        ]);
+
+        $file = $validated['file'];
+        $path = $file->storeAs('private/application-fees/'.$application->id, Str::uuid().'.'.strtolower($file->getClientOriginalExtension()), 'local');
+        $payment = ApplicationFeePayment::create([
+            'application_id' => $application->id,
+            'payment_number' => $this->workflow->nextPaymentNumber(),
+            'amount' => 50,
+            'currency' => 'USD',
+            'status' => 'UPLOADED',
+            'receipt_path' => $path,
+            'receipt_original_name' => $file->getClientOriginalName(),
+            'receipt_mime_type' => $file->getMimeType(),
+            'receipt_size' => $file->getSize(),
+            'paid_at' => now(),
+        ]);
+        $application->forceFill(['application_fee_status' => 'UNDER_REVIEW'])->save();
+        $this->workflow->syncApplicationState($application, Auth::id(), 'Application fee receipt uploaded');
+
+        return $this->successResponse($payment, 'Receipt uploaded successfully', 201);
+    }
+
+    public function admission(Request $request)
+    {
+        $application = $this->currentApplication();
+        if (! $application) {
+            return $this->errorResponse('Application not found', 404);
+        }
+
+        $snapshot = $this->workflow->applicationSnapshot($application);
+        return $this->successResponse([
+            'admission' => $application->admission,
+            'checks' => $snapshot['checks'],
+            'application' => $application,
+        ], 'Admission status retrieved');
+    }
+
+    private function canUploadFeeReceipt(Application $application): bool
+    {
+        $snapshot = $this->workflow->applicationSnapshot($application);
+        return $snapshot['checks']['documents_approved']
+            && $snapshot['checks']['equivalency_complete']
+            && ! $snapshot['checks']['payment_approved'];
+    }
+
+    private function studentProfile(): ?StudentProfile
+    {
+        return StudentProfile::where('user_id', Auth::id())->first();
+    }
+
+    private function currentApplication(): ?Application
+    {
+        $profile = $this->studentProfile();
+        if (! $profile) {
+            return null;
+        }
+
+        return Application::where('student_profile_id', $profile->id)
+            ->latest()
+            ->first();
+    }
+
+    private function uploadFileRules(): array
+    {
+        return [
+            'required',
+            'file',
+            'mimes:pdf,jpg,jpeg,png,webp,heic,heif',
+            'mimetypes:application/pdf,image/jpeg,image/png,image/webp,image/heic,image/heif',
+            'max:10240',
+        ];
+    }
+
+    private function ownedApplication(int $id): ?Application
+    {
+        $profile = $this->studentProfile();
+        if (! $profile) {
+            return null;
+        }
+
+        return Application::where('id', $id)->where('student_profile_id', $profile->id)->first();
+    }
+}

@@ -65,7 +65,7 @@ function InfoGrid({ rows }) {
       {rows.map(([label, value]) => (
         <div key={label} className="rounded-2xl border border-gray-100 bg-gray-50/60 p-4">
           <p className="text-[10px] font-black uppercase tracking-wider text-gray-400">{label}</p>
-          <p className="mt-1 text-xs font-extrabold text-navy break-words">{value || "—"}</p>
+          <p className="mt-1 text-xs font-extrabold text-navy wrap-break-word">{value || "—"}</p>
         </div>
       ))}
     </div>

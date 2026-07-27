@@ -2,6 +2,16 @@ import { authStorage } from "./auth";
 import { localeStorage } from "./locale";
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/api/v1";
+const API_ORIGIN = BASE_URL.replace(/\/api\/v1\/?$/, "");
+
+export const apiBaseUrl = BASE_URL;
+
+export const publicAssetUrl = (path) => {
+  const value = String(path || "").trim();
+  if (!value) return "";
+  if (/^https?:\/\//i.test(value) || value.startsWith("/")) return value;
+  return `${API_ORIGIN}/storage/${value.replace(/^public\//, "")}`;
+};
 
 export class ApiError extends Error {
   constructor(status, data, message) {
@@ -67,3 +77,21 @@ export const api = {
   patch: (path, body, options) => request("PATCH", path, body, options),
   delete: (path, options) => request("DELETE", path, null, options)
 };
+
+export async function downloadBlob(path) {
+  const response = await fetch(`${BASE_URL}${path}`, {
+    headers: {
+      Accept: "application/octet-stream",
+      ...(authStorage.getToken() ? { Authorization: `Bearer ${authStorage.getToken()}` } : {}),
+    },
+  });
+
+  if (!response.ok) {
+    throw new ApiError(response.status, null);
+  }
+
+  const blob = await response.blob();
+  const url = URL.createObjectURL(blob);
+  window.open(url, "_blank", "noopener,noreferrer");
+  setTimeout(() => URL.revokeObjectURL(url), 30000);
+}

@@ -1,4 +1,4 @@
-import { api } from "../lib/api";
+import { api, publicAssetUrl } from "../lib/api";
 import { localeStorage } from "../lib/locale";
 
 const CACHE_TTL_MS = 30000;
@@ -19,16 +19,6 @@ const cached = (key, fetcher) => {
   });
 };
 
-const mediaUrl = (path) => {
-  if (!path) return "";
-  if (path.startsWith("http://") || path.startsWith("https://") || path.startsWith("/")) {
-    return path;
-  }
-
-  const apiBase = import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/api/v1";
-  return `${apiBase.replace(/\/api\/v1\/?$/, "")}/storage/${path.replace(/^public\//, "")}`;
-};
-
 const normalizeDate = (value) => {
   if (!value) return "";
   if (typeof value === "string") return value;
@@ -41,8 +31,8 @@ const normalizeArticle = (item) => {
   return {
     ...item,
     id: item.slug || item.id,
-    image: mediaUrl(item.image),
-    gallery: gallery.map(mediaUrl).filter(Boolean),
+    image: publicAssetUrl(item.image),
+    gallery: gallery.map(publicAssetUrl).filter(Boolean),
     date: normalizeDate(item.published_at || item.created_at),
     category: item.category || "",
     categoryLabel: item.category_label || item.category || "",

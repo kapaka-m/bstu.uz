@@ -282,8 +282,7 @@ export const apanelService = {
         },
         recentLogs: pageItems(logs)
       };
-    } catch (err) {
-      console.error("Dashboard stats failed", err);
+    } catch {
       return {
         stats: { users: 0, applications: 0, programs: 0, administrationProfiles: 0, contactPage: 0, interactiveServices: 0, inquiries: 0, comments: 0 },
         recentLogs: []

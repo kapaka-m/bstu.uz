@@ -23,30 +23,14 @@ const formatDisplayDate = (value) => {
   if (!value) return "";
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return value;
-  const locale = localeStorage.getLocale() || "en";
-  if (locale === "uz") {
-    const uzMonths = [
-      "Yanvar",
-      "Fevral",
-      "Mart",
-      "Aprel",
-      "May",
-      "Iyun",
-      "Iyul",
-      "Avgust",
-      "Sentabr",
-      "Oktabr",
-      "Noyabr",
-      "Dekabr",
-    ];
-    return `${date.getFullYear()} ${uzMonths[date.getMonth()]} ${String(date.getDate()).padStart(2, "0")}`;
-  }
+  const locale = localeStorage.getLocale();
 
   const formatLocale = {
     en: "en-US",
     ru: "ru-RU",
+    uz: "uz-Latn-UZ",
     ar: "ar",
-  }[locale] || locale;
+  }[locale] || locale || undefined;
 
   return new Intl.DateTimeFormat(formatLocale, {
     month: "short",

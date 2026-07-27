@@ -1,5 +1,4 @@
-import { api } from "../lib/api";
-import { authStorage } from "../lib/auth";
+import { api, downloadBlob } from "../lib/api";
 
 const unwrap = (res) => res?.data ?? res;
 
@@ -24,7 +23,7 @@ export const studentPortalService = {
     return api.post(`/applications/${applicationId}/documents/private`, form).then(unwrap);
   },
   downloadDocument(documentId) {
-    return downloadPrivate(`/student/private-documents/${documentId}/download`);
+    return downloadBlob(`/student/private-documents/${documentId}/download`);
   },
   equivalency() {
     return api.get("/student/equivalency").then(unwrap);
@@ -55,22 +54,22 @@ export const studentPortalService = {
     return api.get("/student/admission").then(unwrap);
   },
   downloadAdmission() {
-    return downloadPrivate("/student/admission/download");
+    return downloadBlob("/student/admission/download");
   },
   enrollment() {
     return api.get("/student/enrollment").then(unwrap);
   },
   downloadEnrollment() {
-    return downloadPrivate("/student/enrollment/download");
+    return downloadBlob("/student/enrollment/download");
   },
   downloadContract() {
-    return downloadPrivate("/student/contract/download");
+    return downloadBlob("/student/contract/download");
   },
   prikaz() {
     return api.get("/student/prikaz").then(unwrap);
   },
   downloadPrikaz() {
-    return downloadPrivate("/student/prikaz/download");
+    return downloadBlob("/student/prikaz/download");
   },
   serviceFee() {
     return api.get("/student/service-fee").then(unwrap);
@@ -93,18 +92,3 @@ export const studentPortalService = {
     return api.get("/student/residence").then(unwrap);
   },
 };
-
-async function downloadPrivate(path) {
-  const base = import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/api/v1";
-  const response = await fetch(`${base}${path}`, {
-    headers: {
-      Authorization: `Bearer ${authStorage.getToken()}`,
-      Accept: "application/octet-stream",
-    },
-  });
-  if (!response.ok) throw new Error("Download failed");
-  const blob = await response.blob();
-  const url = URL.createObjectURL(blob);
-  window.open(url, "_blank", "noopener,noreferrer");
-  setTimeout(() => URL.revokeObjectURL(url), 30000);
-}

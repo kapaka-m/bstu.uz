@@ -588,3 +588,63 @@
 
 - `npm.cmd run lint` نجح بدون أخطاء أو تحذيرات.
 - تم التأكد من وجود routes العامة: `/api/v1/locales`, `/api/v1/translations`, `/api/v1/settings/public`.
+
+---
+
+## مراجعة React Services
+
+تاريخ المراجعة: 2026-07-28
+
+## ملفات React Services التي تمت مراجعتها
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\services`
+- `aboutService.js`
+- `administrationService.js`
+- `announcementService.js`
+- `apanelApplicationsService.js`
+- `apanelService.js`
+- `applicationService.js`
+- `authService.js`
+- `blogService.js`
+- `centerService.js`
+- `commentService.js`
+- `contactService.js`
+- `departmentService.js`
+- `facultyService.js`
+- `footerService.js`
+- `greenCampusService.js`
+- `initialApplicationService.js`
+- `inquiryService.js`
+- `menuService.js`
+- `newsService.js`
+- `notificationService.js`
+- `pageService.js`
+- `programService.js`
+- `serviceService.js`
+- `staffService.js`
+- `studentPortalService.js`
+- `studentService.js`
+- `translationService.js`
+- `videoService.js`
+
+## ما تم تأكيده وتعديله في React Services
+
+- جميع الخدمات تعمل كطبقة API client ولا تحتوي مصدر محتوى محلي.
+- تمت إزالة استخدام `VITE_API_BASE_URL` المباشر من services، وأصبح تنزيل الملفات والروابط العامة عبر helpers في `lib/api.js`.
+- `apanelApplicationsService.js` و `studentPortalService.js` يستخدمان `downloadBlob` من `lib/api.js` لتنزيل الملفات الآمنة.
+- `greenCampusService.js` يستخدم `publicAssetUrl` من `lib/api.js` لبناء روابط الملفات العامة.
+- `blogService.js` لم يعد يحتوي أسماء شهور أوزبكية ثابتة؛ تنسيق التاريخ يستخدم `Intl.DateTimeFormat` حسب اللغة الحالية.
+- تمت إزالة `console.error` من `apanelService.js` في fallback dashboard، لأن الواجهة تتعامل مع النتيجة بدون محتوى ثابت.
+
+## نتيجة React Services
+
+- لا توجد بيانات محتوى static داخل `apps/web/src/services`.
+- النصوص، الإعدادات، القوائم، المستخدم، الفوتر، الصفحات، الملفات، وبيانات CMS تأتي من Laravel API والجداول المرتبطة بها.
+- المسارات الموجودة داخل الخدمات هي endpoints تقنية وليست بيانات محتوى قابلة للإدارة من apanel.
+
+## تحقق React Services
+
+- `npm.cmd run lint` نجح بدون أخطاء أو تحذيرات.
+- `php-local.bat artisan test` نجح: 5 tests passed.
+- `php-local.bat artisan route:list --path=api/v1 --except-vendor` نجح وأظهر 170 route.
+- لا يوجد داخل `apps/web/src/services` استخدام مباشر لـ `VITE_API_BASE_URL`, `http://127.0.0.1`, `DEFAULT_LOCALE`, `fallbackTranslations`, أو `translations.js`.

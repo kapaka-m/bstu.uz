@@ -18,6 +18,7 @@ Public CMS files are organized under:
 - `storage/app/public/cms/branding/`
 - `storage/app/public/cms/blog/`
 - `storage/app/public/cms/green-campus/`
+- `storage/app/public/cms/home/hero/`
 - `storage/app/public/cms/media-library/YYYY/MM/DD/`
 - `storage/app/public/cms/news-events/`
 - `storage/app/public/cms/staff/`
@@ -27,6 +28,11 @@ Public CMS files are organized under:
 - `storage/app/public/cms/videos/thumbnails/`
 
 Branding assets such as favicons, app icons, and locale-specific logos are stored in `cms/branding/`. Their active paths are controlled by public `settings` records with keys like `branding_logo_en` and `branding_favicon_png`.
+
+Home hero images are stored in `cms/home/hero/`. Their active paths are controlled by public `settings` records:
+
+- `home_hero_background_image`
+- `home_hero_main_image`
 
 Private workflow files are organized under:
 

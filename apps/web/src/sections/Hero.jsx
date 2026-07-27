@@ -24,7 +24,9 @@ const resolveAssetUrl = (path) => {
 export default function Hero() {
   const [isVideoOpen, setIsVideoOpen] = useState(false);
   const [heroVideo, setHeroVideo] = useState(null);
-  const { t, language } = useLanguage();
+  const { t, language, settings } = useLanguage();
+  const heroBackgroundImage = resolveAssetUrl(settings?.home_hero_background_image || "cms/home/hero/hero-bg.png");
+  const heroMainImage = resolveAssetUrl(settings?.home_hero_main_image || "cms/home/hero/hero-university.jpg");
 
   useEffect(() => {
     let alive = true;
@@ -47,7 +49,7 @@ export default function Hero() {
     <section
       id="hero"
       className="relative min-h-screen pt-32 pb-20 flex items-center bg-no-repeat bg-top-right overflow-hidden"
-      style={{ backgroundImage: "url('/assets/img/hero-bg.png')" }}
+      style={{ backgroundImage: `url('${heroBackgroundImage}')` }}
     >
       <div className="container mx-auto px-4 md:px-8 max-w-7xl">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -97,7 +99,7 @@ export default function Hero() {
             <div className="relative p-3 bg-linear-to-br from-primary-light to-white rounded-[2.5rem] shadow-2xl max-w-lg lg:max-w-none group">
               <div className="overflow-hidden rounded-4xl border-4 border-white shadow-md relative">
                 <img
-                  src="/assets/img/hero-university.jpg"
+                  src={heroMainImage}
                   alt={t("home.hero.imageAlt")}
                   className="w-full h-auto aspect-4/3 object-cover transition-transform duration-700 group-hover:scale-105"
                 />

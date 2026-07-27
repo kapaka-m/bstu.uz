@@ -29,7 +29,7 @@ class PageBlockSeeder extends Seeder
                 [
                     'type' => 'hero',
                     'sort_order' => 1,
-                    'settings_json' => ['bg_image' => 'assets/img/hero-bg.jpg'],
+                    'settings_json' => ['bg_image' => 'cms/home/hero/hero-bg.png'],
                     'is_active' => true,
                 ]
             );

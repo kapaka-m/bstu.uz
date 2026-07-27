@@ -282,12 +282,10 @@
 هذه ملفات واجهة ثابتة طبيعية متبقية في Web public:
 
 - `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\public\robots.txt`
-- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\public\assets\img\hero-bg.png`
-- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\public\assets\img\hero-university.jpg`
 
 ## النتيجة
 
-المسار `apps/web/public` أصبح مرتب: يحتوي فقط `robots.txt` وصور hero الثابتة. صور المحتوى وملفات branding التي يجب التحكم بها من النظام أصبحت في Laravel storage وتقرأ عبر API/apanel.
+المسار `apps/web/public` أصبح مرتب: يحتوي فقط `robots.txt`. صور المحتوى، ملفات branding، وصور hero التي يجب التحكم بها من النظام أصبحت في Laravel storage وتقرأ عبر API/apanel.
 
 ## تحديث Branding Assets
 
@@ -317,6 +315,19 @@
 - عدد سجلات branding في جدول `media`: 11.
 - لا توجد ملفات branding مفقودة من `storage/app/public/cms/branding`.
 - لا توجد مراجع قديمة في الواجهة إلى `/assets/img/favicon...` أو `/assets/img/bstu...`.
+
+## تحديث Home Hero Assets
+
+تم نقل صور hero من `apps/web/public/assets/img` إلى:
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\storage\app\public\cms\home\hero`
+
+وتم ربطها بجدول `settings` كمفاتيح عامة قابلة للتحكم من apanel:
+
+- `home_hero_background_image`
+- `home_hero_main_image`
+
+كما تم إضافة سجلات لها في جدول `media` حتى تظهر في Media Picker داخل apanel. بعد ذلك تم حذف `apps/web/public/assets` لأنه أصبح فارغا.
 
 ## ملاحظة منفصلة
 

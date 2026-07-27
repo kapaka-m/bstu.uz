@@ -166,10 +166,24 @@ class SettingSeeder extends Seeder
                 'group' => 'branding',
                 'is_public' => true,
             ],
+            [
+                'key' => 'home_hero_background_image',
+                'value' => 'cms/home/hero/hero-bg.png',
+                'type' => 'media',
+                'group' => 'home',
+                'is_public' => true,
+            ],
+            [
+                'key' => 'home_hero_main_image',
+                'value' => 'cms/home/hero/hero-university.jpg',
+                'type' => 'media',
+                'group' => 'home',
+                'is_public' => true,
+            ],
         ];
 
         foreach ($settings as $setting) {
-            if (str_starts_with($setting['key'], 'branding_')) {
+            if (str_starts_with($setting['key'], 'branding_') || str_starts_with($setting['key'], 'home_hero_')) {
                 Setting::firstOrCreate(['key' => $setting['key']], $setting);
 
                 continue;
@@ -193,6 +207,8 @@ class SettingSeeder extends Seeder
             'branding.apple_touch_icon' => ['path' => 'cms/branding/apple-touch-icon.png', 'filename' => 'apple-touch-icon.png', 'mime' => 'image/png'],
             'branding.android_chrome.512' => ['path' => 'cms/branding/android-chrome-512x512.png', 'filename' => 'android-chrome-512x512.png', 'mime' => 'image/png'],
             'branding.android_chrome.192' => ['path' => 'cms/branding/android-chrome-192x192.png', 'filename' => 'android-chrome-192x192.png', 'mime' => 'image/png'],
+            'home.hero.background' => ['path' => 'cms/home/hero/hero-bg.png', 'filename' => 'hero-bg.png', 'mime' => 'image/png'],
+            'home.hero.main' => ['path' => 'cms/home/hero/hero-university.jpg', 'filename' => 'hero-university.jpg', 'mime' => 'image/jpeg'],
         ];
 
         foreach ($brandingAssets as $altKey => $asset) {

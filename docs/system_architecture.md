@@ -44,7 +44,6 @@ graph TD
 * `docs` — active architecture, API, frontend, backend, apanel, student, and mobile documentation.
 * `database-docs` — MySQL schema and content migration notes.
 * `storage-docs` — Laravel storage/media URL guidance.
-* `scripts` — maintained utilities, including the React-to-seed-JSON import helper.
 
 ## Localization And Data Flow
 

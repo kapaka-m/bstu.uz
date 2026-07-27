@@ -6,11 +6,10 @@ This document provides a comprehensive guide to the database content migration, 
 
 ## 1. Inspected and Migrated React Source Files
 
-The maintained import utility parses historical React content captures from
-`scripts/import-react-content/legacy-react-data/`, cleans ES module syntax,
-evaluates them inside a Node.js VM context, and exports JSON datasets into
-`apps/api/database/data/`. These files are not production runtime content and
-are not imported by public React pages.
+Historical React content captures were reviewed and merged into JSON datasets in
+`apps/api/database/data/`. The old `scripts/import-react-content` helper was
+removed after the migration review. These captures are not production runtime
+content and are not imported by public React pages.
 
 1. **`translations.js`** — UI translation dictionaries, structural text, and department metadata translations.
 2. **`departmentsData.js`** — Academic departments, lab titles, and subject list curriculum.
@@ -145,36 +144,21 @@ overwrite curated university content if ownership has changed.
 
 ---
 
-## 6. React Content Import Utility
+## 6. Historical React Content Import
 
-The maintained import helper lives at:
+The reviewed legacy React data captures were moved into the API seed JSON files.
+The historical import helper has been removed, so normal setup must use the
+reviewed source-of-truth files directly.
 
-```text
-scripts/import-react-content/import.js
-```
-
-Use it only when intentionally regenerating seed JSON from the legacy React
-source captures. It reads content files from
-`scripts/import-react-content/legacy-react-data/` and falls back to
-`apps/web/src/data/translations.js` only for the technical translation fallback
-file. It reads:
-
-- `apps/web/src/data/translations.js` or `scripts/import-react-content/legacy-react-data/translations.js`
-- `scripts/import-react-content/legacy-react-data/departmentsData.js`
-- `scripts/import-react-content/legacy-react-data/mockData.js`
-
-It writes:
+Current source-of-truth files:
 
 - `apps/api/database/data/translations.json`
+- `apps/api/database/data/programs.json`
 - `apps/api/database/data/departments.json`
+- `apps/api/database/data/academic_department_details.json`
 
-Run it from the repository root:
-
-```bash
-node scripts/import-react-content/import.js
-```
-
-After running it, review the generated JSON diff before running seeders. The script is optional for normal database setup as long as the JSON files already exist.
+If future migration work needs a new importer, create a fresh reviewed utility
+and inspect the JSON diff before running seeders.
 
 ### Seeder Consumption Notes
 
@@ -206,6 +190,6 @@ All dynamic content and translations can be managed directly via the `/api/v1/ap
 ## 9. Historical Source Cleanup
 
 Raw source captures used during migration were merged into durable project data,
-seed JSON, and active documentation. Remaining legacy captures are quarantined in
-`scripts/import-react-content/legacy-react-data/` for historical re-import only.
+seed JSON, and active documentation. Remaining legacy files are compatibility
+markers and should not be used by runtime public pages.
 Runtime public pages should depend on Laravel API/database content instead.

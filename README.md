@@ -11,7 +11,6 @@ This repository is structured as a unified monorepo containing the web frontend,
 - **`apps/mobile`**: Flutter mobile application.
 - **`docs`**: System architecture, API definitions, student system guides, and mobile guides.
 - **`database-docs`**: Database schemas, entity-relationship diagrams, and migrations info.
-- **`scripts`**: Automation and helper scripts (includes import and verification scripts).
 - **`storage-docs`**: File storage configurations and guides.
 
 ---

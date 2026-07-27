@@ -128,8 +128,7 @@ Student dashboard pages are protected using the `<StudentRoute>` route wrapper, 
 Apanel routes use `<AdminRoute>`, which redirects unauthenticated users to `/apanel/login` and verifies the `apanel` role before rendering dashboard or CRUD pages.
 
 Production public pages load content from the Laravel API/MySQL system. Legacy
-React content captures are quarantined under
-`scripts/import-react-content/legacy-react-data/` for the manual import utility
-only; they are not imported by runtime public routes. `apps/web/src/data` keeps
-`translations.js` only as a technical fallback if the translations API is
-unavailable during local development.
+React content captures were merged into `apps/api/database/data` and the old
+manual import utility was removed. `apps/web/src/data` keeps `translations.js`
+only as a technical fallback if the translations API is unavailable during local
+development.

@@ -500,6 +500,46 @@
                 "name": "Tsukanov Maksim Nikolayevich",
                 "title": "PhD, Associate Professor",
                 "image": "cms/staff/tsukanov-maksim-nikolayevich.jpg"
+            },
+            {
+                "name": "Ochilov Abduraxim Abdurasulovich",
+                "title": "Head of Department",
+                "image": "cms/staff/ochilov-abduraxim-abdurasulovich.jpg"
+            },
+            {
+                "name": "Maxmudov Muxtor Jamolovich",
+                "title": "DSc, Professor",
+                "image": "cms/staff/maxmudov-muxtor-jamolovich.jpg"
+            },
+            {
+                "name": "Hayitov Ruslan Rustamjonovich",
+                "title": "DSc, Professor",
+                "image": "cms/staff/hayitov-ruslan-rustamjonovich.jpg"
+            },
+            {
+                "name": "Bozorov G'ayrat Rashidovich",
+                "title": "DSc, Professor",
+                "image": "cms/staff/bozorov-gayrat-rashidovich.jpg"
+            },
+            {
+                "name": "Xo'jaqulov Aziz Fayzullaevich",
+                "title": "PhD, Associate Professor",
+                "image": "cms/staff/xojakulov-aziz-fayzullaevich.jpg"
+            },
+            {
+                "name": "Murodov Malik Negmurodovich",
+                "title": "Candidate of Technical Sciences, Associate Professor",
+                "image": "cms/staff/murodov-malik-negmurodovich.jpg"
+            },
+            {
+                "name": "Safarov Baxri Djumaevich",
+                "title": "Candidate of Technical Sciences, Associate Professor",
+                "image": "cms/staff/safarov-baxri-djumaevich.jpg"
+            },
+            {
+                "name": "Tsukanov Maksim Nikolayevich",
+                "title": "PhD, Associate Professor",
+                "image": "cms/staff/tsukanov-maksim-nikolayevich.jpg"
             }
         ],
         "programs": [

@@ -7,11 +7,7 @@ when the Laravel translations API is unavailable during local development. Publi
 website, academic, media, menu, page, and mobile-visible content must come from
 the Laravel API/MySQL database and be managed through apanel.
 
-Legacy React content captures were moved to:
+Legacy React content captures were moved into API seed JSON. The old
+`scripts/import-react-content` helper was removed after migration review.
 
-```text
-scripts/import-react-content/legacy-react-data
-```
-
-Use `scripts/import-react-content/import.js` only when intentionally
-regenerating seed JSON from those historical captures.
+The reviewed source-of-truth data lives in `apps/api/database/data`.

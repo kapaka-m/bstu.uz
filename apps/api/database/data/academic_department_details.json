@@ -3479,5 +3479,2290 @@
                 }
             ]
         }
-    ]
+    ],
+    "legacy_reviewed_sources": {
+        "mockData": {
+            "source_file": "migrated_from_deleted_scripts_import_react_content_mockData_js",
+            "faculties": [
+                {
+                    "id": "faculty-of-engineering",
+                    "name": "Faculty of Engineering",
+                    "slug": "faculty-of-engineering",
+                    "shortName": "Engineering",
+                    "image": "legacy_removed_web_asset:/assets/img/values-3.png",
+                    "about": "The Faculty of Engineering at Bukhara State Technical University stands at the forefront of technical education and industrial innovation in Uzbekistan. The faculty is committed to developing engineering talent capable of tackling complex design, construction, mechanical, and architectural challenges. By blending rigorous theoretical coursework with hands-on laboratory experiments and real-world industrial projects, we ensure our graduates are fully prepared to lead the engineering and manufacturing sectors.",
+                    "management": {
+                        "dean": "Dr. Jasur A. Nematov",
+                        "title": "Dean of the Faculty of Engineering, Associate Professor",
+                        "email": "engineering-dean@bstu.uz",
+                        "phone": "+998 65 224 64 35 (Ext. 101)",
+                        "officeHours": "Monday - Friday, 2:00 PM - 4:00 PM"
+                    },
+                    "departments": [
+                        "Department of Electrical & Power Engineering",
+                        "Department of Architecture",
+                        "Department of Civil Engineering",
+                        "Department of Light Industry Engineering and Design",
+                        "Department of Mechanics and Engineering Graphics",
+                        "Department of Technological Machines and Equipment",
+                        "Department of Textile Materials Science"
+                    ],
+                    "programs": [
+                        "Power Engineering (Electrical & Thermal Power) [B.Sc. / M.Sc. / PhD]",
+                        "Architecture & Urban Design [B.Sc. / M.Sc.]",
+                        "Civil & Infrastructure Engineering [B.Sc. / M.Sc.]",
+                        "Light Industry Technology & Fashion Design [B.Sc. / M.Sc.]",
+                        "Mechanical Engineering & Production Equipment [B.Sc. / M.Sc.]"
+                    ]
+                },
+                {
+                    "id": "faculty-of-technology",
+                    "name": "Faculty of Technology",
+                    "slug": "faculty-of-technology",
+                    "shortName": "Technology",
+                    "image": "legacy_removed_web_asset:/assets/img/faculties/dean_adizov.jpg",
+                    "about": "The Faculty of Technology maintains continuous cooperation between its specialized departments and industrial enterprises. Department branches operate inside partner enterprises, where students reinforce theoretical knowledge through practical experience. Industry specialists participate directly in the educational process, assess graduating students, sign internship contracts, and create conditions for employment of students with strong knowledge and potential. The faculty is headed by Associate Professor Rashid Tokhtayevich Adizov, PhD in Technical Sciences.",
+                    "management": {
+                        "dean": "Adizov Rashid Tokhtayevich",
+                        "title": "Dean of the Faculty of Technology, Associate Professor, PhD",
+                        "email": "adizov.rashid@mail.ru",
+                        "phone": "+998 93 479 77 65",
+                        "officeHours": "Every day 14:00-16:00 (except Monday and Saturday)"
+                    },
+                    "leadership": [
+                        {
+                            "name": "Adizov Rashid Tokhtayevich",
+                            "role": "Dean of the Faculty of Technology",
+                            "officeHours": "Every day 14:00-16:00 (except Monday and Saturday)",
+                            "phone": "+998 93 479 77 65",
+                            "email": "adizov.rashid@mail.ru",
+                            "image": "legacy_removed_web_asset:/assets/img/faculties/dean_adizov.jpg"
+                        },
+                        {
+                            "name": "Safarov Jasur Alijon o'g'li",
+                            "role": "Deputy Dean for Academic Affairs",
+                            "officeHours": "Every day 14:00-16:00",
+                            "phone": "+998 93 688 56 88",
+                            "email": "jasur.safarov1993@mail.ru",
+                            "image": "legacy_removed_web_asset:/assets/img/faculties/deputy_academic_safarov.jpg"
+                        },
+                        {
+                            "name": "Bozorov Dilmurod Xolmurodovich",
+                            "role": "Deputy Dean for Youth Affairs",
+                            "officeHours": "Every day 14:00-16:00",
+                            "phone": "+998 90 744 47 97",
+                            "email": "d.bozorov_78@mail.ru",
+                            "image": "legacy_removed_web_asset:/assets/img/faculties/deputy_youth_bozorov.jpg"
+                        }
+                    ],
+                    "departments": [
+                        "Department of Oil and Gas Refining Technology",
+                        "Department of Food Technology and Service",
+                        "Department of Chemical Technology",
+                        "Department of Agricultural Products Storage & Oil-Fat Technology",
+                        "Department of Oil and Gas Engineering (Upstream & Downstream)",
+                        "Department of Metrology, Standardization, and Quality Control"
+                    ],
+                    "programs": [
+                        "60710100 - Chemical Engineering",
+                        "60710200 - Biotechnology",
+                        "60710300 - Printing and Packaging Engineering",
+                        "60710800 - Metrology and Standardization",
+                        "60810700 - Storage and Processing Technology of Agricultural Products",
+                        "60811000 - Horticulture and Viticulture",
+                        "60720100 - Food Technology",
+                        "60720500 - Gas Processing Technology",
+                        "60720600 - Oil and Oil-Gas Processing Technology",
+                        "60720900 - Geology, Exploration and Prospecting of Mineral Deposits",
+                        "60721100 - Oil and Gas Engineering",
+                        "70710103 - Chemical Technology of High-Molecular Compounds (Polymer Production)",
+                        "70720101 - Technology of Food Production and Processing (Grain Storage and Processing Technology)",
+                        "70720101 - Technology of Food Production and Processing (Oil Processing Technology)",
+                        "70710101 - Chemical Technology (Inorganic Substances Chemical Technology)",
+                        "70710101 - Chemical Technology (Silicate and Refractory Nonmetallic Materials Technology)",
+                        "70710101 - Chemical Technology (Organic Substances Chemical Technology)"
+                    ]
+                },
+                {
+                    "id": "faculty-of-natural-resources-management",
+                    "name": "Faculty of Natural Resources Management",
+                    "slug": "faculty-of-natural-resources-management",
+                    "shortName": "Natural Resources",
+                    "image": "legacy_removed_web_asset:/assets/img/values-2.png",
+                    "about": "The Faculty of Natural Resources Management addresses the vital challenges of agricultural water management, irrigation, land cadastre, environmental conservation, and vehicle engineering. We aim to train specialists who balance technological development with environmental sustainability, particularly in Central Asia's arid climates.",
+                    "management": {
+                        "dean": "Dr. Alisher M. Kurbanov",
+                        "title": "Dean of Faculty of Natural Resources Management, Associate Professor",
+                        "email": "resources-dean@bstu.uz",
+                        "phone": "+998 65 224 64 35 (Ext. 103)",
+                        "officeHours": "Monday & Wednesday, 3:00 PM - 5:00 PM"
+                    },
+                    "departments": [
+                        "Department of Irrigation and Melioration",
+                        "Department of Hydrotechnical Structures and Pump Stations",
+                        "Department of Agricultural and Water Resources Engineering-Technologies",
+                        "Department of Land Resources Management and State Land Cadastres",
+                        "Department of Industrial Ecology and Hydrogeology",
+                        "Department of Vehicle Engineering (Automotive & Transport Systems)"
+                    ],
+                    "programs": [
+                        "Water Resource Management & Melioration [B.Sc. / M.Sc.]",
+                        "Hydrotechnical Engineering & Pump Stations [B.Sc. / M.Sc.]",
+                        "Land Surveying, Cadastre & GIS Mapping [B.Sc. / M.Sc.]",
+                        "Environmental Protection & Industrial Ecology [B.Sc. / M.Sc. / PhD]",
+                        "Automotive Engineering & Transportation Logistics [B.Sc. / M.Sc.]"
+                    ]
+                },
+                {
+                    "id": "faculty-of-service-and-digitalization",
+                    "name": "Faculty of Service and Digitalization",
+                    "slug": "faculty-of-service-and-digitalization",
+                    "shortName": "Service & Digitalization",
+                    "image": "legacy_removed_web_asset:/assets/img/alt-features.png",
+                    "about": "The Faculty of Service and Digitalization focuses on software engineering, industrial automation, artificial intelligence, and applied economics. In response to the global digital transformation, our courses are designed to prepare innovators who can automate industries, build AI-driven solutions, and manage digital enterprises in Uzbekistan's growing tech ecosystem.",
+                    "management": {
+                        "dean": "Dr. Sherbek N. Xayitov",
+                        "title": "Dean of Faculty of Service and Digitalization, PhD in Technical Sciences",
+                        "email": "digitalization-dean@bstu.uz",
+                        "phone": "+998 65 224 64 35 (Ext. 104)",
+                        "officeHours": "Wednesday & Friday, 2:00 PM - 4:00 PM"
+                    },
+                    "departments": [
+                        "Department of Technological Processes & Production Automation",
+                        "Department of Information and Communication Technologies",
+                        "Department of Economics and Management",
+                        "Department of Artificial Intelligence and Digitalization",
+                        "Department of Social Sciences and Physical Culture",
+                        "Department of Exact Sciences",
+                        "Department of Uzbek and Foreign Languages"
+                    ],
+                    "programs": [
+                        "Software Engineering & Computer Science [B.Sc. / M.Sc.]",
+                        "Industrial Automation & Robotics [B.Sc. / M.Sc.]",
+                        "Artificial Intelligence & Big Data Analytics [B.Sc. / M.Sc.]",
+                        "Economics, Business Administration & IT Management [B.Sc. / M.Sc.]",
+                        "Information Systems Security & Cybersecurity [B.Sc. / M.Sc.]"
+                    ]
+                }
+            ]
+        },
+        "facultyTechnology": {
+            "source_file": "migrated_from_deleted_scripts_import_react_content_facultyTechnology_js",
+            "faculty_id": "faculty-of-technology",
+            "department_slugs": [
+                "oil-gas-refining-technology",
+                "food-technology-service",
+                "chemical-technology",
+                "agricultural-products-storage-oil-fat-technology",
+                "oil-gas-engineering-upstream-downstream",
+                "metrology-standardization-quality-control"
+            ],
+            "route_aliases": {
+                "oil-and-gas-refining-technology": "oil-gas-refining-technology",
+                "food-technology-and-service": "food-technology-service",
+                "oil-and-gas-engineering-upstream-downstream": "oil-gas-engineering-upstream-downstream",
+                "metrology-standardization-and-quality-control": "metrology-standardization-quality-control"
+            },
+            "faculty": {
+                "id": "faculty-of-technology",
+                "slug": "faculty-of-technology",
+                "route": "/faculty/faculty-of-technology",
+                "name": "Faculty of Technology",
+                "title": {
+                    "en": "Faculty of Technology",
+                    "uz": "Faculty of Technology",
+                    "ru": "Faculty of Technology",
+                    "ar": "كلية التكنولوجيا"
+                },
+                "sourceDocument": "apps/web/src/data/facultyTechnologyRequirements.cleaned.txt",
+                "sourceOfTruth": "apps/web/src/data/facultyTechnologyRequirements.cleaned.txt",
+                "rawContent": {
+                    "fullRequirements": "",
+                    "facultySection": ""
+                },
+                "overview": {
+                    "en": "The faculty has established continuous cooperation between its specialized departments and industrial enterprises. Department branches have been organized within these enterprises, where students visit during their free time to reinforce the theoretical knowledge gained in class through practical experience. In addition, specialists from industrial enterprises are actively involved in the educational process. Specialists from these enterprises directly participate in the classes of graduating students, assess their knowledge, and sign official contracts with them, providing all the necessary conditions for the students to complete their pre-graduation internships at their enterprises. During the internship period, the heads of industrial enterprises ensure the employment of students who demonstrate strong knowledge and potential. The faculty is headed by Associate Professor R.T. Adizov, Ph.D. (Technical Sciences), who has 40 years of experience and whose academic expertise is recognized by foreign higher education institutions as well.",
+                    "uz": "The faculty has established continuous cooperation between its specialized departments and industrial enterprises. Department branches have been organized within these enterprises, where students visit during their free time to reinforce the theoretical knowledge gained in class through practical experience. In addition, specialists from industrial enterprises are actively involved in the educational process. Specialists from these enterprises directly participate in the classes of graduating students, assess their knowledge, and sign official contracts with them, providing all the necessary conditions for the students to complete their pre-graduation internships at their enterprises. During the internship period, the heads of industrial enterprises ensure the employment of students who demonstrate strong knowledge and potential. The faculty is headed by Associate Professor R.T. Adizov, Ph.D. (Technical Sciences), who has 40 years of experience and whose academic expertise is recognized by foreign higher education institutions as well.",
+                    "ru": "The faculty has established continuous cooperation between its specialized departments and industrial enterprises. Department branches have been organized within these enterprises, where students visit during their free time to reinforce the theoretical knowledge gained in class through practical experience. In addition, specialists from industrial enterprises are actively involved in the educational process. Specialists from these enterprises directly participate in the classes of graduating students, assess their knowledge, and sign official contracts with them, providing all the necessary conditions for the students to complete their pre-graduation internships at their enterprises. During the internship period, the heads of industrial enterprises ensure the employment of students who demonstrate strong knowledge and potential. The faculty is headed by Associate Professor R.T. Adizov, Ph.D. (Technical Sciences), who has 40 years of experience and whose academic expertise is recognized by foreign higher education institutions as well.",
+                    "ar": "كلية التكنولوجيا"
+                },
+                "leadership": [
+                    {
+                        "name": "Adizov Rashid Tokhtayevich",
+                        "role": "Dean of the Faculty of Technology",
+                        "title": "Associate Professor, PhD in Technical Sciences",
+                        "reception": "Every day 14:00-16:00 (except Monday and Saturday)",
+                        "phone": "+998 93 479 77 65",
+                        "email": "adizov.rashid@mail.ru",
+                        "image": "legacy_removed_web_asset:/assets/img/Dean/Adizov-Rashid-Tokhtayevich.jpg",
+                        "fallbackImage": "legacy_removed_web_asset:/assets/img/faculties/dean_adizov.jpg"
+                    },
+                    {
+                        "name": "Safarov Jasur Alijon o‘g‘li",
+                        "role": "Deputy Dean for Academic Affairs",
+                        "title": "Deputy Dean for Academic Affairs",
+                        "reception": "Every day 14:00-16:00",
+                        "phone": "+998 93 688 56 88",
+                        "email": "jasur.safarov1993@mail.ru",
+                        "image": "legacy_removed_web_asset:/assets/img/Dean/Safarov-Jasur-Alijon-ogli.jpg",
+                        "fallbackImage": "legacy_removed_web_asset:/assets/img/faculties/deputy_academic_safarov.jpg"
+                    },
+                    {
+                        "name": "Bozorov Dilmurod Xolmurodovich",
+                        "role": "Deputy Dean for Youth Affairs",
+                        "title": "Deputy Dean for Youth Affairs",
+                        "reception": "Every day 14:00-16:00",
+                        "phone": "+998 90 744 47 97",
+                        "email": "d.bozorov_78@mail.ru",
+                        "image": "legacy_removed_web_asset:/assets/img/Dean/Bozorov-Dilmurod-Xolmurodovich.jpg",
+                        "fallbackImage": "legacy_removed_web_asset:/assets/img/faculties/deputy_youth_bozorov.jpg"
+                    }
+                ],
+                "imageAssets": [
+                    {
+                        "id": "dean-adizov",
+                        "src": "legacy_removed_web_asset:/assets/img/Dean/Adizov-Rashid-Tokhtayevich.jpg",
+                        "fallback": "legacy_removed_web_asset:/assets/img/faculties/dean_adizov.jpg",
+                        "alt": "Adizov Rashid Tokhtayevich"
+                    },
+                    {
+                        "id": "deputy-safarov",
+                        "src": "legacy_removed_web_asset:/assets/img/Dean/Safarov-Jasur-Alijon-ogli.jpg",
+                        "fallback": "legacy_removed_web_asset:/assets/img/faculties/deputy_academic_safarov.jpg",
+                        "alt": "Safarov Jasur Alijon o‘g‘li"
+                    },
+                    {
+                        "id": "deputy-bozorov",
+                        "src": "legacy_removed_web_asset:/assets/img/Dean/Bozorov-Dilmurod-Xolmurodovich.jpg",
+                        "fallback": "legacy_removed_web_asset:/assets/img/faculties/deputy_youth_bozorov.jpg",
+                        "alt": "Bozorov Dilmurod Xolmurodovich"
+                    }
+                ],
+                "bachelorPrograms": [
+                    {
+                        "code": "60710100",
+                        "name": "Chemical Engineering",
+                        "level": "bachelor",
+                        "note": "",
+                        "id": "chemical-engineering",
+                        "route": "/programs/chemical-engineering"
+                    },
+                    {
+                        "code": "60710200",
+                        "name": "Biotechnology",
+                        "level": "bachelor",
+                        "note": "",
+                        "id": "biotechnology",
+                        "route": "/programs/biotechnology"
+                    },
+                    {
+                        "code": "60710300",
+                        "name": "Printing and Packaging Engineering",
+                        "level": "bachelor",
+                        "note": "",
+                        "id": "printing-packaging-engineering",
+                        "route": "/programs/printing-packaging-engineering"
+                    },
+                    {
+                        "code": "60710800",
+                        "name": "Metrology and Standardization",
+                        "level": "bachelor",
+                        "note": "",
+                        "id": "metrology-standardization",
+                        "route": "/programs/metrology-standardization"
+                    },
+                    {
+                        "code": "60810700",
+                        "name": "Storage and Processing Technology of Agricultural Products",
+                        "level": "bachelor",
+                        "note": "",
+                        "id": "agricultural-products-storage-processing",
+                        "route": "/programs/agricultural-products-storage-processing"
+                    },
+                    {
+                        "code": "60811000",
+                        "name": "Horticulture and Viticulture",
+                        "level": "bachelor",
+                        "note": "",
+                        "id": "horticulture-viticulture",
+                        "route": "/programs/horticulture-viticulture"
+                    },
+                    {
+                        "code": "60720100",
+                        "name": "Food Technology",
+                        "level": "bachelor",
+                        "note": "",
+                        "id": "food-technology",
+                        "route": "/programs/food-technology"
+                    },
+                    {
+                        "code": "60720500",
+                        "name": "Gas Processing Technology",
+                        "level": "bachelor",
+                        "note": "",
+                        "id": "gas-processing-technology",
+                        "route": "/programs/gas-processing-technology"
+                    },
+                    {
+                        "code": "60720600",
+                        "name": "Oil and Oil-Gas Processing Technology",
+                        "level": "bachelor",
+                        "note": "",
+                        "id": "oil-gas-processing-technology",
+                        "route": "/programs/oil-gas-processing-technology"
+                    },
+                    {
+                        "code": "60720900",
+                        "name": "Geology, Exploration and Prospecting of Mineral Deposits",
+                        "level": "bachelor",
+                        "note": "",
+                        "id": "geology-exploration-mineral-deposits",
+                        "route": "/programs/geology-exploration-mineral-deposits"
+                    },
+                    {
+                        "code": "60721100",
+                        "name": "Oil and Gas Engineering",
+                        "level": "bachelor",
+                        "note": "",
+                        "id": "oil-gas-engineering",
+                        "route": "/programs/oil-gas-engineering"
+                    }
+                ],
+                "masterSpecializations": [
+                    {
+                        "code": "70710103",
+                        "name": "Chemical Technology of High-Molecular Compounds (Polymer Production)",
+                        "level": "master",
+                        "note": "",
+                        "id": "polymer-production-technology",
+                        "route": "/programs/polymer-production-technology"
+                    },
+                    {
+                        "code": "70720101",
+                        "name": "Technology of Food Production and Processing (Grain Storage and Processing Technology)",
+                        "level": "master",
+                        "note": "",
+                        "id": "grain-storage-processing-technology",
+                        "route": "/programs/grain-storage-processing-technology"
+                    },
+                    {
+                        "code": "70720101",
+                        "name": "Technology of Food Production and Processing (Oil Processing Technology)",
+                        "level": "master",
+                        "note": "",
+                        "id": "oil-processing-technology",
+                        "route": "/programs/oil-processing-technology"
+                    },
+                    {
+                        "code": "70710101",
+                        "name": "Chemical Technology (Inorganic Substances Chemical Technology)",
+                        "level": "master",
+                        "note": "",
+                        "id": "inorganic-chemical-technology",
+                        "route": "/programs/inorganic-chemical-technology"
+                    },
+                    {
+                        "code": "70710101",
+                        "name": "Chemical Technology (Silicate and Refractory Nonmetallic Materials Technology)",
+                        "level": "master",
+                        "note": "",
+                        "id": "silicate-refractory-materials-technology",
+                        "route": "/programs/silicate-refractory-materials-technology"
+                    },
+                    {
+                        "code": "70710101",
+                        "name": "Chemical Technology (Organic Substances Chemical Technology)",
+                        "level": "master",
+                        "note": "",
+                        "id": "organic-chemical-technology",
+                        "route": "/programs/organic-chemical-technology"
+                    }
+                ]
+            },
+            "departments": [
+                {
+                    "facultyId": "faculty-of-technology",
+                    "sourceDocument": "apps/web/src/data/facultyTechnologyRequirements.cleaned.txt",
+                    "sourceOfTruth": "apps/web/src/data/facultyTechnologyRequirements.cleaned.txt",
+                    "rawContent": {
+                        "original": "",
+                        "fullRequirements": ""
+                    },
+                    "name": "Oil and Gas Refining Technology",
+                    "title": {
+                        "en": "Oil and Gas Refining Technology",
+                        "uz": "Oil and Gas Refining Technology",
+                        "ru": "Oil and Gas Refining Technology",
+                        "ar": "Oil and Gas Refining Technology"
+                    },
+                    "slug": "oil-gas-refining-technology",
+                    "route": "/department/oil-gas-refining-technology",
+                    "aliases": [
+                        "/department/oil-and-gas-refining-technology"
+                    ],
+                    "sourceLink": "https://old.bstu.uz/kafedra/neft-gazni-qayta-ishlash-texnologiyasi",
+                    "imageFolder": "legacy_removed_web_asset:/assets/img/departments-Oil and Gas Refining Technology/",
+                    "contact": {
+                        "name": "Ochilov Abduraxim Abdurasulovich",
+                        "role": "Head of Department",
+                        "title": "PhD, associate professor",
+                        "reception": "Dushanba-Juma (14:00-16:00 gacha)",
+                        "phone": "+998 91 411 00 16",
+                        "email": "ochilov82@gmail.ru",
+                        "image": "legacy_removed_web_asset:/assets/img/departments-Oil and Gas Refining Technology/Ochilov-Abduraxim-Abdurasulovich.jpg",
+                        "fallbackImage": "cms/staff/ochilov-abduraxim-abdurasulovich.jpg"
+                    },
+                    "history": [
+                        "Since 2001-2002 academic year on the basis of Bukhara Autonomous Okrug and Yesti, the Department of Technologies of Oil and Gas Processing has been organized. The purpose of the creation of the department in this region was to provide qualified personnel to the Bukhara oil refinery, the Mubarak gas refinery, the Gazlineftegaziburization department and other enterprises.",
+                        "On April 15, 2013, in accordance with decree PP-1954, the Department of Technologies of Oil and Gas Processing and Oil and Gas Business was formed from the merger of the earlier departments.",
+                        "On July 10, 2019, three departments were established on the basis of the Department of Petroleum and Gas Chemical Industry Technology. From September 13, 2025 to the present, the department has been headed by Ph.D., associate professor A.A. Ochilov."
+                    ],
+                    "preparedSpecialists": [
+                        {
+                            "code": "60721100",
+                            "name": "Technology of oil and gas refining",
+                            "level": "bachelor",
+                            "note": "",
+                            "id": "oil-gas-refining-technology-program",
+                            "route": "/programs/oil-gas-refining-technology-program"
+                        },
+                        {
+                            "code": "60720500",
+                            "name": "Technology of Deep Gas Processing",
+                            "level": "bachelor",
+                            "note": "",
+                            "id": "deep-gas-processing-technology",
+                            "route": "/programs/deep-gas-processing-technology"
+                        },
+                        {
+                            "code": "70720600",
+                            "name": "Technology of oil and gas processing",
+                            "level": "master",
+                            "note": "",
+                            "id": "oil-gas-processing-master",
+                            "route": "/programs/oil-gas-processing-master"
+                        },
+                        {
+                            "code": "02.00.08",
+                            "name": "Chemistry and technology of oil and gas",
+                            "level": "doctoral",
+                            "note": "",
+                            "id": "oil-gas-chemistry-technology-doctoral",
+                            "route": "/programs/oil-gas-chemistry-technology-doctoral"
+                        }
+                    ],
+                    "subjects": {
+                        "bachelor": [
+                            "Introduction to Specialization",
+                            "Oil and Gas Processing Technology 1,2",
+                            "Equipment and equipment for oil and gas processing 1,2",
+                            "Design of enterprises of the oil and gas processing industry",
+                            "General Chemical Technology",
+                            "Synthesis and Technology of Monomers from Gas and Gas Condensate",
+                            "Chemistry and Technology of Fuels and Oils",
+                            "Disposal of oil and gas processing waste",
+                            "Quality control of oil and gas products",
+                            "Modern methods of oil and gas product research",
+                            "Physics and Chemistry of Natural Gas and Gas Condensates 1,2",
+                            "Hydrocarbon Gas Processing Technology 1,2",
+                            "Technology of Natural Gas and Gas Condensate Processing",
+                            "Chemistry and Technology of Polymer Processing",
+                            "Synthesis and Technology of Monomers Based on Gases and Gas Condensate",
+                            "Protection of metals from corrosion",
+                            "Oil and Gas Refining Processes",
+                            "Production of liquid hydrocarbons from gas using GTL technology in Uzbekistan",
+                            "Petroleum-Gas Chemistry and Physics",
+                            "Equipment and equipment of oil and gas refineries",
+                            "Chemistry and Technology of Synthetic and Biofuels Production",
+                            "Deep Oil Refining Technology",
+                            "Pyrolysis of Hydrocarbon Feedstock",
+                            "Physics and Chemistry of Hydrocarbon Gases",
+                            "Operation of Oil Bases and Gas Stations",
+                            "Energy Saving Technologies in Oil and Gas Refining Industry",
+                            "Training on the processes of the oil and gas refining industry",
+                            "Landings used in the petrochemical industry",
+                            "Additional resources in the oil and gas chemical industry",
+                            "Inorganic sorbents of oil and gas refining",
+                            "Catalyst in the Gas Chemical Industry",
+                            "Technology of Synthesis Gas Production",
+                            "Gas Supply Systems",
+                            "Use of gas distribution and disposal points",
+                            "Process training of the gas chemical industry"
+                        ],
+                        "master": [
+                            "Methodology of scientific research",
+                            "Technology of deep processing of oil and gas 1,2",
+                            "Corrosion protection of oil and gas refining equipment",
+                            "Improvement and design of oil and gas processing enterprises",
+                            "Methods of teaching special disciplines",
+                            "Research work and preparation of master's dissertation",
+                            "Scientific and pedagogical work",
+                            "Modern methods of physical and chemical analysis",
+                            "Industrial technologies and innovations",
+                            "Experimental planning",
+                            "Chemistry of oil and gas refining products",
+                            "Chemistry and technology of obtaining additives for fuels and oils",
+                            "Chemistry of production of alternative and synthetic mature fuels",
+                            "Chemistry and technology of natural gas-based syntheses"
+                        ]
+                    },
+                    "staff": [
+                        {
+                            "name": "Ochilov Abdurasulovich",
+                            "role": "Head of the department",
+                            "title": "Head of the department",
+                            "image": "legacy_removed_web_asset:/assets/img/departments-Oil and Gas Refining Technology/Ochilov-Abduraxim-Abdurasulovich.jpg",
+                            "fallbackImage": "cms/staff/ochilov-abduraxim-abdurasulovich.jpg"
+                        },
+                        {
+                            "name": "Maxmudov Muxtor Jamolovich",
+                            "role": "DSc, professor",
+                            "title": "DSc, professor",
+                            "image": "legacy_removed_web_asset:/assets/img/departments-Oil and Gas Refining Technology/Maxmudov-Muxtor-Jamolovich.jpg"
+                        },
+                        {
+                            "name": "Hayitov Ruslan Rustamjonovich",
+                            "role": "DSc, professor",
+                            "title": "DSc, professor",
+                            "image": "legacy_removed_web_asset:/assets/img/departments-Oil and Gas Refining Technology/Hayitov Ruslan Rustamjonovich.jpg"
+                        },
+                        {
+                            "name": "Bozorov G‘ayrat Rashidovich",
+                            "role": "DSc, professor",
+                            "title": "DSc, professor",
+                            "image": "legacy_removed_web_asset:/assets/img/departments-Oil and Gas Refining Technology/Bozorov G‘ayrat Rashidovich.jpg"
+                        },
+                        {
+                            "name": "Xo‘jaqulov Aziz Fayzullaevich",
+                            "role": "PhD, dotsent",
+                            "title": "PhD, dotsent",
+                            "image": "legacy_removed_web_asset:/assets/img/departments-Oil and Gas Refining Technology/Xo‘jaqulov Aziz Fayzullaevich.jpg",
+                            "fallbackImage": "cms/staff/xojakulov-aziz-fayzullaevich.jpg"
+                        },
+                        {
+                            "name": "Murodov Malik Negmurodovich",
+                            "role": "t.f.n., dotsent",
+                            "title": "t.f.n., dotsent",
+                            "image": "legacy_removed_web_asset:/assets/img/departments-Oil and Gas Refining Technology/Murodov Malik Negmurodovich.jpg"
+                        },
+                        {
+                            "name": "Safarov Baxri Djumaevich",
+                            "role": "t.f.n., dotsent",
+                            "title": "t.f.n., dotsent",
+                            "image": "legacy_removed_web_asset:/assets/img/departments-Oil and Gas Refining Technology/Safarov Baxri Djumaevich.jpg"
+                        },
+                        {
+                            "name": "Tsukanov Maksim Nikolayevich",
+                            "role": "PhD, dotsent",
+                            "title": "PhD, dotsent",
+                            "image": "legacy_removed_web_asset:/assets/img/departments-Oil and Gas Refining Technology/Tsukanov Maksim Nikolayevich.jpg"
+                        }
+                    ],
+                    "publications": {
+                        "conferencePapers": [
+                            {
+                                "title": "J.A. Safarov, R.R. Hayitov. The S&P 500 has been hit hard by the S&P 500 Index. \"The Politics and Politics of Nigeria...\" Proceedings of the National Conference-Symposium, November 25, 2021, pp. 165-167.",
+                                "category": "conference"
+                            },
+                            {
+                                "title": "Ж.А. Сафаров, Р.Р. Ҳайитов. Ишлатилган мотор мойларининг таркибини аниқлаш. В-Халқаро конференция-симпозиум, 25 ноябрь 2021 й., 255-258 б.",
+                                "category": "conference"
+                            },
+                            {
+                                "title": "Ж.А. Сафаров, Р.Р. Ҳайитов. Ишлатилган мотор мойларини тозалаш усулини танлаш. В-Халқаро конференция-симпозиум, 25 ноябрь 2021 й., 258-261 б.",
+                                "category": "conference"
+                            },
+                            {
+                                "title": "Ж.А. Сафаров, К.Ш. Ҳотамов. Юқори сифатли дизель ёқилғиларини ишлаб чиқариш жараёнларининг замонавий ҳолати. Тошкент, 2021.",
+                                "category": "conference"
+                            },
+                            {
+                                "title": "О.Б. Ахмедова, З.Н. Акрамова. Газни тайёрлаш жараёнида паст ҳароратли сепараторни тадқиқ қилиш. Бухоро, 20-22 октябрь 2021 й., 326-327 б.",
+                                "category": "conference"
+                            },
+                            {
+                                "title": "O.B. Akhmedova, Sh. Akhmedova. Gazlarni nordon komponentlardan tozalash uchun samarali absorbent compositionsini ishlab chikish. Bukhoro, October 20-22, 2021, 328-329 p.",
+                                "category": "conference"
+                            },
+                            {
+                                "title": "B.B. Toirov, A.A. Alimov. The relevance of production of synthetic petroleum feedstock from coal crude. Tashkent, 2022, pp. 135-137.",
+                                "category": "conference"
+                            },
+                            {
+                                "title": "N.I. Bakhramov, O.B. Akhmedova, R.R. Hayitov. Investigation of the composition of granulated active charcoal for purification of alkanolamines. Retrieved November 25, 2021, pp. 192-194.",
+                                "category": "conference"
+                            },
+                            {
+                                "title": "O.B. Akhmedova, Z.Z. Rakhimov. Technique for obtaining methyldiethanolamine, which is applied in the treatment of gases. Retrieved November 25, 2021, pp. 167-170.",
+                                "category": "conference"
+                            }
+                        ],
+                        "scopusWebOfScience": [
+                            {
+                                "title": "Kayum Jumaev, Baxodir Tursunov. Technology for Obtaining Fuel Briquettes from Oil Waste. IOP Conference Series: Earth and Environmental Science, Krasnoyarsk, Russia, 16-18 June 2022.",
+                                "category": "scopus"
+                            }
+                        ],
+                        "textbooksManuals": [
+                            {
+                                "title": "M.Zh. Makhmudov and others. Modern methods of physicochemical analysis. 2024.",
+                                "category": "textbook"
+                            },
+                            {
+                                "title": "E.R. Panoyev and others. Catalytic processes and catalysts for petrochemical industry. 2025 year.",
+                                "category": "textbook"
+                            },
+                            {
+                                "title": "B.J Tursunov and others. Chemistry and physics of petroleum. 2025 year.",
+                                "category": "textbook"
+                            },
+                            {
+                                "title": "M.Q. Turakulova and others. Research Methodology. 2025 year.",
+                                "category": "textbook"
+                            },
+                            {
+                                "title": "S.F. Fozilov and others. Methods of physical and chemical analysis of oil and gas products. 2025 year.",
+                                "category": "textbook"
+                            }
+                        ],
+                        "monographs": [
+                            {
+                                "title": "Small biogas plants designed for the population and farms. Bukhara, 2021.",
+                                "category": "monograph"
+                            },
+                            {
+                                "title": "Activated Charcoal for Organic Feedstock Gas Processing Plants. Bukhara, 2021.",
+                                "category": "monograph"
+                            },
+                            {
+                                "title": "Technology for Obtaining Polymethacrylate-Based Additives for Fuels and Oils. Bukhara, 2020.",
+                                "category": "monograph"
+                            },
+                            {
+                                "title": "Obtaining effective solutions based on drilling muds. Bukhara, 2020.",
+                                "category": "monograph"
+                            },
+                            {
+                                "title": "Motor Gasolines and Ways to Improve Their Sustainability. Tashkent, 2020.",
+                                "category": "monograph"
+                            }
+                        ]
+                    },
+                    "research": [
+                        "Laboratory modernization with JSC Uzbekneftegaz, CISTU, Bukhara Oil Refinery LLC, and Shurtan Gas Chemical Complex.",
+                        "Negotiations with Sharif University of Technology for 19 laboratory equipment types worth 186,000 USD.",
+                        "Scientific council DSc.03/28.02.2022.T.101.01 supports academic degrees in chemistry and technology of oil and gas and colloid and membrane chemistry."
+                    ],
+                    "cooperation": [
+                        "Baku Higher Oil School joint master's education program connected to Uzbekneftegaz JSC and SOCAR cooperation.",
+                        "Vilnius Gediminas Technical University internship through Erasmus+ UzMedEn.",
+                        "Atyrau Oil and Gas University named after S. Utebaev.",
+                        "Ufa State Oil Technical University.",
+                        "South Kazakhstan University named after M. Auezov.",
+                        "Hebei Professional University of Technology and Engineering, China."
+                    ]
+                },
+                {
+                    "facultyId": "faculty-of-technology",
+                    "sourceDocument": "apps/web/src/data/facultyTechnologyRequirements.cleaned.txt",
+                    "sourceOfTruth": "apps/web/src/data/facultyTechnologyRequirements.cleaned.txt",
+                    "rawContent": {
+                        "original": "",
+                        "fullRequirements": ""
+                    },
+                    "name": "Food Technology and Service",
+                    "title": {
+                        "en": "Food Technology and Service",
+                        "uz": "Food Technology and Service",
+                        "ru": "Food Technology and Service",
+                        "ar": "Food Technology and Service"
+                    },
+                    "slug": "food-technology-service",
+                    "route": "/department/food-technology-service",
+                    "aliases": [
+                        "/department/food-technology-and-service"
+                    ],
+                    "sourceLink": "https://old.bstu.uz/kafedra/oziq-ovqat-texnologiyasi",
+                    "imageFolder": "legacy_removed_web_asset:/assets/img/departments-Food-Technology-and-Service/",
+                    "contact": {
+                        "name": "Qurbonov Murod Tashpulatovich",
+                        "role": "Head of Department",
+                        "title": "Head of Department",
+                        "reception": "Dushanba-Shanba (15:00-17:00)",
+                        "phone": "+998 90 299 85 48",
+                        "email": "kurbanov.m@rambler.ru"
+                    },
+                    "history": [
+                        "In accordance with decree No. 6 of 1980, the department Technology of bread, pasta and confectionery products was organized.",
+                        "Since August 28, 2017, according to the new structure of the institute, Food Technology was renamed into the Department of 5321000-Food Technology (by branches).",
+                        "Earlier educational areas were led by Vosiev M.G., Mokhnacheva A.I., I.B. Isabaev, Tındybekov O.T., Lavrinovich Yu.I., Ismatov N.A., Boboev S.D., Khaitov R.A., Adizov R.T., Majidov Q.X., Egamberdiev N.B., Makhmadaliev B.D., Sharifulina T.A., Salomov H.T., Salomov B.H., and Quliev N.Sh."
+                    ],
+                    "staff": [
+                        {
+                            "name": "Atamuradova Tamara Ivanovna",
+                            "role": "Candidate of the Technical Science Associate Professor",
+                            "title": "Candidate of the Technical Science Associate Professor",
+                            "image": "legacy_removed_web_asset:/assets/img/departments/technology/atamuradova-tamara-ivanovna.jpg"
+                        },
+                        {
+                            "name": "Ergasheva Khusrabo Bobonazarovna",
+                            "role": "Candidate of Technical Sciences, Associate Professor",
+                            "title": "Candidate of Technical Sciences, Associate Professor",
+                            "image": "legacy_removed_web_asset:/assets/img/departments/technology/ergasheva-khusrabo-bobonazarovna.jpg"
+                        },
+                        {
+                            "name": "Khaydarzoda Lolitta Negmatovna",
+                            "role": "Candidate of the technical sciences, associate professor",
+                            "title": "Candidate of the technical sciences, associate professor",
+                            "image": "legacy_removed_web_asset:/assets/img/departments/technology/khaydarzoda-lolitta-negmatovna.jpg"
+                        },
+                        {
+                            "name": "Khuzhakulova Nilufar Fayzullayevna",
+                            "role": "Candidate of the technical sciences, associate professor (PhD)",
+                            "title": "Candidate of the technical sciences, associate professor (PhD)",
+                            "image": "legacy_removed_web_asset:/assets/img/departments/technology/khuzhakulova-nilufar-fayzullayevna.jpg"
+                        },
+                        {
+                            "name": "Yuldasheva Shabon Jumaevna",
+                            "role": "Senior teacher",
+                            "title": "Senior teacher",
+                            "image": "legacy_removed_web_asset:/assets/img/departments/technology/yuldasheva-shabon-jumaevna.jpg"
+                        },
+                        {
+                            "name": "Ismatova Shakhnoza Nusratillonovna",
+                            "role": "Candidate of technical sciences, associate professor (PhD)",
+                            "title": "Candidate of technical sciences, associate professor (PhD)",
+                            "image": "legacy_removed_web_asset:/assets/img/departments/technology/ismatova-shakhnoza-nusratillonovna.jpg"
+                        },
+                        {
+                            "name": "Amonov Bobur Nematovich",
+                            "role": "Assistant",
+                            "title": "Assistant"
+                        },
+                        {
+                            "name": "Muzafarova Hall Mukhinovna",
+                            "role": "Assistant",
+                            "title": "Assistant"
+                        },
+                        {
+                            "name": "Khamroyev Jonibek Sadilloyevich",
+                            "role": "Head of the Cabinet",
+                            "title": "Head of the Cabinet",
+                            "image": "legacy_removed_web_asset:/assets/img/departments/technology/xamroyev-jonibek-sadilloyevich.jpg"
+                        }
+                    ],
+                    "preparedSpecialists": [
+                        {
+                            "code": "60720100",
+                            "name": "Food technology",
+                            "level": "bachelor",
+                            "note": "",
+                            "id": "food-technology",
+                            "route": "/programs/food-technology"
+                        },
+                        {
+                            "code": "60720300",
+                            "name": "Technology of wine growing, whisking products and soft drinks",
+                            "level": "bachelor",
+                            "note": "",
+                            "id": "wine-fermentation-soft-drinks-technology",
+                            "route": "/programs/wine-fermentation-soft-drinks-technology"
+                        },
+                        {
+                            "code": "60720400",
+                            "name": "Conservation Technology",
+                            "level": "bachelor",
+                            "note": "",
+                            "id": "food-conservation-technology",
+                            "route": "/programs/food-conservation-technology"
+                        },
+                        {
+                            "code": "70720101",
+                            "name": "Technology of processing and processing of food products (bakery products)",
+                            "level": "master",
+                            "note": "",
+                            "id": "bakery-products-technology",
+                            "route": "/programs/bakery-products-technology"
+                        },
+                        {
+                            "code": "70720101",
+                            "name": "Technology of processing and processing of food products (grain products)",
+                            "level": "master",
+                            "note": "",
+                            "id": "grain-products-technology",
+                            "route": "/programs/grain-products-technology"
+                        }
+                    ],
+                    "subjects": {
+                        "bachelor": [
+                            "Fundamentals of modern professional technology",
+                            "The composition and properties of plant raw materials",
+                            "Food biochemistry",
+                            "Food commodity science",
+                            "Food examination",
+                            "Food raw materials and materials commodity science",
+                            "Food microbiology",
+                            "Physicochemical methods of determining the quality of food products",
+                            "Food Research Methods",
+                            "Raw materials and nutritional additives in the production of bread, pasta and confectionery products",
+                            "Food Quality Assessment",
+                            "Bakery, pasta and confectionery equipment",
+                            "Technology of Pasta Products",
+                            "Technology of production of confectionery products",
+                            "Flour and Technologies of Production",
+                            "Equipment of grain processing enterprises",
+                            "Technology of storage of grain and grain products",
+                            "Examination of bread, pasta and confectionery products",
+                            "Confectionery Products Technology",
+                            "Bread Biochemistry",
+                            "Technical and chemical control of bread, pasta and confectionery products",
+                            "Feed production technology in Omixta",
+                            "Examination of Grain and Grain Products",
+                            "Elevator and Warehouse",
+                            "Basics of financing industrial enterprises"
+                        ],
+                        "master": [
+                            "Grain Biochemistry",
+                            "Innovations in the technology of production of confectionery, bread and pasta products",
+                            "Scientific basis for improving the efficiency and competitiveness of food production from vegetable raw materials",
+                            "Ventilation and pneumatic transport devices",
+                            "Scientific and pedagogical work",
+                            "Research work and preparation of a master's thesis",
+                            "Current trends in technology development in the food industry",
+                            "Use of biotechnology advances in agricultural processing",
+                            "Scientific Foundations of Un-Baking Technology",
+                            "Seed processing",
+                            "The Elevator-Warehouse Industry and Grain Drying",
+                            "Scientific practice (gaining experience)"
+                        ]
+                    },
+                    "activities": [
+                        "HACCP system training organized by the Association of Food Industry of Uzbekistan, Bukhara Engineering and Technological Institute and GIZ.",
+                        "Cultural and educational event for the 580th anniversary of Alisher Navoi with senior teacher Sh.J. Yuldasheva and students.",
+                        "Experience process at JSC Kogondon Products with graduate students, Associate Professor Ergasheva Kh.B. and senior teacher Yuldasheva Sh.J.",
+                        "N.R. Djuraeva won the Inventive Woman-2022 nomination The Best Invention and Useful Model.",
+                        "Holiday organized with children of the House of Muruvvat using national adras fabric."
+                    ],
+                    "publications": {
+                        "monographs": [
+                            {
+                                "title": "Kh.B.Ergasheva, Sh.J.Yuldasheva. Technological properties of the wheat of Uzbekistan.",
+                                "category": "monograph"
+                            },
+                            {
+                                "title": "Kh.B.Ergasheva, Sh.J.Yuldasheva. Rations of feeding agricultural animals.",
+                                "category": "monograph"
+                            },
+                            {
+                                "title": "Kh.B.Ergasheva, Sh.J.Yuldasheva, Sh.N.Ismatova. Research of the process of storing kombikorov in the conditions of Uzbekistan.",
+                                "category": "monograph"
+                            }
+                        ],
+                        "textbooksManuals": [
+                            {
+                                "title": "S.Ravshanov, N.A.Ismatov, Sh.J.Yuldasheva. Modern technologies of flour and oat production.",
+                                "category": "textbook"
+                            },
+                            {
+                                "title": "Kh.B.Ergasheva, Sh.J.Yuldasheva, G.Z.Djakhangirova, M.T.Kurbanov. Biochemistry of the Grain.",
+                                "category": "textbook"
+                            },
+                            {
+                                "title": "H.B.Ergasheva, M.B. Kamolova. Professional ethics and etiquette. Bukhara, 2020.",
+                                "category": "textbook"
+                            },
+                            {
+                                "title": "Kh.B.Ergasheva. Technology of feed production in Omix. Bukhara, 2019.",
+                                "category": "textbook"
+                            },
+                            {
+                                "title": "N.A.Ismatov, S.D.Boboev, Sh.Zh.Yuldasheva. Aspiration and ventilation devices.",
+                                "category": "textbook"
+                            }
+                        ],
+                        "articles": [
+                            {
+                                "title": "Ergasheva H.B. Research of Change in Humidity of Local and Other Varieties of Soya Seeds at Various Storage Modes. Annals of R.S.C.B., 2021.",
+                                "category": "article"
+                            },
+                            {
+                                "title": "Ergasheva H.B. The Effect Of Drinking And Activated Water On Field Scales Of Wheat Grains Grown In Arid Climatic Conditions. European Journal of Molecular & Clinical Medicine, 2020.",
+                                "category": "article"
+                            },
+                            {
+                                "title": "Amanov B.N. Influence of Products from Tomato Press on The Efficiency of The Technological Process and The Quality of Rye Bread. European Journal of Life Safety and Stability, 2021.",
+                                "category": "article"
+                            },
+                            {
+                                "title": "Amanov B.N. Applicatios of Natural Additives - Acidiments and Probiotic Bacterial Preparations for Prevention of Rye Bread Cretal Disease. Natural Volatiles and Essential Oils, 2021.",
+                                "category": "article"
+                            },
+                            {
+                                "title": "Джураева Н.Р. Влияние термообработки на микробную контаминацию эмулсионных жиромучных композитных смесей. Развитие науки и технологий, 2021.",
+                                "category": "article"
+                            },
+                            {
+                                "title": "Ismatova Sh.N. Justification of the expediency of using sprouted quinoa grain as part of mixed feeds for birds. International Journal of Mechanical Engineering, 2021.",
+                                "category": "article"
+                            },
+                            {
+                                "title": "Ismatova Sh.N Prospects of the use of quinoa and amaranth for expanding of food reserve of poultry farming. Austrian journal of technical and natural sciences, 2020.",
+                                "category": "article"
+                            },
+                            {
+                                "title": "Исматова Ш.Н. Изменение химического состава комбикормов при хранении. Universum: Технические науки, 2019.",
+                                "category": "article"
+                            },
+                            {
+                                "title": "Исматова Ш.Н. Алтернативные источники сыря для производства комбикормовой продукции. Universum: Технические науки, 2019.",
+                                "category": "article"
+                            },
+                            {
+                                "title": "Xo`jaqulova N.F. Quality and physical and chemical characteristics of local wheat grain kinds. Austrian Journal of Technical and Natural Sciences, 2019.",
+                                "category": "article"
+                            },
+                            {
+                                "title": "Xo`jaqulova N.F. Влияние гидротермической обработки на биохимические свойства зерна пшеницы. UNIVERSUM: Технические науки, 2020.",
+                                "category": "article"
+                            },
+                            {
+                                "title": "Xo`jaqulova N.F. Assessment of grade and biochemical composition of Chillaki wheat grain, grown in salted fields. TEST Engineering of Management, 2020.",
+                                "category": "article"
+                            },
+                            {
+                                "title": "Kh.B.Ergasheva. Study of the influence of soil composition on the yield and quality indicators of wheat grain. Texas Journal of Agriculture and Biological Sciences.",
+                                "category": "article"
+                            },
+                            {
+                                "title": "B.N. Amanov. Methods Of Application Of Probiotic Bacterial Preparations In The Production Of Rye Bread. Natural Volatiles & Essential Oils, 2021.",
+                                "category": "article"
+                            },
+                            {
+                                "title": "B.N. Amanov. Prospects for Using Tomato Processing Products in the Production of Rye Bread. Annals of R.S.C.B., 2021.",
+                                "category": "article"
+                            },
+                            {
+                                "title": "B.N. Amanov. Methods Of Application Of Probiotic Bacterial Preparations In The Production Of Rye Bread. Natural Volatiles and Essential Oils, 2021.",
+                                "category": "article"
+                            },
+                            {
+                                "title": "L.N. Khaidar-Zade. Application of pumpkin flour in the production of bakery products. Annals of R.S.B., 2022.",
+                                "category": "article"
+                            },
+                            {
+                                "title": "S.K.Jabborova. Priority areas for improving the range of confectionery. European Sciences Review, 2019.",
+                                "category": "article"
+                            },
+                            {
+                                "title": "S.K.Jabborova. Analysis of food value of non-traditional sugar substitutes for flour confectionery goods. Asian Journal of Multidimensional Research, 2020.",
+                                "category": "article"
+                            },
+                            {
+                                "title": "S.K.Jabborova. Application of products of processing mulberries and roots of sugar beet in the production of cupcakes. Journal of Critical Reviews, 2020.",
+                                "category": "article"
+                            },
+                            {
+                                "title": "S.K.Jabborova, I.B.Isabaev, I.Sh. Sadikov. Methods to prevent silken powder collapsing and clushing during storage. Middle European scientific bulletin, 2020.",
+                                "category": "article"
+                            },
+                            {
+                                "title": "S.K.Jabborova. Use of Silk Berries and Sugar Beet Roots in the Production of Muffins. International Journal of Innovative Research in Science, Engineering and Technology, 2021.",
+                                "category": "article"
+                            },
+                            {
+                                "title": "S.K.Jabborova. Silk Berries Beet Roots in The Production of Muffins. Texas Journal of Multidisciplinary Studies, 2021.",
+                                "category": "article"
+                            },
+                            {
+                                "title": "Курбонов М.Т. Improvement of the design of mobile equipment for post-harvest processing of agricultural crops.",
+                                "category": "article"
+                            },
+                            {
+                                "title": "Djuraeva N.R. Method for rational use of botanical oil content in wheat germ product. Asian Journal of Multidimensional Research, 2021.",
+                                "category": "article"
+                            }
+                        ]
+                    },
+                    "research": [
+                        "GIZ Vocational education in Central Asia-I program equipped five modern laboratory units.",
+                        "OUWOW wine technology project with University of Coimbra, Portugal, funded for 200,000 euros.",
+                        "Practical project PZ-2019062124 Creating technology for the production of mass food products using natural decontaminations, funding 400 mln UZS.",
+                        "Planned 2023-2024 project Development of technology for the production of functionally oriented flour, oats and bakery products, funding 1.740 billion soums.",
+                        "Commercial contract with Oltin Ear - Hot Bread LLC for new rye bread recipes and technologies.",
+                        "Research by Djuraeva N.R. on vegetable and oil mixtures.",
+                        "Research by Muzafarova H.M. on flour confectionery for heroditic nutrition.",
+                        "Research by Ismatova Sh.N. on non-traditional means in feed."
+                    ],
+                    "cooperation": [
+                        "Dresden State Technical University, Germany.",
+                        "Moscow State University of Food Production, Russia.",
+                        "Tajikistan State Technical University.",
+                        "Osh State Technical University, Kyrgyzstan.",
+                        "Mogilev State University of Food and Chemical Technologies, Belarus.",
+                        "Latvian University of Natural Sciences and Technology, Latvia."
+                    ],
+                    "jointPrograms": [
+                        "Moscow State University of Food Production (MGUPP), Russian Federation.",
+                        "Mogilyov State University of Food and Chemical Technologies, Republic of Belarus."
+                    ],
+                    "prospectivePlans": []
+                },
+                {
+                    "facultyId": "faculty-of-technology",
+                    "sourceDocument": "apps/web/src/data/facultyTechnologyRequirements.cleaned.txt",
+                    "sourceOfTruth": "apps/web/src/data/facultyTechnologyRequirements.cleaned.txt",
+                    "rawContent": {
+                        "original": "",
+                        "fullRequirements": ""
+                    },
+                    "name": "Chemical Technology",
+                    "title": {
+                        "en": "Chemical Technology",
+                        "uz": "Chemical Technology",
+                        "ru": "Chemical Technology",
+                        "ar": "Chemical Technology"
+                    },
+                    "slug": "chemical-technology",
+                    "route": "/department/chemical-technology",
+                    "aliases": [],
+                    "sourceLink": "https://old.bstu.uz/kafedra/kimyo-texnologiyasi",
+                    "contact": {
+                        "name": "Axmedov Voxid Nizomovich",
+                        "role": "Head of Department",
+                        "title": "Head of Department",
+                        "reception": "Dushanba-Juma (14:00-16:00 gacha)",
+                        "phone": "+998 90 511 59 58",
+                        "email": "vohid7@mail.ru",
+                        "image": "legacy_removed_web_asset:/assets/img/departments/technology/akhmedov-voxid-nizomovich.jpg"
+                    },
+                    "history": [
+                        "The department trains personnel in 60710100 Chemical technology, 60710300 Technology of printing and packaging processes, 70710100 Chemical technology of high-molecular compounds, and 70710101 Chemical technology.",
+                        "In these areas work 45 professors and teaching staff, including 4 professors, 24 PhD associate professors, with scientific potential of 60%.",
+                        "The department has 2 foreign language languages and 47 taught subjects. It trains 2 doctoral students, 28 basic doctoral students and 4 masters."
+                    ],
+                    "staff": [
+                        {
+                            "name": "Akhmedov Voksi Nizomovich",
+                            "role": "Head of the department",
+                            "title": "Head of the department",
+                            "image": "legacy_removed_web_asset:/assets/img/departments/technology/akhmedov-voxid-nizomovich.jpg"
+                        },
+                        {
+                            "name": "Makhmudov Rafiq Amonovich",
+                            "role": "Doctor of Technical Sciences, Professor",
+                            "title": "Doctor of Technical Sciences, Professor",
+                            "image": "legacy_removed_web_asset:/assets/img/departments/technology/makhmudov-rafiq-amonovich.jpg"
+                        },
+                        {
+                            "name": "Temirova Matlab Ibodovna",
+                            "role": "Doctor of Technical Sciences, Professor",
+                            "title": "Doctor of Technical Sciences, Professor",
+                            "image": "legacy_removed_web_asset:/assets/img/departments/technology/temirova-matlab-ibodovna.jpg"
+                        },
+                        {
+                            "name": "Haydarov Akhtam Amonovich",
+                            "role": "Doctor of Technical Sciences, Professor",
+                            "title": "Doctor of Technical Sciences, Professor",
+                            "image": "legacy_removed_web_asset:/assets/img/departments/technology/haydarov-akhtam-amonovich.jpg"
+                        },
+                        {
+                            "name": "Olimov Babir Bahodir ugly",
+                            "role": "PhD, associate professor",
+                            "title": "PhD, associate professor",
+                            "image": "legacy_removed_web_asset:/assets/img/departments/technology/olimov-bobir-bahodir-ogli.jpg"
+                        },
+                        {
+                            "name": "Panoyev Nadir Shavkatovich",
+                            "role": "PhD, associate professor",
+                            "title": "PhD, associate professor",
+                            "image": "legacy_removed_web_asset:/assets/img/departments/technology/panoyev-nadir-shavkatovich.jpg"
+                        },
+                        {
+                            "name": "Sadikova Muxayyo Murodovna",
+                            "role": "PhD, associate professor",
+                            "title": "PhD, associate professor",
+                            "image": "legacy_removed_web_asset:/assets/img/departments/technology/sadikova-muxayyo-murodovna.jpg"
+                        },
+                        {
+                            "name": "Sharipov Begmurod Sharopovich",
+                            "role": "PhD, dotsent",
+                            "title": "PhD, dotsent"
+                        },
+                        {
+                            "name": "Umarov Bobur Nosir o'gli",
+                            "role": "PhD, dotsent",
+                            "title": "PhD, dotsent",
+                            "image": "legacy_removed_web_asset:/assets/img/departments/technology/umarov-bobur-nosir-ogli.jpg"
+                        },
+                        {
+                            "name": "Khuzhakulova Dilbar Jorakulovna",
+                            "role": "PhD, associate professor",
+                            "title": "PhD, associate professor"
+                        },
+                        {
+                            "name": "Narzullaeva Aziza Murodillayevna",
+                            "role": "PhD, dotsent",
+                            "title": "PhD, dotsent"
+                        },
+                        {
+                            "name": "Voxidov Erkin Aliyevich",
+                            "role": "PhD, dotsent",
+                            "title": "PhD, dotsent"
+                        },
+                        {
+                            "name": "Jo‘raeva Laylo Raxmatillaevna",
+                            "role": "Assistent",
+                            "title": "Assistent",
+                            "image": "legacy_removed_web_asset:/assets/img/departments/technology/joraeva-laylo-raxmatillaevna.jpg"
+                        },
+                        {
+                            "name": "Sharipova Nasiba O‘ktamovna",
+                            "role": "Assistent",
+                            "title": "Assistent"
+                        },
+                        {
+                            "name": "Raxmatov Marat Salimovich",
+                            "role": "Assistent",
+                            "title": "Assistent"
+                        },
+                        {
+                            "name": "Sadikova Mashhura Idilloevna",
+                            "role": "Assistent",
+                            "title": "Assistent"
+                        },
+                        {
+                            "name": "G‘afurova Gulnoz Alixonovna",
+                            "role": "Assistent",
+                            "title": "Assistent",
+                            "image": "legacy_removed_web_asset:/assets/img/departments/technology/gafurova-gulnoz-alixonovna.jpg"
+                        },
+                        {
+                            "name": "Jumaev Jabbor Hamroqulovich",
+                            "role": "Assistent",
+                            "title": "Assistent"
+                        },
+                        {
+                            "name": "Ikromov Ulugbek Gafur oglu",
+                            "role": "Teacher, trainee",
+                            "title": "Teacher, trainee"
+                        },
+                        {
+                            "name": "Kurbonova Salima Shukhratovna",
+                            "role": "Teacher trainee",
+                            "title": "Teacher trainee"
+                        }
+                    ],
+                    "preparedSpecialists": [
+                        {
+                            "code": "60710100",
+                            "name": "Chemical technology (chemical technology of inorganic substances)",
+                            "level": "bachelor",
+                            "note": "",
+                            "id": "inorganic-chemical-technology-bachelor",
+                            "route": "/programs/inorganic-chemical-technology-bachelor"
+                        },
+                        {
+                            "code": "60710100",
+                            "name": "Chemical technology (Silicate and Hard-to-Melt Nonmetallic Materials)",
+                            "level": "bachelor",
+                            "note": "",
+                            "id": "silicate-hard-melting-materials-technology",
+                            "route": "/programs/silicate-hard-melting-materials-technology"
+                        },
+                        {
+                            "code": "60710300",
+                            "name": "Technology of printing and packaging processes",
+                            "level": "bachelor",
+                            "note": "",
+                            "id": "printing-packaging-engineering",
+                            "route": "/programs/printing-packaging-engineering"
+                        },
+                        {
+                            "code": "60710100",
+                            "name": "Chemical Technology (Organic Substances)",
+                            "level": "bachelor",
+                            "note": "",
+                            "id": "organic-substances-chemical-technology-bachelor",
+                            "route": "/programs/organic-substances-chemical-technology-bachelor"
+                        },
+                        {
+                            "code": "60710100",
+                            "name": "Chemical Technology (High Molecular Compounds)",
+                            "level": "bachelor",
+                            "note": "",
+                            "id": "high-molecular-compounds-technology-bachelor",
+                            "route": "/programs/high-molecular-compounds-technology-bachelor"
+                        },
+                        {
+                            "code": "70710101",
+                            "name": "Chemical technology of inorganic substances",
+                            "level": "master",
+                            "note": "",
+                            "id": "inorganic-chemical-technology",
+                            "route": "/programs/inorganic-chemical-technology"
+                        },
+                        {
+                            "code": "70710101",
+                            "name": "Technology of silicate and hardly soluble nonmetallic materials",
+                            "level": "master",
+                            "note": "",
+                            "id": "silicate-refractory-materials-technology",
+                            "route": "/programs/silicate-refractory-materials-technology"
+                        },
+                        {
+                            "code": "70710101",
+                            "name": "Technology of mineral fertilizers",
+                            "level": "master",
+                            "note": "",
+                            "id": "mineral-fertilizers-technology",
+                            "route": "/programs/mineral-fertilizers-technology"
+                        },
+                        {
+                            "code": "70710103",
+                            "name": "Chemical technology of high molecular weight compounds (technology of polymer production)",
+                            "level": "master",
+                            "note": "",
+                            "id": "polymer-production-technology",
+                            "route": "/programs/polymer-production-technology"
+                        },
+                        {
+                            "code": "70710101",
+                            "name": "Chemical technology (production of organic compounds)",
+                            "level": "master",
+                            "note": "",
+                            "id": "organic-chemical-technology",
+                            "route": "/programs/organic-chemical-technology"
+                        },
+                        {
+                            "code": "02.00.11",
+                            "name": "Chemistry of colloids and membranes",
+                            "level": "phd",
+                            "note": "",
+                            "id": "colloids-membranes-chemistry-doctoral",
+                            "route": "/programs/colloids-membranes-chemistry-doctoral"
+                        },
+                        {
+                            "code": "02.00.13",
+                            "name": "Technology of inorganic substances and materials based on them",
+                            "level": "phd",
+                            "note": "",
+                            "id": "inorganic-substances-materials-doctoral",
+                            "route": "/programs/inorganic-substances-materials-doctoral"
+                        },
+                        {
+                            "code": "02.00.14",
+                            "name": "Technology of organic substances and materials based on them",
+                            "level": "phd",
+                            "note": "",
+                            "id": "organic-substances-materials-doctoral",
+                            "route": "/programs/organic-substances-materials-doctoral"
+                        },
+                        {
+                            "code": "02.00.16",
+                            "name": "Chemical technology, processes and devices of food industry",
+                            "level": "phd",
+                            "note": "",
+                            "id": "food-industry-chemical-technology-doctoral",
+                            "route": "/programs/food-industry-chemical-technology-doctoral"
+                        },
+                        {
+                            "code": "02.00.17",
+                            "name": "Technologies and biotechnologies for processing, storage and processing of agricultural and food products",
+                            "level": "phd",
+                            "note": "",
+                            "id": "agricultural-food-products-biotechnology-doctoral",
+                            "route": "/programs/agricultural-food-products-biotechnology-doctoral"
+                        }
+                    ],
+                    "subjects": {
+                        "bachelor": [
+                            "Fundamentals of Construction of Manufacturing Enterprises",
+                            "Bonded nitrogen production technology",
+                            "Ammonium nitrate production technology",
+                            "Modern methods of physicochemical analysis",
+                            "Chemical technology of inorganic substances",
+                            "Enterprise equipment",
+                            "Thermal Processes and Devices in the Production of Silicate Materials",
+                            "Fast Click Methods Technology",
+                            "General Technology of Silicates",
+                            "Prepress Technologies and Equipment",
+                            "Pulp and papermaking technology",
+                            "Technology of printing materials",
+                            "Packaging Process Technologies and Equipment",
+                            "Technology of silicate materials",
+                            "Fundamentals of organic synthesis",
+                            "Material hunos candy",
+                            "Synthesis of organic matter",
+                            "Organic Synthesis Equipment",
+                            "Waste-free technologies in organic synthesis",
+                            "Chemistry and technology of organic substances",
+                            "Basics of Financing Organic Synthesis Enterprises",
+                            "Synthetic Detergent Production Technology",
+                            "Equipment for the production of synthetic detergents",
+                            "Methods for the synthesis of monomers",
+                            "Chemistry and Physics of High Molecular Compounds",
+                            "Technology of coating-forming polymers",
+                            "Classification of polymer materials and their fields of application",
+                            "Technology of production of high molecular weight compounds",
+                            "Chemistry",
+                            "Chemistry (general and inorganic chemistry, analytical chemistry, physical-colloid chemistry)",
+                            "Analytical and physical-colloid chemistry",
+                            "Organic cumin",
+                            "Construction chemistry",
+                            "Organic and physical chemistry in construction",
+                            "Physico-colloid chemistry",
+                            "Physical chemistry"
+                        ],
+                        "master": [
+                            "Technological processes in the production of silicate materials",
+                            "Theory and technological calculations of the production of mineral fertilizers",
+                            "Theory and Technological Accounts of the Production of Inorganic Substances",
+                            "Theory and technological calculations of the production of synthesized gases",
+                            "Theory and technological calculations of bonded nitrogen production",
+                            "Chemical technology of mineral fertilizers / Chemical technology of potash salts",
+                            "Chemistry and Technology of Element Organic Compounds",
+                            "Adjustment of structure and properties in the manufacturing process of high-molecular compounds",
+                            "Theoretical foundations of chemistry of high molecular weight compounds",
+                            "Chemistry and technology of methane-based syntheses",
+                            "Chemical theoretical foundations of coating-forming polymers",
+                            "Technology of organic substances and materials based on them",
+                            "Catalytic processes in the technology of obtaining organic products",
+                            "Fundamentals of Physics and Mechanics of High Molecular Compounds"
+                        ]
+                    },
+                    "publications": {
+                        "textbooksManuals": [
+                            {
+                                "title": "V.N.Akhmedov, Z.Kh.Rayimov, G.A.Gafurova. Terephthalic acid derivatives. Monograph, Bukhara-2022.",
+                                "category": "monograph"
+                            },
+                            {
+                                "title": "Nurilloyev Zafar Ismatilloyevich, Asrayev Zafar Rizakulovich, Khojiyev Azizjon Kholmurodovich. Problems of general and inorganic chemistry and methods of their solution. Electronic textbook. DGU No. 40483.",
+                                "category": "electronic-textbook"
+                            },
+                            {
+                                "title": "Makhmudov Rafiq Amonovich, Shukrullaev Javohir Aibek ugli. Modern methods of physical and chemical analysis. DGU No. 23886.",
+                                "category": "textbook"
+                            },
+                            {
+                                "title": "R.A.Makhmudov, Ch.K.Khayrullayev, S.A.Niyozov, M.F.Haydarova, Z.M. Kamolova. Theory and Technological Accounts of Bonded Nitrogen Production. Textbook, 2023.",
+                                "category": "textbook"
+                            },
+                            {
+                                "title": "R.A.Makhmudov, Z.M. Kamolova, S.A.Niyozov. Technology of Bonded Nitrogen and Nitrogen Fertilizers. Monograph, 2024.",
+                                "category": "monograph"
+                            },
+                            {
+                                "title": "Niyozova N.R., Khuzhakulov K.R. Modification and application of synthetic oils in leather industry. Monograph, 2023.",
+                                "category": "monograph"
+                            },
+                            {
+                                "title": "Sadirova S.N., Temirova M.I. Effective technological approach in processing Karakul skins. Monograph, 2023.",
+                                "category": "monograph"
+                            },
+                            {
+                                "title": "Khaidarov A.A. Полимеры на основе хитина и хитозана. Монография. Бухара-2023.",
+                                "category": "monograph"
+                            },
+                            {
+                                "title": "Ostonov F.I., Akhmedov V.N., Fayzullaev N.I., Dzhuraeva L.R., Olimov B.B. Chemistry and technology of polymers. Textbook, 2025.",
+                                "category": "textbook"
+                            },
+                            {
+                                "title": "E.Kh.Atoev. Chemistry of elements textbook. Order No. 55 of 04 March 2024.",
+                                "category": "textbook"
+                            }
+                        ]
+                    },
+                    "research": [
+                        "02.00.11 Chemistry of colloids and membranes: activated coal from domestic raw materials, sorption purification of water, organic metals of established properties.",
+                        "02.00.13 Technology of inorganic substances and materials: hybrid compounds, low-release nitrogen fertilizers, waste from mineral salts.",
+                        "02.00.14 Technology of organic substances and materials: hydroxybenzoic acids, amino acids, imidazole fragments, bitumen emulsions.",
+                        "02.00.16 Chemistry technology and processes/devices of food production: drying process acceleration and alkaline neutralization equipment.",
+                        "02.00.17 Technologies and biotechnologies for agricultural and food products: high-performance adsorbents in vegetable oil bleaching."
+                    ],
+                    "cooperation": [
+                        "South Kazakhstan State University.",
+                        "Volgograd Medical University.",
+                        "Saratov State University.",
+                        "Joint program with the University of South Kazakhstan named after M. Auezova opened service educational areas in 2019-2021."
+                    ],
+                    "news": []
+                },
+                {
+                    "facultyId": "faculty-of-technology",
+                    "sourceDocument": "apps/web/src/data/facultyTechnologyRequirements.cleaned.txt",
+                    "sourceOfTruth": "apps/web/src/data/facultyTechnologyRequirements.cleaned.txt",
+                    "rawContent": {
+                        "original": "",
+                        "fullRequirements": ""
+                    },
+                    "name": "Agricultural Products Storage & Oil-Fat Technology",
+                    "title": {
+                        "en": "Agricultural Products Storage & Oil-Fat Technology",
+                        "uz": "Agricultural Products Storage & Oil-Fat Technology",
+                        "ru": "Agricultural Products Storage & Oil-Fat Technology",
+                        "ar": "Agricultural Products Storage & Oil-Fat Technology"
+                    },
+                    "slug": "agricultural-products-storage-oil-fat-technology",
+                    "route": "/department/agricultural-products-storage-oil-fat-technology",
+                    "aliases": [],
+                    "sourceLink": "https://old.bstu.uz/kafedra/qishloq-xo-jalik-maxsulotlarini-saqlash-qayta-ishlash-va-yog-moy-texnologiyasi",
+                    "contact": {
+                        "name": "Majidova Nargiza Kaxramonovna",
+                        "role": "Head of Department",
+                        "title": "Doctor of Technical Sciences, associate professor",
+                        "reception": "Dushanba-Juma (14:00-16:00 gacha)",
+                        "phone": "+998 97 305 95 59",
+                        "email": "nargiz-1234n@mail.ru",
+                        "image": "legacy_removed_web_asset:/assets/img/departments/technology/majidova-nargiza-kaxramonovna.jpg"
+                    },
+                    "history": [
+                        "On the basis of the newly created structure of the institute, the department started its work in August 2022 under the name Storage, processing and oil technology of agricultural products, separated from Food technology.",
+                        "There are 12 professors and teachers at the department, including 2 doctors of science, 2 candidates of science associate professor, 4 doctors of science (PhD), 2 assistants, and 1 trainee, with scientific potential of 78%."
+                    ],
+                    "staff": [
+                        {
+                            "name": "Majidova Nargiza Kakhramonovna",
+                            "role": "Head of the department, Doctor of Technical Sciences, associate professor",
+                            "title": "Head of the department, Doctor of Technical Sciences, associate professor",
+                            "image": "legacy_removed_web_asset:/assets/img/departments/technology/majidova-nargiza-kaxramonovna.jpg"
+                        },
+                        {
+                            "name": "Majidov Qakhramon Khalimovich",
+                            "role": "Doctor of Technical Sciences, professor",
+                            "title": "Doctor of Technical Sciences, professor",
+                            "image": "legacy_removed_web_asset:/assets/img/departments/technology/majidov-qakhramon-khalimovich.jpg"
+                        },
+                        {
+                            "name": "Ashurov Furkat Bakhromovich",
+                            "role": "Candidate of the technical science, associate professor",
+                            "title": "Candidate of the technical science, associate professor",
+                            "image": "legacy_removed_web_asset:/assets/img/departments/technology/ashurov-furkat-bakhromovich.jpg"
+                        },
+                        {
+                            "name": "Sabirova Nargiza Nusratovna",
+                            "role": "PhD, dotsent",
+                            "title": "PhD, dotsent",
+                            "image": "legacy_removed_web_asset:/assets/img/departments/technology/sabirova-nargiza-nusratovna.jpg"
+                        },
+                        {
+                            "name": "Bozorov Dilmurod Kholmurodovich",
+                            "role": "PhD, associate professor",
+                            "title": "PhD, associate professor",
+                            "image": "legacy_removed_web_asset:/assets/img/departments/technology/bozorov-dilmurod-kholmurodovich.jpg"
+                        },
+                        {
+                            "name": "Oltiev Azim To`yqulovich",
+                            "role": "PhD, dotsent",
+                            "title": "PhD, dotsent",
+                            "image": "legacy_removed_web_asset:/assets/img/departments/technology/oltiev-azim-toyqulovich.jpg"
+                        },
+                        {
+                            "name": "Fayzullaev Asqar Rajabboevich",
+                            "role": "Assistant",
+                            "title": "Assistant",
+                            "image": "legacy_removed_web_asset:/assets/img/departments/technology/fayzullaev-asqar-rajabboevich.jpg"
+                        },
+                        {
+                            "name": "Mirzaeva Shokhista Usmonovna",
+                            "role": "PhD, Senior Lecturer",
+                            "title": "PhD, Senior Lecturer",
+                            "image": "legacy_removed_web_asset:/assets/img/departments/technology/mirzaeva-shoxista-usmonovna.jpg"
+                        },
+                        {
+                            "name": "Radjabova Lobar Ramazonovna",
+                            "role": "PhD, dotsent",
+                            "title": "PhD, dotsent"
+                        },
+                        {
+                            "name": "Fatayeva Farodiba Rustamovna",
+                            "role": "Assistant",
+                            "title": "Assistant"
+                        },
+                        {
+                            "name": "Shodiev Bakhtiyor",
+                            "role": "Teacher, trainee",
+                            "title": "Teacher, trainee"
+                        }
+                    ],
+                    "preparedSpecialists": [
+                        {
+                            "code": "60811300",
+                            "name": "Technology of storage and processing of agricultural products",
+                            "level": "bachelor",
+                            "note": "",
+                            "id": "agricultural-products-storage-processing-60811300",
+                            "route": "/programs/agricultural-products-storage-processing-60811300"
+                        },
+                        {
+                            "code": "60811800",
+                            "name": "Fruit and viticulture",
+                            "level": "bachelor",
+                            "note": "",
+                            "id": "fruit-viticulture",
+                            "route": "/programs/fruit-viticulture"
+                        },
+                        {
+                            "code": "60720100",
+                            "name": "Food technology (oil and oil products)",
+                            "level": "bachelor",
+                            "note": "",
+                            "id": "food-technology-oil-products",
+                            "route": "/programs/food-technology-oil-products"
+                        },
+                        {
+                            "code": "60720200",
+                            "name": "Technology of fats, essential oils and perfumes cosmetics",
+                            "level": "bachelor",
+                            "note": "",
+                            "id": "fats-essential-oils-perfume-cosmetics-technology",
+                            "route": "/programs/fats-essential-oils-perfume-cosmetics-technology"
+                        },
+                        {
+                            "code": "70720101",
+                            "name": "Technology of production and processing of food products (oil and oil products)",
+                            "level": "master",
+                            "note": "",
+                            "id": "oil-fat-products-processing-technology",
+                            "route": "/programs/oil-fat-products-processing-technology"
+                        },
+                        {
+                            "code": "70720701",
+                            "name": "Technology of storage and processing of agricultural products",
+                            "level": "master",
+                            "note": "",
+                            "id": "agricultural-products-storage-processing-master",
+                            "route": "/programs/agricultural-products-storage-processing-master"
+                        },
+                        {
+                            "code": "02.00.17",
+                            "name": "Technologies and biotechnologies for processing, storage and processing of agricultural and food products",
+                            "level": "doctoral",
+                            "note": "",
+                            "id": "agricultural-food-products-biotechnology-doctoral",
+                            "route": "/programs/agricultural-food-products-biotechnology-doctoral"
+                        }
+                    ],
+                    "subjects": {
+                        "bachelor": [
+                            "Biology and genetics",
+                            "Biophysics and agrometeorology",
+                            "Botany and plant physiology",
+                            "Commodity organization of agricultural products",
+                            "Fruit and vegetable growing",
+                            "Plant growing",
+                            "Fundamentals of safety of agricultural products",
+                            "Physicochemical methods for determining the quality of agricultural products",
+                            "Technology of storage and processing of fruits and vegetables",
+                            "Technology of storage and processing of dairy and meat products",
+                            "Biology of fruit crops",
+                            "Soil science and agrochemistry",
+                            "Farming and melioration",
+                            "Technology of grape cultivation",
+                            "Vegetable growing and melon growing",
+                            "Intensive fruit growing",
+                            "Selection and ampelography of grapes",
+                            "Chemistry of oils and oily raw materials",
+                            "Technology of production of vegetable oils",
+                            "Technology of oil processing",
+                            "Technology of storage and packaging of oil-and-oil products",
+                            "Methods and expertise of research of oils and oils",
+                            "Surfactants in the production of oil-and-oil products",
+                            "Technology of production of essential oils",
+                            "Raw materials of perfumery and cosmetic products",
+                            "Fragrances and dyes",
+                            "Technology of production of perfume and cosmetic products",
+                            "Storage and packaging of perfume and cosmetic products"
+                        ],
+                        "master": [
+                            "Chemistry of oils and oils",
+                            "Refining and catalytic modification of oils",
+                            "Technology of production of solid oils and detergents",
+                            "Fundamentals of catalysis and potassium",
+                            "Product expertise of oils and oils",
+                            "Fundamentals of lubrication of oil-and-oil enterprises"
+                        ]
+                    },
+                    "publications": {
+                        "textbooksManuals": [
+                            {
+                                "title": "Q.Kh.Majidov, F.B.Ashurov, K.K.Sattorov, F.F.Ashurov. Fundamentals of food technology.",
+                                "category": "textbook"
+                            },
+                            {
+                                "title": "K.Kh.Majidov, R.A.Makhmudov, N.K.Majidova. Food chemistry and biochemistry.",
+                                "category": "textbook"
+                            },
+                            {
+                                "title": "K.Kh.Majidov, S.SH. Ismatov, N.K.Majidova. Technology of oil processing.",
+                                "category": "textbook"
+                            },
+                            {
+                                "title": "N.K.Mazhidova, N.N.Sabirova. Food chemistry and biochemistry.",
+                                "category": "textbook"
+                            },
+                            {
+                                "title": "K.Kh.Majidov, N.K.Majidova. Technology of production of vegetable oils.",
+                                "category": "textbook"
+                            },
+                            {
+                                "title": "Electronic textbook: Q.S.Rakhmonov. Educational research work of students. 2024.",
+                                "category": "electronic-textbook"
+                            },
+                            {
+                                "title": "U.K.Khujakulova, N.K.Majidova, A.R.Fayzullaev, Q.S.Rakhmonov, N.F.Khujakulova. Technology of production of vegetable oils. 2024.",
+                                "category": "textbook"
+                            },
+                            {
+                                "title": "Q.S.Rakhmonov, L.N.Khaidar-Zade, U.K.Khujakulov, Sh.M.Kurbanova. Technology of production of confectionery products. 2024.",
+                                "category": "manual"
+                            },
+                            {
+                                "title": "N.N.Sabirova, Q.Kh.Majidov, N.K.Majidova. Technology of production of perfume and cosmetic products. 2024.",
+                                "category": "textbook"
+                            },
+                            {
+                                "title": "Q.Kh.Majidov, U.K.K.Khujakulov, N.K.Majidova, N.N.Sabirova. Raw materials of perfumery, cosmetic products. 2024.",
+                                "category": "textbook"
+                            },
+                            {
+                                "title": "A.R.Fayzullaev. Technology of storage and packaging of oil and oil products. 2024.",
+                                "category": "textbook"
+                            },
+                            {
+                                "title": "F.N.Ashurov, B.M.Shodiev. Technology of storage and packaging of oil and oil products. 2024.",
+                                "category": "electronic-textbook"
+                            },
+                            {
+                                "title": "B.M.Shodiev, F.N.Ashurova. Division of fruit plants into biological economic groups from Technology of cultivation of fruit crops. 2024.",
+                                "category": "electronic-textbook"
+                            },
+                            {
+                                "title": "Q.Kh.Majidov, N.K.Majidova, N.N.Sabirova. Technology of production of essential oils. 2024.",
+                                "category": "electronic-textbook"
+                            },
+                            {
+                                "title": "M.A.Tursunova, N.K.Majidova. Biology practical training. 2024.",
+                                "category": "electronic-textbook"
+                            },
+                            {
+                                "title": "L.N.Khaidar-Zade, Q.S.Rakhmonov, U.M.Ibragimov. Fundamentals of food security, practical lessons in Russian. 2024.",
+                                "category": "electronic-textbook"
+                            },
+                            {
+                                "title": "N.R.Dzhuraeva, T.I.Atamuratova, Q.S.Rakhmonov, S.K.Jabbarova. Equipment and basics of design of enterprises for the production of bread, pasta and confectionery. 2024.",
+                                "category": "electronic-textbook"
+                            },
+                            {
+                                "title": "L.N.Haidar-Zade, Q.S.Rakhmonov, Sh.Zh.Yuldashev, A.S.Elmurodova, U.M.Ibragimov. Fundamentals of food security. 2024.",
+                                "category": "electronic-textbook"
+                            },
+                            {
+                                "title": "Q.S.Rakhmonov, D.I.Umarov, N.Kh.Hakimova, O'. M.Yakyieva. Technology of storage and processing of grain and grain products. 2024.",
+                                "category": "electronic-textbook"
+                            },
+                            {
+                                "title": "M.M.Sadikova, N.N.Sabirova, D.J.Khujakulova. General chemical technology. 2024.",
+                                "category": "textbook"
+                            }
+                        ],
+                        "articles": [
+                            {
+                                "title": "Majidov Kakhramon Halimovich, Majidova Nargiza Kakhramonovna. The evalution of catalysts for the hydrogenation of oil sand fats. International Journal of Early Childhood Special Education, 2022.",
+                                "category": "article"
+                            },
+                            {
+                                "title": "Majidova Nargiza Kakhramonovna. Excellense in detergent production technology. International Journal of Advanced Research in IT and Engineering, 2022.",
+                                "category": "article"
+                            },
+                            {
+                                "title": "Majidova Nargiza Kakhramonovna. Optimization of Technological Parameters For Deodorization of Vegetable Oils. IJIRSET, 2021.",
+                                "category": "article"
+                            },
+                            {
+                                "title": "Majidova Nargiza Kakhramonovna. Application of mathematical processing methods for optimizing the hydrogenating catalysts. The American Journal of Engineering and Technology, 2021.",
+                                "category": "article"
+                            },
+                            {
+                                "title": "Majidov Kakhramon Halimovich. Theoretical approach to the evaluation of catalysts for the hydrogenation of oils and fats. International Journal of Mechanical Engineering, 2022.",
+                                "category": "article"
+                            },
+                            {
+                                "title": "Majidov Kakhramon Halimovich. The development of an optimal formulation of detergent. IJARSET, 2021.",
+                                "category": "article"
+                            },
+                            {
+                                "title": "Сабирова Наргиза Нусратовна. Применение полученных шортенинг жиров в маргариновой продукции. Universum, 2020.",
+                                "category": "article"
+                            },
+                            {
+                                "title": "Сабирова Наргиза Нусратовна. Исследование темперирующих свойств шортенинг-жиров на основе хлопкового масла. UNIVERSUM, 2019.",
+                                "category": "article"
+                            },
+                            {
+                                "title": "Sabirova Nargiza Nusratovna. Characteristics of new kinds of shortenings. Austrian Journal of Technical and Natural Sciences, 2018.",
+                                "category": "article"
+                            },
+                            {
+                                "title": "Oltiev Azim To`yqulovich. Improvement of the technology of catalytic hydrogenization of cotton oil. Journal of nutrition and food processing.",
+                                "category": "article"
+                            }
+                        ]
+                    },
+                    "research": [
+                        "Altiev Azim Toykulovich - Improvement of the technology of pereetirization of oil and oil mixture with use of efficient catalysts.",
+                        "Fayzullaev Askar Rajabboevich - Fundamentals of improvement of the technology for obtaining powdery products from processing of raw materials with roots."
+                    ],
+                    "cooperation": [
+                        "Al-Farabi Kazakh National University.",
+                        "Karaganda technical university named after A.Saginov.",
+                        "South Kazakhstan University named after M.Auesov.",
+                        "University of Copenhagen, Denmark.",
+                        "University of Extramadura in Spain."
+                    ],
+                    "news": [
+                        "Selection and formation of candidates for targeted doctoral studies or internships in TOP-500 foreign institutions.",
+                        "Bring scientific potential of the department to 80% and language certificate share to 30%.",
+                        "Organize 1 SPIN-OFF enterprise and student practice in its workshops.",
+                        "Develop research based on foreign experience and increase international grants.",
+                        "Implement foreign investments through existing projects with foreign partners."
+                    ]
+                },
+                {
+                    "facultyId": "faculty-of-technology",
+                    "sourceDocument": "apps/web/src/data/facultyTechnologyRequirements.cleaned.txt",
+                    "sourceOfTruth": "apps/web/src/data/facultyTechnologyRequirements.cleaned.txt",
+                    "rawContent": {
+                        "original": "",
+                        "fullRequirements": ""
+                    },
+                    "name": "Department of Oil and Gas Engineering (Upstream & Downstream)",
+                    "title": {
+                        "en": "Department of Oil and Gas Engineering (Upstream & Downstream)",
+                        "uz": "Department of Oil and Gas Engineering (Upstream & Downstream)",
+                        "ru": "Department of Oil and Gas Engineering (Upstream & Downstream)",
+                        "ar": "Department of Oil and Gas Engineering (Upstream & Downstream)"
+                    },
+                    "slug": "oil-gas-engineering-upstream-downstream",
+                    "route": "/department/oil-gas-engineering-upstream-downstream",
+                    "aliases": [
+                        "/department/oil-and-gas-engineering-upstream-downstream"
+                    ],
+                    "sourceLink": "https://old.bstu.uz/kafedra/neft-gaz-ishi",
+                    "contact": {
+                        "name": "Sharipov Qaxramon Qandiyorovich",
+                        "role": "Head of Department",
+                        "title": "Ph.D., associate Professor",
+                        "reception": "Every day 15:00-16:00",
+                        "phone": "+998 93 453 69 69",
+                        "email": "kahramon.sharipov@mail.ru"
+                    },
+                    "history": [
+                        "The Department of Oil and Gas Business was organized on the basis of the Department of Technology of Oil and Gas Chemical Industry according to the new structure approved on July 10, 2019.",
+                        "The management of the department is entrusted to candidate of chemical sciences, associate professor Q.Q.Sharipov.",
+                        "At the department 1 doctor of sciences - professor, 1 candidate of sciences - associate professor, 4 doctors of philosophy (PhD), 2 senior teachers, and 2 assistant teachers teach students."
+                    ],
+                    "preparedSpecialists": [
+                        {
+                            "code": "60721800",
+                            "name": "Oil and gas works (start-up and development of oil and gas fields)",
+                            "level": "bachelor",
+                            "note": "",
+                            "id": "oil-gas-field-development",
+                            "route": "/programs/oil-gas-field-development"
+                        },
+                        {
+                            "code": "5311900",
+                            "name": "Oil and gas works (start-up and development of oil and gas fields)",
+                            "level": "bachelor",
+                            "note": "",
+                            "id": "oil-gas-field-development-5311900",
+                            "route": "/programs/oil-gas-field-development-5311900"
+                        },
+                        {
+                            "code": "5311900",
+                            "name": "Start-up and exploitation of oil and gas fields",
+                            "level": "bachelor",
+                            "note": "",
+                            "id": "oil-gas-fields-exploitation",
+                            "route": "/programs/oil-gas-fields-exploitation"
+                        },
+                        {
+                            "code": "70721802",
+                            "name": "The use of machinery and equipment for oil and gas fields",
+                            "level": "master",
+                            "note": "",
+                            "id": "oil-gas-field-machinery-master",
+                            "route": "/programs/oil-gas-field-machinery-master"
+                        },
+                        {
+                            "code": "5A311902",
+                            "name": "The use of machinery and equipment of oil and gas fields",
+                            "level": "master",
+                            "note": "",
+                            "id": "oil-gas-field-equipment-5a311902",
+                            "route": "/programs/oil-gas-field-equipment-5a311902"
+                        }
+                    ],
+                    "subjects": {
+                        "bachelor": [
+                            "Geology of oil and gas",
+                            "Fundamentals of geophysics",
+                            "General and underground hydraulics",
+                            "Fundamentals of oil and gas work",
+                            "Machinery and equipment of oil and gas fields",
+                            "Mechanics of rocks",
+                            "Protection against corrosion",
+                            "Collection, preparation and transfer of oil and gas",
+                            "Geology of oil and gas fields",
+                            "Geophysical control of the operation of oil and gas fields",
+                            "Drilling of oil and gas wells",
+                            "Equipment of oil and gas fields",
+                            "Capital and underground repair of wells",
+                            "Technology of increasing oil and gas supply of reservoirs",
+                            "Use of pumping and compressor stations"
+                        ],
+                        "master": [
+                            "Machinery and equipment of oil and gas fields",
+                            "Machinery and equipment for the repair of oil and gas wells",
+                            "Theoretical foundations of the exploitation of oil and gas fields",
+                            "Installation and operation of equipment for oil and gas wells",
+                            "Equipment of oil and gas gathering and preparation facilities in the fields"
+                        ]
+                    },
+                    "staff": [
+                        {
+                            "name": "Sharipov Qakhramon Kandiyorovich",
+                            "role": "Head of the department, Ph.D., associate Professor",
+                            "title": "Head of the department, Ph.D., associate Professor"
+                        },
+                        {
+                            "name": "Dustov Khamro Bozorovich",
+                            "role": "Professor, Ph.D.",
+                            "title": "Professor, Ph.D."
+                        },
+                        {
+                            "name": "Toshev Sherzod Orzievich",
+                            "role": "Associate Professor, PhD",
+                            "title": "Associate Professor, PhD"
+                        },
+                        {
+                            "name": "Bozorov Jurabek Toronovich",
+                            "role": "Associate Professor, PhD",
+                            "title": "Associate Professor, PhD"
+                        },
+                        {
+                            "name": "Ochilov Abdurahim Abdurasulovich",
+                            "role": "Associate Professor, PhD",
+                            "title": "Associate Professor, PhD"
+                        },
+                        {
+                            "name": "Rakhimov Bobomurod Rustamovich",
+                            "role": "Assistant, PhD",
+                            "title": "Assistant, PhD"
+                        },
+                        {
+                            "name": "Obidov Hamid Olimovich",
+                            "role": "Senior Lecturer",
+                            "title": "Senior Lecturer"
+                        },
+                        {
+                            "name": "Sattorov Mirvohid Olimovich",
+                            "role": "Senior Lecturer",
+                            "title": "Senior Lecturer"
+                        },
+                        {
+                            "name": "Yamaletdinova Aygul Akhmadovna",
+                            "role": "Assistant",
+                            "title": "Assistant"
+                        },
+                        {
+                            "name": "Bokieva Shakhnoza Komilovna",
+                            "role": "Assistant",
+                            "title": "Assistant"
+                        }
+                    ],
+                    "scientificMethodicalWorks": [
+                        "O’quv-uslubiy majmualar - 50 dan ortiq.",
+                        "Uslubiy qo’llanmalar - 16 ta.",
+                        "Ma’ruza matnlari - 50 dan ortiq.",
+                        "Uslubiy ko’rsatmalar - 60 dan ortiq."
+                    ],
+                    "scientificArticleCounts": [
+                        "Xorijiy maqolalar - 150 dan ortiq.",
+                        "Respublika maqolalari - 200 dan ortiq.",
+                        "Xalqaro tezislar - 300 dan ortiq.",
+                        "Respublika tezislari - 250 dan ortiq."
+                    ],
+                    "publications": {
+                        "scopusWebOfScience": [
+                            {
+                                "title": "Toshev Sherzod Orzievich, Obidov Xamid Olimovich. AGRITECH-V-2021. Features of the chemical composition and colloidal-chemical properties of local clays of Uzbekistan and their comparison with other clays, 2021.",
+                                "category": "article"
+                            },
+                            {
+                                "title": "Ochilov Abduraxim Abdurasulovich, Sattorov Mirvohid Olimovich, Yamaletdinova Aygul Axmadovna, Bokieva Shahnoza Komilovna. Reduction the viscosity of oil-slime emulsions of heavy oils using gas condensate. Earth and Environmental Science, 2021.",
+                                "category": "article"
+                            },
+                            {
+                                "title": "Sattorov Mirvohid Olimovich, Ochilov Abduraxim Abdurasulovich, Yamaletdinova Aygul Axmadovna, Bokieva Shahnoza Komilovna. Breakdown of local oil-water emulsions by binary systems of surface-active substances. Earth and Environmental Science, 2021.",
+                                "category": "article"
+                            },
+                            {
+                                "title": "Dustov Xamro Bozorovich. Research the content of waste (yellow oil) of the Shurtan gas chemical complex in Uzbekistan. Journal of Physics: Conference Series, 2021.",
+                                "category": "article"
+                            },
+                            {
+                                "title": "Dustov Xamro Bozorovich. Fractional composition of the waste yellow oil. IOP Conf. Series: Earth and Environmental Science, 2021.",
+                                "category": "article"
+                            },
+                            {
+                                "title": "Toshev Sherzod Orzievich. Thermodynamic values of the adsorption of methanol and ethanol molecules in zeolite NH4ZSM-5. IOP Conf. Ser.: Earth Environ. Sci., 2021.",
+                                "category": "article"
+                            },
+                            {
+                                "title": "Sharipov Qaxramon Qandiyorovich, Bozorov Jo‘rabek To‘ronovich. Key factors reducing energy consumption in gas supply. Earth and Environmental Science, 2021.",
+                                "category": "article"
+                            }
+                        ],
+                        "textbooksManuals": [],
+                        "monographs": []
+                    },
+                    "research": [
+                        "Create compositions to break up oil and oil emulsions and improve rheological properties.",
+                        "Creation of polymineral compositions based on local cherries that are resistant to high temperatures and salts.",
+                        "Development of a technology for the production of odorants based on mercaptans containing natural gas."
+                    ]
+                },
+                {
+                    "facultyId": "faculty-of-technology",
+                    "sourceDocument": "apps/web/src/data/facultyTechnologyRequirements.cleaned.txt",
+                    "sourceOfTruth": "apps/web/src/data/facultyTechnologyRequirements.cleaned.txt",
+                    "rawContent": {
+                        "original": "",
+                        "fullRequirements": ""
+                    },
+                    "name": "Metrology, Standardization, and Quality Control",
+                    "title": {
+                        "en": "Metrology, Standardization, and Quality Control",
+                        "uz": "Metrology, Standardization, and Quality Control",
+                        "ru": "Metrology, Standardization, and Quality Control",
+                        "ar": "Metrology, Standardization, and Quality Control"
+                    },
+                    "slug": "metrology-standardization-quality-control",
+                    "route": "/department/metrology-standardization-quality-control",
+                    "aliases": [
+                        "/department/metrology-standardization-and-quality-control"
+                    ],
+                    "sourceLink": "https://old.bstu.uz/kafedra/metrologiya-va-standartlashtirish",
+                    "contact": {
+                        "name": "Tairov Bakhtiyor Bobokulovich",
+                        "role": "Head of Department",
+                        "title": "DSc / candidate of technical sciences, associate professor",
+                        "reception": "Dushanba-Juma (14:00-16:00 gacha)",
+                        "phone": "+998 93 471 00 65",
+                        "email": "b.toirov@mail.ru",
+                        "image": "legacy_removed_web_asset:/assets/img/departments/technology/tairov-bakhtiyor-bobokulovich.jpg"
+                    },
+                    "history": [
+                        "The department began its activity in August 2019 under the name Metrology and standardization on the basis of the newly created structure of the institute.",
+                        "It trains specialists in 5310900 - Metrology, standardization and product quality management.",
+                        "There are 13 professors and teachers at the department, with scientific potential of 54%. Over the past two years, 2 PhD works have been defended and teachers have published international textbooks, textbooks, monographs, HAC journal articles and Scopus articles.",
+                        "The World Bank Academic Innovation Fund AIF-2/20 project Modernization of the system of higher education imported laboratory equipment and introduced virtual laboratories, printed literature and software for training methodologies.",
+                        "The department prepares competitive specialists in metrology, standardization and certification for manufacturing enterprises of the republic."
+                    ],
+                    "projects": [
+                        "Modernization of the system of higher education.",
+                        "AIF-2/20 Improving the training of qualified engineers and professional development of professors and teachers based on personalized innovative technologies in higher education institutions.",
+                        "World Bank Academic Innovation project supporting laboratory equipment, virtual laboratory, printed literature and software."
+                    ],
+                    "staff": [
+                        {
+                            "name": "Tairov Bakhtiyor Bobokulovich",
+                            "role": "Head of the department, candidate of technical sciences, associate professor",
+                            "title": "Head of the department, candidate of technical sciences, associate professor",
+                            "image": "legacy_removed_web_asset:/assets/img/departments/technology/tairov-bakhtiyor-bobokulovich.jpg"
+                        },
+                        {
+                            "name": "Qurbanov Abdiraxim Axmedovich",
+                            "role": "Professor",
+                            "title": "Professor",
+                            "image": "legacy_removed_web_asset:/assets/img/departments/technology/qurbanov-abdiraxim-axmedovich.jpg"
+                        },
+                        {
+                            "name": "Avliyakulov Nadir Nizomovich",
+                            "role": "Candidate of the technical science, associate professor",
+                            "title": "Candidate of the technical science, associate professor",
+                            "image": "legacy_removed_web_asset:/assets/img/departments/technology/avliyakulov-nadir-nizomovich.jpg"
+                        },
+                        {
+                            "name": "Hasanova Zebo Davlatovna",
+                            "role": "PhD, dotsent",
+                            "title": "PhD, dotsent",
+                            "image": "legacy_removed_web_asset:/assets/img/departments/technology/hasanova-zebo-davlatovna.jpg"
+                        },
+                        {
+                            "name": "Tosheva Gulnora Djurayevna",
+                            "role": "PhD, dotsent",
+                            "title": "PhD, dotsent",
+                            "image": "legacy_removed_web_asset:/assets/img/departments/technology/tosheva-gulnora-djurayevna.jpg"
+                        },
+                        {
+                            "name": "Davlyatova Mavlyuda Bakhtiyorovna",
+                            "role": "PhD, associate professor",
+                            "title": "PhD, associate professor",
+                            "image": "legacy_removed_web_asset:/assets/img/departments/technology/davlyatova-mavlyuda-bakhtiyorovna.jpg"
+                        },
+                        {
+                            "name": "Boltaeva Zulfiya Zarifovna",
+                            "role": "PhD, Senior Lecturer",
+                            "title": "PhD, Senior Lecturer"
+                        },
+                        {
+                            "name": "Sayidakhmedov Ravshan Rajabovich",
+                            "role": "Senior teacher",
+                            "title": "Senior teacher"
+                        },
+                        {
+                            "name": "Khojjiyev Administrator Yangibayevich",
+                            "role": "(PhD) Senior Lecturer",
+                            "title": "(PhD) Senior Lecturer",
+                            "image": "legacy_removed_web_asset:/assets/img/departments/technology/xojjiyev-mamur-yangiboyevich.jpg"
+                        },
+                        {
+                            "name": "Khaidarov Shukhrat Khikmatullayevich",
+                            "role": "Assistant",
+                            "title": "Assistant"
+                        },
+                        {
+                            "name": "Shadiyev Suxrob Sadilloyevich",
+                            "role": "Assistant",
+                            "title": "Assistant"
+                        },
+                        {
+                            "name": "Qarshiyev Zohid Abdurahim o'g'li",
+                            "role": "Assistant",
+                            "title": "Assistant"
+                        },
+                        {
+                            "name": "Azimova Firuza Kamolovna",
+                            "role": "Teacher-trainee",
+                            "title": "Teacher-trainee",
+                            "image": "legacy_removed_web_asset:/assets/img/departments/technology/azimova-firuza-kamolovna.jpg"
+                        },
+                        {
+                            "name": "Yodgorova Ma'mura Orifovna",
+                            "role": "Lecturer, trainee",
+                            "title": "Lecturer, trainee"
+                        },
+                        {
+                            "name": "Kamalova Mukhlisa Khudoyberdievna",
+                            "role": "Teacher, trainee",
+                            "title": "Teacher, trainee"
+                        }
+                    ],
+                    "preparedSpecialists": [
+                        {
+                            "code": "60710800",
+                            "name": "Metrology and standardization",
+                            "level": "bachelor",
+                            "note": "",
+                            "id": "metrology-standardization",
+                            "route": "/programs/metrology-standardization"
+                        },
+                        {
+                            "code": "60711300",
+                            "name": "Metrology standardization and product quality management",
+                            "level": "bachelor",
+                            "note": "",
+                            "id": "metrology-quality-management",
+                            "route": "/programs/metrology-quality-management"
+                        },
+                        {
+                            "code": "70710802",
+                            "name": "Metrologiya, standartlashtirish va sifatni boshqarish",
+                            "level": "master",
+                            "note": "",
+                            "id": "metrology-standardization-quality-management-master",
+                            "route": "/programs/metrology-standardization-quality-management-master"
+                        }
+                    ],
+                    "subjects": {
+                        "bachelor": [
+                            "Yo‘nalishga kirish",
+                            "Metrologiya asoslari (NM, AM, QM)",
+                            "O‘lchashlarning fizikaviy asoslari",
+                            "O‘lchash usullari va vositalari (EO‘U va A; ITO‘; CBO‘; FKO‘; AO‘)",
+                            "O‘lchash qurilmalari, elementlari va ularni konstruksiyalash",
+                            "Ishlab chiqarishning metrologik ta’minoti",
+                            "Mahsulot sifati va sifatni boshqarishning statistik usullari",
+                            "O‘lchash vositalarini qiyoslash va kalibrlash",
+                            "Muvofiqlikni baholash asoslari (SA; MB va A)",
+                            "Laboratoriyalar kompitentligini baholash",
+                            "Qiyoslash muhandisligi",
+                            "Standartlashtirish asoslari",
+                            "Texnik jihatdan tartibga solish va standartlashtirish",
+                            "Mahsulot sifat nazorati",
+                            "Sifat menejment tizimi",
+                            "Intellektual o‘lchash asboblari",
+                            "Tovarshunoslik",
+                            "Tovarlar ekspertizasi",
+                            "Standartlar va me’yoriy hujjatlarni ishlab chiqish texnologiyasi va ularning ekpestizasi",
+                            "Kasbiy psixologiya"
+                        ],
+                        "master": [
+                            "Ilmiy tadqiqot metodologiyasi",
+                            "Kvalimetriya va sifatni boshqarishning nazariy asoslari",
+                            "Avtomatlashtirilgan va intellektual o‘lchash vositlarining nazariy asoslari",
+                            "Standartlashtirish va texnik jixatdan tartibga solish tizimlarining sifatni boshqarishdagi o‘rni",
+                            "Eksperimentni tashkil etish va rejalashtirish",
+                            "Metrologiya, texnik jihatdan tartibga solish, standartlashtirish va sertifikatlashtirishning qonuniy asoslari",
+                            "Patentshunoslik, lisenziyalash va sertifikatlashtirish",
+                            "Qayta muhandislik",
+                            "Maxsus fanlarni o’qitish metodikasi",
+                            "Ilmiy-tadqiqot ishi va magistrlik disser-tatsiyasini tayyorlash",
+                            "Ilmiy-pedagogik ish",
+                            "Ilmiy amaliyot (tajriba orttirish)"
+                        ]
+                    },
+                    "publications": {
+                        "textbooksManualsMonographs": [
+                            {
+                                "title": "Hasanova Z.D. Boshqaruv psixologiyasi. Darslik. 2021 yil",
+                                "category": "textbook"
+                            },
+                            {
+                                "title": "Axmetjanov M.M. Kasbiy psixologiya. Darslik. 2021 yil",
+                                "category": "textbook"
+                            },
+                            {
+                                "title": "Axmetjanov M.M. Maxsus fanlarni o‘qitish metodikasi. Darslik. 2021 yil",
+                                "category": "textbook"
+                            },
+                            {
+                                "title": "Urinov U.K., Turobjonov S.M., Amirqulov N.S., Xo’jjiyev M.Y. Avtomobillarga yoqilg’i quyish shahobchalar va avtomobillarga gaz to’ldirish compressor stansiyalarini qurish va ishlatish. Darslik. 2022 yil",
+                                "category": "textbook"
+                            },
+                            {
+                                "title": "Toirov B.B., Yodgorova M.O. Standartlashtirish asoslari. O‘quv qo‘llanma. 2021 yil",
+                                "category": "manual"
+                            },
+                            {
+                                "title": "Toirov B.B., Alimov A.A. O‘lchash asboblarini konstruksiyalash. O‘quv qo‘llanma. 2021 yil",
+                                "category": "manual"
+                            },
+                            {
+                                "title": "Xaydarov Sh.X. Oziq-ovqat xavfsizligini ta’minlashning asosiy tushunchalari. Uslubiy qo‘llanma. 2019 yil",
+                                "category": "manual"
+                            },
+                            {
+                                "title": "Z.Z.Boltaeva. Коллаборативное обучение философия сотрудничества. Monografiya. 2021 yil",
+                                "category": "monograph"
+                            },
+                            {
+                                "title": "Axmedjanov M.M. Zamonaviy pedagogik amaliyot - davr talabi. Monografiya. 2021 yil",
+                                "category": "monograph"
+                            },
+                            {
+                                "title": "Axmedjanov M.M. Mutaxassislik fanlarida faol o`qitish usullarini tashkil etish texnologiyasi. Monografiya. 2021 yil",
+                                "category": "monograph"
+                            },
+                            {
+                                "title": "Axmedjanov M.M. Yodgorova M.O. Tarbiyaviy ishlarni tashkil qilish va boshqarish. Monografiya. 2022 yil",
+                                "category": "monograph"
+                            },
+                            {
+                                "title": "Sagdullaev.Sh.Sh, Majidov K.X., Davlyatova M.B. Технология хлебобулочнқх изделий с лечебнопрофилактическими свойствами. Monografiya. 2022 yil",
+                                "category": "monograph"
+                            },
+                            {
+                                "title": "Tairov B.B., Alimov A.A., Xo’jjiyev M.Y., Bozorov U.M. O’lchash asboblarini konstruksiyalash. O’quv-qo’llanma. 2022 yil",
+                                "category": "manual"
+                            },
+                            {
+                                "title": "Tosheva G.Dj. Bo‘lajak mutaxassislarni amaliy o‘qitish asosida dizaynerlik faoliyatiga tayyorlash metodikasini takomillashtirish. Monografiya. 2023 yil",
+                                "category": "monograph"
+                            },
+                            {
+                                "title": "Yodgorova M.O. Faol metodlaridan foydalanish-zamon talabi. Monografiya. 2023 yil",
+                                "category": "monograph"
+                            },
+                            {
+                                "title": "Gaffarov A.X. LMS MOODLE tizimida interaktiv elementlarni yaratish texnologiyasi. Monografiya. 2023 yil",
+                                "category": "monograph"
+                            },
+                            {
+                                "title": "R.T.Adizov, N.X. Qobilova. Don va don mahsulotlarini saqlash texnologiyasi. Darslik. 2023 yil",
+                                "category": "textbook"
+                            },
+                            {
+                                "title": "Kurbanov A.A. Ilmiy tadqiqot metodologiyasi. O‘quv qo‘llanma. 2023 yil",
+                                "category": "manual"
+                            },
+                            {
+                                "title": "Avliyakulov N.N. Metrologiya, standartlashtirish va sertifikatlashtirish asoslari. O‘quv qo‘llanma. 2023 yil",
+                                "category": "manual"
+                            },
+                            {
+                                "title": "Avliyakulov N.N. Metrologiya, standartlashtirish va sertifikatlashtirish. Elektron darslik.",
+                                "category": "electronic-textbook"
+                            }
+                        ]
+                    },
+                    "research": [
+                        "Kamalova Muxlisa Xudoyberdiyevna - Xalqaro standartlar asosida oziq-ovqat mahsulotlarini ishlab chiqarish, sifat jarayonlarini nazorat qilish tizimini takomillashtirish",
+                        "Yodgorova Ma’mura Orifovna - Noan’anviy ta’sir qilish usullarini qo‘llash asosida igna bargli o‘simliklarni ekstraksiyalash jarayonini takomillashtirish",
+                        "Sayidaxmedov Ravshan Rajabovich - Mahalliy sharoitda etishtirilgan bug’doy uni kleykovinasini quritish jarayonini akustik ishlov berish bilan takomillashtirish",
+                        "Shadiyev Suxrob Sadilloyevich - Qandolat mahsulotlarning sifatini kompleksli baholash tizimini takomillashtirish",
+                        "Xaydarov Shuxrat Xikmatilloyevich - Past alkogolli va alkogolsiz ichimliklar ishlab chiqarishda fitoqo‘shimchalardan foydalanib istiqbolli texnologiyasini ishlab chiqish",
+                        "Azimova Feruza Kamolovna - Bo’lajak muhandislarning kasbiy ko’nikmalarini metakognitiv yondashuv asosida shakllantirish metodikasi"
+                    ],
+                    "cooperation": [
+                        "Strategic cooperation memorandum with M.Auezov South Kazakhstan State University.",
+                        "Cooperation with al-Farabi Kazakh National University and the Heat Physics and Technical Physics department of the Faculty of Physics.",
+                        "Joint master's program for 70710800 Metrology, standardization and quality management for 2025-2026."
+                    ],
+                    "prospectivePlans": [
+                        "Training specialists that meet market demands through part-time education.",
+                        "Retraining courses for specialists in metrology, standardization, certification and quality management.",
+                        "Practical training, laboratory work and internships in industrial enterprises.",
+                        "Certificates recognized by the National Agency for Standardization of the Republic of Uzbekistan.",
+                        "Creation of textbooks and teaching aids with latest modern metrology and standardization information.",
+                        "Implementation of open educational resources and distance learning materials.",
+                        "Adapting educational programs to the Bologna process.",
+                        "Modern research in measuring instruments, precision standards, certification and quality management.",
+                        "Updating laboratory equipment with measuring instruments, calibration stands and certification equipment.",
+                        "Simulation software for metrological measurement processes.",
+                        "Creation of an electronic portal for department control and student communication.",
+                        "Training specialists on ISO 9001, ISO/IEC 17025, and ISO 14001.",
+                        "Expansion of practice sites in industrial enterprise metrology laboratories.",
+                        "Participation in Erasmus+, Tempus, Fulbright and other international grant programs.",
+                        "Attraction of foreign specialists for training and scientific work."
+                    ]
+                }
+            ],
+            "image_paths": {
+                "deanImages": {
+                    "adizov": "legacy_removed_web_asset:/assets/img/Dean/Adizov-Rashid-Tokhtayevich.jpg",
+                    "safarov": "legacy_removed_web_asset:/assets/img/Dean/Safarov-Jasur-Alijon-ogli.jpg",
+                    "bozorov": "legacy_removed_web_asset:/assets/img/Dean/Bozorov-Dilmurod-Xolmurodovich.jpg"
+                },
+                "existingFallbackImages": {
+                    "adizov": "legacy_removed_web_asset:/assets/img/faculties/dean_adizov.jpg",
+                    "safarov": "legacy_removed_web_asset:/assets/img/faculties/deputy_academic_safarov.jpg",
+                    "bozorov": "legacy_removed_web_asset:/assets/img/faculties/deputy_youth_bozorov.jpg"
+                },
+                "oilRefiningImageBase": "legacy_removed_web_asset:/assets/img/departments-Oil and Gas Refining Technology",
+                "foodImageBase": "legacy_removed_web_asset:/assets/img/departments-Food-Technology-and-Service",
+                "technologyImageBase": "legacy_removed_web_asset:/assets/img/departments/technology"
+            }
+        },
+        "notes": [
+            "This archive stores reviewed legacy React content that was not safely represented one-to-one in normalized seed JSON.",
+            "Runtime seeders may ignore this archive until a dedicated migration maps fields into normalized tables.",
+            "Do not restore old /assets/img paths into runtime image fields without moving the files into Laravel storage first.",
+            "The old scripts/import-react-content folder was removed after this reviewed content was merged."
+        ]
+    }
 }

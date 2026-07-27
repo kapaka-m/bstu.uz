@@ -376,3 +376,41 @@
 ## ملاحظة منفصلة
 
 أثناء الفحص ظهر أن هناك مسارات media أخرى محفوظة في قاعدة البيانات مثل `faculties/...`, `departments/...`, `programs/...`, وبعض `staff/...` لا توجد ملفاتها حاليا في `storage/app/public`. هذه ليست مراجع إلى `apps/web/public/assets` وليست من الملفات التي تم حذفها في هذه المراجعة، لكنها تحتاج جولة تنظيم منفصلة لمسارات Laravel storage العامة.
+
+---
+
+## مراجعة Legacy React Import Data
+
+تاريخ المراجعة: 2026-07-27
+
+## الملفات التي تمت مراجعتها ثم حذفها بعد النقل
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\scripts\import-react-content\legacy-react-data\departmentsData.js`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\scripts\import-react-content\legacy-react-data\facultyTechnology.js`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\scripts\import-react-content\legacy-react-data\mockData.js`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\scripts\import-react-content\legacy-react-data\README.md`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\scripts\import-react-content\import.js`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\scripts`
+
+## النتيجة
+
+- تم دمج محتوى `departmentsData.js` في `apps/api/database/data/departments.json` بدون إنشاء أقسام مكررة.
+- تم نقل محتوى `mockData.js` إلى `apps/api/database/data/academic_department_details.json` داخل `legacy_reviewed_sources.mockData`.
+- تم نقل محتوى `facultyTechnology.js` إلى `apps/api/database/data/academic_department_details.json` داخل `legacy_reviewed_sources.facultyTechnology`.
+- تم تفريغ ملفات legacy الثلاثة بعد النقل وتركها كـ compatibility markers فقط.
+- بعد التأكد من نقل المحتوى، تم حذف مجلد `scripts` لأنه لم يعد يحتوي أدوات مستخدمة.
+- تم تحويل مسارات الصور القديمة التي لم تعد موجودة إلى `legacy_removed_web_asset:...` داخل الأرشيف المنقول، بينما مسارات التشغيل في `departments.json` تستخدم `cms/staff/...`.
+
+## مصدر الحقيقة الحالي
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\data\academic_department_details.json`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\data\departments.json`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\data\programs.json`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\data\translations.json`
+
+## التحقق
+
+- ملفات JSON الأربعة صالحة.
+- لا توجد مسارات تشغيل تبدأ بـ `/assets/img` في ملفات `apps/api/database/data`.
+- `npm.cmd run lint` نجح.
+- `php-local.bat artisan test` نجح: 5 tests passed.

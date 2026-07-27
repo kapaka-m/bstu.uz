@@ -10,7 +10,6 @@ This repository is an existing monorepo for the BSTU International system. Do no
 - `docs` — architecture, API, backend, frontend integration, apanel, student system, and mobile documentation.
 - `database-docs` — schema and data migration documentation.
 - `storage-docs` — Laravel storage and file URL guidance.
-- `scripts` — automation scripts, including React content import helpers.
 
 ## Common Commands
 
@@ -73,7 +72,7 @@ If `flutter` is not available on PATH, report that clearly rather than claiming 
 - Apanel CRUD is handled by `Api\AdminCrudController`.
 - Database content is seeded from `apps/api/database/data/` and seeder classes.
 - Public content should be treated as MySQL/API source-of-truth. Static React/Dart data files are migration references or temporary fallbacks unless a feature explicitly documents otherwise.
-- `scripts/import-react-content/import.js` is a maintained, manual utility for regenerating seed JSON from legacy React data files in `scripts/import-react-content/legacy-react-data`; run it only when intentionally updating those datasets and review the JSON diff afterward. Do not use `apps/web/src/data` for production content. It contains only the technical translation fallback.
+- Legacy React import scripts were removed after their reviewed content was merged into `apps/api/database/data/`. Do not use `apps/web/src/data` for production content. It contains only the technical translation fallback.
 - Keep file uploads on Laravel's public disk and document URL handling in `storage-docs`.
 - Preserve `apps/api/public/storage`; it is a Laravel public link/junction to `storage/app/public`, not a duplicate upload folder.
 - Database changes in `apps/api` should use additive migrations. Do not run `migrate:fresh` against shared or real data, and keep seeders idempotent using stable keys such as slugs, codes, locales, and emails.

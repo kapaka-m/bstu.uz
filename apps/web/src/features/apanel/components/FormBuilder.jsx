@@ -363,6 +363,22 @@ export default function FormBuilder({
                   onChange={(val) => handleRootChange(field.name, val)}
                   label={field.label}
                 />
+              ) : field.type === "setting-value" ? (
+                formState.type === "media" ? (
+                  <MediaPicker
+                    value={value}
+                    onChange={(val) => handleRootChange(field.name, val)}
+                    label={field.label}
+                  />
+                ) : (
+                  <textarea
+                    value={value || ""}
+                    onChange={(e) => handleRootChange(field.name, e.target.value)}
+                    required={field.required}
+                    rows={4}
+                    className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold bg-white text-navy"
+                  />
+                )
               ) : field.type === "textarea" || field.type === "json" ? (
                 <textarea
                   value={value || ""}

@@ -743,17 +743,17 @@ class AcademicDepartmentDetailsSeeder extends Seeder
     private function headPhoto(string $name): ?string
     {
         return [
-            'Latipov Saidmurod Tuyg\'unovich' => '/assets/img/faculties/Latipov Saidmurod Tuyg’unovich.jpg',
-            'Mirzaev Shamsiddin Rajabovich' => '/assets/img/faculties/Mirzaev Shamsiddin Rajabovich.jpg',
-            'Mirzayev Shamsiddin Rajabovich' => '/assets/img/faculties/Mirzaev Shamsiddin Rajabovich.jpg',
-            'Inomjon Ilhomovich Tojiyev' => '/assets/img/faculties/Inomjon Ilhomovich Tojiyev.png',
-            'Tojiyev In’omjon Ilhomovich' => '/assets/img/faculties/Inomjon Ilhomovich Tojiyev.png',
-            'Farhod Farmonovich Qazoqov' => '/assets/img/faculties/Farhod Farmonovich Qazoqov.jpg',
-            'Kazokov Farkhad Farmonovich' => '/assets/img/faculties/Farhod Farmonovich Qazoqov.jpg',
-            'Fakhriddin Yusupovich Khabibov' => '/assets/img/faculties/Fakhriddin Yusupovich Khabibov.jpg',
-            'Xabibov Faxriddin Yusupovich' => '/assets/img/faculties/Fakhriddin Yusupovich Khabibov.jpg',
-            'Uyg‘un Abdullayevich O‘rinov' => '/assets/img/faculties/Uyg‘un Abdullayevich O‘rinov.jpg',
-            'O‘rinov Uyg‘un Abdullayevich' => '/assets/img/faculties/Uyg‘un Abdullayevich O‘rinov.jpg',
+            'Latipov Saidmurod Tuyg\'unovich' => 'cms/staff/latipov-saidmurod-tuygunovich.jpg',
+            'Mirzaev Shamsiddin Rajabovich' => 'cms/staff/mirzaev-shamsiddin-rajabovich.jpg',
+            'Mirzayev Shamsiddin Rajabovich' => 'cms/staff/mirzaev-shamsiddin-rajabovich.jpg',
+            'Inomjon Ilhomovich Tojiyev' => 'cms/staff/inomjon-ilhomovich-tojiyev.png',
+            'Tojiyev In’omjon Ilhomovich' => 'cms/staff/inomjon-ilhomovich-tojiyev.png',
+            'Farhod Farmonovich Qazoqov' => 'cms/staff/farhod-farmonovich-qazoqov.jpg',
+            'Kazokov Farkhad Farmonovich' => 'cms/staff/farhod-farmonovich-qazoqov.jpg',
+            'Fakhriddin Yusupovich Khabibov' => 'cms/staff/fakhriddin-yusupovich-khabibov.jpg',
+            'Xabibov Faxriddin Yusupovich' => 'cms/staff/fakhriddin-yusupovich-khabibov.jpg',
+            'Uyg‘un Abdullayevich O‘rinov' => 'cms/staff/uygun-abdullayevich-orinov.jpg',
+            'O‘rinov Uyg‘un Abdullayevich' => 'cms/staff/uygun-abdullayevich-orinov.jpg',
         ][$name] ?? null;
     }
 

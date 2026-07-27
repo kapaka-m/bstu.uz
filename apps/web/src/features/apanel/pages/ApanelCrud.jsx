@@ -89,7 +89,7 @@ const RESOURCE_SCHEMAS = {
     ],
     fields: [
       { name: "key", label: "Key", type: "text", required: true },
-      { name: "value", label: "Value", type: "textarea" },
+      { name: "value", label: "Value", type: "setting-value" },
       { name: "group", label: "Settings Group", type: "text" },
       { name: "type", label: "Value Type", type: "text" },
       { name: "is_public", label: "Expose on Public Site", type: "boolean" },

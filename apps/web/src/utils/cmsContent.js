@@ -1,4 +1,4 @@
-const FALLBACK_IMAGE = "/assets/img/favicon.png";
+const FALLBACK_IMAGE = "/storage/cms/branding/favicon.png";
 
 export function asArray(value) {
   if (Array.isArray(value)) return value;

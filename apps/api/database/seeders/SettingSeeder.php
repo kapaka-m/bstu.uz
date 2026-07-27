@@ -3,7 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\Setting;
+use App\Models\Media;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Storage;
 
 class SettingSeeder extends Seeder
 {
@@ -87,12 +89,128 @@ class SettingSeeder extends Seeder
                 'group' => 'general',
                 'is_public' => false,
             ],
+            [
+                'key' => 'branding_logo_default',
+                'value' => 'cms/branding/bstu.png',
+                'type' => 'media',
+                'group' => 'branding',
+                'is_public' => true,
+            ],
+            [
+                'key' => 'branding_logo_en',
+                'value' => 'cms/branding/bstu-en.png',
+                'type' => 'media',
+                'group' => 'branding',
+                'is_public' => true,
+            ],
+            [
+                'key' => 'branding_logo_ru',
+                'value' => 'cms/branding/bstu-ru.png',
+                'type' => 'media',
+                'group' => 'branding',
+                'is_public' => true,
+            ],
+            [
+                'key' => 'branding_logo_ar',
+                'value' => 'cms/branding/bstu-ar.png',
+                'type' => 'media',
+                'group' => 'branding',
+                'is_public' => true,
+            ],
+            [
+                'key' => 'branding_favicon_ico',
+                'value' => 'cms/branding/favicon.ico',
+                'type' => 'media',
+                'group' => 'branding',
+                'is_public' => true,
+            ],
+            [
+                'key' => 'branding_favicon_png',
+                'value' => 'cms/branding/favicon.png',
+                'type' => 'media',
+                'group' => 'branding',
+                'is_public' => true,
+            ],
+            [
+                'key' => 'branding_favicon_32',
+                'value' => 'cms/branding/favicon-32x32.png',
+                'type' => 'media',
+                'group' => 'branding',
+                'is_public' => true,
+            ],
+            [
+                'key' => 'branding_favicon_16',
+                'value' => 'cms/branding/favicon-16x16.png',
+                'type' => 'media',
+                'group' => 'branding',
+                'is_public' => true,
+            ],
+            [
+                'key' => 'branding_apple_touch_icon',
+                'value' => 'cms/branding/apple-touch-icon.png',
+                'type' => 'media',
+                'group' => 'branding',
+                'is_public' => true,
+            ],
+            [
+                'key' => 'branding_android_chrome_512',
+                'value' => 'cms/branding/android-chrome-512x512.png',
+                'type' => 'media',
+                'group' => 'branding',
+                'is_public' => true,
+            ],
+            [
+                'key' => 'branding_android_chrome_192',
+                'value' => 'cms/branding/android-chrome-192x192.png',
+                'type' => 'media',
+                'group' => 'branding',
+                'is_public' => true,
+            ],
         ];
 
         foreach ($settings as $setting) {
+            if (str_starts_with($setting['key'], 'branding_')) {
+                Setting::firstOrCreate(['key' => $setting['key']], $setting);
+
+                continue;
+            }
+
             Setting::updateOrCreate(
                 ['key' => $setting['key']],
                 $setting
+            );
+        }
+
+        $brandingAssets = [
+            'branding.favicon.ico' => ['path' => 'cms/branding/favicon.ico', 'filename' => 'favicon.ico', 'mime' => 'image/x-icon'],
+            'branding.favicon.png' => ['path' => 'cms/branding/favicon.png', 'filename' => 'favicon.png', 'mime' => 'image/png'],
+            'branding.favicon.32' => ['path' => 'cms/branding/favicon-32x32.png', 'filename' => 'favicon-32x32.png', 'mime' => 'image/png'],
+            'branding.favicon.16' => ['path' => 'cms/branding/favicon-16x16.png', 'filename' => 'favicon-16x16.png', 'mime' => 'image/png'],
+            'branding.logo.default' => ['path' => 'cms/branding/bstu.png', 'filename' => 'bstu.png', 'mime' => 'image/png'],
+            'branding.logo.en' => ['path' => 'cms/branding/bstu-en.png', 'filename' => 'bstu-en.png', 'mime' => 'image/png'],
+            'branding.logo.ru' => ['path' => 'cms/branding/bstu-ru.png', 'filename' => 'bstu-ru.png', 'mime' => 'image/png'],
+            'branding.logo.ar' => ['path' => 'cms/branding/bstu-ar.png', 'filename' => 'bstu-ar.png', 'mime' => 'image/png'],
+            'branding.apple_touch_icon' => ['path' => 'cms/branding/apple-touch-icon.png', 'filename' => 'apple-touch-icon.png', 'mime' => 'image/png'],
+            'branding.android_chrome.512' => ['path' => 'cms/branding/android-chrome-512x512.png', 'filename' => 'android-chrome-512x512.png', 'mime' => 'image/png'],
+            'branding.android_chrome.192' => ['path' => 'cms/branding/android-chrome-192x192.png', 'filename' => 'android-chrome-192x192.png', 'mime' => 'image/png'],
+        ];
+
+        foreach ($brandingAssets as $altKey => $asset) {
+            Media::updateOrCreate(
+                ['alt_key' => $altKey],
+                [
+                    'disk' => 'public',
+                    'path' => $asset['path'],
+                    'filename' => $asset['filename'],
+                    'title' => 'Branding: '.$asset['filename'],
+                    'alt_text' => 'BSTU branding asset',
+                    'type' => 'image',
+                    'mime_type' => $asset['mime'],
+                    'size' => Storage::disk('public')->exists($asset['path'])
+                        ? Storage::disk('public')->size($asset['path'])
+                        : 0,
+                    'is_public' => true,
+                ]
             );
         }
     }

@@ -82,7 +82,7 @@ class EngineeringFacultyContentSeeder extends Seeder
                 ],
                 'phone' => '+998 (90) 744 01 79',
                 'email' => 'azizhojiyev1979y@mail.ru',
-                'photo' => '/assets/img/faculties/Khojiyev Aziz Kholmurodovich.jpg',
+                'photo' => 'cms/staff/khojiyev-aziz-kholmurodovich.jpg',
             ],
             [
                 'name' => 'Rustamov Bobir Ismatovich',
@@ -100,7 +100,7 @@ class EngineeringFacultyContentSeeder extends Seeder
                 ],
                 'phone' => '+998 (99) 704 79 72',
                 'email' => 'bobir_rustamov@bk.ru',
-                'photo' => '/assets/img/faculties/Rustamov Bobir Ismatovich.jpg',
+                'photo' => 'cms/staff/rustamov-bobir-ismatovich.jpg',
             ],
             [
                 'name' => 'Ashurov Asrorjon Komilovich',
@@ -118,7 +118,7 @@ class EngineeringFacultyContentSeeder extends Seeder
                 ],
                 'phone' => '+998 (97) 488 28 22',
                 'email' => 'a.asrorjon83@mail.ru',
-                'photo' => '/assets/img/faculties/Ashurov Asrorjon Komilovich.jpg',
+                'photo' => 'cms/staff/ashurov-asrorjon-komilovich.jpg',
             ],
         ];
 

@@ -458,48 +458,48 @@
         "headEmail": "ochilov82@gmail.ru",
         "headPhone": "+998 91 411 00 16",
         "headOfficeHours": "Monday-Friday, 14:00-16:00",
-        "headImage": "/assets/img/departments/technology/ochilov-abduraxim-abdurasulovich.jpg",
+        "headImage": "cms/staff/ochilov-abduraxim-abdurasulovich.jpg",
         "about": "The Department of Oil and Gas Refining Technology trains specialists for petroleum and gas processing enterprises, including Bukhara Oil Refinery, Mubarak Gas Processing Plant, and related industrial organizations. The department covers oil and gas processing technology, petroleum chemistry, deep gas processing, polymer processing, corrosion protection, product quality control, and modern physical and chemical analysis methods.",
         "staff": [
             {
                 "name": "Ochilov Abduraxim Abdurasulovich",
                 "title": "Head of Department",
-                "image": "/assets/img/departments/technology/ochilov-abduraxim-abdurasulovich.jpg"
+                "image": "cms/staff/ochilov-abduraxim-abdurasulovich.jpg"
             },
             {
                 "name": "Maxmudov Muxtor Jamolovich",
                 "title": "DSc, Professor",
-                "image": "/assets/img/departments/maxmudov.jpg"
+                "image": "cms/staff/maxmudov-muxtor-jamolovich.jpg"
             },
             {
                 "name": "Hayitov Ruslan Rustamjonovich",
                 "title": "DSc, Professor",
-                "image": "/assets/img/departments/hayitov.jpg"
+                "image": "cms/staff/hayitov-ruslan-rustamjonovich.jpg"
             },
             {
                 "name": "Bozorov G'ayrat Rashidovich",
                 "title": "DSc, Professor",
-                "image": "/assets/img/departments/bozorov.jpg"
+                "image": "cms/staff/bozorov-gayrat-rashidovich.jpg"
             },
             {
                 "name": "Xo'jaqulov Aziz Fayzullaevich",
                 "title": "PhD, Associate Professor",
-                "image": "/assets/img/departments/xojaqulov.jpg"
+                "image": "cms/staff/xojakulov-aziz-fayzullaevich.jpg"
             },
             {
                 "name": "Murodov Malik Negmurodovich",
                 "title": "Candidate of Technical Sciences, Associate Professor",
-                "image": "/assets/img/departments/murodov.jpg"
+                "image": "cms/staff/murodov-malik-negmurodovich.jpg"
             },
             {
                 "name": "Safarov Baxri Djumaevich",
                 "title": "Candidate of Technical Sciences, Associate Professor",
-                "image": "/assets/img/departments/safarov.jpg"
+                "image": "cms/staff/safarov-baxri-djumaevich.jpg"
             },
             {
                 "name": "Tsukanov Maksim Nikolayevich",
                 "title": "PhD, Associate Professor",
-                "image": "/assets/img/departments/tsukanov.jpg"
+                "image": "cms/staff/tsukanov-maksim-nikolayevich.jpg"
             }
         ],
         "programs": [

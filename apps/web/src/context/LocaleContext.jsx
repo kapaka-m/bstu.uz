@@ -5,6 +5,8 @@ import { translationService } from "../services/translationService";
 import { menuService } from "../services/menuService";
 
 const LocaleContext = createContext();
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/api/v1";
+const PUBLIC_BASE_URL = API_BASE_URL.replace(/\/api\/v1\/?$/, "");
 const fallbackTranslationLoaders = {
   ar: () => import("../data/fallbackTranslations/ar"),
   en: () => import("../data/fallbackTranslations/en"),
@@ -30,6 +32,29 @@ async function loadFallbackTranslation(locale) {
   }
   return fallbackTranslationCache[locale];
 }
+
+const resolvePublicAssetUrl = (value, fallback = "") => {
+  const path = String(value || "").trim();
+  if (!path) return fallback;
+  if (/^https?:\/\//i.test(path)) return path;
+  if (path.startsWith("/storage/")) return `${PUBLIC_BASE_URL}${path}`;
+  if (path.startsWith("storage/")) return `${PUBLIC_BASE_URL}/${path}`;
+  if (path.startsWith("/")) return path;
+  return `${PUBLIC_BASE_URL}/storage/${path}`;
+};
+
+const setLinkHref = (selector, href, attributes = {}) => {
+  if (!href) return;
+  let link = document.head.querySelector(selector);
+  if (!link) {
+    link = document.createElement("link");
+    Object.entries(attributes).forEach(([key, value]) => {
+      link.setAttribute(key, value);
+    });
+    document.head.appendChild(link);
+  }
+  link.setAttribute("href", href);
+};
 
 export function LocaleProvider({ children }) {
   const [locale, setLocale] = useState(() => localeStorage.getLocale());
@@ -124,14 +149,43 @@ export function LocaleProvider({ children }) {
     loadLocaleData();
   }, [locale]);
 
+  useEffect(() => {
+    setLinkHref(
+      'link[rel="icon"]',
+      resolvePublicAssetUrl(
+        settings.branding_favicon_png || settings.branding_favicon_ico,
+        resolvePublicAssetUrl("cms/branding/favicon.png"),
+      ),
+      { rel: "icon" },
+    );
+    setLinkHref(
+      'link[rel="apple-touch-icon"]',
+      resolvePublicAssetUrl(
+        settings.branding_apple_touch_icon,
+        resolvePublicAssetUrl("cms/branding/apple-touch-icon.png"),
+      ),
+      { rel: "apple-touch-icon" },
+    );
+    setLinkHref(
+      'link[rel="icon"][sizes="32x32"]',
+      resolvePublicAssetUrl(settings.branding_favicon_32),
+      { rel: "icon", sizes: "32x32", type: "image/png" },
+    );
+    setLinkHref(
+      'link[rel="icon"][sizes="16x16"]',
+      resolvePublicAssetUrl(settings.branding_favicon_16),
+      { rel: "icon", sizes: "16x16", type: "image/png" },
+    );
+  }, [settings]);
+
   const logoSrc =
     locale === "ar"
-      ? "/assets/img/bstu-ar.png"
+      ? resolvePublicAssetUrl(settings.branding_logo_ar, resolvePublicAssetUrl("cms/branding/bstu-ar.png"))
       : locale === "en"
-        ? "/assets/img/bstu-en.png"
+        ? resolvePublicAssetUrl(settings.branding_logo_en, resolvePublicAssetUrl("cms/branding/bstu-en.png"))
         : locale === "ru"
-          ? "/assets/img/bstu-ru.png"
-          : "/assets/img/bstu.png";
+          ? resolvePublicAssetUrl(settings.branding_logo_ru, resolvePublicAssetUrl("cms/branding/bstu-ru.png"))
+          : resolvePublicAssetUrl(settings.branding_logo_default, resolvePublicAssetUrl("cms/branding/bstu.png"));
 
   const contextValue = {
     locale,

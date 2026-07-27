@@ -81,9 +81,9 @@ Translation keys are categorized under strictly whitelisted prefixes:
 
 ## 4. Media and Image Path Handling
 
-- Image paths are stored as relative path strings (e.g. `assets/img/faculties/technology.jpg`).
+- Image paths are stored as relative storage path strings (e.g. `cms/staff/person-name.jpg`).
 - The REST API prefixes these values with the base URL automatically on retrieval via Eloquent casts or resource transformers.
-- No huge media assets were duplicated. Existing public directory asset structures inside `apps/web/public/` remain compatible.
+- Production media should resolve from Laravel storage/API records, not from `apps/web/public/assets`.
 
 ---
 

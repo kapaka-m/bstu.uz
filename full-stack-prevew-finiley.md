@@ -253,3 +253,71 @@
 - `composer validate --no-check-publish` نجح مع تحذير واحد فقط عن exact TCPDF version.
 - `php-local.bat artisan test` نجح: 5 tests passed.
 - `route:list` نجح: 170 routes.
+
+---
+
+# مراجعة Web Public Assets
+
+تاريخ المراجعة: 2026-07-27
+
+## المسارات التي تمت مراجعتها
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\public`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\public\robots.txt`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\public\assets`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\public\assets\img`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\public\assets\video`
+
+## ما تم تنظيمه
+
+- تم نقل صور الأشخاص التي كانت مستخدمة كبيانات محتوى من `apps/web/public/assets/img/...` إلى `apps/api/storage/app/public/cms/staff/...`.
+- تم تحديث ملفات seed/data حتى تستخدم مسارات `cms/staff/...` بدلا من `/assets/img/...`.
+- تم التأكد أن قاعدة البيانات الحالية لا تحتوي أي قيم `assets/img`.
+- تم حذف مجلد `assets/video` لأنه فارغ.
+- تم حذف مجلدات وصور public القديمة غير المستخدمة بعد نقل مراجع المحتوى.
+- تم حذف مكون React غير مستخدم كان يشير إلى صور `clients` غير موجودة.
+
+## الملفات المتبقية في Web Public
+
+هذه ملفات واجهة ثابتة طبيعية متبقية في Web public:
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\public\robots.txt`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\public\assets\img\hero-bg.png`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\public\assets\img\hero-university.jpg`
+
+## النتيجة
+
+المسار `apps/web/public` أصبح مرتب: يحتوي فقط `robots.txt` وصور hero الثابتة. صور المحتوى وملفات branding التي يجب التحكم بها من النظام أصبحت في Laravel storage وتقرأ عبر API/apanel.
+
+## تحديث Branding Assets
+
+تم نقل ملفات favicon والشعارات من `apps/web/public/assets/img` إلى:
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\storage\app\public\cms\branding`
+
+وتم ربطها بجدول `settings` كمفاتيح عامة قابلة للتحكم من apanel:
+
+- `branding_logo_default`
+- `branding_logo_en`
+- `branding_logo_ru`
+- `branding_logo_ar`
+- `branding_favicon_ico`
+- `branding_favicon_png`
+- `branding_favicon_32`
+- `branding_favicon_16`
+- `branding_apple_touch_icon`
+- `branding_android_chrome_512`
+- `branding_android_chrome_192`
+
+كما تم إضافة سجلات لها في جدول `media` حتى تظهر في Media Picker داخل apanel.
+
+## تحقق Branding Assets
+
+- عدد إعدادات branding في جدول `settings`: 11.
+- عدد سجلات branding في جدول `media`: 11.
+- لا توجد ملفات branding مفقودة من `storage/app/public/cms/branding`.
+- لا توجد مراجع قديمة في الواجهة إلى `/assets/img/favicon...` أو `/assets/img/bstu...`.
+
+## ملاحظة منفصلة
+
+أثناء الفحص ظهر أن هناك مسارات media أخرى محفوظة في قاعدة البيانات مثل `faculties/...`, `departments/...`, `programs/...`, وبعض `staff/...` لا توجد ملفاتها حاليا في `storage/app/public`. هذه ليست مراجع إلى `apps/web/public/assets` وليست من الملفات التي تم حذفها في هذه المراجعة، لكنها تحتاج جولة تنظيم منفصلة لمسارات Laravel storage العامة.

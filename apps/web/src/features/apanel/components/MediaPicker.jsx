@@ -74,7 +74,7 @@ export default function MediaPicker({ value, onChange, label }) {
             type="text"
             value={value || ""}
             onChange={(e) => onChange(e.target.value)}
-            placeholder="/assets/img/example.jpg"
+            placeholder="/storage/cms/media-library/example.jpg"
             className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold bg-white text-navy"
           />
           <Link2 className="absolute left-3.5 top-3.5 w-3.5 h-3.5 text-gray-400" />

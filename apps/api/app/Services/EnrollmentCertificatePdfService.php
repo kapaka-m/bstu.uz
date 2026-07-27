@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Models\Enrollment;
+use DateTimeInterface;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -25,7 +27,7 @@ class EnrollmentCertificatePdfService
             'number' => $enrollment->student_number,
             'date' => $this->uzbekDate($enrollment->issue_date ?: now()),
             'name' => strtoupper((string) ($student?->full_name_english ?: $student?->user?->name ?: '')),
-            'birth_date' => $student?->birth_date?->format('d/m/Y') ?: '',
+            'birth_date' => $this->formatDate($student?->birth_date, 'd/m/Y'),
             'passport' => strtoupper((string) $student?->passport_number),
             'nationality' => strtoupper((string) $student?->nationality),
             'degree' => $this->label($application?->degree_level),
@@ -155,8 +157,13 @@ class EnrollmentCertificatePdfService
 HTML;
     }
 
-    private function uzbekDate($date): string
+    private function uzbekDate(DateTimeInterface|string|null $date): string
     {
+        $date = $date ?: now();
+        if (! $date instanceof DateTimeInterface) {
+            $date = Carbon::parse($date);
+        }
+
         $months = [
             1 => 'yanvar',
             2 => 'fevral',
@@ -173,6 +180,19 @@ HTML;
         ];
 
         return ((int) $date->format('j')).' '.$months[(int) $date->format('n')].' '.$date->format('Y').' yil.';
+    }
+
+    private function formatDate(DateTimeInterface|string|null $date, string $format): string
+    {
+        if (! $date) {
+            return '';
+        }
+
+        if (! $date instanceof DateTimeInterface) {
+            $date = Carbon::parse($date);
+        }
+
+        return $date->format($format);
     }
 
     private function label(?string $value): string

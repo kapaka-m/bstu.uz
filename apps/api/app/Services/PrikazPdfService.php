@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Models\Prikaz;
+use DateTimeInterface;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -137,8 +139,13 @@ class PrikazPdfService
 HTML;
     }
 
-    private function uzbekDate($date): string
+    private function uzbekDate(DateTimeInterface|string|null $date): string
     {
+        $date = $date ?: now();
+        if (! $date instanceof DateTimeInterface) {
+            $date = Carbon::parse($date);
+        }
+
         $months = [1 => 'yanvar', 2 => 'fevral', 3 => 'mart', 4 => 'aprel', 5 => 'may', 6 => 'iyun', 7 => 'iyul', 8 => 'avgust', 9 => 'sentabr', 10 => 'oktabr', 11 => 'noyabr', 12 => 'dekabr'];
         return ((int) $date->format('j')).' '.$months[(int) $date->format('n')].' '.$date->format('Y').' yil.';
     }

@@ -16,6 +16,7 @@ use App\Models\Prikaz;
 use App\Models\ResidencePermitProcess;
 use App\Models\ServiceFeePayment;
 use App\Models\StudentVisaProcess;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use RuntimeException;
@@ -530,7 +531,7 @@ class ApplicationWorkflowService
         return $items;
     }
 
-    private function nextAction(Application $application, $documentCards, array $checks): string
+    private function nextAction(Application $application, Collection $documentCards, array $checks): string
     {
         if (! $checks['documents_approved']) {
             return $documentCards->where('is_required', true)->where('status', 'NOT_UPLOADED')->count() > 0

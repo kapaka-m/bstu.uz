@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
             AcademicDepartmentDetailsSeeder::class,
             EngineeringFacultyContentSeeder::class,
             SettingSeeder::class,
+            WorkflowConfigurationSeeder::class,
         ]);
     }
 }

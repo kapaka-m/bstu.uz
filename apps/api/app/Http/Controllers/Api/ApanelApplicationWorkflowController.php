@@ -12,6 +12,7 @@ use App\Models\ServiceFeePayment;
 use App\Models\Payment;
 use App\Services\AdmissionPdfService;
 use App\Services\ApplicationWorkflowService;
+use App\Services\CmsSettingService;
 use App\Services\EnrollmentCertificatePdfService;
 use App\Services\PrikazPdfService;
 use App\Services\StudyContractPdfService;
@@ -32,6 +33,7 @@ class ApanelApplicationWorkflowController extends Controller
         private readonly EnrollmentCertificatePdfService $enrollmentPdf,
         private readonly StudyContractPdfService $contractPdf,
         private readonly PrikazPdfService $prikazPdf,
+        private readonly CmsSettingService $settings,
     ) {}
 
     public function index(Request $request)
@@ -130,7 +132,7 @@ class ApanelApplicationWorkflowController extends Controller
             return $this->errorResponse('File not found', 404);
         }
 
-        return Storage::disk($doc->storage_disk ?: 'local')->download($doc->file_path, $doc->original_name ?: basename($doc->file_path));
+        return $this->downloadFromDisk($doc->storage_disk ?: 'local', $doc->file_path, $doc->original_name ?: basename($doc->file_path));
     }
 
     public function equivalency(Request $request, int $application)
@@ -250,7 +252,7 @@ class ApanelApplicationWorkflowController extends Controller
             'internal_admin_notes' => $validated['internal_admin_notes'] ?? null,
         ]);
         $app->forceFill(['application_fee_status' => $validated['status']])->save();
-        $this->workflow->notify($app, 'Payment reviewed', 'Your 50 USD fee receipt is '.$validated['status'].'.', 'payment', '/student/payments');
+        $this->workflow->notify($app, 'Payment reviewed', 'Your '.$this->settings->float('workflow.application_fee_amount', 50).' '.$this->settings->text('workflow.currency', 'USD').' fee receipt is '.$validated['status'].'.', 'payment', '/student/payments');
         $this->workflow->syncApplicationState($app, Auth::id(), 'Application fee payment reviewed as '.$validated['status']);
 
         return $this->successResponse($fee->fresh(), 'Payment reviewed');
@@ -271,7 +273,8 @@ class ApanelApplicationWorkflowController extends Controller
             'reviewed_at' => now(),
             'rejection_reason' => $validated['rejection_reason'] ?? null,
         ]);
-        $this->workflow->notify($app, '30% contract payment reviewed', 'Your 30% contract payment receipt is '.$validated['status'].'.', 'payment', '/student/payments');
+        $advancePercentage = $this->settings->int('workflow.contract_advance_percentage', 30);
+        $this->workflow->notify($app, $advancePercentage.'% contract payment reviewed', 'Your '.$advancePercentage.'% contract payment receipt is '.$validated['status'].'.', 'payment', '/student/payments');
 
         return $this->successResponse($contractPayment->fresh(), 'Contract payment reviewed');
     }
@@ -347,7 +350,7 @@ class ApanelApplicationWorkflowController extends Controller
         $path = $this->admissionPdf->ensureDocument($app->admission);
         $filename = 'admission-'.$app->admission->admission_number.'.pdf';
 
-        return Storage::disk('local')->download($path, $filename);
+        return $this->downloadFromDisk('local', $path, $filename);
     }
 
     public function downloadContract(Request $request, int $application)
@@ -360,7 +363,7 @@ class ApanelApplicationWorkflowController extends Controller
         $contract = $this->workflow->ensureContract($app);
         $path = $this->contractPdf->ensureDocument($contract);
 
-        return Storage::disk('local')->download($path, 'study-contract-'.$contract->contract_number.'.pdf');
+        return $this->downloadFromDisk('local', $path, 'study-contract-'.$contract->contract_number.'.pdf');
     }
 
     public function issueEnrollment(Request $request, int $application)
@@ -385,7 +388,7 @@ class ApanelApplicationWorkflowController extends Controller
         $path = $this->enrollmentPdf->ensureDocument($app->enrollment);
         $filename = 'enrollment-'.$app->enrollment->student_number.'.pdf';
 
-        return Storage::disk('local')->download($path, $filename);
+        return $this->downloadFromDisk('local', $path, $filename);
     }
 
     public function issuePrikaz(Request $request, int $application)
@@ -409,7 +412,7 @@ class ApanelApplicationWorkflowController extends Controller
 
         $path = $this->prikazPdf->ensureDocument($app->prikaz);
 
-        return Storage::disk('local')->download($path, 'prikaz-'.$app->prikaz->prikaz_number.'.pdf');
+        return $this->downloadFromDisk('local', $path, 'prikaz-'.$app->prikaz->prikaz_number.'.pdf');
     }
 
     public function reviewServiceFee(Request $request, int $application, int $payment)
@@ -426,7 +429,7 @@ class ApanelApplicationWorkflowController extends Controller
             'reviewed_at' => now(),
             'rejection_reason' => $validated['rejection_reason'] ?? null,
         ]);
-        $this->workflow->notify($app, 'Service fee reviewed', 'Your 300 USD service fee receipt is '.$validated['status'].'.', 'payment', '/student/service-fee');
+        $this->workflow->notify($app, 'Service fee reviewed', 'Your '.$this->settings->float('workflow.service_fee_amount', 300).' '.$this->settings->text('workflow.currency', 'USD').' service fee receipt is '.$validated['status'].'.', 'payment', '/student/service-fee');
 
         return $this->successResponse($fee->fresh(), 'Service fee reviewed');
     }
@@ -492,5 +495,22 @@ class ApanelApplicationWorkflowController extends Controller
     private function findApplication(int $id): Application
     {
         return Application::with(['studentProfile.user', 'program.translations', 'faculty.translations', 'department.translations', 'equivalency', 'admission', 'contracts.payments', 'enrollment', 'prikaz', 'visaProcess', 'housingRequest', 'residencePermitProcess', 'serviceFeePayments'])->findOrFail($id);
+    }
+
+    private function downloadFromDisk(string $disk, string $path, string $filename)
+    {
+        $root = config("filesystems.disks.{$disk}.root");
+        if (! is_string($root) || $root === '') {
+            return $this->errorResponse('File download is not supported for this storage disk.', 422);
+        }
+
+        $rootPath = realpath($root);
+        $filePath = realpath($root.DIRECTORY_SEPARATOR.str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $path));
+
+        if (! $rootPath || ! $filePath || ! str_starts_with($filePath, $rootPath.DIRECTORY_SEPARATOR)) {
+            return $this->errorResponse('File not found', 404);
+        }
+
+        return response()->download($filePath, $filename);
     }
 }

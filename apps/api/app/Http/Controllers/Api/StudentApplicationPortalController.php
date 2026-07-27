@@ -12,6 +12,7 @@ use App\Models\Notification;
 use App\Models\StudentProfile;
 use App\Services\AdmissionPdfService;
 use App\Services\ApplicationWorkflowService;
+use App\Services\CmsSettingService;
 use App\Services\EnrollmentCertificatePdfService;
 use App\Services\PrikazPdfService;
 use App\Services\StudyContractPdfService;
@@ -33,6 +34,7 @@ class StudentApplicationPortalController extends Controller
         private readonly EnrollmentCertificatePdfService $enrollmentPdf,
         private readonly StudyContractPdfService $contractPdf,
         private readonly PrikazPdfService $prikazPdf,
+        private readonly CmsSettingService $settings,
     ) {}
 
     public function summary(Request $request)
@@ -149,7 +151,7 @@ class StudentApplicationPortalController extends Controller
             return $this->errorResponse('Document not found or unauthorized', 404);
         }
 
-        return Storage::disk($document->storage_disk ?: 'local')->download($document->file_path, $document->original_name ?: basename($document->file_path));
+        return $this->downloadFromDisk($document->storage_disk ?: 'local', $document->file_path, $document->original_name ?: basename($document->file_path));
     }
 
     public function equivalency(Request $request)
@@ -235,8 +237,8 @@ class StudentApplicationPortalController extends Controller
         $payment = ApplicationFeePayment::create([
             'application_id' => $application->id,
             'payment_number' => $this->workflow->nextPaymentNumber(),
-            'amount' => 50,
-            'currency' => 'USD',
+            'amount' => $this->settings->float('workflow.application_fee_amount', 50),
+            'currency' => $this->settings->text('workflow.currency', 'USD'),
             'status' => 'UPLOADED',
             'receipt_path' => $path,
             'receipt_original_name' => $file->getClientOriginalName(),
@@ -275,7 +277,7 @@ class StudentApplicationPortalController extends Controller
         $path = $this->admissionPdf->ensureDocument($application->admission);
         $filename = 'admission-'.$application->admission->admission_number.'.pdf';
 
-        return Storage::disk('local')->download($path, $filename);
+        return $this->downloadFromDisk('local', $path, $filename);
     }
 
     public function contractAdvance(Request $request)
@@ -292,7 +294,7 @@ class StudentApplicationPortalController extends Controller
             'contract' => $contract,
             'can_upload' => (bool) $application->admission && ! $this->workflow->contractAdvanceApproved($application),
             'requires_admission' => ! $application->admission,
-            'required_percentage' => 30,
+            'required_percentage' => $this->settings->int('workflow.contract_advance_percentage', 30),
         ], 'Contract advance payment status retrieved');
     }
 
@@ -306,7 +308,7 @@ class StudentApplicationPortalController extends Controller
             return $this->errorResponse('Admission must be issued before contract payment.', 422);
         }
         if ($this->workflow->contractAdvanceApproved($application)) {
-            return $this->errorResponse('The 30% contract payment is already approved.', 422);
+            return $this->errorResponse('The '.$this->settings->int('workflow.contract_advance_percentage', 30).'% contract payment is already approved.', 422);
         }
 
         $validated = $request->validate([
@@ -322,7 +324,7 @@ class StudentApplicationPortalController extends Controller
             'payment_number' => $this->workflow->nextContractPaymentNumber(),
             'payment_type' => 'contract_advance',
             'amount' => $contract->advance_amount ?: 0,
-            'currency' => $contract->currency ?: 'USD',
+            'currency' => $contract->currency ?: $this->settings->text('workflow.currency', 'USD'),
             'payment_date' => now(),
             'status' => 'UPLOADED',
             'receipt_path' => $path,
@@ -330,7 +332,8 @@ class StudentApplicationPortalController extends Controller
             'receipt_mime_type' => $file->getMimeType(),
             'receipt_size' => $file->getSize(),
         ]);
-        $this->workflow->notify($application, '30% contract receipt uploaded', 'Your 30% contract payment receipt is waiting for review.', 'payment', '/student/payments');
+        $advancePercentage = $this->settings->int('workflow.contract_advance_percentage', 30);
+        $this->workflow->notify($application, $advancePercentage.'% contract receipt uploaded', 'Your '.$advancePercentage.'% contract payment receipt is waiting for review.', 'payment', '/student/payments');
 
         return $this->successResponse($payment, 'Contract advance receipt uploaded successfully', 201);
     }
@@ -345,7 +348,7 @@ class StudentApplicationPortalController extends Controller
         $contract = $this->workflow->ensureContract($application);
         $path = $this->contractPdf->ensureDocument($contract);
 
-        return Storage::disk('local')->download($path, 'study-contract-'.$contract->contract_number.'.pdf');
+        return $this->downloadFromDisk('local', $path, 'study-contract-'.$contract->contract_number.'.pdf');
     }
 
     public function enrollment(Request $request)
@@ -374,7 +377,7 @@ class StudentApplicationPortalController extends Controller
         $path = $this->enrollmentPdf->ensureDocument($application->enrollment);
         $filename = 'enrollment-'.$application->enrollment->student_number.'.pdf';
 
-        return Storage::disk('local')->download($path, $filename);
+        return $this->downloadFromDisk('local', $path, $filename);
     }
 
     public function prikaz(Request $request)
@@ -401,7 +404,7 @@ class StudentApplicationPortalController extends Controller
 
         $path = $this->prikazPdf->ensureDocument($application->prikaz);
 
-        return Storage::disk('local')->download($path, 'prikaz-'.$application->prikaz->prikaz_number.'.pdf');
+        return $this->downloadFromDisk('local', $path, 'prikaz-'.$application->prikaz->prikaz_number.'.pdf');
     }
 
     public function serviceFee(Request $request)
@@ -413,8 +416,8 @@ class StudentApplicationPortalController extends Controller
         $application->load('serviceFeePayments');
 
         return $this->successResponse([
-            'amount' => 300,
-            'currency' => 'USD',
+            'amount' => $this->settings->float('workflow.service_fee_amount', 300),
+            'currency' => $this->settings->text('workflow.currency', 'USD'),
             'payments' => $application->serviceFeePayments,
             'can_upload' => (bool) $application->prikaz && ! $this->workflow->serviceFeeApproved($application),
         ], 'Service fee status retrieved');
@@ -440,8 +443,8 @@ class StudentApplicationPortalController extends Controller
         $payment = ServiceFeePayment::create([
             'application_id' => $application->id,
             'payment_number' => $this->workflow->nextServiceFeePaymentNumber(),
-            'amount' => 300,
-            'currency' => 'USD',
+            'amount' => $this->settings->float('workflow.service_fee_amount', 300),
+            'currency' => $this->settings->text('workflow.currency', 'USD'),
             'status' => 'UPLOADED',
             'receipt_path' => $path,
             'receipt_original_name' => $file->getClientOriginalName(),
@@ -449,7 +452,7 @@ class StudentApplicationPortalController extends Controller
             'receipt_size' => $file->getSize(),
             'paid_at' => now(),
         ]);
-        $this->workflow->notify($application, 'Service fee receipt uploaded', 'Your 300 USD service fee receipt is waiting for review.', 'payment', '/student/service-fee');
+        $this->workflow->notify($application, 'Service fee receipt uploaded', 'Your '.$this->settings->float('workflow.service_fee_amount', 300).' '.$this->settings->text('workflow.currency', 'USD').' service fee receipt is waiting for review.', 'payment', '/student/service-fee');
 
         return $this->successResponse($payment, 'Service fee receipt uploaded successfully', 201);
     }
@@ -552,5 +555,22 @@ class StudentApplicationPortalController extends Controller
         }
 
         return Application::where('id', $id)->where('student_profile_id', $profile->id)->first();
+    }
+
+    private function downloadFromDisk(string $disk, string $path, string $filename)
+    {
+        $root = config("filesystems.disks.{$disk}.root");
+        if (! is_string($root) || $root === '') {
+            return $this->errorResponse('File download is not supported for this storage disk.', 422);
+        }
+
+        $rootPath = realpath($root);
+        $filePath = realpath($root.DIRECTORY_SEPARATOR.str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $path));
+
+        if (! $rootPath || ! $filePath || ! str_starts_with($filePath, $rootPath.DIRECTORY_SEPARATOR)) {
+            return $this->errorResponse('File not found', 404);
+        }
+
+        return response()->download($filePath, $filename);
     }
 }

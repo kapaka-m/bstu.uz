@@ -17,6 +17,7 @@ use App\Models\Notification;
 use App\Models\Payment;
 use App\Models\StudentProfile;
 use App\Models\SupportTicket;
+use App\Services\ApplicationWorkflowService;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -267,7 +268,11 @@ class StudentApiController extends Controller
             return $this->errorResponse('Application has already been submitted', 400);
         }
 
-        $requiredDocuments = ['passport', 'photo', 'education_certificate', 'transcript'];
+        $requiredDocuments = collect($this->workflow()->requiredDocuments($app))
+            ->where('is_required', true)
+            ->pluck('document_type')
+            ->values()
+            ->all();
         $uploadedDocuments = ApplicationDocument::where('application_id', $app->id)
             ->pluck('document_type')
             ->filter()
@@ -582,5 +587,10 @@ class StudentApiController extends Controller
         ]);
 
         return $this->successResponse(null, 'Message added successfully', 201);
+    }
+
+    private function workflow(): ApplicationWorkflowService
+    {
+        return app(ApplicationWorkflowService::class);
     }
 }

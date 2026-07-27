@@ -69,59 +69,40 @@ class ApplicationWorkflowService
     public function requiredDocuments(Application $application): array
     {
         $degree = strtolower((string) $application->degree_level);
-        $isTransfer = $this->isTransfer($application);
-        $requirements = [
-            ['passport', 'Passport Copy', 'Main passport information page.', true],
-            ['photo', 'Personal Photo', 'Recent personal photo.', true],
-            ['secondary_certificate', 'Secondary School Certificate', 'Completed secondary education certificate.', true],
-        ];
+        $degreeAliases = match ($degree) {
+            'phd' => ['phd', 'doctorate'],
+            'doctorate' => ['doctorate', 'phd'],
+            default => [$degree],
+        };
+        $studentType = strtolower((string) $application->student_type);
 
-        if ($degree === 'bachelor') {
-            $requirements[] = ['secondary_transcript', 'Secondary School Transcript', 'Secondary grades transcript if separate from certificate.', true];
-        }
-
-        if (in_array($degree, ['master', 'phd', 'doctorate'], true)) {
-            $requirements[] = ['bachelor_degree', 'Bachelor Degree / Diploma', 'Certified bachelor diploma.', true];
-            $requirements[] = ['bachelor_transcript', 'Bachelor Transcript', 'Bachelor degree transcript.', true];
-        }
-
-        if (in_array($degree, ['phd', 'doctorate'], true)) {
-            $requirements[] = ['master_degree', 'Master Degree / Diploma', 'Certified master diploma.', true];
-            $requirements[] = ['master_transcript', 'Master Transcript', 'Master degree transcript.', true];
-        }
-
-        if ($isTransfer) {
-            $requirements[] = ['university_transcript', 'University Transcript', 'Transcript from previous university.', true];
-            $requirements[] = ['proof_of_enrollment', 'Proof of Enrollment', 'Student status certificate from previous university.', true];
-            $requirements[] = ['course_descriptions', 'Course Descriptions / Syllabus', 'Course descriptions for academic equivalency.', false];
-        }
+        $requirements = DocumentRequirement::query()
+            ->whereNull('application_id')
+            ->where('is_active', true)
+            ->where(function ($query) use ($degreeAliases) {
+                $query->whereNull('degree_level')->orWhereIn('degree_level', $degreeAliases);
+            })
+            ->where(function ($query) use ($studentType) {
+                $query->whereNull('student_type')->orWhere('student_type', $studentType);
+            })
+            ->where(function ($query) use ($application) {
+                $query->whereNull('program_id')->orWhere('program_id', $application->program_id);
+            })
+            ->orderByRaw('program_id is null')
+            ->orderBy('id')
+            ->get()
+            ->map(fn (DocumentRequirement $requirement) => $this->documentRequirementPayload($requirement))
+            ->all();
 
         $additional = DocumentRequirement::query()
             ->where('application_id', $application->id)
             ->where('is_active', true)
             ->get()
-            ->map(fn (DocumentRequirement $requirement) => [
-                $requirement->document_type,
-                $requirement->name,
-                $requirement->description,
-                (bool) $requirement->is_required,
-                $requirement->id,
-                $requirement->deadline,
-                $requirement->request_reason,
-            ])
+            ->map(fn (DocumentRequirement $requirement) => $this->documentRequirementPayload($requirement))
             ->all();
 
         return array_values(collect(array_merge($requirements, $additional))
-            ->unique(fn ($item) => $item[0])
-            ->map(fn ($item) => [
-                'id' => $item[4] ?? null,
-                'document_type' => $item[0],
-                'name' => $item[1],
-                'description' => $item[2] ?? null,
-                'is_required' => (bool) ($item[3] ?? true),
-                'deadline' => $item[5] ?? null,
-                'request_reason' => $item[6] ?? null,
-            ])
+            ->unique(fn ($item) => $item['document_type'])
             ->values()
             ->all());
     }
@@ -270,15 +251,16 @@ class ApplicationWorkflowService
     public function ensureContract(Application $application): Contract
     {
         $amount = (float) ($application->program?->tuition_fee ?: 0);
-        $advanceAmount = $amount > 0 ? round($amount * 0.30, 2) : null;
+        $advancePercentage = $this->settings()->int('workflow.contract_advance_percentage', 30);
+        $advanceAmount = $amount > 0 ? round($amount * ($advancePercentage / 100), 2) : null;
 
         $contract = Contract::firstOrCreate(
             ['application_id' => $application->id],
             [
                 'contract_number' => $this->nextContractNumber(),
                 'amount' => $amount,
-                'currency' => $application->program?->currency ?: 'USD',
-                'advance_percentage' => 30,
+                'currency' => $application->program?->currency ?: $this->settings()->text('workflow.currency', 'USD'),
+                'advance_percentage' => $advancePercentage,
                 'advance_amount' => $advanceAmount,
                 'status' => 'issued',
             ]
@@ -301,7 +283,7 @@ class ApplicationWorkflowService
             throw new RuntimeException('Enrollment cannot be issued before admission.');
         }
         if (! $this->contractAdvanceApproved($application)) {
-            throw new RuntimeException('Enrollment cannot be issued before the 30% contract payment is approved.');
+            throw new RuntimeException('Enrollment cannot be issued before the '.$this->settings()->int('workflow.contract_advance_percentage', 30).'% contract payment is approved.');
         }
 
         return DB::transaction(function () use ($application, $actorId) {
@@ -533,51 +515,89 @@ class ApplicationWorkflowService
 
     private function nextAction(Application $application, Collection $documentCards, array $checks): string
     {
+        $currency = $this->settings()->text('workflow.currency', 'USD');
+        $applicationFeeAmount = $this->settings()->float('workflow.application_fee_amount', 50);
+        $serviceFeeAmount = $this->settings()->float('workflow.service_fee_amount', 300);
+        $advancePercentage = $this->settings()->int('workflow.contract_advance_percentage', 30);
+
         if (! $checks['documents_approved']) {
             return $documentCards->where('is_required', true)->where('status', 'NOT_UPLOADED')->count() > 0
-                ? 'Upload all required documents.'
-                : 'Wait for document review or correct rejected documents.';
+                ? $this->settings()->text('workflow.next.upload_documents', '')
+                : $this->settings()->text('workflow.next.wait_document_review', '');
         }
         if (! $checks['equivalency_complete']) {
-            return $this->isTransfer($application) ? 'Wait for academic equivalency result and accept it.' : 'Academic equivalency is not required.';
+            return $this->isTransfer($application)
+                ? $this->settings()->text('workflow.next.wait_equivalency', '')
+                : $this->settings()->text('workflow.next.equivalency_not_required', '');
         }
         if (! $checks['payment_approved']) {
-            return 'Pay the 50 USD application and admission fee and upload the receipt.';
+            return $this->settings()->render('workflow.next.pay_application_fee', [
+                'amount' => $this->moneyLabel($applicationFeeAmount),
+                'currency' => $currency,
+            ]);
         }
         if (! $checks['final_review_approved']) {
-            return 'Wait for final university review.';
+            return $this->settings()->text('workflow.next.wait_final_review', '');
         }
         if (! $checks['admission_issued']) {
-            return 'Wait for admission issuance.';
+            return $this->settings()->text('workflow.next.wait_admission', '');
         }
         if (! $checks['study_contract_issued']) {
-            return 'Download and review the study contract.';
+            return $this->settings()->text('workflow.next.review_contract', '');
         }
         if (! $checks['contract_advance_paid']) {
-            return 'Upload the 30% contract payment receipt.';
+            return $this->settings()->render('workflow.next.upload_contract_advance', [
+                'percentage' => $advancePercentage,
+            ]);
         }
         if (! $checks['enrollment_issued']) {
-            return 'Wait for enrollment certificate issuance.';
+            return $this->settings()->text('workflow.next.wait_enrollment', '');
         }
         if (! $checks['prikaz_issued']) {
-            return 'Wait for prikaz issuance.';
+            return $this->settings()->text('workflow.next.wait_prikaz', '');
         }
         if (! $checks['service_fee_paid']) {
-            return 'Upload the 300 USD service fee receipt.';
+            return $this->settings()->render('workflow.next.upload_service_fee', [
+                'amount' => $this->moneyLabel($serviceFeeAmount),
+                'currency' => $currency,
+            ]);
         }
         if (! $checks['telex_issued']) {
-            return 'Wait for telex processing.';
+            return $this->settings()->text('workflow.next.wait_telex', '');
         }
         if (! $checks['visa_ready']) {
-            return 'Wait for visa processing.';
+            return $this->settings()->text('workflow.next.wait_visa', '');
         }
         if (! $checks['housing_completed']) {
-            return 'Wait for housing request review.';
+            return $this->settings()->text('workflow.next.wait_housing', '');
         }
         if (! $checks['residence_completed']) {
-            return 'Wait for residence permit processing.';
+            return $this->settings()->text('workflow.next.wait_residence', '');
         }
-        return 'All current admission workflow steps are completed.';
+        return $this->settings()->text('workflow.next.completed', '');
+    }
+
+    private function documentRequirementPayload(DocumentRequirement $requirement): array
+    {
+        return [
+            'id' => $requirement->id,
+            'document_type' => $requirement->document_type,
+            'name' => $requirement->name,
+            'description' => $requirement->description,
+            'is_required' => (bool) $requirement->is_required,
+            'deadline' => $requirement->deadline,
+            'request_reason' => $requirement->request_reason,
+        ];
+    }
+
+    private function moneyLabel(float $amount): string
+    {
+        return fmod($amount, 1.0) === 0.0 ? (string) (int) $amount : number_format($amount, 2);
+    }
+
+    private function settings(): CmsSettingService
+    {
+        return app(CmsSettingService::class);
     }
 
     private function nextAdmissionNumber(): string

@@ -12,6 +12,7 @@ use App\Models\Program;
 use App\Models\Role;
 use App\Models\StudentProfile;
 use App\Models\User;
+use App\Services\CmsSettingService;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -24,22 +25,6 @@ use Throwable;
 class InitialApplicationController extends Controller
 {
     use ApiResponse;
-
-    private array $countries = [
-        'Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Argentina', 'Armenia', 'Australia', 'Austria', 'Azerbaijan',
-        'Bahrain', 'Bangladesh', 'Belarus', 'Belgium', 'Brazil', 'Bulgaria', 'Canada', 'China', 'Egypt', 'France',
-        'Georgia', 'Germany', 'India', 'Indonesia', 'Iran', 'Iraq', 'Italy', 'Japan', 'Jordan', 'Kazakhstan',
-        'Kuwait', 'Kyrgyzstan', 'Malaysia', 'Morocco', 'Pakistan', 'Qatar', 'Russia', 'Saudi Arabia', 'South Korea', 'Tajikistan',
-        'Turkey', 'Turkmenistan', 'United Arab Emirates', 'United Kingdom', 'United States', 'Uzbekistan',
-    ];
-
-    private array $nationalities = [
-        'Afghan', 'Albanian', 'Algerian', 'Andorran', 'Angolan', 'Argentinian', 'Armenian', 'Australian', 'Austrian', 'Azerbaijani',
-        'Bahraini', 'Bangladeshi', 'Belarusian', 'Belgian', 'Brazilian', 'Bulgarian', 'Canadian', 'Chinese', 'Egyptian', 'French',
-        'Georgian', 'German', 'Indian', 'Indonesian', 'Iranian', 'Iraqi', 'Italian', 'Japanese', 'Jordanian', 'Kazakh',
-        'Kuwaiti', 'Kyrgyz', 'Malaysian', 'Moroccan', 'Pakistani', 'Qatari', 'Russian', 'Saudi', 'South Korean', 'Tajik',
-        'Turkish', 'Turkmen', 'Emirati', 'British', 'American', 'Uzbek',
-    ];
 
     public function metadata(Request $request)
     {
@@ -94,18 +79,15 @@ class InitialApplicationController extends Controller
         return $this->successResponse([
             'countries' => $countries,
             'nationalities' => $nationalities,
-            'genders' => ['male', 'female'],
-            'passport_types' => ['ordinary', 'diplomatic', 'service'],
-            'student_types' => ['new', 'transfer'],
+            'genders' => $this->settings()->list('application.genders'),
+            'passport_types' => $this->settings()->list('application.passport_types'),
+            'student_types' => $this->settings()->list('application.student_types'),
             'degrees' => $degrees,
             'education_types' => $studyModes,
             'study_languages' => $studyLanguages,
-            'intakes' => [
-                'fall-'.$intakeYear,
-                'spring-'.($intakeYear + 1),
-            ],
+            'intakes' => $this->intakes($intakeYear),
             'programs' => $programs,
-            'password_min_length' => 8,
+            'password_min_length' => $this->settings()->int('application.password_min_length', 8),
         ], 'Initial application metadata retrieved');
     }
 
@@ -121,9 +103,9 @@ class InitialApplicationController extends Controller
             'country_of_birth' => ['required', 'string', 'max:120', Rule::in($countries)],
             'place_of_birth' => ['required', 'string', 'max:120', "regex:/^[A-Za-z][A-Za-z\\s\\-']*$/"],
             'nationality' => ['required', 'string', 'max:120', Rule::in($nationalities)],
-            'gender' => ['required', Rule::in(['male', 'female'])],
+            'gender' => ['required', Rule::in($this->settings()->list('application.genders'))],
             'passport_number' => ['required', 'string', 'max:50', 'regex:/^[A-Z0-9\\-]+$/', Rule::unique('student_profiles', 'passport_number')],
-            'passport_type' => ['required', Rule::in(['ordinary', 'diplomatic', 'service'])],
+            'passport_type' => ['required', Rule::in($this->settings()->list('application.passport_types'))],
             'passport_issue_date' => ['required', 'date', 'before_or_equal:today'],
             'passport_expiry_date' => ['required', 'date', 'after:passport_issue_date', 'after:today'],
             'passport_issuing_country' => ['required', 'string', 'max:120', Rule::in($countries)],
@@ -133,7 +115,7 @@ class InitialApplicationController extends Controller
             'telegram_username' => ['nullable', 'string', 'max:80', 'regex:/^@?[A-Za-z0-9_]{5,32}$/'],
             'alternative_phone' => ['nullable', 'string', 'max:30', 'regex:/^\\+[1-9]\\d{7,14}$/', 'different:primary_phone'],
             'degree_level' => ['required', Rule::in(['bachelor', 'master', 'doctorate', 'phd'])],
-            'student_type' => ['required', Rule::in(['new', 'transfer'])],
+            'student_type' => ['required', Rule::in($this->settings()->list('application.student_types'))],
             'education_type' => ['required', 'string', 'max:50'],
             'faculty_id' => ['required', 'integer', 'exists:faculties,id'],
             'program_id' => ['required', 'integer', 'exists:programs,id'],
@@ -319,7 +301,7 @@ class InitialApplicationController extends Controller
             }
         }
 
-        return $this->countries;
+        return $this->settings()->list('application.countries');
     }
 
     private function availableNationalities(): array
@@ -339,6 +321,19 @@ class InitialApplicationController extends Controller
             }
         }
 
-        return $this->nationalities;
+        return $this->settings()->list('application.nationalities');
+    }
+
+    private function intakes(int $year): array
+    {
+        return collect($this->settings()->list('application.intake_terms'))
+            ->map(fn (string $term) => strtolower($term) === 'spring' ? $term.'-'.($year + 1) : $term.'-'.$year)
+            ->values()
+            ->all();
+    }
+
+    private function settings(): CmsSettingService
+    {
+        return app(CmsSettingService::class);
     }
 }

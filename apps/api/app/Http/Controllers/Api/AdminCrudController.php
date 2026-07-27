@@ -22,6 +22,7 @@ use App\Models\ContactPage;
 use App\Models\Contract;
 use App\Models\Course;
 use App\Models\Department;
+use App\Models\DocumentRequirement;
 use App\Models\Faculty;
 use App\Models\GreenCampusArticle;
 use App\Models\GreenCampusSetting;
@@ -110,6 +111,7 @@ class AdminCrudController extends Controller
         'applications' => Application::class,
         'countries' => ApplicationCountry::class,
         'nationalities' => ApplicationNationality::class,
+        'document-requirements' => DocumentRequirement::class,
         'application-documents' => ApplicationDocument::class,
         'contracts' => Contract::class,
         'payments' => Payment::class,
@@ -1987,6 +1989,7 @@ class AdminCrudController extends Controller
             'translation-keys',
             'translation-values',
             'settings',
+            'document-requirements',
             'menus',
             'menu-items',
             'pages',
@@ -2375,6 +2378,21 @@ class AdminCrudController extends Controller
                     'code' => 'nullable|string|max:3|unique:application_nationalities,code,'.$id,
                     'is_active' => 'boolean',
                     'sort_order' => 'nullable|integer|min:0',
+                ];
+            case 'document-requirements':
+                return [
+                    'application_id' => 'nullable|integer|exists:applications,id',
+                    'program_id' => 'nullable|integer|exists:programs,id',
+                    'requested_by' => 'nullable|integer|exists:users,id',
+                    'degree_level' => 'nullable|string|max:50',
+                    'student_type' => 'nullable|string|max:50',
+                    'document_type' => 'required|string|max:120',
+                    'name' => 'required|string|max:255',
+                    'description' => 'nullable|string',
+                    'is_required' => 'boolean',
+                    'is_active' => 'boolean',
+                    'deadline' => 'nullable|date',
+                    'request_reason' => 'nullable|string',
                 ];
             case 'application-documents':
                 return [

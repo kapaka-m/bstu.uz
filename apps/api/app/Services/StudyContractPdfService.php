@@ -81,8 +81,8 @@ class StudyContractPdfService
         }
 
         $pdf = new \TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
-        $pdf->SetCreator('Bukhara State Technical University');
-        $pdf->SetAuthor('Bukhara State Technical University');
+        $pdf->SetCreator($this->settings()->text('pdf.shared.university', ''));
+        $pdf->SetAuthor($this->settings()->text('pdf.shared.university', ''));
         $pdf->SetTitle('Study Contract '.$data['number']);
         $pdf->setPrintHeader(false);
         $pdf->setPrintFooter(false);
@@ -111,6 +111,14 @@ class StudyContractPdfService
             ['Total Contract Amount', $data['amount']],
             ['Required Advance Payment', $data['advance'].' ('.$data['advance_percentage'].'%)'],
         ])->map(fn ($row) => '<tr><td class="label">'.$this->e($row[0]).':</td><td class="value">'.$this->e($row[1]).'</td></tr>')->implode('');
+        $settings = $this->settings();
+        $ministry = $this->e($settings->text('pdf.shared.ministry', ''));
+        $university = $this->e($settings->text('pdf.shared.university', ''));
+        $address = $this->e($settings->text('pdf.shared.address', ''));
+        $title = $this->e($settings->text('pdf.study_contract.title', ''));
+        $body = $settings->render('pdf.study_contract.body');
+        $signature = $this->e($settings->text('pdf.study_contract.signature', ''));
+        $stamp = $this->e($settings->text('pdf.shared.stamp', ''));
 
         return <<<HTML
 <style>
@@ -130,29 +138,20 @@ class StudyContractPdfService
   .stamp { border: 1px solid #cbd5e1; color: #94a3b8; font-size: 9pt; text-align: center; padding: 12px; }
 </style>
 <div class="header">
-  <div class="ministry">MINISTRY OF HIGHER EDUCATION, SCIENCE AND INNOVATIONS OF THE REPUBLIC OF UZBEKISTAN</div>
-  <div class="university">BUKHARA STATE TECHNICAL UNIVERSITY</div>
-  <div class="address">15 K. Murtazoyev Street, Bukhara city, Republic of Uzbekistan</div>
+  <div class="ministry">{$ministry}</div>
+  <div class="university">{$university}</div>
+  <div class="address">{$address}</div>
 </div>
 <div class="rule"></div>
 <br>
 <table><tr><td width="50%"><b>{$this->e($data['date'])}</b></td><td width="50%" align="right"><b>{$this->e($data['number'])}</b></td></tr></table>
-<div class="title">STUDY CONTRACT</div>
+<div class="title">{$title}</div>
 <table class="info">{$rows}</table>
-<div class="body">
-  This study contract confirms the financial terms for the international student listed above.
-  The student must pay the required advance payment before the university issues the enrollment
-  certificate and proceeds with the following registration stages. This contract is not a visa,
-  residence permit, or final government registration document.
-  <br><br>
-  The remaining contract balance, service fees, residence, housing, telex, and visa-related
-  procedures are processed according to the university rules and the official requirements of
-  the Republic of Uzbekistan.
-</div>
+<div class="body">{$body}</div>
 <table class="signature">
   <tr>
-    <td width="58%"><b>Authorized Representative</b><br>Bukhara State Technical University</td>
-    <td width="42%" class="stamp">Official stamp and signature</td>
+    <td width="58%"><b>{$signature}</b><br>{$university}</td>
+    <td width="42%" class="stamp">{$stamp}</td>
   </tr>
 </table>
 HTML;
@@ -192,5 +191,10 @@ HTML;
     private function e(?string $value): string
     {
         return htmlspecialchars((string) $value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    }
+
+    private function settings(): CmsSettingService
+    {
+        return app(CmsSettingService::class);
     }
 }

@@ -2,7 +2,7 @@
 
 تاريخ المراجعة: 2026-07-27
 
-## النتيجة
+## نتيجة مراجعة Laravel API
 
 تمت مراجعة المسارات المطلوبة فقط. لا توجد بيانات أعمال ثابتة مهمة متبقية داخل هذه المسارات تحتاج النقل إلى قاعدة البيانات بعد التعديلات الأخيرة.
 
@@ -58,7 +58,7 @@
 
 - `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\seeders\WorkflowConfigurationSeeder.php`
 
-## التحقق
+## تحقق مراجعة Laravel API
 
 - تم تشغيل seeder: `WorkflowConfigurationSeeder`.
 - تم التأكد من إضافة مفاتيح PDF الجديدة إلى جدول `settings`.
@@ -392,7 +392,7 @@
 - `C:\Users\KAPAKA\Desktop\international.bstu.uz\scripts\import-react-content\import.js`
 - `C:\Users\KAPAKA\Desktop\international.bstu.uz\scripts`
 
-## النتيجة
+## نتيجة Legacy React Import Data
 
 - تم دمج محتوى `departmentsData.js` في `apps/api/database/data/departments.json` بدون إنشاء أقسام مكررة.
 - تم نقل محتوى `mockData.js` إلى `apps/api/database/data/academic_department_details.json` داخل `legacy_reviewed_sources.mockData`.
@@ -408,7 +408,7 @@
 - `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\data\programs.json`
 - `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\data\translations.json`
 
-## التحقق
+## تحقق Legacy React Import Data
 
 - ملفات JSON الأربعة صالحة.
 - لا توجد مسارات تشغيل تبدأ بـ `/assets/img` في ملفات `apps/api/database/data`.
@@ -421,7 +421,7 @@
 
 تاريخ المراجعة: 2026-07-28
 
-## الملفات والمسارات التي تمت مراجعتها
+## ملفات مكونات React المشتركة التي تمت مراجعتها
 
 - `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\components\ScrollToTop.jsx`
 - `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\components\PageHeader.jsx`
@@ -467,13 +467,13 @@
 - تم إضافة `type="button"` لزر dropdown في الهيدر.
 - لم يتم إنشاء جدول جديد لأن جدول `translation_keys` و `translation_values` موجود بالفعل وتديره صفحة `apanel/translations`.
 
-## النتيجة
+## نتيجة مكونات React المشتركة
 
 - لا توجد بيانات أعمال ثابتة داخل هذه المكونات تحتاج جدولاً منفصلاً.
 - النصوص العامة القابلة للتغيير أصبحت ضمن نظام الترجمات، ويمكن إدارتها من apanel عبر Translation Keys / Translation Values.
 - القيم التقنية الباقية داخل الملفات هي كلاسات CSS، مفاتيح داخلية، ومسارات routing/حالات UI وليست بيانات محتوى.
 
-## التحقق
+## تحقق مكونات React المشتركة
 
 - `npm.cmd run lint` نجح بدون أخطاء.
 - `php-local.bat artisan test` نجح: 5 tests passed.
@@ -487,7 +487,7 @@
 
 تاريخ المراجعة: 2026-07-28
 
-## الملفات والمسارات التي تمت مراجعتها
+## ملفات React Context التي تمت مراجعتها
 
 - `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\context\LocaleContext.jsx`
 - `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\context\LanguageContext.jsx`
@@ -508,13 +508,13 @@
 - `AuthContext.jsx` يستخدم `authService` فقط: login/register/logout/current user عبر API، وبيانات المستخدم/الأدوار من قاعدة البيانات.
 - `AppDataContext.jsx` يستخدم API فقط للكليات، الأقسام، البرامج، الخدمات، الفيديوهات، و Green Campus.
 
-## النتيجة
+## نتيجة React Context ومصدر البيانات
 
 - لا توجد بيانات محتوى static داخل `context` أو `components`.
 - البيانات المعروضة أو المستخدمة كمحتوى تأتي من قاعدة البيانات عبر API.
 - المتبقي داخل هذه الملفات هو كود تقني طبيعي فقط: مفاتيح إعداد الاتصال، أسماء دوال، مفاتيح داخلية، معالجة أخطاء للمطورين، وحالات React.
 
-## التحقق
+## تحقق React Context ومصدر البيانات
 
 - لا يوجد استخدام لـ `fallbackTranslations` داخل `apps/web/src/context` أو `apps/web/src/components`.
 - لا توجد مسارات branding محلية مثل `cms/branding/...` داخل `apps/web/src/context` أو `apps/web/src/components`.

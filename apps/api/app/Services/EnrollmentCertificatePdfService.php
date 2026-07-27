@@ -87,15 +87,15 @@ class EnrollmentCertificatePdfService
     private function html(array $data): string
     {
         $rows = collect([
-            ['Student Name', $data['name']],
-            ['Date of Birth', $data['birth_date']],
-            ['Nationality', $data['nationality']],
-            ['Passport No / National ID', $data['passport']],
-            ['Degree', $data['degree']],
-            ['Program', $data['program']],
-            ['Study Language', $data['study_language']],
-            ['Academic Year', $data['academic_year']],
-            ['Admission Number', $data['admission_number']],
+            [$this->pdfLabel('pdf.enrollment.labels', 0, 'Student Name'), $data['name']],
+            [$this->pdfLabel('pdf.enrollment.labels', 1, 'Date of Birth'), $data['birth_date']],
+            [$this->pdfLabel('pdf.enrollment.labels', 2, 'Nationality'), $data['nationality']],
+            [$this->pdfLabel('pdf.enrollment.labels', 3, 'Passport No / National ID'), $data['passport']],
+            [$this->pdfLabel('pdf.enrollment.labels', 4, 'Degree'), $data['degree']],
+            [$this->pdfLabel('pdf.enrollment.labels', 5, 'Program'), $data['program']],
+            [$this->pdfLabel('pdf.enrollment.labels', 6, 'Study Language'), $data['study_language']],
+            [$this->pdfLabel('pdf.enrollment.labels', 7, 'Academic Year'), $data['academic_year']],
+            [$this->pdfLabel('pdf.enrollment.labels', 8, 'Admission Number'), $data['admission_number']],
         ])->map(fn ($row) => '<tr><td class="label">'.$this->e($row[0]).':</td><td class="value">'.$this->e($row[1]).'</td></tr>')->implode('');
         $settings = $this->settings();
         $ministry = $this->e($settings->text('pdf.shared.ministry', ''));
@@ -169,22 +169,12 @@ HTML;
             $date = Carbon::parse($date);
         }
 
-        $months = [
-            1 => 'yanvar',
-            2 => 'fevral',
-            3 => 'mart',
-            4 => 'aprel',
-            5 => 'may',
-            6 => 'iyun',
-            7 => 'iyul',
-            8 => 'avgust',
-            9 => 'sentabr',
-            10 => 'oktabr',
-            11 => 'noyabr',
-            12 => 'dekabr',
-        ];
+        $months = $this->settings()->list('pdf.shared.uzbek_months', [
+            'yanvar', 'fevral', 'mart', 'aprel', 'may', 'iyun',
+            'iyul', 'avgust', 'sentabr', 'oktabr', 'noyabr', 'dekabr',
+        ]);
 
-        return ((int) $date->format('j')).' '.$months[(int) $date->format('n')].' '.$date->format('Y').' yil.';
+        return ((int) $date->format('j')).' '.($months[(int) $date->format('n') - 1] ?? '').' '.$date->format('Y').' yil.';
     }
 
     private function formatDate(DateTimeInterface|string|null $date, string $format): string
@@ -208,6 +198,11 @@ HTML;
     private function e(?string $value): string
     {
         return htmlspecialchars((string) $value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    }
+
+    private function pdfLabel(string $key, int $index, string $default): string
+    {
+        return $this->settings()->list($key)[$index] ?? $default;
     }
 
     private function settings(): CmsSettingService

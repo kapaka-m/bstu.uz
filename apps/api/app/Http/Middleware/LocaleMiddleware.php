@@ -15,7 +15,7 @@ class LocaleMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->isMethod('PUT') || $request->isMethod('POST')) {
+        if (config('app.debug') && ($request->isMethod('PUT') || $request->isMethod('POST'))) {
             Log::info('Incoming request raw body content', [
                 'url' => $request->fullUrl(),
                 'method' => $request->method(),

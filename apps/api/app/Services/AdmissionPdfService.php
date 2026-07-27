@@ -97,14 +97,14 @@ class AdmissionPdfService
     private function html(array $data): string
     {
         $tableRows = [
-            ['Student Name', $data['name']],
-            ['Gender', $data['gender']],
-            ['Date of Birth', $data['birth_date']],
-            ['Nationality', $data['nationality']],
-            ['Passport No / National ID', $data['passport']],
-            ['Degree', $data['degree']],
-            ['Program', $data['program']],
-            ['Duration of Study', $data['duration']],
+            [$this->pdfLabel('pdf.admission.labels', 0, 'Student Name'), $data['name']],
+            [$this->pdfLabel('pdf.admission.labels', 1, 'Gender'), $data['gender']],
+            [$this->pdfLabel('pdf.admission.labels', 2, 'Date of Birth'), $data['birth_date']],
+            [$this->pdfLabel('pdf.admission.labels', 3, 'Nationality'), $data['nationality']],
+            [$this->pdfLabel('pdf.admission.labels', 4, 'Passport No / National ID'), $data['passport']],
+            [$this->pdfLabel('pdf.admission.labels', 5, 'Degree'), $data['degree']],
+            [$this->pdfLabel('pdf.admission.labels', 6, 'Program'), $data['program']],
+            [$this->pdfLabel('pdf.admission.labels', 7, 'Duration of Study'), $data['duration']],
         ];
 
         $rows = collect($tableRows)->map(fn ($row) => '<tr><td class="label">'.$this->e($row[0]).':</td><td class="value">'.$this->e($row[1]).'</td></tr>')->implode('');
@@ -222,22 +222,12 @@ HTML;
             $date = Carbon::parse($date);
         }
 
-        $months = [
-            1 => 'yanvar',
-            2 => 'fevral',
-            3 => 'mart',
-            4 => 'aprel',
-            5 => 'may',
-            6 => 'iyun',
-            7 => 'iyul',
-            8 => 'avgust',
-            9 => 'sentabr',
-            10 => 'oktabr',
-            11 => 'noyabr',
-            12 => 'dekabr',
-        ];
+        $months = $this->settings()->list('pdf.shared.uzbek_months', [
+            'yanvar', 'fevral', 'mart', 'aprel', 'may', 'iyun',
+            'iyul', 'avgust', 'sentabr', 'oktabr', 'noyabr', 'dekabr',
+        ]);
 
-        return ((int) $date->format('j')).' '.$months[(int) $date->format('n')].' '.$date->format('Y').' yil.';
+        return ((int) $date->format('j')).' '.($months[(int) $date->format('n') - 1] ?? '').' '.$date->format('Y').' yil.';
     }
 
     private function formatDate(DateTimeInterface|string|null $date, string $format): string
@@ -278,6 +268,11 @@ HTML;
     private function e(?string $value): string
     {
         return htmlspecialchars((string) $value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    }
+
+    private function pdfLabel(string $key, int $index, string $default): string
+    {
+        return $this->settings()->list($key)[$index] ?? $default;
     }
 
     private function settings(): CmsSettingService

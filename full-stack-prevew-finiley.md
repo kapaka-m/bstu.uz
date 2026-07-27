@@ -343,7 +343,7 @@
 - `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\index.html`
 - `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\package.json`
 - `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\package-lock.json`
-- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\README.md`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\docs\WEB_FRONTEND_README.md` (منقول من `apps\web\README.md`)
 - `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\tailwind.config.js`
 - `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\vite.config.js`
 
@@ -355,7 +355,9 @@
   - `site_meta_description`
   - `site_meta_keywords`
 - تم تعديل واجهة React لتحدث `document.title` و meta description و meta keywords من `/settings/public`.
-- تم تحديث `README.md` لأن `public/assets` لم يعد يحتوي favicons/logos بعد نقلها إلى Laravel storage.
+- تم نقل `apps/web/README.md` إلى `docs/WEB_FRONTEND_README.md`.
+- تم تحديث `docs/WEB_FRONTEND_README.md` لأن `public/assets` لم يعد يحتوي favicons/logos بعد نقلها إلى Laravel storage.
+- تم إضافة رابط `Web Frontend Notes` في فهرس التوثيق داخل `README.md` الرئيسي.
 
 ## النتيجة
 

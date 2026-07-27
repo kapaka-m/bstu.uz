@@ -34,6 +34,7 @@ This repository is structured as a unified monorepo containing the web frontend,
 - **[API](docs/API.md)** — public, student, and apanel REST API endpoints.
 - **[API Backend Notes](docs/API_BACKEND_README.md)** — Laravel API conventions, checks, production notes, and maintenance commands.
 - **[Backend Setup](docs/BACKEND_SETUP.md)** — Laravel setup, PHP extension notes, and local API checks.
+- **[Web Frontend Notes](docs/WEB_FRONTEND_README.md)** — React/Vite commands, environment, routing, assets, and production notes.
 - **[Frontend/API Integration](docs/FRONTEND_API_INTEGRATION.md)** — React service and localization integration.
 - **[Apanel](docs/APANEL.md)** — admin panel routes, resources, permissions, and workflows.
 - **[Student System](docs/STUDENT_SYSTEM.md)** — student admissions, documents, contracts, payments, and support.

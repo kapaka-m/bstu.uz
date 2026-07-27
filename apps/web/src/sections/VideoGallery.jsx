@@ -72,15 +72,6 @@ export default function VideoGallery() {
     const value = -count;
     const localeByLang = { en: "en-US", uz: "uz-UZ", ru: "ru-RU", ar: "ar" };
 
-    if (language === "uz") {
-      const unitLabels = {
-        day: "kun",
-        month: "oy",
-        year: "yil",
-      };
-      return `${count} ${unitLabels[unit]} oldin`;
-    }
-
     return new Intl.RelativeTimeFormat(localeByLang[language] || language, {
       numeric: "auto",
     }).format(value, unit);

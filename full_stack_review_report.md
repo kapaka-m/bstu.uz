@@ -692,3 +692,56 @@
 - `npm.cmd run lint` نجح.
 - `npm.cmd run build` نجح.
 - لم يعد يوجد داخل الملفات المطلوبة `BSTU International`, `Bukhara State...`, `cms/branding`, `Checking session`, `Verifying admin`, `Loading page contents`, `FALLBACK_IMAGE`, `VITE_DEFAULT_LOCALE`, أو `VITE_SUPPORTED_LOCALES`.
+
+---
+
+## مراجعة React Sections
+
+تاريخ المراجعة: 2026-07-28
+
+## ملفات React Sections التي تمت مراجعتها
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\sections`
+- `About.jsx`
+- `AltFeatures.jsx`
+- `Announcements.jsx`
+- `Contact.jsx`
+- `FAQ.jsx`
+- `Hero.jsx`
+- `GreenCampusSection.jsx`
+- `Features.jsx`
+- `Leadership.jsx`
+- `News.jsx`
+- `Programs.jsx`
+- `RecentBlog.jsx`
+- `RegistrarOffice.jsx`
+- `Services.jsx`
+- `Stats.jsx`
+- `Testimonials.jsx`
+- `Values.jsx`
+- `VideoGallery.jsx`
+
+## ما تم تأكيده وتعديله في React Sections
+
+- `About.jsx` و `Features.jsx` يستخدمان `publicAssetUrl` من طبقة API بدل بناء روابط التخزين داخل section.
+- `Hero.jsx` لم يعد يحتوي صور hero افتراضية أو رقم طلاب ثابت داخل React؛ الصور و `home_hero_student_count` تأتي من جدول `settings` عبر API.
+- `Announcements.jsx`, `News.jsx`, و `VideoGallery.jsx` لم تعد تحتوي أسماء شهور أو وحدات زمن أوزبكية ثابتة؛ التنسيق يتم عبر `Intl`.
+- `Programs.jsx` لم يعد يحتوي fallback labels إنجليزية داخل React؛ مفاتيح الفلاتر والبحث والحالات تأتي من جدول الترجمات.
+- `RecentBlog.jsx` لم يعد يطبع رسالة خطأ ثابتة في console، ويتعامل مع الفشل بتفريغ الحالة.
+- `Testimonials.jsx` لا يستخدم fallback content داخل `t()`، ويعرض العناصر فقط إذا رجعت كقائمة من نظام الترجمات.
+- تمت إضافة مفاتيح الترجمة الناقصة في `StudentSystemTranslationSeeder`.
+- تمت إضافة إعداد `home_hero_student_count` في `SettingSeeder` كقيمة public يمكن إدارتها من apanel.
+
+## نتيجة React Sections
+
+- لا توجد بيانات محتوى static مهمة داخل `apps/web/src/sections`.
+- النصوص والـ labels والصور والأرقام القابلة للإدارة تأتي من قاعدة البيانات عبر API.
+- المتبقي داخل sections هو منطق عرض، icons، class names، ألوان تقنية، routes داخلية، وتنسيق واجهة.
+
+## تحقق React Sections
+
+- `npm.cmd run lint` نجح.
+- `npm.cmd run build` نجح.
+- `php-local.bat artisan db:seed --class=SettingSeeder` نجح بدون حذف بيانات.
+- `php-local.bat artisan db:seed --class=StudentSystemTranslationSeeder` نجح بدون حذف بيانات.
+- `php-local.bat artisan optimize:clear` نجح.

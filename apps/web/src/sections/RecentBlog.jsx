@@ -33,8 +33,11 @@ export default function RecentBlog() {
           setSettings(nextSettings);
           setRecentPosts((response.items || []).slice(0, Number(nextSettings.home_limit || 3)));
         }
-      } catch (err) {
-        console.error("Failed to load recent blog posts", err);
+      } catch {
+        if (alive) {
+          setSettings({});
+          setRecentPosts([]);
+        }
       }
     };
 

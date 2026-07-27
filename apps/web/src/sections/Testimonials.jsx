@@ -10,7 +10,8 @@ import "swiper/css/pagination";
 
 export default function Testimonials() {
   const { t } = useLanguage();
-  const testimonials = t("home.testimonials.items", []);
+  const translatedTestimonials = t("home.testimonials.items");
+  const testimonials = Array.isArray(translatedTestimonials) ? translatedTestimonials : [];
 
   return (
     <section id="testimonials" className="py-24 bg-white border-t border-gray-50 overflow-hidden">

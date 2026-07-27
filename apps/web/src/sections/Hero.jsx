@@ -4,29 +4,15 @@ import { ArrowRight, Play, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
 import { videoService } from "../services/videoService";
-
-const API_ORIGIN = (import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/api/v1").replace(
-  /\/api\/v1\/?$/,
-  "",
-);
-
-const resolveAssetUrl = (path) => {
-  if (!path) return "";
-  if (path.startsWith("http://") || path.startsWith("https://") || path.startsWith("/")) {
-    return path;
-  }
-  if (path.startsWith("assets/")) {
-    return `/${path}`;
-  }
-  return `${API_ORIGIN}/storage/${path}`;
-};
+import { publicAssetUrl } from "../lib/api";
 
 export default function Hero() {
   const [isVideoOpen, setIsVideoOpen] = useState(false);
   const [heroVideo, setHeroVideo] = useState(null);
   const { t, language, settings } = useLanguage();
-  const heroBackgroundImage = resolveAssetUrl(settings?.home_hero_background_image || "cms/home/hero/hero-bg.png");
-  const heroMainImage = resolveAssetUrl(settings?.home_hero_main_image || "cms/home/hero/hero-university.jpg");
+  const heroBackgroundImage = publicAssetUrl(settings?.home_hero_background_image);
+  const heroMainImage = publicAssetUrl(settings?.home_hero_main_image);
+  const heroStudentCount = settings?.home_hero_student_count;
 
   useEffect(() => {
     let alive = true;
@@ -49,7 +35,7 @@ export default function Hero() {
     <section
       id="hero"
       className="relative min-h-screen pt-32 pb-20 flex items-center bg-no-repeat bg-top-right overflow-hidden"
-      style={{ backgroundImage: `url('${heroBackgroundImage}')` }}
+      style={heroBackgroundImage ? { backgroundImage: `url('${heroBackgroundImage}')` } : undefined}
     >
       <div className="container mx-auto px-4 md:px-8 max-w-7xl">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -98,26 +84,30 @@ export default function Hero() {
             {/* Main Image Container */}
             <div className="relative p-3 bg-linear-to-br from-primary-light to-white rounded-[2.5rem] shadow-2xl max-w-lg lg:max-w-none group">
               <div className="overflow-hidden rounded-4xl border-4 border-white shadow-md relative">
-                <img
-                  src={heroMainImage}
-                  alt={t("home.hero.imageAlt")}
-                  className="w-full h-auto aspect-4/3 object-cover transition-transform duration-700 group-hover:scale-105"
-                />
+                {heroMainImage && (
+                  <img
+                    src={heroMainImage}
+                    alt={t("home.hero.imageAlt")}
+                    className="w-full h-auto aspect-4/3 object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                )}
                 <div className="absolute inset-0 bg-linear-to-t from-navy/35 to-transparent mix-blend-multiply" />
               </div>
 
               {/* Floating Card 1: Students Count */}
-              <div className="absolute -bottom-6 -left-6 bg-white/90 backdrop-blur-md border border-gray-100 p-4 rounded-2xl shadow-xl flex items-center gap-3 animate-float-slow">
-                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                  </svg>
+              {heroStudentCount && (
+                <div className="absolute -bottom-6 -left-6 bg-white/90 backdrop-blur-md border border-gray-100 p-4 rounded-2xl shadow-xl flex items-center gap-3 animate-float-slow">
+                  <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <div className="text-navy font-extrabold text-sm leading-none">{heroStudentCount}</div>
+                    <div className="text-gray-500 text-[10px] font-bold mt-1 uppercase tracking-wider">{t("home.hero.activeStudents")}</div>
+                  </div>
                 </div>
-                <div>
-                  <div className="text-navy font-extrabold text-sm leading-none">15,000+</div>
-                  <div className="text-gray-500 text-[10px] font-bold mt-1 uppercase tracking-wider">{t("home.hero.activeStudents")}</div>
-                </div>
-              </div>
+              )}
 
               {/* Floating Card 2: Programs */}
               <div className="absolute -top-6 -right-6 bg-white/90 backdrop-blur-md border border-gray-100 p-4 rounded-2xl shadow-xl flex items-center gap-3 animate-float-slow" style={{ animationDelay: "2s" }}>
@@ -163,7 +153,7 @@ export default function Hero() {
                 />
               ) : (
                 <video
-                  src={resolveAssetUrl(heroVideo.videoUrl)}
+                  src={publicAssetUrl(heroVideo.videoUrl)}
                   className="w-full h-full object-cover"
                   controls
                   autoPlay

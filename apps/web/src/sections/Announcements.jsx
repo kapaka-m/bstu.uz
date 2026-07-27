@@ -42,23 +42,6 @@ export default function Announcements() {
     if (!value) return "";
     const date = new Date(value);
     if (Number.isNaN(date.getTime())) return value;
-    if (language === "uz") {
-      const months = [
-        "Yanvar",
-        "Fevral",
-        "Mart",
-        "Aprel",
-        "May",
-        "Iyun",
-        "Iyul",
-        "Avgust",
-        "Sentabr",
-        "Oktabr",
-        "Noyabr",
-        "Dekabr",
-      ];
-      return `${date.getFullYear()} ${months[date.getMonth()]} ${String(date.getDate()).padStart(2, "0")}`;
-    }
     const localeMap = { ar: "ar", uz: "uz-Latn-UZ", ru: "ru-RU", en: "en-US" };
     return new Intl.DateTimeFormat(localeMap[language] || "en-US", {
       year: "numeric",

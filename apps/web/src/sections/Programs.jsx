@@ -72,8 +72,9 @@ const normalizeProgram = (program, index) => ({
   code: program.display_code || program.official_code || program.code || "",
   name: program.name || "",
   description: program.description || "",
-  degree: normalizeDegree(program.degree || "bachelor"),
-  duration: program.duration_years ? `${program.duration_years} years` : program.duration || "",
+  degree: normalizeDegree(program.degree),
+  duration: program.duration || "",
+  durationYears: program.duration_years,
   facultyId: program.faculty?.slug || program.faculty_slug || program.faculty_id,
   departmentId: program.department?.slug || program.department_slug || program.department_id,
   color: program.color || paletteKeys[index % paletteKeys.length],
@@ -145,7 +146,7 @@ export default function Programs({ limit, showRemaining }) {
   }
 
   const facultyFilters = useMemo(() => [
-    { id: "all", label: t("common.allFaculties", "All Faculties") },
+    { id: "all", label: t("common.allFaculties") },
     ...faculties.map((faculty) => ({
       id: faculty.slug || faculty.id,
       label: faculty.short_name || faculty.name || faculty.slug,
@@ -177,7 +178,7 @@ export default function Programs({ limit, showRemaining }) {
                 type="text"
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
-                placeholder={t("programs.searchPlaceholder", "Search programs by name, code, or field...")}
+                placeholder={t("programs.searchPlaceholder")}
                 className="w-full pl-11 pr-11 py-3.5 bg-white border border-gray-200 rounded-2xl text-sm font-semibold text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all shadow-sm"
               />
               {searchQuery && (
@@ -212,10 +213,10 @@ export default function Programs({ limit, showRemaining }) {
               {/* Degree Filters */}
               <div className="flex gap-2 justify-center lg:justify-end border-t pt-4 border-gray-100 lg:border-t-0 lg:pt-0">
                 {[
-                  { id: "all", label: t("common.allDegrees", "All Degrees") },
-                  { id: "bachelor", label: t("home.programs.degrees.bachelor", "Bachelor") },
-                  { id: "master", label: t("home.programs.degrees.master", "Master") },
-                  { id: "phd", label: t("home.programs.degrees.phd", "PhD") }
+                  { id: "all", label: t("common.allDegrees") },
+                  { id: "bachelor", label: t("home.programs.degrees.bachelor") },
+                  { id: "master", label: t("home.programs.degrees.master") },
+                  { id: "phd", label: t("home.programs.degrees.phd") }
                 ].map(deg => (
                   <button
                     key={deg.id}
@@ -235,7 +236,7 @@ export default function Programs({ limit, showRemaining }) {
             {/* Results count */}
             {(searchQuery || selectedFaculty !== "all" || selectedDegree !== "all") && (
               <p className="text-xs font-bold text-gray-400 text-center">
-                {displayPrograms.length} {t("programs.resultsFound", "programs found")}
+                {displayPrograms.length} {t("programs.resultsFound")}
               </p>
             )}
           </div>
@@ -245,13 +246,13 @@ export default function Programs({ limit, showRemaining }) {
         {loading ? (
           <div className="text-center py-16 bg-white rounded-3xl border border-gray-100 shadow-xs max-w-lg mx-auto">
             <GraduationCap className="w-12 h-12 text-gray-300 mx-auto mb-4 animate-pulse" />
-            <p className="text-sm text-gray-500">{t("common.loading", "Loading...")}</p>
+            <p className="text-sm text-gray-500">{t("common.loading")}</p>
           </div>
         ) : displayPrograms.length === 0 ? (
           <div className="text-center py-16 bg-white rounded-3xl border border-gray-100 shadow-xs max-w-lg mx-auto">
             <GraduationCap className="w-12 h-12 text-gray-300 mx-auto mb-4 animate-bounce" />
-            <p className="text-lg font-extrabold text-navy mb-1">{t("programs.noResults.title", "No programs found")}</p>
-            <p className="text-sm text-gray-500">{t("programs.noResults.desc", "Try adjusting your filters to find suitable programs.")}</p>
+            <p className="text-lg font-extrabold text-navy mb-1">{t("programs.noResults.title")}</p>
+            <p className="text-sm text-gray-500">{t("programs.noResults.desc")}</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -262,11 +263,17 @@ export default function Programs({ limit, showRemaining }) {
             const pName = getProgramName(program);
             const pDesc = getProgramDescription(program);
             
-            const degreeKey = program.degree.toLowerCase(); // bachelor, master
-            const pDegree = t(`home.programs.degrees.${degreeKey}`, program.degree);
+            const degreeKey = program.degree.toLowerCase();
+            const degreeTranslationKey = degreeKey ? `home.programs.degrees.${degreeKey}` : "";
+            const degreeTranslation = degreeTranslationKey ? t(degreeTranslationKey) : "";
+            const pDegree = degreeTranslation === degreeTranslationKey ? program.degree : degreeTranslation;
             
-            const durationKey = program.duration.includes("4") ? "years4" : program.duration.includes("5") ? "years5" : "years2";
-            const pDuration = t(`home.programs.durations.${durationKey}`, program.duration);
+            const durationKey = program.durationYears ? `years${program.durationYears}` : "";
+            const durationTranslationKey = durationKey ? `home.programs.durations.${durationKey}` : "";
+            const durationTranslation = durationTranslationKey ? t(durationTranslationKey) : "";
+            const pDuration =
+              program.duration ||
+              (durationTranslation === durationTranslationKey ? "" : durationTranslation);
 
             return (
               <div
@@ -279,14 +286,18 @@ export default function Programs({ limit, showRemaining }) {
                     <Icon className="w-5 h-5" />
                   </div>
                   <div className="flex gap-2">
-                    <span className={`inline-flex items-center gap-1 text-[10px] font-extrabold uppercase border px-2.5 py-1 rounded-full ${colors.badge}`}>
-                      <GraduationCap className="w-3.5 h-3.5 shrink-0" />
-                      {pDegree}
-                    </span>
-                    <span className="inline-flex items-center gap-1 text-[10px] font-bold text-gray-500 bg-gray-50 border border-gray-100 px-2.5 py-1 rounded-full">
-                      <Clock className="w-3.5 h-3.5 shrink-0" />
-                      {pDuration}
-                    </span>
+                    {pDegree && (
+                      <span className={`inline-flex items-center gap-1 text-[10px] font-extrabold uppercase border px-2.5 py-1 rounded-full ${colors.badge}`}>
+                        <GraduationCap className="w-3.5 h-3.5 shrink-0" />
+                        {pDegree}
+                      </span>
+                    )}
+                    {pDuration && (
+                      <span className="inline-flex items-center gap-1 text-[10px] font-bold text-gray-500 bg-gray-50 border border-gray-100 px-2.5 py-1 rounded-full">
+                        <Clock className="w-3.5 h-3.5 shrink-0" />
+                        {pDuration}
+                      </span>
+                    )}
                   </div>
                 </div>
 

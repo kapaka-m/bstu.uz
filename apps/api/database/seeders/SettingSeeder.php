@@ -194,6 +194,13 @@ class SettingSeeder extends Seeder
                 'group' => 'home',
                 'is_public' => true,
             ],
+            [
+                'key' => 'home_hero_student_count',
+                'value' => '15,000+',
+                'type' => 'text',
+                'group' => 'home',
+                'is_public' => true,
+            ],
         ];
 
         foreach ($settings as $setting) {

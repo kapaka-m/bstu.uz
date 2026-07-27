@@ -4,19 +4,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useLanguage } from "../context/LanguageContext";
 import { aboutService } from "../services/aboutService";
-
-const API_ORIGIN = (import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/api/v1").replace(
-  /\/api\/v1\/?$/,
-  "",
-);
-
-const resolveAssetUrl = (path) => {
-  if (!path) return "";
-  if (path.startsWith("http://") || path.startsWith("https://") || path.startsWith("/")) {
-    return path;
-  }
-  return `${API_ORIGIN}/storage/${path}`;
-};
+import { publicAssetUrl } from "../lib/api";
 
 export default function Features() {
   const { language } = useLanguage();
@@ -43,7 +31,7 @@ export default function Features() {
   const goals = content.goals || {};
   const values = content.values || {};
   const identity = content.identity || {};
-  const imageSrc = resolveAssetUrl(aboutPage?.identity_image_url || aboutPage?.identity_image || "");
+  const imageSrc = publicAssetUrl(aboutPage?.identity_image_url || aboutPage?.identity_image || "");
   const bstuBullets = [
     { text: goals.missionTitle, icon: Cpu },
     { text: goals.visionTitle, icon: Globe },

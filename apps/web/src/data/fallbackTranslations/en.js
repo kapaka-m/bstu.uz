@@ -118,7 +118,21 @@ export const translation = {
     "previousSlide": "Previous slide",
     "nextSlide": "Next slide",
     "scrollToTop": "Scroll to top",
-    "toggleMobileMenu": "Toggle mobile menu"
+    "toggleMobileMenu": "Toggle mobile menu",
+    "emptyTitle": "No content available",
+    "emptyMessage": "There is currently no data to display in this list.",
+    "errorTitle": "Something went wrong",
+    "errorMessage": "We encountered an error loading this section. Please try again.",
+    "pageRenderErrorRetry": "The page could not be rendered. Please try again.",
+    "loading": "Loading content...",
+    "retryConnection": "Retry Connection",
+    "previous": "Previous",
+    "next": "Next",
+    "paginationStatus": "Page {currentPage} of {lastPage}",
+    "localeEnglish": "English",
+    "localeUzbek": "O'zbek",
+    "localeRussian": "Русский",
+    "localeArabic": "العربية"
   },
   "home": {
     "programs": {

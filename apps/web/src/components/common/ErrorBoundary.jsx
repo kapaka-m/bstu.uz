@@ -25,11 +25,12 @@ export default class ErrorBoundary extends React.Component {
     if (this.state.hasError) {
       return (
         <ErrorState
-          title="Something went wrong"
+          titleKey="common.errorTitle"
+          messageKey="common.pageRenderErrorRetry"
           message={
             import.meta.env.DEV
-              ? this.state.error?.message || "The page could not be rendered."
-              : "The page could not be rendered. Please try again."
+              ? this.state.error?.message || undefined
+              : undefined
           }
           onRetry={this.reset}
           height="h-screen"

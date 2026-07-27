@@ -118,7 +118,21 @@ export const translation = {
     "previousSlide": "Предыдущий слайд",
     "nextSlide": "Следующий слайд",
     "scrollToTop": "Наверх",
-    "toggleMobileMenu": "Открыть или закрыть мобильное меню"
+    "toggleMobileMenu": "Открыть или закрыть мобильное меню",
+    "emptyTitle": "Контент недоступен",
+    "emptyMessage": "В этом списке пока нет данных для отображения.",
+    "errorTitle": "Что-то пошло не так",
+    "errorMessage": "При загрузке этого раздела произошла ошибка. Попробуйте еще раз.",
+    "pageRenderErrorRetry": "Не удалось отобразить страницу. Попробуйте еще раз.",
+    "loading": "Загрузка контента...",
+    "retryConnection": "Повторить подключение",
+    "previous": "Назад",
+    "next": "Вперед",
+    "paginationStatus": "Страница {currentPage} из {lastPage}",
+    "localeEnglish": "English",
+    "localeUzbek": "O'zbek",
+    "localeRussian": "Русский",
+    "localeArabic": "العربية"
   },
   "home": {
     "programs": {

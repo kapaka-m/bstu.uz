@@ -414,3 +414,69 @@
 - لا توجد مسارات تشغيل تبدأ بـ `/assets/img` في ملفات `apps/api/database/data`.
 - `npm.cmd run lint` نجح.
 - `php-local.bat artisan test` نجح: 5 tests passed.
+
+---
+
+## مراجعة مكونات React المشتركة
+
+تاريخ المراجعة: 2026-07-28
+
+## الملفات والمسارات التي تمت مراجعتها
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\components\ScrollToTop.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\components\PageHeader.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\components\Header.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\components\Footer.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\components\common\EmptyState.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\components\common\ErrorBoundary.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\components\common\ErrorState.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\components\common\FieldError.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\components\common\FormError.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\components\common\LoadingState.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\components\common\Pagination.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\components\common\RetryButton.jsx`
+
+## ما تم نقله/ربطه بقاعدة البيانات
+
+- `Header.jsx`: القائمة واللغات والشعار كانت بالفعل ديناميكية من API/settings/locales/menu. تم تنظيف أسماء اللغات الاحتياطية وربطها بمفاتيح ترجمة قابلة للإدارة.
+- `Footer.jsx`: المحتوى كان بالفعل ديناميكي من `footerService` ومربوط بإدارة الفوتر داخل apanel.
+- `PageHeader.jsx`: تم تحويل رابط `Home` إلى `nav.home` من جدول الترجمات.
+- ملفات `common`: تم تحويل نصوص حالات الفراغ والتحميل والخطأ وزر إعادة المحاولة والترقيم إلى مفاتيح ترجمة داخل `apps/api/database/data/translations.json`.
+
+## مفاتيح الترجمة المضافة
+
+- `common.emptyTitle`
+- `common.emptyMessage`
+- `common.errorTitle`
+- `common.errorMessage`
+- `common.pageRenderErrorRetry`
+- `common.loading`
+- `common.retryConnection`
+- `common.previous`
+- `common.next`
+- `common.paginationStatus`
+- `common.localeEnglish`
+- `common.localeUzbek`
+- `common.localeRussian`
+- `common.localeArabic`
+
+## التنظيم والتنظيف
+
+- تم استبدال SVG اليدوي داخل `EmptyState`, `ErrorState`, و `FormError` بأيقونات `lucide-react`.
+- تم تحسين `PageHeader` لدعم اتجاه سهم breadcrumbs في العربية.
+- تم إضافة `type="button"` لزر dropdown في الهيدر.
+- لم يتم إنشاء جدول جديد لأن جدول `translation_keys` و `translation_values` موجود بالفعل وتديره صفحة `apanel/translations`.
+
+## النتيجة
+
+- لا توجد بيانات أعمال ثابتة داخل هذه المكونات تحتاج جدولاً منفصلاً.
+- النصوص العامة القابلة للتغيير أصبحت ضمن نظام الترجمات، ويمكن إدارتها من apanel عبر Translation Keys / Translation Values.
+- القيم التقنية الباقية داخل الملفات هي كلاسات CSS، مفاتيح داخلية، ومسارات routing/حالات UI وليست بيانات محتوى.
+
+## التحقق
+
+- `npm.cmd run lint` نجح بدون أخطاء.
+- `php-local.bat artisan test` نجح: 5 tests passed.
+- تم التأكد أن مفاتيح الترجمة الجديدة موجودة لكل اللغات: `en`, `uz`, `ru`, `ar`.
+- تم تشغيل `TranslationKeySeeder` و `TranslationValueSeeder` لإدخال/تحديث المفاتيح والقيم في قاعدة البيانات بدون حذف بيانات موجودة.
+- تم تشغيل `php-local.bat artisan cache:clear` حتى تظهر الترجمات العامة الجديدة من API.

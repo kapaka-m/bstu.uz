@@ -118,7 +118,21 @@ export const translation = {
     "previousSlide": "Oldingi slayd",
     "nextSlide": "Keyingi slayd",
     "scrollToTop": "Yuqoriga qaytish",
-    "toggleMobileMenu": "Mobil menyuni almashtirish"
+    "toggleMobileMenu": "Mobil menyuni almashtirish",
+    "emptyTitle": "Kontent mavjud emas",
+    "emptyMessage": "Hozircha bu ro'yxatda ko'rsatish uchun ma'lumot yo'q.",
+    "errorTitle": "Xatolik yuz berdi",
+    "errorMessage": "Bu bo'limni yuklashda xatolik yuz berdi. Iltimos, qayta urinib ko'ring.",
+    "pageRenderErrorRetry": "Sahifani ko'rsatib bo'lmadi. Iltimos, qayta urinib ko'ring.",
+    "loading": "Kontent yuklanmoqda...",
+    "retryConnection": "Qayta ulanish",
+    "previous": "Oldingi",
+    "next": "Keyingi",
+    "paginationStatus": "{currentPage}-sahifa / {lastPage}",
+    "localeEnglish": "English",
+    "localeUzbek": "O'zbek",
+    "localeRussian": "Русский",
+    "localeArabic": "العربية"
   },
   "home": {
     "programs": {

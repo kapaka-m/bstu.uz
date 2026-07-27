@@ -145,7 +145,21 @@
             "closeVideoModal": "Close video modal",
             "youtubeVideoPlayer": "YouTube video player",
             "scrollToTop": "Scroll to top",
-            "toggleMobileMenu": "Toggle mobile menu"
+            "toggleMobileMenu": "Toggle mobile menu",
+            "emptyTitle": "No content available",
+            "emptyMessage": "There is currently no data to display in this list.",
+            "errorTitle": "Something went wrong",
+            "errorMessage": "We encountered an error loading this section. Please try again.",
+            "pageRenderErrorRetry": "The page could not be rendered. Please try again.",
+            "loading": "Loading content...",
+            "retryConnection": "Retry Connection",
+            "previous": "Previous",
+            "next": "Next",
+            "paginationStatus": "Page {currentPage} of {lastPage}",
+            "localeEnglish": "English",
+            "localeUzbek": "O'zbek",
+            "localeRussian": "Русский",
+            "localeArabic": "العربية"
         },
         "home": {
             "programs": {
@@ -2473,7 +2487,21 @@
             "closeVideoModal": "Video oynasini yopish",
             "youtubeVideoPlayer": "YouTube video pleyeri",
             "scrollToTop": "Yuqoriga qaytish",
-            "toggleMobileMenu": "Mobil menyuni almashtirish"
+            "toggleMobileMenu": "Mobil menyuni almashtirish",
+            "emptyTitle": "Kontent mavjud emas",
+            "emptyMessage": "Hozircha bu ro'yxatda ko'rsatish uchun ma'lumot yo'q.",
+            "errorTitle": "Xatolik yuz berdi",
+            "errorMessage": "Bu bo'limni yuklashda xatolik yuz berdi. Iltimos, qayta urinib ko'ring.",
+            "pageRenderErrorRetry": "Sahifani ko'rsatib bo'lmadi. Iltimos, qayta urinib ko'ring.",
+            "loading": "Kontent yuklanmoqda...",
+            "retryConnection": "Qayta ulanish",
+            "previous": "Oldingi",
+            "next": "Keyingi",
+            "paginationStatus": "{currentPage}-sahifa / {lastPage}",
+            "localeEnglish": "English",
+            "localeUzbek": "O'zbek",
+            "localeRussian": "Русский",
+            "localeArabic": "العربية"
         },
         "home": {
             "programs": {
@@ -4921,7 +4949,21 @@
             "closeVideoModal": "Закрыть видео",
             "youtubeVideoPlayer": "Видеоплеер YouTube",
             "scrollToTop": "Наверх",
-            "toggleMobileMenu": "Открыть или закрыть мобильное меню"
+            "toggleMobileMenu": "Открыть или закрыть мобильное меню",
+            "emptyTitle": "Контент недоступен",
+            "emptyMessage": "В этом списке пока нет данных для отображения.",
+            "errorTitle": "Что-то пошло не так",
+            "errorMessage": "При загрузке этого раздела произошла ошибка. Попробуйте еще раз.",
+            "pageRenderErrorRetry": "Не удалось отобразить страницу. Попробуйте еще раз.",
+            "loading": "Загрузка контента...",
+            "retryConnection": "Повторить подключение",
+            "previous": "Назад",
+            "next": "Вперед",
+            "paginationStatus": "Страница {currentPage} из {lastPage}",
+            "localeEnglish": "English",
+            "localeUzbek": "O'zbek",
+            "localeRussian": "Русский",
+            "localeArabic": "العربية"
         },
         "home": {
             "programs": {
@@ -7176,7 +7218,21 @@
             "closeVideoModal": "إغلاق نافذة الفيديو",
             "youtubeVideoPlayer": "مشغل فيديو يوتيوب",
             "scrollToTop": "العودة إلى الأعلى",
-            "toggleMobileMenu": "فتح أو إغلاق قائمة الهاتف"
+            "toggleMobileMenu": "فتح أو إغلاق قائمة الهاتف",
+            "emptyTitle": "لا يوجد محتوى متاح",
+            "emptyMessage": "لا توجد حالياً بيانات لعرضها في هذه القائمة.",
+            "errorTitle": "حدث خطأ ما",
+            "errorMessage": "حدث خطأ أثناء تحميل هذا القسم. يرجى المحاولة مرة أخرى.",
+            "pageRenderErrorRetry": "تعذر عرض الصفحة. يرجى المحاولة مرة أخرى.",
+            "loading": "جارٍ تحميل المحتوى...",
+            "retryConnection": "إعادة محاولة الاتصال",
+            "previous": "السابق",
+            "next": "التالي",
+            "paginationStatus": "الصفحة {currentPage} من {lastPage}",
+            "localeEnglish": "English",
+            "localeUzbek": "O'zbek",
+            "localeRussian": "Русский",
+            "localeArabic": "العربية"
         },
         "home": {
             "programs": {

@@ -118,7 +118,21 @@ export const translation = {
     "previousSlide": "الشريحة السابقة",
     "nextSlide": "الشريحة التالية",
     "scrollToTop": "العودة إلى الأعلى",
-    "toggleMobileMenu": "فتح أو إغلاق قائمة الهاتف"
+    "toggleMobileMenu": "فتح أو إغلاق قائمة الهاتف",
+    "emptyTitle": "لا يوجد محتوى متاح",
+    "emptyMessage": "لا توجد حالياً بيانات لعرضها في هذه القائمة.",
+    "errorTitle": "حدث خطأ ما",
+    "errorMessage": "حدث خطأ أثناء تحميل هذا القسم. يرجى المحاولة مرة أخرى.",
+    "pageRenderErrorRetry": "تعذر عرض الصفحة. يرجى المحاولة مرة أخرى.",
+    "loading": "جارٍ تحميل المحتوى...",
+    "retryConnection": "إعادة محاولة الاتصال",
+    "previous": "السابق",
+    "next": "التالي",
+    "paginationStatus": "الصفحة {currentPage} من {lastPage}",
+    "localeEnglish": "English",
+    "localeUzbek": "O'zbek",
+    "localeRussian": "Русский",
+    "localeArabic": "العربية"
   },
   "home": {
     "programs": {

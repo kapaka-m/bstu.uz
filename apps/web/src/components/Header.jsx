@@ -30,14 +30,18 @@ export default function Header() {
   const [openDropdowns, setOpenDropdowns] = useState({});
   const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
 
-  const { language, changeLanguage, t, logoSrc, headerMenu, locales } = useLanguage();
+  const { language, changeLanguage, t, logoSrc, headerMenu, locales } =
+    useLanguage();
   const location = useLocation();
   const langDropdownRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => setIsSticky(window.scrollY > 80);
     const handleClickOutside = (event) => {
-      if (langDropdownRef.current && !langDropdownRef.current.contains(event.target)) {
+      if (
+        langDropdownRef.current &&
+        !langDropdownRef.current.contains(event.target)
+      ) {
         setIsLangDropdownOpen(false);
       }
     };
@@ -54,21 +58,22 @@ export default function Header() {
   const navItems = sortedActive(headerMenu || []);
   const menuItems = navItems.filter((item) => item.route_name !== "action");
   const actionItems = navItems.filter((item) => item.route_name === "action");
-  const loginAction =
-    actionItems.find((item) => item.icon === "login" || item.url === "/login") || {
-      url: "/login",
-      label: t("nav.login"),
-    };
+  const loginAction = actionItems.find(
+    (item) => item.icon === "login" || item.url === "/login",
+  ) || {
+    url: "/login",
+    label: t("nav.login"),
+  };
   const isRtl = language === "ar";
 
   const languages = React.useMemo(() => {
     const list = (locales || []).filter((l) => l.is_active !== false);
     if (list.length === 0) {
       return [
-        { code: "en", label: "English", short: "EN" },
-        { code: "uz", label: "O'zbek", short: "UZ" },
-        { code: "ru", label: "Русский", short: "RU" },
-        { code: "ar", label: "العربية", short: "AR" },
+        { code: "en", label: t("common.localeEnglish"), short: "EN" },
+        { code: "uz", label: t("common.localeUzbek"), short: "UZ" },
+        { code: "ru", label: t("common.localeRussian"), short: "RU" },
+        { code: "ar", label: t("common.localeArabic"), short: "AR" },
       ];
     }
     return [...list]
@@ -78,9 +83,14 @@ export default function Header() {
         label: l.native_name || l.name,
         short: l.code.toUpperCase(),
       }));
-  }, [locales]);
+  }, [locales, t]);
 
-  const currentLang = languages.find((l) => l.code === language) || languages[0] || { code: "en", label: "English", short: "EN" };
+  const currentLang = languages.find((l) => l.code === language) ||
+    languages[0] || {
+      code: "en",
+      label: t("common.localeEnglish"),
+      short: "EN",
+    };
 
   const handleLinkClick = () => {
     setIsMobileMenuOpen(false);
@@ -158,7 +168,9 @@ export default function Header() {
             </span>
             <div
               className={`flex flex-col gap-1.5 border-t border-gray-50 pt-2 pe-1.5 text-[11px] font-semibold leading-snug text-navy ${
-                groupIndex === 0 ? "" : "max-h-75 overflow-y-auto scrollbar-thin"
+                groupIndex === 0
+                  ? ""
+                  : "max-h-75 overflow-y-auto scrollbar-thin"
               }`}
             >
               {sortedActive(group.children).map((child) => (
@@ -166,7 +178,9 @@ export default function Header() {
                   key={child.id || child.url}
                   to={child.url || "#"}
                   className={`py-0.5 transition-colors hover:text-primary ${
-                    isRtl ? "text-xs leading-normal font-semibold" : "leading-tight font-medium"
+                    isRtl
+                      ? "text-xs leading-normal font-semibold"
+                      : "leading-tight font-medium"
                   }`}
                 >
                   {child.label}
@@ -193,7 +207,10 @@ export default function Header() {
 
     return (
       <div key={item.id || item.route_name} className="group relative">
-        <button className="flex cursor-pointer items-center gap-1 py-2 font-semibold text-navy transition-colors hover:text-primary">
+        <button
+          type="button"
+          className="flex cursor-pointer items-center gap-1 py-2 font-semibold text-navy transition-colors hover:text-primary"
+        >
           {item.label}
           <ChevronDown className="h-4 w-4" />
         </button>
@@ -224,13 +241,18 @@ export default function Header() {
     }
 
     return (
-      <div key={item.id || key} className={`${level === 0 ? "border-t border-gray-50 pt-2" : ""} flex flex-col`}>
+      <div
+        key={item.id || key}
+        className={`${level === 0 ? "border-t border-gray-50 pt-2" : ""} flex flex-col`}
+      >
         <button
           type="button"
           onClick={() => toggleDropdown(key)}
           className={`flex cursor-pointer items-center justify-between ${paddingClass} text-navy`}
         >
-          <span className={`${level > 0 ? "text-xs font-extrabold uppercase tracking-wider text-primary" : ""}`}>
+          <span
+            className={`${level > 0 ? "text-xs font-extrabold uppercase tracking-wider text-primary" : ""}`}
+          >
             {item.label}
           </span>
           <ChevronDown
@@ -238,7 +260,9 @@ export default function Header() {
           />
         </button>
         {openDropdowns[key] && (
-          <div className={`${level === 0 ? "ms-2 border-s-2 ps-4" : "ms-1 border-s ps-2"} flex max-h-[50vh] flex-col gap-2 overflow-y-auto pt-2 text-start scrollbar-thin`}>
+          <div
+            className={`${level === 0 ? "ms-2 border-s-2 ps-4" : "ms-1 border-s ps-2"} flex max-h-[50vh] flex-col gap-2 overflow-y-auto pt-2 text-start scrollbar-thin`}
+          >
             {children.map((child) => renderMobileItem(child, level + 1))}
           </div>
         )}
@@ -249,7 +273,9 @@ export default function Header() {
   return (
     <header
       className={`fixed top-0 left-0 z-50 w-full transition-all duration-300 ${
-        isSticky || location.pathname !== "/" ? "bg-white py-4 shadow-md" : "bg-transparent py-6"
+        isSticky || location.pathname !== "/"
+          ? "bg-white py-4 shadow-md"
+          : "bg-transparent py-6"
       }`}
     >
       <div className="container mx-auto flex max-w-7xl items-center justify-between px-4 md:px-8">
@@ -276,7 +302,9 @@ export default function Header() {
             >
               <Globe className="h-3.5 w-3.5 text-primary" />
               <span>{currentLang.short}</span>
-              <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-300 ${isLangDropdownOpen ? "rotate-180" : ""}`} />
+              <ChevronDown
+                className={`h-3.5 w-3.5 transition-transform duration-300 ${isLangDropdownOpen ? "rotate-180" : ""}`}
+              />
             </button>
             <AnimatePresence>
               {isLangDropdownOpen && (
@@ -295,7 +323,9 @@ export default function Header() {
                         setIsLangDropdownOpen(false);
                       }}
                       className={`w-full cursor-pointer rounded-xl px-4 py-2 text-start text-xs font-bold transition-all duration-200 ${
-                        language === lang.code ? "bg-primary text-white" : "text-navy hover:bg-primary/5 hover:text-primary"
+                        language === lang.code
+                          ? "bg-primary text-white"
+                          : "text-navy hover:bg-primary/5 hover:text-primary"
                       }`}
                     >
                       {lang.label}
@@ -320,7 +350,11 @@ export default function Header() {
             aria-label={t("common.toggleMobileMenu")}
             className="cursor-pointer p-2 text-navy transition-colors hover:text-primary xl:hidden"
           >
-            {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            {isMobileMenuOpen ? (
+              <X className="h-6 w-6" />
+            ) : (
+              <Menu className="h-6 w-6" />
+            )}
           </button>
         </div>
       </div>
@@ -333,7 +367,9 @@ export default function Header() {
             exit={{ opacity: 0, height: 0 }}
             className="overflow-hidden border-t border-gray-100 bg-white xl:hidden"
           >
-            <div className={`flex max-h-[80vh] flex-col gap-4 overflow-y-auto px-6 py-4 font-semibold text-navy ${isRtl ? "text-right" : ""}`}>
+            <div
+              className={`flex max-h-[80vh] flex-col gap-4 overflow-y-auto px-6 py-4 font-semibold text-navy ${isRtl ? "text-right" : ""}`}
+            >
               {menuItems.map((item) => renderMobileItem(item))}
 
               <div className="flex flex-col gap-3 border-t border-gray-100 pt-4">

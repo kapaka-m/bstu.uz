@@ -329,6 +329,48 @@
 
 كما تم إضافة سجلات لها في جدول `media` حتى تظهر في Media Picker داخل apanel. بعد ذلك تم حذف `apps/web/public/assets` لأنه أصبح فارغا.
 
+---
+
+# مراجعة ملفات جذر React Web
+
+تاريخ المراجعة: 2026-07-27
+
+## الملفات التي تمت مراجعتها
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\.env`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\.env.example`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\eslint.config.js`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\index.html`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\package.json`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\package-lock.json`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\README.md`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\tailwind.config.js`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\vite.config.js`
+
+## ما تم تنظيمه
+
+- تم تنظيف `index.html` من meta keywords القديمة غير المناسبة.
+- تم إضافة إعدادات عامة في قاعدة البيانات للتحكم في:
+  - `site_name`
+  - `site_meta_description`
+  - `site_meta_keywords`
+- تم تعديل واجهة React لتحدث `document.title` و meta description و meta keywords من `/settings/public`.
+- تم تحديث `README.md` لأن `public/assets` لم يعد يحتوي favicons/logos بعد نقلها إلى Laravel storage.
+
+## النتيجة
+
+- `vite.config.js`, `tailwind.config.js`, و `eslint.config.js` إعدادات بناء وتصميم وفحص فقط، ولا تحتوي بيانات أعمال تحتاج قاعدة البيانات.
+- `package.json` و `package-lock.json` ملفات dependencies/scripts ولا تنقل إلى قاعدة البيانات.
+- `.env` يحتوي قيم `VITE_*` عامة للواجهة فقط، وهو ignored بواسطة `.gitignore`.
+- `.env.example` قالب للمطورين وليس بيانات production.
+- `index.html` يحتوي fallback أولي فقط، والقيم القابلة للتغيير أصبحت من API/settings.
+
+## التحقق
+
+- `npm.cmd run lint` نجح.
+- `php-local.bat artisan test` نجح: 5 tests passed.
+- إعدادات SEO العامة موجودة في جدول `settings` ومكشوفة كـ public settings.
+
 ## ملاحظة منفصلة
 
 أثناء الفحص ظهر أن هناك مسارات media أخرى محفوظة في قاعدة البيانات مثل `faculties/...`, `departments/...`, `programs/...`, وبعض `staff/...` لا توجد ملفاتها حاليا في `storage/app/public`. هذه ليست مراجع إلى `apps/web/public/assets` وليست من الملفات التي تم حذفها في هذه المراجعة، لكنها تحتاج جولة تنظيم منفصلة لمسارات Laravel storage العامة.

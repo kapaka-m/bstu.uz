@@ -150,6 +150,20 @@ export function LocaleProvider({ children }) {
   }, [locale]);
 
   useEffect(() => {
+    if (settings.site_name) {
+      document.title = settings.site_name;
+    }
+
+    const metaDescription = document.head.querySelector('meta[name="description"]');
+    if (metaDescription && settings.site_meta_description) {
+      metaDescription.setAttribute("content", settings.site_meta_description);
+    }
+
+    const metaKeywords = document.head.querySelector('meta[name="keywords"]');
+    if (metaKeywords && settings.site_meta_keywords) {
+      metaKeywords.setAttribute("content", settings.site_meta_keywords);
+    }
+
     setLinkHref(
       'link[rel="icon"]',
       resolvePublicAssetUrl(

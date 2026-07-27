@@ -20,6 +20,20 @@ class SettingSeeder extends Seeder
                 'is_public' => true,
             ],
             [
+                'key' => 'site_meta_description',
+                'value' => 'Bukhara State Technical University international admissions, academic programs, student services, and public university information.',
+                'type' => 'text',
+                'group' => 'general',
+                'is_public' => true,
+            ],
+            [
+                'key' => 'site_meta_keywords',
+                'value' => 'Bukhara State Technical University, BSTU, international admissions, academic programs, Uzbekistan education',
+                'type' => 'text',
+                'group' => 'general',
+                'is_public' => true,
+            ],
+            [
                 'key' => 'contact_email',
                 'value' => 'international@bstu.uz',
                 'type' => 'email',

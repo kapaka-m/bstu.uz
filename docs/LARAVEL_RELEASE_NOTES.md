@@ -1,4 +1,4 @@
-# Release Notes
+# Laravel Release Notes
 
 ## [Unreleased](https://github.com/laravel/laravel/compare/v13.7.0...13.x)
 

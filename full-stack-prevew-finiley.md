@@ -201,3 +201,55 @@
 - لا توجد مسارات CMS قديمة في قاعدة البيانات من نوع `media/%`, `about-page/%`, `centers/%`, `news-events/%` ضمن الجداول التي تم تنظيمها.
 - تم تشغيل `php-local.bat artisan test` بنجاح: 5 tests passed.
 - تم تشغيل `route:list` بنجاح: 170 routes.
+
+---
+
+# مراجعة ملفات جذر Laravel API
+
+تاريخ المراجعة: 2026-07-27
+
+## الملفات التي تمت مراجعتها
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\.editorconfig`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\.env`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\.env.example`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\.gitattributes`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\.gitignore`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\.npmrc`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\.styleci.yml`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\artisan`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\composer.json`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\composer.lock`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\package-lock.json`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\package.json`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\php-local.bat`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\php.ini`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\phpunit.xml`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\serve-local.bat`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\vite.config.js`
+
+## النتيجة
+
+لا توجد بيانات أعمال ثابتة داخل هذه الملفات تحتاج النقل إلى قاعدة البيانات أو التحكم من apanel.
+
+هذه الملفات هي إعدادات تشغيل، dependency manifests، lockfiles، أدوات local PHP، إعدادات اختبار، وإعدادات Vite/Composer/NPM. لذلك مكانها الطبيعي داخل `apps/api`.
+
+## ما تم تنظيمه
+
+- تم تحديث `composer.json` من metadata الافتراضية الخاصة بـ Laravel skeleton إلى metadata خاصة بـ BSTU International API.
+- تم تحديث `composer.lock` بعد تعديل metadata.
+- تم إزالة مسار Windows المطلق من `php.ini` واستبداله بمسار نسبي: `storage/temp`.
+- تم تعديل `serve-local.bat` ليستخدم `-t public` مع بقاء working directory داخل `apps/api` حتى يعمل مسار `storage/temp` النسبي بشكل صحيح.
+
+## ملاحظات
+
+- ملف `.env` يحتوي إعدادات بيئة محلية مثل `APP_KEY`, DB, mail, cache. هذه لا تنقل لقاعدة البيانات ولا apanel، ويجب أن تبقى ignored.
+- ملف `.env.example` قالب إعدادات للمطورين وليس بيانات production.
+- `composer.lock` و `package-lock.json` لا يتم نقلهم أو تحريرهم يدوياً لأنهم يثبتون إصدارات الحزم.
+
+## التحقق
+
+- `php-local.bat -r "echo sys_get_temp_dir().PHP_EOL;"` أرجع `storage/temp`.
+- `composer validate --no-check-publish` نجح مع تحذير واحد فقط عن exact TCPDF version.
+- `php-local.bat artisan test` نجح: 5 tests passed.
+- `route:list` نجح: 170 routes.

@@ -1,11 +1,13 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/laravel",
+    "name": "bstu/international-api",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
+    "description": "Laravel REST API for the BSTU International public website, student portal, and apanel.",
     "keywords": [
+        "bstu",
+        "international",
         "laravel",
-        "framework"
+        "api"
     ],
     "license": "MIT",
     "require": {

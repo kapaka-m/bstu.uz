@@ -32,6 +32,7 @@ This repository is structured as a unified monorepo containing the web frontend,
 
 - **[Architecture](docs/ARCHITECTURE.md)** — high-level web, API, mobile, and MySQL architecture.
 - **[API](docs/API.md)** — public, student, and apanel REST API endpoints.
+- **[API Backend Notes](docs/API_BACKEND_README.md)** — Laravel API conventions, checks, production notes, and maintenance commands.
 - **[Backend Setup](docs/BACKEND_SETUP.md)** — Laravel setup, PHP extension notes, and local API checks.
 - **[Frontend/API Integration](docs/FRONTEND_API_INTEGRATION.md)** — React service and localization integration.
 - **[Apanel](docs/APANEL.md)** — admin panel routes, resources, permissions, and workflows.
@@ -40,6 +41,7 @@ This repository is structured as a unified monorepo containing the web frontend,
 - **[Database Schema](database-docs/SCHEMA.md)** — MySQL schema reference.
 - **[Data Migration](database-docs/DATA_MIGRATION.md)** — static content extraction and Laravel seeding process.
 - **[Storage](storage-docs/README.md)** — Laravel storage, public symlink, and file URL resolution.
+- **[Laravel Release Notes](docs/LARAVEL_RELEASE_NOTES.md)** — upstream Laravel application release notes retained for reference.
 
 Historical source captures used during cleanup have been merged into durable data files, seed JSON, and active documentation.
 

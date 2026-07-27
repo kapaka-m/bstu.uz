@@ -7,13 +7,6 @@ import { menuService } from "../services/menuService";
 const LocaleContext = createContext();
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/api/v1";
 const PUBLIC_BASE_URL = API_BASE_URL.replace(/\/api\/v1\/?$/, "");
-const fallbackTranslationLoaders = {
-  ar: () => import("../data/fallbackTranslations/ar"),
-  en: () => import("../data/fallbackTranslations/en"),
-  ru: () => import("../data/fallbackTranslations/ru"),
-  uz: () => import("../data/fallbackTranslations/uz"),
-};
-const fallbackTranslationCache = {};
 
 const normalizeMenuItems = (menu) => {
   if (Array.isArray(menu)) return menu;
@@ -22,16 +15,6 @@ const normalizeMenuItems = (menu) => {
   if (Array.isArray(menu?.data?.items)) return menu.data.items;
   return [];
 };
-
-async function loadFallbackTranslation(locale) {
-  if (!fallbackTranslationCache[locale]) {
-    const loader = fallbackTranslationLoaders[locale] || fallbackTranslationLoaders.en;
-    fallbackTranslationCache[locale] = loader().then(
-      (module) => module.translation || {},
-    );
-  }
-  return fallbackTranslationCache[locale];
-}
 
 const resolvePublicAssetUrl = (value, fallback = "") => {
   const path = String(value || "").trim();
@@ -116,16 +99,11 @@ export function LocaleProvider({ children }) {
 
   useEffect(() => {
     const loadLocaleData = async () => {
-      let fallbackTranslation = {};
-
       try {
         const dir = locale === "ar" ? "rtl" : "ltr";
         document.documentElement.dir = dir;
         document.documentElement.lang = locale;
         document.body.dir = dir;
-
-        fallbackTranslation = await loadFallbackTranslation(locale);
-        setTranslations(fallbackTranslation);
 
         const [translationsResult, headerResult] = await Promise.allSettled([
           translationService.getTranslations(locale),
@@ -133,7 +111,9 @@ export function LocaleProvider({ children }) {
         ]);
 
         if (translationsResult.status === "fulfilled") {
-          setTranslations(translationsResult.value || fallbackTranslation);
+          setTranslations(translationsResult.value || {});
+        } else {
+          setTranslations({});
         }
 
         if (headerResult.status === "fulfilled") {
@@ -143,7 +123,7 @@ export function LocaleProvider({ children }) {
         }
       } catch (e) {
         console.error(`Failed to load data for locale: ${locale}`, e);
-        setTranslations(fallbackTranslation);
+        setTranslations({});
       }
     };
     loadLocaleData();
@@ -168,16 +148,12 @@ export function LocaleProvider({ children }) {
       'link[rel="icon"]',
       resolvePublicAssetUrl(
         settings.branding_favicon_png || settings.branding_favicon_ico,
-        resolvePublicAssetUrl("cms/branding/favicon.png"),
       ),
       { rel: "icon" },
     );
     setLinkHref(
       'link[rel="apple-touch-icon"]',
-      resolvePublicAssetUrl(
-        settings.branding_apple_touch_icon,
-        resolvePublicAssetUrl("cms/branding/apple-touch-icon.png"),
-      ),
+      resolvePublicAssetUrl(settings.branding_apple_touch_icon),
       { rel: "apple-touch-icon" },
     );
     setLinkHref(
@@ -194,12 +170,12 @@ export function LocaleProvider({ children }) {
 
   const logoSrc =
     locale === "ar"
-      ? resolvePublicAssetUrl(settings.branding_logo_ar, resolvePublicAssetUrl("cms/branding/bstu-ar.png"))
+      ? resolvePublicAssetUrl(settings.branding_logo_ar)
       : locale === "en"
-        ? resolvePublicAssetUrl(settings.branding_logo_en, resolvePublicAssetUrl("cms/branding/bstu-en.png"))
+        ? resolvePublicAssetUrl(settings.branding_logo_en)
         : locale === "ru"
-          ? resolvePublicAssetUrl(settings.branding_logo_ru, resolvePublicAssetUrl("cms/branding/bstu-ru.png"))
-          : resolvePublicAssetUrl(settings.branding_logo_default, resolvePublicAssetUrl("cms/branding/bstu.png"));
+          ? resolvePublicAssetUrl(settings.branding_logo_ru)
+          : resolvePublicAssetUrl(settings.branding_logo_default);
 
   const contextValue = {
     locale,

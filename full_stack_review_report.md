@@ -480,3 +480,43 @@
 - تم التأكد أن مفاتيح الترجمة الجديدة موجودة لكل اللغات: `en`, `uz`, `ru`, `ar`.
 - تم تشغيل `TranslationKeySeeder` و `TranslationValueSeeder` لإدخال/تحديث المفاتيح والقيم في قاعدة البيانات بدون حذف بيانات موجودة.
 - تم تشغيل `php-local.bat artisan cache:clear` حتى تظهر الترجمات العامة الجديدة من API.
+
+---
+
+## مراجعة React Context ومصدر بيانات المكونات
+
+تاريخ المراجعة: 2026-07-28
+
+## الملفات والمسارات التي تمت مراجعتها
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\context\LocaleContext.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\context\LanguageContext.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\context\AuthContext.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\context\AppDataContext.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\context`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\components`
+
+## ما تم تأكيده وتعديله
+
+- `LocaleContext.jsx` يجلب اللغات من `/api/v1/locales`.
+- `LocaleContext.jsx` يجلب الترجمات من `/api/v1/translations`.
+- `LocaleContext.jsx` يجلب الإعدادات العامة والشعار و favicon و meta من `/api/v1/settings/public`.
+- `LocaleContext.jsx` يجلب قائمة الهيدر من `/api/v1/menus/header`.
+- تم حذف الاعتماد على `fallbackTranslations` المحلي داخل `LocaleContext.jsx`.
+- تم حذف fallback المحلي لمسارات `cms/branding/...` داخل `LocaleContext.jsx`; الشعار و favicon الآن من جدول `settings` عبر API.
+- `Header.jsx` لم يعد يحتوي fallback مرئي لقائمة اللغات أو زر الدخول. اللغات تأتي من جدول `locales`، وزر الدخول يأتي من قائمة الهيدر في قاعدة البيانات.
+- `AuthContext.jsx` يستخدم `authService` فقط: login/register/logout/current user عبر API، وبيانات المستخدم/الأدوار من قاعدة البيانات.
+- `AppDataContext.jsx` يستخدم API فقط للكليات، الأقسام، البرامج، الخدمات، الفيديوهات، و Green Campus.
+
+## النتيجة
+
+- لا توجد بيانات محتوى static داخل `context` أو `components`.
+- البيانات المعروضة أو المستخدمة كمحتوى تأتي من قاعدة البيانات عبر API.
+- المتبقي داخل هذه الملفات هو كود تقني طبيعي فقط: مفاتيح إعداد الاتصال، أسماء دوال، مفاتيح داخلية، معالجة أخطاء للمطورين، وحالات React.
+
+## التحقق
+
+- لا يوجد استخدام لـ `fallbackTranslations` داخل `apps/web/src/context` أو `apps/web/src/components`.
+- لا توجد مسارات branding محلية مثل `cms/branding/...` داخل `apps/web/src/context` أو `apps/web/src/components`.
+- `npm.cmd run lint` نجح.
+- `php-local.bat artisan test` نجح: 5 tests passed.

@@ -60,37 +60,23 @@ export default function Header() {
   const actionItems = navItems.filter((item) => item.route_name === "action");
   const loginAction = actionItems.find(
     (item) => item.icon === "login" || item.url === "/login",
-  ) || {
-    url: "/login",
-    label: t("nav.login"),
-  };
+  );
   const isRtl = language === "ar";
 
   const languages = React.useMemo(() => {
-    const list = (locales || []).filter((l) => l.is_active !== false);
-    if (list.length === 0) {
-      return [
-        { code: "en", label: t("common.localeEnglish"), short: "EN" },
-        { code: "uz", label: t("common.localeUzbek"), short: "UZ" },
-        { code: "ru", label: t("common.localeRussian"), short: "RU" },
-        { code: "ar", label: t("common.localeArabic"), short: "AR" },
-      ];
-    }
-    return [...list]
+    return (locales || [])
+      .filter((l) => l.is_active !== false)
       .sort((a, b) => Number(a.sort_order || 0) - Number(b.sort_order || 0))
       .map((l) => ({
         code: l.code,
         label: l.native_name || l.name,
         short: l.code.toUpperCase(),
       }));
-  }, [locales, t]);
+  }, [locales]);
 
   const currentLang = languages.find((l) => l.code === language) ||
-    languages[0] || {
-      code: "en",
-      label: t("common.localeEnglish"),
-      short: "EN",
-    };
+    languages[0] ||
+    null;
 
   const handleLinkClick = () => {
     setIsMobileMenuOpen(false);
@@ -294,55 +280,59 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center gap-3 md:gap-4">
-          <div className="relative shrink-0" ref={langDropdownRef}>
-            <button
-              type="button"
-              onClick={() => setIsLangDropdownOpen(!isLangDropdownOpen)}
-              className="flex cursor-pointer items-center gap-1.5 rounded-xl border border-gray-200/50 bg-primary-light px-3 py-2 text-xs font-bold text-navy transition-all hover:text-primary"
-            >
-              <Globe className="h-3.5 w-3.5 text-primary" />
-              <span>{currentLang.short}</span>
-              <ChevronDown
-                className={`h-3.5 w-3.5 transition-transform duration-300 ${isLangDropdownOpen ? "rotate-180" : ""}`}
-              />
-            </button>
-            <AnimatePresence>
-              {isLangDropdownOpen && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  className={`absolute top-full z-50 mt-2 flex w-36 flex-col gap-0.5 rounded-2xl border border-gray-100 bg-white p-1 py-2 shadow-xl ${isRtl ? "left-0" : "right-0"}`}
-                >
-                  {languages.map((lang) => (
-                    <button
-                      key={lang.code}
-                      type="button"
-                      onClick={() => {
-                        changeLanguage(lang.code);
-                        setIsLangDropdownOpen(false);
-                      }}
-                      className={`w-full cursor-pointer rounded-xl px-4 py-2 text-start text-xs font-bold transition-all duration-200 ${
-                        language === lang.code
-                          ? "bg-primary text-white"
-                          : "text-navy hover:bg-primary/5 hover:text-primary"
-                      }`}
-                    >
-                      {lang.label}
-                    </button>
-                  ))}
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
+          {currentLang && (
+            <div className="relative shrink-0" ref={langDropdownRef}>
+              <button
+                type="button"
+                onClick={() => setIsLangDropdownOpen(!isLangDropdownOpen)}
+                className="flex cursor-pointer items-center gap-1.5 rounded-xl border border-gray-200/50 bg-primary-light px-3 py-2 text-xs font-bold text-navy transition-all hover:text-primary"
+              >
+                <Globe className="h-3.5 w-3.5 text-primary" />
+                <span>{currentLang.short}</span>
+                <ChevronDown
+                  className={`h-3.5 w-3.5 transition-transform duration-300 ${isLangDropdownOpen ? "rotate-180" : ""}`}
+                />
+              </button>
+              <AnimatePresence>
+                {isLangDropdownOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    className={`absolute top-full z-50 mt-2 flex w-36 flex-col gap-0.5 rounded-2xl border border-gray-100 bg-white p-1 py-2 shadow-xl ${isRtl ? "left-0" : "right-0"}`}
+                  >
+                    {languages.map((lang) => (
+                      <button
+                        key={lang.code}
+                        type="button"
+                        onClick={() => {
+                          changeLanguage(lang.code);
+                          setIsLangDropdownOpen(false);
+                        }}
+                        className={`w-full cursor-pointer rounded-xl px-4 py-2 text-start text-xs font-bold transition-all duration-200 ${
+                          language === lang.code
+                            ? "bg-primary text-white"
+                            : "text-navy hover:bg-primary/5 hover:text-primary"
+                        }`}
+                      >
+                        {lang.label}
+                      </button>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          )}
 
-          <Link
-            to={loginAction.url || "/login"}
-            className="hidden items-center gap-1.5 text-sm font-bold text-navy transition-colors hover:text-primary sm:inline-flex"
-          >
-            <LogIn className="h-4 w-4" />
-            {loginAction.label || t("nav.login")}
-          </Link>
+          {loginAction && (
+            <Link
+              to={loginAction.url}
+              className="hidden items-center gap-1.5 text-sm font-bold text-navy transition-colors hover:text-primary sm:inline-flex"
+            >
+              <LogIn className="h-4 w-4" />
+              {loginAction.label}
+            </Link>
+          )}
 
           <button
             type="button"
@@ -372,15 +362,17 @@ export default function Header() {
             >
               {menuItems.map((item) => renderMobileItem(item))}
 
-              <div className="flex flex-col gap-3 border-t border-gray-100 pt-4">
-                <Link
-                  to={loginAction.url || "/login"}
-                  onClick={handleLinkClick}
-                  className="w-full rounded-xl border border-gray-200 py-2.5 text-center text-sm font-bold transition-colors hover:bg-gray-50"
-                >
-                  {loginAction.label || t("nav.login")}
-                </Link>
-              </div>
+              {loginAction && (
+                <div className="flex flex-col gap-3 border-t border-gray-100 pt-4">
+                  <Link
+                    to={loginAction.url}
+                    onClick={handleLinkClick}
+                    className="w-full rounded-xl border border-gray-200 py-2.5 text-center text-sm font-bold transition-colors hover:bg-gray-50"
+                  >
+                    {loginAction.label}
+                  </Link>
+                </div>
+              )}
             </div>
           </motion.div>
         )}

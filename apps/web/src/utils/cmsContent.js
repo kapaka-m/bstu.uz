@@ -1,5 +1,3 @@
-const FALLBACK_IMAGE = "/storage/cms/branding/favicon.png";
-
 export function asArray(value) {
   if (Array.isArray(value)) return value;
   if (!value) return [];
@@ -72,7 +70,7 @@ export function cmsCategory(item, fallback = "") {
   return textValue(item?.category || item?.type || item?.status, fallback);
 }
 
-export function cmsImage(item, fallback = FALLBACK_IMAGE) {
+export function cmsImage(item, fallback = "") {
   const value =
     item?.image_url ||
     item?.thumbnail_url ||
@@ -100,7 +98,7 @@ export function cmsDate(item) {
   );
 }
 
-export function formatCmsDate(value, locale = "en") {
+export function formatCmsDate(value, locale) {
   if (!value) return "";
   if (/^\d{4}$/.test(String(value).trim())) return String(value);
   const parsed = new Date(value);
@@ -139,7 +137,7 @@ export function uniqueCategories(items) {
     "all",
     ...new Set(
       items
-        .map((item) => cmsCategory(item, "general").toLowerCase())
+        .map((item) => cmsCategory(item).toLowerCase())
         .filter(Boolean),
     ),
   ];
@@ -149,7 +147,7 @@ export function filterCmsItems(items, searchQuery, selectedCategory) {
   const query = searchQuery.trim().toLowerCase();
   return items.filter((item) => {
     const searchable = `${cmsTitle(item)} ${cmsExcerpt(item)} ${cmsCategory(item)}`.toLowerCase();
-    const category = cmsCategory(item, "general").toLowerCase();
+    const category = cmsCategory(item).toLowerCase();
     const matchesSearch = !query || searchable.includes(query);
     const matchesCategory =
       selectedCategory === "all" || category === selectedCategory.toLowerCase();

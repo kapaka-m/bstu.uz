@@ -648,3 +648,47 @@
 - `php-local.bat artisan test` نجح: 5 tests passed.
 - `php-local.bat artisan route:list --path=api/v1 --except-vendor` نجح وأظهر 170 route.
 - لا يوجد داخل `apps/web/src/services` استخدام مباشر لـ `VITE_API_BASE_URL`, `http://127.0.0.1`, `DEFAULT_LOCALE`, `fallbackTranslations`, أو `translations.js`.
+
+---
+
+## مراجعة React Entry And Build Files
+
+تاريخ المراجعة: 2026-07-28
+
+## ملفات React Entry And Build التي تمت مراجعتها
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\main.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\App.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\App.css`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\index.css`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\utils`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\utils\cmsContent.js`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\index.html`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\vite.config.js`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\tailwind.config.js`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\eslint.config.js`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\.env`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\.env.example`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\package.json`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\package-lock.json`
+
+## ما تم تأكيده وتعديله في React Entry And Build
+
+- `main.jsx` لم يعد يلف التطبيق بـ `LanguageProvider` إضافي؛ مصدر اللغة الحالي من `LocaleProvider` داخل `App.jsx`.
+- `App.jsx` لم يعد يحتوي رسائل loading ثابتة، ويستخدم `LoadingState` الذي يأخذ النص من نظام الترجمات.
+- `index.html` لم يعد يحتوي title/meta/keywords/favicons ثابتة؛ هذه القيم يتم ضبطها من `settings` عبر `LocaleContext.jsx`.
+- `.env` و `.env.example` لم تعد تحتوي `VITE_DEFAULT_LOCALE` أو `VITE_SUPPORTED_LOCALES`; اللغات تأتي من جدول `locales`.
+- `cmsContent.js` لم يعد يحتوي fallback image ثابت أو default locale ثابت.
+- تم حذف `App.css` لأنه ملف قالب غير مستخدم ولا يدخل في التشغيل.
+
+## نتيجة React Entry And Build
+
+- لا توجد بيانات محتوى static داخل ملفات entry/build/utils التي تمت مراجعتها.
+- ملفات config مثل `vite.config.js`, `tailwind.config.js`, `eslint.config.js`, `package.json`, و `package-lock.json` تحتوي إعدادات تشغيل واعتمادات فقط، وليست محتوى قابل للإدارة من apanel.
+- القيم القابلة للإدارة مثل title/meta/favicon/logo/languages/translations تأتي من قاعدة البيانات عبر API.
+
+## تحقق React Entry And Build
+
+- `npm.cmd run lint` نجح.
+- `npm.cmd run build` نجح.
+- لم يعد يوجد داخل الملفات المطلوبة `BSTU International`, `Bukhara State...`, `cms/branding`, `Checking session`, `Verifying admin`, `Loading page contents`, `FALLBACK_IMAGE`, `VITE_DEFAULT_LOCALE`, أو `VITE_SUPPORTED_LOCALES`.

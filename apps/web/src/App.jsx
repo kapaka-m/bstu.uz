@@ -185,7 +185,7 @@ function StudentRoute({ children }) {
   const { isAuthenticated, loading, user } = useAuth();
 
   if (loading) {
-    return <LoadingState message="Checking session..." height="h-screen" />;
+    return <LoadingState height="h-screen" />;
   }
 
   if (!isAuthenticated) {
@@ -230,12 +230,7 @@ function AdminRoute({ children }) {
   }, [loading, checkingRole, isAuthenticated, isAdmin, clearSession]);
 
   if (loading || checkingRole) {
-    return (
-      <LoadingState
-        message="Verifying admin credentials..."
-        height="h-screen"
-      />
-    );
+    return <LoadingState height="h-screen" />;
   }
 
   if (!isAuthenticated) {
@@ -261,10 +256,7 @@ function AppContent() {
       <main className="grow">
         <Suspense
           fallback={
-            <LoadingState
-              message="Loading page contents..."
-              height="h-screen"
-            />
+            <LoadingState height="h-screen" />
           }
         >
           <Routes>

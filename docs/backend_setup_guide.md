@@ -30,7 +30,7 @@ cd apps/api
 composer install --prefer-dist
 ```
 
-* (If PHP extensions like `zip` or `fileinfo` are disabled in your system, prefix composer commands using PHP flags, for example: `php -d extension=fileinfo -d extension=zip composer install --prefer-dist`.)*
+- (If PHP extensions like `zip` or `fileinfo` are disabled in your system, prefix composer commands using PHP flags, for example: `php -d extension=fileinfo -d extension=zip composer install --prefer-dist`.)*
 
 ### 3. Configure Environment Files
 
@@ -62,7 +62,7 @@ Run the migrations to create all required tables:
 php artisan migrate
 ```
 
-* (Or `php -d extension=pdo_mysql artisan migrate` if extension is disabled globally)*
+- (Or `php -d extension=pdo_mysql artisan migrate` if extension is disabled globally)*
 
 ### 6. Seeding Database
 

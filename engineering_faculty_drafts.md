@@ -1,4 +1,4 @@
-Faculty of Engineering
+# Faculty of Engineering
 
 Currently, the Faculty of Engineering educates 1,161 students across 60 academic groups. Of these, 916 study on a contract basis, while 245 students study under the State Grant. Among them, 958 are male students and 203 are female students.
 The faculty has 6 departments, 4 of which are specialized departments. At present, 111 academic staff members are working at the Faculty of Engineering, including: 8 Professors, 26 Associate Professors, 30 Senior Lecturers, 15 Assistants, and 32 Trainee Lecturers. In addition, 4 foreign professors are part of the faculty.
@@ -73,19 +73,18 @@ Khojiyev Aziz Kholmurodovich
 
 Reception hours: Daily 14:00–16:00
 Phone: +998 (90) 744-01-79
-Email: azizhojiyev1979y@mail.ru
+Email: <azizhojiyev1979y@mail.ru>
 
 DEPUTY DEAN FOR ACADEMIC AFFAIRS
 Rustamov Bobir Ismatovich
 
 Reception hours: Daily 14:00–16:00
 Phone: +998 (99) 704-79-72
-Email: bobir_rustamov@bk.ru
+Email: <bobir_rustamov@bk.ru>
 
 DEPUTY DEAN FOR YOUTH AFFAIRS
 Ashurov Asrorjon Komilovich
 
 Reception hours: Daily 14:00–16:00
 Phone: (+99897) 488-28-22
-Email: a.asrorjon83@mail.ru
-
+Email: <a.asrorjon83@mail.ru>

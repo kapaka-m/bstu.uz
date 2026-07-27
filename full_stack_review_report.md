@@ -67,7 +67,7 @@
 
 ---
 
-# مراجعة إضافية لمسارات resources و public و node_modules
+## مراجعة إضافية لمسارات resources و public و node_modules
 
 تاريخ المراجعة: 2026-07-27
 
@@ -77,7 +77,7 @@
 - `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\public`
 - `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\node_modules`
 
-## النتيجة
+### النتيجة لمسارات Vendor والـ Routes
 
 لا توجد بيانات أعمال ثابتة في `resources` أو `public` تحتاج النقل إلى قاعدة البيانات.
 
@@ -102,25 +102,25 @@
 
 لا يتم نقل محتوى `node_modules` إلى قاعدة البيانات ولا يتم تعديله يدوياً، لأنه يتم توليده من `package-lock.json` و `package.json`.
 
-## التحقق
+### التحقق لمسارات Resources و Public
 
 - تم البحث داخل `resources` و `public` عن بيانات ثابتة تخص الجامعة أو الطلاب أو البرامج أو الرسوم ولم يظهر شيء بعد حذف صفحة Laravel الافتراضية.
 - تم تشغيل `route:list` بنجاح، وعدد routes بقي `170`.
 
 ---
 
-# مراجعة إضافية لمسارات vendor و tests و storage و routes
+## مراجعة إضافية لمسارات vendor و tests و storage و routes
 
 تاريخ المراجعة: 2026-07-27
 
-## المسارات التي تمت مراجعتها
+### المسارات التي تمت مراجعتها للـ Vendor والـ Routes
 
 - `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\vendor`
 - `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\tests`
 - `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\storage`
 - `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\routes`
 
-## النتيجة
+### النتيجة لمسارات Web Public Assets
 
 لا توجد بيانات أعمال ثابتة داخل هذه المسارات تحتاج النقل إلى قاعدة البيانات أو التحكم من apanel.
 
@@ -143,7 +143,7 @@
 
 ---
 
-# تنظيم storage/app وربطه بقاعدة البيانات
+## تنظيم storage/app وربطه بقاعدة البيانات
 
 تاريخ التنظيم: 2026-07-27
 
@@ -194,7 +194,7 @@
 - تم ضبط روابط صور `university_centers` لتستخدم disk `public` صراحة بعد التنظيم.
 - تم إضافة command للتنظيم: `php-local.bat artisan bstu:organize-storage`.
 
-## التحقق
+### التحقق لمسارات Storage والـ Routes
 
 - لا توجد مسارات قديمة في قاعدة البيانات من نوع `private/%` للوثائق والإيصالات.
 - لا توجد مسارات قديمة في قاعدة البيانات من نوع `admissions/%`, `contracts/%`, `enrollments/%`, `prikazes/%`.
@@ -204,11 +204,11 @@
 
 ---
 
-# مراجعة ملفات جذر Laravel API
+## مراجعة ملفات جذر Laravel API
 
 تاريخ المراجعة: 2026-07-27
 
-## الملفات التي تمت مراجعتها
+## الملفات التي تمت مراجعتها لجذر API
 
 - `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\.editorconfig`
 - `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\.env`
@@ -228,7 +228,7 @@
 - `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\serve-local.bat`
 - `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\vite.config.js`
 
-## النتيجة
+## النتيجة لمراجعة ملفات جذر API
 
 لا توجد بيانات أعمال ثابتة داخل هذه الملفات تحتاج النقل إلى قاعدة البيانات أو التحكم من apanel.
 
@@ -247,7 +247,7 @@
 - ملف `.env.example` قالب إعدادات للمطورين وليس بيانات production.
 - `composer.lock` و `package-lock.json` لا يتم نقلهم أو تحريرهم يدوياً لأنهم يثبتون إصدارات الحزم.
 
-## التحقق
+### التحقق لمسارات Root API
 
 - `php-local.bat -r "echo sys_get_temp_dir().PHP_EOL;"` أرجع `storage/temp`.
 - `composer validate --no-check-publish` نجح مع تحذير واحد فقط عن exact TCPDF version.
@@ -256,11 +256,11 @@
 
 ---
 
-# مراجعة Web Public Assets
+## مراجعة Web Public Assets
 
 تاريخ المراجعة: 2026-07-27
 
-## المسارات التي تمت مراجعتها
+### المسارات التي تمت مراجعتها لـ Web Public Assets
 
 - `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\public`
 - `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\public\robots.txt`
@@ -268,7 +268,7 @@
 - `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\public\assets\img`
 - `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\public\assets\video`
 
-## ما تم تنظيمه
+### ما تم تنظيمه لـ Web Public Assets
 
 - تم نقل صور الأشخاص التي كانت مستخدمة كبيانات محتوى من `apps/web/public/assets/img/...` إلى `apps/api/storage/app/public/cms/staff/...`.
 - تم تحديث ملفات seed/data حتى تستخدم مسارات `cms/staff/...` بدلا من `/assets/img/...`.
@@ -283,7 +283,7 @@
 
 - `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\public\robots.txt`
 
-## النتيجة
+## النتيجة لمراجعة Web Public Assets
 
 المسار `apps/web/public` أصبح مرتب: يحتوي فقط `robots.txt`. صور المحتوى، ملفات branding، وصور hero التي يجب التحكم بها من النظام أصبحت في Laravel storage وتقرأ عبر API/apanel.
 
@@ -331,11 +331,11 @@
 
 ---
 
-# مراجعة ملفات جذر React Web
+## مراجعة ملفات جذر React Web
 
 تاريخ المراجعة: 2026-07-27
 
-## الملفات التي تمت مراجعتها
+## الملفات التي تمت مراجعتها لجذر React
 
 - `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\.env`
 - `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\.env.example`
@@ -347,7 +347,7 @@
 - `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\tailwind.config.js`
 - `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\vite.config.js`
 
-## ما تم تنظيمه
+### ما تم تنظيمه لملفات جذر React
 
 - تم تنظيف `index.html` من meta keywords القديمة غير المناسبة.
 - تم إضافة إعدادات عامة في قاعدة البيانات للتحكم في:
@@ -359,7 +359,7 @@
 - تم تحديث `docs/WEB_FRONTEND_README.md` لأن `public/assets` لم يعد يحتوي favicons/logos بعد نقلها إلى Laravel storage.
 - تم إضافة رابط `Web Frontend Notes` في فهرس التوثيق داخل `README.md` الرئيسي.
 
-## النتيجة
+## النتيجة لمراجعة ملفات جذر React
 
 - `vite.config.js`, `tailwind.config.js`, و `eslint.config.js` إعدادات بناء وتصميم وفحص فقط، ولا تحتوي بيانات أعمال تحتاج قاعدة البيانات.
 - `package.json` و `package-lock.json` ملفات dependencies/scripts ولا تنقل إلى قاعدة البيانات.
@@ -367,7 +367,7 @@
 - `.env.example` قالب للمطورين وليس بيانات production.
 - `index.html` يحتوي fallback أولي فقط، والقيم القابلة للتغيير أصبحت من API/settings.
 
-## التحقق
+### التحقق لملفات جذر React
 
 - `npm.cmd run lint` نجح.
 - `php-local.bat artisan test` نجح: 5 tests passed.

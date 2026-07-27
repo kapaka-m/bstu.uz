@@ -77,7 +77,7 @@ Most localized content endpoints inject `locale` and `direction` metadata into t
 }
 ```
 
-* Layout Directions:*
+- Layout Directions:*
 
 - `en`, `uz`, `ru` = `ltr`
 - `ar` = `rtl`
@@ -153,7 +153,7 @@ Most localized content endpoints inject `locale` and `direction` metadata into t
 
 ## 5. Student Portal Endpoints (Auth Required)
 
-* These endpoints automatically scope data so that a student can only view/write their own records.*
+- These endpoints automatically scope data so that a student can only view/write their own records.*
 
 - **`GET /api/v1/student/profile`** — Fetch student profile, guardian, and education background.
 - **`PUT /api/v1/student/profile`** — Update student personal/passport/contact information (creates profile dynamically if not initialized).
@@ -179,7 +179,7 @@ Most localized content endpoints inject `locale` and `direction` metadata into t
 
 ## 6. Admin Panel CRUD Endpoints (`/api/v1/apanel/*`)
 
-* Protected by `auth:sanctum` and `role:apanel` middleware. Full CRUD is mapped via dynamic resource routes.*
+- Protected by `auth:sanctum` and `role:apanel` middleware. Full CRUD is mapped via dynamic resource routes.*
 
 ### List Operations Parameters
 

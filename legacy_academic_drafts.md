@@ -1,46 +1,48 @@
+# Legacy Academic Structure Drafts
+
 الان سوف ننتقل الي الجزاء التالي وهو الجزاء الخاص ب  Departments - Faculties - Programs
 
 الصفحات المسؤاله عن / الكليات التي تعرضها  وتعرض في
-مسار الكليات كلها تحت  http://localhost:5173/faculty/
+مسار الكليات كلها تحت  <http://localhost:5173/faculty/>
 
-http://localhost:5173/faculty/faculty-of-engineering = Faculty of Engineering
-http://localhost:5173/faculty/faculty-of-technology = Faculty of Technology
-http://localhost:5173/faculty/faculty-of-natural-resources-management = Faculty of Natural Resources Management
-http://localhost:5173/faculty/faculty-of-service-and-digitalization = Faculty of Service and Digitalization
+<http://localhost:5173/faculty/faculty-of-engineering> = Faculty of Engineering
+<http://localhost:5173/faculty/faculty-of-technology> = Faculty of Technology
+<http://localhost:5173/faculty/faculty-of-natural-resources-management> = Faculty of Natural Resources Management
+<http://localhost:5173/faculty/faculty-of-service-and-digitalization> = Faculty of Service and Digitalization
 
 الصفحات المسؤاله عن / الاقسام  التي تعرضها  وتعرض في
-مسار الاقسام كلها تحت http://localhost:5173/department/
+مسار الاقسام كلها تحت <http://localhost:5173/department/>
 هاذه الاقسام خاصه ب كلية Faculty of Engineering
-http://localhost:5173/department/electrical-power-engineering = Department of Electrical and Power Engineering
-http://localhost:5173/department/architecture = Department of Architecture
-http://localhost:5173/department/civil-engineering = Department of Civil Engineering
-http://localhost:5173/department/light-industry-engineering-and-design = Department of Light Industry Engineering and Design
-http://localhost:5173/department/mechanics-engineering-graphics = Department of Mechanics and Engineering Graphics
-http://localhost:5173/department/technological-machines-equipment = Department of Technological Machines and Equipment
+<http://localhost:5173/department/electrical-power-engineering> = Department of Electrical and Power Engineering
+<http://localhost:5173/department/architecture> = Department of Architecture
+<http://localhost:5173/department/civil-engineering> = Department of Civil Engineering
+<http://localhost:5173/department/light-industry-engineering-and-design> = Department of Light Industry Engineering and Design
+<http://localhost:5173/department/mechanics-engineering-graphics> = Department of Mechanics and Engineering Graphics
+<http://localhost:5173/department/technological-machines-equipment> = Department of Technological Machines and Equipment
 
  هاذه الاقسام خاصه ب كلية Faculty of Technology
-http://localhost:5173/department/oil-gas-refining-technology = Department of Oil and Gas Processing Technology
-http://localhost:5173/department/food-technology-service = Department of Food Technology and Service
-http://localhost:5173/department/chemical-technology = Department of Chemical Engineering
-http://localhost:5173/department/agricultural-products-storage-oil-fat-technology = Department of Storage, Processing, and Oil-Fat Technology of Agricultural Products
-http://localhost:5173/department/oil-gas-engineering-upstream-downstream = Department of Oil and Gas Engineering
-http://localhost:5173/department/metrology-standardization-quality-control = Department of Metrology and Standardization
+<http://localhost:5173/department/oil-gas-refining-technology> = Department of Oil and Gas Processing Technology
+<http://localhost:5173/department/food-technology-service> = Department of Food Technology and Service
+<http://localhost:5173/department/chemical-technology> = Department of Chemical Engineering
+<http://localhost:5173/department/agricultural-products-storage-oil-fat-technology> = Department of Storage, Processing, and Oil-Fat Technology of Agricultural Products
+<http://localhost:5173/department/oil-gas-engineering-upstream-downstream> = Department of Oil and Gas Engineering
+<http://localhost:5173/department/metrology-standardization-quality-control> = Department of Metrology and Standardization
 
 هاذه الاقسام خاصه ب كلية Faculty of Natural Resources Management
-http://localhost:5173/department/irrigation-melioration = Department of Irrigation and Land Reclamation
-http://localhost:5173/department/hydrotechnical-structures-pump-stations = Department of Hydraulic Structures and Pumping Stations
-http://localhost:5173/department/agricultural-water-resources-engineering-technologies = Department of Agricultural and Water Management Engineering Technologies
-http://localhost:5173/department/land-resources-management-state-land-cadastres = Department of Land Use and State Cadastre
-http://localhost:5173/department/industrial-ecology-hydrogeology = Department ofIndustrial Ecology and Hydrogeology
-http://localhost:5173/department/vehicle-engineering-automotive-transport-systems = Department of Vehicle Engineering
+<http://localhost:5173/department/irrigation-melioration> = Department of Irrigation and Land Reclamation
+<http://localhost:5173/department/hydrotechnical-structures-pump-stations> = Department of Hydraulic Structures and Pumping Stations
+<http://localhost:5173/department/agricultural-water-resources-engineering-technologies> = Department of Agricultural and Water Management Engineering Technologies
+<http://localhost:5173/department/land-resources-management-state-land-cadastres> = Department of Land Use and State Cadastre
+<http://localhost:5173/department/industrial-ecology-hydrogeology> = Department ofIndustrial Ecology and Hydrogeology
+<http://localhost:5173/department/vehicle-engineering-automotive-transport-systems> = Department of Vehicle Engineering
 
 هاذه الاقسام خاصه ب كلية Faculty of Service and Digitalization
-http://localhost:5173/department/technological-processes-production-automation = Department of Technological Processes and Production Automation
-http://localhost:5173/department/information-and-communication-technologies = Department of Information and Communication Technologies
-http://localhost:5173/department/economics-and-management = Department of Economics and Management
-http://localhost:5173/department/social-sciences-physical-culture = Department of Social Sciences and Physical Education
-http://localhost:5173/department/exact-sciences = Department of Exact Sciences
-http://localhost:5173/department/uzbek-foreign-languages = Department of Uzbek and Foreign Languages
+<http://localhost:5173/department/technological-processes-production-automation> = Department of Technological Processes and Production Automation
+<http://localhost:5173/department/information-and-communication-technologies> = Department of Information and Communication Technologies
+<http://localhost:5173/department/economics-and-management> = Department of Economics and Management
+<http://localhost:5173/department/social-sciences-physical-culture> = Department of Social Sciences and Physical Education
+<http://localhost:5173/department/exact-sciences> = Department of Exact Sciences
+<http://localhost:5173/department/uzbek-foreign-languages> = Department of Uzbek and Foreign Languages
 
 المسؤالين مثل عميد الكليه ومسوالين عن الكليات Management & Dean's Office
 
@@ -49,48 +51,48 @@ Dean of the Faculty of Engineering
 Xojiyev Aziz Xolmurodovich
  Qabul vaqti: Every day 14:00-16:00
  Telefon: +998 (90) 744 01 79
- Email: azizhojiyev1979y@mail.ru
+ Email: <azizhojiyev1979y@mail.ru>
 
 Deputy Dean for Academic Affairs
 Rustamov Bobir Ismatovich
  Qabul vaqti: Every day 14:00-16:00
  Telefon: +998 (99) 704 79 72
- Email: bobir_rustamov@bk.ru
+ Email: <bobir_rustamov@bk.ru>
 
 Deputy Dean for Student Affairs
 Ashurov Asrorjon Komilovich
  Qabul vaqti: Every day 14:00-16:00
  Telefon: +998 (97) 488 28 22
- Email: a.asrorjon83@mail.ru
+ Email: <a.asrorjon83@mail.ru>
 
 المسؤالين عن كلية Faculty of Technology
 Dean of the Faculty of Technology
 Adizov Rashid Tokhtayevich
  Qabul vaqti: Every day 14:00-16:00 (except Monday and Saturday)
  Telefon: +998 93 479 77 65
- Email: adizov.rashid@mail.ru
+ Email: <adizov.rashid@mail.ru>
 
 Deputy Dean for Academic Affairs
 Safarov Jasur Alijon o‘g‘li
  Qabul vaqti: Every day 14:00-16:00
  Telefon: +998 93 688 56 88
- Email: jasur.safarov1993@mail.ru
+ Email: <jasur.safarov1993@mail.ru>
 
 Deputy Dean for Youth Affairs
 Bozorov Dilmurod Xolmurodovich
  Qabul vaqti: Every day 14:00-16:00
  Telefon: +998 90 744 47 97
- Email: d.bozorov_78@mail.ru
+ Email: <d.bozorov_78@mail.ru>
 
 المسؤالين عن كلية Faculty of Natural Resources Management
 Dean of the Faculty of Natural Resources Management
 Qobulova Barno Baxriddin qizi
  Qabul vaqti: Every day 14:00-16:00 (except Monday and Saturday)
  Telefon: +998 93 721 04 85
- Email: kobulovabarno@gmail.com
+ Email: <kobulovabarno@gmail.com>
 
-Deputy Dean for Academic Affairs
--
+Deputy Dean for Academic Affairs: -
+
  Qabul vaqti: Every day 14:00-16:00
  Telefon: -
  Email: -
@@ -99,30 +101,30 @@ Deputy Dean for Youth Affairs
 Gadoyeva Abera Hasanovna
  Qabul vaqti: Every day 14:00-16:00
  Telefon: +998 (93) 620 20 98
- Email: Aberaxasanovnaa2208@gmail.com
+ Email: <Aberaxasanovnaa2208@gmail.com>
 
 المسؤالين عن كلية Faculty of Service and Digitalization
 Dean of the Faculty of Service and Digitalization
 Khayitov Sherbek Nayimovich
  Qabul vaqti: Every day 14:00-16:00 (except Monday and Saturday)
  Telefon: +998 (93) 686 95 55
- Email: Sherbek-market@mail.ru
+ Email: <Sherbek-market@mail.ru>
 
 Deputy Dean for Academic Affairs
 Farhod Bakhtiyorovich Boboqulov
  Qabul vaqti: Every day 14:00-16:00
  Telefon: +998 (93) 471 16 61
- Email: boboqulovfarxod1993@gmail.ru
+ Email: <boboqulovfarxod1993@gmail.ru>
 
 Deputy Dean for Youth Affairs
 Fayzullayev Askar Rajabboevich
  Qabul vaqti: Every day 9:00-16:00
  Telefon: +998 (93) 194 75 20
- Email: fayzullayev_asqar_2023@mail.ru
+ Email: <fayzullayev_asqar_2023@mail.ru>
 
 الصفحات المسؤاله عن / البرامج التي تعرضها وتعرض في
-مسار البرامج كلها تحت http://localhost:5173/programs/
-وتفاصيل البرامج تعرض مثل هاذا http://localhost:5173/programs/power-engineering
+مسار البرامج كلها تحت <http://localhost:5173/programs/>
+وتفاصيل البرامج تعرض مثل هاذا <http://localhost:5173/programs/power-engineering>
 
 هاذه البرامج خاصه ب كلية Faculty of Engineering
 وبتنقسم الي درجات البكالريوس مثل Bachelor Programs والماجستير مثل Master Specializations و الدكتوراه مثل Doctoral / PhD
@@ -245,10 +247,10 @@ Tourism and Hospitality
 
 الان سوف ننتقل ايضا الي الجزاء المخصص لتفاصيل صفحات الاقسام الذي يكون تحت
 الصفحات المسؤاله عن / الاقسام  التي تعرضها  وتعرض في
-مسار الاقسام كلها تحت http://localhost:5173/department/
+مسار الاقسام كلها تحت <http://localhost:5173/department/>
 هاذه الاقسام ال6 ترتبط ب كلية Faculty of Engineering
 
-القسم Department of Electrical and Power Engineering  = http://localhost:5173/department/electrical-power-engineering
+القسم Department of Electrical and Power Engineering  = <http://localhost:5173/department/electrical-power-engineering>
 معلومته هي
 
 Department of Electrical and Power Engineering
@@ -256,7 +258,7 @@ Email:
 Latipov Saidmurod Tuyg'unovich
  Reception time: Tuesday-Thursday 10:00-13:00
  Phone: +998 91 979 88 22
- Email: stlatipov@gmail.com
+ Email: <stlatipov@gmail.com>
 
 Kafedra Tarixi
 The department "Electric power engineering" was organized in 1977 by the order of the rector of the institute under the direction of M. T. Turdiev by separating it from the department "General electrical engineering" from the department "General technical disciplines". Since 1978, the department began to accept students from the evening department "Power supply of industrial enterprises, cities and agriculture", since 1985 the full-time department has been taught "Electric power engineering", since 1998 "Electroenergy", since 2000 at the department "Power supply" (by industry).
@@ -332,12 +334,14 @@ JUDICIARY
 70710411–Alternative energy sources
 The department has a doctoral degree in the specialty 05.05.06 - "Energy installations based on types of renewable energy" and 3 scientific specialties:
 05.05.01 - Energy systems and complexes 05.05.02
+
 - Electrical engineering. power plants, systems. Electrotechnical complexes and devices
 are in basic doctoral studies on 05.05.06 – Energy installations based on types of renewable energy, and there are 20 researchers conducting research in total.
 The department has scientific council PhD.03/27.09.2024.T.101.05 for a PhD degree in the specialty 05.05.01 - Energy systems and complexes 05.05.06 - "Energy installations based on types of renewable energy"
 
 BULL OF THE DEPARTMENT
 Bachelor's Degree:
+
 1. Theoretical electrical engineering
 2. Energy management
 3. Electrical Technological Devices
@@ -345,31 +349,31 @@ Bachelor's Degree:
 5. Electric lighting
 6. Electrical Energy Measurement and Control
 Instruments 7. Power Networks and Systems
-8. Assembly and operation of the power supply
+7. Assembly and operation of the power supply
 system 9. Transient processes
-10. Power plants and substations
-11. Automated systems of electricity metering and control
-12. Thermal Technique
-13. Electrical Engineering and Electronics
-14. Technology of
+8. Power plants and substations
+9. Automated systems of electricity metering and control
+10. Thermal Technique
+11. Electrical Engineering and Electronics
+12. Technology of
 Fuel Combustion and Water Preparation in the IEP 15. Thermal Engineering, Measurement and Control Instruments/Innovative Technologies in Thermal Energy
-16. Boiler Devices
-17. High-temperature processes and devices
-18. Energy Generation Technology and Centers
-19. Water Treatment Technology and Chemical Control
+13. Boiler Devices
+14. High-temperature processes and devices
+15. Energy Generation Technology and Centers
+16. Water Treatment Technology and Chemical Control
 at IUS 20. Fuel and fuel
 Judiciary
-1. Modeling of electrical technical systems and complexes
-2. Electrical equipment and supply sources of industrial complexes
-3. Design of automated electro-mechanical and electro-technological systems
-4. Optimal Control of Electro-Mechanical Systems and Complexes
-5. Automated wiring of industrial machinery
-6. Automated Design Systems of Electric Machines and Transformers
-7. Reliability of Electric Machines and Transformers
-8. Recalculation of Electric Machines and Transformers
-9. Transitions
+17. Modeling of electrical technical systems and complexes
+18. Electrical equipment and supply sources of industrial complexes
+19. Design of automated electro-mechanical and electro-technological systems
+20. Optimal Control of Electro-Mechanical Systems and Complexes
+21. Automated wiring of industrial machinery
+22. Automated Design Systems of Electric Machines and Transformers
+23. Reliability of Electric Machines and Transformers
+24. Recalculation of Electric Machines and Transformers
+25. Transitions
 in Electric Machines and Transformers 10. Analytical Electromechanics
-11. Electric Machine Control
+26. Electric Machine Control
 
 PLATES FROM THE ACTIVITIES OF THE DEPARTMENT
 
@@ -398,6 +402,7 @@ He received training at the professional retraining course "Design, installation
 
 Textbook and articles
 PRESENTATIONS AND ARTICLES AT CONFERENCES
+
 1. Maxmudov Maxsud Idrisovich. Qo’ziyev Zafarbek Esanovich Nurov Siroj Sobirovich Analysis of the Process of Aerobic Stabilization of Sediment on the Example of Purification Facilities of the Republic of Uzbekistan Annals of R.S.C.B. Vol. 25, Issue 3, 2021, Pages. 7094 – 7105.Received 16 February 2021; Accepted 08 March 2021.
 2. Maxmudov Maxsud Idrisovich. Mirzoyev Narzullo Nuriddinovich. Prospects of modern measuring systems, which can determine electricity quality indicators 3rd International Multidisciplinary Scientific Conference on Ingenious Global Thoughts.Vol. 25 No. 1 (2021): IMSCIGT-3-2021
 3. Mirzoyev Narzullo Nuriddinovich. Modeling of Energy Efficiency Achievement by Reactive Power Offsetting in Wind Power Plants in a Matlab/Simulink Action Package EURASIAN JOURNAL OF ACADEMIC RESEARCh Volume 1 Issue 02, May 2021.
@@ -405,27 +410,27 @@ PRESENTATIONS AND ARTICLES AT CONFERENCES
 5. Maxmudov M.I., Koziev Z.E., Temirov L.A. Reducing the reactive power consumption of air sending devices. Eurasian journal of academic research, Volume 2 Issue 4, April 2022. ISSN 2181-2020. Pages: 190–195.
 6. Maxmudov M.I., Koziev Z.E., Temirov L.A. Energy saving in compressor devices in wastewater treatment facilities. Eurasian journal of academic research, Volume 1 Issue 02, May 2021. Pages: 236–241.
 7. Mamedov R.A., Sadullaev N.N., Safarov A.B. Razrabotka i nauchnoe obosnovanie effektivnoy raboti mikroges adaptirovannoy k potokam orositelnix kanalov nashego regiona. Science and Technology Progress, 2021. No. 2, pp. 62-68.
-8. N.N. Mirzoyev. Information software and devices for energy efficiency management and control. Chemical Technology, Control and Management Volume 2021 Issue 5 Article 11. 2021, №5 (101) pp.68-75. https://doi.org/10.51346/tstu-02.21.5-77-0044
+8. N.N. Mirzoyev. Information software and devices for energy efficiency management and control. Chemical Technology, Control and Management Volume 2021 Issue 5 Article 11. 2021, №5 (101) pp.68-75. <https://doi.org/10.51346/tstu-02.21.5-77-0044>
 SCIENTIFIC WORKS INCLUDED IN SCOPUS AND WEB OF SCIENCE
-1. Sadullaev N.N., Mukhamedkhanov U.T., Nematov SH.N., Sayliev F.O. (2020) Increasing Energy Efficiency and Reliability of Electric Supply of Low Power Consumers. International Journal of Engineering Trends and Technology, 68(12), 43-47. doi:10.14445/22315381/IJETT-V68I12P208
-2. Sadullaev N. and Nematov S., (2020) "Micro-grid Based Power Supply of Remote Consumers Located Away from the Centralized Power Grid," 2020 IEEE International Conference on Advent Trends in Multidisciplinary Research and Innovation (ICATMRI), pp. 1-6, doi: 10.1109/ICATMRI51801.2020.9398476.
-3. Makhmudov Makhsud Idrisovich, Kuziyev Zafar Esanovich, Nurov Siroj Sobirovich, Sidikov Sanjar Siroj Ugli. (2021). Analysis of the Process of Aerobic Stabilization of Sediment on the Example of Purification Facilities of the Republic of Uzbekistan. Annals of the Romanian Society for Cell Biology, 7094–7105.
-4. N. N. Sadullayev, A. B. Safarov, Sh. N. Nematov, *, R. A. Mamedov, and A. B. Abdujabarov, Opportunities and Prospects for the Using Renewable Energy Sources in Bukhara Region, ISSN 0003-701X, Applied Solar Energy, 2020, Vol. 56, No. 4, pp. 291–300.
-5. Sadullayev, N.N., Safarov, A.B., Nematov, S.N., Mamedov, R.A.Statistical Analysis of Wind Energy Potential in Uzbekistan’s Bukhara Region Using Weibull Distribution, (2019) Applied Solar Energy (English translation of Geliotekhnika), 55 (2), pp. 126-132. doi: 10.3103/S0003701X19020105
-6. Nasullo Sadullaev, Shukhrat Nematov, and Mukhiba Gafurova, Increase the reliability of power supply by using mechanical energy storage devices for low-power consumers, https://doi.org/10.1051/e3sconf/202128801060, E3S Web of Conferences 288, 01060 (2021)
-7. Nasullo Sadullaev, Shukhrat Nematov, and Farid Sayliev, Analysis of multipolar generators operating efficiently in lowspeed water and wind flows using ANSYS MAXWELL program, https://doi.org/10.1051/e3sconf/202128801057, E3S Web of Conferences 288, 01057 (2021)
-8. Sadullayev, N.N, Safarov, A.B, Nematov, S.N., Mamedov, R.A. Research on facilities of power supply of small power capability consumers of bukhara region by using wind and solar energy (2019) International Journal of Innovative Technology and Exploring Engineering, 8 (9 Special Issue 2), pp. 229-236. doi: 10.35940/ijitee. I1047.0789S219
-9. Sadullaev, N.N., Safarov, A.B., Mamedov, R.A., Kodirov, D. Assessment of wind and hydropower potential of Bukhara region (2020) IOP Conference Series: Earth and Environmental Science, 614 (1), art. no. 012036. doi: 10.1088/1755-1315/614/1/012036
+9. Sadullaev N.N., Mukhamedkhanov U.T., Nematov SH.N., Sayliev F.O. (2020) Increasing Energy Efficiency and Reliability of Electric Supply of Low Power Consumers. International Journal of Engineering Trends and Technology, 68(12), 43-47. doi:10.14445/22315381/IJETT-V68I12P208
+10. Sadullaev N. and Nematov S., (2020) "Micro-grid Based Power Supply of Remote Consumers Located Away from the Centralized Power Grid," 2020 IEEE International Conference on Advent Trends in Multidisciplinary Research and Innovation (ICATMRI), pp. 1-6, doi: 10.1109/ICATMRI51801.2020.9398476.
+11. Makhmudov Makhsud Idrisovich, Kuziyev Zafar Esanovich, Nurov Siroj Sobirovich, Sidikov Sanjar Siroj Ugli. (2021). Analysis of the Process of Aerobic Stabilization of Sediment on the Example of Purification Facilities of the Republic of Uzbekistan. Annals of the Romanian Society for Cell Biology, 7094–7105.
+12. N. N. Sadullayev, A. B. Safarov, Sh. N. Nematov, *, R. A. Mamedov, and A. B. Abdujabarov, Opportunities and Prospects for the Using Renewable Energy Sources in Bukhara Region, ISSN 0003-701X, Applied Solar Energy, 2020, Vol. 56, No. 4, pp. 291–300.
+13. Sadullayev, N.N., Safarov, A.B., Nematov, S.N., Mamedov, R.A.Statistical Analysis of Wind Energy Potential in Uzbekistan’s Bukhara Region Using Weibull Distribution, (2019) Applied Solar Energy (English translation of Geliotekhnika), 55 (2), pp. 126-132. doi: 10.3103/S0003701X19020105
+14. Nasullo Sadullaev, Shukhrat Nematov, and Mukhiba Gafurova, Increase the reliability of power supply by using mechanical energy storage devices for low-power consumers, <https://doi.org/10.1051/e3sconf/202128801060>, E3S Web of Conferences 288, 01060 (2021)
+15. Nasullo Sadullaev, Shukhrat Nematov, and Farid Sayliev, Analysis of multipolar generators operating efficiently in lowspeed water and wind flows using ANSYS MAXWELL program, <https://doi.org/10.1051/e3sconf/202128801057>, E3S Web of Conferences 288, 01057 (2021)
+16. Sadullayev, N.N, Safarov, A.B, Nematov, S.N., Mamedov, R.A. Research on facilities of power supply of small power capability consumers of bukhara region by using wind and solar energy (2019) International Journal of Innovative Technology and Exploring Engineering, 8 (9 Special Issue 2), pp. 229-236. doi: 10.35940/ijitee. I1047.0789S219
+17. Sadullaev, N.N., Safarov, A.B., Mamedov, R.A., Kodirov, D. Assessment of wind and hydropower potential of Bukhara region (2020) IOP Conference Series: Earth and Environmental Science, 614 (1), art. no. 012036. doi: 10.1088/1755-1315/614/1/012036
 TEXTBOOKS AND MANUALS
-1. Makhmudov. M.I., Kuziev. Z.E., Nurov. S.S "Improving the energy efficiency of production mechanisms and electric machines" Textbook, 2020
+18. Makhmudov. M.I., Kuziev. Z.E., Nurov. S.S "Improving the energy efficiency of production mechanisms and electric machines" Textbook, 2020
 
-2. N.N.Sadullayev, A.H.Shoboyev, M.B.Bozorov. Scientific problems and solutions of increasing energy efficiency in industrial enterprises, Textbook, 2016
+19. N.N.Sadullayev, A.H.Shoboyev, M.B.Bozorov. Scientific problems and solutions of increasing energy efficiency in industrial enterprises, Textbook, 2016
 
-3. Sadullaev N.N. Design of transformers and electrical machines. T:Science and Technology 2017
+20. Sadullaev N.N. Design of transformers and electrical machines. T:Science and Technology 2017
 
-4. Sadullaev N.N. Audit of energy-saving electrical, mechanical and electrical technological devices. T:Science and Technology 2018
+21. Sadullaev N.N. Audit of energy-saving electrical, mechanical and electrical technological devices. T:Science and Technology 2018
 
-5. M.I. Makhmudov, Z.E. Kuziev. Electrical engineering and electronics. Study guide. Bukhara: "Sadriddin Salim Bukhari" Durdona Publishing House, 2020.
+22. M.I. Makhmudov, Z.E. Kuziev. Electrical engineering and electronics. Study guide. Bukhara: "Sadriddin Salim Bukhari" Durdona Publishing House, 2020.
 
 ONGOING RESEARCH WORK OF THE DEPARTMENT
 Scientific potential of professors and teachers working at the departments of the institute:
@@ -444,6 +449,7 @@ Integration of science with education and production (implementation of the obta
 Currently, the department has branches in the production enterprise, where highly qualified professors and teachers of the department work. In these branches, seniors are also involved in the educational process. Under the auspices of JSC "Bukhara regional power networks" the equipment of the department's laboratories was modernized. In particular: 10 experimental works were restated, 6 experimental works were restored. Currently, one of the most pressing problems of the electric industry is the saving of electricity. Resolution of the President of the Republic of Uzbekistan PD-4422 "On urgent measures to improve energy efficiency of sectors of the economy and social sphere, introduction of energy-saving technologies and development of renewable energy sources", Resolution of the President of the Republic of Uzbekistan dated November 8, 2017, No. PP-3379 "On measures to ensure the rational use of energy resources" and of November 13, 2017 "On control and accounting of electricity and natural gas" on measures of accelerated introduction of automated systems" at the department "Energoaudit", the topic "Development of automated software and information systems and management" was adopted and approved by the Scientific Council of the Institute. Twenty-3 scientific articles are published annually in scientific journals of the republic. On the basis of decisions, economic contracts, BMI and master's and PhD dissertations are being completed. The department has developed programs to save electricity at distribution enterprises together with JSC "Bukhara Regional Electric Networks". Final qualifying works and master's theses were carried out at the enterprises, solving problems in which the problems were solved.
 
 Department of Doctoral Students conduct research on the following topics.
+
 1. Mirkhanov O.Q. on the topic: "Research of energy-saving modes of synchronous motors on the basis of controlled electrical actuations";
 2. Nurov S.S. "Device for monitoring the level and concentration of activated sludge of wastewater for optimization of technological processes in aeration tank-sedimentation systems" mavzusida;
 Sidikov S.S. Conduct scientific works on the theme: "Optoelectronic devices and methods for controlling the turbidity of a liquid medium in wastewater treatment systems".
@@ -453,7 +459,7 @@ THE DEPARTMENT OFFERS COOPERATION WITH FOREIGN EDUCATIONAL INSTITUTIONS
 
 PROSPECTIVE PLANS OF THE DEPARTMENT
 
-القسم Department of Architecture  = http://localhost:5173/department/architecture
+القسم Department of Architecture  = <http://localhost:5173/department/architecture>
 معلومته هي
 
 Department of Architecture
@@ -462,7 +468,7 @@ Email:
 Mirzayev Shamsiddin Rajabovich
  Reception time: Dushanba-Juma (14:00-16:00 gacha)
  Phone: +998 91 014 02 59
- Email: mirzaev.shamsiddin@mail.ru
+ Email: <mirzaev.shamsiddin@mail.ru>
 
 Architecture Cafedra Tarixi
 Architecture
@@ -529,18 +535,20 @@ the Cabinet of the department Ergashova Gulsanam Ergashovna
 
 Prepared specialists of the department
 UNDERGRADUATE DEGREE
+
 1. 60730100 – Architecture (by type)
 2. 60730800 - Reconstruction and restoration of architectural monuments
 3. 60730500- Design and operation of water supply and sewerage systems
 JUDICIARY
-1. 5A340101- Architecture of buildings and structures.
-2. 70730103 - History and theory of architecture
+4. 5A340101- Architecture of buildings and structures.
+5. 70730103 - History and theory of architecture
 Dr. Tura Talim Yonalishi
 18.00.01 - "Theory and history of architecture. Repair and restoration of architectural monuments" defended by 5 professors and 4 more professor-teachers planned
 
 18.00.02-"Zoning. Urbanization. Rural Residential Planning. Landscape Architecture. Architecture of buildings and structures"
 
 BULL OF THE DEPARTMENT
+
 1. Fundamentals of architectural composition and design
 2. Architectural Pencil, Color, and Sculpture
 3. Architectural Design
@@ -548,14 +556,14 @@ BULL OF THE DEPARTMENT
 5. Urban Planning and Landscape Design
 6. Typology of
 buildings and structures 7. Transportation and Engineering Equipment
-8. Interiors and Fittings
-9. Layout
+7. Interiors and Fittings
+8. Layout
 Studies 10. Digital Design (Auto CAD, Sketch UP, Revit)
-11. Engineering Equipment of Buildings
-12. Repair and Restoration of Architectural Monuments
-13. Fundamentals of Designing Energy-Efficient and Energy-Efficient
+9. Engineering Equipment of Buildings
+10. Repair and Restoration of Architectural Monuments
+11. Fundamentals of Designing Energy-Efficient and Energy-Efficient
 Buildings 14. District Planning and Design
-15. Architectural heritage of Uzbekistan
+12. Architectural heritage of Uzbekistan
 
 PLATES FROM THE ACTIVITIES OF THE DEPARTMENT
 Photos from scientific research work
@@ -572,6 +580,7 @@ For teaching students KNAUF technology contract with the joint venture "Knauf Gi
 Cooperation with the Main Directorate of Construction and Housing and Utilities of Bukhara region and trainings in the form of DUAL education have been organized.
 Cooperation Agreement between WIPO and Moscow State University of Civil Engineering (SRU MGSU) Russia dated 07.09.2017 and SRU MGSU signed a cooperation plan for 2017-2015. Leading Russian university in the field of construction organizes training, internships and student exchanges.
 The department collaborates with foreign educational institutions:
+
 1. Leading professors and experts of the German "Podstam University" Jörg Roder bn Steffan Laue, Volker Bley.
 2. Participation in the exhibition "Restoration Week 2025", organized jointly by the Italian Trade Agency Salone del Restauro from Uzbekistan and the Italian Trade Agency ASSORESTAURO from Ferrara.
 3. It is planned to open joint educational programs through the signing of memorandums of cooperation, joint programs and agreements with the Azerbaijan University of Architecture and Construction.
@@ -588,14 +597,14 @@ Cooperation Agreement between BuxMTI and Moscow State University of Civil Engine
 PROSPECTIVE PLANS OF THE DEPARTMENT
 establishing close cooperation with leading scientific and educational institutions of the world; • Widespread introduction of advanced pedagogical technologies, curricula and teaching materials into the educational process based on international educational standards; • Active involvement of highly qualified teachers and scientists from foreign educational institutions in teaching and pedagogical activities, master classes, advanced training courses; • organize systematic internships, retraining and advanced training of professors and teachers on the basis of leading foreign universities; • increasing the efficiency and effectiveness of research activities of professors and teachers, wide involvement of talented students and students in scientific activities; • creation of a new generation of educational literature and its wide introduction in the educational process of higher educational institutions; • Providing modern educational, educational, methodological and scientific literature based on needs, including the purchase and translation of the latest foreign literature; • wide involvement of highly qualified foreign scientists, teachers and specialists in educational processes; ¬ Increasing the scientific potential of the department, further development of research, strengthening its integration with academic science; • carry out large-scale educational and educational work to increase the spiritual and moral content of education, to instill in students the spirit of devotion to the ideas of independence, to the national traditions of high spirituality and humanity, to strengthen in them immunity and critical thinking to alien ideas and ideologies; • Further strengthening of the material and technical base of the department, educational and scientific laboratories in priority areas of science by equipping them with modern tools and equipment.
 
-القسم Department of Civil Engineering  = http://localhost:5173/department/civil-engineering
+القسم Department of Civil Engineering  = <http://localhost:5173/department/civil-engineering>
 معلومته هي
 
 Email:
 Tojiyev In’omjon Ilhomovich
  Reception time: Dushanba-Juma (14:00-16:00 gacha)
  Phone: +998 91 444 87 03
- Email: arminom@mail.ru
+ Email: <arminom@mail.ru>
 
 History of the Department of Civil Engineering
 The department of "Civil engineering" was one of the first and has been functioning as a basic department at the Bukhara general technical faculty of the Tashkent Polytechnic Institute since 1962. For many years of work of the department, more than 40 professors and associate professors have developed and still make their contribution to the development of personnel.
@@ -680,37 +689,38 @@ The department conducts research 10 basic doctoral students and independent stud
 
 BULL OF THE DEPARTMENT
 Bachelor's Degree:
+
 1. Assessment of the technical condition of buildings and structures
 2. Grunt mechanics, ground and foundations
 3. Organization and planning of construction
 4. Reinforced concrete and stone structures
 5. Innovative technologies in the construction industry
 6.Technology of wall building materials
-7. Technology of finishing building materials
-8. Technology of production of aerated concrete and foam concrete products
+6. Technology of finishing building materials
+7. Technology of production of aerated concrete and foam concrete products
 9.Polymer Building Materials
-10. Engineering geodesy
-11. Architecture of buildings of industry and civil (buildings industry)
-12. Grunt Mechanics, Ground and Foundations
-13. Technology of construction processes
-14. Wooden structuresWooden structures
-15. Metal constructors
-16. Technology of wall-building materials
-17. Technology of finishing building materials
-18. Technological equipment for construction industry
-19. Varnish - technology of paint materials
-20. Technology of polymer building materials
-21. Engineering geodesy
-22. Building Materials and Materials (BIQ)
-23. Building Materials and Materials (DPM)
-24. Architecture Architecture (ARX)
-25. Construction estimates
-26. Architecture Workshop (ARX Evening)
-27. Building Materials and Materials (SKT)
-28. Engineering Geology and Hydrogeology
-29. Engineering Geology
-30. Architecture Workshop (Evening 2nd Lecture)
-31. Construction machinery
+8. Engineering geodesy
+9. Architecture of buildings of industry and civil (buildings industry)
+10. Grunt Mechanics, Ground and Foundations
+11. Technology of construction processes
+12. Wooden structuresWooden structures
+13. Metal constructors
+14. Technology of wall-building materials
+15. Technology of finishing building materials
+16. Technological equipment for construction industry
+17. Varnish - technology of paint materials
+18. Technology of polymer building materials
+19. Engineering geodesy
+20. Building Materials and Materials (BIQ)
+21. Building Materials and Materials (DPM)
+22. Architecture Architecture (ARX)
+23. Construction estimates
+24. Architecture Workshop (ARX Evening)
+25. Building Materials and Materials (SKT)
+26. Engineering Geology and Hydrogeology
+27. Engineering Geology
+28. Architecture Workshop (Evening 2nd Lecture)
+29. Construction machinery
 
 PLATES FROM THE ACTIVITIES OF THE DEPARTMENT
 
@@ -718,7 +728,8 @@ Textbooks
 
 ONGOING RESEARCH WORK OF THE DEPARTMENT
 SCIENTIFIC-METHODICAL WORK OF THE DEPARTMENT:
-* At present there are 15 professors and teaching staff at the department, including 1 doctor of science, professor, 5 candidates of science, associate professors, 6 senior teachers and 3 assistants. The department has 2 directions of education and 30 disciplines. (The scientific potential of the department is 40%). * The department trains personnel in the following specialties: * 5340200 - Construction of buildings and structures (industrial and civil buildings) * 5341800 - Technology of wall and finish building materials * For present, 375 full-time and 276 part-time students are enrolled in these specialties. RESEARCH CONDUCTED AT THE DEPARTMENT * In 2021-2022, 7 textbooks, 4 teaching aids, 4 monographs, 2 patents for inventions and 14 electronic textbooks were created by the teaching staff of the department. * Web of science, 9 international scientific journals, 6 scientific articles in higher education journals, 6 higher educational institute journals, and 8 international conferences, 24 national and university conferences have published scientific articles and abstracts by the faculty of the department. * Nowadays professors and students of the department conduct research on the following topics: * Development of dry mixes based on local materials for the restoration of architectural monuments; * Development of volumetric reinforcement indicators using the method of ground cementing under empty grunts; * studying the possibility of installing green roofs in the Republic of Uzbekistan and its development of complex indicators; * Improvement of thermal conductivity properties of external wall panels; * Improvement of concreting technology in hot climate conditions; * Developing efficient solutions using plasticizers to improve concrete properties. The head of the department I.I. Tajiev carried out scientific research on the topic "Modified gypsum mixtures in the repair of architectural monuments (on the example of Bukhara)", included in the list of architectural monuments, the constructions used in the construction of unique buildings in Bukhara and the building materials used in brick terms during their restoration were studied. During the research, on the basis of samples taken from historical monuments, the chemical structure and mechanical properties of mixtures were fully studied, on the basis of which new modified gypsum building mixtures were created and tested and the PhD thesis was successfully defended. To date, the results of the work are used in the repair of the monuments. At present, five teachers of the department who do not have a degree are conducting independent research. The leaders of the scientific work were identified, the topics of scientific work were approved and published in the publication of the Supreme Attestation Commission. Of these, 2 are scheduled to be defended by the end of 2022. Assistant of the department Safarov Uchqun Israelovich prepared his thesis work on the topic "Dynamic processes in the cilindric shell in contact with the environment." The protection is scheduled for the end of 2022.
+
+- At present there are 15 professors and teaching staff at the department, including 1 doctor of science, professor, 5 candidates of science, associate professors, 6 senior teachers and 3 assistants. The department has 2 directions of education and 30 disciplines. (The scientific potential of the department is 40%). *The department trains personnel in the following specialties:* 5340200 - Construction of buildings and structures (industrial and civil buildings) *5341800 - Technology of wall and finish building materials* For present, 375 full-time and 276 part-time students are enrolled in these specialties. RESEARCH CONDUCTED AT THE DEPARTMENT *In 2021-2022, 7 textbooks, 4 teaching aids, 4 monographs, 2 patents for inventions and 14 electronic textbooks were created by the teaching staff of the department.* Web of science, 9 international scientific journals, 6 scientific articles in higher education journals, 6 higher educational institute journals, and 8 international conferences, 24 national and university conferences have published scientific articles and abstracts by the faculty of the department. *Nowadays professors and students of the department conduct research on the following topics:* Development of dry mixes based on local materials for the restoration of architectural monuments; *Development of volumetric reinforcement indicators using the method of ground cementing under empty grunts;* studying the possibility of installing green roofs in the Republic of Uzbekistan and its development of complex indicators; *Improvement of thermal conductivity properties of external wall panels;* Improvement of concreting technology in hot climate conditions; * Developing efficient solutions using plasticizers to improve concrete properties. The head of the department I.I. Tajiev carried out scientific research on the topic "Modified gypsum mixtures in the repair of architectural monuments (on the example of Bukhara)", included in the list of architectural monuments, the constructions used in the construction of unique buildings in Bukhara and the building materials used in brick terms during their restoration were studied. During the research, on the basis of samples taken from historical monuments, the chemical structure and mechanical properties of mixtures were fully studied, on the basis of which new modified gypsum building mixtures were created and tested and the PhD thesis was successfully defended. To date, the results of the work are used in the repair of the monuments. At present, five teachers of the department who do not have a degree are conducting independent research. The leaders of the scientific work were identified, the topics of scientific work were approved and published in the publication of the Supreme Attestation Commission. Of these, 2 are scheduled to be defended by the end of 2022. Assistant of the department Safarov Uchqun Israelovich prepared his thesis work on the topic "Dynamic processes in the cilindric shell in contact with the environment." The protection is scheduled for the end of 2022.
 
 RESEARCH RESEARCH
 
@@ -752,7 +763,7 @@ to carry out large-scale educational and educational work to increase the spirit
 
 Further strengthening of the material and technical base of the department, educational and scientific laboratories in priority areas of science by equipping them with modern tools and equipment.
 
-القسم Department of Light Industry Engineering and Design   = http://localhost:5173/department/light-industry-engineering-and-design
+القسم Department of Light Industry Engineering and Design   = <http://localhost:5173/department/light-industry-engineering-and-design>
 معلومته هي
 Department of Light Industry Engineering and Design
 
@@ -852,11 +863,13 @@ Bachelor's degree
 60721400 –Light industry technologies and equipment (sewing products)
 Judiciary
 70721201 - Technology of textile products (spinning technology) 70721402
+
 - Technologies and equipment (leather and jewelry)
 70720704 - Technology and design of garments (sewing products)
 
 BULL OF THE DEPARTMENT
 Bachelor's Degree:
+
 1. Material hunous candy
 2. Wool and wool fiber processing technology
 3. San'at tarixi
@@ -918,29 +931,30 @@ Bachelor's Degree:
 59. Preparation of raw materials for spinning
 60. Design of spinning plants
 Judiciary
-1. Theoretical foundations of scientific research
-2. Scientific and pedagogical work
-3. Research work and preparation of a master's thesis
-4. Theoretical foundations of quality management in the production of leather, fur, footwear and leather goods
-5. Special technology
-6. Textile enterprises in Uzbekistan
-7. Theoretical foundations of the production of boiled yarn
-8. Preparing staple fibers for spinning
-9. Clothing Design Methodology
-10. Theoretical foundations of the technology of sewing products
-11. Design of enterprises for the production of garment products
-12. Theory and calculation of the construction of sewing products
-13. Scientific problems of cotton industrial technology
-14. Product quality management
-15. Design of technological processes of seed procurement
-16. Modeling of technological processes in the cotton industry
-17. Fundamentals of Waste-Free Technology Production
-18. Cotton Products Production and Quality Management
-19. Quality management of fiber products
-20. Design of technological processes of seed preparation
+61. Theoretical foundations of scientific research
+62. Scientific and pedagogical work
+63. Research work and preparation of a master's thesis
+64. Theoretical foundations of quality management in the production of leather, fur, footwear and leather goods
+65. Special technology
+66. Textile enterprises in Uzbekistan
+67. Theoretical foundations of the production of boiled yarn
+68. Preparing staple fibers for spinning
+69. Clothing Design Methodology
+70. Theoretical foundations of the technology of sewing products
+71. Design of enterprises for the production of garment products
+72. Theory and calculation of the construction of sewing products
+73. Scientific problems of cotton industrial technology
+74. Product quality management
+75. Design of technological processes of seed procurement
+76. Modeling of technological processes in the cotton industry
+77. Fundamentals of Waste-Free Technology Production
+78. Cotton Products Production and Quality Management
+79. Quality management of fiber products
+80. Design of technological processes of seed preparation
 
 Republication of publications
 TEXTBOOKS AND MANUALS
+
 1. Fabric Technology
 2. Light Industry Technologies and Equipment
 3. Equipment of leather and fur enterprises
@@ -948,11 +962,12 @@ TEXTBOOKS AND MANUALS
 5. Research methodology
 6. Fundamentals
 of design of light industrial products 7. Theoretical foundations of the formation of pedagogical skills and a sense of national pride
-8. Technology of
+7. Technology of
 accessory manufacturing 9. Automated system of design of light industrial products
 
 ONGOING RESEARCH WORK OF THE DEPARTMENT
 SCIENTIFIC AND METHODICAL WORK OF THE DEPARTMENT, SCIENTIFIC ARTICLES
+
 1. Educational and methodical complexes - more than 100;
 2. Manuals – 85;
 3. Lecture texts - more than 100;
@@ -961,24 +976,25 @@ SCIENTIFIC ARTICLES
 1.Foreign articles – more than
 200 2.Articles of the republic – more than 180
 ABSTRACTS AND PAPERS FROM THE CONFERENCES (INTERNATIONAL AND REPUBLICAN)
-1. International theses – more than 1000;
-2. Republican theses – more than 2000;
+4. International theses – more than 1000;
+5. Republican theses – more than 2000;
 LEADING SCIENTIFIC WORK AT THE DEPARTMENT:
-1. Development and research of shirt fabrics of various
+6. Development and research of shirt fabrics of various
 compositions 2. Improvement of production technology for knitted fabrics based on secondary
 fibers 3. "Coating of the surface of natural fabrics based on local components and medical application and justification of it"
-4. "Development of effective structures of mixed knitted fabrics designed for overhead knitwear products"
-5. Study of the production and characteristics of a new assortment of mixed fabrics
-6. Development of improved technology for wetting cotton raw materials before fiber separation
+7. "Development of effective structures of mixed knitted fabrics designed for overhead knitwear products"
+8. Study of the production and characteristics of a new assortment of mixed fabrics
+9. Development of improved technology for wetting cotton raw materials before fiber separation
 process 7. Research and preparation for spinning of the structural structure of the new horn
 fiber 8. Improving the quality of yarn obtained on the basis of a mixture of local wool and polyester fibers
-9. Improvement of wool cleaning technology in initial processing
-10. Improvement of the technology of carpet production based on domestic wool fiber and its justification
+10. Improvement of wool cleaning technology in initial processing
+11. Improvement of the technology of carpet production based on domestic wool fiber and its justification
 
 THE DEPARTMENT OFFERS COOPERATION WITH FOREIGN EDUCATIONAL INSTITUTIONS
 Bukhara State Technical University works in the field of international cooperation and established strong ties with a number of foreign higher educational institutions. Today the University cooperates with the following countries and their leading universities: Tajikistan Technological University – from April 1, 2025 on the basis of a 5-year cooperation agreement, cooperation is underway within the framework of research, faculty and student exchange, joint projects. Almaty Technological University (Republic of Kazakhstan) – starting from 2024, joint educational programs, scientific seminars and internship projects are being implemented on the basis of 5 years of international cooperation. University of South Kazakhstan – On March 13, 2023, a 5-year partnership was signed on the basis of Agreement No. 372-86. Within the framework of this agreement, scientific exchange, exchange of experience in teaching methods was established. Antalya Bilim University (Turkey) – Academic exchanges, joint scientific conferences and student programs are being implemented on the basis of 5-year cooperation starting from April 26, 2023. Vitebsk State Technological University (Republic of Belarus) – Joint research in technological areas is being carried out on the basis of an international cooperation agreement for a period of 5 years from April 5, 2023. Kostroma State University (Russian Federation) – From October 14, 2023, cooperation in the field of engineering, technology and information and communications is being carried out within the framework of a 5-year cooperation. These partnerships allow increasing the international prestige of the department, developing innovative education and introducing modern scientific experience into practice. Contacts were established with higher education institutions of the Republic of Tajikistan and other training participants on participation in future projects and the establishment of scientific and educational cooperation in different directions.
 
 PROSPECTIVE PLANS OF THE DEPARTMENT
+
 1. Selection and formation of candidates for sending professors and teachers to targeted doctoral studies or internships in higher educational institutions and research centers included in the foreign TOP-500.
 2. Bringing the scientific potential of the department to 70%, the share of professors and teachers with national or international certificates in foreign languages - 30%.
 3. Organization of 1 SPIN-OFF enterprise, corresponding to the direction of education, and the organization of students' practices in the enterprises or workshops of this LLC.
@@ -988,7 +1004,7 @@ PROSPECTIVE PLANS OF THE DEPARTMENT
 7. Development of international grants and state grants on fundamental practical projects.
 8. To increase the volume of research and services carried out through the cooperation.uz platform, service and research carried out by order of industries.
 
-القسم Department of Mechanics and Engineering Graphics    = http://localhost:5173/department/mechanics-engineering-graphics
+القسم Department of Mechanics and Engineering Graphics    = <http://localhost:5173/department/mechanics-engineering-graphics>
 معلومته هي
 
 Department of Mechanics and Engineering Graphics
@@ -997,7 +1013,7 @@ Email:
 Xabibov Faxriddin Yusupovich
  Reception time: Dushanba-Juma (14:00-16:00 gacha)
  Phone: +998 93 379 65 00
- Email: faxrilo@mail.ru
+ Email: <faxrilo@mail.ru>
 
 Kafedra Tarixi
 The Department of Mechanics was formed on December 8, 1970 as part of the Bukhara evening branch of the Tashkent Polytechnic Institute. In accordance with the Decree of the President of the Republic of Uzbekistan dated May 20, 2011 No. PP-1533 "On measures to strengthen the material and technical base of higher educational institutions and radically improve the quality of training highly qualified specialists", in connection with the reorganization of the Bukhara Institute of Food and Light Industry into Bukhara Engineering and Technical Institute of High Technologies and changes in the structural structure of the Institute, in connection with the decision of the rector of the institute dated 28.05.2011 By order 84-U of August, the department was renamed "Mechanics" and from September 20, 2021, "Fundamentals of Mechanics".
@@ -1010,6 +1026,7 @@ Prepared specialists of the department
 
 BULL OF THE DEPARTMENT
 Bachelor's Degree:
+
 1. Theoretical mechanics
 2. Material resistance
 3. Applied Mechanics
@@ -1021,7 +1038,7 @@ PLATES FROM THE ACTIVITIES OF THE DEPARTMENT
 
 Textbook and articles
 
-القسم Department of Technological Machines and Equipment  = http://localhost:5173/department/technological-machines-equipment
+القسم Department of Technological Machines and Equipment  = <http://localhost:5173/department/technological-machines-equipment>
 معلومته هي
 Department of Technological Machines and Equipment
 
@@ -1098,84 +1115,86 @@ JUDICIARY
 
 BULL OF THE DEPARTMENT
 Bachelor's Degree:
+
 1. Research work and MDT
 2. Plan the
 experiment 3. Scientific and pedagogical work
-4. Food Process Engineering
-5. Fundamentals of
+3. Food Process Engineering
+4. Fundamentals of
 Food Processing 6. Innovative machines and devices in the food industry
-7. Research Work and MDT
-8. Scientific Pedagogical Work
-9. Automatic Machines in Technological
+5. Research Work and MDT
+6. Scientific Pedagogical Work
+7. Automatic Machines in Technological
 Systems 10. A systematic approach to the study of technological processes
-11. Innovative machines and devices of the food industry
-12. Calculation and design of equipment for the chemical and oil and gas industry
-13. Scientific Foundations of Machines for Processing Chemical
+8. Innovative machines and devices of the food industry
+9. Calculation and design of equipment for the chemical and oil and gas industry
+10. Scientific Foundations of Machines for Processing Chemical
 Products 14. Industrial Technology and Innovation TMJ
-15. Cotton Industry Engineering
+11. Cotton Industry Engineering
 Technology 16. Reengineering
-17. Modern Techniques and Technologies of Detail Surface
+12. Modern Techniques and Technologies of Detail Surface
 Finishing 18. Methods of conducting experimental research
-19. Methods of Maintenance and Repair of Light Industrial
+13. Methods of Maintenance and Repair of Light Industrial
 Machinery 20. Light industry engineering technology
 Judiciary
-1. Mechanical Engineering Technological Tools
-2. Introduction
+14. Mechanical Engineering Technological Tools
+15. Introduction
 to the specialty 3. Introduction
 to Oil and Gas Industry Specialization 4. Calculation and design of network machines
-5. Equipment for processing and storage of agricultural products
-6. Technology processes and apparatus of the oil and gas industry
-7. Basic technological processes and devices
-8. Technology of Initial Processing of Wool Fibers
-9. Interchangeability, Standardization, Technical Measurements, and Certification
-10. Thoroughness of the equipment of the garment enterprise
-11. Material Science and Technology of Constructive Materials
-12. Fundamentals of
+16. Equipment for processing and storage of agricultural products
+17. Technology processes and apparatus of the oil and gas industry
+18. Basic technological processes and devices
+19. Technology of Initial Processing of Wool Fibers
+20. Interchangeability, Standardization, Technical Measurements, and Certification
+21. Thoroughness of the equipment of the garment enterprise
+22. Material Science and Technology of Constructive Materials
+23. Fundamentals of
 Mechatronics 13. Technology of
 Structural Materials 14. Pumps, ventilators and compressors
-15. Net Machines
+24. Net Machines
 Thoroughness 16. Thoroughness of garment enterprise equipment
-17. Mechanical Engineering
+25. Mechanical Engineering
 Technology 18. Technology of Initial Processing of Woolen Fibers
-19. Cryogenic machinery and refrigeration
+26. Cryogenic machinery and refrigeration
 equipment 20. Innovative Technologies in the Cotton Industry
-21. Processes and Apparatus in the Technology of Building
+27. Processes and Apparatus in the Technology of Building
 Materials 22. Research Methods and Tools
-23. Modern Techniques and Technologies in Network
+28. Modern Techniques and Technologies in Network
 Enterprises 24. Maintenance of network machines
-25. Network Technology and Equipment
-26. Network technology and equipment (cotton, silk, spinning, weaving, knitwear, sewing products)
-27. Construction and modeling of sewing and sewing and knitwear
-28. Modern Equipment in Sewing
-29. Equipment and devices for the production of garments and knitwear
-30. Fundamentals of the design of garment and knitwear
+29. Network Technology and Equipment
+30. Network technology and equipment (cotton, silk, spinning, weaving, knitwear, sewing products)
+31. Construction and modeling of sewing and sewing and knitwear
+32. Modern Equipment in Sewing
+33. Equipment and devices for the production of garments and knitwear
+34. Fundamentals of the design of garment and knitwear
 products 31. Thoroughness of light industry equipment
-32. Modeling and design of light industry equipment
-33. Technology and Equipment of Textiles
-34. Modern methods of reinforcement of detail surfaces
-35. Technology of Initial Processing of Wool Fibers
-36. Design of repair shops
-37. Ventilation, aspiration and pneumatic transport
+35. Modeling and design of light industry equipment
+36. Technology and Equipment of Textiles
+37. Modern methods of reinforcement of detail surfaces
+38. Technology of Initial Processing of Wool Fibers
+39. Design of repair shops
+40. Ventilation, aspiration and pneumatic transport
 devices 38. Interoperability and Technical Measurements
-39. Technological processes in production
-40. Design of chemical industry enterprises
-41. Installation and repair of chemical industry installations
-42. Fundamentals of
+41. Technological processes in production
+42. Design of chemical industry enterprises
+43. Installation and repair of chemical industry installations
+44. Fundamentals of
 Composition 43. Enterprise service, technique and technology
-44. Design of Food Industry
+45. Design of Food Industry
 Enterprises 45. Installation and Repair of Food Industry
 Installations 46. Automated System for Designing Technological Equipment for Cotton
 Initial Processing 47. Calculation and design of technological machines and equipment
-48. Fundamentals of Designing Enterprises for Initial Processing of Natural Fibers
-49. Ergonomics and Industrial Design
-50. Special chapters of machinery and equipment of the chemical industry
-51. Chemical industry network technological systems
-52. Pneumotransport systems for equipment of textile, light industry and cotton industry
-53. Design of technological processes
-54. Automated systems for designing light industry products
+46. Fundamentals of Designing Enterprises for Initial Processing of Natural Fibers
+47. Ergonomics and Industrial Design
+48. Special chapters of machinery and equipment of the chemical industry
+49. Chemical industry network technological systems
+50. Pneumotransport systems for equipment of textile, light industry and cotton industry
+51. Design of technological processes
+52. Automated systems for designing light industry products
 
 Textbook and articles
 Books and textbooks
+
 1. Mukhamedzhanova S.Dj., Mansurova M.A., Djuraev A., Scientific foundations of the development and calculation of parameters of sewing machine yarn comb devices (Monograph) Bukhara: Bukhara Publishing, 2022. - 136 p.
 2. Kh.Q.Rakhmonov, S.Kh.Fayziev, M.M.Choriyeva. Calculation and design of network machines (textbook). Bukhara: IPAKYO'li Publishing House, 2024. - 504 b.
 3. S.Kh.Fayziyev, S.I.Fatullayeva. Robotics Systems in the Cotton Industry (Textbook). Bukhara. IPAKYOLI Publishing House, 2025. 240 pages
@@ -1197,21 +1216,21 @@ Books and textbooks
 19. Isneftanov F.B. Technology of initial processing of woolen fibers. Textbook. Bukhara: Bukhara Brilliant Cargo Publishing House, 2024. - 296 p.
 20. Ismayilimov F.B. Sharipov J.O., Sayfullayev S.S., Sayitkulov S.O. Modern methods of fastening the surface of parts. Study guide. Bukhara: IPAKYO'li Publishing House, 2024. - 292 p.
 ARTICLES
-1. Sh.H.Behbudov, A.Djurayev, A.R.Amonov and D.X.Qodirova, International Journal of Innovative Technology and Exploring Engineering, 9(1), 2069-2074, (2019). https://www.ijitee.org/portfolio-item/a4008119119/
-2. Anvar Djuraev, Shavkat Behbudov, Abdurakhmon Amonov, Hakimboy Rakhimov. Justification of Parameters of a Compound Roller with a Rubber Bushing of a Device for Strengthening the Stitches of the Being Sewn Materials\ Published Online: P. 1-6. 2021. https://ui.adsabs.harvard.edu/abs/2021AIPC.2402g0018D/abstract#:~:text=Rakhimov%2C%20Hakimboy,Abstract,/5.0072309%20Bibcode:%202021AIPC.2402g0018D
-3. Abdurakhmon Amonov et al. Determination of the Friction Force Between the Roller of the Polymer Composition Coating Equipment on the Seams of Tarpaulin Materials and the Surface of the Tarpaulin, AIP Conference Proceedings. 2789, 040053 (2023) https://pubs.aip.org/aip/acp/article-abstract/2789/1/040053/2899938/Determination-of-the-friction-force-between-the?redirectedFrom=fulltext
-4. Sh.H.Behbudov, Kh.Zayniyev, F.rakhimov. Development of effective designs of polymer composite compositions and drying devices for coating joints of various characteristic materials, AIP Conference Proceedings. 050008-1 (2024) https://pubs.aip.org/aip/acp/article-abstract/2789/1/040054/2900015/Results-of-complete-factory-experiments-of-polymer?redirectedFrom=fulltext
+21. Sh.H.Behbudov, A.Djurayev, A.R.Amonov and D.X.Qodirova, International Journal of Innovative Technology and Exploring Engineering, 9(1), 2069-2074, (2019). <https://www.ijitee.org/portfolio-item/a4008119119/>
+22. Anvar Djuraev, Shavkat Behbudov, Abdurakhmon Amonov, Hakimboy Rakhimov. Justification of Parameters of a Compound Roller with a Rubber Bushing of a Device for Strengthening the Stitches of the Being Sewn Materials\ Published Online: P. 1-6. 2021. <https://ui.adsabs.harvard.edu/abs/2021AIPC.2402g0018D/abstract#:~:text=Rakhimov%2C%20Hakimboy,Abstract,/5.0072309%20Bibcode:%202021AIPC.2402g0018D>
+23. Abdurakhmon Amonov et al. Determination of the Friction Force Between the Roller of the Polymer Composition Coating Equipment on the Seams of Tarpaulin Materials and the Surface of the Tarpaulin, AIP Conference Proceedings. 2789, 040053 (2023) <https://pubs.aip.org/aip/acp/article-abstract/2789/1/040053/2899938/Determination-of-the-friction-force-between-the?redirectedFrom=fulltext>
+24. Sh.H.Behbudov, Kh.Zayniyev, F.rakhimov. Development of effective designs of polymer composite compositions and drying devices for coating joints of various characteristic materials, AIP Conference Proceedings. 050008-1 (2024) <https://pubs.aip.org/aip/acp/article-abstract/2789/1/040054/2900015/Results-of-complete-factory-experiments-of-polymer?redirectedFrom=fulltext>
 5.Ямалетдинова М.Ф. Разработка технологической линии для переработки фруктовых выжимок с целью получения их порошков. Universum: Технические науки, Научный журнал. 2024. 5 (122) – часть 6. с.18-21.
 6.Yamaletdinova M.F., Hikmatov D.N. Mass moisture exchange characteristics of fruit crops. Universum: Технические науки, Научный журнал. 2025. 7 (136) – часть 4. с.62-66
 7.Yamaletdinova M.F., Djurayev X.F., Hikmatov D.N., Xolikov A.A. Optimization of process heat exchange in a stage drying fruit and vegetable cultures. Texas Journal of Engineering and Technology Volume 46. July 2025
 8.Munira Yamaletdinova, Karim Gafurov, Dilshoda Safarova, Lola Akabirova, Nodirjon Sharipov, Firuza Kuldosheva. Heat treatment of crushed oil seeds sunflower before pressing.. E3S Web of Conferences 548, 02009 (2024) AGRITECH-X 2024 (Scopus, Q4).
 9.I.R.Mavlonova, N.N.Sattorova “Tikuv mashinasining materialni surish tizimi tepki qismining tebranishlari tahlili” Fan va texnologiyalar taraqqiyoti 5/2024 334-340 betlar.
-10. I.R.Mavlonova, N.N.Sattorova “Qo‘shimcha konussimon prujinali qisuvchi tepkining tavsiya etilgan konstruksiyasining tajribaviy tadqiqotlar natijalari” Fan va texnologiyalar taraqqiyoti 5/2024 334-340 betlar.
-11. I.R.Mavlonova, L.Nutfullaeva, J.Sharipov, F.Ismoyilov, S.Sayitqulov “A physico-mechanical approach to analyzing nonlinear elasticity in sewing machine conical springs” EPJ Web of Conferences 321, 01002 (2025) https://doi.org/10.1051/epjconf/202532101002 APITECH-VII-2025.
-12. I.R.Malonova, S.Fayziyev, K.Rahimov, M.Vohidova “Experimental determination of the law of vibration of the improved jet mechanism of the sewing machine” Journal of Physics: Conference Series PAPER. OPEN ACCESS “Experimental determination of the law of vibration of the improved jet mechanism of the sewing machine” 2022 J. Phys.: Conf. Ser. 2388 012125
-13. I.R.Malonova, M.Axmetjanov, M.Vohidova, S.Fayziyev, S.Shokirova “Experimental studies of the dynamics of the proposed design of the presser foot with an additional conical spring” Journal of Physics: Conference Series PAPER. OPEN ACCESS Experimental studies of the dynamics of the proposed design of the presser foot. With an additional conical spring. 2022 J. Phys.: Conf. Ser. 2373 022047
-14. I.R. Mavlonova, A. Juraev "Study of new methods of experimental determination of vibration patterns of the improved mechanism of sewing machine reaction" IIS International Scientific and Practical Interuniversity Conference "Thesis Research – into the Practice of Professional Life" October 31, 2022 collection of materials part 2 Moscow – 2023.
-15. I.R. Mavlonova, A. Juraev, D. Mansuri, M. Mansurova "Improvement of the Spring Compression Cone with the Use of the Structural Scheme of an Effective Pull-Up Mechanism of a Sewing Machine" IIII International Scientific and Practical Interuniversity Conference "Thesis Research - into the Practice of Professional Life" October 31, 2022 collection of materials part 2 Moscow - 2023.
+25. I.R.Mavlonova, N.N.Sattorova “Qo‘shimcha konussimon prujinali qisuvchi tepkining tavsiya etilgan konstruksiyasining tajribaviy tadqiqotlar natijalari” Fan va texnologiyalar taraqqiyoti 5/2024 334-340 betlar.
+26. I.R.Mavlonova, L.Nutfullaeva, J.Sharipov, F.Ismoyilov, S.Sayitqulov “A physico-mechanical approach to analyzing nonlinear elasticity in sewing machine conical springs” EPJ Web of Conferences 321, 01002 (2025) <https://doi.org/10.1051/epjconf/202532101002> APITECH-VII-2025.
+27. I.R.Malonova, S.Fayziyev, K.Rahimov, M.Vohidova “Experimental determination of the law of vibration of the improved jet mechanism of the sewing machine” Journal of Physics: Conference Series PAPER. OPEN ACCESS “Experimental determination of the law of vibration of the improved jet mechanism of the sewing machine” 2022 J. Phys.: Conf. Ser. 2388 012125
+28. I.R.Malonova, M.Axmetjanov, M.Vohidova, S.Fayziyev, S.Shokirova “Experimental studies of the dynamics of the proposed design of the presser foot with an additional conical spring” Journal of Physics: Conference Series PAPER. OPEN ACCESS Experimental studies of the dynamics of the proposed design of the presser foot. With an additional conical spring. 2022 J. Phys.: Conf. Ser. 2373 022047
+29. I.R. Mavlonova, A. Juraev "Study of new methods of experimental determination of vibration patterns of the improved mechanism of sewing machine reaction" IIS International Scientific and Practical Interuniversity Conference "Thesis Research – into the Practice of Professional Life" October 31, 2022 collection of materials part 2 Moscow – 2023.
+30. I.R. Mavlonova, A. Juraev, D. Mansuri, M. Mansurova "Improvement of the Spring Compression Cone with the Use of the Structural Scheme of an Effective Pull-Up Mechanism of a Sewing Machine" IIII International Scientific and Practical Interuniversity Conference "Thesis Research - into the Practice of Professional Life" October 31, 2022 collection of materials part 2 Moscow - 2023.
 
 ONGOING RESEARCH WORK OF THE DEPARTMENT
 LEADING SCIENTIFIC WORK AT THE DEPARTMENT:
@@ -1220,6 +1239,7 @@ Defense: On June 22, 2025 (DSc) at the Tashkent Scientific Research Institute of
 In order to implement innovative projects and to introduce them into production, to support innovative ideas of young researchers and to strengthen the material and technical base of the department, the scientific and laboratory center "Innovative technologies in light industry" and the premises "Masters and Scientific Researchers" have been organized in collaboration with basic doctoral students, independent researchers, undergraduates and talented students improvement of the technology of wetting-heating processing of garments on the basis of "Felting technique", "Development of the design of working bodies and operating mechanisms of a polymer composite coating device", "Determination of the parameters of the adaptive reaction mechanism of the sewing mesh", "Development of innovative technologies for dyeing fabrics and threads with natural dyes", "Silk and optical fibers "Improving the process of weaving smart fabrics".
 
 SCIENTIFIC-METHODICAL WORK OF THE DEPARTMENT:
+
 1. Bexbudov SH. Improvement of Designs and Methods for Calculating the Parameters of Bobbins for a Sewing Machine International Journal of Advanced Research in Science, Engineering and Technology Volume: 02 Issue: 10 | Oct
 2. Bexbudov SH. Design of the experimental unit and principle of operation European scholar journal Volume 2, Issue 5 May 2021
 3. Bekbudov Sh.Ҳ Efficiency of using a device for applying a polymer composition to grinding materials in a sewing machine International scientific journal «global science and innov ations 2021: central asia February 2021
@@ -1232,7 +1252,7 @@ KAFEDRA XORIJIY TA’LIM MUASSASALARI BILAN HAMKORLIK
 PROSPECTIVE PLANS OF THE DEPARTMENT
 
 هاذه الاقسام ال6 ترتبط ب كلية Faculty of Technology
-القسم  Department of Oil and Gas Processing Technology    = http://localhost:5173/department/oil-gas-refining-technology
+القسم  Department of Oil and Gas Processing Technology    = <http://localhost:5173/department/oil-gas-refining-technology>
 معلومته هي
 
  Department of Oil and Gas Processing Technology
@@ -1241,7 +1261,7 @@ Email:
 Ochilov Abduraxim Abdurasulovich
  Reception time: Dushanba-Juma (14:00-16:00 gacha)
  Phone: +998 91 411 00 16
- Email: ochilov82@gmail.ru
+ Email: <ochilov82@gmail.ru>
 
 Kafedra Tarixi
 Since 2001-2002 academic year on the basis of Bukhara Autonomous Okrug and Yesti, the Department of Technologies of Oil and Gas Processing has been organized. The purpose of the creation of the department in this region was to provide qualified personnel to the Bukhara oil refinery, the Mubarak gas refinery, the Gazlineftegaziburization department and other enterprises. Originally a PhD in Chemistry. M. Mardonov headed the department. From 2002 to 2009, the department was headed by PhD of Technical Sciences Q.K.Jumaev. From 2009 to 2011, the department was headed by PhD of Technical Sciences J.A.Qalandarov.
@@ -1260,41 +1280,42 @@ DOCTORAL DEGREE
 
 BULL OF THE DEPARTMENT
 Bachelor's Degree:
+
 1. Introduction
 to Specialization 2. Oil and Gas Processing Technology 1,2
-3. Equipment and equipment for oil and gas processing 1,2
-4. Design of enterprises of the oil and gas processing industry
-5. General Chemical Technology
-6. Synthesis and Technology of Monomers from Gas and Gas Condensate
-7. Chemistry and Technology of Fuels and Oils
-8. Disposal of oil and gas processing waste
-9. Quality control of oil and gas
+2. Equipment and equipment for oil and gas processing 1,2
+3. Design of enterprises of the oil and gas processing industry
+4. General Chemical Technology
+5. Synthesis and Technology of Monomers from Gas and Gas Condensate
+6. Chemistry and Technology of Fuels and Oils
+7. Disposal of oil and gas processing waste
+8. Quality control of oil and gas
 products 10. Modern methods of oil and gas product research
-11. Physics and Chemistry of Natural Gas and Gas Condensates 1,2
-12. Hydrocarbon Gas Processing Technology 1,2
-13. Technology of
+9. Physics and Chemistry of Natural Gas and Gas Condensates 1,2
+10. Hydrocarbon Gas Processing Technology 1,2
+11. Technology of
 Natural Gas and Gas Condensate Processing 14. Chemistry and Technology of Polymer Processing
-15. Synthesis and Technology of Monomers Based on Gases and Gas Condensate
-16. Protection of metals from corrosion
-17. Oil and Gas Refining
+12. Synthesis and Technology of Monomers Based on Gases and Gas Condensate
+13. Protection of metals from corrosion
+14. Oil and Gas Refining
 Processes 18. Production of liquid hydrocarbons from gas using GTL technology in Uzbekistan 20. Petroleum-Gas Chemistry and Physics
-19. Equipment and equipment of oil and gas refineries
-20. Quality control of oil and gas
+15. Equipment and equipment of oil and gas refineries
+16. Quality control of oil and gas
 products 21. Chemistry and Technology of Synthetic and Biofuels
 Production 22. Equipment and equipment of oil and gas refineries
-23. Deep Oil Refining Technology
-24. Pyrolysis
+17. Deep Oil Refining Technology
+18. Pyrolysis
 of Hydrocarbon Feedstock 25. Physics and Chemistry of
 Hydrocarbon Gases 26. Operation of Oil Bases and Gas Stations
-27. Energy Saving Technologies in Oil and Gas Refining
+19. Energy Saving Technologies in Oil and Gas Refining
 Industry 28. Training on the processes of the oil and gas refining industry
-29. Landings used in the petrochemical industry
-30. Additional resources in the oil and gas chemical industry
-31. Inorganic sorbents
+20. Landings used in the petrochemical industry
+21. Additional resources in the oil and gas chemical industry
+22. Inorganic sorbents
 of oil and gas refining 32. Catalyst in the Gas Chemical Industry 33. Technology of
 Synthesis Gas Production 34. Gas Supply Systems 35. Use of gas distribution and disposal points 36. Process training of the gas chemical industry
 Judiciary
-1. Methodology of scientific research
+23. Methodology of scientific research
 2.Technology of deep processing of oil and gas 1,2
 3.Corrosion protection
 of oil and gas refining equipment 4.Improvement and design of oil and gas processing enterprises
@@ -1376,7 +1397,7 @@ From October 22 to November 4, 2024, senior researcher Ruslan Hayitov, Ph.D., as
 According to the project of the Erasmus + program "101082221-UzMedEn - New Master's and Training Courses in the Field of Medical Engineering in Uzbekistan", the lecturer of the Department of Oil and Gas Processing Technology G. From September 27 to October 15, 2024, Zaripov successfully completed an internship at the prestigious Vilnius Gediminas Technical University (VGTU), which is included in the TOP 1000 universities of Lithuania.
 S.F.Fozilov, S.A.Gaibullayev, B.Z.Sharipov and M.Z.Komilov took an active part in an international foresight session on the topic "Implementation of the concept of development of technical education: new trends in training modern engineers" in order to increase the coverage of students in the field of oil and gas refining, increase their competitiveness and improve monitoring of their employment.
 
-القسم Department of Food Technology and Service   = http://localhost:5173/department/food-technology-service
+القسم Department of Food Technology and Service   = <http://localhost:5173/department/food-technology-service>
 معلومته هي
 
 Department of Food Technology and Service
@@ -1387,7 +1408,7 @@ Email:
 Qurbonov Murod Tashpulatovich
  Reception time: Dushanba-Shanba (15:00-17:00)
  Phone: +998 90 299 85 48
- Email: kurbanov.m@rambler.ru
+ Email: <kurbanov.m@rambler.ru>
 
 Kafedra Tarixi
 In accordance with the decree of the Ministry of Higher and Secondary Special Education of the Republic of Uzbekistan No. 6 of 1980, the department "Technology of bread, pasta and confectionery products" was organized. Since August 28, 2017, according to the new structure of the institute, the name of "Food Technology" was renamed into the Department of 5321000-Food Technology (by branches) of the uniting specialty in the areas of undergraduate education.
@@ -1428,14 +1449,15 @@ Jonibek Sadilloyevich
 Prepared specialists of the department
 UNDERGRADUATE DEGREE
 60720100 – Food technology. 1st Course
+
 1. Fundamentals of modern professional technology
 2. The composition and properties of plant raw materials
 60720300 – Technology of wine growing, whisking products and soft drinks
-1. Fundamentals of modern professional technology
-2. The composition and properties of plant raw materials
+3. Fundamentals of modern professional technology
+4. The composition and properties of plant raw materials
 60720400 – Conservation Technology
-1. Fundamentals of modern professional technology
-2. The composition and properties of plant raw materials
+5. Fundamentals of modern professional technology
+6. The composition and properties of plant raw materials
 60720100 – Food technology. 2nd course
 1.Food biochemistry
 2.Food commodity science 3.Food
@@ -1452,39 +1474,39 @@ commodity science 5.Food microbiology
 3.Food microbiology and biotechnology
 4.Physicochemical methods of determining the quality of food products
 5321000-Food technology(by types of products). Course 3
-1. Food Research
+7. Food Research
 Methods 2. Raw materials and nutritional additives in the production of bread, pasta and confectionery
 products 3. Wisdom
-4. Food Quality
+8. Food Quality
 Assessment 5. Bakery, pasta and confectionery equipment
-6. Technology of
+9. Technology of
 Pasta Products 7. Technology of production of confectionery
 products 8. Flour and Technologies of Production
-9. Equipment of
+10. Equipment of
 grain processing enterprises 10. Technology of storage of grain and grain products
 5321000-Food technology (by type of products). Course 4
-1. Examination of bread, pasta and confectionery
+11. Examination of bread, pasta and confectionery
 products 2. Confectionery Products Technology
-3. Bread Biochemistry
-4. Technical and chemical control of bread, pasta and confectionery products
-5. Feed production technology in Omixta
-6. Examination of Grain and Grain Products
-7. Technology of
+12. Bread Biochemistry
+13. Technical and chemical control of bread, pasta and confectionery products
+14. Feed production technology in Omixta
+15. Examination of Grain and Grain Products
+16. Technology of
 storage of grain and grain products 8. Elevator and Warehouse
-9. Basics of financing industrial enterprises
+17. Basics of financing industrial enterprises
 70720101-Technology of production and processing of food products (types of products)
-1. Grain Biochemistry
-2. Innovations in the technology of production of confectionery, bread and pasta
+18. Grain Biochemistry
+19. Innovations in the technology of production of confectionery, bread and pasta
 products 3. Scientific basis for improving the efficiency and competitiveness of food production from vegetable raw
 materials 4. Ventilation and pneumatic transport
 devices 5. Scientific and pedagogical work
-6. Research work and preparation of a master's thesis
-7. Current trends in technology development in the food industry
-8. Use of biotechnology advances in agricultural processing
-9. Scientific Foundations of Un-Baking Technology
-10. Seed processing
-11. The Elevator-Warehouse Industry and Grain Drying
-12. Scientific practice (gaining experience)
+20. Research work and preparation of a master's thesis
+21. Current trends in technology development in the food industry
+22. Use of biotechnology advances in agricultural processing
+23. Scientific Foundations of Un-Baking Technology
+24. Seed processing
+25. The Elevator-Warehouse Industry and Grain Drying
+26. Scientific practice (gaining experience)
 JUDICIARY
 70720101 – Technology of processing and processing of food products (bakery products)
 70720101 – Technology of processing and processing of food products (grain products)
@@ -1504,21 +1526,22 @@ On the initiative of the Department of Food Technology, the children of the Hous
 
 Textbook and articles
 MONOGRAPHS
+
 1. The monograph "Technological properties of the wheat of Uzbekistan" was published by Kh.B.Ergasheva, Sh.J.Yuldasheva.
 2. Kh.B.Ergasheva, Sh.J.Yuldasheva published a monograph "Rations of feeding agricultural animals".
 3. Kh.B.Ergasheva, Sh.J.Yuldasheva, Sh.N.Ismatova published a monograph entitled "Research of the process of storing kombikorov in the conditions of Uzbekistan".
 TEXTBOOKS:
-1. S.Ravshanov, N.A.Ismatov, Sh.J.Yuldasheva prepared a textbook on the topic "Modern technologies of flour and oat production" and on the basis of the order of the Ministry of Higher and Secondary Special Education of the Republic of Uzbekistan No. 1000 dated December 7, 2018, the grade 100-117 was taken.
-2. Kh.B.Ergasheva, Sh.J.Yuldasheva, G.Z.Djakhangirova, M.T.Kurbanov prepared a textbook on the topic "Biochemistry of the Grain" which was obtained in accordance with the order of the Ministry of Higher and Secondary Special Education of the Republic of Uzbekistan No. 237 dated May 31, 2021.
-3. H.B.Ergasheva, M.B. Kamolova "Professional ethics and etiquette". Textbook. Bukhara regional printing house Bukhara, 2020. 260 b.
+4. S.Ravshanov, N.A.Ismatov, Sh.J.Yuldasheva prepared a textbook on the topic "Modern technologies of flour and oat production" and on the basis of the order of the Ministry of Higher and Secondary Special Education of the Republic of Uzbekistan No. 1000 dated December 7, 2018, the grade 100-117 was taken.
+5. Kh.B.Ergasheva, Sh.J.Yuldasheva, G.Z.Djakhangirova, M.T.Kurbanov prepared a textbook on the topic "Biochemistry of the Grain" which was obtained in accordance with the order of the Ministry of Higher and Secondary Special Education of the Republic of Uzbekistan No. 237 dated May 31, 2021.
+6. H.B.Ergasheva, M.B. Kamolova "Professional ethics and etiquette". Textbook. Bukhara regional printing house Bukhara, 2020. 260 b.
 Əlaqə
-1. Kh.B.Ergasheva Technology of feed production in Omix (textbook) Bukhara: "Bukhara edition" Publishing House, 2019. 230b.
-2. N.A.Ismatov, S.D.Boboev, Sh.Zh.Yuldasheva "Aspiration and ventilation devices" textbooks. Tashkent, "Interpretation" publishing house
+7. Kh.B.Ergasheva Technology of feed production in Omix (textbook) Bukhara: "Bukhara edition" Publishing House, 2019. 230b.
+8. N.A.Ismatov, S.D.Boboev, Sh.Zh.Yuldasheva "Aspiration and ventilation devices" textbooks. Tashkent, "Interpretation" publishing house
 
 Articles
-1.Ergasheva H.B. Research of Change in Humidity of Local and Other Varieties of Soya Seeds at Various Storage Modes. Annals of R.S.C.B., ISSN:1583-6258, Vol. 25, Issue 3, 2021, Pages. 7039 - 7047 Received 16 February 2021; Accepted 08 March 2021. http://annalsofrscb.
+1.Ergasheva H.B. Research of Change in Humidity of Local and Other Varieties of Soya Seeds at Various Storage Modes. Annals of R.S.C.B., ISSN:1583-6258, Vol. 25, Issue 3, 2021, Pages. 7039 - 7047 Received 16 February 2021; Accepted 08 March 2021. <http://annalsofrscb>.
 2. Ergasheva H.B. The Effect Of Drinking And Activated Water On Field Scales Of Wheat Grains Grown In Arid Climatic Conditions. European Journal of Molecular & Clinical Medicine ISSN 2515-8260 Volume 07, Issue 03, 2020. Р.3065-3068.
-3. Amanov B.N. Influence of Products from Tomato Press on The Efficiency of The Technological Process and The Quality of Rye Bread / B.N. Amanov, I.B.Isabaev, T.I. Atamuratova, I.Sh. Sadykov //European Journal of Life Safety and Stability (EJLSS), ISSN: 2660-9630. - Rumania, 2021. – Vol.6. – P.12 – 20. – URL: http://ejlss.indexedresearch.org/index.php/ejlss/article/view/51/.
+3. Amanov B.N. Influence of Products from Tomato Press on The Efficiency of The Technological Process and The Quality of Rye Bread / B.N. Amanov, I.B.Isabaev, T.I. Atamuratova, I.Sh. Sadykov //European Journal of Life Safety and Stability (EJLSS), ISSN: 2660-9630. - Rumania, 2021. – Vol.6. – P.12 – 20. – URL: <http://ejlss.indexedresearch.org/index.php/ejlss/article/view/51/>.
 4. Amanov B.N. Applicatios of Natural Additives – Acidiments and Probiotic Bacterial Preparations for Prevention of Rye Bread Cretal Disease / B.N. Amanov, K.S. Rakhmonov, I.B.Isabaev, T.I. Atamuratova, A.T. Oltiyev, E.N. Molchanova// Natural Volatiles and Essential Oils (NVEO), ISSN: 8152-8165. –2021. – Vol.8(4). – P.5976 – 5988.
 5. Джураева Н.Р. Влияние термообработки на микробную контаминацию эмулсионных жиромучных композитных смесей/ Н.Р.Джураева, Т.И.Атамуратова, И.Б.Исабаев, У.О.Турсунова // Научно-технический журнал «Развитие науки и технологий». – 2021.- №6.- С.194-200.
 6. Ismatova Sh.N. Justification of the expediency of using sprouted quinoa grain as part of mixed feeds for birds / Ismatova Sh.N., Isabaev I.B.,Ergasheva X.B.,Yuldasheva Sh.J., Xo‘jaqulova N.F.//International Journal of Mechanical Engineering. Vol. 6 No. 1(January-June, 2021). P. 33-49.
@@ -1540,12 +1563,13 @@ Articles
 22. S.K.Jabborova Use of Silk Berries and Sugar Beet Roots in the Production of Muffins/ S.K.Jabborova // International Journal of Innovative Research in Science, Engineering and Technology (IJIRSET) Volume 10, Issue 12, December 2021.P.15102-15112.
 23. S.K.Jabborova Silk Berries Beet Roots in The Production of Muffins / S.K.Jabborova // Texas Journal of Multidisciplinary Studies, In Volume 3, 14-12-2021. P.139-140
 24. Курбонов М.Т. Improvement of the design of mobile equipment for post-harvest processing of agricultural crops./ Курбонов М.Т.,Баракаев Н.Р., Баракаев А.Н.,
-25.Djuraeva N.R. Method for rational use of botanical oil content in wheat germ product/ Djuraeva N.R., Tursunova U.O// Asian Journal of Multidimensional Research (AJMR) https://www.tarj.in ISSN: 2278-4853 Vol 10, Issue 9, September, 2021 Impact Factor: SJIF 2021 = 7.699.
+25.Djuraeva N.R. Method for rational use of botanical oil content in wheat germ product/ Djuraeva N.R., Tursunova U.O// Asian Journal of Multidimensional Research (AJMR) <https://www.tarj.in> ISSN: 2278-4853 Vol 10, Issue 9, September, 2021 Impact Factor: SJIF 2021 = 7.699.
 
 ONGOING RESEARCH WORK OF THE DEPARTMENT
 International grants and projects
 Regional program "Vocational education in Central Asia – I" in 2010-2021 organized by the German Society for International Cooperation (Deutsche Gesellschaft für Internationale Zusammenarbeit (GIZ) GmbH on behalf of the Federal Ministry of Economic Cooperation and Development of the Federal Republic of Germany, since 2018 the head of the Institute Kurbanov M.T. and members of the department Prof. Isabaev I.B., dos. Kuliyev N.Sh., dos. Atamuratova T.I., Ph.D. Azimov O'N., PhD. Djuraeva N.R., Jabborova S.K. have passed international internship (advanced training) in the disciplines of "Food Technology" in the leading universities of Central Asia. According to this project 5 modern laboratory units are fully equipped.
 During the period of project activity the following investments were made to the department:
+
 1. A modern production laboratory "Food technology " is established and training is being conducted External investment was made for educational laboratory furniture (Microbiology, Sensor and Analytical analysis rooms) for 2.148 000 000 UZS Laboratory equipment was provided in the amount of 3.37 000 Euro. Equipped with household appliances and computer equipment for 4.50 000 000 UZS.
 For 2022-2023, within the framework of the GIZ-German International Cooperation Organization project "Opening Uzbekistan to the world of wine (OUWOW)", in cooperation with the University of Coimbra, Portugal, in the amount of 200,000 euros, was funded for new teaching materials and advanced training for the field of education "Wine technology".
 The department has relations with Dresden State Technical University (Germany), Moscow State University of Food Production (Russia), Tajikistan State Technical University, Osh State Technical University (Kyrgyzstan) and has concluded friendship agreements and is carrying out scientific and practical work.
@@ -1576,7 +1600,7 @@ Latvian University of Natural Sciences and Technology, The Republic of Latvia
 
 PROSPECTIVE PLANS OF THE DEPARTMENT
 
-القسم Department of Chemical Engineering    = http://localhost:5173/department/chemical-technology
+القسم Department of Chemical Engineering    = <http://localhost:5173/department/chemical-technology>
 معلومته هي
 
 Department of Chemical Engineering
@@ -1587,7 +1611,7 @@ Email:
 Axmedov Voxid Nizomovich
  Reception time: Dushanba-Juma (14:00-16:00 gacha)
  Phone: +998 90 511 59 58
- Email: vohid7@mail.ru
+ Email: <vohid7@mail.ru>
 
 Kafedra Tarixi
 The department trains personnel in 2 areas of undergraduate education: 60710100 - Chemical technology (organic substances, inorganic substances, silicate materials, high molecular compounds), 60710300 - Technology of printing and packaging processes and 70710100 - Chemical technology of high-molecular compounds (by type of production) and 70710101 - Chemical technology (production of organic compounds).
@@ -1678,6 +1702,7 @@ PhD
 
 BULL OF THE DEPARTMENT
 Bachelor's Degree:
+
 1. Fundamentals of Construction of Manufacturing Enterprises
 2. Bonded nitrogen production technology
 3. Ammonium nitrate production technology
@@ -1715,23 +1740,24 @@ Bachelor's Degree:
 35Physico-colloid chemistry
 36.Physical chemistry
 Judiciary
-1. Technological processes in the production of silicate materials
-2. Theory and technological calculations of the production of mineral fertilizers
-3. Theory and Technological Accounts of the Production of Inorganic Substances
-4. Theory and technological calculations of the production of synthesized gases
-5. Theory and technological calculations of bonded nitrogen production
-6. Chemical technology of mineral fertilizers/ Chemical technology of potash salts
-7. Chemistry and Technology of Element Organic Compounds
-8. Adjustment of structure and properties in the manufacturing process of high-molecular compounds
-9. Theoretical foundations of chemistry of high molecular weight compounds
-10. Chemistry and technology of methane-based syntheses
-11. Chemical theoretical foundations of coating-forming polymers
-12. Technology of organic substances and materials based on them
-13. Catalytic processes in the technology of obtaining organic products
-14. Fundamentals of Physics and Mechanics of High Molecular Compounds
+26. Technological processes in the production of silicate materials
+27. Theory and technological calculations of the production of mineral fertilizers
+28. Theory and Technological Accounts of the Production of Inorganic Substances
+29. Theory and technological calculations of the production of synthesized gases
+30. Theory and technological calculations of bonded nitrogen production
+31. Chemical technology of mineral fertilizers/ Chemical technology of potash salts
+32. Chemistry and Technology of Element Organic Compounds
+33. Adjustment of structure and properties in the manufacturing process of high-molecular compounds
+34. Theoretical foundations of chemistry of high molecular weight compounds
+35. Chemistry and technology of methane-based syntheses
+36. Chemical theoretical foundations of coating-forming polymers
+37. Technology of organic substances and materials based on them
+38. Catalytic processes in the technology of obtaining organic products
+39. Fundamentals of Physics and Mechanics of High Molecular Compounds
 
 Textbooks
 TEXTBOOKS AND MANUALS
+
 1. V.N.Akhmedov, Z.Kh.Rayimov, G.A.Gafurova." Terephthalic acid derivatives". Monograph, Eastern-Bukhara Publishing House, Bukhara-2022.
 2. Nurilloyev Zafar Ismatilloyevich, Asrayev Zafar Rizakulovich, Khojiyev Azizjon Kholmurodovich. "Problems of general and inorganic chemistry and methods of their solution" electronic textbook. DGU No. 40483.
 3. Makhmudov Rafiq Amonovich, Shukrullaev Javohir Aibek ugli. "Modern methods of physical and chemical analysis". DGU No. 23886.
@@ -1739,22 +1765,23 @@ TEXTBOOKS AND MANUALS
 5. R.A.MAkhmudov, Z.M. Kamolova, S.A.Niyozov." Technology of Bonded Nitrogen and Nitrogen Fertilizers". Monograph, UDK.667.664.3. 2024 6
 . Niyozova N.R., Khuzhakulov K.R. "Modification and application of synthetic oils in leather industry". Monograph. ISBN 978-9943-8785-1-8. HOPE Publishing, 2023 7
 . Sadirova S.N., Temirova M.I. Monograph, "Effective technological approach in processing Karakul skins". HOPE Publishing 2023.
-8. Khaidarov A.A." Полимеры на основе хитина и хитозана”. Монография. Издательство “Дурдона” Бухара-2023г
-9. Ostonov F.I,. Akhmedov V.N., Fayzullaev N.I., Dzhuraeva L.R., Olimov B.B. "Chemistry and technology of polymers". Textbook, No132760, 14.04.2025y
-10. E.Kh.Atoev 60710100 - Direction of education: Chemical technology (by type of production) Chemistry of elements textbook. Order No. 55 of 04 March 2024
+6. Khaidarov A.A." Полимеры на основе хитина и хитозана”. Монография. Издательство “Дурдона” Бухара-2023г
+7. Ostonov F.I,. Akhmedov V.N., Fayzullaev N.I., Dzhuraeva L.R., Olimov B.B. "Chemistry and technology of polymers". Textbook, No132760, 14.04.2025y
+8. E.Kh.Atoev 60710100 - Direction of education: Chemical technology (by type of production) Chemistry of elements textbook. Order No. 55 of 04 March 2024
 
 ONGOING RESEARCH WORK OF THE DEPARTMENT
 02.00.11 - Specialty "Chemistry of colloids and membranes":
+
 1. Teshayeva Marjona Samurodovna - Development of a scientific technological bases for obtaining activated coal from domestic raw materials for purification of kerosene fraction;
 2.Tursunova Feruza Jamshidovna - Development of a process of sorption purification of water from fulvic acids using synthetic anionites;
 3.Ikromov Ulug'bek Gafur oglu - Synthesis of organic metals of established properties and study of colloidal chemical properties.
 02.00.13 - Specialty of "Technology of inorganic substances and materials based on them":
 1. Shodiyev Sobir Vahobjonovich - Properties and technology of obtaining hybrid compounds forming an inorganic-organic coating.
-2. Fatilloyev Shamshod Fayzullo oglu - Development of technology for obtaining low-release nitrogen fertilizers based on
+1. Fatilloyev Shamshod Fayzullo oglu - Development of technology for obtaining low-release nitrogen fertilizers based on
 urea 3. Bakhshilloyev Nazim Komilovich-"Effective use
 of waste from mineral salts in the production of agricultural products 02.00.14 - "Technology of organic substances and materials based on them":
 1. Sadullaeva Gulmira Gaibulloevna - "Synthesis and properties of compounds based on hydroxybenzoic acids, fragments of amino acids and imidazole"
-2. Murodov Javlonbek Zafar oglu - Development of technology for obtaining bitumen emulsions on the basis of synthesis and modification of surfactants
+1. Murodov Javlonbek Zafar oglu - Development of technology for obtaining bitumen emulsions on the basis of synthesis and modification of surfactants
 02.00.16 - "Technology of chemistry and processes and devices of food production"
 1.Shukrullaev Javohir Aibek ogli - Acceleration
 of drying process by improving the flow structure of dispersible products 2.Dehkanova Nargiza Abduganievna - Improvement of alkaline neutralization equipment of vegetable oils by improving hydrodynamics of liquid phases.
@@ -1770,7 +1797,7 @@ In the 2019-2021 academic year, on the basis of a joint program with the Univers
 
 NEWS IN THE DEPARTMENT
 
-القسم Department of Storage, Processing, and Oil-Fat Technology of Agricultural Products  = http://localhost:5173/department/agricultural-products-storage-oil-fat-technology
+القسم Department of Storage, Processing, and Oil-Fat Technology of Agricultural Products  = <http://localhost:5173/department/agricultural-products-storage-oil-fat-technology>
 معلومته هي
 
 Department of Storage, Processing, and Oil-Fat Technology of Agricultural Products
@@ -1779,7 +1806,7 @@ Email:
 Majidova Nargiza Kaxramonovna
  Reception time: Dushanba-Juma (14:00-16:00 gacha)
  Phone: +998 97 305 95 59
- Email: nargiz-1234n@mail.ru
+ Email: <nargiz-1234n@mail.ru>
 
 Kafedra tarixi
 On the basis of the newly created structure of the institute, the department started its work in August 2022 under the name of the department "Storage, processing and oil technology of agricultural products", separated from the department "Food technology". The department trains specialists in the following areas:
@@ -1889,26 +1916,27 @@ catalysis and potassium 5.Product expertise of oils and oils
 
 Republication of publications
 SUBJECTS (TEXTBOOKS) (textbooks, electronic textbooks and teaching aids)
+
 1. Q.Kh.Majidov, F.B.Ashurov, K.K.Sattorov, F.F.Ashurov textbook on the subject "Fundamentals of food technology"
 2. K.Kh.Majidov, R.A.Makhmudov, N.K.Majidova textbook on "Food chemistry and biochemistry"
 3. K.Kh.Majidov, S.SH. Ismatov, N.K.Majidova "Technology of oil processing" Textbook
 4.N.K.Mazhidova, N.N.Sabirova "Food chemistry and biochemistry"
 5.K.Kh.Majidov, N.K.Majidova "Technology of production of vegetable oils"
 Electronic textbook 6. Q.S.Rakhmonov Textbook on the topic "Educational research work of students".2024
-7. U.K.Khujakulova, N.K.Majidova, A.R.Fayzullaev, Q.S.Rakhmonov, N.F.Khujakulova textbooks on the topic "Technology of production of vegetable oils". 2024
-8. Q.S.Rakhmonov, L.N.Khaidar-Zade, U.K.Khujakulov, Sh.M.Kurbanova textbooks for laboratory classes on the topic "Technology of production of confectionery products". 2024
-9. N.N.Sabirova, Q.Kh.Majidov, N.K.Majidova textbooks on the topic "Technology of production of perfume and cosmetic products". 2024
-10. Q.Kh.Majidov, U.K.K.Khujakulov, N.K.Majidova, N.N.Sabirova textbooks on the topic "Raw materials of perfumery, cosmetic products". 2024
-11. A.R.Fayzullaev textbook on the subject "Technology of storage and packaging of oil and oil products". 2024
-12. F.N.Ashurov, B.M.Shodiev electronic textbook on the subject "Technology of storage and packaging of oil and oil products". 2024
-13. B.M.Shodiev, F.N.Ashurova electronic textbook for the division of fruit plants into biological economic groups from the topic "Technology of cultivation of fruit crops". 2024
-14. Q.Kh.Majidov, N.K.Majidova, N.N.Sabirova Electronic textbook on the subject "Technology of production of essential oils".2024
-15. Electronic textbook on practical training of M.A.Tursunova, N.K.Majidova in the subject "Biology". 2024
-16. L.N.Khaidar-Zade, Q.S.Rakhmonov, U.M.Ibragimov electronic textbook for practical lessons on the subject "Fundamentals of food security" (in Russian). 2024
-17. N.R.Dzhuraeva, T.I.Atamuratova, Q.S.Rakhmonov, S.K.Jabbarova electronic textbook for lecture classes on the subject "Equipment and basics of design of enterprises for the production of bread, pasta and confectionery". 2024
-18. L.N.Haidar-Zade, Q.S.Rakhmonov, Sh.Zh.Yuldashev, A.S.Elmurodova, U.M.Ibragimov on the subject "Fundamentals of food security" Electronic textbook for. 2024
-19. Q.S.Rakhmonov, D.I.Umarov, N.Kh.Hakimova, O'. M.Yakyieva, electronic textbook for lectures on the subject "Technology of storage and processing of grain and grain products". 2024
-20. M.M.Sadikova, N.N.Sabirova, D.J.Khujakulova "General chemical technology". 2024
+4. U.K.Khujakulova, N.K.Majidova, A.R.Fayzullaev, Q.S.Rakhmonov, N.F.Khujakulova textbooks on the topic "Technology of production of vegetable oils". 2024
+5. Q.S.Rakhmonov, L.N.Khaidar-Zade, U.K.Khujakulov, Sh.M.Kurbanova textbooks for laboratory classes on the topic "Technology of production of confectionery products". 2024
+6. N.N.Sabirova, Q.Kh.Majidov, N.K.Majidova textbooks on the topic "Technology of production of perfume and cosmetic products". 2024
+7. Q.Kh.Majidov, U.K.K.Khujakulov, N.K.Majidova, N.N.Sabirova textbooks on the topic "Raw materials of perfumery, cosmetic products". 2024
+8. A.R.Fayzullaev textbook on the subject "Technology of storage and packaging of oil and oil products". 2024
+9. F.N.Ashurov, B.M.Shodiev electronic textbook on the subject "Technology of storage and packaging of oil and oil products". 2024
+10. B.M.Shodiev, F.N.Ashurova electronic textbook for the division of fruit plants into biological economic groups from the topic "Technology of cultivation of fruit crops". 2024
+11. Q.Kh.Majidov, N.K.Majidova, N.N.Sabirova Electronic textbook on the subject "Technology of production of essential oils".2024
+12. Electronic textbook on practical training of M.A.Tursunova, N.K.Majidova in the subject "Biology". 2024
+13. L.N.Khaidar-Zade, Q.S.Rakhmonov, U.M.Ibragimov electronic textbook for practical lessons on the subject "Fundamentals of food security" (in Russian). 2024
+14. N.R.Dzhuraeva, T.I.Atamuratova, Q.S.Rakhmonov, S.K.Jabbarova electronic textbook for lecture classes on the subject "Equipment and basics of design of enterprises for the production of bread, pasta and confectionery". 2024
+15. L.N.Haidar-Zade, Q.S.Rakhmonov, Sh.Zh.Yuldashev, A.S.Elmurodova, U.M.Ibragimov on the subject "Fundamentals of food security" Electronic textbook for. 2024
+16. Q.S.Rakhmonov, D.I.Umarov, N.Kh.Hakimova, O'. M.Yakyieva, electronic textbook for lectures on the subject "Technology of storage and processing of grain and grain products". 2024
+17. M.M.Sadikova, N.N.Sabirova, D.J.Khujakulova "General chemical technology". 2024
 
 ONGOING RESEARCH WORK OF THE DEPARTMENT
 SCIENTIFIC ARTICLES IN JOURNALS PUBLISHED ON INTERNATIONALLY RECOGNIZED DATABASES «WEB OF SCIENCE», «SCOPUS» AND OTHERS
@@ -1928,6 +1956,7 @@ Fayzullaev Askar Rajabboevich - Fundamentals of improvement of the technology fo
 
 THE DEPARTMENT OFFERS COOPERATION WITH FOREIGN EDUCATIONAL INSTITUTIONS
 In the sphere of international cooperation the department works with the following educational institutions:
+
 1. Al-Farabi Kazakh National University,
 2. Karaganda technical university named after A.Saginov,
 3. South Kazakhstan University named after M.Auesov,
@@ -1935,13 +1964,14 @@ In the sphere of international cooperation the department works with the followi
 5. University of Extramadura in Spain.
 
 NEWS
+
 1. Selection and formation of candidates for sending professors and teachers to targeted doctoral studies or internships in higher educational institutions and research centers included in the foreign TOP-500.
 2. Bringing the scientific potential of the department to 80%, the share of professors and teachers with national or international certificates on foreign languages by 30%.
 3. Organization of 1 SPIN-OFF enterprise, corresponding to the direction of education, and the organization of students' practices in the enterprises or workshops of this LLC.
 4. Development of research works based on the experience of developed foreign countries and an increase in the size of international grants within the framework of joint research projects with them.
 5. Implementation of foreign investments by implementing existing projects in the department with foreign partners.
 
-القسم  Department of Oil and Gas Engineering  = http://localhost:5173/department/oil-gas-engineering-upstream-downstream
+القسم  Department of Oil and Gas Engineering  = <http://localhost:5173/department/oil-gas-engineering-upstream-downstream>
 معلومته هي
 
  Department of Oil and Gas Engineering
@@ -1950,7 +1980,7 @@ Email:
 Sharipov Qaxramon Qandiyorovich
  Reception time: Every day 15:00-16: 00
  Phone: +998 93 453 69 69
- Email: kahramon.sharipov@mail.ru
+ Email: <kahramon.sharipov@mail.ru>
 
 Kafedra Tarixi
 The Department of Oil and Gas Business was organized on the basis of the Department of "Technology of Oil and Gas Chemical Industry" in accordance with the new structure of the Bukhara Engineering and Technological Institute, approved by the Ministry of Higher and Secondary Special Education of the Republic of Uzbekistan on July 10, 2019. The management of the department is entrusted to the candidate of chemical sciences, associate professor Q.Q.Sharipov.
@@ -1984,6 +2014,7 @@ of the operation of oil and gas fields 11.Drilling of oil and gas wells
 of wells 14.Technology of increasing oil and gas supply of reservoirs
 15.Use of pumping and compressor stations
 Judiciary
+
 1. Machinery and equipment of oil and gas fields
 2. Machinery and equipment for the repair of oil and gas
 wells 3. Theoretical foundations
@@ -2003,6 +2034,7 @@ Yamaletdinova Aygul Akhmadovna - assistant
 Bokieva Shakhnoza Komilovna - assistant
 
 SCIENTIFIC AND METHODICAL WORK OF THE DEPARTMENT, SCIENTIFIC ARTICLES
+
 1. O’quv-uslubiy majmualar – 50 dan ortiq;
 Uslubiy qo’llanmalar – 16 ta;
 Ma’ruza matnlari - 50 dan ortiq;
@@ -2034,7 +2066,7 @@ TEXTBOOKS AND MANUALS
 
 Monographs created by the department
 
-القسم Department of Metrology and Standardization  = http://localhost:5173/department/metrology-standardization-quality-control
+القسم Department of Metrology and Standardization  = <http://localhost:5173/department/metrology-standardization-quality-control>
 معلومته هي
 
 Department of Metrology and Standardization
@@ -2043,7 +2075,7 @@ Kafedra mudiri
 Tairov Baxtiyor Boboqulovich
  Qabul vaqti: Dushanba-Juma (14:00-16:00 gacha)
  Telefon: +998 93 471 00 65
- Email: b.toirov@mail.ru
+ Email: <b.toirov@mail.ru>
 
 Kafedra Tarixi
 The department began its activity in August 2019 under the name of "Metrology and standardization" on the basis of the newly created structure of the institute. Trainings specialists in the direction of 5310900 - Metrology, standardization and product quality management. . There are 13 professors and teachers at the department, including 1 candidate of sciences - professor, 6 candidates of science, associate professor, 1 senior teacher, 3 assistants, 2 trainee teachers, scientific potential is 54%. Over the past two years, 2 scientific works (PhD) have been defended, in cooperation with the teachers of the department have published 5 international textbooks (with an impact factor), 3 textbooks, 6 monographs, 19 in 6 journals, 20 articles in the journals of the Supreme Attestation Commission and 5 articles on the basis of Scopus. At the department 4 doctoral students and more than 5 independent researchers are engaged in research work.
@@ -2107,6 +2139,7 @@ Judiciary
 
 BULL OF THE DEPARTMENT
 Bachelor's Degree:
+
 1. Getting to the destination;
 2. Fundamentals of metrology (NM, AM, QM);
 3. Physical basis of measurements;
@@ -2128,18 +2161,18 @@ Bachelor's Degree:
 19. Technology of development of standards and regulatory documents and their expertise;
 20. Occupational Psychology;
 Judiciary
-1. Research methodology
-2. Theoretical foundations of qualimmetry and quality management
-3. Theoretical foundations of automated and intelligent measurement systems
-4. The role of standardization and technical regulatory systems in quality management
-5. Organization and planning of the experiment
-6. Legal foundations of metrology, technical regulation, standardization and certification
-7. Patenting, Licensing and Certification
-8. Re-engineering
-9. Methods of teaching special disciplines
-10. Research work and preparation of a master's thesis
-11. Scientific and pedagogical work
-12. Scientific practice (gaining experience)
+21. Research methodology
+22. Theoretical foundations of qualimmetry and quality management
+23. Theoretical foundations of automated and intelligent measurement systems
+24. The role of standardization and technical regulatory systems in quality management
+25. Organization and planning of the experiment
+26. Legal foundations of metrology, technical regulation, standardization and certification
+27. Patenting, Licensing and Certification
+28. Re-engineering
+29. Methods of teaching special disciplines
+30. Research work and preparation of a master's thesis
+31. Scientific and pedagogical work
+32. Scientific practice (gaining experience)
 
 Republication of publications
 Scientific papers published by the teachers and researchers of the department "Metrology and standardization" Textbooks, teaching aids and monographs
@@ -2227,7 +2260,7 @@ Attraction of foreign specialists: Involvement of international experts, profess
 
 هاذه الاقسام ال6 ترتبط ب كلية Faculty of Natural Resources Management
 
-القسم Department of Irrigation and Land Reclamation   = http://localhost:5173/department/irrigation-melioration
+القسم Department of Irrigation and Land Reclamation   = <http://localhost:5173/department/irrigation-melioration>
 معلومته هي
 
 Department of Irrigation and Land Reclamation
@@ -2236,7 +2269,7 @@ Email:
 Murodov Otabek Ulugbekovich
  Reception time: Reception hours: Monday-Friday (till 14:00-16:00)
  Phone: +998 94 327 35 00
- Email: murodovou@gmail.com
+ Email: <murodovou@gmail.com>
 
 Kafedra Tarixi
 In connection with the change in the internal structure of the institute in 2024, the department "Water resources management and melioration" Department "Irrigation and melioration " was organized. According to the order of the rector of the Bukhara Institute of Management of Natural Resources of TIQHMMU No488-12 dated September 20, 2024, the Department of "Irrigation and melioration" was organized. Since September 2024, due to the change in the internal structure of the institute, the departments "Water resources management and melioration" and "Water-saving irrigation technology" have been optimized and the department "Irrigation and melioration" has been organized. The Decree of the President of the Republic of Uzbekistan dated January 24, 2025 No. PP-22 "On the establishment of the Bukhara State Technical University" was renamed the Department of "Irrigation and Melioration".
@@ -2295,56 +2328,57 @@ Judiciary
 
 BULL OF THE DEPARTMENT
 Bachelor's Degree:
+
 1. Introduction
 to the specialty 2. Systems of Automation of Drip
 Irrigation 3. Smart Water Meters
-4. Irrigation and Melioration
-5. Saline Washing Technology
-6. Innovative technologies in water management
-7. Innovative Technologies in Melioration
-8. Irrigation Melioration
-9. Excellent use
+2. Irrigation and Melioration
+3. Saline Washing Technology
+4. Innovative technologies in water management
+5. Innovative Technologies in Melioration
+6. Irrigation Melioration
+7. Excellent use
 of water resources 10. Water Efficient Irrigation
 Technologies 11. Construction and operation of water intake wells
-12. Organization and management of municipal infrastructure
-13. Excellent use
+8. Organization and management of municipal infrastructure
+9. Excellent use
 of water resources 14. Modern irrigation technologies
-15. Water Supply
-16. Water purification
-17. Installation of water supply and sewerage networks
-18. Modeling
+10. Water Supply
+11. Water purification
+12. Installation of water supply and sewerage networks
+13. Modeling
 of water supply technologies 19. Fundamentals of
 wastewater reuse 20. Design of water transmission networks
-21. Engineering Work
+14. Engineering Work
 in Water Supply 22. Operation of water supply systems
-23. Water treatment and water intake facilities
-24. Basics of
+15. Water treatment and water intake facilities
+16. Basics of
 Urban Housing and Utilities 25. Installation of water supply and sewerage networks
-26. Control Measuring Instruments Installed in Networks
-27. Drinking Water Supply
-28. Excellent use of water resources and their protection
-29. Drip irrigation networks and their service
-30. Irrigation technology
+17. Control Measuring Instruments Installed in Networks
+18. Drinking Water Supply
+19. Excellent use of water resources and their protection
+20. Drip irrigation networks and their service
+21. Irrigation technology
 Judiciary
-1. Improving natural water quality
-2. Methods of teaching special disciplines
-3. Water Saving Irrigation Technologies
-4. Methods of teaching special disciplines
-5. Resource-efficient irrigation technologies
-6. Methods of teaching special disciplines
-7. Meliorative Soil Science and Farming
-8. Excellent use of water resources and their conservation
-9. Water cadastre. Integral management of water resources.
-10. International and State Water Relations
-11. Water Saving Irrigation
+22. Improving natural water quality
+23. Methods of teaching special disciplines
+24. Water Saving Irrigation Technologies
+25. Methods of teaching special disciplines
+26. Resource-efficient irrigation technologies
+27. Methods of teaching special disciplines
+28. Meliorative Soil Science and Farming
+29. Excellent use of water resources and their conservation
+30. Water cadastre. Integral management of water resources.
+31. International and State Water Relations
+32. Water Saving Irrigation
 Technologies 12. Methodology for
 conducting field research 13. Use and Automation of Irrigation Networks
-14. Landscape Irrigation
-15. Water Efficient Irrigation
+33. Landscape Irrigation
+34. Water Efficient Irrigation
 Technologies 16. Moisture Retention Technologies in Irrigated
 Lands 17. Village and pasture water supply
-18. Methods of teaching special subjects
-19. Irrigation technologies
+35. Methods of teaching special subjects
+36. Irrigation technologies
 
 Republication of publications
 Scientific papers published by the teachers and researchers of the Department of Irrigation and melioration Textbooks, teaching aids and monographs
@@ -2366,6 +2400,7 @@ Nurov D.E. Efficiency of technology of drip irrigation of goose. Bukhara-2024 "S
 
 ONGOING RESEARCH WORK OF THE DEPARTMENT
 SCIENTIFIC-METHODICAL WORK OF THE DEPARTMENT:
+
 1. Murodov, O.U., Juraev, A.K., Khamidov, M.Kh. Effectiveness of cost-effective irrigation technologies in cultivation of winter wheat in saline soils. Aip Conference Proceedings3256(1) ,
 2. Муродов О.У. Исаев С.Х., “Зовур сувлари билан такрорий экинларни суғоришда ерларнинг мелиоратив ҳолатига таъсирини баҳолаш самарадорлигининг математик модел дастури”. // Гувоҳнома. Ўзбекистон Республикаси Адлия Вазирлиги. № DGU 35001 Талабнома рақами: DGU 202402655. Ўзбекистон Республикасининг Дастурий маҳсулотлар давлат реестрида 15.03.2024 й. рўйхатдан ўтказилди.
 3. Муродов О.У. Исаев С.Х., “Шўрланган тупроқлар шароитида такрорий экинларни кучсиз минераллашган зовур сувлари билан суғоришни ерларнинг мелиоратив ҳолатига таъсирини баҳолаш бўйича”. Тавсиянома. “ТИҚХММИ МТУ Бухоро табиий ресурсларни бошқариш институти босмахонасида чоп этилган. Бухоро 2024-йил. 32 б.
@@ -2378,8 +2413,8 @@ SCIENTIFIC-METHODICAL WORK OF THE DEPARTMENT:
 10. Kh Khamidov, M., Buriev, X. B., Juraev, A. K., Sharifov, F. K., & Isabaev, K. T. (2023, February). Efficiency of drip irrigation technology of cotton in saline soils of Bukhara oasis. In IOP Conference Series: Earth and Environmental Science (Vol. 1138, No. 1, p. 012007).
 11. Хамидов М.Х.Influence of phytoremediation plants on soil salts // Innovative technologies in water management complex. – Ukraine, Rovno, 2012. – С. 32–34.
 12.Juraev A. K. et al. Effectiveness of cost-effective irrigation technologies in cultivation of winter wheat in saline soils //AIP Conference Proceedings. – AIP Publishing LLC, 2025. – Т. 3256. – №. 1. – С. 050039.
-13. Juraev, A. Q., Juraev, U. A., Murodov, O. U., Atamuradov, B. N., Najmiddinov, M. M., & Ruziyeva, M. A. (2024). Investigating irrigation system by using drainage water in the cultivation of repeated millet crop. In BIO Web of Conferences (Vol. 103, p. 00014). EDP Sciences.
-14. Juraev, A. K., Khamidov, M. K., Atamuradov, B. N., Murodov, O. U., Rustamova, K. B., & Najmiddinov, M. M. (2023, February). Effect of deep softeners on irrigation, salt washing and cotton yield on soils whose mechanical composition is heavy and meliorative status is difficult. In IOP Conference Series: Earth and Environmental Science (Vol. 1138, No. 1, p. 012006). IOP Publishing.
+12. Juraev, A. Q., Juraev, U. A., Murodov, O. U., Atamuradov, B. N., Najmiddinov, M. M., & Ruziyeva, M. A. (2024). Investigating irrigation system by using drainage water in the cultivation of repeated millet crop. In BIO Web of Conferences (Vol. 103, p. 00014). EDP Sciences.
+13. Juraev, A. K., Khamidov, M. K., Atamuradov, B. N., Murodov, O. U., Rustamova, K. B., & Najmiddinov, M. M. (2023, February). Effect of deep softeners on irrigation, salt washing and cotton yield on soils whose mechanical composition is heavy and meliorative status is difficult. In IOP Conference Series: Earth and Environmental Science (Vol. 1138, No. 1, p. 012006). IOP Publishing.
 
 THE DEPARTMENT OFFERS COOPERATION WITH FOREIGN EDUCATIONAL INSTITUTIONS
 International cooperation relations
@@ -2388,7 +2423,7 @@ The Department of Irrigation and Melioration in the 2025-2026 academic year will
 
 PROSPECTIVE PLANS OF THE DEPARTMENT
 
-القسم Department of Hydraulic Structures and Pumping Stations  = http://localhost:5173/department/hydrotechnical-structures-pump-stations
+القسم Department of Hydraulic Structures and Pumping Stations  = <http://localhost:5173/department/hydrotechnical-structures-pump-stations>
 معلومته هي
 
 Department of Hydraulic Structures and Pumping Stations
@@ -2417,7 +2452,7 @@ THE DEPARTMENT OFFERS COOPERATION WITH FOREIGN EDUCATIONAL INSTITUTIONS
 
 PROSPECTIVE PLANS OF THE DEPARTMENT
 
-القسم Department of Agricultural and Water Management Engineering Technologies = http://localhost:5173/department/agricultural-water-resources-engineering-technologies
+القسم Department of Agricultural and Water Management Engineering Technologies = <http://localhost:5173/department/agricultural-water-resources-engineering-technologies>
 معلومته هي
 
 Department of Agricultural and Water Management Engineering Technologies
@@ -2495,55 +2530,56 @@ Judiciary
 
 BULL OF THE DEPARTMENT
 Bachelor's Degree:
+
 1. Fundamentals
 of Agricultural Engineering 2. Technology of
 breeding livestock products 3. Reclamation and Construction
 Machinery 4. Material science and technology of constructive materials
-5. Interoperability, Standardization and Technical Measurement
-6. Mechanization of agricultural production
-7. Agricultural machinery
-8. Construction machinery
-9. Watering techniques
-10. Tractor and Vehicles
-11. Net Agriculture
-12. Melioration techniques
-13. Fuel, lubricants and technical fluids
-14. Techniques and technologies of livestock
-15. Integrated mechanization of irrigation and melioration
+2. Interoperability, Standardization and Technical Measurement
+3. Mechanization of agricultural production
+4. Agricultural machinery
+5. Construction machinery
+6. Watering techniques
+7. Tractor and Vehicles
+8. Net Agriculture
+9. Melioration techniques
+10. Fuel, lubricants and technical fluids
+11. Techniques and technologies of livestock
+12. Integrated mechanization of irrigation and melioration
 works 16. Reliability of Machines and Fundamentals
 of Repair 17. Technology of land reclamation and water management
 works 18. Operation of melioration and water management equipment
-19. Use of machinery and tractor parks in agriculture
-20. Agricultural Technology and Technical Service
-21. Horticulture and Vegetable Machinery
-22. Innovative techniques and technologies and their transfer
-23. Modern techniques and technologies used in water management
-24. Basics of
+13. Use of machinery and tractor parks in agriculture
+14. Agricultural Technology and Technical Service
+15. Horticulture and Vegetable Machinery
+16. Innovative techniques and technologies and their transfer
+17. Modern techniques and technologies used in water management
+18. Basics of
 cattle breeding 25. Fundamentals of
 Agricultural Engineering 26. Material handling equipment and equipment
-27. Design of maintenance and repair facilities
-28. Traffic rules and traffic safety
+19. Design of maintenance and repair facilities
+20. Traffic rules and traffic safety
 Judiciary
-1. Research Work and MDT
-2. Reclamation Sludge Equipment
+21. Research Work and MDT
+22. Reclamation Sludge Equipment
 and Equipment 3. Scientific foundations
 of the organization of land reclamation construction 4. Engineering Logistics and Modification
-5. Research Papers
-6. Theoretical foundations of the design of melioration machines
-7. Scientific and pedagogical work and scientific seminar
-8. Basics
+23. Research Papers
+24. Theoretical foundations of the design of melioration machines
+25. Scientific and pedagogical work and scientific seminar
+26. Basics
 of maintenance of machines for land reclamation construction 9. Fundamentals of Technological Machine Design
-10. Theoretical Foundations of Irrigation Machine Design
-11. Scientific Foundations of
+27. Theoretical Foundations of Irrigation Machine Design
+28. Scientific Foundations of
 Technical Regulation 12. Fundamentals
 of production of resource estimate standards (ShNQ.IKN) 13. Hydroexotechnics
-14. Technology of Drainage System
+29. Technology of Drainage System
 Construction 15. Volumetric Hydrodynamics
-16. Theoretical foundations of the use of construction and melioration
+30. Theoretical foundations of the use of construction and melioration
 machines 17. Technologies for the construction and use of indoor horizontal drains
-18. Technologies and systems of land reclamation
+31. Technologies and systems of land reclamation
 construction 19. Fundamentals of Digital Technique and Digital Systems
-20. Agriculture SmartAgriculture (Technologies and Techniques)
+32. Agriculture SmartAgriculture (Technologies and Techniques)
 
 Republication of publications
 
@@ -2551,18 +2587,20 @@ ONGOING RESEARCH WORK OF THE DEPARTMENT
 In order to improve mechanized processes of agriculture and water management, reduce energy consumption, increase service life and work efficiency, at the cage "Scientific Foundations of Improving the Efficiency of Land Leveling Machines in Water Resources Saving", "Technical and Technological Foundations of Mechanization of Longitudinal and Transverse Flooring Processes between Goose Rows", "The main development of energy-efficient soils in the climatic conditions of the Bukhara valley scientific and technological foundations of the system of processing machines "," Substantiation of the dimensions of the equipment for irrigation of goose with liquid biofertilizers ", "Substantiation of parameters of a device for making canvases from biohumus ".
 
 THE DEPARTMENT OFFERS COOPERATION WITH FOREIGN EDUCATIONAL INSTITUTIONS
+
 1. Kursk State Agrarian 2
 . North Docota State University (USA)
-3. "Belarusian State Agrarian Technical University"
-4. Humboldt University of Berlin (Germany)
-5. Obuda University (Vengriya)
-6. South-West State University (Russia)
-7. Iowa State University (USA)
-8. INTI International University (Malaysia)
+2. "Belarusian State Agrarian Technical University"
+3. Humboldt University of Berlin (Germany)
+4. Obuda University (Vengriya)
+5. South-West State University (Russia)
+6. Iowa State University (USA)
+7. INTI International University (Malaysia)
 
 PROSPECTIVE PLANS OF THE DEPARTMENT
 
-1. Prospective work to further improve the quality of education:
+**1. Prospective work to further improve the quality of education:**
+
 - improvement of the academic work at the institute by studying the experience abroad in the training of engineers;
 - to expand the integration of education with work processes in manufacturing enterprises (DUAL education), including production practices directly with work processes in production enterprises;
 – widespread use of the production potential of enterprises in training personnel for production enterprises and carrying out joint scientific and technical developments;
@@ -2572,18 +2610,19 @@ PROSPECTIVE PLANS OF THE DEPARTMENT
 - Widespread use of interactive methods such as "Case study", "Debate", "Brainstorming" in the classroom;
 - widespread use of information and communication technologies in organizing distance or hybrid lessons through platforms such as Moodle, Google Classroom, Zoom, MS Teams;
 - Further development of classes - laboratories, seminars, projects that allow students to gain experience in a real environment.
-2. Prospective work on the use of modern laboratories of enterprises in the educational process:
+
+**2. Prospective work on the use of modern laboratories of enterprises in the educational process:**
 Based on the existing conditions and capabilities in the region, the registration of contracts with enterprises for a certain part of training in modern laboratories on the basis of enterprises of Bukhara cities and districts of Bukhara and the expansion of its timely implementation.
-3. Future work on increasing the scientific potential of the department:
+**3. Future work on increasing the scientific potential of the department:**
 • creating sufficient conditions for conducting scientific research work of young staff of the department.
 • To select students from among the graduates of the department's and master's programs with high knowledge and social culture, to improve their language proficiency and to interest them in scientific work;
 • Interest among gifted students, masters and teachers to develop startup ideas, innovative practical and fundamental projects and win grands.
-4. Future work on improving the foreign relations of the department:
+**4. Future work on improving the foreign relations of the department:**
 • Find the universities of higher education in the foreign TOP 1000, having the trends and specialties of study in the department;
 • sign a memorandum of cooperation with higher educational institutions, establish scientific ties with professors and teachers, jointly implement foreign grants and publish scientific articles included in the SCOPUS database;
 • Organization of internships of the leading professors of the department in the top 1000 foreign universities and attract foreign university professors to the department and establish academic exchange.
 
-القسم Department of Land Use and State Cadastre   = http://localhost:5173/department/land-resources-management-state-land-cadastres
+القسم Department of Land Use and State Cadastre   = <http://localhost:5173/department/land-resources-management-state-land-cadastres>
 معلومته هي
 
 Department of Land Use and State Cadastre
@@ -2665,6 +2704,7 @@ MAGISTRATURA
 
 KAFEDRADA O‘QITILADIGAN FANLAR
 Bakalavriat:
+
 1. Kartografik dizayn;
 2. Geodeziya;
 3. Landshafshunoslik asoslari;
@@ -2694,15 +2734,15 @@ Bakalavriat:
 27. GAT da uch o`lchamli modellashtirish;
 28. Geoma`lumotlar bazasi va arxitekturasi;
 Magistratura
-1. Ilmiy tadqiqot metodologiyasi
-2. Yerdan foydalanishda integratsion boshqaruv
-3. Hududlarni rivojlantirish
-4. Yerdan foydalanish iqtisodi
-5. Yer resurslarini boshqarishning huquqiy asoslari
-6. Maxsus fanlarni o‘qitish metodikasi
-7. Yer uchastkalarini shakllantirish
-8. Yer uchastkalarini hisobini yuritish va baholash
-9. Ko`chmas mulkni boshqarish
+29. Ilmiy tadqiqot metodologiyasi
+30. Yerdan foydalanishda integratsion boshqaruv
+31. Hududlarni rivojlantirish
+32. Yerdan foydalanish iqtisodi
+33. Yer resurslarini boshqarishning huquqiy asoslari
+34. Maxsus fanlarni o‘qitish metodikasi
+35. Yer uchastkalarini shakllantirish
+36. Yer uchastkalarini hisobini yuritish va baholash
+37. Ko`chmas mulkni boshqarish
 
 Darslik va o‘quv qo‘llanmalar
 2024-2025 o‘quv yilida Respublikada ta’lim sifatini oshirishga qaratilgan va zifalarning ijrosini ta’minlash hamda o‘quv adabiyotlarining yangi avlodini yaratish konsepsiyasi talablari asosida kafedrada A.Abdulloyev, Sh.Sattorov, E.Karimov J.Primovlar tomonidan “Karatashunoslik”; A.Abdulloyev, Sh.Sattorov, S.Asatov, R.Oymatovlar tomonidan “Injenerlik geodeziyasi”; Sh.Adizov tomonidan “Yer monitoringi”; S.Xamrayev tomonidan “Bino-inshootlar davlat kadastri”; S.Asatov va F.Xudoyberdiyev tomonidan “Yer uchastkalarini shakillantirish” o‘quv qo‘llanmalar va S.Xamrayev tomonidan “Bino-inshootlar davlat kadastri”; F.Xudoyberdiyev tomonidan “Yer uchastkalarini shakillantirish” nomli, darsliklar institut kengashidan o‘tkazilib, oliy ta’lim va zirligi tomonidan guvohnomalar olindi va chop etish uchun tavsiya etildi.
@@ -2716,7 +2756,7 @@ The department cooperates with the University of Usak in Turkey. From November 2
 During the internship, as part of the exchange of experience between universities, lectures were organized by professors and teachers, and they got acquainted with the laboratory equipment. Electronic copies of necessary scientific literature were brought in from the Information Resource Center.
 An agreement was signed with the Faculty of Agriculture on the organization of online lectures on relevant subjects in Kefedra.
 
-القسم Department ofIndustrial Ecology and Hydrogeology = http://localhost:5173/department/industrial-ecology-hydrogeology
+القسم Department ofIndustrial Ecology and Hydrogeology = <http://localhost:5173/department/industrial-ecology-hydrogeology>
 معلومته هي
 
 Department ofIndustrial Ecology and Hydrogeology
@@ -2725,7 +2765,7 @@ Email:
 Xaitov Rauf Arifovich
  Reception time: Dushanba-Juma (14:00-16:00 gacha)
  Phone: +998 (91) 405 66 24
- Email: sanoat_ekologiyasi@mail.ru
+ Email: <sanoat_ekologiyasi@mail.ru>
 
 Kafedra tarixi
 According to the Decree of the President of the Republic of Uzbekistan dated January 24, 2025 No. PP-22 "On the organization of the Bukhara State Technical University", as a result of the reorganization of the departments of Industrial Ecology and Ecology of the Bukhara Engineering Technological Institute and the Department of Hydrology of the Bukhara Institute of Natural Resources Management, the Department of Industrial Ecology and Hydrology was started. Department Due to the need for specialists with higher education with modern knowledge and skills for the sectors of the economy of the Bukhara region, including manufacturing, engineering, oil and gas, transport and logistics, green economy, environmental problems, inclusiveness, socio-economic development of regions, Reclamation Hydrogeology, Hydrology (hydrology of rivers and reservoirs), Ecology and environmental protection (water management), Ecology and Labor Bachelor's and Master's programs in the fields of protection and safety, Occupational health and safety (by industry).
@@ -2792,6 +2832,7 @@ Magistratura
 70520202-Ekologiya
 
 KAFEDRADA O‘QITILADIGAN FANLAR
+
 1. Aholi bandligini monitoring qilish
 2. Atrof muhitga bo'ladigan ta'sirni baholash
 3. Atrof muhitni muhofaza qilish va yashil rivojlanish
@@ -2844,6 +2885,7 @@ KAFEDRADA O‘QITILADIGAN FANLAR
 50. Ilmiy-pedagogik ish SEG
 
 Darslik va o‘quv qo‘llanmalar
+
 1. Tuxtayeva X.T. Rahmatov Yu.B. Landshaftshunoslik asoslari Darslik 2025 y
 2. Tuxtayeva X.T. Mutaxassislikka kirish. Darslik 2025 y
 3. Egamberdiyev M.S. Imomov Sh.J. To`xtayeva X.T. Davidov N.R. Geologiya va gidrogeologiya. Darsik 2023 y.
@@ -2864,6 +2906,7 @@ Darslik va o‘quv qo‘llanmalar
 18. Борьба с опустыниванием путем рационального использования местных водных ресурсов (на примере Центрального Кызылкума). Xalqarao monografiya 2023 y.
 
 KAFEDRADA OLIB BORILAYOTGAN ILMIY-TADQIQOT ISHLARI
+
 1. Tursunova N.N., Методы ликвидации аварий и пожаров.“Davlat yong‘in xavfsizligi xizmatidagi islohotlar – yangi bosqichga qadam” mavzusidagi ilmiy – amaliy anjuman materiallar to‘plami. Toshkent, 30 mart 2018 y. 143-146 b.
 2. Tursunova N.N., Использование хлеба в ежедневном рационе человека “Техника и технология пищевых производств” Материалы ХII Международной научно-технической конференции (Могилёв, 19–20 апреля 2018 года) Том 1, с. 214-215
 3. Tursunova N.N., Значение правильной организации питания юных спортсменов “Техника и технология пищевых производств” Материалы ХII Международной научно-технической конференции (Могилёв, 19–20 апреля 2018 года) Том 1, с. 324-325
@@ -2892,29 +2935,29 @@ KAFEDRANING ISTIQBOLLI REJALARI
 
 1. Prospective work to further improve the quality of education:
 1. Introduction of curricula and literature of foreign higher educational institutions, included in the TOP-300 list.
-2. Improvement of curricula and relevant regulatory documents in the organization of the educational process in accordance with international standards and requirements of customers of personnel
-3. Introduction of a system of training specialists on the basis of joint educational programs together with leading foreign higher education institutions ranking TOP-500.
-4. Implementation of the dual form of education in cooperation with foreign organizations (enterprises) in selected areas on the basis of foreign experience.
-5. Introduction of a system of education of students based on the DUAL education model in order to improve the quality of training.
-6. Creation of new generation educational literature, their introduction in the educational process, and to constantly update the fund of the Information Resource Center.
-7. The development of students' critical and creative thinking, systematic analysis and entrepreneurial skills.
-8. Organization and regulation of branches of specialty departments on the basis of partner organizations.
-9. Organization of short-term advanced training (internship) of professors and teachers of specialty subjects in production enterprises and organizations of the republic.
-10. Expansion of mutually beneficial and fruitful cooperation with leading foreign higher education institutions.
-11. Improving the criteria for assessing students' knowledge, skills and qualifications.
-12. Expanding the contingent of international students by attracting foreign students to study and organizing the teaching staff of the department in foreign universities.
-13. Organization of the academic process for students of foreign and domestic universities within the framework of academic mobility programs;
-14. To ensure that university graduates find their place in society as competitively qualified personnel.
-15. Focusing scientific research on solving problems of networks and expanding their integration and ensuring their effectiveness.
-16. Increasing the scope of scientific work through the organization of scientific internships for researchers.
-17. Identification of available opportunities for scientific capacity and taking appropriate measures.
-18. Formation of promising university research areas of special attention to regional problems and orientation of research works of master's and doctoral students to the problems of economics, renewable energy, poverty alleviation.
-19. Increase the publication of professors in journals indexed by Web of Science and Scopus databases.
-20. Increasing the number of professors with the "Hirsch" index (h-index) 5 and above.
-21. Participation in attracting foreign investments, grants and gratuitous support in value established by the administration of the university.
+1. Improvement of curricula and relevant regulatory documents in the organization of the educational process in accordance with international standards and requirements of customers of personnel
+1. Introduction of a system of training specialists on the basis of joint educational programs together with leading foreign higher education institutions ranking TOP-500.
+1. Implementation of the dual form of education in cooperation with foreign organizations (enterprises) in selected areas on the basis of foreign experience.
+1. Introduction of a system of education of students based on the DUAL education model in order to improve the quality of training.
+1. Creation of new generation educational literature, their introduction in the educational process, and to constantly update the fund of the Information Resource Center.
+1. The development of students' critical and creative thinking, systematic analysis and entrepreneurial skills.
+1. Organization and regulation of branches of specialty departments on the basis of partner organizations.
+1. Organization of short-term advanced training (internship) of professors and teachers of specialty subjects in production enterprises and organizations of the republic.
+1. Expansion of mutually beneficial and fruitful cooperation with leading foreign higher education institutions.
+1. Improving the criteria for assessing students' knowledge, skills and qualifications.
+1. Expanding the contingent of international students by attracting foreign students to study and organizing the teaching staff of the department in foreign universities.
+1. Organization of the academic process for students of foreign and domestic universities within the framework of academic mobility programs;
+1. To ensure that university graduates find their place in society as competitively qualified personnel.
+1. Focusing scientific research on solving problems of networks and expanding their integration and ensuring their effectiveness.
+1. Increasing the scope of scientific work through the organization of scientific internships for researchers.
+1. Identification of available opportunities for scientific capacity and taking appropriate measures.
+1. Formation of promising university research areas of special attention to regional problems and orientation of research works of master's and doctoral students to the problems of economics, renewable energy, poverty alleviation.
+1. Increase the publication of professors in journals indexed by Web of Science and Scopus databases.
+1. Increasing the number of professors with the "Hirsch" index (h-index) 5 and above.
+1. Participation in attracting foreign investments, grants and gratuitous support in value established by the administration of the university.
 INTERACTIVE STUDENTS
 
-القسم Department of Vehicle Engineering  = http://localhost:5173/department/vehicle-engineering-automotive-transport-systems
+القسم Department of Vehicle Engineering  = <http://localhost:5173/department/vehicle-engineering-automotive-transport-systems>
 معلومته هي
 
 Department of Vehicle Engineering
@@ -3017,6 +3060,7 @@ MAGISTRATURA
 
 KAFEDRADA O‘QITILADIGAN FANLAR
 Bakalavriat:
+
 1. Yo‘nalishga kirish
 2. Quymakorlik qotishmalari
 3. Raqamli dasturda boshqariladigan texnologik jihozlar va tizimlar
@@ -3070,31 +3114,32 @@ Bakalavriat:
 51. Texnologik moslamalarni loyihalash va ishlab chiqarish
 52. Avtomatlashtirilgan uchastka va sexlarni loyihalash
 Magistratura
-1. Ilmiy tadqiqot metodologiyasi
-2. Mashinasozlikda kesuvchi asboblarni loyihalash va ishlab chiqarish
-3. Dastgohlar va dastgohli tizimlarni hisoblash va konstruksiyalash
-4. Mashinalar va jarayonlar puxtaligi
-5. Ilmiy-tadqiqot ishi va magistrlik dissertatsiyasini tayyorlash
-6. Ilmiy-pedagogik ish
-7. Mashinasozlikda resurstejamkor texnologiyalar
-8. Mashinasozlikda aniqlik va uning texnologik ta’minoti
-9. Raqamli dastur bilan boshqariladigan dastgohlar va dastgohli komplekslar
-10. Maxsus fanlarni o‘qitish metodikasi
-11. Mashinasozlikda resurs tejamkor texnologiyalar
-12. Ilmiy amaliyot (tajriba orttirish)
-13. Transport vositalari va tizimlarining ishonchliligi loyihalash
-14. Avtomobil transport vositalari va uni texnik ekspluatatsiyasining istiqbolli rivojlanishi
-15. Texnologik jarayonlarini boshqarish va eksperimentlarini rejalashtirish
-16. Avtomobillar texnik ekspluatatsiyasining meyorlarini aniqlashtirish usullari
-17. Avtomobil transportida moddiy texnik ta’minot va resurslarni tejash
-18. Avtotransport vositalarini ishlash qobiliyatini ta’minlash
-19. Qiyosiy muhandislik
-20. Qishloq xo’jalik mashinalarining yangi texnik yechimlari
-21. Qishloq xo’jaligi mashinalari nazariyasi hisobi
-22. Ilmiy tadqiqot usullari va eksplatatsiyasi
+53. Ilmiy tadqiqot metodologiyasi
+54. Mashinasozlikda kesuvchi asboblarni loyihalash va ishlab chiqarish
+55. Dastgohlar va dastgohli tizimlarni hisoblash va konstruksiyalash
+56. Mashinalar va jarayonlar puxtaligi
+57. Ilmiy-tadqiqot ishi va magistrlik dissertatsiyasini tayyorlash
+58. Ilmiy-pedagogik ish
+59. Mashinasozlikda resurstejamkor texnologiyalar
+60. Mashinasozlikda aniqlik va uning texnologik ta’minoti
+61. Raqamli dastur bilan boshqariladigan dastgohlar va dastgohli komplekslar
+62. Maxsus fanlarni o‘qitish metodikasi
+63. Mashinasozlikda resurs tejamkor texnologiyalar
+64. Ilmiy amaliyot (tajriba orttirish)
+65. Transport vositalari va tizimlarining ishonchliligi loyihalash
+66. Avtomobil transport vositalari va uni texnik ekspluatatsiyasining istiqbolli rivojlanishi
+67. Texnologik jarayonlarini boshqarish va eksperimentlarini rejalashtirish
+68. Avtomobillar texnik ekspluatatsiyasining meyorlarini aniqlashtirish usullari
+69. Avtomobil transportida moddiy texnik ta’minot va resurslarni tejash
+70. Avtotransport vositalarini ishlash qobiliyatini ta’minlash
+71. Qiyosiy muhandislik
+72. Qishloq xo’jalik mashinalarining yangi texnik yechimlari
+73. Qishloq xo’jaligi mashinalari nazariyasi hisobi
+74. Ilmiy tadqiqot usullari va eksplatatsiyasi
 
 Darslik va maqolalar
 DARSLIK VA O‘QUV QO‘LLANMALAR
+
 1. O'rinov U.A., Amonov M.I., Yo'ldoshev M.N. “Mashinasozlik texnologiyasi asoslari” – Buxoro. “Sharq” nashriyoti. 2025y.
 2. Kamolov M.Q., Gaffarov H.R. Аvtotransport tarmogʼi korxonalarni loyihalash va jihozlash Darslik. Buxoro: Umid 2023, 444 b.
 3. Kamolov M.Q., Gaffarov H.R. “Аvtomobillarni texnik diagnostikalash” Darslik. Buxoro: Umid. 2023, 216 b.
@@ -3130,31 +3175,33 @@ DARSLIK VA O‘QUV QO‘LLANMALAR
 KAFEDRADA OLIB BORILAYOTGAN ILMIY-TADQIQOT ISHLARI
 KAFEDRADA OLIB BORILAYOTGAN ILMIY ISHLAR
 Ixtisoslik bo’yicha: 05.07.01 – “Qishloq xoʻjaligi va melioratsiya mashinalari. Qishloq xoʻjaligi va melioratsiya ishlarini mexanizatsiyalash”
+
 1. Gaffarov Xasan Ravshanovich - Paxta yetishtirish zonasida yer osti tuproq qatlamini yumshatish uchun asbobning texnologik jarayonini takomillashtirish va parametrlarini asoslash.
 2. Norov Sobirjon Negmurodovich - Yer tekislаsh mаshinаlаri shnekli ish orgаnlаrining pаrаmetrlаrini аsoslаsh.
 3. Xalilov Jahongir Mansur o’g’li - Intensiv bog‘ qator oralariga ishlov beradigan takomillashgan mashina ish organlarining parametrlarini asoslash.
 4. Rajabov Bobir Bozorovich - Keng qamrovli chizel-kultivatorga dala yuzasini tekislaydigan va unda mayin tuproq qatlamini hosil qiladigan moslama ishlab chiqish va parametrlarini asoslash.
 Ixtisoslik bo’yicha: 05.02.14 - “Oziq-ovqat mashina va apparatlari”
-1. O’rinov Nasullo Fayzulloyevich - Oziq -ovqat maxsulotlarini kesuvchi mashinalarining ish samaradorligini oshirish.
+5. O’rinov Nasullo Fayzulloyevich - Oziq -ovqat maxsulotlarini kesuvchi mashinalarining ish samaradorligini oshirish.
 Ixtisoslik bo’yicha: 05.02.03 – “Texnologik mashinalar. Robotlar, mexatronika va robotatexnika tizimlari.”
-1. Ismoyilov Ibrohim Barotovich – Junni titish mashinasi konstruksiyasini takomillashtirish va ishchi parametrlarini asoslash.
+6. Ismoyilov Ibrohim Barotovich – Junni titish mashinasi konstruksiyasini takomillashtirish va ishchi parametrlarini asoslash.
 Ixtisoslik bo’yicha: 05.02.01 – “Mashinasozlikda materialshunoslik.
-1. “Quymachilik. Metallarga termik va bosim ostida ishlov berish. Qora, rangli va noyob metallar metallurgiyasi. Kamyob, nodir va radioaktiv elementlar texnologiyasi”.
+7. “Quymachilik. Metallarga termik va bosim ostida ishlov berish. Qora, rangli va noyob metallar metallurgiyasi. Kamyob, nodir va radioaktiv elementlar texnologiyasi”.
 1.Duskarayev Nortoyloq - Ko’p shpindelli tokarlik stanoklariga sozlab turgichni ishlab chiqish.
 Ixtisoslik bo’yicha: 13.00.05- “Kasb –hunar ta’limi nazariyasi va metodikasi”:
 1.O’rinov Uyg’un Abdullayevich - Texnikа oliy tа’lim muаssаsаlаri vа ishlаb chiqаrish korxonаlаri hаmkorligidа tаlаbаlаrning аmаliy koʼnikmаlаrini rivojlаntirish mexаnizmini tаkomillаshtirish.
 Ixtisoslik bo’yicha: 13.00.02 – “Ta’lim va tarbiya nazariyasi va metodikasi”:
-1. Adizova Sevara Yusupovna - Innоvаtsiоn yоndаshuv аsоsidа tаlаbаlаrni yuqоri texnоlоgik kоrxоnаlаrdаgi kаsbiy fаоliyаtgа tаyyоrlаsh metоdikаsini tаkоmillаshtirish.
+8. Adizova Sevara Yusupovna - Innоvаtsiоn yоndаshuv аsоsidа tаlаbаlаrni yuqоri texnоlоgik kоrxоnаlаrdаgi kаsbiy fаоliyаtgа tаyyоrlаsh metоdikаsini tаkоmillаshtirish.
 Ixtisoslik bo’yicha: 02.00.16 - “Kimyo texnologiyasi va oziq-ovqat ishlab chiqarish jarayonlari va apparatlari”:
-1. Amonov Maxmud Idrisovich - Tayyor unli mahsulotlarni kesish texnologik jarayonlarini o‘rganish va qurilmalarni takomillashtirish.
-2. Sohibov Ibodillo Adizmurodovich - Yumshoq unli yarimtayyor mahsulotlarni kesish bosqichida qo‘llaniladigan texnologik uskunani takomillashtirish.
+9. Amonov Maxmud Idrisovich - Tayyor unli mahsulotlarni kesish texnologik jarayonlarini o‘rganish va qurilmalarni takomillashtirish.
+10. Sohibov Ibodillo Adizmurodovich - Yumshoq unli yarimtayyor mahsulotlarni kesish bosqichida qo‘llaniladigan texnologik uskunani takomillashtirish.
 Ixtisoslik bo’yicha: 06.01.02 - “Melioratsiya va sug'orma dehqonchilik”:
-1. Fazliyev Jomoliddin Sharofiddinovich - Bog‘larni tomchilatib sug‘orishning ilmiy asoslangan texnologiyasini ishlab chiqish (Buxoro viloyati misolida).
-2. Hakimova Zarina Ziyodullayevna - Qishloq xoʼjаligi ekinlаrini sugʼorishdа mаishiy oqovа suvlаridаn foydаlаnish sаmаrаdorligi.
+11. Fazliyev Jomoliddin Sharofiddinovich - Bog‘larni tomchilatib sug‘orishning ilmiy asoslangan texnologiyasini ishlab chiqish (Buxoro viloyati misolida).
+12. Hakimova Zarina Ziyodullayevna - Qishloq xoʼjаligi ekinlаrini sugʼorishdа mаishiy oqovа suvlаridаn foydаlаnish sаmаrаdorligi.
 Ixtisoslik bo’yicha: 01.02.04 – “Deformatsiyalanuvchan qattiq jism mexanikasi”:
 1.Jo’rayev Toyir Omonovich - Elastik yarim tekislikda joylashgan inshootlarda turgʼun boʼlmagan toʼlqinlar taʼsiri xususiyatlari
 
 KAFEDRA XORIJIY TA’LIM MUASSASALARI BILAN HAMKORLIK
+
 1. “Avto Service Inter Millennium” MCHJ
 2. “Vobkent Yulduzi Texservis” MCHJ
 3. “Buxoro Avtotexxizmat” MCHJ
@@ -3168,9 +3215,10 @@ KAFEDRA XORIJIY TA’LIM MUASSASALARI BILAN HAMKORLIK
 11. “Usmon sher shamshod” MCHJ.
 12. “Losha qurilish sanoat komplekkt” MCHJ.
 13. "Emirate steel" MChJv 14. “XXI metall works Buxara” MChJ
-15. “Ko‘hna Buxoro ta’mir” MChJ 16. "Losha qurilish sanoat komplekt" xususiy korxonasi.
+14. “Ko‘hna Buxoro ta’mir” MChJ 16. "Losha qurilish sanoat komplekt" xususiy korxonasi.
 
 Xalqaro homkorlik tashkilotlari.
+
 1. Emirate Steel - mas’uliyati cheklangan jamiyat xorijiy korxonasi.
 2. «ENTER MASHINERIES SERVICE» - mas’uliyati cheklangan jamiyat xorijiy korxonasi.
 3. Head of China Nuclear Industry 22ND Construction CO., LTD: - mas’uliyati cheklangan jamiyat xorijiy korxonasi.
@@ -3248,12 +3296,12 @@ Moliyaviy barqarorlik quyidagi manbalar orqali ta’minlanadi:
 3) konsalting xizmatlari
 4)innovatsion ishlanmalarni tijoratlashtirish
 II. Kutilgan asosiy ko‘rsatkichlar
-Ko‘rsatkich	2026	2028	2030
-Yangilangan fanlar soni	5	10	15
-Zamonaviy laboratoriyalar	2	4	8
-Scientific articles	10	25	40
-International partner universities	1	2	3
-Startup projects	1	2	3
+Ko‘rsatkich 2026 2028 2030
+Yangilangan fanlar soni 5 10 15
+Zamonaviy laboratoriyalar 2 4 8
+Scientific articles 10 25 40
+International partner universities 1 2 3
+Startup projects 1 2 3
 III. Expected General Results
 • modern engineering education
 • specialists in innovative and digital transport technologies
@@ -3267,7 +3315,7 @@ The concept of development of the educational direction "Vehicle Engineering (Ro
 
 هاذه الاقسام ال6 ترتبط ب كلية Faculty of Service and Digitalization
 
-القسم Department of Technological Processes and Production Automation     = http://localhost:5173/department/technological-processes-production-automation
+القسم Department of Technological Processes and Production Automation     = <http://localhost:5173/department/technological-processes-production-automation>
 معلومته هي
 
 Department of Technological Processes and Production Automation
@@ -3276,7 +3324,7 @@ Email:
 Kabilov Hasan Khalilovich
  Reception time: Every day 15:00-17: 00
  Phone: +998 (91) 409 66 18
- Email: h.qobilov@mail.ru
+ Email: <h.qobilov@mail.ru>
 
 Kafedra Tarixi
 Technological Processes and Production Automation
@@ -3372,6 +3420,7 @@ MAGISTRATURA
 
 KAFEDRADA O‘QITILADIGAN FANLAR
 Bakalavriat:
+
 1. Texnologik jarayonlarni boshqarishning dasturiy ta’minoti;
 2. Dasturlash tillari bazasida texnik ilovalar;
 3. Axborot kommunikatsiya tizimlarini standartlashtirish;
@@ -3398,16 +3447,16 @@ Bakalavriat:
 24. Nazorat o’zlchov asboblari
 25. Avtomatlashtirish va muhandislikda raqamli metodlar
 Magistratura
-1. Texnologik jarayonlarni boshqarishda axborot-kommunikatsiya tizimlarini ishlab chiqish texnologiyasi;
-2. Axborot-kommunikatsiya tizimlarini optimallashtirish va diagnostikasi;
-3. Axborot-kommunikatsiya tizimlarini tadkik kilishning usul va vositalari;
-4. Boshqarishning intellektual sistemalari va qaror qabul qilish (tanlov);
-5. Axborot-kommunikatsiya tizimlari arxitekturasi va nanotexnologiyasi
-6. Texnologik jarayon ma’lumotlarini o’zi o’rganuvchan texnologiyalar (Machine Learning for IOT)
-7. Muxandislik loyixalashda avtomatlashtirilgan tizimlar (CAD/CAE/CAM) (tanlov);
-8. Texnologik jarayon ma’lumotlarini o’zi o’rganuvchan texnologiyalar (Machine Learning for IOT) (tanlov);
-9. Ilmiy-tadqiqot ishi va magistrlik dissertatsiyasini tayyorlash
-10. Ilmiy-pedagogik ish
+26. Texnologik jarayonlarni boshqarishda axborot-kommunikatsiya tizimlarini ishlab chiqish texnologiyasi;
+27. Axborot-kommunikatsiya tizimlarini optimallashtirish va diagnostikasi;
+28. Axborot-kommunikatsiya tizimlarini tadkik kilishning usul va vositalari;
+29. Boshqarishning intellektual sistemalari va qaror qabul qilish (tanlov);
+30. Axborot-kommunikatsiya tizimlari arxitekturasi va nanotexnologiyasi
+31. Texnologik jarayon ma’lumotlarini o’zi o’rganuvchan texnologiyalar (Machine Learning for IOT)
+32. Muxandislik loyixalashda avtomatlashtirilgan tizimlar (CAD/CAE/CAM) (tanlov);
+33. Texnologik jarayon ma’lumotlarini o’zi o’rganuvchan texnologiyalar (Machine Learning for IOT) (tanlov);
+34. Ilmiy-tadqiqot ishi va magistrlik dissertatsiyasini tayyorlash
+35. Ilmiy-pedagogik ish
 
 KAFEDRA FAOLIYATIDAN LAVHALAR
 Ilmiy tadqidot ishlaridan foto lavhalar
@@ -3420,21 +3469,23 @@ B.T. Ergashev 5321700-Information and communication systems for managing technol
 
 3.Usmonov Akhtam Usmonovich Rasulov, Shukhrat Khuzhakulovich Ibragimov Shohruh Ramaza ugly 5321700- Information and communication systems for managing technological processes, Intellectual control measuring instruments
 
-4. Abdurakhmonov Olim Rustamovich Ibragimov Shokhruh Ramazovich oglu 5321700 - Information and communication systems of control of technological processes Elements and devices of control systems
+1. Abdurakhmonov Olim Rustamovich Ibragimov Shokhruh Ramazovich oglu 5321700 - Information and communication systems of control of technological processes Elements and devices of control systems
 
 PRESENTATIONS AND ARTICLES AT CONFERENCES
+
 1. Ibragimov Ulugbek Muradilloevich Science and Education EVALUATION OF THE RESULTS OF DISTANCE TRAINING OF FUTURE ENGINEERS WITH THE USE OF "SMART" TECHNOLOGY ISSN 2181-0842 VOLUME 2, ISSUE 2 FEBRUARY 2021, 370-376 P
 2. Қобилов Ҳасан Халилович SCIENTIFIC-METHODICAL JOURNAL OF “SCIENTIFIC PROGRESS”, ISSN: 2181-1601 ОЛИЙ ТАЪЛИМДА ТАЛАБАЛАРНИНГ ШАХСИЙ-КРЕАТИВ КОМПЕТЕНЦИЯСИНИ РИВОЖЛАНТИРИШ ОМИЛЛАРИ VOLUME 2 ǀ ISSUE 5 ǀ 2021 ISSN: 2181-1601 cентябрь 2021, 327-329 б
 3. Abdurakhmonov Olim Rustamovich, Kobilov Khasan Khalilovich, Z. S. Salimov, Sh. M. Saidakhmedov Technology of Oil and Gas. Moscow, 2012. – № 5. – P. 8-11. Intensification of the process of distillation of hydrocarbon mixtures with the use of alternative steaming agents
 4. Kobilov Khasan Khalilovich, D.F. Goyibov, A.P. Nazarov Young Scientist Scientific journal is published twice a month 01.04.2015 Low-temperature separation of hydrocarbons from natural and petroleum associated gases
 SCIENTIFIC WORKS INCLUDED IN SCOPUS AND WEB OF SCIENCE
-1. Кобилов Х. Х., Абдурахмонов О. Р., Шарипова Н. Р., Адизова М. Р. Development of the installation device pressing the volume of briquetted material and computer modeling of the technological process. V International conference AGRITECH-2021: Agribusiness, environmental engineering and biotechnologies. Krasnoyarsk-Volgograd, Russia/T. Bukhara, Uzbekistan, June 16-19 2021. P.1-7 (3) Scopus.
-2. Артиқов А. A., Джураев Х. Ф., Нарзиев М. С., Қобилов Ҳ. Х., Увайзов С. К. Брикет материалини сиқиш жараёнини преслаш ускунасида ҳисоблаш дастури Гувоҳнома № DGU 12459
-3. Артиков А. А., Нарзиев М. С., Қобилов Х. Х., Tо the question of modeling the process of compacting a briquetted material in a pressing plant SJIF Impakt Faktor: 7.492 Academia an International Multidisciplinary Research Journal DOI: 10.5958/2249-7137.2021.00437.7 ttps://eprajournals.com/article.php
-4. Абдурахмонов О. Р., Қобилов Х. Х., Абидов К. З. Creation of new technology of coal briquette manufacturing SJIF Impakt Faktor: 7.032 EPRA International Journal of Multidisciplinary research (IJMR) 01.11.2020. 390-393 б https://eprajournals.com/article.php
+5. Кобилов Х. Х., Абдурахмонов О. Р., Шарипова Н. Р., Адизова М. Р. Development of the installation device pressing the volume of briquetted material and computer modeling of the technological process. V International conference AGRITECH-2021: Agribusiness, environmental engineering and biotechnologies. Krasnoyarsk-Volgograd, Russia/T. Bukhara, Uzbekistan, June 16-19 2021. P.1-7 (3) Scopus.
+6. Артиқов А. A., Джураев Х. Ф., Нарзиев М. С., Қобилов Ҳ. Х., Увайзов С. К. Брикет материалини сиқиш жараёнини преслаш ускунасида ҳисоблаш дастури Гувоҳнома № DGU 12459
+7. Артиков А. А., Нарзиев М. С., Қобилов Х. Х., Tо the question of modeling the process of compacting a briquetted material in a pressing plant SJIF Impakt Faktor: 7.492 Academia an International Multidisciplinary Research Journal DOI: 10.5958/2249-7137.2021.00437.7 ttps://eprajournals.com/article.php
+8. Абдурахмонов О. Р., Қобилов Х. Х., Абидов К. З. Creation of new technology of coal briquette manufacturing SJIF Impakt Faktor: 7.032 EPRA International Journal of Multidisciplinary research (IJMR) 01.11.2020. 390-393 б <https://eprajournals.com/article.php>
 
 ONGOING RESEARCH WORK OF THE DEPARTMENT
 LEADING SCIENTIFIC WORK AT THE DEPARTMENT:
+
 1. И-ОТ-2017-5-5 "Creation of technology for the production of coal briquettes with high energy efficiency and environmental indicators" by: prof. O.R.Abdurakhmonov, estimated at 210 million cubic meters;
 2. A-9-1 "Development of a resource-saving environmentally friendly technology for the production of ingredients from plant raw materials using liquefied carbon dioxide" K.Kh. Gafurov: 95 million dollars;
 3. A-5-7 "Development and creation of an information and communication system for managing the process of production of extracts from plant raw materials, working under high pressure with liquefied gas" rakhbar: assoc. prof. A.U.Usmonov estimated the amount: 120 million sus.
@@ -3446,6 +3497,7 @@ THE DEPARTMENT OFFERS COOPERATION WITH FOREIGN EDUCATIONAL INSTITUTIONS
 Erasmus+ program "610170-ЕРРР-1-2019-1-ЕС-ЕРРКА2-СНЕ-JР ELBA: Establishment of training and research centers and courses development on "Intelligent Big Data Analysis in Central Asia"
 
 PROSPECTIVE PLANS OF THE DEPARTMENT
+
 1) Bringing the scientific potential of professors of the department up to 70% by the end of 2024 2
 ) Implementation of annual contracts worth at least 200 million soums, aimed at solving existing problems in production
 enterprises 3) Establishing state grands in cooperation with reputable foreign universities 4
@@ -3456,7 +3508,7 @@ work 7) improvement by attracting
 talented students to the activities of the department's circles 8) Introduction of practical and experimental classes of specialty subjects in
 production enterprises 9) Ensuring the participation of young teachers and gifted students in Olympiads and various competitions
 
-القسم Department of Information and Communication Technologies      = http://localhost:5173/department/information-and-communication-technologies
+القسم Department of Information and Communication Technologies      = <http://localhost:5173/department/information-and-communication-technologies>
 معلومته هي
 
 Department of Information and Communication Technologies
@@ -3561,98 +3613,101 @@ DOKTORANTURA
 
 KAFEDRADA O‘QITILADIGAN FANLAR
 Bakalavriat:
+
 1. Social Media and Management
 2. Methods and Tools of Information Security
 3. Mobile Device Programming
 4. Web Application Development
 5. Fundamentals
 of design activities 6. Information systems in the enterprise
-7. Discrete, Digital Control Design Programs and Systems
-8. Artificial Intelligence Systems
-9. Computer-aided design of information systems
-10. Control and Programming of Industrial Robots
-11. Industry Facilities Conservation
+6. Discrete, Digital Control Design Programs and Systems
+7. Artificial Intelligence Systems
+8. Computer-aided design of information systems
+9. Control and Programming of Industrial Robots
+10. Industry Facilities Conservation
 Programs 12. Network administration and information security
-13. Software Engineering and Object Programming
-14. Electronics and Circuit
+11. Software Engineering and Object Programming
+12. Electronics and Circuit
 Engineering 15. Mathematical Statistics and Forecasting
-16. Computer Networks and Telecommunications
-17. Web Programming and Networking
+13. Computer Networks and Telecommunications
+14. Web Programming and Networking
 Database 18. Identification, modeling and optimization
-19. Instrumental tools of information management systems
-20. Information and communication systems and technologies
-21. Discrete Mathematics and Mathematical Logic
-22. Computer graphics, infographics and design
-23. Algorithmic Languages and Programming
-24. Database Management and Programming
+15. Instrumental tools of information management systems
+16. Information and communication systems and technologies
+17. Discrete Mathematics and Mathematical Logic
+18. Computer graphics, infographics and design
+19. Algorithmic Languages and Programming
+20. Database Management and Programming
 Technologies 25. Digital Schematics
-26. Computer Systems and Networks
-27. Web Technologies
-28. Mathematical Foundations of Information Processing
-29. Making
+21. Computer Systems and Networks
+22. Web Technologies
+23. Mathematical Foundations of Information Processing
+24. Making
 mobile apps 30. Object-Oriented Programming
 Languages 31. Big Data Analytics
-32. Mass service of information systems
-33. Control theory 34. Identification, modeling and optimization
-35. Intellectual Information Systems
-36. Design of information systems
-37. Engineering Programs
-38. Programming Fundamentals
-39. Collective Software Development
+25. Mass service of information systems
+26. Control theory 34. Identification, modeling and optimization
+27. Intellectual Information Systems
+28. Design of information systems
+29. Engineering Programs
+30. Programming Fundamentals
+31. Collective Software Development
 Technology 40. Cloud Technology and Virtual Reality Systems
-41. IoT Fundamentals
-42. Cybersecurity Fundamentals
-43. Technical and Software Maintenance of Computer Systems and Networks
-44. Multimedia Technologies
+32. IoT Fundamentals
+33. Cybersecurity Fundamentals
+34. Technical and Software Maintenance of Computer Systems and Networks
+35. Multimedia Technologies
 in Education 45. Fundamentals of
 Systems Analysis 46. Programming 1.2
-47. Data Structure and Algorithms
-48. Database
-49. Electronics and Circuits
-50. Discrete structures
-51. Computer Networks
-52. Cybersecurity Fundamentals
-53. Differential Equations
-54. Fundamentals of
+36. Data Structure and Algorithms
+37. Database
+38. Electronics and Circuits
+39. Discrete structures
+40. Computer Networks
+41. Cybersecurity Fundamentals
+42. Differential Equations
+43. Fundamentals of
 Artificial Intelligence 55. Probability and Statistics
-56. Information System Development Methodologies
-57. Cloud Technologies
-58. Web Systems
-59. Big Data Management
-60. Individual Project
-61. Business Process and IT Strategy
-62. Visualization of Information Systems
+44. Information System Development Methodologies
+45. Cloud Technologies
+46. Web Systems
+47. Big Data Management
+48. Individual Project
+49. Business Process and IT Strategy
+50. Visualization of Information Systems
 Data 63. Logical Programmable Devices and Systems
-64. Software Engineering
-65. Database Management Systems
-66. Web Programming Fundamentals
-67. Object-Oriented Programming
-68. Discrete and Digital Control Systems
-69. Theory of Intellectual Management
-70. Software Testing
-71. Web Application Development
-72. Software design
+51. Software Engineering
+52. Database Management Systems
+53. Web Programming Fundamentals
+54. Object-Oriented Programming
+55. Discrete and Digital Control Systems
+56. Theory of Intellectual Management
+57. Software Testing
+58. Web Application Development
+59. Software design
 
 Judiciary
+
 1. Design of information systems
 2. Administrative management of computer networks
 3. Design and analysis of algorithms
 4. Fundamentals of
 parallel computing 5. Mobile engineering
-6. ERP systems design and management
-7. Design of Artificial Intelligence Systems
-8. Artificial Intelligence and Decision
+5. ERP systems design and management
+6. Design of Artificial Intelligence Systems
+7. Artificial Intelligence and Decision
 Making 9. Data Intellectual Analysis
-10. Searching and Extracting
+8. Searching and Extracting
 Information 11. Java and Web
 Technologies 12. Cryptography and cryptanalysis
-13. Scientific and pedagogical work and qualification
+9. Scientific and pedagogical work and qualification
 practice 14. Research work and preparation of a master's thesis
-15. Retrieval
+10. Retrieval
 and Extraction of Information 16. Intellectual analysis of data
 
 Textbook and articles
 SCIENTIFIC ARTICLES
+
 1. Asraev Z.R. "Technology of practical problem solving in the field of Material Resistance using the SOLIDWORKS program". Scientific information of Namangan State University. 2021, No. 5, Namangan, pp. 481-487.
 2. Asraev Z.R. "Formation of the system of teaching on the basis of electronic textbooks on the subject "Technical mechanics"// Vocational education. Scientific-methodological, practical, educational journal. 2021. No2, Tashkent, p. 71-73.
 3. Muradova F.R. Mechanism for the development of tasks and issues directed to intellectual potential. Scientific, theoretical and methodical journal. Bukhara 2021. No. 5.–B.228-235.
@@ -3669,14 +3724,14 @@ SCIENTIFIC ARTICLES
 14. Murodova F.R. Virtual laboratories as a perspective information technology in the educational process Fan va texnologiyalar taraqqiyoti №4 2020, 253-257
 15. Aslonov Q.Z. Sozdanie model besprovodnoy sistemы upravleniya na baze platы Arduino Uno s tekhnologiey Bluetooth 2.0 Science and technology Development No2 2020, 125-131
 SCIENTIFIC WORKS INCLUDED IN SCOPUS AND WEB OF SCIENCE
-1. Aslonov Q.Z. “To the question of the development of servers of real-time management systems of electrical engineering complexes on the basis of modern automation systems” CEUR-WS Vol-2843 (Indexed by SCOPUS) Russia 2021.
-2. Asrayev Z.R. “Application of Computer Practical Batches and Animated Software in Teaching the Subject “Applied Mechanics” IJARW Vol. 5 Issue 2 (Indexed by SCOPUS) USA 2021.
-3. Kadirova Sh.M. “The Role of Education and Pedagogy in Today's World” IJIRSET Volume 10, Issue 7 (Indexed by SCOPUS) Indiya 2021.
-4. Muxamadieva K.B. Neural network video streaming International Journal of Mechanical and Production Engineering Research and Developmen Vol. 10, Issue 3, Jun 2020, 8523-8534 Hindiston 2020
-5. Nurullaev M.M. Software, algorithms and methods of data encryption based on national standards IIUM Engineering Journal VOL. 21 NO. 1 (2020), 142-166 Malayziya 2020
-6. Nafasov M.M. The effectiveness of the use of mobile technologies in the educational process EPRA //International Journal of Multidisciplinary Research (IJMR) Volume: 6 | Issue: 8 | August 2020, 434-437 AQSh 2020
-7. Sariev R.B. Integrative essence of technologies innovative educational process// International Engineering Journal For Research & Development VOLUME 5 ISSUE 8 2020, 1-8 AQSh 2020
-8. Muxamadieva K.B. Neural network video streaming International Journal of Mechanical and Production Engineering Research and Developmen Vol. 10, Issue 3, Jun 2020, 8523-8534 Hindiston 2020
+16. Aslonov Q.Z. “To the question of the development of servers of real-time management systems of electrical engineering complexes on the basis of modern automation systems” CEUR-WS Vol-2843 (Indexed by SCOPUS) Russia 2021.
+17. Asrayev Z.R. “Application of Computer Practical Batches and Animated Software in Teaching the Subject “Applied Mechanics” IJARW Vol. 5 Issue 2 (Indexed by SCOPUS) USA 2021.
+18. Kadirova Sh.M. “The Role of Education and Pedagogy in Today's World” IJIRSET Volume 10, Issue 7 (Indexed by SCOPUS) Indiya 2021.
+19. Muxamadieva K.B. Neural network video streaming International Journal of Mechanical and Production Engineering Research and Developmen Vol. 10, Issue 3, Jun 2020, 8523-8534 Hindiston 2020
+20. Nurullaev M.M. Software, algorithms and methods of data encryption based on national standards IIUM Engineering Journal VOL. 21 NO. 1 (2020), 142-166 Malayziya 2020
+21. Nafasov M.M. The effectiveness of the use of mobile technologies in the educational process EPRA //International Journal of Multidisciplinary Research (IJMR) Volume: 6 | Issue: 8 | August 2020, 434-437 AQSh 2020
+22. Sariev R.B. Integrative essence of technologies innovative educational process// International Engineering Journal For Research & Development VOLUME 5 ISSUE 8 2020, 1-8 AQSh 2020
+23. Muxamadieva K.B. Neural network video streaming International Journal of Mechanical and Production Engineering Research and Developmen Vol. 10, Issue 3, Jun 2020, 8523-8534 Hindiston 2020
 TEXTBOOKS AND MANUALS
 1.Razzakov Sh.I., Yuldoshev Sh.S., Ibragimov U.M. Textbook on the subject "Computer graphics". 2017
 
@@ -3701,6 +3756,7 @@ Ongoing research work of the department
 At the department "Information and Communication Technologies" of Bukhara State Technical University, much attention is paid to the issues of integration of education and production, the introduction of the results of scientific research in the field of production, the introduction of new forms and methods of using computer technology and telecommunication in the educational process, increasing the effectiveness of education. The department is implemented on the basis of a promising plan of scientific research works for 2025-2030 approved by the rector of the university. At Department of Sciences, 1 candidate of sciences, 1 doctor of science, and 9 scientific researchers conduct research on topics and problems corresponding to their scientific directions.
 
 In the 2025-2026 academic year, the department carried out research works on the following topics according to the plan:
+
 1. Sharapova Nigora Amonovna – 13.00.02 - Specialization in Theory and Methods of Education and Training (Informatics) on the theme: "Methods of developing information and communication competence in distance learning of students in the modern educational environment"; Supervisor: Sh.Kh.Samiyeva.
 2. Atoev Fazliddin Sayfiddinovich - 13.00.02 - Supervisor on the topic "Methodology for developing information and communication competence of future engineers by means of electronic learning resources (on the example of the discipline" Information Technologies in technical systems)" in the specialty of Theory and Methods of Teaching and Training (by industry): U.A. Orinov.
 Scientific potential of professors - teachers working at the departments of the university
@@ -3731,18 +3787,19 @@ Integration of science with education and production. Innovative corporate coope
 branches of the department are organized in the State Company "Bukhara Clean Territory" and Uzkommunproekt LLC. Students of the ATT direction are undergoing Dual education and internships in these enterprises. Training processes have been improved in accordance with the needs of today's production, in particular, training processes and practices are carried out on the basis of dual education with Bukhara Real Moto LLC 4 projects for applied and fundamental research were prepared and submitted to the ministry. 4 international projects are being prepared within the framework of the ALIPH Foundation. The teachers of the department cooperate with foreign colleagues who are winners of two international grants. Due to these grants, the material and technical base of the department and the availability of literature successfully ensured that a number of teachers of the department, including Narziyev U.Z. - in prestigious universities in Latvia, Sweden, Tajikistan, Kazakhstan, Slovenia, Russia, successfully trained in modern information technologies.
 
 Perspective plan of the department
+
 1) bringing the scientific potential of professors of the department up to 80% by 2030,
 2) implementation of economic contracts aimed at solving the existing problems at production enterprises
 annually, 3) establishing state grands in cooperation with reputable foreign universities,
-4) ensuring
+3) ensuring
 the participation of professors and talented students in startup projects 5) creation and translation of textbooks and teaching aids on the basis of today's requirements,
-6) commercialization of the results of scientific research,
-7) improvement by attracting
+4) commercialization of the results of scientific research,
+5) improvement by attracting
 gifted students to the activities of the department's circles 8) introduction of practical and experimental classes of specialty subjects in production enterprises
-9) Ensuring the participation of young teachers and gifted students in Olympiads and various competitions
-10) Participation in projects in the field of artificial intelligence
+6) Ensuring the participation of young teachers and gifted students in Olympiads and various competitions
+7) Participation in projects in the field of artificial intelligence
 
-القسم Department of Economics and Management  = http://localhost:5173/department/economics-and-management
+القسم Department of Economics and Management  = <http://localhost:5173/department/economics-and-management>
 معلومته هي
 
 Department of Economics and Management
@@ -3751,7 +3808,7 @@ Email:
 Boboyev Akmal Choriyevich
  Reception time: Dushanba-Juma (14:00-16:00 gacha)
  Phone: +998(97) 306-31-32
- Email: boboyevakmal1974@gmail.com
+ Email: <boboyevakmal1974@gmail.com>
 
 Kafedra Tarixi
 In many ways, the important factor in the sustainable development of the national economy, the growth of production rates in its industries, and the increase of the international competitiveness of the country are provided by personnel trained in economic areas. The departments of economics established at the Institute make a great contribution to their upbringing of qualified specialists.
@@ -3849,6 +3906,7 @@ IKKINCHI MUTAXASSISLIK (SIRTQI)
 
 KAFEDRADA O‘QITILADIGAN FANLAR
 Bakalavriat:
+
 1. Iqtisodiyot nazariyasi
 2. Biznesga kirish
 3. Akademik ko'nikmalar va kasbiy kompetentlik
@@ -3909,6 +3967,7 @@ Bakalavriat:
 
 Ilmiy maqolalar
 ANJUMANLARDAGI TЕZIS VA MAQOLALAR
+
 1. Boboyev A.Ch. Innovasion tadbirkorlikni rivojlantirishda investisiyaviy jozibadorlikni oshirish Fan va texnologiyalar taraqqiyoti ilmiy texnikaviy jurnal, 2021 yil 1-son, 266-271 betlar
 2. Akramova O.Q. Innovasion tadbirkorlikni rivojlantirishda investisiyaviy jozibadorlikni oshirish Fan va texnologiyalar taraqqiyoti ilmiy texnikaviy jurnal, 2021 yil 1-son, 266-271 betlar
 3. Raxmatov Shuxrat Axatovich Oliy ta'lim muassasasi mene¬jeri innovasion – tadbirkorlik xislatlarini baholash metodi Ta'lim va innovasion tadqiqotlar jurnali. Buxoro, 2021. 2-son, 263-266 b.
@@ -3919,15 +3978,15 @@ ANJUMANLARDAGI TЕZIS VA MAQOLALAR
 8. Muxsinov Bekzod Toxirovich Methods of evaluation of efficiency of marketing activities of enterprises Jamiyat va innovasiyalar – Obshestvo i innovasii – Society and innovations Special Issue – 4 (2021) / ISSN 2181-1415
 9. Ochilov Sherali Barotovich Aholi sonini prognozlash masalasini hosila funksiyasini qurish yordamida amalga oshirish Biznes-Ekspert Toshkent,№2, 2021. 21-24-betlar
 SCOPUS VA WEB OF SCIENCE BAZASIGA KIRGAN ILMIY ISHLAR
-1. Rasulova Nigora Nematovna  Features of Socio-Economic Development of Regions in the Digital Economy  Central Asian Journal of Theoretical and Applied Sciences. ISSN: 2660-5317. Vol. 02 Issue: 04. Ispaniya
-2. Rasulova Nigora Nematovna Tourism and Digitalization: Achievements and Challenges for the Future CENTRAL ASIAN JOURNAL OF INNOVATIONS ON TOURISM MANAGEMENT AND FINANCE.Volume: 02 Issue: 06 ISSN: 2660-454X Ispaniya
-3. International Journal of Progressive Sciences and Technologies (IJPSAT). ISSN: 2509-0119. Vol. 26 No.1 Morokko
-4. Ochilov Sherali Barotovich Research of Foot Sizes of Younger School Children for the Purpose of Identification of Static Deformations 2 Issue: 06 June 2021. ISSN: 2660-454X
-5. Ochilov Sherali Barotovich  OTHER WAYS TO BUILD CORRELATION MODELS  INTERNATIONAL JOURNAL ON HUMAN COMPUTING STUDIES Indoneziya
-6. Ochilov Sherali Barotovich  Method For Constructing Correlation Dependences For Functions Of Many Variables Used Finite Di_erences  THE AMERICAN JOURNAL OF MANAGEMENT AND ECONOMICS INNOVATIONS, ISSN: 2693-0811, Volume03 Issue05, May 2021. P. 46- 52  Amerika
-7. Xasanova Gulrux Djumanazarovna  Ways to improve the higher education system in Uzbekistan PSYCHOLOGY AND EDUCATION (ISSN: 2890-2895)  Amerika
-8. Muxsinov Bekzod Toxirovich  Development of the Concept of Integrated Marketing Communications Online Journal of Qualitative Inquiry (TOJQI) Volume 12, Turkish
-9. Azimov Bobir Fattohevich  POKAZATELI INNOVASIONNOY AKTIVNOSTI RESPUBLIKI UZBEKISTAN "Uchyoniy XXI veka"  Rossiya Federatsiyasi
+10. Rasulova Nigora Nematovna  Features of Socio-Economic Development of Regions in the Digital Economy  Central Asian Journal of Theoretical and Applied Sciences. ISSN: 2660-5317. Vol. 02 Issue: 04. Ispaniya
+11. Rasulova Nigora Nematovna Tourism and Digitalization: Achievements and Challenges for the Future CENTRAL ASIAN JOURNAL OF INNOVATIONS ON TOURISM MANAGEMENT AND FINANCE.Volume: 02 Issue: 06 ISSN: 2660-454X Ispaniya
+12. International Journal of Progressive Sciences and Technologies (IJPSAT). ISSN: 2509-0119. Vol. 26 No.1 Morokko
+13. Ochilov Sherali Barotovich Research of Foot Sizes of Younger School Children for the Purpose of Identification of Static Deformations 2 Issue: 06 June 2021. ISSN: 2660-454X
+14. Ochilov Sherali Barotovich  OTHER WAYS TO BUILD CORRELATION MODELS  INTERNATIONAL JOURNAL ON HUMAN COMPUTING STUDIES Indoneziya
+15. Ochilov Sherali Barotovich  Method For Constructing Correlation Dependences For Functions Of Many Variables Used Finite Di_erences  THE AMERICAN JOURNAL OF MANAGEMENT AND ECONOMICS INNOVATIONS, ISSN: 2693-0811, Volume03 Issue05, May 2021. P. 46- 52  Amerika
+16. Xasanova Gulrux Djumanazarovna  Ways to improve the higher education system in Uzbekistan PSYCHOLOGY AND EDUCATION (ISSN: 2890-2895)  Amerika
+17. Muxsinov Bekzod Toxirovich  Development of the Concept of Integrated Marketing Communications Online Journal of Qualitative Inquiry (TOJQI) Volume 12, Turkish
+18. Azimov Bobir Fattohevich  POKAZATELI INNOVASIONNOY AKTIVNOSTI RESPUBLIKI UZBEKISTAN "Uchyoniy XXI veka"  Rossiya Federatsiyasi
 
 KAFEDRA XORIJIY TA’LIM MUASSASALARI BILAN HAMKORLIK
 
@@ -3947,15 +4006,16 @@ In Increasing Employment Of Population (On The Example Of Bukhara Region Of The 
 Khasanova Gulruh Jumanazarovna"Modern Problems of Socio-Economic Systems in the Context of Globalization". Collection of Scientific Works of the XV International Scientific and Practical Conference. Belgorod, October 21, 2021 Page 449-452 Russia. Belgorod, Institute of Economics and Management of Belgorod State University The importance of human resources development in industrial enterprises
 
 PROSPECTIVE PLANS OF THE DEPARTMENT
+
 1. Bringing the scientific potential of the faculty of the department to 60% by the end of 2024
 2. Implementation of economic contracts worth at least 100 million soums aimed at solving existing problems in production enterprises
 every year 3. Establishment of state grands in cooperation with reputable foreign universities
-4. Ensure participation of faculty and gifted students in start-up projects
-5. Development of textbooks, teaching aids and e-learning resources on specialized subjects
-6. Commercialization of research results
-7. Improving courses at the department with a priority to the green economy
+3. Ensure participation of faculty and gifted students in start-up projects
+4. Development of textbooks, teaching aids and e-learning resources on specialized subjects
+5. Commercialization of research results
+6. Improving courses at the department with a priority to the green economy
 
-القسم Department of Social Sciences and Physical Education   = http://localhost:5173/department/social-sciences-physical-culture
+القسم Department of Social Sciences and Physical Education   = <http://localhost:5173/department/social-sciences-physical-culture>
 معلومته هي
 
 Department of Social Sciences and Physical Education
@@ -4042,6 +4102,7 @@ Sultonova Latofat Saydullaevna
 
 KAFEDRADA O‘QITILADIGAN FANLAR
 Bakalavriat:
+
 1. O`zbekistonning eng yangi tarixi
 2. Falsafa
 3. Dinshunoslik
@@ -4049,6 +4110,7 @@ Bakalavriat:
 
 Darslik va maqolalar
 Kafedrada quyidagi fanlar bo‘yicha o‘quv materiallarining elektron versiyalari ishlab chiqilishi va institut axborot-resurc markaziga topshirildi
+
 1. "Sotsiologiya fanidan uslubiy qo’llanma" Bafoyev F.M.,Muradov S.A.
 2. "O‘zbekiston eng yangi tarixi fanidan o‘quv – uslubiy majmua" Nurmatova N.U.,Azimov A.A.
 3. "O’zbekistonni rivojlantirish strategiyasi. Fuqarolik jamiyati fanidan o‘quv – uslubiy majmua" Alimova M.M,Mirzaqulov B.T
@@ -4079,7 +4141,7 @@ XALQARO HAMKORLIK ASOSIDA ERISHILGAN NATIJALAR
 
    KAFEDRA PROFESSSOR-O‘QITUVCHILARI TOMONIDAN 2021-2022 O‘QUV YILDA CHOP ETILGAN O‘QUV QO‘LLANMALAR
 
-القسم Department of Exact Sciences  = http://localhost:5173/department/exact-sciences
+القسم Department of Exact Sciences  = <http://localhost:5173/department/exact-sciences>
 معلومته هي
 
 Department of Exact Sciences
@@ -4117,13 +4179,13 @@ KAFEDRADA OLIB BORILAYOTGAN ILMIY-TADQIQOT ISHLARI
 Kаfеdrаdа hоzirgi kundа 4 tа ilmiy yo’nаlishdа ilmiy ishlаr оlib bоrilmоqdа.
  1. Spеktrаl tаhlil ilmiy yo’nаlishi bo’yichа- prоfеssоr S.Х.Аstаnоv rаhbаrligidа ilmiy ishlаr оlib bоrilmоqdа.
 
-2. Scientific work on the scientific direction of neurological egenetics is carried out in the journal of О.S.Kоmilоv.
+1. Scientific work on the scientific direction of neurological egenetics is carried out in the journal of О.S.Kоmilоv.
 
-3. Kоndеnsirlаngаn vа nаnо' – measured systems of functional and pаrаmеtric hоdisаlаr mаvzu m.f.d. Scientific work of M.R.Jumаev is carried out.
+2. Kоndеnsirlаngаn vа nаnо' – measured systems of functional and pаrаmеtric hоdisаlаr mаvzu m.f.d. Scientific work of M.R.Jumаev is carried out.
 
-4. Spin – the natural structure of the natural structure of gravity and the scientific direction of the mаgnitöptic properties of the transition – f-m.f.d. M.Z.SH Scientific work is not going on in the Republic of Uzbekistan.
+3. Spin – the natural structure of the natural structure of gravity and the scientific direction of the mаgnitöptic properties of the transition – f-m.f.d. M.Z.SH Scientific work is not going on in the Republic of Uzbekistan.
 
-القسم Department of Uzbek and Foreign Languages = http://localhost:5173/department/uzbek-foreign-languages
+القسم Department of Uzbek and Foreign Languages = <http://localhost:5173/department/uzbek-foreign-languages>
 معلومته هي
 
 Department of Uzbek and Foreign Languages
@@ -4208,6 +4270,7 @@ Doktorantura.
 
 KAFEDRADA O‘QITILADIGAN FANLAR
 Bakalavriat:
+
 1. ingliz tili;
 2. nemis tili;
 3. frantsuz tili;
@@ -4293,53 +4356,53 @@ In order to further increase their academic potential, teachers of the departmen
 
 ثم بعد ذالك تقوم بعمل صفحه تحكم في الكنترول بانل هتكون هكاذا
 
-http://localhost:5173/apanel/Facultys
-http://localhost:5173/apanel/departments
-http://localhost:5173/apanel/programs
-http://localhost:5173/apanel/dr-staf
-http://localhost:5173/apanel/den-faculties
-http://localhost:5173/apanel/man-department
+<http://localhost:5173/apanel/Facultys>
+<http://localhost:5173/apanel/departments>
+<http://localhost:5173/apanel/programs>
+<http://localhost:5173/apanel/dr-staf>
+<http://localhost:5173/apanel/den-faculties>
+<http://localhost:5173/apanel/man-department>
 
 يتم التحكم في كل المحتوي الخاص بال
 
-http://localhost:5173/faculty/
+<http://localhost:5173/faculty/>
 
-http://localhost:5173/faculty/faculty-of-engineering = Faculty of Engineering
-http://localhost:5173/faculty/faculty-of-technology = Faculty of Technology
-http://localhost:5173/faculty/faculty-of-natural-resources-management = Faculty of Natural Resources Management
-http://localhost:5173/faculty/faculty-of-service-and-digitalization = Faculty of Service and Digitalization
+<http://localhost:5173/faculty/faculty-of-engineering> = Faculty of Engineering
+<http://localhost:5173/faculty/faculty-of-technology> = Faculty of Technology
+<http://localhost:5173/faculty/faculty-of-natural-resources-management> = Faculty of Natural Resources Management
+<http://localhost:5173/faculty/faculty-of-service-and-digitalization> = Faculty of Service and Digitalization
 
 هاذه الاقسام خاصه ب كلية Faculty of Engineering
-http://localhost:5173/department/electrical-power-engineering = Department of Electrical and Power Engineering
-http://localhost:5173/department/architecture = Department of Architecture
-http://localhost:5173/department/civil-engineering = Department of Civil Engineering
-http://localhost:5173/department/light-industry-engineering-and-design = Department of Light Industry Engineering and Design
-http://localhost:5173/department/mechanics-engineering-graphics = Department of Mechanics and Engineering Graphics
-http://localhost:5173/department/technological-machines-equipment = Department of Technological Machines and Equipment
+<http://localhost:5173/department/electrical-power-engineering> = Department of Electrical and Power Engineering
+<http://localhost:5173/department/architecture> = Department of Architecture
+<http://localhost:5173/department/civil-engineering> = Department of Civil Engineering
+<http://localhost:5173/department/light-industry-engineering-and-design> = Department of Light Industry Engineering and Design
+<http://localhost:5173/department/mechanics-engineering-graphics> = Department of Mechanics and Engineering Graphics
+<http://localhost:5173/department/technological-machines-equipment> = Department of Technological Machines and Equipment
 
  هاذه الاقسام خاصه ب كلية Faculty of Technology
-http://localhost:5173/department/oil-gas-refining-technology = Department of Oil and Gas Processing Technology
-http://localhost:5173/department/food-technology-service = Department of Food Technology and Service
-http://localhost:5173/department/chemical-technology = Department of Chemical Engineering
-http://localhost:5173/department/agricultural-products-storage-oil-fat-technology = Department of Storage, Processing, and Oil-Fat Technology of Agricultural Products
-http://localhost:5173/department/oil-gas-engineering-upstream-downstream = Department of Oil and Gas Engineering
-http://localhost:5173/department/metrology-standardization-quality-control = Department of Metrology and Standardization
+<http://localhost:5173/department/oil-gas-refining-technology> = Department of Oil and Gas Processing Technology
+<http://localhost:5173/department/food-technology-service> = Department of Food Technology and Service
+<http://localhost:5173/department/chemical-technology> = Department of Chemical Engineering
+<http://localhost:5173/department/agricultural-products-storage-oil-fat-technology> = Department of Storage, Processing, and Oil-Fat Technology of Agricultural Products
+<http://localhost:5173/department/oil-gas-engineering-upstream-downstream> = Department of Oil and Gas Engineering
+<http://localhost:5173/department/metrology-standardization-quality-control> = Department of Metrology and Standardization
 
 هاذه الاقسام خاصه ب كلية Faculty of Natural Resources Management
-http://localhost:5173/department/irrigation-melioration = Department of Irrigation and Land Reclamation
-http://localhost:5173/department/hydrotechnical-structures-pump-stations = Department of Hydraulic Structures and Pumping Stations
-http://localhost:5173/department/agricultural-water-resources-engineering-technologies = Department of Agricultural and Water Management Engineering Technologies
-http://localhost:5173/department/land-resources-management-state-land-cadastres = Department of Land Use and State Cadastre
-http://localhost:5173/department/industrial-ecology-hydrogeology = Department ofIndustrial Ecology and Hydrogeology
-http://localhost:5173/department/vehicle-engineering-automotive-transport-systems = Department of Vehicle Engineering
+<http://localhost:5173/department/irrigation-melioration> = Department of Irrigation and Land Reclamation
+<http://localhost:5173/department/hydrotechnical-structures-pump-stations> = Department of Hydraulic Structures and Pumping Stations
+<http://localhost:5173/department/agricultural-water-resources-engineering-technologies> = Department of Agricultural and Water Management Engineering Technologies
+<http://localhost:5173/department/land-resources-management-state-land-cadastres> = Department of Land Use and State Cadastre
+<http://localhost:5173/department/industrial-ecology-hydrogeology> = Department ofIndustrial Ecology and Hydrogeology
+<http://localhost:5173/department/vehicle-engineering-automotive-transport-systems> = Department of Vehicle Engineering
 
 هاذه الاقسام خاصه ب كلية Faculty of Service and Digitalization
-http://localhost:5173/department/technological-processes-production-automation = Department of Technological Processes and Production Automation
-http://localhost:5173/department/information-and-communication-technologies = Department of Information and Communication Technologies
-http://localhost:5173/department/economics-and-management = Department of Economics and Management
-http://localhost:5173/department/social-sciences-physical-culture = Department of Social Sciences and Physical Education
-http://localhost:5173/department/exact-sciences = Department of Exact Sciences
-http://localhost:5173/department/uzbek-foreign-languages = Department of Uzbek and Foreign Languages
+<http://localhost:5173/department/technological-processes-production-automation> = Department of Technological Processes and Production Automation
+<http://localhost:5173/department/information-and-communication-technologies> = Department of Information and Communication Technologies
+<http://localhost:5173/department/economics-and-management> = Department of Economics and Management
+<http://localhost:5173/department/social-sciences-physical-culture> = Department of Social Sciences and Physical Education
+<http://localhost:5173/department/exact-sciences> = Department of Exact Sciences
+<http://localhost:5173/department/uzbek-foreign-languages> = Department of Uzbek and Foreign Languages
 
 واي برامج تحتهم
 
@@ -4362,19 +4425,18 @@ Khojiyev Aziz Kholmurodovich
 
 Reception hours: Daily 14:00–16:00
 Phone: +998 (90) 744-01-79
-Email: azizhojiyev1979y@mail.ru
+Email: <azizhojiyev1979y@mail.ru>
 
 DEPUTY DEAN FOR ACADEMIC AFFAIRS
 Rustamov Bobir Ismatovich
 
 Reception hours: Daily 14:00–16:00
 Phone: +998 (99) 704-79-72
-Email: bobir_rustamov@bk.ru
+Email: <bobir_rustamov@bk.ru>
 
 DEPUTY DEAN FOR YOUTH AFFAIRS
 Ashurov Asrorjon Komilovich
 
 Reception hours: Daily 14:00–16:00
 Phone: (+99897) 488-28-22
-Email: a.asrorjon83@mail.ru
-
+Email: <a.asrorjon83@mail.ru>

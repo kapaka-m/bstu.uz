@@ -112,7 +112,7 @@ class StudentApplicationPortalController extends Controller
         $file = $request->file('file');
         $extension = strtolower($file->getClientOriginalExtension() ?: 'bin');
         $filename = Str::uuid()->toString().'.'.$extension;
-        $path = $file->storeAs('private/application-documents/'.$application->id, $filename, 'local');
+        $path = $file->storeAs('applications/'.$application->id.'/documents', $filename, 'local');
 
         $document = ApplicationDocument::create([
             'application_id' => $application->id,
@@ -233,7 +233,7 @@ class StudentApplicationPortalController extends Controller
         ]);
 
         $file = $validated['file'];
-        $path = $file->storeAs('private/application-fees/'.$application->id, Str::uuid().'.'.strtolower($file->getClientOriginalExtension()), 'local');
+        $path = $file->storeAs('applications/'.$application->id.'/receipts/application-fees', Str::uuid().'.'.strtolower($file->getClientOriginalExtension()), 'local');
         $payment = ApplicationFeePayment::create([
             'application_id' => $application->id,
             'payment_number' => $this->workflow->nextPaymentNumber(),
@@ -317,7 +317,7 @@ class StudentApplicationPortalController extends Controller
 
         $contract = $this->workflow->ensureContract($application);
         $file = $validated['file'];
-        $path = $file->storeAs('private/contract-payments/'.$application->id, Str::uuid().'.'.strtolower($file->getClientOriginalExtension()), 'local');
+        $path = $file->storeAs('applications/'.$application->id.'/receipts/contract-payments', Str::uuid().'.'.strtolower($file->getClientOriginalExtension()), 'local');
 
         $payment = Payment::create([
             'contract_id' => $contract->id,
@@ -438,7 +438,7 @@ class StudentApplicationPortalController extends Controller
 
         $validated = $request->validate(['file' => $this->uploadFileRules()]);
         $file = $validated['file'];
-        $path = $file->storeAs('private/service-fees/'.$application->id, Str::uuid().'.'.strtolower($file->getClientOriginalExtension()), 'local');
+        $path = $file->storeAs('applications/'.$application->id.'/receipts/service-fees', Str::uuid().'.'.strtolower($file->getClientOriginalExtension()), 'local');
 
         $payment = ServiceFeePayment::create([
             'application_id' => $application->id,

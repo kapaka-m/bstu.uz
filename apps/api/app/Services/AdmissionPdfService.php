@@ -43,12 +43,12 @@ class AdmissionPdfService
             'study_language' => $studyLanguage ?: 'selected',
         ];
 
-        $pdfPath = storage_path('app/private/admissions');
+        $pdfPath = storage_path('app/private/generated/admissions');
         if (! is_dir($pdfPath)) {
             mkdir($pdfPath, 0755, true);
         }
 
-        $relativePath = 'admissions/admission-'.$admission->id.'-'.Str::slug($admission->admission_number).'.pdf';
+        $relativePath = 'generated/admissions/admission-'.$admission->id.'-'.Str::slug($admission->admission_number).'.pdf';
         $absolutePath = storage_path('app/private/'.$relativePath);
 
         $this->writePdf($absolutePath, $data);

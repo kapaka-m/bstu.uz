@@ -1979,7 +1979,7 @@ class PublicApiController extends Controller
         return [
             'id' => $center->id,
             'slug' => $center->slug,
-            'image' => $center->image ? url(\Illuminate\Support\Facades\Storage::url($center->image)) : null,
+            'image' => $this->publicFileUrl($center->image),
             'email' => $center->email,
             'phone' => $center->phone,
             'sort_order' => $center->sort_order,
@@ -2029,5 +2029,18 @@ class PublicApiController extends Controller
         });
 
         return $this->successResponse($payload, 'University center settings retrieved successfully');
+    }
+
+    protected function publicFileUrl(?string $path): ?string
+    {
+        if (! is_string($path) || trim($path) === '') {
+            return null;
+        }
+
+        if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://') || str_starts_with($path, '/')) {
+            return $path;
+        }
+
+        return asset('storage/'.ltrim($path, '/'));
     }
 }

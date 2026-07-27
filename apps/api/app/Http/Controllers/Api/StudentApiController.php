@@ -22,6 +22,7 @@ use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Throwable;
 
@@ -64,7 +65,7 @@ class StudentApiController extends Controller
         ]);
     }
 
-    protected function publicStoragePath(string $relativePath): string
+    protected function storagePath(string $relativePath, string $disk = 'local'): string
     {
         $relativePath = ltrim(str_replace('\\', '/', $relativePath), '/');
 
@@ -72,7 +73,9 @@ class StudentApiController extends Controller
             abort(400, 'Invalid file path');
         }
 
-        return storage_path('app/public/'.$relativePath);
+        $root = config("filesystems.disks.{$disk}.root");
+
+        return rtrim((string) $root, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.str_replace('/', DIRECTORY_SEPARATOR, $relativePath);
     }
 
     // ─── Profile ──────────────────────────────────────────────────────────────
@@ -323,20 +326,14 @@ class StudentApiController extends Controller
         $originalName = $file->getClientOriginalName();
         $mimeType = $file->getClientMimeType();
         $size = $file->getSize();
-        $directory = storage_path('app/public/documents');
-
-        if (! is_dir($directory)) {
-            mkdir($directory, 0755, true);
-        }
-
-        $file->move($directory, $filename);
-        $path = 'documents/'.$filename;
+        $path = $file->storeAs('applications/'.$app->id.'/documents', $filename, 'local');
 
         $doc = ApplicationDocument::create([
             'application_id' => $app->id,
             'document_name' => $request->document_name ?: $documentType,
             'document_type' => $documentType,
             'file_path' => $path,
+            'storage_disk' => 'local',
             'original_name' => $originalName,
             'mime_type' => $mimeType,
             'size' => $size,
@@ -378,7 +375,7 @@ class StudentApiController extends Controller
         }
 
         if ($doc->file_path) {
-            $absolutePath = $this->publicStoragePath($doc->file_path);
+            $absolutePath = $this->storagePath($doc->file_path, $doc->storage_disk ?: 'local');
 
             if (is_file($absolutePath)) {
                 unlink($absolutePath);
@@ -411,9 +408,10 @@ class StudentApiController extends Controller
             return $this->errorResponse('Document not found or unauthorized', 404);
         }
 
-        $absolutePath = $this->publicStoragePath($doc->file_path);
+        $disk = $doc->storage_disk ?: 'local';
+        $absolutePath = $this->storagePath($doc->file_path, $disk);
 
-        if (! is_file($absolutePath)) {
+        if (! Storage::disk($disk)->exists($doc->file_path) || ! is_file($absolutePath)) {
             return $this->errorResponse('File not found in storage', 404);
         }
 

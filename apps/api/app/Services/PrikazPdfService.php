@@ -36,12 +36,12 @@ class PrikazPdfService
             'student_number' => $prikaz->enrollment?->student_number,
         ];
 
-        $directory = storage_path('app/private/prikazes');
+        $directory = storage_path('app/private/generated/prikazes');
         if (! is_dir($directory)) {
             mkdir($directory, 0755, true);
         }
 
-        $relativePath = 'prikazes/prikaz-'.$prikaz->id.'-'.Str::slug($prikaz->prikaz_number).'.pdf';
+        $relativePath = 'generated/prikazes/prikaz-'.$prikaz->id.'-'.Str::slug($prikaz->prikaz_number).'.pdf';
         $absolutePath = storage_path('app/private/'.$relativePath);
         $this->writePdf($absolutePath, $data);
         $prikaz->forceFill(['document_path' => $relativePath])->save();

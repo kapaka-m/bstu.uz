@@ -285,7 +285,7 @@ class AdminCrudController extends Controller
             // Handle Media uploads
             if ($resource === 'media' && $request->hasFile('file')) {
                 $file = $request->file('file');
-                $path = $file->store('media', 'public');
+                $path = $file->store('cms/media-library/'.now()->format('Y/m/d'), 'public');
 
                 $record = $modelClass::create([
                     'disk' => 'public',
@@ -645,15 +645,17 @@ class AdminCrudController extends Controller
             return $this->errorResponse('Document not found', 404);
         }
 
+        $disk = $document->storage_disk ?: 'local';
         $relativePath = ltrim(str_replace('\\', '/', $document->file_path), '/');
 
         if (str_contains($relativePath, '..')) {
             return $this->errorResponse('Invalid file path', 400);
         }
 
-        $absolutePath = storage_path('app/public/'.$relativePath);
+        $root = config("filesystems.disks.{$disk}.root");
+        $absolutePath = rtrim((string) $root, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.str_replace('/', DIRECTORY_SEPARATOR, $relativePath);
 
-        if (! is_file($absolutePath)) {
+        if (! Storage::disk($disk)->exists($relativePath) || ! is_file($absolutePath)) {
             return $this->errorResponse('File not found in storage', 404);
         }
 

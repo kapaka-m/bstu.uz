@@ -37,12 +37,12 @@ class EnrollmentCertificatePdfService
             'admission_number' => $application?->admission?->admission_number,
         ];
 
-        $pdfPath = storage_path('app/private/enrollments');
+        $pdfPath = storage_path('app/private/generated/enrollments');
         if (! is_dir($pdfPath)) {
             mkdir($pdfPath, 0755, true);
         }
 
-        $relativePath = 'enrollments/enrollment-'.$enrollment->id.'-'.Str::slug($enrollment->student_number).'.pdf';
+        $relativePath = 'generated/enrollments/enrollment-'.$enrollment->id.'-'.Str::slug($enrollment->student_number).'.pdf';
         $absolutePath = storage_path('app/private/'.$relativePath);
 
         $this->writePdf($absolutePath, $data);

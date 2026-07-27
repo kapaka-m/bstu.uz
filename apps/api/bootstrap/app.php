@@ -1,5 +1,6 @@
 <?php
 
+use App\Console\Commands\OrganizeStorageCommand;
 use App\Http\Middleware\LocaleMiddleware;
 use App\Http\Middleware\PermissionMiddleware;
 use App\Http\Middleware\RoleMiddleware;
@@ -19,6 +20,9 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/',
     )
+    ->withCommands([
+        OrganizeStorageCommand::class,
+    ])
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->append(LocaleMiddleware::class);
         $middleware->redirectGuestsTo(null);

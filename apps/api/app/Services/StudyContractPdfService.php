@@ -44,12 +44,12 @@ class StudyContractPdfService
             'advance_percentage' => $contract->advance_percentage ?: 30,
         ];
 
-        $directory = storage_path('app/private/contracts');
+        $directory = storage_path('app/private/generated/contracts');
         if (! is_dir($directory)) {
             mkdir($directory, 0755, true);
         }
 
-        $relativePath = 'contracts/contract-'.$contract->id.'-'.Str::slug($contract->contract_number).'.pdf';
+        $relativePath = 'generated/contracts/contract-'.$contract->id.'-'.Str::slug($contract->contract_number).'.pdf';
         $absolutePath = storage_path('app/private/'.$relativePath);
         $this->writePdf($absolutePath, $data);
 

@@ -1,36 +1,35 @@
 الان سوف ننتقل الي الجزاء التالي وهو الجزاء الخاص ب  Departments - Faculties - Programs
 
-الصفحات المسؤاله عن / الكليات التي تعرضها  وتعرض في 
-مسار الكليات كلها تحت  http://localhost:5173/faculty/ 
+الصفحات المسؤاله عن / الكليات التي تعرضها  وتعرض في
+مسار الكليات كلها تحت  http://localhost:5173/faculty/
 
 http://localhost:5173/faculty/faculty-of-engineering = Faculty of Engineering
 http://localhost:5173/faculty/faculty-of-technology = Faculty of Technology
 http://localhost:5173/faculty/faculty-of-natural-resources-management = Faculty of Natural Resources Management
 http://localhost:5173/faculty/faculty-of-service-and-digitalization = Faculty of Service and Digitalization
 
-
 الصفحات المسؤاله عن / الاقسام  التي تعرضها  وتعرض في
-مسار الاقسام كلها تحت http://localhost:5173/department/ 
+مسار الاقسام كلها تحت http://localhost:5173/department/
 هاذه الاقسام خاصه ب كلية Faculty of Engineering
-http://localhost:5173/department/electrical-power-engineering = Department of Electrical and Power Engineering 
-http://localhost:5173/department/architecture = Department of Architecture 
+http://localhost:5173/department/electrical-power-engineering = Department of Electrical and Power Engineering
+http://localhost:5173/department/architecture = Department of Architecture
 http://localhost:5173/department/civil-engineering = Department of Civil Engineering
-http://localhost:5173/department/light-industry-engineering-and-design = Department of Light Industry Engineering and Design 
+http://localhost:5173/department/light-industry-engineering-and-design = Department of Light Industry Engineering and Design
 http://localhost:5173/department/mechanics-engineering-graphics = Department of Mechanics and Engineering Graphics
 http://localhost:5173/department/technological-machines-equipment = Department of Technological Machines and Equipment
 
  هاذه الاقسام خاصه ب كلية Faculty of Technology
 http://localhost:5173/department/oil-gas-refining-technology = Department of Oil and Gas Processing Technology
-http://localhost:5173/department/food-technology-service = Department of Food Technology and Service 
-http://localhost:5173/department/chemical-technology = Department of Chemical Engineering 
-http://localhost:5173/department/agricultural-products-storage-oil-fat-technology = Department of Storage, Processing, and Oil-Fat Technology of Agricultural Products 
-http://localhost:5173/department/oil-gas-engineering-upstream-downstream = Department of Oil and Gas Engineering 
-http://localhost:5173/department/metrology-standardization-quality-control = Department of Metrology and Standardization 
+http://localhost:5173/department/food-technology-service = Department of Food Technology and Service
+http://localhost:5173/department/chemical-technology = Department of Chemical Engineering
+http://localhost:5173/department/agricultural-products-storage-oil-fat-technology = Department of Storage, Processing, and Oil-Fat Technology of Agricultural Products
+http://localhost:5173/department/oil-gas-engineering-upstream-downstream = Department of Oil and Gas Engineering
+http://localhost:5173/department/metrology-standardization-quality-control = Department of Metrology and Standardization
 
 هاذه الاقسام خاصه ب كلية Faculty of Natural Resources Management
 http://localhost:5173/department/irrigation-melioration = Department of Irrigation and Land Reclamation
 http://localhost:5173/department/hydrotechnical-structures-pump-stations = Department of Hydraulic Structures and Pumping Stations
-http://localhost:5173/department/agricultural-water-resources-engineering-technologies = Department of Agricultural and Water Management Engineering Technologies 
+http://localhost:5173/department/agricultural-water-resources-engineering-technologies = Department of Agricultural and Water Management Engineering Technologies
 http://localhost:5173/department/land-resources-management-state-land-cadastres = Department of Land Use and State Cadastre
 http://localhost:5173/department/industrial-ecology-hydrogeology = Department ofIndustrial Ecology and Hydrogeology
 http://localhost:5173/department/vehicle-engineering-automotive-transport-systems = Department of Vehicle Engineering
@@ -38,7 +37,7 @@ http://localhost:5173/department/vehicle-engineering-automotive-transport-system
 هاذه الاقسام خاصه ب كلية Faculty of Service and Digitalization
 http://localhost:5173/department/technological-processes-production-automation = Department of Technological Processes and Production Automation
 http://localhost:5173/department/information-and-communication-technologies = Department of Information and Communication Technologies
-http://localhost:5173/department/economics-and-management = Department of Economics and Management 
+http://localhost:5173/department/economics-and-management = Department of Economics and Management
 http://localhost:5173/department/social-sciences-physical-culture = Department of Social Sciences and Physical Education
 http://localhost:5173/department/exact-sciences = Department of Exact Sciences
 http://localhost:5173/department/uzbek-foreign-languages = Department of Uzbek and Foreign Languages
@@ -121,13 +120,12 @@ Fayzullayev Askar Rajabboevich
  Telefon: +998 (93) 194 75 20
  Email: fayzullayev_asqar_2023@mail.ru
 
-
 الصفحات المسؤاله عن / البرامج التي تعرضها وتعرض في
 مسار البرامج كلها تحت http://localhost:5173/programs/
 وتفاصيل البرامج تعرض مثل هاذا http://localhost:5173/programs/power-engineering
 
-هاذه البرامج خاصه ب كلية Faculty of Engineering 
-وبتنقسم الي درجات البكالريوس مثل Bachelor Programs والماجستير مثل Master Specializations و الدكتوراه مثل Doctoral / PhD 
+هاذه البرامج خاصه ب كلية Faculty of Engineering
+وبتنقسم الي درجات البكالريوس مثل Bachelor Programs والماجستير مثل Master Specializations و الدكتوراه مثل Doctoral / PhD
 Bachelor’s degree programs
 60210400
 Design: Footwear and Accessories Design
@@ -152,8 +150,8 @@ Civil Engineering
 60730800
 Reconstruction and Restoration of Architectural Monuments
 
-هاذه البرامج خاصه ب كلية Faculty of Technology 
-وبتنقسم الي درجات البكالريوس مثل Bachelor Programs والماجستير مثل Master Specializations و الدكتوراه مثل Doctoral / PhD 
+هاذه البرامج خاصه ب كلية Faculty of Technology
+وبتنقسم الي درجات البكالريوس مثل Bachelor Programs والماجستير مثل Master Specializations و الدكتوراه مثل Doctoral / PhD
 Bachelor’s degree programs
 60710100
 Chemical Engineering
@@ -181,12 +179,12 @@ Master’s Degree Specializations of the Faculty
 70710103 – Chemical Technology of High-Molecular Compounds (Polymer Production)
 70720101 – Technology of Food Production and Processing (Grain Storage and Processing Technology)
 70720101 – Technology of Food Production and Processing (Oil Processing Technology)
-70710101 – Chemical Technology (Inorganic Substances Chemical Technology) 
+70710101 – Chemical Technology (Inorganic Substances Chemical Technology)
 70710101 – Chemical Technology (Silicate and Refractory Nonmetallic Materials Technology)
 70710101 – Chemical Technology (Organic Substances Chemical Technology)
 
-هاذه البرامج خاصه ب كلية Faculty of Natural Resources Management 
-وبتنقسم الي درجات البكالريوس مثل Bachelor Programs والماجستير مثل Master Specializations و الدكتوراه مثل Doctoral / PhD 
+هاذه البرامج خاصه ب كلية Faculty of Natural Resources Management
+وبتنقسم الي درجات البكالريوس مثل Bachelor Programs والماجستير مثل Master Specializations و الدكتوراه مثل Doctoral / PhD
 Bachelor’s degree programs
 60711300
 Metallurgy Technologies
@@ -229,8 +227,8 @@ Ecology and Environmental Protection (in Water Management)
 61020200
 Occupational Safety and Technical Safety
 
-هاذه البرامج خاصه ب كلية Faculty of Service and Digitalization 
-وبتنقسم الي درجات البكالريوس مثل Bachelor Programs والماجستير مثل Master Specializations و الدكتوراه مثل Doctoral / PhD 
+هاذه البرامج خاصه ب كلية Faculty of Service and Digitalization
+وبتنقسم الي درجات البكالريوس مثل Bachelor Programs والماجستير مثل Master Specializations و الدكتوراه مثل Doctoral / PhD
 Bachelor’s degree programs
 60410100
 Economics
@@ -245,16 +243,15 @@ Technological Processes and Production Automation
 61010100
 Tourism and Hospitality
 
-
-الان سوف ننتقل ايضا الي الجزاء المخصص لتفاصيل صفحات الاقسام الذي يكون تحت 
+الان سوف ننتقل ايضا الي الجزاء المخصص لتفاصيل صفحات الاقسام الذي يكون تحت
 الصفحات المسؤاله عن / الاقسام  التي تعرضها  وتعرض في
-مسار الاقسام كلها تحت http://localhost:5173/department/ 
+مسار الاقسام كلها تحت http://localhost:5173/department/
 هاذه الاقسام ال6 ترتبط ب كلية Faculty of Engineering
 
-القسم Department of Electrical and Power Engineering  = http://localhost:5173/department/electrical-power-engineering 
-معلومته هي 
+القسم Department of Electrical and Power Engineering  = http://localhost:5173/department/electrical-power-engineering
+معلومته هي
 
-Department of Electrical and Power Engineering     
+Department of Electrical and Power Engineering
 Email:
 Latipov Saidmurod Tuyg'unovich
  Reception time: Tuesday-Thursday 10:00-13:00
@@ -267,44 +264,34 @@ The department was headed by Turdiyev M. T. 1977-1985 and 1994-2005, Abdullaev A
 In accordance with the order of the Ministry of Higher and Secondary Special Education of the Republic of Uzbekistan from July 10, 2019, 3 new departments were organized. Under the leadership of associate professor I.I.Khafizov (2019 - 2024), the bachelor in the specialties of 60710700 - Electrical engineering, electrical mechanics and electrical technologies and masters in the specialties of 70710701 - Electrical mechanics and 70710703 - electrical complexes and systems were prepared for the department "Electromechanics and technologies". Bachelor in the direction of 60710500 Energy and 60710600 – Electric power generation and masters in the specialty 70710503-Industrial thermal energy under the management of associate professor R.B. Jalilov (2019 - 2024) have been prepared at the Department of Energy Engineering. Under the direction of M.I. Mahmudov (2019 - 2014), the department of "Energoaudit" trained bachelors in the specialties of 60710900 Energy Saving and Energy Audit and 60711000 - Alternative energy sources and 70710901 - Energy Efficiency and Energy Audit and 70710411 - Alternative energy sources.
 In the 2024-2025 academic year, as a result of changes in the internal structure of the university, on the basis of 3 departments, 1 department "Electrical and energy engineering" was formed. In the 2024-2025 academic year, N.N. Mirzayev was the head of the Department of Electrical and Energy Engineering. From the beginning of the 2025-2016 academic year to the present, the head of the department is associate professor Latipov Saidmurod Tuyumunovich. For today there are 3 professors, 23 associate professors, 7 senior teachers, 9 assistants and 9 trainee teachers
 
-
 PROFESSOR-TEACHERS OF THE DEPARTMENT
 
 Kafedra mudiri: t.f.n
 Latipov Saidmurod Tuyg'unovich
 
-
 Doctor of Technical Sciences,Professor.
 Vakhitov Mubin Muminovich
-
 
 Doctor of Technical Sciences,Professor.
 Makhmudov Makhsud Idrisovich
 
-
 Doctor of Technical Sciences,Professor.
 Jalilov, Rashid Babakulovich
-
 
 Kafedra dotsenti
 Mirzoyev Narzullo Nuriddinovich
 
-
 Associate Professor
 Khafizov Islam Ikramovich
-
 
 Doctor of Technical Sciences,Professor.
 DSc,
 
-
 associate professor
 Khajiyev Qayim Beshimovich
 
-
 Associate Professor
 Toyirov Zuvur
-
 
 Department of Associate Professor
 Mirkhonov Utkir Kahramanovich
@@ -312,14 +299,11 @@ Mirkhonov Utkir Kahramanovich
  Nurov Siroj Sobirovich, Associate Professor
 of Kathedra
 
-
 Kafedra dotsent
 Babanazarova Nargisa Kamilovna.
 
-
 Kafedra dotsent
 Nematov Laziz Alisherovich
-
 
 Kafedra dotsent
 Shoboyev Alisher Hikmatilloyevich
@@ -327,10 +311,8 @@ Shoboyev Alisher Hikmatilloyevich
  Department Associate Professor
 Nematov Shukhrat Nasullo oglu
 
-
 Kafedra dotsent
 Mamedov Rasul Akif o'gli
-
 
 Prepared specialists of the department
 UNDERGRADUATE DEGREE
@@ -407,14 +389,12 @@ Teachers of the department assist in employment of graduates at labor fairs.
 
 The department conducts research on the development of alternative energy sources.
 
-
 The Department of Energy Audit regularly holds chair days in the dormitory.
 
 Professors and teachers of the department conduct energy audits at industrial enterprises on a contract basis.
 
 The department has created a young energy auditor circle where students participate in this circle in their leisure.
 He received training at the professional retraining course "Design, installation and maintenance of solar power plants and collectors" and was awarded the qualification "Master power engineer".
-
 
 Textbook and articles
 PRESENTATIONS AND ARTICLES AT CONFERENCES
@@ -447,7 +427,6 @@ TEXTBOOKS AND MANUALS
 
 5. M.I. Makhmudov, Z.E. Kuziev. Electrical engineering and electronics. Study guide. Bukhara: "Sadriddin Salim Bukhari" Durdona Publishing House, 2020.
 
-
 ONGOING RESEARCH WORK OF THE DEPARTMENT
 Scientific potential of professors and teachers working at the departments of the institute:
 2 doctors of science, 3 PhD, 6 senior teachers, 1 doctoral and 1 dissertation, as well as independent researchers and masters are involved in the research work of the department Energoaudit.
@@ -472,15 +451,12 @@ Sidikov S.S. Conduct scientific works on the theme: "Optoelectronic devices and 
 THE DEPARTMENT OFFERS COOPERATION WITH FOREIGN EDUCATIONAL INSTITUTIONS
 60710400 - Energy Engineering (1st course); 60710500 - Electrical Engineering (1 course); 60710700 - Electronics and Instrumentation (1st year) study areas The Polytechnic University of Turin, Italy, which is in the top 300, is improving the curriculum "Introduction to the Direction" on the basis of the regulatory documents of the Electrical Power Engineering and Renewable Energy Systems of the Technische Universitat Dresden in Germany. The department is working on preparations for the 60710400 - Energy Engineering and 60710500 - Electrical Engineering undergraduate courses to be accredited by the German International Accreditation Organization in 2025. At the same time, "Thermal equipment. Thermodinika training laboratory is planned for international accreditation by the International Accreditation Organization of the Islamic Republic of Iran in 2025. There is a systematic training of professors and teachers of the department in foreign universities, in the last three years eight professors and teachers have undergone advanced training and internships in prestigious foreign universities. In 2022, one faculty member Jalilov Rashid Bobokulovich underwent a one-month internship at the Kazan Federal University of the Russian Federation from 17.10.2022 to 17.11.2022 (Minutes of the meeting of the department No. 5 of 18.11.2022). In 2023, three professors and teachers Bozorov Makhsum Bakhshilloyevich, Mirkhanov Utkir Kakhramonovich and Gafurov Mirzohid Oripovich were awarded the award of the "New Energy Vehic le Tech nology" of the People's Republic of China. at Hebei Vocational University of Technology and Engineering (Minutes of the Department Meeting No. 6 on 06.12.2023). From May 20 to May 27, 2024, professors and teachers Khafizov Islam Ikramovich and Babanazarova Nargisa Kamilovna studied at the Belarusian National Technical University (BNGU) (Protocol of the meeting of the department No18 dated 04.06.2024). Makhmudov Makhsud Idrisovich studied at the Kozon Federal University of the Russian Federation from April 11, 2024 to April 14, 2024 (protocol of the meeting of the department No13 of April 16, 2024). According to the memorandum signed on October 24-26, 2022, Professor of the Department of Energy and Non-Traditional Energy Systems, South Kazakhstan State University named after M. Auzov Turimbetova Gulzukhra Djurabekovna, PhD, Associate Professor, Head of the Department Sakhmetova Gulmira Edilovna, PhD, Associate Professor, Kulmakhanova Ilfa Kujakovna, cat. At the institute, teachers conducted 18-hour classes in the subjects "Fundamentals of Energy Saving", "Electrical Engineering and Electronics" and "Electrical Networks and Systems" in groups 606-21 YeA, 607-21 YeA, 608-21 YeA. Velchenko Anna Aleksandrovna, associate professor of the Belarusian National Technical University, at the department of Electrical Mechanics and Technology, in 2022 - hourly classes were held for students of the direction of electrical engineering, electrical mechanics and electrical technologies.
 
-
 PROSPECTIVE PLANS OF THE DEPARTMENT
 
-
 القسم Department of Architecture  = http://localhost:5173/department/architecture
-معلومته هي 
+معلومته هي
 
 Department of Architecture
-
 
 Email:
 Mirzayev Shamsiddin Rajabovich
@@ -492,44 +468,34 @@ Architecture Cafedra Tarixi
 Architecture
 During his visit to Bukhara region on July 13-14, 2007, the first President of the Republic of Uzbekistan I. A. Karimov visited the buildings and structures being built in the city of Bukhara, noted that the city has a long history, therefore its unique appearance, expressed his opinion on the need for in-depth study of cultural heritage objects, consideration of nationality and territorial conditions when designing and constructing buildings and structures was. During his visit to the Bukhara region in April 2008, the President of the Republic gave instructions on the organization of training of personnel who understand, preserve, develop the heritage of national architecture and can improve modern buildings and structures for them. In accordance with the instructions of the President of the Republic, the Order of the Ministry of Higher and Secondary Special Education of the Republic of Uzbekistan dated May 2, 2008 No. 120 "On the establishment of the faculty" Architecture and Construction "within the Bukhara Institute of Food and Light Industry Technology", later on August 12, 2008 No. 242 of the Ministry of Higher and Secondary Special Education "Bukhara Institute of Technology, Food and Light Industry" Architecture and Construction Faculty On Development ". On the basis of these orders, the faculty "Architecture and construction" was established within the Bukhara Institute of Food and Light Industry Technology, and the educational direction "Architecture" was opened. From 2008-2009 academic year admission was carried out in the direction of "Architecture". According to the decision of the extended meeting of the Academic Council of the Institute No. 1 dated August 29, 2009, the Department of "Architecture" is to be organized within the Faculty of "Architecture and Construction" and the department is assigned the educational direction "Architecture" At present, there are 20 professors and teachers at the department, including 1 doctor of sciences, professor, 4 candidates of sciences, associate professors, 5 senior teachers and 3 assistants. The department includes 2 directions of education and 34 disciplines
 
-
 PROFESSOR-TEACHERS OF THE DEPARTMENT
 
 Kafedra mudiri: t.f.n
 Mirzayev Shamsiddin Rajabovich
 
-
 Doctor of Technical Sciences Vakhitov
 Mubin Muminovich
-
 
 Candidate
 of the technical sciences Roziyev Hoshim Ro'ziyevich
 
-
 Tashkent
 Nigmatullayev Bohodir Nurullayevich
-
 
 Senior teacher
 of the department Rabiev Gayrat Botirovich
 
-
 Senior teacher
 of the department Khudayberdiev Mehriddin Mardanovich
-
 
 Senior Lecturer
 Suleymanova Maksuda Nadirovna
 
-
 Doctor
 of Philosophy in Architectural Sciences Jurayev Murodjon Ulugbekovich
 
-
 Senior teacher
 Shokirov Yunus Mamatovich
-
 
 Kafedra assistenti
 Muxammadov Said Karimovich
@@ -537,14 +503,11 @@ Muxammadov Said Karimovich
  Assistant
 of the department Usmonov Erkin Toyirovich
 
-
 Intern: Toshev
 Jorabek Toyirovich.
 
-
 Department: Lecturer-trainee
 Boboeva Madina Shamsiddinovna
-
 
 Department Lecturer-trainee
 Rakhmonov G'ayrat Fazliddinovich
@@ -552,21 +515,17 @@ Rakhmonov G'ayrat Fazliddinovich
  Teacher-trainee
 of the department Fozidova Available Jamilovna
 
-
 Department Lecturer-trainee
 Bobomurotov Hamza Halimovich
 
-
 Instructor of the department
 Khaitov Sunnat Istamovich
-
 
 Head of
 the Cabinet of the department Baqoyeva Shakhnoza Shukhratovna
 
  Head of
 the Cabinet of the department Ergashova Gulsanam Ergashovna
-
 
 Prepared specialists of the department
 UNDERGRADUATE DEGREE
@@ -598,7 +557,6 @@ Studies 10. Digital Design (Auto CAD, Sketch UP, Revit)
 Buildings 14. District Planning and Design
 15. Architectural heritage of Uzbekistan
 
-
 PLATES FROM THE ACTIVITIES OF THE DEPARTMENT
 Photos from scientific research work
 
@@ -606,11 +564,8 @@ Textbook and articles
 TEXTBOOKS AND MANUALS
 1.Mirzayev Shamsiddin Rajabovich. CENTRAL ASIAN JOURNAL. Innovative Technical Solutions in the Design of Modulle Residential Buildings. VOLUME: 3(2022)2-4. 2. Ro’ziyev Hoshim. International Journal on Integrated Education (IJIE). Evolution of Mass Public Buildings and Complexes Problems of Modern Spatial Organization in Bukhara. Volume 5 | No 2 (Feb 2022) 63-73. 3. Ro’ziyev Hoshim. An International Multidisciplinary Research Journal. GENESIS AND EVOLUTION OF THE CITY OF BUKHARA. Vol. 11, Issue 12, (910-913). 4. Xayitov Sunnatjon Istamovich. International Journal on Integrated Education (IJIE). Evolution of Mass Public Buildings and Complexes Problems of Modern Spatial Organization in Bukhara. Volume 5 | No 2 (Feb 2022) 63-73. 5. Tog’boyev Xushnud Iskandarovich. An International Multidisciplinary Research Journal. GENESIS AND EVOLUTION OF THE CITY OF BUKHARA. Volume 2 Issue 5, May 2022 502-506. 6. Rabiyev G‘ayrat Botirovich. Web of Scientist: International Scientific Research Journal. THE PLACE OF THE ARCHAEOLOGICAL MONUMENT OF THE SETTLEMENT OF VARAKHSHА IN THE STUDY OF THE MATERIAL CULTURE ZARAFSHA. VOLUME 3 , ISSUE 3 , MARCH. 7. Toshev Jo‘rabek Toyir o‘g‘li. International Engineering Journal For Research & Development. Vol. 6, Issue 6, December 2021 (609-613) 8. Usmonov Erkin Toxirovich. International Engineering Journal For Research & Development. MEDIEVAL BATH OF ANCIENT BUKHARA. Vol. 6, Issue 6, December 2021 (550-556).
 
-
 ONGOING RESEARCH WORK OF THE DEPARTMENT
 LEADING SCIENTIFIC WORK AT THE DEPARTMENT:
-
-
 
 THE DEPARTMENT OFFERS COOPERATION WITH FOREIGN EDUCATIONAL INSTITUTIONS
 For teaching students KNAUF technology contract with the joint venture "Knauf Gips Bukhara" with a joint venture in Uzbekistan
@@ -630,15 +585,11 @@ Currently, the student population is more than 360 students.
 
 Cooperation Agreement between BuxMTI and Moscow State University of Civil Engineering (NIU MGSU) Russia dated 07.09.2017, NIU MGSU No369-193/07 and a joint work plan for 2017-2025 has been concluded. With the leading Russian university in the field of construction, advanced training, internships and student exchanges of professors and teachers were organized, and master classes on the subject "Building Materials" by Associate Professor of the Department of Building Materials and Materials Science of Moscow State University of Civil Engineering Anton Sergeevich Pilipenko and from 20 to 27 May 2019 by Associate Professor Sergey Sergeevich Inozemtsov. It was agreed that in the future gifted students will be sent to Moscow State University of Civil Engineering. It is planned that in 2020 at the first stage 3 professors and teachers will train at this institute. advanced training, internship and student exchange of professors and teachers has been established with the leading university, and master classes on the subject "Building materials" were held by Associate Professor of the Department of Building Materials and Materials Science of Moscow State University of Civil Engineering Anton Sergeevich Pilipenko on May 20-27, 2019. It was agreed that in the future gifted students will be sent to Moscow State University of Civil Engineering. It is planned that in 2020 at the first stage 3 professors and teachers will train at this institute.
 
-
 PROSPECTIVE PLANS OF THE DEPARTMENT
 establishing close cooperation with leading scientific and educational institutions of the world; • Widespread introduction of advanced pedagogical technologies, curricula and teaching materials into the educational process based on international educational standards; • Active involvement of highly qualified teachers and scientists from foreign educational institutions in teaching and pedagogical activities, master classes, advanced training courses; • organize systematic internships, retraining and advanced training of professors and teachers on the basis of leading foreign universities; • increasing the efficiency and effectiveness of research activities of professors and teachers, wide involvement of talented students and students in scientific activities; • creation of a new generation of educational literature and its wide introduction in the educational process of higher educational institutions; • Providing modern educational, educational, methodological and scientific literature based on needs, including the purchase and translation of the latest foreign literature; • wide involvement of highly qualified foreign scientists, teachers and specialists in educational processes; ¬ Increasing the scientific potential of the department, further development of research, strengthening its integration with academic science; • carry out large-scale educational and educational work to increase the spiritual and moral content of education, to instill in students the spirit of devotion to the ideas of independence, to the national traditions of high spirituality and humanity, to strengthen in them immunity and critical thinking to alien ideas and ideologies; • Further strengthening of the material and technical base of the department, educational and scientific laboratories in priority areas of science by equipping them with modern tools and equipment.
 
-
 القسم Department of Civil Engineering  = http://localhost:5173/department/civil-engineering
-معلومته هي 
-
-
+معلومته هي
 
 Email:
 Tojiyev In’omjon Ilhomovich
@@ -652,45 +603,34 @@ Today there are 32 professors and teachers at the department, including 2 doctor
 At present, 65 subjects
 are taught at the department, 654 full-time and 758 full-time students are enrolled.
 
-
-
 PROFESSOR-TEACHERS OF THE DEPARTMENT
 
 Doctor of Philosophy in Technical Sciences, Associate Professor
 . Tajiyev In'omjon Ilhomovich. Email:
 
-
 Doctor of Technical Sciences, Professor
 Vokhitov Mubin Muminovich
-
 
 Candidate of Technical Sciences, Professor.
 Usmanov Farkhad Bafoyevich
 
-
 dotsent
 Bo’ronov Raxmiddin Yozilovich
-
 
 Texnika fanlari nomzodi, dotsent.
 Po’latov Akram Panoyevich
 
-
 dotsent
 Aslonov Baxtiyor Boboqulovich
-
 
 Texnika fanlari nomzodi, dotsent
 Sodiqov Qambarali Shukurovich
 
-
 texnika fanlari bo’yicha falsafa doktori (PhD)
 Safarov Uchqun Isroilovich
 
-
 Associate Professor
 . Kiyimov Shavkat Fazliddinovich
-
 
 Senior Lecturer (doctoral student)
 Yadgarova Gulnora Gulomovna
@@ -698,14 +638,11 @@ Yadgarova Gulnora Gulomovna
  dotsen
 Qaxxorov Hamid Ahrorovich
 
-
 Senior Lecturer
 Gadoeva Olima Pulatovna
 
-
 Senior Lecturer
 Rakhmatov Yakitev Jacob Gafforovich
-
 
 Senior lecturer
 Ochilova Nurzoda Tursunovna
@@ -713,14 +650,11 @@ Ochilova Nurzoda Tursunovna
  Senior lecturer
 Fayzullaeva Zarina Nayimovna
 
-
 Lecturer trainee
 Imamov Sukhrob Solekhovich
 
-
 assistant
 Niyozov Kamol Ergashevich
-
 
 Doctoral student
 Tosheva Dilfuza Farkhodovna
@@ -728,10 +662,8 @@ Tosheva Dilfuza Farkhodovna
  assistant
 Sodiqov Mizrob Ayubovich
 
-
 Doctoral student
 Tosheva Dilbar Farkhodovna
-
 
 Prepared specialists of the department
 UNDERGRADUATE DEGREE
@@ -782,14 +714,7 @@ Bachelor's Degree:
 
 PLATES FROM THE ACTIVITIES OF THE DEPARTMENT
 
-
-
-
-
-
-
 Textbooks
-
 
 ONGOING RESEARCH WORK OF THE DEPARTMENT
 SCIENTIFIC-METHODICAL WORK OF THE DEPARTMENT:
@@ -797,25 +722,14 @@ SCIENTIFIC-METHODICAL WORK OF THE DEPARTMENT:
 
 RESEARCH RESEARCH
 
-
-
-
-
-
-
 THE DEPARTMENT OFFERS COOPERATION WITH FOREIGN EDUCATIONAL INSTITUTIONS
 Currently, the department "Construction of buildings and structures" cooperates with more than 10 higher educational institutions and leading enterprises of the Republic and abroad. In particular, cooperation between the department and the Moscow State Civil Engineering University (SRNU MGSU) for joint work was signed an agreement No. 369-193 / 07. In accordance with this agreement, the leading Russian Construction University and the department carry out systematic work on advanced training of professors and teachers, the organization of internships and student exchange.
 
-
 In order to improve the quality of education by cooperating with high-tech manufacturing enterprises, an agreement was signed with the German production enterprise IP LLO «KNAUF PLASTER BUKHARA». Teachers and students of our department actively participate in conferences and events organized by the enterprise.
 
- 
 In order to ensure employment of 4th-year graduate students of the department and establishment of solid future business relations, an agreement was signed with the branch of DM "China Railway 20 Bureau Group Corporation" Romitan district of the Chinese company.
 
-
 Within the framework of the joint program, a meeting was organized with the students of the "Construction of Buildings and Structures" of the Faculty of Architecture and Construction of the Bukhara Engineering and Technological Institute with representatives of Chinese campaigns in Uzbekistan in order to ensure their employment by industry. In the future, it was agreed to establish cooperation between the department and several Chinese companies and cooperate in training. Since March 12, 2020, 20 students of the graduate course of the Department of Construction of Buildings and Structures of the Faculty of Architecture and Civil Engineering have been involved in the project of reconstruction of the A-380 Guzor-Bukhara-Nukus-Beynau highway.
-
-
 
 PROSPECTIVE PLANS OF THE DEPARTMENT
 establishing close cooperation with leading scientific and educational institutions of the world; the widespread introduction of advanced pedagogical technologies, curricula and teaching materials into the educational process based on international educational standards;
@@ -838,13 +752,9 @@ to carry out large-scale educational and educational work to increase the spirit
 
 Further strengthening of the material and technical base of the department, educational and scientific laboratories in priority areas of science by equipping them with modern tools and equipment.
 
-
 القسم Department of Light Industry Engineering and Design   = http://localhost:5173/department/light-industry-engineering-and-design
-معلومته هي 
-Department of Light Industry Engineering and Design 
-
-
-
+معلومته هي
+Department of Light Industry Engineering and Design
 
 The head of the department of engineering and design of the light industry
 Kazokov Farkhad Farmonovich
@@ -857,76 +767,57 @@ According to the order of the rector of the Bukhara Engineering and Technologica
 
 At the department 3 doctors of sciences - professor, 2 candidates of sciences - professor, 7 candidates of sciences - associate professor, 27 doctors of philosophy (PhD) - associate professor, 1 associate professor, 7 senior teachers, 15 assistant teachers teach students. The department "Engineering and design of the light industry" organizes educational processes for the following areas of bachelor's and master's degrees:
 
-
 PROFESSOR-TEACHERS OF THE DEPARTMENT
 
 Head of Department,
 Kazov Farkhot Farmonovich
 
-
 professor
 Nurboyev Rashid Xudoyberdiyevich
-
 
 professor
 Мusayev Sayfullo Safoyevich
 
-
-
 Professor Rakhmonov Khayriddin Kadirovich
-
 
 professort
 Po‘latova Sabohat Usmanovna
 
-
 associate professor
 Ubaydov Kadir Zokirovich
-
 
 dotsent
 Saidova Xulkar Hamidovna
 
-
 dotsent
 Djalolova Dilafro‘Z Fattoxovna
-
 
 dotsent
 Temirova Gulnoz Ibodovna
 
-
 dotsent
 Gafurova Nigora To'ymurodovna
-
 
 PhD, dotsent
 Mardonov Saloxiddin Ergashovich
 
-
 associate professor
 Uzakova Laylo Polvonovna
-
 
 associate professor
 Khaitov Akhror Akhmadovich
 
-
 dotsent
 Avezov Mavlon Fazliyevich
-
 
 Phd, dotsent
 Azimov Juma Sharopovich
 
-
 Phd, dotsent
 Samiyeva Gulnoz Olimovna /strong>
 
-
 Phd, Dotsent
 Sharipova Saodat Islomovna
-
 
 Phd, Dotsent
 Bebutova Nargiza Narzullayevna
@@ -934,14 +825,11 @@ Bebutova Nargiza Narzullayevna
  PhD. Associate Professor
 Kadirova Dilnoza Khariddinovna
 
-
 PhD, associate professor
 Kadirova Sevara Khairiddinovna
 
-
 Phd, Dotsent/strong>
 Ubaydova Vazira Erkinovna
-
 
 Phd, Dotsent
 Nutfullayeva Lobar Nurullayevna
@@ -949,10 +837,8 @@ Nutfullayeva Lobar Nurullayevna
  Phd, Dotsent
 Gaybullayeva Nargiza Zaydinnovna
 
-
 PhD, Associate Professor
 Muhammedova Madina Olimovna
-
 
 Prepared specialists of the department
 Bachelor's degree
@@ -1102,10 +988,8 @@ PROSPECTIVE PLANS OF THE DEPARTMENT
 7. Development of international grants and state grants on fundamental practical projects.
 8. To increase the volume of research and services carried out through the cooperation.uz platform, service and research carried out by order of industries.
 
-
-
-القسم Department of Mechanics and Engineering Graphics    = http://localhost:5173/department/mechanics-engineering-graphics 
-معلومته هي 
+القسم Department of Mechanics and Engineering Graphics    = http://localhost:5173/department/mechanics-engineering-graphics
+معلومته هي
 
 Department of Mechanics and Engineering Graphics
 
@@ -1119,7 +1003,6 @@ Kafedra Tarixi
 The Department of Mechanics was formed on December 8, 1970 as part of the Bukhara evening branch of the Tashkent Polytechnic Institute. In accordance with the Decree of the President of the Republic of Uzbekistan dated May 20, 2011 No. PP-1533 "On measures to strengthen the material and technical base of higher educational institutions and radically improve the quality of training highly qualified specialists", in connection with the reorganization of the Bukhara Institute of Food and Light Industry into Bukhara Engineering and Technical Institute of High Technologies and changes in the structural structure of the Institute, in connection with the decision of the rector of the institute dated 28.05.2011 By order 84-U of August, the department was renamed "Mechanics" and from September 20, 2021, "Fundamentals of Mechanics".
 
 At present, there are 13 professor-teachers and 2 technicians, including 7 professors and teachers with academic degrees and titles. The scientific potential is 50%.
-
 
 PROFESSOR-TEACHERS OF THE DEPARTMENT
 
@@ -1138,13 +1021,11 @@ PLATES FROM THE ACTIVITIES OF THE DEPARTMENT
 
 Textbook and articles
 
-
 القسم Department of Technological Machines and Equipment  = http://localhost:5173/department/technological-machines-equipment
-معلومته هي 
+معلومته هي
 Department of Technological Machines and Equipment
 
 Technological machines and equipment
-
 
 Email:
 O‘rinov Uyg‘un Abdullayevich
@@ -1155,72 +1036,54 @@ O‘rinov Uyg‘un Abdullayevich
 Kafedra Tarixi
 In accordance with the Decree of the President of the Republic of Uzbekistan dated January 24, 2025 No. PP-22 "On the establishment of the Bukhara State Technical University", on the basis of the Bukhara Engineering and Technological Institute and the Bukhara Institute of Natural Resources Management the Bukhara State Technical University was established. Since April 1, 2025, according to the order of the Acting Rector of Bukhara State Technical University No. 9 of 02.04.2025, the department "Technological Machines and Equipment" has been reorganized, where special attention is paid to the creation of an innovative education system, ensuring the connection of education with production, the establishment of advanced scientific research and innovative projects. Chair 4 doctors of science, 23 candidates of technical sciences and PhD, 2 senior teachers, 5 assistants, 12 trainee-teachers and 17 doctoral students are conducting research work.
 
-
 PROFESSOR-TEACHERS OF THE DEPARTMENT
 
 Head of
 the department Deputy Uyarun Abdullayevich
 
-
 Doctor of Technical Sciences, Professor
 Narziyev Mirzo Sayidovich
-
 
 Doctor of Technical Sciences, Professor
 Gafurov Karim Hakimovich
 
-
 PhD, dotsent
 Saidmurotov O‘ktam Azimovich
-
 
 PhD, dotsent
 Hikmatov Doniyor Ne’matovich
 
-
 PhD, associate professor
 Kholikov Alijon Abduraupovich
-
 
 Doctor (PhD)
 Rustamov Elyor Samiyevich
 
-
 Senior teacher
 Ibragimiov Ravshan Rustamovich
 
-
-
 Assistant S.F. Muxamedjanova
-
 
 Doctor of Technical Sciences, professor
 Bexbutov Sh.Kh.
 
-
 PhD, dotsent
 J.O. Sharipov
-
 
 assistent
 A.S. Saidova
 
-
 dotsent (PhD)
 Asadova Sitora Sadullayevna
-
 
 Associate Professor (PhD)
 Fayziev Sirojiddin Hayat oglu
 
-
 Associate Professor (PhD)
 Ismaksimanov Furkat Barotovich
 
-
 dotsent, t.f.n
 Qurbonov Fazliddin Aminovich
-
 
 Prepared specialists of the department
 UNDERGRADUATE DEGREE
@@ -1350,7 +1213,6 @@ ARTICLES
 14. I.R. Mavlonova, A. Juraev "Study of new methods of experimental determination of vibration patterns of the improved mechanism of sewing machine reaction" IIS International Scientific and Practical Interuniversity Conference "Thesis Research – into the Practice of Professional Life" October 31, 2022 collection of materials part 2 Moscow – 2023.
 15. I.R. Mavlonova, A. Juraev, D. Mansuri, M. Mansurova "Improvement of the Spring Compression Cone with the Use of the Structural Scheme of an Effective Pull-Up Mechanism of a Sewing Machine" IIII International Scientific and Practical Interuniversity Conference "Thesis Research - into the Practice of Professional Life" October 31, 2022 collection of materials part 2 Moscow - 2023.
 
-
 ONGOING RESEARCH WORK OF THE DEPARTMENT
 LEADING SCIENTIFIC WORK AT THE DEPARTMENT:
 Defense: On June 22, 2025 (DSc) at the Tashkent Scientific Research Institute of Fiber Crops (DSc) he received a doctorate in technical sciences (05.02.03 – "Technological machines. Robots, Mechatronics and Robotics Systems" (Scientific Foundations of the Design and Calculation of Parameters of a Polymer Composite Coating Device for Obtaining High-Quality Yarn Compounds». On the occasion of the Day of teachers and mentors, I express gratitude for the dedication and initiative of bringing the reforms in our country to the youth, educating mature and harmonious young people with high knowledge and potential, teaching them the secrets of their profession, bringing up patriotic, courageous and loyal sons and girls of the country.
@@ -1367,20 +1229,13 @@ SCIENTIFIC-METHODICAL WORK OF THE DEPARTMENT:
 
 KAFEDRA XORIJIY TA’LIM MUASSASALARI BILAN HAMKORLIK
 
-
-
-
 PROSPECTIVE PLANS OF THE DEPARTMENT
-
-
 
 هاذه الاقسام ال6 ترتبط ب كلية Faculty of Technology
 القسم  Department of Oil and Gas Processing Technology    = http://localhost:5173/department/oil-gas-refining-technology
-معلومته هي 
+معلومته هي
 
- Department of Oil and Gas Processing Technology       
-
-
+ Department of Oil and Gas Processing Technology
 
 Email:
 Ochilov Abduraxim Abdurasulovich
@@ -1393,7 +1248,6 @@ Since 2001-2002 academic year on the basis of Bukhara Autonomous Okrug and Yesti
 On April 15, 2013, in accordance with the decree PP-1954 "On the establishment of the Bukhara Engineering and Technical Institute", the Department of "Technologies of Oil and Gas Processing" and "Oil and Gas Business" was formed from the merger of the departments "Technology of Oil and Gas Processing" and "Oil and Gas Business". From that day until January 2, 2014, the department was headed by PhD in technical sciences B.Z.Adizov. From January 2, 2014 to July 20, 2014, Ph.D. Sharipov worked as acting head of the department. From July 20, 2014 to July 10, 2019, Professor G. R. Bozorov headed the department.
 On July 10, 2019, three departments ("Oil Refining Technology", "Gas Chemical Processing Technology" and "Oil and Gas Business") were established on the basis of the Department of Petroleum and Gas Chemical Industry Technology, which was approved by the Ministry of Secondary Education of the Republic of Uzbekistan. From January 28, 2022, the department was headed by Doctor of Philosophy (PhD) A.A. Alimov, and from 2023 to 2025, associate professor Sh.N. Ataullayev.
 In accordance with the Decree of the President of the Republic of Uzbekistan dated January 24, 2025 No. PP-22 "On the establishment of the Bukhara State Technical University" from April 10, 2025, Ph.D. R.R. Hayitov worked as the head of the department. From September 13, 2025 to the present, the department has been headed by Ph.D., associate professor. A.A.Ochilov is in charge.
-
 
 Prepared specialists of the department
 UNDERGRADUATE DEGREE
@@ -1460,34 +1314,26 @@ PROFESSOR-TEACHERS OF THE DEPARTMENT
 Head of the department,
 Ochilov Abdurasulovich
 
-
 DSc,professor
 Maxmudov Muxtor Jamolovich
-
 
 DSc, professor.
 Hayitov Ruslan Rustamjonovich
 
-
 DSc,professor
 Bozorov G‘ayrat Rashidovich
-
 
 PhD, dotsent
 Xo‘jaqulov Aziz Fayzullaevich
 
-
 t.f.n., dotsent
 Murodov Malik Negmurodovich
-
 
 t.f.n., dotsent
 Safarov Baxri Djumaevich
 
-
 PhD, dotsent
 Tsukanov Maksim Nikolayevich
-
 
 Textbook and articles
 ABSTRACTS AND PAPERS FROM THE CONFERENCES (INTERNATIONAL AND REPUBLICAN)
@@ -1530,14 +1376,12 @@ From October 22 to November 4, 2024, senior researcher Ruslan Hayitov, Ph.D., as
 According to the project of the Erasmus + program "101082221-UzMedEn - New Master's and Training Courses in the Field of Medical Engineering in Uzbekistan", the lecturer of the Department of Oil and Gas Processing Technology G. From September 27 to October 15, 2024, Zaripov successfully completed an internship at the prestigious Vilnius Gediminas Technical University (VGTU), which is included in the TOP 1000 universities of Lithuania.
 S.F.Fozilov, S.A.Gaibullayev, B.Z.Sharipov and M.Z.Komilov took an active part in an international foresight session on the topic "Implementation of the concept of development of technical education: new trends in training modern engineers" in order to increase the coverage of students in the field of oil and gas refining, increase their competitiveness and improve monitoring of their employment.
 
-
 القسم Department of Food Technology and Service   = http://localhost:5173/department/food-technology-service
-معلومته هي 
+معلومته هي
 
-Department of Food Technology and Service     
+Department of Food Technology and Service
 
 Food processing technology and service
-
 
 Email:
 Qurbonov Murod Tashpulatovich
@@ -1552,45 +1396,34 @@ He has held the following positions in the areas of food technology education: D
 
 Head of the department "Technology of oil and oil products" prof. Majidov.Q.X. (1990-2010). "Technology of common catering and its organization", then the heads of the department "Food Safety" prof. Egamberdiev N.B., prof. Makhmadaliev B.D., prof. Sharifulina T.A., prof. Salomov H.T., dos. Salomov B.H. and dos. Quliev N.Sh. (1981-2013)
 
-
 PROFESSOR-TEACHERS OF THE DEPARTMENT
 
 Candidate of the Technical Science Associate Professor
 Atamuradova Tamara Ivanovna
 
-
 Candidate of Technical Sciences, Associate Professor
 Ergasheva Khusrabo Bobonazarovna
-
 
 Candidate of the technical sciences:
 associate professor Khaydarzoda Lolitta Negmatovna
 
-
 Candidate of the technical sciences, associate professor (PhD)
 Khuzhakulova Nilufar Fayzullayevna
-
 
 kata teacher
 Yuldasheva Shabon Jumaevna
 
-
 Candidate of technical sciences, associate professor (PhD)
 Ismatova Shakhnoza Nusratillonovna
-
 
 assistent/strong>
 Amonov Bobur Nematovich
 
-
 Assistant
 Muzafarova Hall Mukhinovna
 
-
 Head of the Cabinet Khamroyev
 Jonibek Sadilloyevich
-
-
 
 Prepared specialists of the department
 UNDERGRADUATE DEGREE
@@ -1659,28 +1492,15 @@ JUDICIARY
 PLATES FROM THE ACTIVITIES OF THE DEPARTMENT
 The faculty of the Department of Food Technology use innovative techniques and technologies available in our laboratory rooms, deeply teaching students their knowledge and qualifications, contributing to their future becoming a mature specialist. In addition, a number of research works are conducted by the department's researchers. Much progress has been made in this regard.
 
-
-
 Photos from the training on the HACCP system, organized by the Association of Food Industry of Uzbekistan, the Bukhara Engineering and Technological Institute and the German organization GIZ
-
 
 Photos from the cultural and educational event on the occasion of the 580th anniversary of Alisher Navoi, which was held together with the senior teacher of the department "Food and Food Technology" Sh.J. Yuldasheva and 1st year students and magists.
 
-
-
-
 A photo from the process of gaining experience at JSC "Kogondon Products" with graduate students of the department Associate Professor Ergasheva Kh.B. and senior teacher Yuldasheva Sh.J. with graduate students of the department.
-
-
 
 Associate Professor of the Department of Food Technology N.R.Djuraeva took part in the contest "Inventive Woman-2022" and became the winner in the nomination "The Best Invention and Useful Model".
 
-
 On the initiative of the Department of Food Technology, the children of the House of Muruvvat were informed about the festive mood and dresses made of national adras fabric and a holiday was organized.
-
-
-
-
 
 Textbook and articles
 MONOGRAPHS
@@ -1722,7 +1542,6 @@ Articles
 24. Курбонов М.Т. Improvement of the design of mobile equipment for post-harvest processing of agricultural crops./ Курбонов М.Т.,Баракаев Н.Р., Баракаев А.Н.,
 25.Djuraeva N.R. Method for rational use of botanical oil content in wheat germ product/ Djuraeva N.R., Tursunova U.O// Asian Journal of Multidimensional Research (AJMR) https://www.tarj.in ISSN: 2278-4853 Vol 10, Issue 9, September, 2021 Impact Factor: SJIF 2021 = 7.699.
 
-
 ONGOING RESEARCH WORK OF THE DEPARTMENT
 International grants and projects
 Regional program "Vocational education in Central Asia – I" in 2010-2021 organized by the German Society for International Cooperation (Deutsche Gesellschaft für Internationale Zusammenarbeit (GIZ) GmbH on behalf of the Federal Ministry of Economic Cooperation and Development of the Federal Republic of Germany, since 2018 the head of the Institute Kurbanov M.T. and members of the department Prof. Isabaev I.B., dos. Kuliyev N.Sh., dos. Atamuratova T.I., Ph.D. Azimov O'N., PhD. Djuraeva N.R., Jabborova S.K. have passed international internship (advanced training) in the disciplines of "Food Technology" in the leading universities of Central Asia. According to this project 5 modern laboratory units are fully equipped.
@@ -1755,18 +1574,14 @@ Republic of Belarus, Mogilyov State University of Food and Chemical Technologies
 
 Latvian University of Natural Sciences and Technology, The Republic of Latvia
 
-
 PROSPECTIVE PLANS OF THE DEPARTMENT
 
+القسم Department of Chemical Engineering    = http://localhost:5173/department/chemical-technology
+معلومته هي
 
-
-القسم Department of Chemical Engineering    = http://localhost:5173/department/chemical-technology 
-معلومته هي 
-
-Department of Chemical Engineering      
+Department of Chemical Engineering
 
 Department of Chemical Technology
-
 
 Email:
 Axmedov Voxid Nizomovich
@@ -1779,76 +1594,58 @@ The department trains personnel in 2 areas of undergraduate education: 60710100 
 
 In these areas work 45 professors and teaching staff, including 4 professors, 24 PhD, associate professors, whose scientific potential is 60%. The department has 2 foreign language languages and 47 taught subjects. At present, the department trains 2 doctoral students, 28 basic doctoral students and 4 masters.
 
-
 PROFESSOR-TEACHERS OF THE DEPARTMENT
 
 Head of the department:
 Akhmedov Voksi Nizomovich
 
-
 Doctor of Technical Sciences, Professor
 Makhmudov Rafiq Amonovich
-
 
 Doctor of Technical Sciences, Professor
 Temirova Matlab Ibodovna
 
-
 Doctor of Technical Sciences, Professor
 Haydarov Akhtam Amonovich
-
 
 PhD, associate professor
 Olimov Babir Bahodir ugly
 
-
 PhD,associate professor
 Panoyev Nadir Shavkatovich
-
 
 PhD, associate professor
 Sadikova Muxayyo Murodovna
 
-
 PhD, dotsent
 Sharipov Begmurod Sharopovich
-
 
 PhD, dotsent
 Umarov Bobur Nosir o'gli
 
-
 PhD, associate professor
 Khuzhakulova Dilbar Jorakulovna
-
 
 PhD, dotsent
 Narzullaeva Aziza Murodillayevna
 
-
 PhD, dotsent
 Voxidov Erkin Aliyevich
-
 
 Assistent
 Jo‘raeva Laylo Raxmatillaevna
 
-
 Assistent
 Sharipova Nasiba O‘ktamovna
-
 
 Assistent
 Raxmatov Marat Salimovich
 
-
 Assistent
 Sadikova Mashhura Idilloevna
 
-
 Assistent
 G‘afurova Gulnoz Alixonovna
-
 
 Assistent
 Jumaev Jabbor Hamroqulovich
@@ -1856,10 +1653,8 @@ Jumaev Jabbor Hamroqulovich
  Teacher, trainee
 Ikromov Ulugbek Gafur oglu
 
-
 Teacher trainee
 Kurbonova Salima Shukhratovna
-
 
 Prepared specialists of the department
 Bachelor's degree
@@ -1969,25 +1764,16 @@ of drying process by improving the flow structure of dispersible products 2.Dehk
 THE DEPARTMENT OFFERS COOPERATION WITH FOREIGN EDUCATIONAL INSTITUTIONS
 The department cooperates with South Kazakhstan State University, Volgograd Medical University, Saratov State University.
 
-
-
 Assoc. Prof. K.E.Rozieva in the library of South Kazakhstan State University.
-
-
-
 
 In the 2019-2021 academic year, on the basis of a joint program with the University of South Kazakhstan named after M. Auezova, service educational areas were opened and lessons are conducted by the department's teachers.
 
-
 NEWS IN THE DEPARTMENT
- 
 
-القسم Department of Storage, Processing, and Oil-Fat Technology of Agricultural Products  = http://localhost:5173/department/agricultural-products-storage-oil-fat-technology 
-معلومته هي 
+القسم Department of Storage, Processing, and Oil-Fat Technology of Agricultural Products  = http://localhost:5173/department/agricultural-products-storage-oil-fat-technology
+معلومته هي
 
-Department of Storage, Processing, and Oil-Fat Technology of Agricultural Products     
-
-
+Department of Storage, Processing, and Oil-Fat Technology of Agricultural Products
 
 Email:
 Majidova Nargiza Kaxramonovna
@@ -2000,52 +1786,40 @@ On the basis of the newly created structure of the institute, the department sta
 
 There are 12 professors and teachers at the department, including 2 doctors of science, 2 candidates of science, associate professor, 4 doctors of science (PhD), 2 assistants, 1 trainee whose scientific potential is 78%.
 
-
 PROFESSOR-TEACHERS OF THE DEPARTMENT
 
 Head of the department, Doctor of Technical Sciences, associate professor
 Majidova Nargiza Kakhramonovna
 
-
 Doctor of Technical Sciences, professor
 Majidov Qakhramon Khalimovich
-
 
 Candidate of the technical science, associate professor
 Ashurov Furkat Bakhromovich
 
-
 PhD, dotsent
 Sabirova Nargiza Nusratovna
-
 
 PhD, associate professor
 Bozorov Dilmurod Kholmurodovich
 
-
 PhD, dotsent
 Oltiev Azim To`yqulovich
-
 
 assistent
 Fayzullaev Asqar Rajabboevich
 
-
 PhD, Senior Lecturer
 Mirzaeva Shokhista Usmonovna
-
 
 PhD, dotsent
 Radjabova Lobar Ramazonovna
 
-
 assistent
 Fatayeva Farodiba Rustamovna
 
-
 Teacher, trainee
 Shodiev Bakhtiyor
-
 
 Prepared specialists of the department
 Bachelor's degree
@@ -2167,14 +1941,10 @@ NEWS
 4. Development of research works based on the experience of developed foreign countries and an increase in the size of international grants within the framework of joint research projects with them.
 5. Implementation of foreign investments by implementing existing projects in the department with foreign partners.
 
+القسم  Department of Oil and Gas Engineering  = http://localhost:5173/department/oil-gas-engineering-upstream-downstream
+معلومته هي
 
-
-القسم  Department of Oil and Gas Engineering  = http://localhost:5173/department/oil-gas-engineering-upstream-downstream 
-معلومته هي 
-
- Department of Oil and Gas Engineering           
-
-
+ Department of Oil and Gas Engineering
 
 Email:
 Sharipov Qaxramon Qandiyorovich
@@ -2186,7 +1956,6 @@ Kafedra Tarixi
 The Department of Oil and Gas Business was organized on the basis of the Department of "Technology of Oil and Gas Chemical Industry" in accordance with the new structure of the Bukhara Engineering and Technological Institute, approved by the Ministry of Higher and Secondary Special Education of the Republic of Uzbekistan on July 10, 2019. The management of the department is entrusted to the candidate of chemical sciences, associate professor Q.Q.Sharipov.
 At the department 1 doctor of sciences - professor, 1 candidate of sciences - associate professor, 4 doctors of philosophy (PhD), 2 senior teachers, 2 assistant teachers teach students.
 In the 2021-2022 academic year, the Department of Oil and Gas Affairs organized the educational process for the following undergraduate and master's specialties:
-
 
 Prepared specialists of the department
 UNDERGRADUATE DEGREE
@@ -2260,19 +2029,15 @@ LEADING SCIENTIFIC WORK AT THE DEPARTMENT:
 Create compositions to break up oil and oil emulsions and improve rheological properties;
 creation of polymineral compositions based on local cherries that are resistant to high temperatures and salts;
 Development of a technology for the production of odorants based on mercaptans containing natural gas.
- 
 
 TEXTBOOKS AND MANUALS
 
-
 Monographs created by the department
 
+القسم Department of Metrology and Standardization  = http://localhost:5173/department/metrology-standardization-quality-control
+معلومته هي
 
-القسم Department of Metrology and Standardization  = http://localhost:5173/department/metrology-standardization-quality-control 
-معلومته هي 
-
-Department of Metrology and Standardization     
-
+Department of Metrology and Standardization
 
 Kafedra mudiri
 Tairov Baxtiyor Boboqulovich
@@ -2280,78 +2045,58 @@ Tairov Baxtiyor Boboqulovich
  Telefon: +998 93 471 00 65
  Email: b.toirov@mail.ru
 
-
 Kafedra Tarixi
 The department began its activity in August 2019 under the name of "Metrology and standardization" on the basis of the newly created structure of the institute. Trainings specialists in the direction of 5310900 - Metrology, standardization and product quality management. . There are 13 professors and teachers at the department, including 1 candidate of sciences - professor, 6 candidates of science, associate professor, 1 senior teacher, 3 assistants, 2 trainee teachers, scientific potential is 54%. Over the past two years, 2 scientific works (PhD) have been defended, in cooperation with the teachers of the department have published 5 international textbooks (with an impact factor), 3 textbooks, 6 monographs, 19 in 6 journals, 20 articles in the journals of the Supreme Attestation Commission and 5 articles on the basis of Scopus. At the department 4 doctoral students and more than 5 independent researchers are engaged in research work.
 
 The Department of Higher and Secondary Special Education is implementing the project "Modernization of the system of higher education", grant project AIF-2/20 "Improving the training of qualified engineers and professional development of professors and teachers based on personalized innovative technologies in higher education institutions" funded by the World Bank for Academic Innovation. At the expense of this project, laboratory equipment was imported. In addition, improving the quality and effectiveness of the educational process through the introduction of a virtual laboratory, printed literature and software on training methodologies to improve the professional competence of future engineers.
 Today, in order to ensure the rapid development of production processes, the increase in the accuracy of measurements, to provide in the field of metrology, standardization and certification, especially for manufacturing enterprises of the republic, with highly qualified competitive personnel, our Institute educates students in the direction of bachelor's degree "Metrology, standardization and product quality management (industry)" Special attention is paid to preparation.
 
-
 PROFESSOR-TEACHERS OF THE DEPARTMENT
 
 Head of the department, candidate of technical sciences, associate professor
 Tairov Bakhtiyor Bobokulovich
 
-
 professor
 Qurbanov Abdiraxim Axmedovich
-
 
 Candidate of the technical science, associate professor
 Avliyakulov Nadir Nizomovich
 
-
 PhD, dotsent
 Hasanova Zebo Davlatovna
-
 
 PhD, dotsent
 Tosheva Gulnora Djurayevna
 
-
 PhD, associate professor
 Davlyatova Mavlyuda Bakhtiyorovna
-
 
 PhD, Senior Lecturer
 Boltaeva Zulfiya Zarifovna
 
-
 Senior teacher
 Sayidakhmedov Ravshan Rajabovich
-
 
 (PhD) Senior Lecturer
 Khojjiyev Administrator Yangibayevich
 
-
 Assistant Khaidarov
 Shukhrat Khikmatullayevich
-
 
 assistent
 Shadiyev Suxrob Sadilloyevich
 
-
 assistent
 Qarshiyev Zohid Abdurahim o'g'li
-
 
 Teacher-trainee
 Azimova Firuza Kamolovna
 
-
 Lecturer, trainee
 Yodgorova Ma'mura Orifovna
 
-
 Teacher, trainee
 Kamalova Mukhlisa Khudoyberdievna
-
-
-
-
 
 Prepared specialists of the department
 Bachelor's degree
@@ -2441,7 +2186,6 @@ A memorandum of strategic cooperation was signed between Bukhara State Technical
 
 On the basis of the Memorandum of Cooperation signed between the Kazakh National University named after al-Farabi and Bukhara State Technical University, together with the Department of Thermal Physics and Technical Physics of the Faculty of Physics, important steps are being taken to develop cooperation in the field of research and education. Within the framework of this cooperation, a joint master's degree program was introduced with the standardization, certification and training of specialists in the field of metrology. In the academic year 2025-2026, documents will be accepted in the direction of 70710800 - "Metrology, standardization and quality management (by industry)". This educational program is designed for two years and provides students with in-depth theoretical knowledge and practical skills in the field of modern metrological and standardization systems, international quality management initiatives, as well as quality control in various sectors of the economy. The purpose of the programme is to promote the development of regional and global quality management by training specialists in the application of innovative approaches that meet international requirements.
 
-
 PROSPECTIVE PLANS OF THE DEPARTMENT
 The Department of Metrology and Standardization of Bukhara State Technical University is building its activity on the basis of providing quality education, conducting research and contributing to the national economic development. The long-term plans of the department take into account the ongoing reforms of the Republic of Uzbekistan in the field of science and education, as well as world and regional requirements. The following are the main directions that form the basis for the long-term plans of the department:
 Training of specialists that meet market demands: Part-time
@@ -2481,15 +2225,12 @@ Promotion of international level of training,
 participation in international grant programs such as Erasmus+, Tempus, Fulbright, and more: Ensuring mobility of teachers and students through international programs.
 Attraction of foreign specialists: Involvement of international experts, professors and teachers for training and scientific work;
 
-
-
-
 هاذه الاقسام ال6 ترتبط ب كلية Faculty of Natural Resources Management
 
 القسم Department of Irrigation and Land Reclamation   = http://localhost:5173/department/irrigation-melioration
-معلومته هي 
+معلومته هي
 
-Department of Irrigation and Land Reclamation          
+Department of Irrigation and Land Reclamation
 
 Email:
 Murodov Otabek Ulugbekovich
@@ -2503,56 +2244,43 @@ In connection with the change in the internal structure of the institute in 2024
 The department from 2010 has been headed "Water management and melioration", since 2021 - "Water resources management and melioration" Irrigation and melioration ", Irrigation and melioration department from 2024 - 60811200 - Water management and melioration, 60811500 - Bachelor of water supply engineering systems, 70811202 - Melioration and irrigation farming, 70811206 - Water-saving irrigation technologies, 70811204 - Engineering systems and structures of agricultural water supply, 70812309 - Meadow melioration received the status of a specialized department that trains qualified specialists in the specialty of master. Starting in 2011, the first young specialists of the department were sent to the national economy specializing in the specialty "Water management and melioration". Today, they and their associates are working as leading experts in various sectors of the republic. The department has classrooms, laboratories, offices and branches of the department with modern equipment. At the department for 2024-2025 1 DSc and 7 PhD theses have been defended. The main composition of the department are young people, the average age of them is 41 years. At the moment, 18 doctoral students and 3 freelance researchers are conducting research on PhD and DcS dissertations. Their defense is scheduled for 2025-2027. For the duration of the department's activity 2 textbooks and teaching aids for professional colleges, 9 textbooks and more than 10 teaching aids for universities, more than 10 author's certificates for software have been obtained.
 The department has 21 staff units, of which 16 teachers are the main contribution. In 2025-2026 academic year, 5 doctors of sciences, professors, 8 PhDs, 3 senior teachers, 4 assistants and 3 trainee teachers carried out educational-methodological, research and spiritual and educational work. The scientific potential of the department is 59,2%, the average age of teachers is 41 years, and most of them are young professionals.
 
-
 PROFESSOR-TEACHERS OF THE DEPARTMENT
 
 (PhD), Kata is a teacher.
 Inoyatov Ikrom Shakhrullayevich
 
-
 Doctor of Agricultural Sciences, Professor
 Khamidov Mukhammadkhan
-
 
 Doctor of philosophy (PhD)
 Nurov Dilmurod Elmurodovich
 
-
 Doctor of Agricultural Sciences (DSc)
 Jorayev Anvar Kurbonovich.
-
 
 Doctor of Agricultural Sciences (DSc)
 Hamidov Akhmad Mukhammedkhanovich
 
-
 Doctor of Philosophy (PhD)
 Khamrayev Kamol Shukhratovich in Agricultural Sciences
-
 
 Doctor of Philosophy (PhD)
 in Agricultural Sciences Kadyrov Zayniddin Zaripovich
 
-
 Doctor of Philosophy (PhD)
 Isoyeva Laylo Bakhtiyorovna
-
 
 Doctor of Philosophy (PhD)
 in Agricultural Sciences Atamurodov Behruz Ne'mat oglu
 
-
 Kata is a teacher.
 Davronov Wave Farmonovich
-
 
 Associate.
 Boriev Khurshid Bahodirovich
 
-
 Assitent.
 Turayev Ulug’bek Utkirovich
-
 
 Prepared specialists of the department
 Bachelor's degree
@@ -2660,16 +2388,12 @@ The Department of Irrigation and Melioration in the 2025-2026 academic year will
 
 PROSPECTIVE PLANS OF THE DEPARTMENT
 
-
-
-
 القسم Department of Hydraulic Structures and Pumping Stations  = http://localhost:5173/department/hydrotechnical-structures-pump-stations
-معلومته هي 
+معلومته هي
 
-Department of Hydraulic Structures and Pumping Stations           
+Department of Hydraulic Structures and Pumping Stations
 
 Hydraulic structures and pumping stations
-
 
 Head of the Department of hydraulic structures and pumping stations
 Axmedov Sharifboy Ro‘ziyevich
@@ -2693,11 +2417,10 @@ THE DEPARTMENT OFFERS COOPERATION WITH FOREIGN EDUCATIONAL INSTITUTIONS
 
 PROSPECTIVE PLANS OF THE DEPARTMENT
 
-
 القسم Department of Agricultural and Water Management Engineering Technologies = http://localhost:5173/department/agricultural-water-resources-engineering-technologies
-معلومته هي 
+معلومته هي
 
-Department of Agricultural and Water Management Engineering Technologies     
+Department of Agricultural and Water Management Engineering Technologies
 
 Head of the Department of Agriculture and Water Resources
 Rajabov Yarash Jabborovich
@@ -2710,72 +2433,55 @@ The basis of the department "Agricultural and water management technique technol
 Due to the lack of specialized teachers in the newly created department, professors and teachers from the former Tashkent Institute of Irrigation and Melioration (TIMI) and Bukhara Institute of Food and Light Industry Technologies (Bux OO and Yesti) came to the department and provided methodological consultations to the teachers of the department.
 In 2010-2011 academic year there were 7 professors and 2 technical staff at the department, including 5 candidates of science, associate professors and 2 assistant teachers, whose scientific potential was 71%. Professor-teachers who worked at the department during that period are listed below.
 
-
 PROFESSOR-TEACHERS OF THE DEPARTMENT
 
 Doctor of philosophy in technical sciences, associate professor
 Radjabov Yarash Jabborovich
 
-
 Candidate of Technical Sciences, Associate Professor
 Hasanov Ibrahim Subhonovich
-
 
 Doctor of Technical Sciences, Professor
 Juraev Fazliddin Orovich
 
-
 Doctor of technical sciences, professor
 Nuriddinov Khurram
-
 
 Doctor of Technical Sciences, Professor
 Olimov Hamid Haydarovich
 
-
 Doctor of Philosophy in Technical Sciences Associate Professor
 Hasanov Ulug Ibragimovich
-
 
 Doctor of Philosophy in Technical Sciences, Associate Professor
 Jurayev Akram Azamat oglu
 
-
 Doctor of Philosophy in Technical Sciences, docent.
 Kochkorov Jurat Jalilovich
-
 
 Doctor of philosophy in technical sciences, associate professor
 Ostonov Shukhrat Saidovich
 
-
 Senior Lecturer
 Ergashev Zuhriddin
-
 
 Doctor
 of philosophy in technical sciences Orziyev Sardor Samandarovich
 
-
 Doctor
 of philosophy in technical sciences Jurayev Asliddin Nasriddin oglu
-
 
 Doctor
 of Philosophy in Technical Sciences Rozikulov Jasur Uktam oglu
 
-
 Assistant-teacher
 Rozikulov Step Istamovich
-
 
 Assistant-teacher:
 Isakov Zafarjon Shukhrat oglu
 
-
 Assistant-teacher
 Halimov Tilavjon Azamat oglu
-
 
 Prepared specialists of the department
 Bachelor's degree
@@ -2841,22 +2547,6 @@ construction 19. Fundamentals of Digital Technique and Digital Systems
 
 Republication of publications
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ONGOING RESEARCH WORK OF THE DEPARTMENT
 In order to improve mechanized processes of agriculture and water management, reduce energy consumption, increase service life and work efficiency, at the cage "Scientific Foundations of Improving the Efficiency of Land Leveling Machines in Water Resources Saving", "Technical and Technological Foundations of Mechanization of Longitudinal and Transverse Flooring Processes between Goose Rows", "The main development of energy-efficient soils in the climatic conditions of the Bukhara valley scientific and technological foundations of the system of processing machines "," Substantiation of the dimensions of the equipment for irrigation of goose with liquid biofertilizers ", "Substantiation of parameters of a device for making canvases from biohumus ".
 
@@ -2893,13 +2583,10 @@ Based on the existing conditions and capabilities in the region, the registratio
 • sign a memorandum of cooperation with higher educational institutions, establish scientific ties with professors and teachers, jointly implement foreign grants and publish scientific articles included in the SCOPUS database;
 • Organization of internships of the leading professors of the department in the top 1000 foreign universities and attract foreign university professors to the department and establish academic exchange.
 
+القسم Department of Land Use and State Cadastre   = http://localhost:5173/department/land-resources-management-state-land-cadastres
+معلومته هي
 
-القسم Department of Land Use and State Cadastre   = http://localhost:5173/department/land-resources-management-state-land-cadastres 
-معلومته هي 
-
-Department of Land Use and State Cadastre      
-
-
+Department of Land Use and State Cadastre
 
 Head of the Department of land use and state cadastres
 Asatov Sayitqul Rahimberdiyevich
@@ -2915,72 +2602,55 @@ Currently, the department is organized in accordance with the Decree of the Pres
 The professors and teachers of the department have introduced electronic textbooks, teaching aids, lecture texts, methodological instructions, control questions and test suites for use in the "Ziyonet" and international Internet networks. Video lessons in all subjects are constantly posted on YouTube.
 The department includes "Land cadastre and land management", "Geodesy and geoinformatics", "Ecology and environmental protection", "Hydrology", "Hydrology", "Mechanics of water management and meliorationleveling "," Hydrotechnical facilities and the use of pumping stations "and other areas of education give lectures and practical lessons. Today, due to the peculiarities of the disciplines taught in the department, lessons are used with the use of "presentation", "Mental attack", "Discussion", "6x6x6", "Black box" and other types of pedagogical technology.
 
-
 PROFESSOR-TEACHERS OF THE DEPARTMENT
 
 Head of the Department Doctor of Philosophy of Biological Sciences, Associate Professor
 Asatov Sayitkul Rakhimberdiyevich
 
-
 Doctor of Philosophy of Technical Sciences, Professor.
 Hamidov Fayzullo Ramazonovich
-
 
 Doctor of Agricultural Sciences, Professor
 Islamov Ismail
 
-
 Doctor of philosophy of technical sciences, professor
 Khudoyberdiev Feruz Shamshodovich
-
 
 Doctor of philosophy of technical sciences, associate professor
 Sattorov Shahzod Yarashovich
 
-
 Doctor of Philosophy of Agricultural Sciences, associate professor
 Adizov Shukhrat Bafoyevich
-
 
 Doctor of philosophy of technical sciences, associate professor
 Pirimov Jonibek Jumamurodovich
 
-
 Doctor of Philosophy of Biological Sciences Karimov
 Erkin Kadirovich
-
 
 Senior Lecturer
 Hamroyev Salahiddin Atoyevich
 
-
 Senior Lecturer
 Abduloyev Ashraf Muzafarovich
-
 
 Senior teacher
 Ahmadov Behzod Obid oglu
 
-
 assistent
 Izatov Elmir Najmidinovich
-
 
 assistent
 Egamova Dilchehra Adizovna
 
-
 Assistant
 Nuriddinov Otabek Xurramovich
-
 
 assistent
 Oltinov Sobir Hayot o'g'li
 
-
 assistant
 Rajabova Gullola Islomovna
-
 
 Kafedrada tayyorlanadigan mutaxasislar
 BAKALAVRIAT
@@ -3046,14 +2716,10 @@ The department cooperates with the University of Usak in Turkey. From November 2
 During the internship, as part of the exchange of experience between universities, lectures were organized by professors and teachers, and they got acquainted with the laboratory equipment. Electronic copies of necessary scientific literature were brought in from the Information Resource Center.
 An agreement was signed with the Faculty of Agriculture on the organization of online lectures on relevant subjects in Kefedra.
 
-
 القسم Department ofIndustrial Ecology and Hydrogeology = http://localhost:5173/department/industrial-ecology-hydrogeology
-معلومته هي 
+معلومته هي
 
-Department ofIndustrial Ecology and Hydrogeology     
-
-
-
+Department ofIndustrial Ecology and Hydrogeology
 
 Email:
 Xaitov Rauf Arifovich
@@ -3065,72 +2731,53 @@ Kafedra tarixi
 According to the Decree of the President of the Republic of Uzbekistan dated January 24, 2025 No. PP-22 "On the organization of the Bukhara State Technical University", as a result of the reorganization of the departments of Industrial Ecology and Ecology of the Bukhara Engineering Technological Institute and the Department of Hydrology of the Bukhara Institute of Natural Resources Management, the Department of Industrial Ecology and Hydrology was started. Department Due to the need for specialists with higher education with modern knowledge and skills for the sectors of the economy of the Bukhara region, including manufacturing, engineering, oil and gas, transport and logistics, green economy, environmental problems, inclusiveness, socio-economic development of regions, Reclamation Hydrogeology, Hydrology (hydrology of rivers and reservoirs), Ecology and environmental protection (water management), Ecology and Labor Bachelor's and Master's programs in the fields of protection and safety, Occupational health and safety (by industry).
 Professors and teachers of the Department of Industrial Ecology and Hydrology based on the following specialties: "Industrial ecology" (for all technical and technological directions), "Life safety and work protection", "Construction ecology", "Ecology", "Life safety "(for all technical and technological directions), "Labor protection and ecology", "Industrial sanitation and labor hygiene", "Emergency management of economic facilities protection", "Fire and explosion safety", "Occupational health and safety management", "Reliability in man-made risk and technical systems", "Life safety and environmental protection", "Psychology and culture of labor protection", "Innovative technologies in industry", "Labor protection and technical safety", "Engineering ecology", "Radiation safety", "Occupational health and safety and construction ecology", "Labor protection and technical safety", and rivers, lakes, Glacier Hydrology, Environmental Impact Assessment, Engineering Geology, Hydrogeology, Drilling and Irrigation Wells, SOF, SOG, Land Hydrology, Climatology, Instrumental Methods of Analysis, Ecology and Water Law, Hydrochemistry, Environmental Monitoring, Environmental Monitoring, Ecology and Environmental Protection, Meliorative Hydrology, Geology and Hydrogeology, Water Law, Monitoring of Water Extraction Wells, Meliorative Hydrology, Engineering Hydrology, Hydrography of Central Asia, Water Body Management, Waste Management, Environmental Engineering, International and State Water Relations, Hydrometry, Exploration Hydrometry, Groundwater Flow, Drilling, GAT and Hydrology on the basis of standard and working programs.
 
-
 PROFESSOR-TEACHERS OF THE DEPARTMENT
 
 Kafedra mudiri
 Xaitov Rauf Arifovich
 
-
 Associate Professor
 Mukhamadiev Bahadir Temurovich
 
-
-
 Professor Salomov Botir Xamroevich
 
-
-
 Associate Professor Dostov Jakhongir Akhmat oglu
-
 
 docent
 Fattoev Ismoil Islomovich
 
-
 docent,t.f.n.
 Baxriddinova Nasiba Murodovna
-
 
 Katta o’qituvchi
 Hamidov Yoqub Yodgorovich
 
-
 Katta o’qituvchi
 Zaripova Mohira Djuraeva
-
 
 Katta o’qituvchi
 Tursunova Nargiza Nigmatova
 
-
 assistent
 Qurbonov Mirshod Toshpo’latovich
-
 
 assistent
 Xolova SHohista Abdurashidovna
 
-
 assistent
 Kamolova Feruza Raxmatovna
-
 
 doktorant
 Axmedova Mexriniso Baxronovna
 
-
 doktorant
 Tuxtayeva Xabiba Toshevna
-
 
 Dotsent/strong>
 Atamuratova Tamara Ivanovna
 
-
 Dotsent/strong>
 Qobulova Barno Baxridin qizi
-
 
 Kafedrada tayyorlanadigan mutaxasislar
 Bakalavriat
@@ -3267,12 +2914,10 @@ KAFEDRANING ISTIQBOLLI REJALARI
 21. Participation in attracting foreign investments, grants and gratuitous support in value established by the administration of the university.
 INTERACTIVE STUDENTS
 
-
 القسم Department of Vehicle Engineering  = http://localhost:5173/department/vehicle-engineering-automotive-transport-systems
-معلومته هي 
+معلومته هي
 
-Department of Vehicle Engineering     
-
+Department of Vehicle Engineering
 
 Kafedra mudiri, Associate Professor
 Gaffarov Hasan Ravshanovich
@@ -3292,88 +2937,67 @@ During that period, 8 professors and teachers worked at the department. They inc
 
 Nowadays, the department "Transport Engineering" with its scientific potential, qualified professors and teaching staff is acting as one of the leading departments of the faculty.
 
-
 PROFESSOR-TEACHERS OF THE DEPARTMENT
 
 Head of the department, candidate of technical sciences, Professor
 Gafforov Hasan Ravshanovich
 
-
 Candidate of the Technical Sciences, associate professor
 Urinov Nasillo Fayzilloyevich
-
 
 Doctor of philosophy (PhD), associate professor
 Norov Sobir Negmurodovich
 
-
 Associate Professor
 Saidova Mukhabbat Khamroyevna
-
 
 Doctor of philosophy (PhD), associate professor
 Amonov Mahmud Idris oglu
 
-
 Candidate of Technical Sciences, Associate Professor.
 Duskarayev Nartaylak
-
 
 Doctor of philosophy (PhD) associate Professor
 Jurayev Toyir Omonovich
 
-
 Doctor of Philosophy (PhD),associate professor
 Adizova Sevara Yusupovna
-
 
 Texnika fanlari falsafa doktori (PhD), dotsent
 Fazliyev Jamoliddin Sharofiddinovich
 
-
 Qishloq xo’jaligi fanlari falsafa doktori (PhD), dotsent
 Hakimova Zarina Ziyodilloyevna
-
 
 Texnika fanlari falsafa doktori (PhD), dotsent
 Xalilov Jahongir Mansur o’g’li
 
-
 Texnika fanlari falsafa doktori (PhD), dotsent
 Rajabov Bobir Bozorovich
-
 
 Katta o’qituvchit
 Kamolov Muhiddin Qurbonovich
 
-
 Katta o’qituvchi
 Bafoyev Dustmurod Xolmurodovich
-
 
 Katta o’qituvchi
 Yuliyev Ozod Olimovich
 
-
 Assistent
 Samandarov Ali Xayrullayevich
-
 
 Assistent
 Jumayev Ulug’bek Rustamovich
 
-
 Assistent
 Haydarova Nargiza Dilmurod qizi
-
 
 Asistent
 Abdullayeva Dilnavoz Xusniddinovna
 
-
 Assistent
 Hojiyev Oybek Odinayevich
-
 
 Kafedrada tayyorlanadigan mutaxasislar
 BAKALAVRIAT
@@ -3502,7 +3126,6 @@ DARSLIK VA O‘QUV QO‘LLANMALAR
 29. Abdullayeva Dilnavoz Xusniddinovna Avtomatlashtirilgan ishlab chiqarishning texnologik jihozlari № DGU 44164, Talabnoma raqami: DT 202412186.19.11.2024.
 30. Saidov Muxtor Nutfullayevich “Trasport vositalarida ishlatiladigan ekspluatatsion materiallar” fanidan DGU 202402611.10.03.2024.
 31. Saidov Muxtor Nutfullayevich “Transport vositalarining elektr va elektron jihozlari” fanidan elektron darslik. DGU 202405365. 02.05.2024.
-
 
 KAFEDRADA OLIB BORILAYOTGAN ILMIY-TADQIQOT ISHLARI
 KAFEDRADA OLIB BORILAYOTGAN ILMIY ISHLAR
@@ -3642,15 +3265,12 @@ III. Expected General Results
 Conclusion
 The concept of development of the educational direction "Vehicle Engineering (Road Transport)" serves to train competitive, highly qualified and innovative-minded engineers for the transport sector. Research in the field will be developed. International cooperation will be expanded, innovations in the transport sector will be introduced. Innovative Transport Machinery Innovation Technopark is created. A mechanism of support for young scientists will be developed. Scientific laboratory centers of transport and mechanical engineering were established. The problems of production are explored, their solutions, practical proposals are developed, which are implemented in transport enterprises and organizations. The strategy for the development of the educational direction "Vehicle Engineering (Road Transport)" plays an important role in the modernization of the transport sector and the training of modern engineering personnel. Through the implementation of this strategy, a modern education system in the field of transport engineering will be formed, and a worthy contribution to the development of the transport network of the national economy will be made.
 
-
-
-
 هاذه الاقسام ال6 ترتبط ب كلية Faculty of Service and Digitalization
 
 القسم Department of Technological Processes and Production Automation     = http://localhost:5173/department/technological-processes-production-automation
-معلومته هي 
+معلومته هي
 
-Department of Technological Processes and Production Automation       
+Department of Technological Processes and Production Automation
 
 Email:
 Kabilov Hasan Khalilovich
@@ -3668,125 +3288,78 @@ The department conducts research work in the following areas: 1) The creation of
 
 The department has the following enterprises: "Bukhara Oil Refinery", "Navoi Mining and Metallurgical Conbinat", "Navoi Production Association", production company "Lukoil Uzbekistan", "Shurtangazkimyo" complex, "Blessed gas processing plant", "Navoi free economic zone", JSC "Uztelecom", JV "Uz Daewoo Textile", LLC "Ark Eco Textile", enterprises "Merganteks", JV "Gala-river", "Dehkanobot potash plant", "Himavtomatica" and foreign developed higher education institutions, including the Royal Swedish Institute of Technology (Sweden), the Polytechnic University of Turin (Italy), the University of Leeds (England), the University of Leuven (Belgium), the Centiago de Compostela University (Spain), the University of Primorska (Slovenia), the Johannes Kepler Institute of Technology (Austria) and the CIS countries, the Moscow State University of Technology named after Stankin (Russia), the Magilova State University of Food (Belarus), Kostanay State University (Kazakhstan), Almaty International University of Information Technologies (Kazakhstan). Currently, 3 doctors and 6 candidates of sciences conduct scientific and pedagogical activities. Scientific potential of the department is 43%. Currently, the department is headed by Ph.D., associate professor Qobilov H.Kh.
 
-
 PROFESSOR-TEACHERS OF THE DEPARTMENT
-
-
 
 professor
 Djuraev Xayrullo Fayzievich
 
-
-
 professor
-Abduraxmonov Olim Rustamovich	
-
-
+Abduraxmonov Olim Rustamovich
 
 dotsent
 Usmonov Axtam Usmonovich
 
-
-
 dotsent v.b.
 Abidov Kamildjan Zarifovich
-
-
 
 dotsent
 Salieva Olima Kamalovna
 
-
-
 dotsent v.b.
 Ibragimov Ulug‘bek Murodilloevich
-
-
 
 katta o‘qituvchi
 Abduraxmonova Muqadas Irismatovna
 
-
-
 katta o’qituvchi
 Ergashev Baxtiyor Tilavovich
-
-
 
 katta o’qituvchi
 Rasulov Shuhrat Xo‘jaqulovich
 
-
-
 katta o‘qituvchi (doktorant)
 Ismoyilov Hayot Barotovich
-
 
 katta o‘qituvchi (doktorant)
 Xalilov Fayoz Vaxobjonovich
 
-
 assistent
-
-
 
 assistent
 Raxmatov San’at Sultonovich 8
 
-
-
 o‘qituvchi-stajor
 Ismatova Nafisa
-
 
 doktorant
 Xo‘janazarov Zayniddin Rashidovich
 
-
-
 doktorant
 Xojiev Azizjon Kaimovich
-
-
 
 doktorant
 Uvayzov Saidjon Komilovich
 
-
-
 doktorant
 Ibragimov Shohruh Ramazonovich
-
 
 o‘qituvchi-stajor
 Adizova Madina Ro‘zievna
 
-
-
 doktorant
 Mizomov Muxammad Saydullo o‘g‘li
-
-
 
 assistent
 Qazoqov Jo‘rabek Roziqovich
 
-
-
 o‘qituvchi-stajor
 Jalolov Tursunbek Sadriddinovich
-
-
 
 o‘qituvchi-stajor(stajor tadqiqotchi)
 O‘ktamova Shohsanam Hakimovna
 
-
-
 stajyor-o’qitvchi
 Safarova Dilshoda Nodirovna
-
-
 
 stajyor-o’qitvchi
 Saidov Said Rustamovich
@@ -3839,17 +3412,6 @@ Magistratura
 KAFEDRA FAOLIYATIDAN LAVHALAR
 Ilmiy tadqidot ishlaridan foto lavhalar
 
-
-
-
-
-
-
-
-
-
-
-
 Textbook and articles
 TEXTBOOKS AND MANUALS
 B.T. Ergashev 5321700-Information and communication systems for managing technological processes Database management systems
@@ -3883,9 +3445,6 @@ THE DEPARTMENT OFFERS COOPERATION WITH FOREIGN EDUCATIONAL INSTITUTIONS
 
 Erasmus+ program "610170-ЕРРР-1-2019-1-ЕС-ЕРРКА2-СНЕ-JР ELBA: Establishment of training and research centers and courses development on "Intelligent Big Data Analysis in Central Asia"
 
-
-
-
 PROSPECTIVE PLANS OF THE DEPARTMENT
 1) Bringing the scientific potential of professors of the department up to 70% by the end of 2024 2
 ) Implementation of annual contracts worth at least 200 million soums, aimed at solving existing problems in production
@@ -3897,12 +3456,10 @@ work 7) improvement by attracting
 talented students to the activities of the department's circles 8) Introduction of practical and experimental classes of specialty subjects in
 production enterprises 9) Ensuring the participation of young teachers and gifted students in Olympiads and various competitions
 
+القسم Department of Information and Communication Technologies      = http://localhost:5173/department/information-and-communication-technologies
+معلومته هي
 
-القسم Department of Information and Communication Technologies      = http://localhost:5173/department/information-and-communication-technologies 
-معلومته هي 
-
-Department of Information and Communication Technologies       
-
+Department of Information and Communication Technologies
 
 Email:
 Atoyev Fazliddin Sayfiddinovich
@@ -3914,40 +3471,31 @@ History of the chair Information and Communication technologies
 "Information and communication technologies" department
 Since 1979 the department has been known as "Applied Mathematics" as part of the Bukhara Technological University of Food and Light Industry. In parallel with the work carried out and changes in the field of the department, the name of the department was changed in different ways over the years: "Informatics", "Informatics" (1999), "Informatics" (year 2001), "Interfaculty "Informatics" and "Modern technologies of training", which provide specialized personnel to the branches of the national economy. In 2005, both departments were renamed "Informatics and information technology", "Information technology" since September 2015 and "Information and communication technologies" since August 2017. Since 1992, the department trains qualified specialists in the specialty of "Computer Technology", then 5140900-Vocational education (Informatics and information technology), 53302000-Informatics and information technology, 60610200-Information systems and technologies (by industries and industries), currently 60610100-Information systems and technologies in the direction and 70610201 - Computer systems and its software (by industries and industries) The specialty received the status of a department. In 1985, not only in our region, but also among the universities of the Republic of Uzbekistan the electronic computer ES-1035 was put into operation. The range of disciplines at the department was widened, and the material and technical base was equipped with new modern computers. The department specializes in training masters in "Mathematical and software support of computers, complexes, systems and networks" and 70610201 – Computer systems and its software (by industries and industries). During the period 1996 – 2015, more than 3,000 leading specialists were trained at Institute-Institut of Pedagogical Sciences. The department has modern computers and teaching aids, laboratories, and multi-classrooms. In 1991-2015. 1 DSc and 25 candidates and PhD theses were defended. The main composition of the department are young people, whose average age is 42 years. At present, 3 doctoral students and 3 freelance researchers are conducting research on PhD and DCS dissertations. Their defense is scheduled for 2026-2028. For the duration of the department's activity 32 textbooks and teaching aids for professional colleges, 12 textbooks and more than 50 teaching aids for universities, published with the stamp of the Ministry of Higher Education, more than 200 author's certificates for software have been received. The department works with gifted students in different years, 8 students won state scholarships named after Beruni and Navoi, 6 students participated in the "Voice of the Future" media competition at regional and republican stages and won prizes. The teachers of the department cooperate with foreign colleagues who are winners of two international grants. Due to these grants, sufficient success was achieved in providing the material and technical base of the department and literature, and a number of teachers of the department in modern information technology were successfully trained in modern information technologies in prestigious universities in Latvia, Sweden, Tajikistan, Kazakhstan, Slovenia, Russia, Malaysia.
 
-
 PROFESSOR-TEACHERS OF THE DEPARTMENT
 
 Head of the department, senior teacher
 Narziev Umidzhon Zaripovich
 
-
 associate professor, candidate
 of physical and mathematical sciences Yuldoshev Shukhrat Savrievich
-
 
 Associate Professor, Doctor of Philosophy in Pedagogical Sciences PhD
 Murodova Zarina Rashidovna
 
-
 Associate Professor, Doctor of Philosophy in Pedagogy, PhD
 Muradova Firuza Rashidovna
-
 
 dotsent, PhD /strong>
 Yuldashev Askar Adizovich
 
-
 Senior Lecturer
 Asraev Zafar Rizakulovich
-
 
 Senior Lecturer
 Sariev Rustam Bobomuradovich
 
-
 Senior teacher
 Sohibov Tolib Fayzullaevich
-
 
 Senior Lecturer
 Nafasov Mirzomurod Mukhamadovich
@@ -3955,34 +3503,26 @@ Nafasov Mirzomurod Mukhamadovich
  assistent
 Muxamadieva Zarina Bahodirovna
 
-
 assistent
 Jo’raev Olim Ismoilovich
-
 
 Senior Lecturer
 Hayitova Iroda Ilhomovna
 
-
 Senior teacher
 Nurullaev Mirkhon Muhammadovich
-
 
 assistent
 Turaeva Gulchiroy Sheralievna
 
-
 assistent
 Sharapova Nigora Amonovna
-
 
 dotsent, PhD
 Gaffarov Laziz Xasanovich
 
-
 Teacher, trainee
 Saidov Usman Bahran oglu
-
 
 Senior teacher
 Talabov Mirshod Dishodovich
@@ -3990,26 +3530,20 @@ Talabov Mirshod Dishodovich
  Teacher, trainee Kadirova
 Shahibonu Mukhammadovna
 
-
 Teacher, trainee
 Akhtamova Laziza Azamovna
-
 
 Teacher, trainee Atoev
 Fazliddin Sayfiddinovich
 
-
 Teacher trainee
 Murtazoev Azamat Sunatillo oglu
-
 
 Teacher, trainee Toirov
 Mirshod Mirkhonovich
 
-
 Teacher, trainee
 Kamolova Makhliyo Hasanovna
-
 
 Prepared specialists of the department
 
@@ -4162,7 +3696,6 @@ TEXTBOOKS AND MANUALS
 
 9.Murodova F.R.,Nafasov M.M., Hayitova I.I., Murodova Z.R. Textbook on the topic "Information technologies in technical systems" 2020
 
-
 ONGOING RESEARCH WORK OF THE DEPARTMENT
 Ongoing research work of the department
 At the department "Information and Communication Technologies" of Bukhara State Technical University, much attention is paid to the issues of integration of education and production, the introduction of the results of scientific research in the field of production, the introduction of new forms and methods of using computer technology and telecommunication in the educational process, increasing the effectiveness of education. The department is implemented on the basis of a promising plan of scientific research works for 2025-2030 approved by the rector of the university. At Department of Sciences, 1 candidate of sciences, 1 doctor of science, and 9 scientific researchers conduct research on topics and problems corresponding to their scientific directions.
@@ -4191,13 +3724,11 @@ U.Z.Narziyev
 
 Carries out research works on the topic: "Development of models, algorithms and methods for the investigation of the reliability of automation system elements". The simulation models and algorithms developed as a result of the research were implemented at transformer substation with a voltage of 6/0.4 kV of UEC Bukharaneftegazparmalash. As a result, expenses of a substation with a voltage of 6/0.4 kV of Bukharaneftegazarmalash enterprise decreased by 2%. (Certificate of JSC "Bukharoneftegazparmalash" No. 02 / DH-113 dated January 29, 2020). During the reporting period, more than 20 scientific papers were published by professors and teachers of the department at republican scientific conferences. He also took part in a number of prestigious international conferences including over 50 scientific reports.
 
-
 Integration of science with education and production. Innovative corporate cooperation
 The International Lecture Complex 'Majlis Syarahan Budiman' organised at the Pendidikan Sultan Idris University (UPSI), Malaysia, was held under the theme: 'Exploring a Sustainable Future: Planning for Inclusive Action for Sustainable Development'. Great Britain, Indonesia, Malaysia and a number of other countries, U.Z.Narziev and M.M.Nafasov from the Department of ICT took an active part in the event.
 In the 2025-2026 academic year, together with the Novosibirsk State Technical University of the Russian Federation and the Kazakh National University named after Al-Forobi (Al-Forabi) in the 2025-2026 academic year on training on the basis of a joint educational program with the Department of Information and Communication Technologies of Bukhara State Technical University in cooperation with foreign higher educational institutions put in.
 Integration of science with education and production. Innovative corporate cooperation A brief classification of production works carried out by professors and teachers of the department is as follows:
 branches of the department are organized in the State Company "Bukhara Clean Territory" and Uzkommunproekt LLC. Students of the ATT direction are undergoing Dual education and internships in these enterprises. Training processes have been improved in accordance with the needs of today's production, in particular, training processes and practices are carried out on the basis of dual education with Bukhara Real Moto LLC 4 projects for applied and fundamental research were prepared and submitted to the ministry. 4 international projects are being prepared within the framework of the ALIPH Foundation. The teachers of the department cooperate with foreign colleagues who are winners of two international grants. Due to these grants, the material and technical base of the department and the availability of literature successfully ensured that a number of teachers of the department, including Narziyev U.Z. - in prestigious universities in Latvia, Sweden, Tajikistan, Kazakhstan, Slovenia, Russia, successfully trained in modern information technologies.
-
 
 Perspective plan of the department
 1) bringing the scientific potential of professors of the department up to 80% by 2030,
@@ -4211,13 +3742,10 @@ gifted students to the activities of the department's circles 8) introduction of
 9) Ensuring the participation of young teachers and gifted students in Olympiads and various competitions
 10) Participation in projects in the field of artificial intelligence
 
+القسم Department of Economics and Management  = http://localhost:5173/department/economics-and-management
+معلومته هي
 
-القسم Department of Economics and Management  = http://localhost:5173/department/economics-and-management 
-معلومته هي 
-
-Department of Economics and Management      
-
-
+Department of Economics and Management
 
 Email:
 Boboyev Akmal Choriyevich
@@ -4233,96 +3761,73 @@ The Department "Production and Management" was organized in 1993 on the basis of
 On December 29, 2001, "Economics" and "Marketing" departments were merged to "Marketing and Economics", and since September 2003 "Marketing". Since 2010, the department "Marketing" was headed by associate professor B.F. Azimov, "Management" was headed by associate professor Ruzieva D.I., from 2018 to 2022, PhD in economics Khaitov Sh.N.
 Since April 15, 2013 in accordance with the Decree of the President of the Republic of Uzbekistan "Decree No. 1954" on the establishment of the Bukhara Engineering and Technological Institute, the department was renamed into the Department of Management and continued its work until September 15, 2021. In accordance with the order of the rector of the Bukhara Engineering Technological Institute No. 499-U dated September 15, 2021, the department of "Economics" was separated from the department "Management" and began to work as a separate department. Since 2021, the Department of Economics has been headed by Associate Professor Boboev A.Ch., the Department of Management is Associate Professor Zayavitdinova N.M., Associate Professor (PhD) Avezova Sh.M. According to the new decree, the Department of "Economics" and the Department of Management were merged and began to function as a single "Department of Economics and Management".
 
-
 PROFESSOR-TEACHERS OF THE DEPARTMENT
 
 Head of the department, candidate of economic sciences, Associate
 Professor Boboev Akmal Chorievich
 
-
 Candidate of Economic Sciences, Professor
 Nizamov Asliddin Badritdinovich
-
 
 Candidate of Economic Sciences, Associate Professor
 Ochilov Sherali Barotovich
 
-
 associate professor
 Khalyova Mukhabbat Nutfullaevna
-
 
 dosent
 Hamidov Oqil Raxmonovich
 
-
 Candidate of Economic Sciences, Associate Professor
 Hasanova Gulrukh Dzhumanazarovna
-
 
 Candidate
 of Economic Sciences Azimov Bobir Fattokhovich
 
-
 Associate Professor, PhD
 Avezova Shakhnoza Makhmudjanovna
-
 
 Associate Professor, PhD
 Khaliyeva Nargiza Roziqovna
 
-
 dotsent
 Yuldasheva Saida Ne'matovna
-
 
 dotsent, PhD
 Jumayeva Dilafro'z Hamroyevna
 
-
 Senior Lecturer
 Rasulova Nigora Nematovna
-
 
 Senior Lecturer
 Usmanova Nasiba Yunusovna
 
-
 Senior teacher of the department:
 Tashev Fazliddin Zaynitdinovich
-
 
 Senior lecturer
 Narzulloyeva Feruza Fatulloyevna
 
-
 Kafedra assistenti
 Sulaymonov Azamat Ilhomovich
-
 
 Department Basic Doctoral Student
 Rakhmatov Shukhrat Akhatovich
 
-
 Basic doctoral student
 Jumaeva Zulfiya Qayumovna
-
 
 Basic doctoral student
 of the department Mukhsinov Bekzod Toxirovich
 
-
 Department Basic Doctoral Student
 Akramova Obida Kasimovna
-
 
 Basic doctoral student
 of the department: Rakhmonov Khurshid Khairiddinovich
 
-
 Head of the Cabinet Mukhitdinova
 Nigina Isomiddinovna
-
 
 Prepared specialists of the department
 UNDERGRADUATE DEGREE
@@ -4450,14 +3955,12 @@ every year 3. Establishment of state grands in cooperation with reputable foreig
 6. Commercialization of research results
 7. Improving courses at the department with a priority to the green economy
 
-
 القسم Department of Social Sciences and Physical Education   = http://localhost:5173/department/social-sciences-physical-culture
-معلومته هي 
+معلومته هي
 
-Department of Social Sciences and Physical Education     
+Department of Social Sciences and Physical Education
 
 Ijtimoiy fanlar va jismoniy madaniyat
-
 
 Kafedra mudiri
 Murodov Sanjar Aslonovich
@@ -4472,60 +3975,46 @@ Kafedra 1968 yilda tashkil topgan. 1975 yilda "Falsafa", 1979 yilda “Siyosiy t
 2011-2013 yilgacha "Tarix va falsafa" kafedrasi, 2013-2015 yilgacha "Tarix" kafedrasi, 2015 yildan “O‘zbekiston tarixi" kafedrasi nomi bilan faoliyat yuritdi. 2020 yildan qayta "Ijtimoiy fanlar" kafedrasi nomi berildi, 2024 yil 1 sentyabrda BMTI strukturasida o’zgartirish kiritilib “Jismoniy madaniyat” kafedrasi (“Jismoniy madaniyat” kafedrasi avvalgi Buxoro oziq-ovqat va yengil sanoat texnologiya instituti hozirgi Buxoro muhandislik-texnologiya instituti tarkibida 1978 yilda tashkil topgan) bilan birlashtirildi va "Ijtimoiy fanlar va jismoniy madaniyat" kafedrasi deb nomlandi.
 2025 yil 1 apreldan O‘zbekiston Respublikasi Prezidentining 2025 yil 24 yanvardagi PQ-22-son qarori bilan tashkil etilgan Buxoro davlat texnika universiteti tarkibiga "Ijtimoiy fanlar va jismoniy madaniyat" kafedrasi nomi bilan kiritildi.
 
-
 KAFEDRA PROFESSOR-O‘QITUVCHILARI
 
 Kafedra mudiri v.v.b.
 Muradov Sanjar Aslonovich
 
-
 Falsafa fanlari doktori Proffesor
 Navro’zova Gulchehra Nigmatovna
-
 
 professor
 Zoyirov Erkin Xalilovich
 
-
 dotsent
 Nurmatova Nigora Umarovna
-
 
 dotsent
 Safarov Tolib Tojievich
 
-
 dotsent
 Bafoyev Feruz Murtazoevich
-
 
 dotsent
 Shukurullayev Yunus Asrorovich
 
-
 dotsent
 Isayeva Dilbar Abdukadirovna
-
 
 katta o’qituvchi
 Xodjayeva Sanobar Nasrullaevna
 
-
 dotsent
 Vohidova Munira Tulkinovna
-
 
 dotsent
 Bozorova Ro‘zigul Sharofovna
 
-
 dotsent
 Karimov Bozarqul Xuddayberdievich
 
-
 dotsent
 Kazakova Marifat Dexkanovna
-
 
 dotsent
 Saloxov Akmal Kamariddinovich
@@ -4533,34 +4022,23 @@ Saloxov Akmal Kamariddinovich
  dotsent
 Alimova Mohichehra Muzaffarovna
 
-
 dotsent
 Shodiyev Jahongir Jo‘raqulovich
-
 
 katta o’qituvchi
 Azimov Adiz Abdullaevich
 
-
 dotsent
 Xudoyqulov To‘ymurod Bekmurodovich
-
 
 (t.f.n.) katta o’qituvchi
 Berdiyeva Gulmira Aminovna
 
-
 dotsent
 Mamurov Baxrom Baxshulloevich
 
-
 katta o’qituvchi
 Sultonova Latofat Saydullaevna
-
-
-
-
-
 
 KAFEDRADA O‘QITILADIGAN FANLAR
 Bakalavriat:
@@ -4597,18 +4075,14 @@ KAFEDRADA PROFESSOR-O’QITUVCHILAR TOMONISAN OLIB BORILAYOTGAN ILMIY IShLARNING
 XALQARO HAMKORLIK ASOSIDA ERISHILGAN NATIJALAR
    INTELEKTUAL MULK AGENTLIGI TOMONIDAN OLINGAN GUVOHNOMALAR
 
-
    OAK TOMONIDAN RO‘YXATGA OLINGAN JURNALLARDA CHOP ETILGAN MAQOLALAR
-
 
    KAFEDRA PROFESSSOR-O‘QITUVCHILARI TOMONIDAN 2021-2022 O‘QUV YILDA CHOP ETILGAN O‘QUV QO‘LLANMALAR
 
+القسم Department of Exact Sciences  = http://localhost:5173/department/exact-sciences
+معلومته هي
 
-
-القسم Department of Exact Sciences  = http://localhost:5173/department/exact-sciences 
-معلومته هي 
-
-Department of Exact Sciences     
+Department of Exact Sciences
 
 Email:
 Kasimova Guzal Karimovna
@@ -4622,7 +4096,6 @@ The Physics Division was founded on October 6, 1972 by the former Tоshkеnt Pо
 
 Currently, the department has doctors of physical and mathematical sciences, professor S.Kh. Astanov, M. Sharipov, candidate of technical sciences, docent O.S. Komilov, candidate of chemical sciences docent Z.R.Ashurov, Ph.D., docent M.R.Jumaev, docent M.Vahobova and PhD candidate of physics-mathematics G.K.Kasimova, senior teachers D.N. Hayitov and U.N.Islamov, assistants M.Turdiev, L.Juraeva, M.Akhrorova, J.Majitov, D.Rozieva, I.Raupova, B.Fayzieva work. Doctoral students of the department conduct research on various topics.
 The department has educational laboratories: "Mechanics and molecular physics", "Electricity and magnetism", "Optics" and "Atomic and nuclear physics". Under the guidance of professors and associate professors, the Educational and Research Production Laboratory "Unconventional Energy" and the Research Laboratory "Spectral Analysis" are being conducted. The department is contracted with the Academic Lyceum No. 1 at the Bukhara Engineering and Technological Institute and the Shafirkon Agricultural Technical School, the 18th General Secondary School of Bukhara, School No. 6 in Olot district, School No. 12 in Vobkent district.
-
 
 PROFESSOR-TEACHERS OF THE DEPARTMENT
 
@@ -4638,10 +4111,7 @@ Spin – qаytа оriеntаіntаі фаzаіlаі соhаsidа nеdir yеr fеr
 
 At the end of the year, prof. S.Kh.Astаnov participated in the scientific direction of the scientific direction "Dried apricot pаstilasi".
 
-
 Professor of the department Astanov S.Kh. successfully defended his doctoral dissertation on the topic "Photonics of natural dyes" in 2003 and to date he has been able to obtain more than 15 patents for the invention of Uzbekistan and the Russian Federation, as well as a certificate for 14 electronic textbooks.
-
-
 
 KAFEDRADA OLIB BORILAYOTGAN ILMIY-TADQIQOT ISHLARI
 Kаfеdrаdа hоzirgi kundа 4 tа ilmiy yo’nаlishdа ilmiy ishlаr оlib bоrilmоqdа.
@@ -4653,13 +4123,10 @@ Kаfеdrаdа hоzirgi kundа 4 tа ilmiy yo’nаlishdа ilmiy ishlаr оlib b�
 
 4. Spin – the natural structure of the natural structure of gravity and the scientific direction of the mаgnitöptic properties of the transition – f-m.f.d. M.Z.SH Scientific work is not going on in the Republic of Uzbekistan.
 
+القسم Department of Uzbek and Foreign Languages = http://localhost:5173/department/uzbek-foreign-languages
+معلومته هي
 
-
-
-القسم Department of Uzbek and Foreign Languages = http://localhost:5173/department/uzbek-foreign-languages 
-معلومته هي 
-
-Department of Uzbek and Foreign Languages     
+Department of Uzbek and Foreign Languages
 
 Email:
 Yusupova Shoxida Batirovna
@@ -4672,86 +4139,65 @@ PROFESSORIAL-TEACHING STAFF OF THE DEPARTMENT
 Head of Department, PhD, Associate Professor
 Yusupova Shohida Batirovna
 
-
 Doctor of Philology, Professor
 Juraeva Malohat Mukhammedovna
-
 
 Doctor of Philosophy, Professor
 Yunusova Gulandom Samiyevna
 
-
 p.f.f.n., dotsent
 Kazimova Gulnora Hakimovna
-
 
 p.f.f.d. (PhD), dotsent
 Barotova Mubashira Barotovna
 
-
 PhD, dotsent
 Muhamedjanova Sitora Jamalitdinovna
-
 
 PhD, dotsent
 Rajabova Marjona Ahmadovna
 
-
 PhD, dotsent
 Alimova Nozima Rajabboyevna
-
 
 PhD, dotsent v.b.
 Narzullayeva Dilfuza Saitovna
 
-
 PhD, dotsent
 Ibotova Nasiba Komilovna
-
 
 dotsent
 Nurmuradova Shahnoz Ibragimovna
 
-
 dotsent
 Barakatova Dilorom Aminovna
-
 
 dotsent
 Kamolova Dilfuza Obidovna
 
-
 dotsent
 Saitova Komila Xasanboyevna
-
 
 dotsent
 Tillayeva Shahlo Maksudovna
 
-
 PhD, dotsent
 Karamatova Zarina Fatilloyevna
-
 
 dotsent
 Salomova Malika Zohirovna
 
-
 dotsent
 Kazakova Dilora Gaffarovna
-
 
 dotsent
 Shoyimqulova Mahzuna Shavkatovna
 
-
 dotsent
 Axmedova Gulshod Umarovna
 
-
 p.f.f.d. (PhD),
 Tsukanova Yelena Nikolayevna
-
 
 Kafedrada tayyorlanadigan mutaxasislar
 Bakalavriat
@@ -4809,16 +4255,6 @@ Kazimova G.Kh. "Textbook on the Russian Language"2022
 
 PLATES FROM THE ACTIVITIES OF THE DEPARTMENT
 
-
-
-
-
-
-
-
-
-
-
 “O’zbek tili va xorijiy tillar” kafedrasi professor-o’qituvchilari f.f.d.,professor dunyo reytingida 630 o’rinda turuvchi Auezov nomidagi Janubiy Qozog’iston universitetida tashkil qilingan “Smart Learning: Enhancing Foreign Language Teaching Competence through Linguodidactics and Digital Tools” (Aqlli ta’lim: lingvodidaktika va raqamli vositalar yordamida chet tillarni o‘qitish mahoratini oshirish) nomli konferentsiyada o’z ma’ruzalari bilan qatnashdilar.
 
 KAFEDRADA OLIB BORILAYOTGAN ILMIY-TADQIQOT ISHLARI
@@ -4843,21 +4279,19 @@ Delegations from more than 100 countries of the world took part in the V Interna
 PROSPECTIVE PLANS OF THE DEPARTMENT
 In order to further increase their academic potential, teachers of the department participate in the Faculty Enrichment Program (FEP) at conferences and seminars organized by the British Council and the English Language Teachers' Association. Therefore, a library with French literature is being established in cooperation with the French Embassy. Teachers record and publish over 80 textbooks, teaching materials, bilingual dictionaries. Lecturers also participate in scientific seminars and conferences with their articles in collections of conferences and scientific journals, both at home and abroad. The teaching of English and French languages, modern advanced methods and principles and the experience of developed countries are used in the teaching of English and French languages.
 
+ليكن لديك علم ان كل كلية لديها الاقسام الخاصه بيها كل كليه لديها 6 اقسام اجمالي 24 قسم
+وكل كلية لديها البرامج الخاصه بيها في الدرجات المختلفه سوف تعرف من المعلومات ايضا
+وكل كلية لديها المسوالين
+وكل قسم لديه البرامج الخاصه والدراجات المختلفه مع مدير القسم ايضا + كل قسم لديه المدارسيين او الدكاتره الخاصين بالتخصص
 
-ليكن لديك علم ان كل كلية لديها الاقسام الخاصه بيها كل كليه لديها 6 اقسام اجمالي 24 قسم 
-وكل كلية لديها البرامج الخاصه بيها في الدرجات المختلفه سوف تعرف من المعلومات ايضا 
-وكل كلية لديها المسوالين 
-وكل قسم لديه البرامج الخاصه والدراجات المختلفه مع مدير القسم ايضا + كل قسم لديه المدارسيين او الدكاتره الخاصين بالتخصص 
+الان نريد ان نعمل جدول او اكثر في قاعدة البيانات مثلا سميه مثالا  Faculties - Departments - Programs - Management & Dean's Office اهم حاجه تكون  بتتحكم تحكم شامل ويكون هيكلة قواعد البيانات مرتبة جدا  في الكليات واي شي تحتها او مرتبط فيها
 
-الان نريد ان نعمل جدول او اكثر في قاعدة البيانات مثلا سميه مثالا  Faculties - Departments - Programs - Management & Dean's Office اهم حاجه تكون  بتتحكم تحكم شامل ويكون هيكلة قواعد البيانات مرتبة جدا  في الكليات واي شي تحتها او مرتبط فيها 
+وقم باضافه جميع المعلومات فيه كل المعلومات الخاصه بالكليات والاقسام والبرامج والدرجات والتخصصات وكل شي
+وكل شي يجب ان يكون مربوط بالكليه الخاصه بيه
 
+كل شي قم باضافتها الي جدول البيانات في قاعدة البيانات
 
-وقم باضافه جميع المعلومات فيه كل المعلومات الخاصه بالكليات والاقسام والبرامج والدرجات والتخصصات وكل شي 
-وكل شي يجب ان يكون مربوط بالكليه الخاصه بيه 
-
-كل شي قم باضافتها الي جدول البيانات في قاعدة البيانات 
-
-ثم بعد ذالك تقوم بعمل صفحه تحكم في الكنترول بانل هتكون هكاذا 
+ثم بعد ذالك تقوم بعمل صفحه تحكم في الكنترول بانل هتكون هكاذا
 
 http://localhost:5173/apanel/Facultys
 http://localhost:5173/apanel/departments
@@ -4866,9 +4300,9 @@ http://localhost:5173/apanel/dr-staf
 http://localhost:5173/apanel/den-faculties
 http://localhost:5173/apanel/man-department
 
-يتم التحكم في كل المحتوي الخاص بال  
+يتم التحكم في كل المحتوي الخاص بال
 
-http://localhost:5173/faculty/ 
+http://localhost:5173/faculty/
 
 http://localhost:5173/faculty/faculty-of-engineering = Faculty of Engineering
 http://localhost:5173/faculty/faculty-of-technology = Faculty of Technology
@@ -4876,25 +4310,25 @@ http://localhost:5173/faculty/faculty-of-natural-resources-management = Faculty 
 http://localhost:5173/faculty/faculty-of-service-and-digitalization = Faculty of Service and Digitalization
 
 هاذه الاقسام خاصه ب كلية Faculty of Engineering
-http://localhost:5173/department/electrical-power-engineering = Department of Electrical and Power Engineering 
-http://localhost:5173/department/architecture = Department of Architecture 
+http://localhost:5173/department/electrical-power-engineering = Department of Electrical and Power Engineering
+http://localhost:5173/department/architecture = Department of Architecture
 http://localhost:5173/department/civil-engineering = Department of Civil Engineering
-http://localhost:5173/department/light-industry-engineering-and-design = Department of Light Industry Engineering and Design 
+http://localhost:5173/department/light-industry-engineering-and-design = Department of Light Industry Engineering and Design
 http://localhost:5173/department/mechanics-engineering-graphics = Department of Mechanics and Engineering Graphics
 http://localhost:5173/department/technological-machines-equipment = Department of Technological Machines and Equipment
 
  هاذه الاقسام خاصه ب كلية Faculty of Technology
 http://localhost:5173/department/oil-gas-refining-technology = Department of Oil and Gas Processing Technology
-http://localhost:5173/department/food-technology-service = Department of Food Technology and Service 
-http://localhost:5173/department/chemical-technology = Department of Chemical Engineering 
-http://localhost:5173/department/agricultural-products-storage-oil-fat-technology = Department of Storage, Processing, and Oil-Fat Technology of Agricultural Products 
-http://localhost:5173/department/oil-gas-engineering-upstream-downstream = Department of Oil and Gas Engineering 
-http://localhost:5173/department/metrology-standardization-quality-control = Department of Metrology and Standardization 
+http://localhost:5173/department/food-technology-service = Department of Food Technology and Service
+http://localhost:5173/department/chemical-technology = Department of Chemical Engineering
+http://localhost:5173/department/agricultural-products-storage-oil-fat-technology = Department of Storage, Processing, and Oil-Fat Technology of Agricultural Products
+http://localhost:5173/department/oil-gas-engineering-upstream-downstream = Department of Oil and Gas Engineering
+http://localhost:5173/department/metrology-standardization-quality-control = Department of Metrology and Standardization
 
 هاذه الاقسام خاصه ب كلية Faculty of Natural Resources Management
 http://localhost:5173/department/irrigation-melioration = Department of Irrigation and Land Reclamation
 http://localhost:5173/department/hydrotechnical-structures-pump-stations = Department of Hydraulic Structures and Pumping Stations
-http://localhost:5173/department/agricultural-water-resources-engineering-technologies = Department of Agricultural and Water Management Engineering Technologies 
+http://localhost:5173/department/agricultural-water-resources-engineering-technologies = Department of Agricultural and Water Management Engineering Technologies
 http://localhost:5173/department/land-resources-management-state-land-cadastres = Department of Land Use and State Cadastre
 http://localhost:5173/department/industrial-ecology-hydrogeology = Department ofIndustrial Ecology and Hydrogeology
 http://localhost:5173/department/vehicle-engineering-automotive-transport-systems = Department of Vehicle Engineering
@@ -4902,25 +4336,19 @@ http://localhost:5173/department/vehicle-engineering-automotive-transport-system
 هاذه الاقسام خاصه ب كلية Faculty of Service and Digitalization
 http://localhost:5173/department/technological-processes-production-automation = Department of Technological Processes and Production Automation
 http://localhost:5173/department/information-and-communication-technologies = Department of Information and Communication Technologies
-http://localhost:5173/department/economics-and-management = Department of Economics and Management 
+http://localhost:5173/department/economics-and-management = Department of Economics and Management
 http://localhost:5173/department/social-sciences-physical-culture = Department of Social Sciences and Physical Education
 http://localhost:5173/department/exact-sciences = Department of Exact Sciences
 http://localhost:5173/department/uzbek-foreign-languages = Department of Uzbek and Foreign Languages
 
-واي برامج تحتهم 
-
+واي برامج تحتهم
 
 من هاذه الصفحات حتي يمكن الحذف والتعديل والاضافة والنشر ومنع النشر والترتيب هاذا  كله يجب ان يتم عمله باحترافيه كامله + اهم شي لا يتم تغير التصميم او الاستايل الذي هو موجود وبعد ذالك سيكون المحتوي مخزن في قاعدة البيانات في الجدول الخاصه بيها ويتم اظهارها عن طريق الapi والمفاتيح الخاصه بيه + بعد ذالك يجب ان يكون كل شي  في هاذه الاجزاء يعمل ب ال4 لغات اللغه الاوزبيكية اللغه العربية اللغه الانجليزيه اللغه الروسية حتي المحتوي الذي ليس لديه ترجمه قم بترجمته انا اريد احترافيه في العمل لا اريد اي اخطاء لا تقوم بتغير شكل التصميم
 
-
-
-ادخال جميع المحتوي وكل شي في ويجب عمل الجداول الخاصه بيه يجب ان يعمل باحترافيه بدون اخطاء ويكون بال4لغات + ايضا كل شي يتم تخزينه في قاعدة البيانات في الجداول الخاصه بيهم ثم يتم عرضه عن طريق ال api ويعرض في اماكنه ويتم التحكم فيه من الكنترول بانل لا اريدك ان تنسي اي شي صفحة التحكم اعمل فيها تابات لتكون منظمه ايضا لا اريد اي اخطاء لا تفقد اي بيانات + كل شي يتم بكل احترافيه واهم شي لا تغير التصميم ابني البيانات علي التصميم الموجود 
-
-
+ادخال جميع المحتوي وكل شي في ويجب عمل الجداول الخاصه بيه يجب ان يعمل باحترافيه بدون اخطاء ويكون بال4لغات + ايضا كل شي يتم تخزينه في قاعدة البيانات في الجداول الخاصه بيهم ثم يتم عرضه عن طريق ال api ويعرض في اماكنه ويتم التحكم فيه من الكنترول بانل لا اريدك ان تنسي اي شي صفحة التحكم اعمل فيها تابات لتكون منظمه ايضا لا اريد اي اخطاء لا تفقد اي بيانات + كل شي يتم بكل احترافيه واهم شي لا تغير التصميم ابني البيانات علي التصميم الموجود
 
 FACULTY OF ENGINEERING
 The Faculty of Engineering-is an academic division of a higher education institution that prepares highly qualified specialists in various engineering fields. Students gain both theoretical knowledge and practical skills, studying modern technologies, design, manufacturing processes, and innovative solutions. The faculty plays a key role in training competent professionals for industry, construction, energy, and other technical sectors.
-
 
 1
 About the Faculty
@@ -4929,18 +4357,12 @@ Departments
 Programs and Specializations
 International Cooperation
 
-
-
-
-
 DEAN
 Khojiyev Aziz Kholmurodovich
 
 Reception hours: Daily 14:00–16:00
 Phone: +998 (90) 744-01-79
 Email: azizhojiyev1979y@mail.ru
-
-
 
 DEPUTY DEAN FOR ACADEMIC AFFAIRS
 Rustamov Bobir Ismatovich
@@ -4949,21 +4371,10 @@ Reception hours: Daily 14:00–16:00
 Phone: +998 (99) 704-79-72
 Email: bobir_rustamov@bk.ru
 
-
-
 DEPUTY DEAN FOR YOUTH AFFAIRS
 Ashurov Asrorjon Komilovich
 
 Reception hours: Daily 14:00–16:00
 Phone: (+99897) 488-28-22
 Email: a.asrorjon83@mail.ru
-
-
-
-
-
-
-
-
-
 

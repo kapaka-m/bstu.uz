@@ -58,11 +58,8 @@ Civil Engineering
 60730800
 Reconstruction and Restoration of Architectural Monuments
 
-
-
 FACULTY OF ENGINEERING
 The Faculty of Engineering-is an academic division of a higher education institution that prepares highly qualified specialists in various engineering fields. Students gain both theoretical knowledge and practical skills, studying modern technologies, design, manufacturing processes, and innovative solutions. The faculty plays a key role in training competent professionals for industry, construction, energy, and other technical sectors.
-
 
 1
 About the Faculty
@@ -71,18 +68,12 @@ Departments
 Programs and Specializations
 International Cooperation
 
-
-
-
-
 DEAN
 Khojiyev Aziz Kholmurodovich
 
 Reception hours: Daily 14:00–16:00
 Phone: +998 (90) 744-01-79
 Email: azizhojiyev1979y@mail.ru
-
-
 
 DEPUTY DEAN FOR ACADEMIC AFFAIRS
 Rustamov Bobir Ismatovich
@@ -91,21 +82,10 @@ Reception hours: Daily 14:00–16:00
 Phone: +998 (99) 704-79-72
 Email: bobir_rustamov@bk.ru
 
-
-
 DEPUTY DEAN FOR YOUTH AFFAIRS
 Ashurov Asrorjon Komilovich
 
 Reception hours: Daily 14:00–16:00
 Phone: (+99897) 488-28-22
 Email: a.asrorjon83@mail.ru
-
-
-
-
-
-
-
-
-
 

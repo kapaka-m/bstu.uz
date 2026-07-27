@@ -78,8 +78,8 @@ On Windows, `public/storage` may appear as a junction/reparse point. This is exp
 When rendering images or referencing uploaded files, prefix the `file_path` returned by the API:
 
 ```javascript
-const absoluteUrl = filePath.startsWith("http") 
-  ? filePath 
+const absoluteUrl = filePath.startsWith("http")
+  ? filePath
   : `/storage/${filePath}`;
 ```
 

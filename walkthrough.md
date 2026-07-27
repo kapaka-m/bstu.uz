@@ -34,13 +34,13 @@ We wrote and executed [resequence_ids_clean.php](file:///C:/Users/KAPAKA/.gemini
   ```text
   Processing table 'locales' (4 records)...
   Resequenced 'locales'. Next AUTO_INCREMENT set to 5.
-  
+
   Processing table 'menu_items' (66 records)...
   Resequenced 'menu_items'. Next AUTO_INCREMENT set to 67.
-  
+
   Processing table 'menu_item_translations' (264 records)...
   Resequenced 'menu_item_translations'. Next AUTO_INCREMENT set to 265.
-  
+
   ...
   SUCCESS: All database tables resequenced successfully!
   ```

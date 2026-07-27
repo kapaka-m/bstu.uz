@@ -113,15 +113,15 @@ Pages are lazy-loaded within `apps/web/src/App.jsx` using `React.lazy()` and wra
 Student dashboard pages are protected using the `<StudentRoute>` route wrapper, which checks user authentication and redirects unauthenticated users to `/student/login`.
 
 ```jsx
-<Route 
-  path="/student/profile" 
+<Route
+  path="/student/profile"
   element={
     <StudentRoute>
       <StudentLayout>
         <StudentProfile />
       </StudentLayout>
     </StudentRoute>
-  } 
+  }
 />
 ```
 

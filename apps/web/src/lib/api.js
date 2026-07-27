@@ -16,7 +16,7 @@ async function request(method, path, body = null, options = {}) {
   const locale = localeStorage.getLocale();
   const separator = path.includes("?") ? "&" : "?";
   const hasLocale = /(?:[?&])locale=/.test(path);
-  const url = `${BASE_URL}${path}${hasLocale ? "" : `${separator}locale=${locale}`}`;
+  const url = `${BASE_URL}${path}${locale && !hasLocale ? `${separator}locale=${locale}` : ""}`;
 
   const headers = {
     "Accept": "application/json",

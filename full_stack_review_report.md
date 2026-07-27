@@ -520,3 +520,71 @@
 - لا توجد مسارات branding محلية مثل `cms/branding/...` داخل `apps/web/src/context` أو `apps/web/src/components`.
 - `npm.cmd run lint` نجح.
 - `php-local.bat artisan test` نجح: 5 tests passed.
+
+---
+
+## مراجعة مجلد React Data
+
+تاريخ المراجعة: 2026-07-28
+
+## ملفات React Data التي تمت مراجعتها
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\data`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\docs\frontend_data_folder.md` (منقول من `apps\web\src\data\README.md`)
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\data\translations.js`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\data\fallbackTranslations`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\data\fallbackTranslations\ar.js`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\data\fallbackTranslations\en.js`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\data\fallbackTranslations\ru.js`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\data\fallbackTranslations\uz.js`
+
+## ما تم تنظيفه في React Data
+
+- تم حذف `translations.js` لأنه كان يحتوي نسخة static محلية ولم يعد مستخدماً بعد اعتماد `LocaleContext.jsx` على API فقط.
+- تم حذف ملفات `fallbackTranslations/*.js` لأنها كانت نسخ fallback محلية ولم تعد مستخدمة في التشغيل.
+- تم نقل `apps/web/src/data/README.md` إلى `docs/frontend_data_folder.md`.
+- تم تحديث التوثيق ليؤكد أن مجلد `src/data` ليس مصدر محتوى، وأن مصدر الحقيقة هو Laravel API/MySQL و `apps/api/database/data`.
+
+## نتيجة React Data
+
+- لا توجد بيانات ترجمة أو محتوى static مستخدمة من `apps/web/src/data`.
+- الترجمات الحالية تأتي من جداول `translation_keys` و `translation_values` عبر `/api/v1/translations`.
+- المحتوى العام واللغات والإعدادات تأتي من قاعدة البيانات عبر API.
+
+## تحقق React Data
+
+- لا يوجد import أو reference لـ `fallbackTranslations` أو `translations.js` داخل `apps/web/src` بعد الحذف.
+- `npm.cmd run lint` نجح.
+
+---
+
+## مراجعة React Lib
+
+تاريخ المراجعة: 2026-07-28
+
+## ملفات React Lib التي تمت مراجعتها
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\lib`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\lib\api.js`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\lib\auth.js`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\lib\locale.js`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\lib\storage.js`
+
+## ما تم تأكيده وتعديله في React Lib
+
+- `api.js` هو طبقة اتصال فقط ويستخدم `VITE_API_BASE_URL` للاتصال بالـ Laravel API.
+- `api.js` لم يعد يضيف `locale` للطلبات إلا بعد توفر اللغة المختارة من التخزين/جدول `locales`.
+- `locale.js` لم يعد يحتوي لغة افتراضية hardcoded مثل `en`; اللغة الأولى تأتي من `/api/v1/locales` عبر `LocaleContext.jsx`.
+- `auth.js` يخزن token وبيانات المستخدم التي ترجع من API فقط.
+- `storage.js` طبقة تقنية للتعامل مع `localStorage` ولا يحتوي محتوى أو بيانات أعمال.
+
+## نتيجة React Lib
+
+- لا توجد بيانات محتوى static داخل ملفات `apps/web/src/lib`.
+- البيانات التي تتحكم في اللغة والمستخدم والمحتوى تأتي من API وقاعدة البيانات.
+- المتبقي داخل هذه الملفات هو مفاتيح تخزين وإعدادات اتصال وأسماء headers وهي تفاصيل تشغيل تقنية لا تدار من apanel.
+
+## تحقق React Lib
+
+- `npm.cmd run lint` نجح بدون أخطاء أو تحذيرات.
+- تم التأكد من وجود routes العامة: `/api/v1/locales`, `/api/v1/translations`, `/api/v1/settings/public`.

@@ -108,7 +108,7 @@ Student pages use `useLanguage()` / `t()` where practical, with translation valu
 
 ## Known Limitations
 
-Some older public website pages still keep static React data as fallbacks while API-backed content is being completed. The fallback files are retained intentionally for compatibility and should not be deleted until all public content has confirmed API parity.
+Public website and student-facing content should be served by the Laravel API/MySQL system. `apps/web/src/data` is no longer used as a runtime fallback content source.
 
 Full browser E2E automation is not currently committed in the repo. Verification is done through route checks, migration checks, lint/build, and manual API/browser testing.
 

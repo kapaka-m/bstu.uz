@@ -129,6 +129,5 @@ Apanel routes use `<AdminRoute>`, which redirects unauthenticated users to `/apa
 
 Production public pages load content from the Laravel API/MySQL system. Legacy
 React content captures were merged into `apps/api/database/data` and the old
-manual import utility was removed. `apps/web/src/data` keeps `translations.js`
-only as a technical fallback if the translations API is unavailable during local
-development.
+manual import utility was removed. `apps/web/src/data` is no longer a runtime
+content source.

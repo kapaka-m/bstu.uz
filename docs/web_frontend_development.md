@@ -45,13 +45,13 @@ If the backend is unavailable, public API-driven sections should show loading/er
 
 - Locale state is managed by `LocaleProvider` in `src/App.jsx`.
 - Arabic sets `dir="rtl"` on `html` and `body`.
-- Translation fallback files are technical fallbacks only; they are not the CMS source of truth.
+- Translations are loaded from the Laravel API/MySQL translation tables.
 
 ## Content Rules
 
 - Public academic content should come from the Laravel API, not React data files.
 - Public CMS pages for news, blog, announcements, green campus, videos, services, center pages, and staff/profile pages are API-driven.
-- Translation fallback files are technical fallbacks only.
+- Do not add translation fallback files to `src/data`.
 - Do not add new production CMS content to `src/data`.
 - Old static production data and archives were removed from the repository and must not be reintroduced as runtime content.
 - Do not manually edit `package-lock.json` or `node_modules/.package-lock.json`; npm lockfile version `3` is expected.

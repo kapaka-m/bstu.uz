@@ -86,8 +86,25 @@ export function LocaleProvider({ children }) {
           translationService.getLocales(),
           translationService.getPublicSettings(),
         ]);
+        const activeLocales = Array.isArray(localesData)
+          ? localesData.filter((item) => item?.is_active !== false)
+          : [];
+        const storedLocale = localeStorage.getLocale();
+        const nextLocale =
+          activeLocales.find((item) => item.code === storedLocale)?.code ||
+          activeLocales[0]?.code ||
+          storedLocale;
+
         setLocales(localesData);
         setSettings(settingsData);
+        if (nextLocale && nextLocale !== storedLocale) {
+          localeStorage.setLocale(nextLocale);
+        }
+        if (nextLocale) {
+          setLocale((currentLocale) =>
+            currentLocale === nextLocale ? currentLocale : nextLocale,
+          );
+        }
       } catch (e) {
         console.error("Failed to load initial locales and settings", e);
       } finally {
@@ -98,6 +115,10 @@ export function LocaleProvider({ children }) {
   }, []);
 
   useEffect(() => {
+    if (!locale) {
+      return;
+    }
+
     const loadLocaleData = async () => {
       try {
         const dir = locale === "ar" ? "rtl" : "ltr";

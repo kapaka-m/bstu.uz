@@ -23,7 +23,7 @@ export default function CmsListPage({
   eyebrow,
   basePath,
   fetchItems,
-  emptyTitle = "No content available",
+  emptyTitle,
   imageFallback,
 }) {
   const navigate = useNavigate();
@@ -72,8 +72,8 @@ export default function CmsListPage({
         value: category,
         name:
           category === "all"
-            ? t("common.all", "All")
-            : t(`categories.${category}`, category.replaceAll("-", " ")),
+            ? t("common.all")
+            : t(`categories.${category}`),
         count:
           category === "all"
             ? items.length
@@ -87,15 +87,15 @@ export default function CmsListPage({
   const recentItems = items.slice(0, 3);
 
   if (loading) {
-    return <LoadingState message={t("common.loading", "Loading content...")} height="h-screen" />;
+    return <LoadingState message={t("common.loading")} height="h-screen" />;
   }
 
   if (error) {
     return (
       <div className="pt-24">
         <ErrorState
-          title={t("common.error", "Content unavailable")}
-          message={error.message || t("common.tryAgain", "Please try again.")}
+          title={t("common.error")}
+          message={error.message || t("common.tryAgain")}
           onRetry={loadItems}
           height="h-96"
         />
@@ -166,7 +166,7 @@ export default function CmsListPage({
                         to={`${basePath}/${id}`}
                         className="inline-flex items-center gap-1.5 text-sm font-bold text-navy hover:text-primary transition-colors group-hover:underline"
                       >
-                        {t("common.readDetails", "Read details")}
+                        {t("common.readDetails")}
                         <ArrowRight
                           className={`w-4 h-4 transition-transform duration-300 ${language === "ar" ? "rotate-180 group-hover:-translate-x-0.5" : "group-hover:translate-x-0.5"}`}
                         />
@@ -177,8 +177,8 @@ export default function CmsListPage({
               })
             ) : (
               <EmptyState
-                title={emptyTitle}
-                message={t("common.noResults", "No matching content was found.")}
+                title={emptyTitle || t("common.noContent")}
+                message={t("common.noResults")}
                 height="h-80"
               />
             )}
@@ -187,12 +187,12 @@ export default function CmsListPage({
           <aside className="lg:col-span-4 flex flex-col gap-8 text-start">
             <div className="bg-primary-light border border-gray-100 p-6 rounded-3xl">
               <h2 className="text-base font-extrabold text-navy mb-4">
-                {t("common.search", "Search")}
+                {t("common.search")}
               </h2>
               <div className="flex bg-white border border-gray-200/50 rounded-xl overflow-hidden shadow-sm">
                 <input
                   type="text"
-                  placeholder={t("common.searchPlaceholder", "Search...")}
+                  placeholder={t("common.searchPlaceholder")}
                   value={searchQuery}
                   onChange={(event) => setSearchQuery(event.target.value)}
                   className="grow px-4 py-3 text-sm focus:outline-none bg-white text-gray-700 w-full"
@@ -210,7 +210,7 @@ export default function CmsListPage({
 
             <div className="bg-primary-light border border-gray-100 p-8 rounded-3xl">
               <h2 className="text-base font-extrabold text-navy mb-5 border-b border-gray-200/50 pb-3">
-                {t("common.categories", "Categories")}
+                {t("common.categories")}
               </h2>
               <ul className="flex flex-col gap-3 font-semibold text-sm">
                 {categories.map((category) => (
@@ -237,7 +237,7 @@ export default function CmsListPage({
             {recentItems.length > 0 && (
               <div className="bg-primary-light border border-gray-100 p-8 rounded-3xl">
                 <h2 className="text-base font-extrabold text-navy mb-5 border-b border-gray-200/50 pb-3">
-                  {t("common.recentPosts", "Recent")}
+                  {t("common.recentPosts")}
                 </h2>
                 <div className="flex flex-col gap-5">
                   {recentItems.map((item) => {

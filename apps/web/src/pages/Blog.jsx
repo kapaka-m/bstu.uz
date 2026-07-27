@@ -66,8 +66,11 @@ export default function Blog() {
           setSettings(nextSettings);
           setPosts(response.items || []);
         }
-      } catch (err) {
-        console.error("Failed to load blog posts", err);
+      } catch {
+        if (alive) {
+          setSettings({});
+          setPosts([]);
+        }
       } finally {
         if (alive) setLoading(false);
       }

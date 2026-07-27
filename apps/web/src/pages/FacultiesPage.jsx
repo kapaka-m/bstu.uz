@@ -23,23 +23,23 @@ export default function FacultiesPage() {
   return (
     <div className="pt-20 bg-white">
       <PageHeader
-        title={t("common.faculties", "Faculties")}
-        breadcrumbs={[{ label: t("common.faculties", "Faculties") }]}
+        title={t("common.faculties")}
+        breadcrumbs={[{ label: t("common.faculties") }]}
       />
 
       <section className="py-16 md:py-24 bg-primary-light/40">
         <div className="container mx-auto px-4 md:px-8 max-w-7xl">
           {loading ? (
-            <LoadingState message={t("common.loading", "Loading content...")} />
+            <LoadingState message={t("common.loading")} />
           ) : error ? (
             <ErrorState
-              message={t("faculties.loadError", "Faculties could not be loaded from the API.")}
+              message={t("faculties.loadError")}
               onRetry={retry}
             />
           ) : faculties.length === 0 ? (
             <EmptyState
-              title={t("faculties.emptyTitle", "No faculties available")}
-              message={t("faculties.emptyDesc", "Faculty content will appear here after it is published.")}
+              title={t("faculties.emptyTitle")}
+              message={t("faculties.emptyDesc")}
             />
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
@@ -55,7 +55,7 @@ export default function FacultiesPage() {
                       <Building2 className="w-6 h-6" />
                     </div>
                     <h2 className="text-xl font-extrabold text-navy group-hover:text-primary transition-colors">
-                      {faculty.name || t("common.untitled", "Untitled")}
+                      {faculty.name || t("common.untitled")}
                     </h2>
                     {faculty.description || faculty.about ? (
                       <p className="text-sm text-gray-500 leading-relaxed mt-3 line-clamp-3">
@@ -65,10 +65,10 @@ export default function FacultiesPage() {
                     <div className="flex items-center justify-between mt-6 pt-5 border-t border-gray-50">
                       <span className="inline-flex items-center gap-1.5 text-xs font-extrabold text-gray-400">
                         <GraduationCap className="w-4 h-4" />
-                        {faculty.code || t("common.faculty", "Faculty")}
+                        {faculty.code || t("common.faculty")}
                       </span>
                       <span className="inline-flex items-center gap-1 text-xs font-extrabold text-primary">
-                        {t("common.learnMore", "Learn more")}
+                        {t("common.learnMore")}
                         <ArrowRight
                           className={`w-4 h-4 transition-transform group-hover:translate-x-1 ${
                             language === "ar" ? "rotate-180 group-hover:-translate-x-1" : ""

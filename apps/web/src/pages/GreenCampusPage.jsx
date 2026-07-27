@@ -38,24 +38,6 @@ export default function GreenCampusPage() {
     const parsed = new Date(dateValue);
     if (Number.isNaN(parsed.getTime())) return dateValue;
 
-    if (language === "uz") {
-      const months = [
-        "Yanvar",
-        "Fevral",
-        "Mart",
-        "Aprel",
-        "May",
-        "Iyun",
-        "Iyul",
-        "Avgust",
-        "Sentabr",
-        "Oktabr",
-        "Noyabr",
-        "Dekabr",
-      ];
-      return `${parsed.getFullYear()} ${months[parsed.getMonth()]} ${String(parsed.getDate()).padStart(2, "0")}`;
-    }
-
     const locale =
       language === "ru"
         ? "ru-RU"

@@ -63,15 +63,6 @@ export default function VideoBDTU() {
     const value = -count;
     const localeByLang = { en: "en-US", uz: "uz-UZ", ru: "ru-RU", ar: "ar" };
 
-    if (language === "uz") {
-      const unitLabels = {
-        day: "kun",
-        month: "oy",
-        year: "yil",
-      };
-      return `${count} ${unitLabels[unit]} oldin`;
-    }
-
     return new Intl.RelativeTimeFormat(localeByLang[language] || language, {
       numeric: "auto",
     }).format(value, unit);
@@ -216,8 +207,8 @@ export default function VideoBDTU() {
       setCommentsList((current) => [...current, created]);
       setCommentForm({ comment: "" });
       setReplyTarget(null);
-    } catch (err) {
-      console.error("Failed to post video comment", err);
+    } catch {
+      setCommentForm((current) => ({ ...current }));
     }
   };
 

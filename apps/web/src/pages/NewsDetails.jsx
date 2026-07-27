@@ -52,24 +52,6 @@ export default function NewsDetails() {
     const parsed = new Date(dateValue);
     if (Number.isNaN(parsed.getTime())) return dateValue;
 
-    if (language === "uz") {
-      const months = [
-        "yanvar",
-        "fevral",
-        "mart",
-        "aprel",
-        "may",
-        "iyun",
-        "iyul",
-        "avgust",
-        "sentabr",
-        "oktabr",
-        "noyabr",
-        "dekabr",
-      ];
-      return `${parsed.getFullYear()}-yil ${String(parsed.getDate()).padStart(2, "0")}-${months[parsed.getMonth()]}`;
-    }
-
     return new Intl.DateTimeFormat(language, {
       day: "2-digit",
       month: "long",

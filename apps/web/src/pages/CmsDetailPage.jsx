@@ -18,7 +18,7 @@ import {
 } from "../utils/cmsContent";
 
 export default function CmsDetailPage({
-  backLabel = "Back",
+  backLabel,
   basePath,
   fetchItem,
   fetchItems,
@@ -55,15 +55,15 @@ export default function CmsDetailPage({
   }, [loadContent, language]);
 
   if (loading) {
-    return <LoadingState message={t("common.loading", "Loading content...")} height="h-screen" />;
+    return <LoadingState message={t("common.loading")} height="h-screen" />;
   }
 
   if (error) {
     return (
       <div className="pt-24">
         <ErrorState
-          title={t("common.error", "Content unavailable")}
-          message={error.message || t("common.tryAgain", "Please try again.")}
+          title={t("common.error")}
+          message={error.message || t("common.tryAgain")}
           onRetry={loadContent}
           height="h-96"
         />
@@ -75,8 +75,8 @@ export default function CmsDetailPage({
     return (
       <div className="pt-24">
         <EmptyState
-          title={t("common.notFound", "Content not found")}
-          message={t("common.noResults", "No matching content was found.")}
+          title={t("common.notFound")}
+          message={t("common.noResults")}
           height="h-96"
         />
       </div>
@@ -98,7 +98,7 @@ export default function CmsDetailPage({
             <ArrowLeft
               className={`w-4 h-4 transition-transform ${language === "ar" ? "rotate-180 group-hover:translate-x-1" : "group-hover:-translate-x-1"}`}
             />
-            {backLabel}
+            {backLabel || t("common.back")}
           </Link>
         </div>
 
@@ -149,12 +149,12 @@ export default function CmsDetailPage({
           <aside className="lg:col-span-4 flex flex-col gap-8 text-start">
             <div className="bg-primary-light border border-gray-100 p-6 rounded-3xl">
               <h2 className="text-base font-extrabold text-navy mb-4">
-                {t("common.search", "Search")}
+                {t("common.search")}
               </h2>
               <div className="flex bg-white border border-gray-200/50 rounded-xl overflow-hidden shadow-sm">
                 <input
                   type="text"
-                  placeholder={t("common.searchPlaceholder", "Search...")}
+                  placeholder={t("common.searchPlaceholder")}
                   className="grow px-4 py-3 text-sm focus:outline-none bg-white text-gray-700 w-full"
                   onKeyDown={(event) => {
                     if (event.key === "Enter") {
@@ -171,7 +171,7 @@ export default function CmsDetailPage({
             {recentItems.length > 0 && (
               <div className="bg-primary-light border border-gray-100 p-8 rounded-3xl">
                 <h2 className="text-base font-extrabold text-navy mb-5 border-b border-gray-200/50 pb-3">
-                  {t("common.recentPosts", "Recent")}
+                  {t("common.recentPosts")}
                 </h2>
                 <div className="flex flex-col gap-5">
                   {recentItems.map((entry) => {

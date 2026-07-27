@@ -166,7 +166,7 @@ export default function FacultyDetails() {
       .catch(() => {
         if (!active) return;
         setFaculty(null);
-        setError(t("common.notFoundDesc", "The requested content could not be loaded."));
+        setError(t("common.notFoundDesc"));
       })
       .finally(() => {
         if (active) setLoading(false);
@@ -178,38 +178,23 @@ export default function FacultyDetails() {
   }, [id, language, t]);
 
   const labels = {
-    home: t("nav.home", "Home"),
-    faculties: t("common.faculties", "Faculties"),
-    departments: t("common.departments", "Departments"),
-    bachelorPrograms: t("common.bachelorPrograms", "Bachelor Programs"),
-    masterSpecializations: t(
-      "facultyTechnology.masterSpecializations",
-      "Master Specializations",
-    ),
-    contact: t("common.contact", "Contact"),
-    overview: t("common.aboutFaculty", "Faculty Overview"),
-    leadership: t("common.managementDean", "Faculty Leadership"),
-    learnMore: t("common.learnMore", "Learn more"),
-    head: t("common.headOfDepartment", "Head of Department"),
-    phone: t("common.phone", "Phone"),
-    email: t("common.email", "Email"),
-    quickDepartmentLinks: t(
-      "facultyTechnology.quickDepartmentLinks",
-      "Quick Department Links",
-    ),
-    deanContact: t("facultyTechnology.deanContact", "Dean Contact"),
-    deputyDeanContacts: t(
-      "facultyTechnology.deputyDeanContacts",
-      "Deputy Dean Contacts",
-    ),
-    industryCooperation: t(
-      "facultyTechnology.industryCooperation",
-      "Faculty Information",
-    ),
-    academicPathways: t(
-      "facultyTechnology.academicPathways",
-      "Academic Pathways",
-    ),
+    home: t("nav.home"),
+    faculties: t("common.faculties"),
+    departments: t("common.departments"),
+    bachelorPrograms: t("common.bachelorPrograms"),
+    masterSpecializations: t("facultyTechnology.masterSpecializations"),
+    contact: t("common.contact"),
+    overview: t("common.aboutFaculty"),
+    leadership: t("common.managementDean"),
+    learnMore: t("common.learnMore"),
+    head: t("common.headOfDepartment"),
+    phone: t("common.phone"),
+    email: t("common.email"),
+    quickDepartmentLinks: t("facultyTechnology.quickDepartmentLinks"),
+    deanContact: t("facultyTechnology.deanContact"),
+    deputyDeanContacts: t("facultyTechnology.deputyDeanContacts"),
+    industryCooperation: t("facultyTechnology.industryCooperation"),
+    academicPathways: t("facultyTechnology.academicPathways"),
   };
 
   if (loading) {
@@ -223,9 +208,9 @@ export default function FacultyDetails() {
   if (!faculty || error) {
     return (
       <div className="pt-20 min-h-screen bg-primary-light flex flex-col items-center justify-center text-center p-8">
-        <h1 className="text-3xl font-extrabold text-navy mb-2">{t("common.notFound", "Content Not Found")}</h1>
+        <h1 className="text-3xl font-extrabold text-navy mb-2">{t("common.notFound")}</h1>
         <p className="text-gray-500 max-w-md mb-8">
-          {error || t("common.notFoundDesc", "The requested content could not be loaded.")}
+          {error || t("common.notFoundDesc")}
         </p>
         <Link
           to="/"
@@ -404,10 +389,7 @@ export default function FacultyDetails() {
             icon={UserCheck}
             eyebrow={labels.leadership}
             title={labels.leadership}
-            description={t(
-              "facultyTechnology.leadershipDesc",
-              "Faculty leadership and contact details for academic, youth, and administrative affairs.",
-            )}
+            description={t("facultyTechnology.leadershipDesc")}
           />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {leadership.map((member, idx) => (
@@ -471,10 +453,7 @@ export default function FacultyDetails() {
             icon={ShieldCheck}
             eyebrow={labels.departments}
             title={labels.departments}
-            description={t(
-              "facultyTechnology.departmentsDesc",
-              "Specialized departments connect academic training with industrial practice and applied research.",
-            )}
+            description={t("facultyTechnology.departmentsDesc")}
           />
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
             {facultyDepartmentsList.map((department, index) => {
@@ -552,10 +531,7 @@ export default function FacultyDetails() {
               icon={GraduationCap}
               eyebrow={labels.academicPathways}
               title={labels.bachelorPrograms}
-              description={t(
-                "facultyTechnology.bachelorDesc",
-                "Bachelor degree programs offered by the Faculty.",
-              )}
+              description={t("facultyTechnology.bachelorDesc")}
             />
             <ProgramGrid
               programs={bachelorPrograms}
@@ -572,10 +548,7 @@ export default function FacultyDetails() {
               icon={BookOpen}
               eyebrow={labels.academicPathways}
               title={labels.masterSpecializations}
-              description={t(
-                "facultyTechnology.masterDesc",
-                "Master and PhD degree specializations available through the Faculty.",
-              )}
+              description={t("facultyTechnology.masterDesc")}
             />
             <ProgramGrid
               programs={masterPrograms}
@@ -595,10 +568,7 @@ export default function FacultyDetails() {
               icon={Mail}
               eyebrow={labels.contact}
               title={labels.contact}
-              description={t(
-                "facultyTechnology.contactDesc",
-                "Faculty and department contact paths for students, applicants, and partners.",
-              )}
+              description={t("facultyTechnology.contactDesc")}
             />
           </div>
           <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-5">

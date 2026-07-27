@@ -74,7 +74,7 @@ export default function AdministrationDetails() {
       <div className="pt-24 min-h-[70vh] bg-white flex flex-col items-center justify-center p-6 text-center">
         <h2 className="text-2xl font-extrabold text-navy mb-4">{t("common.notFound")}</h2>
         <button onClick={() => navigate(-1)} className="bg-primary text-white px-6 py-2.5 rounded-xl font-bold text-sm">
-          {t("common.goBack", "Go Back")}
+          {t("common.goBack")}
         </button>
       </div>
     );
@@ -82,14 +82,14 @@ export default function AdministrationDetails() {
 
   const initials = getInitials(person.name);
   const labels = {
-    category: settings?.profile_category_label || t("common.administration", t("nav.administration", "Administration")),
-    email: settings?.email_address_label || settings?.email_label || t("common.email", "Email Address"),
-    phone: settings?.phone_number_label || settings?.phone_label || t("common.phone", "Phone Number"),
-    officeHours: settings?.office_hours_label || settings?.reception_label || t("common.officeHours", "Office Hours"),
-    academicRank: settings?.academic_rank_label || t("common.academicRank", "Academic Rank & Position"),
-    biography: settings?.biography_label || t("common.biography", "Professional Biography"),
-    duties: settings?.duties_label || t("common.dutiesResponsibilities", "Duties & Responsibilities"),
-    achievements: settings?.achievements_label || t("common.keyAchievements", "Key Achievements & Milestones"),
+    category: settings?.profile_category_label || t("common.administration"),
+    email: settings?.email_address_label || settings?.email_label || t("common.email"),
+    phone: settings?.phone_number_label || settings?.phone_label || t("common.phone"),
+    officeHours: settings?.office_hours_label || settings?.reception_label || t("common.officeHours"),
+    academicRank: settings?.academic_rank_label || t("common.academicRank"),
+    biography: settings?.biography_label || t("common.biography"),
+    duties: settings?.duties_label || t("common.dutiesResponsibilities"),
+    achievements: settings?.achievements_label || t("common.keyAchievements"),
   };
 
   return (

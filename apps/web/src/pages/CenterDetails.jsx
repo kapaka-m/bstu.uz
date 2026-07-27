@@ -40,8 +40,7 @@ export default function CenterDetails() {
         setCenter(currentCenter);
         setSettings(settingsData);
       })
-      .catch((err) => {
-        console.error("Failed to fetch center details:", err);
+      .catch(() => {
         if (active) {
           setCenter(null);
         }
@@ -67,10 +66,10 @@ export default function CenterDetails() {
     return (
       <div className="pt-24 min-h-screen flex flex-col items-center justify-center gap-4">
         <h2 className="text-2xl font-bold text-navy">
-          {t("common.errorOccurred", "Center Not Found")}
+          {t("common.errorOccurred")}
         </h2>
         <Link to="/" className="text-primary hover:underline font-semibold">
-          {t("common.backToHome", "Back to Home")}
+          {t("common.backToHome")}
         </Link>
       </div>
     );
@@ -90,7 +89,7 @@ export default function CenterDetails() {
             {/* Sibling switcher */}
             <div className="bg-primary-light border border-gray-100 p-8 rounded-3xl">
               <h4 className="text-lg font-extrabold text-navy mb-5 border-b border-gray-200/50 pb-3">
-                {settings?.sidebar_title || t("nav.centers", "University Centers")}
+                {settings?.sidebar_title || t("nav.centers")}
               </h4>
               <ul className="flex flex-col gap-3 font-semibold">
                 {siblingCenters.map((sib) => {
@@ -118,13 +117,10 @@ export default function CenterDetails() {
               <div className="absolute top-0 right-0 w-24 h-24 bg-white/5 rounded-full translate-x-10 -translate-y-10" />
               <HelpCircle className="w-10 h-10 mb-4 text-white/80" />
               <h4 className="text-xl font-bold mb-2">
-                {settings?.support_title || t("common.centerSupport", "Center Support")}
+                {settings?.support_title || t("common.centerSupport")}
               </h4>
               <p className="text-white/70 text-sm leading-relaxed mb-4">
-                {settings?.support_desc || t(
-                  "common.centerSupportDesc",
-                  "Have questions about specific courses, research equipment, or facilities? Contact the director.",
-                )}
+                {settings?.support_desc || t("common.centerSupportDesc")}
               </p>
 
               <div className="flex flex-col gap-3 font-bold text-xs mb-6 text-white/95 items-center w-full break-all">
@@ -152,7 +148,7 @@ export default function CenterDetails() {
                 to="/contact"
                 className="bg-white text-primary hover:bg-gray-50 px-6 py-3 rounded-xl text-xs font-bold transition-colors shadow-sm"
               >
-                {settings?.contact_btn_label || t("common.contactUniversity", "Contact University")}
+                {settings?.contact_btn_label || t("common.contactUniversity")}
               </Link>
             </div>
           </div>
@@ -172,7 +168,7 @@ export default function CenterDetails() {
                   <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white/5 to-transparent opacity-40 pointer-events-none" />
                   <div className="relative z-10 space-y-3">
                     <span className="inline-flex rounded-full bg-white/10 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-primary-light">
-                      {settings?.structure_label || t("common.universityStructure", "University Structure")}
+                      {settings?.structure_label || t("common.universityStructure")}
                     </span>
                     <h2 className="text-xl md:text-2xl lg:text-3xl font-black text-white max-w-lg leading-tight">
                       {center.name}
@@ -185,7 +181,7 @@ export default function CenterDetails() {
             {/* Center Title */}
             <div>
               <span className="text-xs font-bold uppercase tracking-wider text-primary">
-                {settings?.structure_label || t("common.universityStructure", "University Structure")}
+                {settings?.structure_label || t("common.universityStructure")}
               </span>
               <h1 className="text-3xl md:text-4xl font-extrabold text-navy tracking-tight mt-1 mb-4">
                 {center.name}
@@ -198,7 +194,7 @@ export default function CenterDetails() {
               <section className="flex flex-col gap-4">
                 <h3 className="text-xl font-extrabold text-navy flex items-center gap-2">
                   <BookOpen className="w-5 h-5 text-primary" />
-                  {settings?.about_label || t("common.aboutCenter", "About the Center")}
+                  {settings?.about_label || t("common.aboutCenter")}
                 </h3>
                 <p className="text-gray-500 text-sm md:text-base leading-relaxed whitespace-pre-line">
                   {center.about}
@@ -211,7 +207,7 @@ export default function CenterDetails() {
               <section className="flex flex-col gap-4">
                 <h3 className="text-xl font-extrabold text-navy flex items-center gap-2">
                   <UserCheck className="w-5 h-5 text-primary" />
-                  {settings?.staff_label || t("common.centerStructure", "Center Structure & Staff")}
+                  {settings?.staff_label || t("common.centerStructure")}
                 </h3>
                 <div className="bg-gray-50 border border-gray-100 rounded-3xl p-6 md:p-8 flex flex-col md:flex-row items-center md:items-start gap-6">
                   {center.image ? (
@@ -233,10 +229,7 @@ export default function CenterDetails() {
                       </p>
                     )}
                     <p className="text-gray-500 text-sm leading-relaxed mt-2">
-                      {center.headDescription || settings?.default_head_desc || t(
-                        "common.headDesc",
-                        "Supervises daily operations, instructional standards development, training partnerships, and compliance metrics within the center.",
-                      )}
+                      {center.headDescription || settings?.default_head_desc || t("common.headDesc")}
                     </p>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4 text-xs font-semibold text-gray-500 border-t border-gray-200/50 pt-4">
                       {center.email && (
@@ -262,7 +255,7 @@ export default function CenterDetails() {
               <section className="flex flex-col gap-4">
                 <h3 className="text-xl font-extrabold text-navy flex items-center gap-2">
                   <ShieldCheck className="w-5 h-5 text-primary" />
-                  {settings?.mission_label || t("common.functions", "Functions & Main Activities")}
+                  {settings?.mission_label || t("common.functions")}
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {center.functions.map((fn, index) => (
@@ -278,7 +271,7 @@ export default function CenterDetails() {
                           {fn}
                         </p>
                         <span className="text-[10px] text-primary font-bold uppercase tracking-wider">
-                          {settings?.function_badge_label || t("about.goals.missionTitle", "Mission")}
+                          {settings?.function_badge_label || t("about.goals.missionTitle")}
                         </span>
                       </div>
                     </div>

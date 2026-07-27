@@ -635,34 +635,34 @@ export default function DepartmentPage() {
   const [error, setError] = useState("");
 
   const labels = useMemo(() => ({
-    home: t("nav.home", "Home"),
-    faculties: t("common.faculties", "Faculties"),
-    facultyTechnology: department?.facultyName || t("common.faculties", "Faculties"),
-    quickContact: t("common.quickContact", "Quick Contact"),
-    backToFaculty: t("common.backToFaculty", "Back to Faculty"),
-    headOfDepartment: t("common.headOfDepartment", "Head of Department"),
-    history: t("common.departmentHistory", "Department History"),
-    preparedSpecialists: t("common.academicPrograms", "Prepared Specialists"),
-    subjects: t("common.curriculumSubjects", "Taught Subjects"),
-    staff: t("common.departmentStaff", "Professor-Teachers"),
-    publications: t("common.publicationsTextbooks", "Textbooks / Manuals / Publications"),
-    research: t("common.researchInnovation", "Ongoing Research"),
-    cooperation: t("common.internationalCooperation", "Cooperation / International Relations"),
-    activities: t("common.departmentActivities", "News / Activities / Prospective Plans"),
-    bachelor: t("common.bachelorPrograms", "Bachelor's degree"),
-    master: t("common.masterPrograms", "Master's degree / Judiciary"),
-    doctoral: t("facultyTechnology.doctoral", "Doctoral / PhD"),
-    programs: t("common.programs", "Programs"),
-    bachelorSubjects: t("facultyTechnology.bachelorSubjects", "Bachelor subjects"),
-    masterSubjects: t("facultyTechnology.masterSubjects", "Master subjects"),
-    gallery: t("facultyTechnology.gallery", "Gallery"),
+    home: t("nav.home"),
+    faculties: t("common.faculties"),
+    facultyTechnology: department?.facultyName || t("common.faculties"),
+    quickContact: t("common.quickContact"),
+    backToFaculty: t("common.backToFaculty"),
+    headOfDepartment: t("common.headOfDepartment"),
+    history: t("common.departmentHistory"),
+    preparedSpecialists: t("common.academicPrograms"),
+    subjects: t("common.curriculumSubjects"),
+    staff: t("common.departmentStaff"),
+    publications: t("common.publicationsTextbooks"),
+    research: t("common.researchInnovation"),
+    cooperation: t("common.internationalCooperation"),
+    activities: t("common.departmentActivities"),
+    bachelor: t("common.bachelorPrograms"),
+    master: t("common.masterPrograms"),
+    doctoral: t("facultyTechnology.doctoral"),
+    programs: t("common.programs"),
+    bachelorSubjects: t("facultyTechnology.bachelorSubjects"),
+    masterSubjects: t("facultyTechnology.masterSubjects"),
+    gallery: t("facultyTechnology.gallery"),
     publicationGroups: {
-      conferencePapers: t("common.conferenceArticles", "Conference Papers"),
-      scopusWebOfScience: t("common.scopusArticles", "Scopus / Web of Science Works"),
-      textbooksManuals: t("common.textbooks", "Textbooks and Manuals"),
-      textbooksManualsMonographs: t("common.publicationsTextbooks", "Textbooks, Manuals and Monographs"),
-      monographs: t("facultyTechnology.monographs", "Monographs"),
-      articles: t("facultyTechnology.scientificArticles", "Scientific Articles"),
+      conferencePapers: t("common.conferenceArticles"),
+      scopusWebOfScience: t("common.scopusArticles"),
+      textbooksManuals: t("common.textbooks"),
+      textbooksManualsMonographs: t("common.publicationsTextbooks"),
+      monographs: t("facultyTechnology.monographs"),
+      articles: t("facultyTechnology.scientificArticles"),
     },
   }), [department?.facultyName, t]);
 
@@ -690,7 +690,7 @@ export default function DepartmentPage() {
         if (!active) return;
         setDepartment(null);
         setDepartmentList([]);
-        setError(t("common.notFoundDesc", "The requested department could not be loaded."));
+        setError(t("department.notFound"));
       })
       .finally(() => {
         if (active) setLoading(false);
@@ -712,9 +712,9 @@ export default function DepartmentPage() {
   if (!department || error) {
     return (
       <div className="pt-20 min-h-screen bg-primary-light flex flex-col items-center justify-center text-center p-8">
-        <h1 className="text-3xl font-extrabold text-navy mb-2">{t("common.notFound", "Department Not Found")}</h1>
+        <h1 className="text-3xl font-extrabold text-navy mb-2">{t("common.notFound")}</h1>
         <p className="text-gray-500 max-w-md mb-8">
-          {error || t("common.notFoundDesc", "The requested department could not be loaded.")}
+          {error || t("department.notFound")}
         </p>
         <Link
           to="/"

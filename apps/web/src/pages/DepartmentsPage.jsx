@@ -23,23 +23,23 @@ export default function DepartmentsPage() {
   return (
     <div className="pt-20 bg-white">
       <PageHeader
-        title={t("common.departments", "Departments")}
-        breadcrumbs={[{ label: t("common.departments", "Departments") }]}
+        title={t("common.departments")}
+        breadcrumbs={[{ label: t("common.departments") }]}
       />
 
       <section className="py-16 md:py-24 bg-primary-light/40">
         <div className="container mx-auto px-4 md:px-8 max-w-7xl">
           {loading ? (
-            <LoadingState message={t("common.loading", "Loading content...")} />
+            <LoadingState message={t("common.loading")} />
           ) : error ? (
             <ErrorState
-              message={t("departments.loadError", "Departments could not be loaded from the API.")}
+              message={t("departments.loadError")}
               onRetry={retry}
             />
           ) : departments.length === 0 ? (
             <EmptyState
-              title={t("departments.emptyTitle", "No departments available")}
-              message={t("departments.emptyDesc", "Department content will appear here after it is published.")}
+              title={t("departments.emptyTitle")}
+              message={t("departments.emptyDesc")}
             />
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
@@ -62,7 +62,7 @@ export default function DepartmentsPage() {
                       </span>
                     )}
                     <h2 className="text-xl font-extrabold text-navy group-hover:text-primary transition-colors mt-2">
-                      {department.name || t("common.untitled", "Untitled")}
+                      {department.name || t("common.untitled")}
                     </h2>
                     {department.description || department.about ? (
                       <p className="text-sm text-gray-500 leading-relaxed mt-3 line-clamp-3">
@@ -73,10 +73,10 @@ export default function DepartmentsPage() {
                       <span className="inline-flex items-center gap-1.5 text-xs font-extrabold text-gray-400">
                         <Users className="w-4 h-4" />
                         {department.staff_count || department.staff?.length || 0}{" "}
-                        {t("common.staff", "Staff")}
+                        {t("common.staff")}
                       </span>
                       <span className="inline-flex items-center gap-1 text-xs font-extrabold text-primary">
-                        {t("common.learnMore", "Learn more")}
+                        {t("common.learnMore")}
                         <ArrowRight
                           className={`w-4 h-4 transition-transform group-hover:translate-x-1 ${
                             language === "ar" ? "rotate-180 group-hover:-translate-x-1" : ""

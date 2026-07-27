@@ -74,8 +74,7 @@ export default function BlogDetails() {
           setRecentPosts(recentResponse.items || []);
           setCommentsList(nextComments || []);
         }
-      } catch (err) {
-        console.error("Failed to load blog details", err);
+      } catch {
         if (alive) {
           setPost(null);
         }
@@ -146,8 +145,8 @@ export default function BlogDetails() {
       setCommentsList((prev) => [...prev, created]);
       setCommentForm({ name: "", email: "", comment: "" });
       setReplyTarget(null);
-    } catch (err) {
-      console.error("Failed to post blog comment", err);
+    } catch {
+      setCommentForm((current) => ({ ...current }));
     }
   };
 

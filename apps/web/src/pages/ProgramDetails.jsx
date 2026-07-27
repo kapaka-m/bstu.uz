@@ -48,7 +48,7 @@ export default function ProgramDetails() {
       .catch(() => {
         if (!active) return;
         setProgram(null);
-        setError(t("common.notFoundDesc", "The academic program you are looking for does not exist or has been relocated."));
+        setError(t("program.notFound"));
       })
       .finally(() => {
         if (active) setLoading(false);
@@ -88,15 +88,15 @@ export default function ProgramDetails() {
     return (
       <div className="pt-20 min-h-screen bg-primary-light flex flex-col items-center justify-center text-center p-8">
         <HelpCircle className="w-16 h-16 text-red-500 mb-4 animate-bounce" />
-        <h1 className="text-3xl font-extrabold text-navy mb-2">{t("common.notFound", "Program Not Found")}</h1>
+        <h1 className="text-3xl font-extrabold text-navy mb-2">{t("common.notFound")}</h1>
         <p className="text-gray-500 max-w-md mb-8">
-          {error || t("common.notFoundDesc", "The academic program you are looking for does not exist or has been relocated.")}
+          {error || t("program.notFound")}
         </p>
         <Link
           to="/programs"
           className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-white px-6 py-3 rounded-xl font-bold transition-all shadow-md"
         >
-          <ArrowLeft className={`w-4 h-4 transition-transform ${language === 'ar' ? 'rotate-180' : ''}`} /> {t("common.backToPrograms", "Back to Programs")}
+          <ArrowLeft className={`w-4 h-4 transition-transform ${language === 'ar' ? 'rotate-180' : ''}`} /> {t("common.backToPrograms")}
         </Link>
       </div>
     );
@@ -106,11 +106,15 @@ export default function ProgramDetails() {
   const pName = program.name || "";
   
   const degreeKey = degreeLabelKey(program.degree);
-  const pDegree = t(`home.programs.degrees.${degreeKey}`, program.degree);
+  const degreeTranslationKey = degreeKey ? `home.programs.degrees.${degreeKey}` : "";
+  const degreeTranslation = degreeTranslationKey ? t(degreeTranslationKey) : "";
+  const pDegree = degreeTranslation === degreeTranslationKey ? program.degree : degreeTranslation;
   
   const durationYears = Number(program.duration_years || 0);
   const durationKey = durationYears >= 5 ? "years5" : durationYears <= 2 ? "years2" : "years4";
-  const pDuration = t(`home.programs.durations.${durationKey}`, durationYears ? `${durationYears} years` : "");
+  const durationTranslationKey = durationYears ? `home.programs.durations.${durationKey}` : "";
+  const durationTranslation = durationTranslationKey ? t(durationTranslationKey) : "";
+  const pDuration = program.duration || (durationTranslation === durationTranslationKey ? "" : durationTranslation);
   const curriculum = splitLines(program.curriculum_summary);
   const requirements = splitLines(program.requirements);
   const careerOpportunities = splitLines(program.career_opportunities);
@@ -160,7 +164,7 @@ export default function ProgramDetails() {
               {/* Curriculum Block */}
               <div className="border border-gray-100 rounded-3xl p-8 shadow-sm text-start">
                 <h3 className="text-xl font-extrabold text-navy mb-6 flex items-center gap-2">
-                  <BookOpen className="w-5 h-5 text-primary" /> {t("common.courseCurriculum", "Core Curriculum & Subjects")}
+                  <BookOpen className="w-5 h-5 text-primary" /> {t("common.courseCurriculum")}
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {curriculum.map((subject, idx) => (
@@ -177,7 +181,7 @@ export default function ProgramDetails() {
               {/* Admission Requirements */}
               <div className="border border-gray-100 rounded-3xl p-8 shadow-sm text-start">
                 <h3 className="text-xl font-extrabold text-navy mb-6 flex items-center gap-2">
-                  <GraduationCap className="w-5 h-5 text-primary" /> {t("common.admissionRequirements", "Admission Requirements")}
+                  <GraduationCap className="w-5 h-5 text-primary" /> {t("common.admissionRequirements")}
                 </h3>
                 <ul className="space-y-4">
                   {requirements.map((req, idx) => (
@@ -197,7 +201,7 @@ export default function ProgramDetails() {
               {documents.length > 0 && (
                 <div className="border border-gray-100 rounded-3xl p-8 shadow-sm text-start">
                   <h3 className="text-xl font-extrabold text-navy mb-6 flex items-center gap-2">
-                    <ShieldCheck className="w-5 h-5 text-primary" /> {t("common.accreditations", "Accreditations & Quality Certifications")}
+                    <ShieldCheck className="w-5 h-5 text-primary" /> {t("common.accreditations")}
                   </h3>
                   <ul className="space-y-4">
                     {documents.map((acc, idx) => (
@@ -223,50 +227,50 @@ export default function ProgramDetails() {
               <div className="bg-linear-to-br from-primary to-primary-hover text-white rounded-3xl p-8 shadow-lg shadow-primary/20 flex flex-col items-start gap-4">
                 <GraduationCap className="w-8 h-8 text-white/80" />
                 <div>
-                  <h3 className="text-lg font-extrabold mb-1">{t("common.applyNow", "Apply Now")}</h3>
-                  <p className="text-xs text-white/80 leading-relaxed">{t("common.applyDesc", "Ready to join? Submit your application for the next intake and begin your journey at BSTU.")}</p>
+                  <h3 className="text-lg font-extrabold mb-1">{t("common.applyNow")}</h3>
+                  <p className="text-xs text-white/80 leading-relaxed">{t("common.applyDesc")}</p>
                 </div>
                 <Link
                   to="/apply"
                   className="w-full text-center bg-white text-primary font-extrabold text-sm px-6 py-3 rounded-xl hover:bg-primary-light transition-colors duration-200 shadow-sm"
                 >
-                  {t("common.applyNow", "Apply Now")} →
+                  {t("common.applyNow")} →
                 </Link>
               </div>
               
               {/* Program Quick Facts */}
               <div className="bg-primary-light border border-gray-100 p-8 rounded-3xl shadow-sm">
                 <h3 className="text-lg font-extrabold text-navy mb-6 border-b border-gray-200/50 pb-3">
-                  {t("common.quickFacts", "Quick Facts")}
+                  {t("common.quickFacts")}
                 </h3>
                 <div className="space-y-4">
                   <div className="flex justify-between items-center text-sm font-semibold border-b border-gray-200/20 pb-3">
-                    <span className="text-gray-500">{t("common.degreeLevel", "Degree Level")}</span>
+                    <span className="text-gray-500">{t("common.degreeLevel")}</span>
                     <span className="text-navy font-extrabold bg-white border border-gray-100 px-3 py-1 rounded-full text-xs">
                       {pDegree}
                     </span>
                   </div>
                   <div className="flex justify-between items-center text-sm font-semibold border-b border-gray-200/20 pb-3">
-                    <span className="text-gray-500">{t("common.duration", "Duration")}</span>
+                    <span className="text-gray-500">{t("common.duration")}</span>
                     <span className="text-navy font-extrabold bg-white border border-gray-100 px-3 py-1 rounded-full text-xs flex items-center gap-1">
                       <Clock className="w-3.5 h-3.5 text-primary shrink-0" />
                       {pDuration}
                     </span>
                   </div>
                   <div className="flex justify-between items-center text-sm font-semibold border-b border-gray-200/20 pb-3">
-                    <span className="text-gray-500">{t("common.languageOfInstruction", "Language")}</span>
+                    <span className="text-gray-500">{t("common.languageOfInstruction")}</span>
                     <span className="text-navy font-extrabold bg-white border border-gray-100 px-3 py-1 rounded-full text-xs">
-                      {t("common.programLanguages", "English / Uzbek")}
+                      {program.language || t("common.programLanguages")}
                     </span>
                   </div>
                   <div className="flex justify-between items-center text-sm font-semibold border-b border-gray-200/20 pb-3">
-                    <span className="text-gray-500">{t("common.intakePeriod", "Intake Period")}</span>
+                    <span className="text-gray-500">{t("common.intakePeriod")}</span>
                     <span className="text-navy font-extrabold bg-white border border-gray-100 px-3 py-1 rounded-full text-xs">
-                      {t("common.intakeDate", "September 2026")}
+                      {program.intake_period || t("common.intakeDate")}
                     </span>
                   </div>
                   <div className="flex flex-col gap-1 text-sm font-semibold border-b border-gray-200/20 pb-3">
-                    <span className="text-gray-400 text-[10px] uppercase tracking-wider font-extrabold">{t("common.parentFaculty", "Parent Faculty")}</span>
+                    <span className="text-gray-400 text-[10px] uppercase tracking-wider font-extrabold">{t("common.parentFaculty")}</span>
                     {program.faculty ? (
                       <Link 
                         to={`/faculty/${program.faculty.slug}`}
@@ -279,7 +283,7 @@ export default function ProgramDetails() {
                     )}
                   </div>
                   <div className="flex flex-col gap-1 text-sm font-semibold border-b border-gray-200/20 pb-3">
-                    <span className="text-gray-400 text-[10px] uppercase tracking-wider font-extrabold">{t("common.parentDepartment", "Parent Department")}</span>
+                    <span className="text-gray-400 text-[10px] uppercase tracking-wider font-extrabold">{t("common.parentDepartment")}</span>
                     {program.department ? (
                       <Link 
                         to={`/department/${program.department.slug}`}
@@ -292,7 +296,7 @@ export default function ProgramDetails() {
                     )}
                   </div>
                   <div className="flex flex-col gap-1 text-sm font-semibold">
-                    <span className="text-gray-400 text-[10px] uppercase tracking-wider font-extrabold">{t("common.programCoordinator", "Program Coordinator")}</span>
+                    <span className="text-gray-400 text-[10px] uppercase tracking-wider font-extrabold">{t("common.programCoordinator")}</span>
                     {pCoordinatorRoute ? (
                       <Link to={pCoordinatorRoute} className="text-primary hover:text-primary-hover font-bold hover:underline text-xs">
                         {pCoordinator}
@@ -307,7 +311,7 @@ export default function ProgramDetails() {
               {programStaff.length > 0 && (
                 <div className="border border-gray-100 p-8 rounded-3xl shadow-sm">
                   <h3 className="text-lg font-extrabold text-navy mb-6 border-b border-gray-200/50 pb-3 flex items-center gap-2">
-                    <Users className="w-5 h-5 text-primary" /> {t("common.programStaff", "Program Staff")}
+                    <Users className="w-5 h-5 text-primary" /> {t("common.programStaff")}
                   </h3>
                   <div className="flex flex-col gap-3">
                     {programStaff.slice(0, 8).map((member) => (
@@ -333,7 +337,7 @@ export default function ProgramDetails() {
               {/* Career Opportunities */}
               <div className="border border-gray-100 p-8 rounded-3xl shadow-sm">
                 <h3 className="text-lg font-extrabold text-navy mb-6 border-b border-gray-200/50 pb-3 flex items-center gap-2">
-                  <Briefcase className="w-5 h-5 text-primary" /> {t("common.careerOpportunities", "Career Paths")}
+                  <Briefcase className="w-5 h-5 text-primary" /> {t("common.careerOpportunities")}
                 </h3>
                 <div className="flex flex-col gap-3">
                   {careerOpportunities.map((opportunity, idx) => (
@@ -352,9 +356,9 @@ export default function ProgramDetails() {
               {/* Sidebar Contact Info */}
               <div className="border border-gray-100 p-8 rounded-3xl shadow-sm flex flex-col gap-6 bg-navy text-white">
                 <div>
-                  <h4 className="text-base font-extrabold mb-1">{t("common.facultyHelpdesk", "Admissions Help")}</h4>
+                  <h4 className="text-base font-extrabold mb-1">{t("common.facultyHelpdesk")}</h4>
                   <p className="text-[11px] text-white/70 leading-normal">
-                    {t("common.facultyHelpdeskDesc", "Have questions about this program or the admissions process? Reach out to our Registrar Office.")}
+                    {t("common.facultyHelpdeskDesc")}
                   </p>
                 </div>
                 <div className="space-y-4 text-xs font-bold border-t border-white/10 pt-4 text-white/90">

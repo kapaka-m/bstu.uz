@@ -25,6 +25,7 @@ import { Link } from "react-router-dom";
 import { useLanguage } from "../context/LanguageContext";
 import { administrationService } from "../services/administrationService";
 import { aboutService } from "../services/aboutService";
+import { publicAssetUrl } from "../lib/api";
 
 const ABOUT_ICON_MAP = {
   users: Users,
@@ -37,21 +38,8 @@ const ABOUT_ICON_MAP = {
   landmark: Landmark,
 };
 
-const API_ORIGIN = (import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/api/v1").replace(
-  /\/api\/v1\/?$/,
-  "",
-);
-
-const resolveAssetUrl = (path) => {
-  if (!path) return "";
-  if (path.startsWith("http://") || path.startsWith("https://") || path.startsWith("/")) {
-    return path;
-  }
-  return `${API_ORIGIN}/storage/${path}`;
-};
-
 export default function AboutPage() {
-  const { language } = useLanguage();
+  const { t, language } = useLanguage();
   const [aboutPage, setAboutPage] = useState(null);
   const [rectorProfile, setRectorProfile] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -83,7 +71,7 @@ export default function AboutPage() {
         if (alive) {
           setAboutPage(null);
           setRectorProfile(null);
-          setError("Unable to load page contents.");
+          setError(t("common.loadError"));
         }
       })
       .finally(() => {
@@ -93,7 +81,7 @@ export default function AboutPage() {
     return () => {
       alive = false;
     };
-  }, [language]);
+  }, [language, t]);
 
   const content = aboutPage?.content || {};
   const text = (path) =>
@@ -104,7 +92,7 @@ export default function AboutPage() {
   }));
   const timelineEvents = content.timeline?.items || [];
   const faculties = content.facultiesList?.items || [];
-  const identityImageSrc = resolveAssetUrl(aboutPage?.identity_image_url || aboutPage?.identity_image || "");
+  const identityImageSrc = publicAssetUrl(aboutPage?.identity_image_url || aboutPage?.identity_image || "");
   const heroContactUrl = aboutPage?.hero_contact_url || "";
   const heroCampusUrl = aboutPage?.hero_campus_url || "";
   const rectorProfileSlug = aboutPage?.rector_profile_slug || "";
@@ -124,7 +112,7 @@ export default function AboutPage() {
       <div className="bg-white min-h-screen flex items-center justify-center px-4">
         <div className="flex items-center gap-3 rounded-2xl border border-red-100 bg-red-50 px-5 py-4 text-sm font-bold text-red-600">
           <AlertCircle className="w-5 h-5 shrink-0" />
-          <span>{error || "Unable to load page contents."}</span>
+          <span>{error || t("common.loadError")}</span>
         </div>
       </div>
     );

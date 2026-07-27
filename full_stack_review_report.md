@@ -745,3 +745,65 @@
 - `php-local.bat artisan db:seed --class=SettingSeeder` نجح بدون حذف بيانات.
 - `php-local.bat artisan db:seed --class=StudentSystemTranslationSeeder` نجح بدون حذف بيانات.
 - `php-local.bat artisan optimize:clear` نجح.
+
+---
+
+## مراجعة React Pages
+
+تاريخ المراجعة: 2026-07-28
+
+## ملفات React Pages التي تمت مراجعتها
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\pages`
+- `VideoBDTU.jsx`
+- `ServicesPage.jsx`
+- `RegisterPage.jsx`
+- `ProgramDetails.jsx`
+- `ProgramsPage.jsx`
+- `ProfileDetails.jsx`
+- `NewsPage.jsx`
+- `NewsDetails.jsx`
+- `LoginPage.jsx`
+- `Home.jsx`
+- `GreenCampusPage.jsx`
+- `GreenCampusDetails.jsx`
+- `ForgotPassword.jsx`
+- `FacultyDetails.jsx`
+- `FacultiesPage.jsx`
+- `DepartmentsPage.jsx`
+- `DepartmentPage.jsx`
+- `ContactPage.jsx`
+- `CmsListPage.jsx`
+- `CmsDetailPage.jsx`
+- `CenterDetails.jsx`
+- `BlogDetails.jsx`
+- `Blog.jsx`
+- `ApplyPage.jsx`
+- `AnnouncementsPage.jsx`
+- `AnnouncementDetails.jsx`
+- `AdministrationDetails.jsx`
+- `AboutPage.jsx`
+
+## ما تم تأكيده وتعديله في React Pages
+
+- `ApplyPage.jsx` لم يعد يحتوي قاموس ترجمة محلي؛ كل النصوص أصبحت من مفاتيح `initialApplication.*` في جدول الترجمات.
+- صفحات الأخبار والإعلانات وGreen Campus والفيديو لم تعد تحتوي أسماء شهور أو وحدات زمن محلية ثابتة، وتستخدم `Intl` حسب اللغة.
+- صفحات CMS وfaculty/department/program/profile/administration/center لم تعد تحتوي fallback labels إنجليزية داخل `t()`.
+- `AboutPage.jsx` يستخدم `publicAssetUrl` بدل بناء رابط التخزين من `VITE_API_BASE_URL` داخل الصفحة.
+- تمت إزالة `console.error` من صفحات blog/video/center.
+- تمت إضافة مفاتيح الترجمة الناقصة في `StudentSystemTranslationSeeder`.
+
+## نتيجة React Pages
+
+- لا توجد بيانات محتوى static ظاهرة داخل ملفات `apps/web/src/pages` التي تمت مراجعتها.
+- محتوى الصفحات، العناوين، labels، رسائل النماذج، الفئات، الأخبار، الفيديوهات، البرامج، الكليات، الأقسام، والمراكز تأتي من قاعدة البيانات عبر API أو من جدول الترجمات.
+- المتبقي داخل هذه الصفحات هو منطق عرض، أسماء متغيرات، routes داخلية، icons، class names، وتعليقات تقنية غير معروضة للمستخدم.
+
+## تحقق React Pages
+
+- `php-local.bat -l database/seeders/StudentSystemTranslationSeeder.php` نجح.
+- `php-local.bat artisan db:seed --class=StudentSystemTranslationSeeder` نجح بدون حذف بيانات.
+- `php-local.bat artisan optimize:clear` نجح.
+- `npm.cmd run lint` نجح.
+- `npm.cmd run build` نجح.
+- لا توجد استدعاءات `t("key", "static fallback")` داخل `apps/web/src/pages`.

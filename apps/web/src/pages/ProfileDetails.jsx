@@ -69,7 +69,7 @@ export default function ProfileDetails() {
   if (adminPerson) {
     person = adminPerson;
     if (adminPerson.profileType === "administration") {
-      category = adminSettings?.profile_category_label || t("common.administration", t("nav.administration", "Administration"));
+      category = adminSettings?.profile_category_label || t("common.administration");
     }
   }
 
@@ -82,7 +82,7 @@ export default function ProfileDetails() {
       <div className="pt-24 min-h-[70vh] bg-white flex flex-col items-center justify-center p-6 text-center">
         <h2 className="text-2xl font-extrabold text-navy mb-4">{t("common.notFound")}</h2>
         <button onClick={() => navigate(-1)} className="bg-primary text-white px-6 py-2.5 rounded-xl font-bold text-sm">
-          {t("common.goBack", "Go Back")}
+          {t("common.goBack")}
         </button>
       </div>
     );
@@ -96,21 +96,21 @@ export default function ProfileDetails() {
 
   const isAdministrationProfile = adminPerson?.profileType === "administration";
   const labels = isAdministrationProfile ? {
-    email: adminSettings?.email_address_label || adminSettings?.email_label || t("common.email", "Email Address"),
-    phone: adminSettings?.phone_number_label || adminSettings?.phone_label || t("common.phone", "Phone Number"),
-    officeHours: adminSettings?.office_hours_label || adminSettings?.reception_label || t("common.officeHours", "Office Hours"),
-    academicRank: adminSettings?.academic_rank_label || t("common.academicRank", "Academic Rank & Position"),
-    biography: adminSettings?.biography_label || t("common.biography", "Professional Biography"),
-    duties: adminSettings?.duties_label || t("common.dutiesResponsibilities", "Duties & Responsibilities"),
-    achievements: adminSettings?.achievements_label || t("common.keyAchievements", "Key Achievements & Milestones"),
+    email: adminSettings?.email_address_label || adminSettings?.email_label || t("common.email"),
+    phone: adminSettings?.phone_number_label || adminSettings?.phone_label || t("common.phone"),
+    officeHours: adminSettings?.office_hours_label || adminSettings?.reception_label || t("common.officeHours"),
+    academicRank: adminSettings?.academic_rank_label || t("common.academicRank"),
+    biography: adminSettings?.biography_label || t("common.biography"),
+    duties: adminSettings?.duties_label || t("common.dutiesResponsibilities"),
+    achievements: adminSettings?.achievements_label || t("common.keyAchievements"),
   } : {
-    email: t("common.email", "Email"),
-    phone: t("common.phone", "Phone"),
-    officeHours: t("common.officeHours", "Office Hours"),
-    academicRank: t("common.academicRank", "Academic Rank & Position"),
-    biography: t("common.biography", "Professional Biography"),
-    duties: t("common.dutiesResponsibilities", "Duties & Responsibilities"),
-    achievements: t("common.keyAchievements", "Key Achievements & Milestones"),
+    email: t("common.email"),
+    phone: t("common.phone"),
+    officeHours: t("common.officeHours"),
+    academicRank: t("common.academicRank"),
+    biography: t("common.biography"),
+    duties: t("common.dutiesResponsibilities"),
+    achievements: t("common.keyAchievements"),
   };
 
   return (

@@ -23,80 +23,6 @@ import { initialApplicationService } from "../services/initialApplicationService
 
 const steps = ["personal", "academic", "review"];
 
-const labels = {
-  en: {
-    title: "International Student Application",
-    subtitle: "Create your student account and submit the first application step.",
-    personal: "Personal Info",
-    academic: "Academic Info",
-    review: "Login, Security & Review Submit",
-    passportHint: "Enter your full name exactly as shown in your passport.",
-    fullName: "Full Name in English",
-    birthDate: "Date of Birth",
-    countryBirth: "Country of Birth",
-    placeBirth: "Place of Birth",
-    nationality: "Nationality",
-    gender: "Gender",
-    passportNumber: "Passport Number",
-    passportType: "Passport Type",
-    issueDate: "Passport Issue Date",
-    expiryDate: "Passport Expiry Date",
-    issuingCountry: "Passport Issuing Country",
-    placeIssue: "Passport Place of Issue",
-    primaryPhone: "Primary Phone Number",
-    messenger: "Preferred Messenger",
-    telegram: "Telegram Username",
-    alternativePhone: "Alternative Phone Number",
-    degree: "Degree Level",
-    studentType: "Student Type",
-    educationType: "Education Type",
-    faculty: "Faculty",
-    program: "Program / Specialization",
-    language: "Study Language",
-    intake: "Intended Intake",
-    duration: "Estimated Duration",
-    transferNote: "Your study year and final study duration will be determined after the university reviews your transcript and completes the academic equivalency.",
-    email: "Email Address",
-    password: "Password",
-    confirmPassword: "Confirm Password",
-    terms: "I agree to the Terms and Conditions and Privacy Policy.",
-    confirm: "I confirm that the information entered is accurate and matches my passport.",
-    personalInfo: "Personal Information",
-    academicInfo: "Academic Information",
-    accountInfo: "Account Information",
-    editPersonal: "Edit Personal Info",
-    editAcademic: "Edit Academic Info",
-    editLogin: "Edit Login Information",
-    submit: "Create Account & Submit Application",
-    next: "Next Step",
-    back: "Back",
-    required: "This field is required.",
-    invalidName: "Use English capital letters, spaces, hyphen, and apostrophe only.",
-    invalidEmail: "Enter a valid email address.",
-    invalidPhone: "Use international E.164 format, for example +998901234567.",
-    duplicatePhone: "Alternative phone must be different from the primary phone.",
-    expiredPassport: "Passport must not be expired.",
-    expiryAfterIssue: "Expiry date must be after issue date.",
-    passwordWeak: "Password must be at least 8 characters and contain letters and numbers.",
-    passwordMatch: "Passwords do not match.",
-    unavailableProgram: "The selected program is not available for these options.",
-    successTitle: "Initial Application Created",
-    successText: "This is not a final admission decision. Sign in to complete documents, payments, and the next admission procedures.",
-    dashboard: "Go to Student Dashboard",
-    applicationNumber: "Application Number",
-    loading: "Loading...",
-    submitting: "Submitting...",
-    apiFailed: "Unable to submit the application. Please review the fields and try again.",
-  },
-  uz: {},
-  ru: {},
-  ar: {},
-};
-
-labels.uz = { ...labels.en, title: "Xalqaro talaba arizasi", subtitle: "Talaba akkauntini yarating va dastlabki arizani yuboring.", personal: "Shaxsiy ma'lumot", academic: "Ta'lim ma'lumoti", review: "Kirish, xavfsizlik va yuborish", next: "Keyingi", back: "Orqaga", dashboard: "Talaba kabinetiga o'tish" };
-labels.ru = { ...labels.en, title: "Заявка иностранного студента", subtitle: "Создайте аккаунт студента и отправьте первый этап заявки.", personal: "Личная информация", academic: "Учебная информация", review: "Логин, безопасность и отправка", next: "Далее", back: "Назад", dashboard: "Перейти в кабинет студента" };
-labels.ar = { ...labels.en, title: "تقديم الطلاب الدوليين", subtitle: "أنشئ حساب الطالب وأرسل المرحلة الأولى من الطلب.", personal: "المعلومات الشخصية", academic: "المعلومات الأكاديمية", review: "الدخول والأمان والمراجعة", next: "التالي", back: "رجوع", dashboard: "الدخول إلى لوحة الطالب" };
-
 const initialForm = {
   full_name_english: "",
   birth_date: "",
@@ -202,8 +128,17 @@ function Row({ label, value }) {
 }
 
 export default function ApplyPage() {
-  const { language } = useLanguage();
-  const t = labels[language] || labels.en;
+  const { t: translate, language } = useLanguage();
+  const t = useMemo(
+    () =>
+      new Proxy(
+        {},
+        {
+          get: (_, key) => translate(`initialApplication.${String(key)}`),
+        },
+      ),
+    [translate],
+  );
   const isRtl = language === "ar";
   const firstErrorRef = useRef(null);
   const [step, setStep] = useState(0);

@@ -38,7 +38,7 @@ class OrganizeStorageCommand extends Command
             'prikazes/' => 'generated/prikazes/',
         ];
 
-        DB::transaction(function () use ($publicMappings, $privateMappings): void {
+        DB::transaction(function () use ($publicMappings): void {
             $this->organizePublicFiles($publicMappings);
             $this->organizePrivateFiles();
             $this->updatePublicDatabasePaths($publicMappings);
@@ -221,6 +221,7 @@ class OrganizeStorageCommand extends Command
 
         if (! file_exists($to)) {
             File::move($from, $to);
+
             return;
         }
 

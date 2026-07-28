@@ -20,8 +20,7 @@ const socialIcons = {
 };
 
 export default function Footer() {
-  const { logoSrc, locale } = useLanguage();
-  const isRtl = locale === "ar";
+  const { logoSrc, locale, isRtl } = useLanguage();
   const [footerContent, setFooterContent] = useState(null);
   const [newsletterEmail, setNewsletterEmail] = useState("");
   const [newsletterState, setNewsletterState] = useState({

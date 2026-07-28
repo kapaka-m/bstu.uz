@@ -1,12 +1,11 @@
 /* eslint-disable react-refresh/only-export-components */
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { localeStorage } from "../lib/locale";
+import { publicAssetUrl } from "../lib/api";
 import { translationService } from "../services/translationService";
 import { menuService } from "../services/menuService";
 
 const LocaleContext = createContext();
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/api/v1";
-const PUBLIC_BASE_URL = API_BASE_URL.replace(/\/api\/v1\/?$/, "");
 
 const normalizeMenuItems = (menu) => {
   if (Array.isArray(menu)) return menu;
@@ -14,16 +13,6 @@ const normalizeMenuItems = (menu) => {
   if (Array.isArray(menu?.items)) return menu.items;
   if (Array.isArray(menu?.data?.items)) return menu.data.items;
   return [];
-};
-
-const resolvePublicAssetUrl = (value, fallback = "") => {
-  const path = String(value || "").trim();
-  if (!path) return fallback;
-  if (/^https?:\/\//i.test(path)) return path;
-  if (path.startsWith("/storage/")) return `${PUBLIC_BASE_URL}${path}`;
-  if (path.startsWith("storage/")) return `${PUBLIC_BASE_URL}/${path}`;
-  if (path.startsWith("/")) return path;
-  return `${PUBLIC_BASE_URL}/storage/${path}`;
 };
 
 const setLinkHref = (selector, href, attributes = {}) => {
@@ -62,15 +51,12 @@ export function LocaleProvider({ children }) {
     return result;
   };
 
-  const t = (key, fallback = null) => {
+  const t = (key) => {
     const val = resolvePath(translations, key);
     if (val !== undefined && val !== null) {
       return val;
     }
-    if (fallback !== null) {
-      return fallback;
-    }
-    return key; // return key string so missing translation keys are visible during dev
+    return key;
   };
 
   const changeLocale = async (newLocale) => {
@@ -121,7 +107,8 @@ export function LocaleProvider({ children }) {
 
     const loadLocaleData = async () => {
       try {
-        const dir = locale === "ar" ? "rtl" : "ltr";
+        const currentLocale = locales.find((item) => item.code === locale);
+        const dir = currentLocale?.direction || "ltr";
         document.documentElement.dir = dir;
         document.documentElement.lang = locale;
         document.body.dir = dir;
@@ -148,7 +135,7 @@ export function LocaleProvider({ children }) {
       }
     };
     loadLocaleData();
-  }, [locale]);
+  }, [locale, locales]);
 
   useEffect(() => {
     if (settings.site_name) {
@@ -167,36 +154,34 @@ export function LocaleProvider({ children }) {
 
     setLinkHref(
       'link[rel="icon"]',
-      resolvePublicAssetUrl(
+      publicAssetUrl(
         settings.branding_favicon_png || settings.branding_favicon_ico,
       ),
       { rel: "icon" },
     );
     setLinkHref(
       'link[rel="apple-touch-icon"]',
-      resolvePublicAssetUrl(settings.branding_apple_touch_icon),
+      publicAssetUrl(settings.branding_apple_touch_icon),
       { rel: "apple-touch-icon" },
     );
     setLinkHref(
       'link[rel="icon"][sizes="32x32"]',
-      resolvePublicAssetUrl(settings.branding_favicon_32),
+      publicAssetUrl(settings.branding_favicon_32),
       { rel: "icon", sizes: "32x32", type: "image/png" },
     );
     setLinkHref(
       'link[rel="icon"][sizes="16x16"]',
-      resolvePublicAssetUrl(settings.branding_favicon_16),
+      publicAssetUrl(settings.branding_favicon_16),
       { rel: "icon", sizes: "16x16", type: "image/png" },
     );
   }, [settings]);
 
-  const logoSrc =
-    locale === "ar"
-      ? resolvePublicAssetUrl(settings.branding_logo_ar)
-      : locale === "en"
-        ? resolvePublicAssetUrl(settings.branding_logo_en)
-        : locale === "ru"
-          ? resolvePublicAssetUrl(settings.branding_logo_ru)
-          : resolvePublicAssetUrl(settings.branding_logo_default);
+  const currentLocale = locales.find((item) => item.code === locale) || null;
+  const direction = currentLocale?.direction || "ltr";
+  const isRtl = direction === "rtl";
+  const logoSrc = publicAssetUrl(
+    settings[`branding_logo_${locale}`] || settings.branding_logo_default,
+  );
 
   const contextValue = {
     locale,
@@ -207,6 +192,8 @@ export function LocaleProvider({ children }) {
     headerMenu,
     footerMenu: [],
     logoSrc,
+    direction,
+    isRtl,
     changeLocale,
     changeLanguage: changeLocale, // alias for backward-compatibility
     setLanguage: changeLocale, // alias for older layouts

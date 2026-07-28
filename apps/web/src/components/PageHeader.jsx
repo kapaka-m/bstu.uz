@@ -4,9 +4,9 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
 
 export default function PageHeader({ title, breadcrumbs }) {
-  const { locale, t } = useLanguage();
+  const { isRtl, t } = useLanguage();
   const visibleBreadcrumbs = Array.isArray(breadcrumbs) ? breadcrumbs : [];
-  const ChevronIcon = locale === "ar" ? ChevronLeft : ChevronRight;
+  const ChevronIcon = isRtl ? ChevronLeft : ChevronRight;
 
   return (
     <div className="bg-primary-light py-16 md:py-20 border-b border-gray-100">

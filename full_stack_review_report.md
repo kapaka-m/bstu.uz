@@ -708,6 +708,74 @@
 
 ---
 
+## مراجعة React Components Context Dynamic Runtime
+
+تاريخ المراجعة: 2026-07-28
+
+## ملفات React Components Context Dynamic Runtime التي تمت مراجعتها
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\components`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\components\common`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\components\common\EmptyState.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\components\common\ErrorBoundary.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\components\common\ErrorState.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\components\common\FieldError.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\components\common\FormError.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\components\common\LoadingState.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\components\common\Pagination.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\components\common\RetryButton.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\components\Footer.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\components\Header.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\components\PageHeader.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\components\ScrollToTop.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\context`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\context\LocaleContext.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\context\LanguageContext.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\context\AuthContext.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\context\AppDataContext.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\lib\api.js` كملف مرتبط مباشرة لتوحيد API/storage logic.
+
+## ما تم العثور عليه في React Components Context Dynamic Runtime
+
+- `LocaleContext.jsx` كان يحتوي fallback محلي لرابط API إلى `127.0.0.1`.
+- `LocaleContext.jsx` كان يبني روابط storage داخله رغم وجود helper مركزي في `lib/api.js`.
+- اتجاه اللغة كان مربوطاً بكود `ar` داخل React بدلاً من قيمة `direction` القادمة من جدول `locales`.
+- اختيار الشعار كان مربوطاً بقائمة أكواد ثابتة لبعض اللغات.
+- المكونات المشتركة تستخدم مفاتيح ترجمة من قاعدة البيانات ولا تحتوي fallback text داخل `t("key", "text")`.
+
+## تغييرات React Components Context Dynamic Runtime
+
+- تمت إزالة fallback المحلي من `apps/web/src/lib/api.js`، وأصبح `VITE_API_BASE_URL` يأتي من البيئة فقط.
+- تم تحسين `publicAssetUrl` في `lib/api.js` ليكون المصدر المركزي الوحيد لبناء روابط ملفات public storage.
+- تم تعديل `LocaleContext.jsx` لاستخدام `publicAssetUrl` بدلاً من تكرار منطق storage.
+- تم تعديل `LocaleContext.jsx` ليستخدم `locales.direction` من API لتحديد `html dir`, `body dir`, و `isRtl`.
+- تم تعديل اختيار الشعار ليستخدم `settings[\`branding_logo_${locale}\`]` ديناميكياً مع `branding_logo_default`.
+- تم تعديل `Header.jsx`, `Footer.jsx`, و `PageHeader.jsx` لاستخدام `isRtl` من context بدلاً من شرط ثابت على كود لغة.
+
+## ربط React Components Context Dynamic Runtime بالبيانات
+
+- قاعدة البيانات: جدول `locales` لإدارة اللغات والاتجاه، جدول `translation_keys` و `translation_values` للنصوص، جدول `settings` لإعدادات branding وfavicon وsite metadata، وجداول `web_footers` و `web_footer_translations` لمحتوى الفوتر.
+- Laravel API: `/api/v1/locales`, `/api/v1/translations`, `/api/v1/settings/public`, `/api/v1/menus/header`, و `/api/v1/footer-web`.
+- `/apanel/`: إدارة اللغات من مورد locales، إدارة الترجمات من apanel translations، إدارة header من `/apanel/cms/header-navbar`، إدارة footer من `/apanel/cms/footer-web`، وإدارة branding/settings من إعدادات CMS.
+- نظام اللغات: إضافة لغة جديدة نشطة في جدول `locales` مع `direction` و `sort_order` تجعلها تظهر في `Header` بدون تعديل React، وتستخدم الترجمات الخاصة بها عبر API.
+
+## تحقق React Components Context Dynamic Runtime
+
+- إعادة المسح داخل المجموعة لم تجد `localhost`, `127.0.0.1`, hardcoded language comparisons، أو `t("key", "static fallback")`.
+- بقي `VITE_API_BASE_URL` و `/storage` فقط داخل `lib/api.js` لأنه المصدر المركزي المقصود للـ API/storage.
+- `npm.cmd run lint` نجح.
+- `npm.cmd run build` نجح.
+- `php-local.bat artisan route:list --path=api/v1 --except-vendor` نجح وأظهر 170 route.
+- `php-local.bat artisan test` نجح: 4 tests passed, 7 assertions.
+- `php-local.bat artisan optimize:clear` نجح.
+
+## المتبقي في React Components Context Dynamic Runtime
+
+- توجد رسائل `console.error` تقنية للتطوير وتشخيص فشل API أو render، وليست محتوى واجهة ولا تعرض للمستخدم.
+- توجد route names وstorage keys وrole values تقنية مثل `apanel`, `header`, و `action`; هذه ليست محتوى CMS ولا تنقل إلى قاعدة البيانات.
+
+---
+
 ## مراجعة Laravel Routes Storage Tests Vendor
 
 تاريخ المراجعة: 2026-07-28

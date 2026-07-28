@@ -30,7 +30,7 @@ export default function Header() {
   const [openDropdowns, setOpenDropdowns] = useState({});
   const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
 
-  const { language, changeLanguage, t, logoSrc, headerMenu, locales } =
+  const { language, changeLanguage, t, logoSrc, headerMenu, locales, isRtl } =
     useLanguage();
   const location = useLocation();
   const langDropdownRef = useRef(null);
@@ -61,8 +61,6 @@ export default function Header() {
   const loginAction = actionItems.find(
     (item) => item.icon === "login" || item.url === "/login",
   );
-  const isRtl = language === "ar";
-
   const languages = React.useMemo(() => {
     return (locales || [])
       .filter((l) => l.is_active !== false)
@@ -70,6 +68,7 @@ export default function Header() {
       .map((l) => ({
         code: l.code,
         label: l.native_name || l.name,
+        direction: l.direction,
         short: l.code.toUpperCase(),
       }));
   }, [locales]);

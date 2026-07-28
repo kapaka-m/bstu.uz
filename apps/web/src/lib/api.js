@@ -1,7 +1,7 @@
 import { authStorage } from "./auth";
 import { localeStorage } from "./locale";
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/api/v1";
+const BASE_URL = String(import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "");
 const API_ORIGIN = BASE_URL.replace(/\/api\/v1\/?$/, "");
 
 export const apiBaseUrl = BASE_URL;
@@ -9,7 +9,9 @@ export const apiBaseUrl = BASE_URL;
 export const publicAssetUrl = (path) => {
   const value = String(path || "").trim();
   if (!value) return "";
-  if (/^https?:\/\//i.test(value) || value.startsWith("/")) return value;
+  if (/^https?:\/\//i.test(value)) return value;
+  if (value.startsWith("/storage/")) return API_ORIGIN ? `${API_ORIGIN}${value}` : value;
+  if (value.startsWith("/")) return value;
   return `${API_ORIGIN}/storage/${value.replace(/^public\//, "")}`;
 };
 

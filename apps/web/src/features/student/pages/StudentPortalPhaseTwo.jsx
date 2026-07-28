@@ -17,6 +17,7 @@ import LoadingState from "../../../components/common/LoadingState";
 import FormError from "../../../components/common/FormError";
 import { studentPortalService } from "../../../services/studentPortalService";
 import { studentService } from "../../../services/studentService";
+import { useLanguage } from "../../../context/LanguageContext";
 
 const statusClass = (status = "") => {
   const value = String(status).toUpperCase();
@@ -26,7 +27,7 @@ const statusClass = (status = "") => {
   return "bg-blue-50 text-blue-700 border-blue-100";
 };
 
-const labelize = (value) => String(value || "Not Started").replaceAll("_", " ");
+const labelize = (value) => String(value || "").replaceAll("_", " ");
 const uploadAccept = ".pdf,.jpg,.jpeg,.png,.webp,.heic,.heif";
 const maxUploadSize = 10 * 1024 * 1024;
 
@@ -73,6 +74,7 @@ function InfoGrid({ rows }) {
 }
 
 export default function StudentPortalPhaseTwo() {
+  const { t, locale } = useLanguage();
   const location = useLocation();
   const [summary, setSummary] = useState(null);
   const [profile, setProfile] = useState(null);
@@ -114,7 +116,7 @@ export default function StudentPortalPhaseTwo() {
       setProfile(profileData);
       setNotifications(notificationData || []);
     } catch (err) {
-      setError(err?.message || "Unable to load student portal data.");
+      setError(err?.message || t("student.portal.loadError"));
     } finally {
       setLoading(false);
     }
@@ -124,10 +126,10 @@ export default function StudentPortalPhaseTwo() {
     load();
   }, []);
 
-  if (loading) return <LoadingState message="Loading student application..." />;
+  if (loading) return <LoadingState message={t("student.portal.loading")} />;
   if (error) return <FormError message={error} />;
   if (!summary?.application) {
-    return <Panel title="No Application"><p className="text-xs font-bold text-gray-500">No active application was found for this account.</p></Panel>;
+    return <Panel title={t("application.noApplication")}><p className="text-xs font-bold text-gray-500">{t("application.noActiveForAccount")}</p></Panel>;
   }
 
   const app = summary.application;
@@ -141,7 +143,7 @@ export default function StudentPortalPhaseTwo() {
   const uploadDoc = async (requirement, file) => {
     if (!file) return;
     if (file.size > maxUploadSize) {
-      setError("File exceeds maximum allowed size (10 MB).");
+      setError(t("document.fileTooLarge"));
       return;
     }
 
@@ -149,10 +151,10 @@ export default function StudentPortalPhaseTwo() {
       setBusy(requirement.document_type);
       setError("");
       await studentPortalService.uploadDocument(applicationId, requirement.document_type, file);
-      setSuccess("Document uploaded successfully.");
+      setSuccess(t("document.uploaded"));
       await load();
     } catch (err) {
-      setError(apiErrorMessage(err, "Upload failed."));
+      setError(apiErrorMessage(err, t("document.uploadFailed")));
     } finally {
       setBusy("");
     }
@@ -161,17 +163,17 @@ export default function StudentPortalPhaseTwo() {
   const uploadReceipt = async (file) => {
     if (!file) return;
     if (file.size > maxUploadSize) {
-      setError("File exceeds maximum allowed size (10 MB).");
+      setError(t("document.fileTooLarge"));
       return;
     }
 
     try {
       setBusy("payment");
       await studentPortalService.uploadPaymentReceipt(applicationId, file);
-      setSuccess("Payment receipt uploaded for review.");
+      setSuccess(t("payment.receiptUploaded"));
       await load();
     } catch (err) {
-      setError(apiErrorMessage(err, "Receipt upload failed."));
+      setError(apiErrorMessage(err, t("payment.receiptUploadFailed")));
     } finally {
       setBusy("");
     }
@@ -180,17 +182,17 @@ export default function StudentPortalPhaseTwo() {
   const uploadContractReceipt = async (file) => {
     if (!file) return;
     if (file.size > maxUploadSize) {
-      setError("File exceeds maximum allowed size (10 MB).");
+      setError(t("document.fileTooLarge"));
       return;
     }
 
     try {
       setBusy("contract_advance");
       await studentPortalService.uploadContractAdvanceReceipt(applicationId, file);
-      setSuccess("30% contract payment receipt uploaded for review.");
+      setSuccess(t("contract.advanceReceiptUploaded"));
       await load();
     } catch (err) {
-      setError(apiErrorMessage(err, "Contract payment receipt upload failed."));
+      setError(apiErrorMessage(err, t("contract.receiptUploadFailed")));
     } finally {
       setBusy("");
     }
@@ -199,35 +201,35 @@ export default function StudentPortalPhaseTwo() {
   const uploadServiceFeeReceipt = async (file) => {
     if (!file) return;
     if (file.size > maxUploadSize) {
-      setError("File exceeds maximum allowed size (10 MB).");
+      setError(t("document.fileTooLarge"));
       return;
     }
 
     try {
       setBusy("service_fee");
       await studentPortalService.uploadServiceFeeReceipt(applicationId, file);
-      setSuccess("300 USD service fee receipt uploaded for review.");
+      setSuccess(t("serviceFee.receiptUploaded"));
       await load();
     } catch (err) {
-      setError(apiErrorMessage(err, "Service fee receipt upload failed."));
+      setError(apiErrorMessage(err, t("serviceFee.receiptUploadFailed")));
     } finally {
       setBusy("");
     }
   };
 
   const submitHousingRequest = async () => {
-    const preferredRoomType = window.prompt("Preferred room type, optional:");
-    const notes = window.prompt("Housing notes, optional:");
+    const preferredRoomType = window.prompt(t("housing.preferredRoomPrompt"));
+    const notes = window.prompt(t("housing.notesPrompt"));
     try {
       setBusy("housing");
       await studentPortalService.submitHousingRequest(applicationId, {
         preferred_room_type: preferredRoomType || "",
         notes: notes || "",
       });
-      setSuccess("Housing request submitted.");
+      setSuccess(t("housing.requestSubmitted"));
       await load();
     } catch (err) {
-      setError(apiErrorMessage(err, "Housing request failed."));
+      setError(apiErrorMessage(err, t("housing.requestFailed")));
     } finally {
       setBusy("");
     }
@@ -236,17 +238,17 @@ export default function StudentPortalPhaseTwo() {
   const acceptEquivalency = async () => {
     setBusy("equivalency");
     await studentPortalService.acceptEquivalency(applicationId);
-    setSuccess("Equivalency result accepted.");
+    setSuccess(t("equivalency.accepted"));
     setBusy("");
     await load();
   };
 
   const requestEquivalencyReview = async () => {
-    const reason = window.prompt("Please write the reason for requesting review:");
+    const reason = window.prompt(t("equivalency.reviewReasonPrompt"));
     if (!reason) return;
     setBusy("equivalency");
     await studentPortalService.requestEquivalencyReview(applicationId, reason);
-    setSuccess("Equivalency review request submitted.");
+    setSuccess(t("equivalency.reviewRequested"));
     setBusy("");
     await load();
   };
@@ -254,18 +256,18 @@ export default function StudentPortalPhaseTwo() {
   const renderDashboard = () => (
     <div className="space-y-6">
       <div className="bg-linear-to-r from-navy to-navy-dark rounded-3xl p-8 text-white shadow-xl">
-        <p className="text-xs font-bold text-white/60 uppercase tracking-widest">Student Application</p>
+        <p className="text-xs font-bold text-white/60 uppercase tracking-widest">{t("student.application.label")}</p>
         <h1 className="mt-2 text-2xl md:text-3xl font-extrabold">{student.full_name_english || user.name}</h1>
         <p className="mt-2 text-xs font-semibold text-white/70">{app.application_number} · {programName}</p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 gap-4">
-        <Metric label="Completion" value={`${summary.completion_percentage}%`} icon={CheckCircle} />
-        <Metric label="Current Status" value={labelize(app.status)} icon={ClipboardList} />
-        <Metric label="Documents" value={labelize(app.documents_status)} icon={FileCheck} />
-        <Metric label="Admission" value={labelize(app.admission_status)} icon={ShieldCheck} />
-        <Metric label="Enrollment" value={summary.checks?.enrollment_issued ? "Issued" : "Pending"} icon={ShieldCheck} />
+        <Metric label={t("student.portal.completion")} value={`${summary.completion_percentage}%`} icon={CheckCircle} />
+        <Metric label={t("application.currentStatus")} value={labelize(app.status)} icon={ClipboardList} />
+        <Metric label={t("document.title")} value={labelize(app.documents_status)} icon={FileCheck} />
+        <Metric label={t("student.nav.admission")} value={labelize(app.admission_status)} icon={ShieldCheck} />
+        <Metric label={t("student.nav.enrollment")} value={summary.checks?.enrollment_issued ? t("status.issued") : t("status.pending")} icon={ShieldCheck} />
       </div>
-      <Panel title="Next Step" icon={ClipboardList}>
+      <Panel title={t("student.portal.nextStep")} icon={ClipboardList}>
         <p className="text-sm font-bold text-navy">{summary.next_action}</p>
       </Panel>
       {renderTimeline()}
@@ -274,7 +276,7 @@ export default function StudentPortalPhaseTwo() {
   );
 
   const renderTimeline = () => (
-    <Panel title="Application Timeline" icon={ClipboardList}>
+    <Panel title={t("application.timeline")} icon={ClipboardList}>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         {(summary.timeline || []).map((item) => (
           <div key={item.key} className="flex items-center justify-between gap-3 rounded-2xl border border-gray-100 p-4">
@@ -287,23 +289,23 @@ export default function StudentPortalPhaseTwo() {
   );
 
   const renderQuickLinks = (showEquivalency) => (
-    <Panel title="Application Areas" icon={GraduationCap}>
+    <Panel title={t("student.portal.applicationAreas")} icon={GraduationCap}>
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
         {[
-          ["/student/application", "Application Overview", ClipboardList],
-          ["/student/profile", "Personal Information", User],
-          ["/student/academic-information", "Academic Information", GraduationCap],
-          ["/student/documents", "Required Documents", FileCheck],
-          ...(showEquivalency ? [["/student/equivalency", "Academic Equivalency", GraduationCap]] : []),
-          ["/student/payments", "Payments", CreditCard],
-          ["/student/admission", "Admission", ShieldCheck],
-          ["/student/enrollment", "Enrollment", ShieldCheck],
-          ["/student/prikaz", "Prikaz", FileCheck],
-          ["/student/service-fee", "Service Fee", CreditCard],
-          ["/student/visa", "Telex & Visa", ShieldCheck],
-          ["/student/housing", "Housing", ClipboardList],
-          ["/student/residence", "Residence", FileCheck],
-          ["/student/notifications", "Notifications", Bell],
+          ["/student/application", t("student.nav.applicationOverview"), ClipboardList],
+          ["/student/profile", t("student.profile.section.personalShort"), User],
+          ["/student/academic-information", t("student.nav.academicInformation"), GraduationCap],
+          ["/student/documents", t("student.nav.requiredDocuments"), FileCheck],
+          ...(showEquivalency ? [["/student/equivalency", t("student.nav.academicEquivalency"), GraduationCap]] : []),
+          ["/student/payments", t("student.nav.payments"), CreditCard],
+          ["/student/admission", t("student.nav.admission"), ShieldCheck],
+          ["/student/enrollment", t("student.nav.enrollment"), ShieldCheck],
+          ["/student/prikaz", t("student.nav.prikaz"), FileCheck],
+          ["/student/service-fee", t("student.nav.serviceFee"), CreditCard],
+          ["/student/visa", t("student.nav.visa"), ShieldCheck],
+          ["/student/housing", t("student.nav.housing"), ClipboardList],
+          ["/student/residence", t("student.nav.residence"), FileCheck],
+          ["/student/notifications", t("student.notifications"), Bell],
         ].map(([to, label, Icon]) => (
           <Link key={to} to={to} className="rounded-2xl border border-gray-100 p-4 hover:border-primary/30 hover:bg-primary/5 transition-all">
             <Icon className="w-5 h-5 text-primary" />
@@ -316,18 +318,18 @@ export default function StudentPortalPhaseTwo() {
 
   const renderApplication = () => (
     <div className="space-y-6">
-      <Panel title="Application Overview" icon={ClipboardList}>
+      <Panel title={t("student.nav.applicationOverview")} icon={ClipboardList}>
         <InfoGrid rows={[
-          ["Application Number", app.application_number],
-          ["Status", labelize(app.status)],
-          ["Created At", app.created_at ? new Date(app.created_at).toLocaleString() : ""],
-          ["Updated At", app.updated_at ? new Date(app.updated_at).toLocaleString() : ""],
-          ["Program", programName],
-          ["Next Action", summary.next_action],
+          [t("application.number"), app.application_number],
+          [t("application.status"), labelize(app.status)],
+          [t("common.createdAt"), app.created_at ? new Date(app.created_at).toLocaleString(locale) : ""],
+          [t("common.updatedAt"), app.updated_at ? new Date(app.updated_at).toLocaleString(locale) : ""],
+          [t("application.program"), programName],
+          [t("student.portal.nextAction"), summary.next_action],
         ]} />
       </Panel>
       {renderTimeline()}
-      <Panel title="Status History" icon={ClipboardList}>
+      <Panel title={t("application.statusHistory")} icon={ClipboardList}>
         <div className="space-y-3">
           {(app.status_histories || app.statusHistories || []).map((item) => (
             <div key={item.id} className="rounded-2xl border border-gray-100 p-4">
@@ -341,50 +343,50 @@ export default function StudentPortalPhaseTwo() {
   );
 
   const renderProfile = () => (
-    <Panel title="Personal Information" icon={User}>
+    <Panel title={t("student.profile.section.personalShort")} icon={User}>
       <InfoGrid rows={[
-        ["Full Name", student.full_name_english || user.name],
-        ["Date of Birth", student.birth_date],
-        ["Birth Country", student.country_of_birth],
-        ["Birth Place", student.place_of_birth],
-        ["Nationality", student.nationality],
-        ["Gender", student.gender],
-        ["Passport Number", student.passport_number],
-        ["Passport Type", student.passport_type],
-        ["Passport Issue Date", student.passport_issue_date],
-        ["Passport Expiry Date", student.passport_expiry_date],
-        ["Issuing Country", student.passport_issuing_country],
-        ["Place of Issue", student.passport_place_of_issue],
-        ["Primary Phone", student.phone],
-        ["Alternative Phone", student.alternative_phone],
-        ["Messenger", student.preferred_messenger],
-        ["Telegram", student.telegram_username],
-        ["Email", user.email],
+        [t("form.fullName"), student.full_name_english || user.name],
+        [t("student.profile.birth_date"), student.birth_date],
+        [t("student.profile.birthCountry"), student.country_of_birth],
+        [t("student.profile.birthPlace"), student.place_of_birth],
+        [t("student.profile.nationality"), student.nationality],
+        [t("student.profile.gender"), student.gender],
+        [t("student.profile.passport_number"), student.passport_number],
+        [t("student.profile.passportType"), student.passport_type],
+        [t("student.profile.passportIssueDate"), student.passport_issue_date],
+        [t("student.profile.passport_expiry_date"), student.passport_expiry_date],
+        [t("student.profile.issuingCountry"), student.passport_issuing_country],
+        [t("student.profile.placeOfIssue"), student.passport_place_of_issue],
+        [t("student.profile.primaryPhone"), student.phone],
+        [t("student.profile.alternativePhone"), student.alternative_phone],
+        [t("student.profile.messenger"), student.preferred_messenger],
+        [t("student.profile.telegram"), student.telegram_username],
+        [t("form.email"), user.email],
       ]} />
       <p className="text-xs font-bold text-amber-700 bg-amber-50 border border-amber-100 rounded-2xl p-4">
-        Sensitive fields are locked while your application is under review. Contact administration if a correction is required.
+        {t("student.profile.lockedNotice")}
       </p>
     </Panel>
   );
 
   const renderAcademic = () => (
-    <Panel title="Academic Information" icon={GraduationCap}>
+    <Panel title={t("student.nav.academicInformation")} icon={GraduationCap}>
       <InfoGrid rows={[
-        ["Degree Level", app.degree_level],
-        ["Student Type", app.student_type === "transfer" ? "Transfer Student" : "New Student"],
-        ["Education Type", app.study_mode],
-        ["Faculty", facultyName],
-        ["Program", programName],
-        ["Study Language", app.language_of_study],
-        ["Intended Intake", app.intended_intake],
-        ["Estimated Duration", app.program?.duration_years ? `${app.program.duration_years} years` : "Pending review"],
+        [t("application.degreeLevel"), app.degree_level],
+        [t("student.type"), app.student_type === "transfer" ? t("student.type.transfer") : t("student.type.new")],
+        [t("education.type"), app.study_mode],
+        [t("faculty.title"), facultyName],
+        [t("application.program"), programName],
+        [t("application.languageOfStudy"), app.language_of_study],
+        [t("application.intendedIntake"), app.intended_intake],
+        [t("program.estimatedDuration"), app.program?.duration_years ? `${app.program.duration_years} ${t("time.years")}` : t("status.pendingReview")],
       ]} />
-      {isTransfer && <p className="text-xs font-bold text-amber-700 bg-amber-50 border border-amber-100 rounded-2xl p-4">Your study year and final study duration will be determined after transcript review and academic equivalency.</p>}
+      {isTransfer && <p className="text-xs font-bold text-amber-700 bg-amber-50 border border-amber-100 rounded-2xl p-4">{t("equivalency.transferNotice")}</p>}
     </Panel>
   );
 
   const renderDocuments = () => (
-    <Panel title="Required Documents" icon={FileCheck}>
+    <Panel title={t("student.nav.requiredDocuments")} icon={FileCheck}>
       {success && <Success message={success} />}
       {error && <FormError message={error} />}
       <div className="space-y-3">
@@ -405,12 +407,12 @@ export default function StudentPortalPhaseTwo() {
                   onClick={() => studentPortalService.downloadDocument(req.document.id)}
                   className="text-xs font-extrabold text-primary"
                 >
-                  <Download className="inline w-4 h-4" /> Download
+                  <Download className="inline w-4 h-4" /> {t("button.download")}
                 </button>
               )}
               {req.status !== "APPROVED" && (
                 <label className="px-4 py-2 rounded-xl bg-primary text-white text-xs font-extrabold cursor-pointer">
-                  {busy === req.document_type ? <Loader2 className="w-4 h-4 animate-spin" /> : <><Upload className="inline w-4 h-4 me-1" />Upload</>}
+                  {busy === req.document_type ? <Loader2 className="w-4 h-4 animate-spin" /> : <><Upload className="inline w-4 h-4 me-1" />{t("button.upload")}</>}
                   <input
                     className="hidden"
                     type="file"
@@ -430,26 +432,26 @@ export default function StudentPortalPhaseTwo() {
   );
 
   const renderEquivalency = () => {
-    if (!isTransfer) return <Panel title="Academic Equivalency"><p className="text-xs font-bold text-gray-500">Academic equivalency is not required for new students.</p></Panel>;
+    if (!isTransfer) return <Panel title={t("student.nav.academicEquivalency")}><p className="text-xs font-bold text-gray-500">{t("equivalency.notRequired")}</p></Panel>;
     const eq = app.equivalency;
     return (
-      <Panel title="Academic Equivalency" icon={GraduationCap}>
+      <Panel title={t("student.nav.academicEquivalency")} icon={GraduationCap}>
         <InfoGrid rows={[
-          ["Status", eq?.status || "WAITING_DOCUMENTS"],
-          ["Previous University", eq?.previous_university],
-          ["Previous Country", eq?.previous_country],
-          ["Previous Program", eq?.previous_program],
-          ["Accepted Credits", eq?.accepted_credits],
-          ["Rejected Credits", eq?.rejected_credits],
-          ["Entry Year", eq?.proposed_entry_year],
-          ["Remaining Duration", eq?.estimated_remaining_duration],
+          [t("application.status"), eq?.status || t("status.waitingDocuments")],
+          [t("equivalency.previousUniversity"), eq?.previous_university],
+          [t("equivalency.previousCountry"), eq?.previous_country],
+          [t("equivalency.previousProgram"), eq?.previous_program],
+          [t("equivalency.acceptedCredits"), eq?.accepted_credits],
+          [t("equivalency.rejectedCredits"), eq?.rejected_credits],
+          [t("equivalency.entryYear"), eq?.proposed_entry_year],
+          [t("equivalency.remainingDuration"), eq?.estimated_remaining_duration],
         ]} />
         <div className="space-y-2">
           {(eq?.courses || []).map((course) => (
             <div key={course.id} className="rounded-2xl border border-gray-100 p-4 flex justify-between gap-3">
               <div>
                 <p className="text-xs font-extrabold text-navy">{course.previous_course_name}</p>
-                <p className="text-[11px] text-gray-500">{course.matched_university_course || "No matched course"}</p>
+                <p className="text-[11px] text-gray-500">{course.matched_university_course || t("equivalency.noMatchedCourse")}</p>
               </div>
               <StatusPill status={course.course_status} />
             </div>
@@ -457,8 +459,8 @@ export default function StudentPortalPhaseTwo() {
         </div>
         {["RESULT_ISSUED", "STUDENT_REVIEW_REQUIRED"].includes(eq?.status) && (
           <div className="flex gap-3">
-            <button onClick={acceptEquivalency} className="px-4 py-2 rounded-xl bg-primary text-white text-xs font-extrabold">Accept Equivalency Result</button>
-            <button onClick={requestEquivalencyReview} className="px-4 py-2 rounded-xl border border-gray-200 text-navy text-xs font-extrabold">Request Review</button>
+            <button onClick={acceptEquivalency} className="px-4 py-2 rounded-xl bg-primary text-white text-xs font-extrabold">{t("equivalency.acceptResult")}</button>
+            <button onClick={requestEquivalencyReview} className="px-4 py-2 rounded-xl border border-gray-200 text-navy text-xs font-extrabold">{t("equivalency.requestReview")}</button>
           </div>
         )}
       </Panel>
@@ -467,11 +469,11 @@ export default function StudentPortalPhaseTwo() {
 
   const renderPayments = () => (
     <div className="space-y-6">
-      <Panel title="Application Fee Payment" icon={CreditCard}>
+      <Panel title={t("payment.applicationFee")} icon={CreditCard}>
         <InfoGrid rows={[
-          ["Fee", "50 USD"],
-          ["Status", labelize(app.application_fee_status)],
-          ["Can Upload Receipt", summary.checks?.documents_approved && summary.checks?.equivalency_complete ? "Yes" : "Not yet"],
+          [t("payment.fee"), t("payment.applicationFeeAmount")],
+          [t("application.status"), labelize(app.application_fee_status)],
+          [t("payment.canUploadReceipt"), summary.checks?.documents_approved && summary.checks?.equivalency_complete ? t("common.yes") : t("status.notYet")],
         ]} />
         <div className="space-y-3">
           {(app.application_fee_payments || []).map((payment) => (
@@ -487,7 +489,7 @@ export default function StudentPortalPhaseTwo() {
         </div>
         {summary.checks?.documents_approved && summary.checks?.equivalency_complete && !summary.checks?.payment_approved && (
           <label className="inline-flex px-4 py-2 rounded-xl bg-primary text-white text-xs font-extrabold cursor-pointer">
-            {busy === "payment" ? <Loader2 className="w-4 h-4 animate-spin" /> : "Upload 50 USD Receipt"}
+            {busy === "payment" ? <Loader2 className="w-4 h-4 animate-spin" /> : t("payment.uploadApplicationFeeReceipt")}
             <input
               className="hidden"
               type="file"
@@ -501,14 +503,14 @@ export default function StudentPortalPhaseTwo() {
         )}
       </Panel>
 
-      <Panel title="30% Contract Payment" icon={CreditCard}>
+      <Panel title={t("contract.advancePayment")} icon={CreditCard}>
         {(app.contracts || []).length > 0 ? (app.contracts || []).map((contract) => (
           <div key={contract.id} className="space-y-4">
             <InfoGrid rows={[
-              ["Contract Number", contract.contract_number],
-              ["Total Amount", Number(contract.amount) > 0 ? `${contract.amount} ${contract.currency || "USD"}` : "To be calculated"],
-              ["Required Advance", Number(contract.advance_amount) > 0 ? `${contract.advance_amount} ${contract.currency || "USD"}` : "30% of contract"],
-              ["Status", summary.checks?.contract_advance_paid ? "Approved" : "Waiting payment"],
+              [t("contract.number"), contract.contract_number],
+              [t("payment.totalAmount"), Number(contract.amount) > 0 ? `${contract.amount} ${contract.currency || ""}` : t("contract.toBeCalculated")],
+              [t("contract.requiredAdvance"), Number(contract.advance_amount) > 0 ? `${contract.advance_amount} ${contract.currency || ""}` : t("contract.advancePercent")],
+              [t("application.status"), summary.checks?.contract_advance_paid ? t("status.approved") : t("status.waitingPayment")],
             ]} />
             <button
               type="button"
@@ -516,7 +518,7 @@ export default function StudentPortalPhaseTwo() {
               className="inline-flex items-center gap-2 rounded-xl bg-navy px-4 py-2 text-xs font-extrabold text-white"
             >
               <Download className="h-4 w-4" />
-              Download Study Contract PDF
+              {t("contract.downloadStudyPdf")}
             </button>
             <div className="space-y-3">
               {(contract.payments || []).map((payment) => (
@@ -532,7 +534,7 @@ export default function StudentPortalPhaseTwo() {
             </div>
             {!summary.checks?.contract_advance_paid && (
               <label className="inline-flex px-4 py-2 rounded-xl bg-primary text-white text-xs font-extrabold cursor-pointer">
-                {busy === "contract_advance" ? <Loader2 className="w-4 h-4 animate-spin" /> : "Upload 30% Contract Receipt"}
+                {busy === "contract_advance" ? <Loader2 className="w-4 h-4 animate-spin" /> : t("contract.uploadAdvanceReceipt")}
                 <input
                   className="hidden"
                   type="file"
@@ -546,26 +548,26 @@ export default function StudentPortalPhaseTwo() {
             )}
           </div>
         )) : (
-          <p className="text-xs font-bold text-gray-500">The 30% contract payment opens after admission is issued.</p>
+          <p className="text-xs font-bold text-gray-500">{t("contract.advanceOpensAfterAdmission")}</p>
         )}
       </Panel>
     </div>
   );
 
   const renderAdmission = () => (
-    <Panel title="Admission" icon={ShieldCheck}>
-      <p className="text-xs font-bold text-gray-500">Application Number is not an Admission Number.</p>
+    <Panel title={t("student.nav.admission")} icon={ShieldCheck}>
+      <p className="text-xs font-bold text-gray-500">{t("admission.applicationNumberNotice")}</p>
       {app.admission ? (
         <div className="space-y-4">
           <InfoGrid rows={[
-            ["Student Name", student.full_name_english || user.name],
-            ["Application Number", app.application_number],
-            ["Admission Number", app.admission.admission_number],
-            ["Issue Date", app.admission.issue_date],
-            ["Degree", app.degree_level],
-            ["Faculty", facultyName],
-            ["Program", programName],
-            ["Status", app.admission.status],
+            [t("student.name"), student.full_name_english || user.name],
+            [t("application.number"), app.application_number],
+            [t("admission.number"), app.admission.admission_number],
+            [t("common.issueDate"), app.admission.issue_date],
+            [t("application.degreeLevel"), app.degree_level],
+            [t("faculty.title"), facultyName],
+            [t("application.program"), programName],
+            [t("application.status"), app.admission.status],
           ]} />
           <button
             type="button"
@@ -573,7 +575,7 @@ export default function StudentPortalPhaseTwo() {
             className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2 text-xs font-extrabold text-white hover:bg-primary-hover"
           >
             <Download className="h-4 w-4" />
-            Download Admission PDF
+            {t("admission.downloadPdf")}
           </button>
         </div>
       ) : (
@@ -581,7 +583,7 @@ export default function StudentPortalPhaseTwo() {
           {Object.entries(summary.checks || {}).map(([key, value]) => (
             <div key={key} className="rounded-2xl border border-gray-100 p-4 flex justify-between">
               <span className="text-xs font-extrabold text-navy">{labelize(key)}</span>
-              <StatusPill status={value ? "Completed" : "Not Started"} />
+              <StatusPill status={value ? t("status.completed") : t("status.notStarted")} />
             </div>
           ))}
         </div>
@@ -590,14 +592,14 @@ export default function StudentPortalPhaseTwo() {
   );
 
   const renderEnrollment = () => (
-    <Panel title="Enrollment Certificate" icon={ShieldCheck}>
+    <Panel title={t("enrollment.certificate")} icon={ShieldCheck}>
       {app.enrollment ? (
         <div className="space-y-4">
           <InfoGrid rows={[
-            ["Student Number", app.enrollment.student_number],
-            ["Academic Year", app.enrollment.academic_year],
-            ["Issue Date", app.enrollment.issue_date],
-            ["Status", app.enrollment.status],
+            [t("student.number"), app.enrollment.student_number],
+            [t("common.academicYear"), app.enrollment.academic_year],
+            [t("common.issueDate"), app.enrollment.issue_date],
+            [t("application.status"), app.enrollment.status],
           ]} />
           <button
             type="button"
@@ -605,19 +607,19 @@ export default function StudentPortalPhaseTwo() {
             className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2 text-xs font-extrabold text-white hover:bg-primary-hover"
           >
             <Download className="h-4 w-4" />
-            Download Enrollment PDF
+            {t("enrollment.downloadPdf")}
           </button>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {[
-            ["Admission issued", summary.checks?.admission_issued],
-            ["30% contract payment approved", summary.checks?.contract_advance_paid],
-            ["Enrollment certificate issued", summary.checks?.enrollment_issued],
+            [t("admission.issued"), summary.checks?.admission_issued],
+            [t("contract.advanceApproved"), summary.checks?.contract_advance_paid],
+            [t("enrollment.issued"), summary.checks?.enrollment_issued],
           ].map(([label, value]) => (
             <div key={label} className="rounded-2xl border border-gray-100 p-4 flex justify-between">
               <span className="text-xs font-extrabold text-navy">{label}</span>
-              <StatusPill status={value ? "Completed" : "Not Started"} />
+              <StatusPill status={value ? t("status.completed") : t("status.notStarted")} />
             </div>
           ))}
         </div>
@@ -626,14 +628,14 @@ export default function StudentPortalPhaseTwo() {
   );
 
   const renderPrikaz = () => (
-    <Panel title="Prikaz" icon={FileCheck}>
+    <Panel title={t("student.nav.prikaz")} icon={FileCheck}>
       {app.prikaz ? (
         <div className="space-y-4">
           <InfoGrid rows={[
-            ["Prikaz Number", app.prikaz.prikaz_number],
-            ["Academic Year", app.prikaz.academic_year],
-            ["Issue Date", app.prikaz.issue_date],
-            ["Status", app.prikaz.status],
+            [t("prikaz.number"), app.prikaz.prikaz_number],
+            [t("common.academicYear"), app.prikaz.academic_year],
+            [t("common.issueDate"), app.prikaz.issue_date],
+            [t("application.status"), app.prikaz.status],
           ]} />
           <button
             type="button"
@@ -641,25 +643,25 @@ export default function StudentPortalPhaseTwo() {
             className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2 text-xs font-extrabold text-white hover:bg-primary-hover"
           >
             <Download className="h-4 w-4" />
-            Download Prikaz PDF
+            {t("prikaz.downloadPdf")}
           </button>
         </div>
       ) : (
         <InfoGrid rows={[
-          ["Enrollment issued", summary.checks?.enrollment_issued ? "Yes" : "No"],
-          ["Prikaz status", "Waiting university issuance"],
+          [t("enrollment.issued"), summary.checks?.enrollment_issued ? t("common.yes") : t("common.no")],
+          [t("prikaz.status"), t("prikaz.waitingIssuance")],
         ]} />
       )}
     </Panel>
   );
 
   const renderServiceFee = () => (
-    <Panel title="Service Fee" icon={CreditCard}>
+    <Panel title={t("student.nav.serviceFee")} icon={CreditCard}>
       {error && <FormError message={error} />}
       <InfoGrid rows={[
-        ["Required Fee", "300 USD"],
-        ["Prikaz Issued", summary.checks?.prikaz_issued ? "Yes" : "No"],
-        ["Service Fee", summary.checks?.service_fee_paid ? "Approved" : "Pending"],
+        [t("serviceFee.requiredFee"), t("serviceFee.amount")],
+        [t("prikaz.issued"), summary.checks?.prikaz_issued ? t("common.yes") : t("common.no")],
+        [t("student.nav.serviceFee"), summary.checks?.service_fee_paid ? t("status.approved") : t("status.pending")],
       ]} />
       <div className="space-y-3">
         {(app.service_fee_payments || []).map((payment) => (
@@ -675,7 +677,7 @@ export default function StudentPortalPhaseTwo() {
       </div>
       {summary.checks?.prikaz_issued && !summary.checks?.service_fee_paid && (
         <label className="inline-flex px-4 py-2 rounded-xl bg-primary text-white text-xs font-extrabold cursor-pointer">
-          {busy === "service_fee" ? <Loader2 className="w-4 h-4 animate-spin" /> : "Upload 300 USD Receipt"}
+          {busy === "service_fee" ? <Loader2 className="w-4 h-4 animate-spin" /> : t("serviceFee.uploadReceipt")}
           <input
             className="hidden"
             type="file"
@@ -691,47 +693,47 @@ export default function StudentPortalPhaseTwo() {
   );
 
   const renderVisa = () => (
-    <Panel title="Telex & Visa" icon={ShieldCheck}>
+    <Panel title={t("student.nav.visa")} icon={ShieldCheck}>
       <InfoGrid rows={[
-        ["Telex Number", app.visa_process?.telex_number],
-        ["Telex Status", labelize(app.visa_process?.telex_status)],
-        ["Visa Status", labelize(app.visa_process?.visa_status)],
-        ["Notes", app.visa_process?.visa_notes],
+        [t("visa.telexNumber"), app.visa_process?.telex_number],
+        [t("visa.telexStatus"), labelize(app.visa_process?.telex_status)],
+        [t("visa.status"), labelize(app.visa_process?.visa_status)],
+        [t("common.notes"), app.visa_process?.visa_notes],
       ]} />
     </Panel>
   );
 
   const renderHousing = () => (
-    <Panel title="Housing" icon={ClipboardList}>
+    <Panel title={t("student.nav.housing")} icon={ClipboardList}>
       <InfoGrid rows={[
-        ["Requested", app.housing_request?.requested ? "Yes" : "No"],
-        ["Status", labelize(app.housing_request?.status)],
-        ["Preferred Room", app.housing_request?.preferred_room_type],
-        ["Notes", app.housing_request?.notes],
-        ["Administration Notes", app.housing_request?.admin_notes],
+        [t("housing.requested"), app.housing_request?.requested ? t("common.yes") : t("common.no")],
+        [t("application.status"), labelize(app.housing_request?.status)],
+        [t("housing.preferredRoom"), app.housing_request?.preferred_room_type],
+        [t("common.notes"), app.housing_request?.notes],
+        [t("common.administrationNotes"), app.housing_request?.admin_notes],
       ]} />
       {summary.checks?.enrollment_issued && !app.housing_request?.requested && (
         <button onClick={submitHousingRequest} className="px-4 py-2 rounded-xl bg-primary text-white text-xs font-extrabold">
-          Request Housing
+          {t("housing.requestHousing")}
         </button>
       )}
     </Panel>
   );
 
   const renderResidence = () => (
-    <Panel title="Residence Permit" icon={FileCheck}>
+    <Panel title={t("student.nav.residence")} icon={FileCheck}>
       <InfoGrid rows={[
-        ["Status", labelize(app.residence_permit_process?.status)],
-        ["Issued At", app.residence_permit_process?.issued_at],
-        ["Expires At", app.residence_permit_process?.expires_at],
-        ["Notes", app.residence_permit_process?.notes],
-        ["Administration Notes", app.residence_permit_process?.admin_notes],
+        [t("application.status"), labelize(app.residence_permit_process?.status)],
+        [t("common.issuedAt"), app.residence_permit_process?.issued_at],
+        [t("common.expiresAt"), app.residence_permit_process?.expires_at],
+        [t("common.notes"), app.residence_permit_process?.notes],
+        [t("common.administrationNotes"), app.residence_permit_process?.admin_notes],
       ]} />
     </Panel>
   );
 
   const renderNotifications = () => (
-    <Panel title="Notifications" icon={Bell}>
+    <Panel title={t("student.notifications")} icon={Bell}>
       <div className="space-y-3">
         {notifications.map((item) => (
           <div key={item.id} className="rounded-2xl border border-gray-100 p-4">

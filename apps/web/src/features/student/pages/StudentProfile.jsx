@@ -86,16 +86,16 @@ export default function StudentProfile() {
       setError("");
       setSuccess("");
       await studentService.updateProfile(form);
-      setSuccess("Profile details saved successfully!");
+      setSuccess(t("student.profile.saved"));
     } catch (err) {
-      setError(err?.message || "Failed to save profile. Check form fields.");
+      setError(err?.message || t("student.profile.saveFailed"));
     } finally {
       setSaving(false);
     }
   };
 
   if (loading) {
-    return <LoadingState message="Loading profile details..." />;
+    return <LoadingState message={t("student.profile.loading")} />;
   }
 
   return (
@@ -106,8 +106,7 @@ export default function StudentProfile() {
             {t("student.profile.title")}
           </h1>
           <p className="text-xs font-semibold text-gray-400">
-            Complete all verification details before program application
-            submission
+            {t("student.profile.subtitle")}
           </p>
         </div>
       </div>
@@ -124,12 +123,12 @@ export default function StudentProfile() {
         <div className="bg-white border border-gray-100 rounded-3xl p-6 shadow-xs space-y-4">
           <div className="flex items-center gap-2 pb-3 border-b border-gray-50 text-navy font-extrabold uppercase text-xs tracking-wider">
             <User className="w-4 h-4 text-primary" />
-            <span>1. Personal Information</span>
+            <span>{t("student.profile.section.personal")}</span>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-1">
               <label className="text-[10px] font-extrabold text-navy uppercase tracking-wider">
-                Phone Number *
+                {t("student.profile.phone")} *
               </label>
               <input
                 type="text"
@@ -144,7 +143,7 @@ export default function StudentProfile() {
 
             <div className="space-y-1">
               <label className="text-[10px] font-extrabold text-navy uppercase tracking-wider">
-                Gender *
+                {t("student.profile.gender")} *
               </label>
               <select
                 name="gender"
@@ -153,14 +152,14 @@ export default function StudentProfile() {
                 required
                 className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold text-navy bg-white"
               >
-                <option value="male">Male</option>
-                <option value="female">Female</option>
+                <option value="male">{t("gender.male")}</option>
+                <option value="female">{t("gender.female")}</option>
               </select>
             </div>
 
             <div className="space-y-1">
               <label className="text-[10px] font-extrabold text-navy uppercase tracking-wider">
-                Birth Date *
+                {t("student.profile.birth_date")} *
               </label>
               <input
                 type="date"
@@ -174,14 +173,14 @@ export default function StudentProfile() {
 
             <div className="space-y-1">
               <label className="text-[10px] font-extrabold text-navy uppercase tracking-wider">
-                Passport / National ID Number *
+                {t("student.profile.passport_number")} *
               </label>
               <input
                 type="text"
                 name="passport_number"
                 value={form.passport_number}
                 onChange={handleChange}
-                placeholder="AA1234567"
+                placeholder={t("student.profile.passportPlaceholder")}
                 required
                 className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold text-navy bg-white"
               />
@@ -189,7 +188,7 @@ export default function StudentProfile() {
 
             <div className="space-y-1">
               <label className="text-[10px] font-extrabold text-navy uppercase tracking-wider">
-                Passport Expiry Date
+                {t("student.profile.passport_expiry_date")}
               </label>
               <input
                 type="date"
@@ -202,14 +201,14 @@ export default function StudentProfile() {
 
             <div className="space-y-1">
               <label className="text-[10px] font-extrabold text-navy uppercase tracking-wider">
-                Nationality *
+                {t("student.profile.nationality")} *
               </label>
               <input
                 type="text"
                 name="nationality"
                 value={form.nationality}
                 onChange={handleChange}
-                placeholder="e.g. Uzbek, Russian, Afghan"
+                placeholder={t("student.profile.nationalityPlaceholder")}
                 required
                 className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold text-navy bg-white"
               />
@@ -217,13 +216,13 @@ export default function StudentProfile() {
 
             <div className="space-y-1 md:col-span-2">
               <label className="text-[10px] font-extrabold text-navy uppercase tracking-wider">
-                Home Permanent Address *
+                {t("student.profile.address")} *
               </label>
               <textarea
                 name="address"
                 value={form.address}
                 onChange={handleChange}
-                placeholder="Street address, City, Country"
+                placeholder={t("student.profile.addressPlaceholder")}
                 required
                 rows={3}
                 className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold text-navy bg-white"
@@ -236,54 +235,54 @@ export default function StudentProfile() {
         <div className="bg-white border border-gray-100 rounded-3xl p-6 shadow-xs space-y-4">
           <div className="flex items-center gap-2 pb-3 border-b border-gray-50 text-navy font-extrabold uppercase text-xs tracking-wider">
             <Compass className="w-4 h-4 text-primary" />
-            <span>2. Guardian Details (Optional)</span>
+            <span>{t("student.profile.section.guardian")}</span>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-1">
               <label className="text-[10px] font-extrabold text-navy uppercase tracking-wider">
-                Guardian's Full Name
+                {t("student.profile.guardian_name")}
               </label>
               <input
                 type="text"
                 name="guardian_name"
                 value={form.guardian_name}
                 onChange={handleChange}
-                placeholder="Guardian full name"
+                placeholder={t("student.profile.guardianNamePlaceholder")}
                 className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold text-navy bg-white"
               />
             </div>
 
             <div className="space-y-1">
               <label className="text-[10px] font-extrabold text-navy uppercase tracking-wider">
-                Relation to Student
+                {t("student.profile.guardian_relation")}
               </label>
               <input
                 type="text"
                 name="guardian_relation"
                 value={form.guardian_relation}
                 onChange={handleChange}
-                placeholder="e.g. Father, Mother, Uncle"
+                placeholder={t("student.profile.guardianRelationPlaceholder")}
                 className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold text-navy bg-white"
               />
             </div>
 
             <div className="space-y-1">
               <label className="text-[10px] font-extrabold text-navy uppercase tracking-wider">
-                Guardian Phone
+                {t("student.profile.guardian_phone")}
               </label>
               <input
                 type="text"
                 name="guardian_phone"
                 value={form.guardian_phone}
                 onChange={handleChange}
-                placeholder="Guardian phone number"
+                placeholder={t("student.profile.guardianPhonePlaceholder")}
                 className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold text-navy bg-white"
               />
             </div>
 
             <div className="space-y-1">
               <label className="text-[10px] font-extrabold text-navy uppercase tracking-wider">
-                Guardian Email
+                {t("student.profile.guardian_email")}
               </label>
               <input
                 type="email"
@@ -301,61 +300,61 @@ export default function StudentProfile() {
         <div className="bg-white border border-gray-100 rounded-3xl p-6 shadow-xs space-y-4">
           <div className="flex items-center gap-2 pb-3 border-b border-gray-50 text-navy font-extrabold uppercase text-xs tracking-wider">
             <FileText className="w-4 h-4 text-primary" />
-            <span>3. Academic Background (Optional)</span>
+            <span>{t("student.profile.section.education")}</span>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-1 md:col-span-2">
               <label className="text-[10px] font-extrabold text-navy uppercase tracking-wider">
-                Institution / High School Name
+                {t("student.profile.education_institution_name")}
               </label>
               <input
                 type="text"
                 name="education_institution_name"
                 value={form.education_institution_name}
                 onChange={handleChange}
-                placeholder="School name"
+                placeholder={t("student.profile.schoolNamePlaceholder")}
                 className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold text-navy bg-white"
               />
             </div>
 
             <div className="space-y-1">
               <label className="text-[10px] font-extrabold text-navy uppercase tracking-wider">
-                Degree Obtained / Diploma Title
+                {t("student.profile.education_degree_obtained")}
               </label>
               <input
                 type="text"
                 name="education_degree_obtained"
                 value={form.education_degree_obtained}
                 onChange={handleChange}
-                placeholder="e.g. High School Diploma, Bachelor of Science"
+                placeholder={t("student.profile.degreePlaceholder")}
                 className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold text-navy bg-white"
               />
             </div>
 
             <div className="space-y-1">
               <label className="text-[10px] font-extrabold text-navy uppercase tracking-wider">
-                GPA / Score Average
+                {t("student.profile.education_gpa")}
               </label>
               <input
                 type="text"
                 name="education_gpa"
                 value={form.education_gpa}
                 onChange={handleChange}
-                placeholder="e.g. 3.8/4.0 or 92%"
+                placeholder={t("student.profile.gpaPlaceholder")}
                 className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold text-navy bg-white"
               />
             </div>
 
             <div className="space-y-1">
               <label className="text-[10px] font-extrabold text-navy uppercase tracking-wider">
-                Graduation Year
+                {t("student.profile.education_graduation_year")}
               </label>
               <input
                 type="number"
                 name="education_graduation_year"
                 value={form.education_graduation_year}
                 onChange={handleChange}
-                placeholder="Year"
+                placeholder={t("time.year")}
                 className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold text-navy bg-white"
               />
             </div>
@@ -374,7 +373,7 @@ export default function StudentProfile() {
             ) : (
               <>
                 <Save className="w-4 h-4" />
-                <span>Save Profile Info</span>
+                <span>{t("button.saveProfile")}</span>
               </>
             )}
           </button>

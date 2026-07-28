@@ -105,16 +105,16 @@ export default function StudentDocuments() {
   const getDocStatus = (docName) => {
     if (docName.startsWith("[APPROVED]"))
       return {
-        label: "APPROVED",
+        label: t("status.approved"),
         color: "bg-emerald-50 text-emerald-600 border-emerald-100",
       };
     if (docName.startsWith("[REJECTED]"))
       return {
-        label: "REJECTED",
+        label: t("status.rejected"),
         color: "bg-rose-50 text-rose-600 border-rose-100",
       };
     return {
-      label: "PENDING VERIFICATION",
+      label: t("status.pendingVerification"),
       color: "bg-amber-50 text-amber-600 border-amber-100",
     };
   };
@@ -122,17 +122,17 @@ export default function StudentDocuments() {
   const getNormalizedStatus = (doc) => {
     if (doc?.status === "approved")
       return {
-        label: "APPROVED",
+        label: t("status.approved"),
         color: "bg-emerald-50 text-emerald-600 border-emerald-100",
       };
     if (doc?.status === "rejected")
       return {
-        label: "REJECTED",
+        label: t("status.rejected"),
         color: "bg-rose-50 text-rose-600 border-rose-100",
       };
     if (doc?.status === "requested")
       return {
-        label: "REQUESTED",
+        label: t("status.requested"),
         color: "bg-blue-50 text-blue-600 border-blue-100",
       };
     return getDocStatus(doc?.document_name || "");
@@ -199,17 +199,17 @@ export default function StudentDocuments() {
                         target="_blank"
                         rel="noreferrer"
                         className="p-1.5 bg-gray-50 border border-gray-150 rounded-lg hover:text-primary transition-all cursor-pointer"
-                        title="View Document File"
+                        title={t("document.viewFile")}
                       >
                         <ExternalLink className="w-3.5 h-3.5" />
                       </a>
                       {activeApp.status === "draft" &&
-                        status.label !== "APPROVED" && (
+                        status.label !== t("status.approved") && (
                           <button
                             onClick={() => handleDelete(uploadedDoc.id)}
                             disabled={deletingId === uploadedDoc.id}
                             className="p-1.5 bg-rose-50 text-rose-600 border border-rose-100 rounded-lg hover:bg-rose-100 transition-all cursor-pointer"
-                            title="Delete File"
+                            title={t("document.deleteFile")}
                           >
                             {deletingId === uploadedDoc.id ? (
                               <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -230,7 +230,7 @@ export default function StudentDocuments() {
                       ) : (
                         <>
                           <Upload className="w-4 h-4" />
-                          <span>Upload File</span>
+                          <span>{t("button.uploadFile")}</span>
                         </>
                       )}
                       <input
@@ -243,7 +243,7 @@ export default function StudentDocuments() {
                     </label>
                   ) : (
                     <span className="text-[10px] text-gray-400 font-bold">
-                      Application submitted. Upload locked.
+                      {t("document.uploadLocked")}
                     </span>
                   )}
                 </div>

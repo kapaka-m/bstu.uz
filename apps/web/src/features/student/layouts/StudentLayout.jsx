@@ -20,7 +20,15 @@ import {
 import { studentPortalService } from "../../../services/studentPortalService";
 
 export default function StudentLayout({ children }) {
-  const { t, language, changeLanguage, isRtl } = useLanguage();
+  const {
+    t,
+    language,
+    changeLanguage,
+    isRtl,
+    locales = [],
+    settings = {},
+    logoSrc,
+  } = useLanguage();
   const { user, logout } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
@@ -101,12 +109,20 @@ export default function StudentLayout({ children }) {
       {/* Brand Header */}
       <div className="flex items-center justify-between px-6 py-5 border-b border-navy-dark">
         <Link to="/student/dashboard" className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-xl bg-primary flex items-center justify-center font-black text-white text-base">
-            S
-          </div>
+          {logoSrc ? (
+            <img
+              src={logoSrc}
+              alt={settings.site_name || t("app.name")}
+              className="w-8 h-8 rounded-xl object-contain bg-white"
+            />
+          ) : (
+            <div className="w-8 h-8 rounded-xl bg-primary flex items-center justify-center font-black text-white text-base">
+              {t("student.initials")}
+            </div>
+          )}
           <div className="flex flex-col">
             <span className="font-extrabold text-xs tracking-wider uppercase leading-none">
-              BSTU
+              {settings.site_name || t("app.name")}
             </span>
             <span className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mt-0.5">
               {t("auth.loginTitle")}
@@ -151,7 +167,7 @@ export default function StudentLayout({ children }) {
             className="flex items-center gap-2.5 px-3 py-3 text-xs font-bold text-gray-400 hover:text-white hover:bg-navy-dark/40 rounded-xl transition-all"
           >
             <Home className="w-4.5 h-4.5 shrink-0" />
-            <span>Return to Homepage</span>
+            <span>{t("student.nav.returnHome")}</span>
           </Link>
         </div>
       </div>
@@ -190,7 +206,7 @@ export default function StudentLayout({ children }) {
             </button>
 
             <div className="hidden sm:flex items-center gap-2 text-xs font-semibold text-gray-400 select-none">
-              <span>Portal</span>
+              <span>{t("student.portal")}</span>
               <span>/</span>
               <span className="text-navy font-bold">
                 {getBreadcrumbLabel()}
@@ -207,10 +223,13 @@ export default function StudentLayout({ children }) {
                 onChange={(e) => changeLanguage(e.target.value)}
                 className="text-xs font-bold text-navy outline-none bg-transparent cursor-pointer"
               >
-                <option value="en">EN</option>
-                <option value="uz">UZ</option>
-                <option value="ru">RU</option>
-                <option value="ar">AR</option>
+                {locales
+                  .filter((item) => item?.is_active !== false)
+                  .map((item) => (
+                    <option key={item.code} value={item.code}>
+                      {item.native_name || item.name || item.code.toUpperCase()}
+                    </option>
+                  ))}
               </select>
             </div>
 
@@ -220,10 +239,10 @@ export default function StudentLayout({ children }) {
                 className="flex items-center gap-2 px-3 py-1.5 rounded-xl border border-gray-100 hover:border-gray-200 cursor-pointer bg-white transition-all shadow-2xs"
               >
                 <div className="w-6 h-6 rounded-lg bg-primary/10 text-primary flex items-center justify-center font-bold text-xs select-none uppercase">
-                  {user?.name?.slice(0, 2) || "ST"}
+                  {user?.name?.slice(0, 2) || t("student.initials")}
                 </div>
                 <span className="hidden sm:inline text-xs font-bold text-navy select-none">
-                  {user?.name || "Student User"}
+                  {user?.name || t("student.user")}
                 </span>
                 <ChevronDown className="w-3.5 h-3.5 text-gray-400" />
               </button>
@@ -249,7 +268,7 @@ export default function StudentLayout({ children }) {
                       className="w-full text-start flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs font-bold text-rose-600 hover:bg-rose-50 cursor-pointer transition-all mt-1"
                     >
                       <LogOut className="w-4 h-4 shrink-0" />
-                      Log Out
+                      {t("auth.logout")}
                     </button>
                   </div>
                 </>

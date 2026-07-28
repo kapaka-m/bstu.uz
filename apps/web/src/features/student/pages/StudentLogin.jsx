@@ -27,7 +27,7 @@ export default function StudentLogin() {
       navigate(location.state?.from || "/student/dashboard");
     } catch (err) {
       console.error("Student login error", err);
-      setError(err?.message || "Login failed. Please check your credentials.");
+      setError(err?.message || t("auth.loginFailed"));
     } finally {
       setSubmitting(false);
     }
@@ -45,10 +45,7 @@ export default function StudentLogin() {
               {t("auth.loginTitle")}
             </h2>
             <p className="text-gray-400 text-xs font-semibold">
-              {t(
-                "auth.loginSubtitle",
-                "Sign in to track and submit your application",
-              )}
+              {t("auth.loginSubtitle")}
             </p>
           </div>
         </div>
@@ -65,7 +62,7 @@ export default function StudentLogin() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="student@example.com"
+                placeholder={t("form.emailPlaceholder")}
                 required
                 className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold bg-white text-navy"
               />

@@ -23,7 +23,7 @@ export default function StudentSupport() {
       const data = await studentService.getSupportTickets();
       setTickets(data);
     } catch {
-      setError("Failed to retrieve support tickets history.");
+      setError(t("support.loadError"));
     } finally {
       setLoading(false);
     }
@@ -45,21 +45,21 @@ export default function StudentSupport() {
       await studentService.createSupportTicket({ subject, message, priority });
 
       setSuccess(
-        "Support ticket submitted! Our admissions team will respond shortly.",
+        t("support.submitted"),
       );
       setSubject("");
       setMessage("");
       setPriority("normal");
       fetchTickets();
     } catch (err) {
-      setError(err?.message || "Failed to submit support request.");
+      setError(err?.message || t("support.submitFailed"));
     } finally {
       setSubmitting(false);
     }
   };
 
   if (loading) {
-    return <LoadingState message="Loading support center..." />;
+    return <LoadingState message={t("support.loading")} />;
   }
 
   return (
@@ -69,8 +69,7 @@ export default function StudentSupport() {
           {t("support.title")}
         </h1>
         <p className="text-xs font-semibold text-gray-400">
-          Open an inquiry ticket, check status, or communicate directly with
-          Admissions
+          {t("support.subtitle")}
         </p>
       </div>
 
@@ -86,19 +85,19 @@ export default function StudentSupport() {
         <div className="lg:col-span-2 bg-white border border-gray-100 rounded-3xl p-6 shadow-xs space-y-4">
           <h3 className="text-sm font-extrabold text-navy uppercase tracking-wider pb-3 border-b border-gray-50 flex items-center gap-2">
             <Plus className="w-4.5 h-4.5 text-primary" />
-            <span>Create Support Request</span>
+            <span>{t("support.createRequest")}</span>
           </h3>
 
           <form onSubmit={handleSubmitTicket} className="space-y-4">
             <div className="space-y-1">
               <label className="text-[10px] font-extrabold text-navy uppercase tracking-wider">
-                Inquiry Subject *
+                {t("support.inquirySubjectRequired")}
               </label>
               <input
                 type="text"
                 value={subject}
                 onChange={(e) => setSubject(e.target.value)}
-                placeholder="e.g., Question about document verification"
+                placeholder={t("support.subjectPlaceholder")}
                 required
                 className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold text-navy bg-white"
               />
@@ -106,27 +105,27 @@ export default function StudentSupport() {
 
             <div className="space-y-1">
               <label className="text-[10px] font-extrabold text-navy uppercase tracking-wider">
-                Priority Level
+                {t("support.priorityLevel")}
               </label>
               <select
                 value={priority}
                 onChange={(e) => setPriority(e.target.value)}
                 className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold text-navy bg-white cursor-pointer"
               >
-                <option value="low">Low — General Query</option>
-                <option value="normal">Normal — Standard Request</option>
-                <option value="high">High — Urgent Issue</option>
+                <option value="low">{t("support.priority.low")}</option>
+                <option value="normal">{t("support.priority.normal")}</option>
+                <option value="high">{t("support.priority.high")}</option>
               </select>
             </div>
 
             <div className="space-y-1">
               <label className="text-[10px] font-extrabold text-navy uppercase tracking-wider">
-                Detailed Message *
+                {t("support.detailedMessageRequired")}
               </label>
               <textarea
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                placeholder="Please describe your questions or issues in detail..."
+                placeholder={t("support.messagePlaceholder")}
                 required
                 rows={5}
                 className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold text-navy bg-white"
@@ -144,7 +143,7 @@ export default function StudentSupport() {
                 ) : (
                   <>
                     <Send className="w-4 h-4" />
-                    <span>Send Inquiry</span>
+                    <span>{t("support.sendInquiry")}</span>
                   </>
                 )}
               </button>
@@ -157,27 +156,27 @@ export default function StudentSupport() {
           <div className="space-y-4">
             <h3 className="text-sm font-extrabold text-navy uppercase tracking-wider pb-3 border-b border-gray-50 flex items-center gap-2">
               <MessageSquare className="w-4.5 h-4.5 text-primary" />
-              <span>Request History</span>
+              <span>{t("support.requestHistory")}</span>
             </h3>
 
             {tickets.length > 0 ? (
               <div className="space-y-4 max-h-75 overflow-y-auto pr-1">
-                {tickets.map((t) => (
+                {tickets.map((ticket) => (
                   <div
-                    key={t.id}
+                    key={ticket.id}
                     className="space-y-1 border-b border-gray-50 pb-3 last:border-0 last:pb-0"
                   >
                     <div className="flex justify-between items-center text-[10px] font-extrabold text-gray-400 uppercase">
-                      <span>{t.priority?.toUpperCase() || "NORMAL"}</span>
-                      <span>{new Date(t.created_at).toLocaleDateString()}</span>
+                      <span>{ticket.priority ? ticket.priority.toUpperCase() : t("support.priority.normalValue")}</span>
+                      <span>{new Date(ticket.created_at).toLocaleDateString()}</span>
                     </div>
                     <h4 className="text-xs font-black text-navy leading-snug">
-                      {t.subject}
+                      {ticket.subject}
                     </h4>
                     <span
-                      className={`inline-block text-[9px] font-extrabold px-1.5 py-0.5 rounded-md ${t.status === "open" ? "bg-amber-50 text-amber-600 border border-amber-100" : "bg-emerald-50 text-emerald-600 border border-emerald-100"}`}
+                      className={`inline-block text-[9px] font-extrabold px-1.5 py-0.5 rounded-md ${ticket.status === "open" ? "bg-amber-50 text-amber-600 border border-amber-100" : "bg-emerald-50 text-emerald-600 border border-emerald-100"}`}
                     >
-                      {t.status?.toUpperCase() || "OPEN"}
+                      {ticket.status ? ticket.status.toUpperCase() : t("support.status.openValue")}
                     </span>
                   </div>
                 ))}
@@ -185,7 +184,7 @@ export default function StudentSupport() {
             ) : (
               <div className="text-center py-8 text-gray-400 font-bold text-xs space-y-2">
                 <HelpCircle className="w-8 h-8 text-gray-300 mx-auto" />
-                <p>No support tickets opened.</p>
+                <p>{t("support.noTickets")}</p>
               </div>
             )}
           </div>

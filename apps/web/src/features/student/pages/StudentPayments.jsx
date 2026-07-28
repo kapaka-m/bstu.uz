@@ -18,16 +18,16 @@ export default function StudentPayments() {
         setPayments(data);
       } catch (err) {
         console.error("Failed to load payments", err);
-        setError("Failed to load your payments record list.");
+        setError(t("payment.loadError"));
       } finally {
         setLoading(false);
       }
     };
     fetchPayments();
-  }, []);
+  }, [t]);
 
   if (loading) {
-    return <LoadingState message="Loading payment transactions..." />;
+    return <LoadingState message={t("payment.loading")} />;
   }
 
   return (
@@ -37,7 +37,7 @@ export default function StudentPayments() {
           {t("payment.title")}
         </h1>
         <p className="text-xs font-semibold text-gray-400">
-          Track and monitor your billing payments and uploaded receipts ledger
+          {t("payment.subtitle")}
         </p>
       </div>
 
@@ -59,7 +59,7 @@ export default function StudentPayments() {
                 <div className="space-y-1.5 grow">
                   <div className="flex items-center gap-2">
                     <h3 className="text-xs font-black text-navy uppercase tracking-wider">
-                      Payment #{p.transaction_id || "PENDING"}
+                      {t("payment.itemNumber")} #{p.transaction_id || t("status.pending")}
                     </h3>
                     <span
                       className={`text-[9px] font-extrabold px-2 py-0.5 rounded-full ${p.status === "verified" ? "bg-emerald-50 text-emerald-600 border border-emerald-150" : "bg-amber-50 text-amber-600 border border-amber-150"}`}
@@ -70,7 +70,7 @@ export default function StudentPayments() {
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-xs">
                     <div>
                       <p className="text-[10px] text-gray-400 font-bold">
-                        Paid Amount
+                        {t("payment.paidAmount")}
                       </p>
                       <p className="font-extrabold text-navy">
                         ${Number(p.amount).toLocaleString()}
@@ -78,20 +78,20 @@ export default function StudentPayments() {
                     </div>
                     <div>
                       <p className="text-[10px] text-gray-400 font-bold">
-                        Payment Method
+                        {t("payment.method")}
                       </p>
                       <p className="font-semibold text-gray-500 capitalize">
-                        {p.payment_method || "Bank Transfer"}
+                        {p.payment_method || t("payment.method.bankTransfer")}
                       </p>
                     </div>
                     <div>
                       <p className="text-[10px] text-gray-400 font-bold">
-                        Payment Date
+                        {t("payment.date")}
                       </p>
                       <p className="font-semibold text-gray-500">
                         {p.payment_date
                           ? new Date(p.payment_date).toLocaleDateString()
-                          : "Pending review"}
+                          : t("status.pendingReview")}
                       </p>
                     </div>
                   </div>
@@ -102,10 +102,9 @@ export default function StudentPayments() {
         ) : (
           <div className="text-center py-12 text-gray-400 font-bold text-xs space-y-3">
             <CreditCard className="w-8 h-8 text-gray-300 mx-auto" />
-            <p>Your payment transaction history is empty.</p>
+            <p>{t("payment.empty")}</p>
             <p className="text-[10px] font-semibold">
-              Tuition payment records appear here once they are received and
-              processed by BSTU Billing.
+              {t("payment.emptyHint")}
             </p>
           </div>
         )}

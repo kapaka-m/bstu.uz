@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAppData } from "../../../context/AppDataContext";
 import { applicationService } from "../../../services/applicationService";
 import { studentService } from "../../../services/studentService";
+import { studentPortalService } from "../../../services/studentPortalService";
 import { useLanguage } from "../../../context/LanguageContext";
 import {
   Loader2,
@@ -32,6 +33,7 @@ export default function StudentApplication() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [profile, setProfile] = useState(null);
+  const [documentRequirements, setDocumentRequirements] = useState([]);
 
   // Filters state
   const [selectedDegree, setSelectedDegree] = useState("");
@@ -51,12 +53,14 @@ export default function StudentApplication() {
       setLoading(true);
       setError("");
 
-      const [apps, prof] = await Promise.all([
+      const [apps, prof, requirements] = await Promise.all([
         applicationService.getApplications().catch(() => []),
         studentService.getProfile().catch(() => null),
+        studentPortalService.documents(),
       ]);
 
       setProfile(prof);
+      setDocumentRequirements(Array.isArray(requirements) ? requirements : []);
       const app =
         apps.find((a) => a.status !== "graduated" && a.status !== "rejected") ||
         apps[0];
@@ -81,11 +85,11 @@ export default function StudentApplication() {
         }
       }
     } catch {
-      setError("Failed to load application data.");
+      setError(t("application.loadError"));
     } finally {
       setLoading(false);
     }
-  }, [programs]);
+  }, [programs, t]);
 
   useEffect(() => {
     if (!dataLoading) {
@@ -121,13 +125,13 @@ export default function StudentApplication() {
 
   const handleSaveDraft = async () => {
     if (!selectedProgramId) {
-      setError("Please select a program first.");
+      setError(t("application.selectProgramFirst"));
       return;
     }
 
     if (!profile) {
       setError(
-        "Please complete your profile details first before saving an application.",
+        t("application.completeProfileFirst"),
       );
       return;
     }
@@ -165,15 +169,15 @@ export default function StudentApplication() {
           payload,
         );
         setActiveApp(updated);
-        setSuccess("Application draft updated successfully.");
+        setSuccess(t("application.draftUpdated"));
       } else {
         // Create new application
         const created = await applicationService.createApplication(payload);
         setActiveApp(created);
-        setSuccess("Application draft created successfully.");
+        setSuccess(t("application.draftCreated"));
       }
     } catch (err) {
-      setError(err?.message || "Failed to save application draft.");
+      setError(err?.message || t("application.saveDraftFailed"));
     } finally {
       setSaving(false);
     }
@@ -182,13 +186,16 @@ export default function StudentApplication() {
   const handleSubmitApplication = async () => {
     if (!activeApp) return;
 
-    // Check required documents
-    const requiredTypes = [
-      "passport",
-      "photo",
-      "education_certificate",
-      "transcript",
-    ];
+    const requiredTypes = documentRequirements
+      .filter((item) => item?.required !== false)
+      .map((item) => item?.document_type)
+      .filter(Boolean);
+
+    if (!requiredTypes.length) {
+      setError(t("document.requirementsUnavailable"));
+      return;
+    }
+
     const uploadedTypes =
       activeApp.documents?.map((d) => d.document_type || d.document_name) || [];
     const missing = requiredTypes.filter(
@@ -197,7 +204,10 @@ export default function StudentApplication() {
 
     if (missing.length > 0) {
       setError(
-        `Cannot submit: Missing required documents (${missing.join(", ")}). Go to Upload Documents first.`,
+        t("application.missingRequiredDocuments").replace(
+          ":documents",
+          missing.map((type) => t(`document.type.${type}`)).join(", "),
+        ),
       );
       return;
     }
@@ -207,17 +217,17 @@ export default function StudentApplication() {
       setError("");
       setSuccess("");
       await applicationService.submitApplication(activeApp.id);
-      setSuccess("Your application was submitted successfully!");
+      setSuccess(t("application.submitted"));
       navigate("/student/application/status");
     } catch (err) {
-      setError(err?.message || "Failed to submit application.");
+      setError(err?.message || t("application.submitFailed"));
     } finally {
       setSubmitting(false);
     }
   };
 
   if (dataLoading || loading) {
-    return <LoadingState message="Loading academic programs..." />;
+    return <LoadingState message={t("application.loadingPrograms")} />;
   }
 
   // If application is already submitted (not in draft status)
@@ -231,13 +241,13 @@ export default function StudentApplication() {
             {t("student.application.title")}
           </h1>
           <p className="text-xs font-semibold text-gray-400">
-            Select your academic options and complete your admission request
+            {t("application.subtitle")}
           </p>
         </div>
         {activeApp && (
           <div className="flex items-center gap-2">
             <span className="text-xs font-bold text-gray-400">
-              Current Status:
+              {t("application.currentStatus")}
             </span>
             <StatusBadge status={activeApp.status} />
           </div>
@@ -256,19 +266,18 @@ export default function StudentApplication() {
           <AlertCircle className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
           <div className="space-y-1.5">
             <p className="text-xs font-extrabold text-navy">
-              Application Submitted for Review
+              {t("application.submittedForReview")}
             </p>
             <p className="text-[11px] text-gray-500 font-semibold leading-relaxed">
-              Your application for{" "}
+              {t("application.reviewNoticePrefix")}{" "}
               <strong>{activeApp?.program?.translations?.[0]?.name}</strong> is
-              currently being reviewed. You cannot modify your academic
-              selections now.
+              {" "}{t("application.reviewNoticeSuffix")}
             </p>
             <Link
               to="/student/application/status"
               className="inline-flex items-center gap-1 text-xs font-extrabold text-primary hover:underline pt-1.5"
             >
-              <span>View Status Timeline</span>
+              <span>{t("application.viewStatusTimeline")}</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
@@ -279,14 +288,14 @@ export default function StudentApplication() {
       <div className="bg-white border border-gray-100 rounded-3xl p-6 shadow-xs space-y-6">
         <div className="flex items-center gap-2 pb-3 border-b border-gray-50 text-navy font-extrabold uppercase text-xs tracking-wider">
           <ClipboardCheck className="w-4 h-4 text-primary" />
-          <span>Academic Selections</span>
+          <span>{t("application.academicSelections")}</span>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Degree Level */}
           <div className="space-y-1">
             <label className="text-[10px] font-extrabold text-navy uppercase tracking-wider">
-              Degree Level
+              {t("application.degreeLevel")}
             </label>
             <select
               value={selectedDegree}
@@ -297,17 +306,17 @@ export default function StudentApplication() {
               disabled={isReadOnly}
               className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold text-navy bg-white disabled:bg-gray-50"
             >
-              <option value="">All Degrees</option>
-              <option value="bachelor">Bachelor</option>
-              <option value="master">Master</option>
-              <option value="phd">PhD</option>
+              <option value="">{t("application.allDegrees")}</option>
+              <option value="bachelor">{t("degree.bachelor")}</option>
+              <option value="master">{t("degree.master")}</option>
+              <option value="phd">{t("degree.phd")}</option>
             </select>
           </div>
 
           {/* Study Language */}
           <div className="space-y-1">
             <label className="text-[10px] font-extrabold text-navy uppercase tracking-wider">
-              Language of Study
+              {t("application.languageOfStudy")}
             </label>
             <select
               value={selectedLanguage}
@@ -318,18 +327,18 @@ export default function StudentApplication() {
               disabled={isReadOnly}
               className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold text-navy bg-white disabled:bg-gray-50"
             >
-              <option value="">All Languages</option>
-              <option value="english">English</option>
-              <option value="uzbek">Uzbek</option>
-              <option value="russian">Russian</option>
-              <option value="arabic">Arabic</option>
+              <option value="">{t("application.allStudyLanguages")}</option>
+              <option value="english">{t("language.english")}</option>
+              <option value="uzbek">{t("language.uzbek")}</option>
+              <option value="russian">{t("language.russian")}</option>
+              <option value="arabic">{t("language.arabic")}</option>
             </select>
           </div>
 
           {/* Faculty */}
           <div className="space-y-1">
             <label className="text-[10px] font-extrabold text-navy uppercase tracking-wider">
-              Faculty
+              {t("faculty.title")}
             </label>
             <select
               value={selectedFaculty}
@@ -341,7 +350,7 @@ export default function StudentApplication() {
               disabled={isReadOnly}
               className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold text-navy bg-white disabled:bg-gray-50"
             >
-              <option value="">Select Faculty</option>
+              <option value="">{t("application.selectFaculty")}</option>
               {faculties.map((f) => (
                 <option key={f.id} value={f.id}>
                   {f.translations?.[0]?.name || f.slug}
@@ -353,7 +362,7 @@ export default function StudentApplication() {
           {/* Department */}
           <div className="space-y-1">
             <label className="text-[10px] font-extrabold text-navy uppercase tracking-wider">
-              Department
+              {t("department.title")}
             </label>
             <select
               value={selectedDepartment}
@@ -364,7 +373,7 @@ export default function StudentApplication() {
               disabled={isReadOnly || !selectedFaculty}
               className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold text-navy bg-white disabled:bg-gray-50 disabled:text-gray-400"
             >
-              <option value="">Select Department</option>
+              <option value="">{t("application.selectDepartment")}</option>
               {filteredDepartments.map((d) => (
                 <option key={d.id} value={d.id}>
                   {d.translations?.[0]?.name || d.slug}
@@ -376,7 +385,7 @@ export default function StudentApplication() {
           {/* Study Mode */}
           <div className="space-y-1">
             <label className="text-[10px] font-extrabold text-navy uppercase tracking-wider">
-              Study Mode
+              {t("application.studyMode")}
             </label>
             <select
               value={selectedMode}
@@ -387,17 +396,17 @@ export default function StudentApplication() {
               disabled={isReadOnly}
               className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold text-navy bg-white disabled:bg-gray-50"
             >
-              <option value="">All Modes</option>
-              <option value="full-time">Full-time</option>
-              <option value="part-time">Part-time</option>
-              <option value="distance">Distance</option>
+              <option value="">{t("application.allModes")}</option>
+              <option value="full-time">{t("studyMode.fullTime")}</option>
+              <option value="part-time">{t("studyMode.partTime")}</option>
+              <option value="distance">{t("studyMode.distance")}</option>
             </select>
           </div>
 
           {/* Target Program Selection */}
           <div className="space-y-1">
             <label className="text-[10px] font-extrabold text-navy uppercase tracking-wider">
-              Academic Program *
+              {t("application.academicProgramRequired")}
             </label>
             <select
               value={selectedProgramId}
@@ -405,11 +414,12 @@ export default function StudentApplication() {
               disabled={isReadOnly}
               className="w-full px-4 py-2.5 rounded-xl border border-primary/40 focus:outline-none focus:border-primary text-xs font-bold text-navy bg-white disabled:bg-gray-50"
             >
-              <option value="">Choose Program</option>
+              <option value="">{t("application.chooseProgram")}</option>
               {filteredPrograms.map((p) => (
                 <option key={p.id} value={p.id}>
-                  {p.translations?.[0]?.name} ($
-                  {Number(p.tuition_fee).toLocaleString()}/year)
+                  {p.translations?.[0]?.name} (
+                  {Number(p.tuition_fee).toLocaleString()} {p.currency || ""}/
+                  {t("time.year")})
                 </option>
               ))}
             </select>
@@ -420,27 +430,28 @@ export default function StudentApplication() {
         {selectedProgramDetails && (
           <div className="p-5 rounded-2xl border border-primary/10 bg-primary/5 space-y-3">
             <h4 className="text-xs font-black text-navy uppercase tracking-wider">
-              Selected Program Specifications
+              {t("application.selectedProgramSpecifications")}
             </h4>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
               <div>
                 <p className="text-[10px] text-gray-400 font-bold">
-                  Tuition Fee
+                  {t("program.tuitionFee")}
                 </p>
                 <p className="font-extrabold text-navy">
-                  ${Number(selectedProgramDetails.tuition_fee).toLocaleString()}{" "}
-                  / year
+                  {Number(selectedProgramDetails.tuition_fee).toLocaleString()}{" "}
+                  {selectedProgramDetails.currency || ""}{" "}
+                  / {t("time.year")}
                 </p>
               </div>
               <div>
-                <p className="text-[10px] text-gray-400 font-bold">Duration</p>
+                <p className="text-[10px] text-gray-400 font-bold">{t("program.duration")}</p>
                 <p className="font-extrabold text-navy">
-                  {selectedProgramDetails.duration_years} Years
+                  {selectedProgramDetails.duration_years} {t("time.years")}
                 </p>
               </div>
               <div>
                 <p className="text-[10px] text-gray-400 font-bold">
-                  Study Language
+                  {t("application.languageOfStudy")}
                 </p>
                 <p className="font-extrabold text-navy uppercase">
                   {selectedProgramDetails.language_of_study}
@@ -448,7 +459,7 @@ export default function StudentApplication() {
               </div>
               <div>
                 <p className="text-[10px] text-gray-400 font-bold">
-                  Study Mode
+                  {t("application.studyMode")}
                 </p>
                 <p className="font-extrabold text-navy capitalize">
                   {selectedProgramDetails.study_mode}
@@ -472,7 +483,7 @@ export default function StudentApplication() {
             ) : (
               <Save className="w-4 h-4" />
             )}
-            <span>Save Draft</span>
+            <span>{t("button.saveDraft")}</span>
           </button>
 
           {activeApp && (
@@ -486,7 +497,7 @@ export default function StudentApplication() {
               ) : (
                 <Send className="w-4 h-4" />
               )}
-              <span>Submit Application</span>
+              <span>{t("application.submit")}</span>
             </button>
           )}
         </div>

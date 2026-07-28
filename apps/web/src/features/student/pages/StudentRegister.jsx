@@ -40,9 +40,7 @@ export default function StudentRegister() {
       navigate("/student/dashboard");
     } catch (err) {
       console.error("Student registration error", err);
-      setError(
-        err?.message || "Registration failed. Please check your credentials.",
-      );
+      setError(err?.message || t("auth.registrationFailed"));
     } finally {
       setSubmitting(false);
     }
@@ -60,10 +58,7 @@ export default function StudentRegister() {
               {t("auth.registerTitle")}
             </h2>
             <p className="text-gray-400 text-xs font-semibold">
-              {t(
-                "auth.registerSubtitle",
-                "Start your international application today",
-              )}
+              {t("auth.registerSubtitle")}
             </p>
           </div>
         </div>
@@ -80,7 +75,7 @@ export default function StudentRegister() {
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="John Doe"
+                placeholder={t("form.fullNamePlaceholder")}
                 required
                 className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold bg-white text-navy"
               />
@@ -97,7 +92,7 @@ export default function StudentRegister() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="student@example.com"
+                placeholder={t("form.emailPlaceholder")}
                 required
                 className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold bg-white text-navy"
               />

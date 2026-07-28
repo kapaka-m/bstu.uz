@@ -10,7 +10,7 @@ export default function StudentNotifications() {
   const [error, setError] = useState("");
   const [markingAll, setMarkingAll] = useState(false);
 
-  const fetchNotifications = async () => {
+  const fetchNotifications = React.useCallback(async () => {
     try {
       setLoading(true);
       setError("");
@@ -18,15 +18,15 @@ export default function StudentNotifications() {
       setNotifications(data);
     } catch (err) {
       console.error("Failed to load notifications", err);
-      setError("Failed to load your notifications feed.");
+      setError(t("notification.loadError"));
     } finally {
       setLoading(false);
     }
-  };
+  }, [t]);
 
   useEffect(() => {
     fetchNotifications();
-  }, []);
+  }, [fetchNotifications]);
 
   const handleMarkRead = async (id) => {
     try {
@@ -54,7 +54,7 @@ export default function StudentNotifications() {
   const unreadCount = notifications.filter((n) => !n.is_read).length;
   const translateMaybe = (value) => {
     if (!value || !String(value).includes(".")) return value;
-    return t(value, value);
+    return t(value);
   };
 
   if (loading) {
@@ -76,10 +76,7 @@ export default function StudentNotifications() {
             {t("student.notifications")}
           </h1>
           <p className="text-xs font-semibold text-gray-400">
-            {t(
-              "student.notificationsSubtitle",
-              "Status alerts, document requests, and admission updates",
-            )}
+            {t("student.notificationsSubtitle")}
           </p>
         </div>
 
@@ -167,11 +164,10 @@ export default function StudentNotifications() {
           <div className="text-center py-14 text-gray-400 font-bold text-xs space-y-2">
             <BellOff className="w-10 h-10 text-gray-200 mx-auto" />
             <p className="text-sm font-semibold text-gray-400">
-              No notifications yet
+              {t("notification.none")}
             </p>
             <p className="text-[11px] text-gray-300 font-medium max-w-xs mx-auto">
-              You'll be notified here when your application status changes or
-              documents are reviewed.
+              {t("notification.noneHint")}
             </p>
           </div>
         )}

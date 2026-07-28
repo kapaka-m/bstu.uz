@@ -1606,3 +1606,76 @@
 - `php-local.bat artisan test` نجح: 4 tests passed, 7 assertions.
 - `php-local.bat artisan optimize:clear` نجح.
 - لم يتم تعديل PHP ضمن هذه المجموعة، لذلك لم تكن هناك ملفات PHP جديدة تحتاج `php -l`.
+
+---
+
+## مراجعة React Student Features 2026-07-28
+
+تاريخ المراجعة: 2026-07-28
+
+## ملفات React Student Features 2026-07-28 التي تمت مراجعتها
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\student`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\student\layouts`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\student\layouts\StudentLayout.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\student\pages`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\student\pages\*.jsx`
+
+## ما تم العثور عليه في React Student Features 2026-07-28
+
+- كانت توجد نصوص واجهة طالب ثابتة داخل صفحات الطالب: loading, errors, success messages, labels, empty states, prompts, placeholders, وأزرار.
+- كان `StudentLayout.jsx` يحتوي قائمة لغات ثابتة `EN/UZ/RU/AR` داخل select الطالب.
+- كان يوجد fallback نصي داخل `t("key", "Static text")` في صفحات الطالب.
+- كانت توجد بعض fallbacks ظاهرة مثل `Not Started`, `Student User`, و currency fallback داخل الكود.
+- كانت توجد قيمة branding ظاهرة `BSTU` ومثال بريد ثابت داخل login/register.
+- كانت `StudentApplication.jsx` تحتوي قائمة ثابتة لأنواع المستندات المطلوبة قبل إرسال الطلب.
+
+## تغييرات React Student Features 2026-07-28
+
+- تم تحويل language selector في `StudentLayout.jsx` ليستخدم `locales` القادمة من `LocaleContext` عبر API بدلاً من قائمة لغات ثابتة.
+- تم تحويل نصوص واجهة الطالب داخل dashboard, login, register, profile, application, documents, status, contracts, payments, notifications, support, و phase-two إلى مفاتيح ترجمة.
+- تم حذف fallbacks النصية من `t("key", "Static text")` داخل النطاق.
+- تم إزالة بناء نصوص افتراضية تخفي نقص البيانات مثل `Not Started` و fallback currency.
+- تم ربط شعار/اسم بوابة الطالب بإعدادات الموقع القادمة من `LocaleContext` عبر API بدلاً من نص branding ثابت داخل `StudentLayout.jsx`.
+- تم تحويل مثال البريد في login/register إلى مفتاح ترجمة `form.emailPlaceholder`.
+- تم ربط تحقق المستندات المطلوبة في `StudentApplication.jsx` بـ `studentPortalService.documents()` بدلاً من قائمة document types ثابتة داخل React.
+- تمت إضافة `document.requirementsUnavailable` لإظهار خطأ قابل للكشف عند غياب checklist من API بدلاً من استعمال قائمة بديلة مخفية داخل الكود.
+- تم إضافة مفاتيح الترجمة الجديدة في `StudentSystemTranslationSeeder.php` بطريقة آمنة باستخدام نفس `firstOrCreate` الموجود، وتم تشغيل seeder بدون حذف أو overwrite لبيانات apanel الحالية.
+
+## ربط React Student Features 2026-07-28 بالبيانات
+
+- جدول اللغات: `locales`.
+- جداول الترجمات: `translation_keys`, `translation_values`.
+- جدول إعدادات الموقع والbranding: `settings`.
+- متطلبات مستندات الطلب: جداول application/document workflow الموجودة التي يغذيها endpoint checklist الخاص بالطالب.
+- API اللغات والترجمات: `GET /api/v1/locales`, `GET /api/v1/translations`.
+- API إعدادات الموقع والbranding: `GET /api/v1/settings`.
+- API متطلبات مستندات الطالب: `GET /api/v1/student/documents/checklist`.
+- إدارة اللغات والترجمات من `/apanel/locales` و `/apanel/translations`.
+- إدارة إعدادات الموقع والbranding من صفحات إعدادات/branding الموجودة في `/apanel`.
+- بيانات الطالب والطلبات والملفات والمدفوعات تأتي من Laravel API عبر endpoints الموجودة تحت:
+  - `/api/v1/student/*`
+  - `/api/v1/applications/*`
+  - `/api/v1/auth/*`
+- إدارة سير الطلب والملفات والمدفوعات من `/apanel/applications` و endpoints workflow الموجودة تحت `/api/v1/apanel/applications-workflow/*`.
+
+## المتبقي بعد React Student Features 2026-07-28
+
+- بقيت status codes وقيم تقنية داخل الشروط مثل `APPROVED`, `REJECTED`, و route paths؛ هذه ليست محتوى CMS بل منطق حالة مطلوب.
+- بقيت رسائل `console.error` للمطورين وليست نصوص واجهة للمستخدم.
+- لم يتم إنشاء جداول جديدة لأن النظام المناسب موجود بالفعل: `locales`, `translation_keys`, `translation_values`, وجداول student/application الحالية.
+
+## تحقق React Student Features 2026-07-28
+
+- تم فحص `t("key", "fallback")`: لم تظهر نتائج داخل `apps\web\src\features\student`.
+- تم فحص قوائم اللغات الثابتة و `translations.en` و `Intl.DateTimeFormat("en")`: لم تظهر نتائج داخل النطاق.
+- تم فحص `localhost`, `127.0.0.1`, `VITE_API_BASE_URL`, و `/storage/`: لم تظهر نتائج داخل النطاق.
+- تم فحص `student@example.com`, `BSTU`, و قائمة `requiredTypes = [`: لم تظهر نتائج داخل النطاق بعد التعديل.
+- تم التحقق أن جميع مفاتيح `t("...")` المستخدمة في `apps\web\src\features\student` موجودة في seeder أو مولدة ضمن status seeder.
+- `php-local.bat -l database\seeders\StudentSystemTranslationSeeder.php` نجح.
+- `php-local.bat artisan db:seed --class=StudentSystemTranslationSeeder` نجح.
+- `npm.cmd run lint -- --quiet` نجح.
+- `npm.cmd run build` نجح.
+- `php-local.bat artisan route:list --path=api/v1 --except-vendor` نجح وأظهر 170 route.
+- `php-local.bat artisan test` نجح: 4 tests passed, 7 assertions.
+- `php-local.bat artisan optimize:clear` نجح.

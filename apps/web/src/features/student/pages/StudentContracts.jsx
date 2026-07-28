@@ -19,16 +19,16 @@ export default function StudentContracts() {
         setContracts(data);
       } catch (err) {
         console.error("Failed to load contracts", err);
-        setError("Failed to load your contracts list.");
+        setError(t("contract.loadError"));
       } finally {
         setLoading(false);
       }
     };
     fetchContracts();
-  }, []);
+  }, [t]);
 
   if (loading) {
-    return <LoadingState message="Loading billing contracts..." />;
+    return <LoadingState message={t("contract.loading")} />;
   }
 
   return (
@@ -38,7 +38,7 @@ export default function StudentContracts() {
           {t("contract.title")}
         </h1>
         <p className="text-xs font-semibold text-gray-400">
-          View contract parameters, bill amounts, and download tuition documents
+          {t("contract.subtitle")}
         </p>
       </div>
 
@@ -60,7 +60,7 @@ export default function StudentContracts() {
                 <div className="space-y-1.5 grow">
                   <div className="flex items-center gap-2">
                     <h3 className="text-xs font-black text-navy uppercase tracking-wider">
-                      Contract #{c.contract_number}
+                      {t("contract.number")} #{c.contract_number}
                     </h3>
                     <span
                       className={`text-[9px] font-extrabold px-2 py-0.5 rounded-full ${c.payment_status === "paid" ? "bg-emerald-50 text-emerald-600 border border-emerald-150" : "bg-amber-50 text-amber-600 border border-amber-150"}`}
@@ -71,7 +71,7 @@ export default function StudentContracts() {
                   <div className="grid grid-cols-2 gap-4 text-xs">
                     <div>
                       <p className="text-[10px] text-gray-400 font-bold">
-                        Billing Amount
+                        {t("contract.billingAmount")}
                       </p>
                       <p className="font-extrabold text-navy">
                         ${Number(c.amount).toLocaleString()}
@@ -79,7 +79,7 @@ export default function StudentContracts() {
                     </div>
                     <div>
                       <p className="text-[10px] text-gray-400 font-bold">
-                        Issue Date
+                        {t("common.issueDate")}
                       </p>
                       <p className="font-semibold text-gray-500">
                         {new Date(c.created_at).toLocaleDateString()}
@@ -104,10 +104,9 @@ export default function StudentContracts() {
         ) : (
           <div className="text-center py-12 text-gray-400 font-bold text-xs space-y-2">
             <CreditCard className="w-8 h-8 text-gray-300 mx-auto" />
-            <p>Your contract billing folder is currently empty.</p>
+            <p>{t("contract.empty")}</p>
             <p className="text-[10px] font-semibold">
-              Contract files are generated once your application is approved by
-              the admissions panel.
+              {t("contract.emptyHint")}
             </p>
           </div>
         )}

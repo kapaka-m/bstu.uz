@@ -26,22 +26,22 @@ export default function StudentApplicationStatus() {
         }
       } catch (err) {
         console.error("Failed to load status history", err);
-        setError("Failed to retrieve application status details.");
+        setError(t("application.statusLoadError"));
       } finally {
         setLoading(false);
       }
     };
     fetchStatusHistory();
-  }, []);
+  }, [t]);
 
   if (loading) {
-    return <LoadingState message="Loading status timeline..." />;
+    return <LoadingState message={t("application.statusLoading")} />;
   }
 
   if (!activeApp) {
     return (
       <div className="bg-white border border-gray-100 rounded-3xl p-8 text-center text-gray-400 font-bold shadow-xs">
-        No active applications found. Please start an application first!
+        {t("application.noActiveStartFirst")}
       </div>
     );
   }
@@ -50,28 +50,28 @@ export default function StudentApplicationStatus() {
   const timelineStages = [
     {
       key: "draft",
-      label: "Draft Created",
-      desc: "Select program options and save details",
+      label: t("application.timeline.draft"),
+      desc: t("application.timeline.draftDesc"),
     },
     {
       key: "submitted",
-      label: "Submitted",
-      desc: "Document pre-verification queue",
+      label: t("application.timeline.submitted"),
+      desc: t("application.timeline.submittedDesc"),
     },
     {
       key: "under_review",
-      label: "Under Review",
-      desc: "Academic board evaluation",
+      label: t("application.timeline.underReview"),
+      desc: t("application.timeline.underReviewDesc"),
     },
     {
       key: "accepted",
-      label: "Accepted",
-      desc: "Admissions approval received",
+      label: t("application.timeline.accepted"),
+      desc: t("application.timeline.acceptedDesc"),
     },
     {
       key: "enrolled",
-      label: "Enrolled",
-      desc: "Registered as active university student",
+      label: t("application.timeline.enrolled"),
+      desc: t("application.timeline.enrolledDesc"),
     },
   ];
 
@@ -86,7 +86,7 @@ export default function StudentApplicationStatus() {
           {t("application.trackingTitle")}
         </h1>
         <p className="text-xs font-semibold text-gray-400">
-          Track and monitor your registration progression steps
+          {t("application.trackingSubtitle")}
         </p>
       </div>
 
@@ -102,7 +102,7 @@ export default function StudentApplicationStatus() {
         <div className="lg:col-span-2 bg-white border border-gray-100 rounded-3xl p-6 shadow-xs space-y-6">
           <h3 className="text-sm font-extrabold text-navy uppercase tracking-wider pb-3 border-b border-gray-50 flex items-center gap-2">
             <Clock className="w-4.5 h-4.5 text-primary" />
-            <span>Progress Stages</span>
+            <span>{t("application.progressStages")}</span>
           </h3>
 
           <div className="relative pl-6 border-l border-gray-100 ml-4 space-y-8 py-2">
@@ -150,7 +150,7 @@ export default function StudentApplicationStatus() {
           <div className="space-y-4">
             <h3 className="text-sm font-extrabold text-navy uppercase tracking-wider pb-3 border-b border-gray-50 flex items-center gap-2">
               <FileText className="w-4.5 h-4.5 text-primary" />
-              <span>Internal Comments</span>
+              <span>{t("application.internalComments")}</span>
             </h3>
 
             {activeApp.statusHistories &&
@@ -168,14 +168,14 @@ export default function StudentApplicationStatus() {
                       </span>
                     </div>
                     <p className="text-[11px] text-gray-600 font-bold leading-relaxed">
-                      {hist.comment || "Status updated"}
+                      {hist.comment || t("application.statusUpdated")}
                     </p>
                   </div>
                 ))}
               </div>
             ) : (
               <p className="text-xs text-gray-400 font-bold text-center py-8">
-                No comment notes registered yet.
+                {t("application.noComments")}
               </p>
             )}
           </div>

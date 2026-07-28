@@ -57,7 +57,7 @@ export default function StudentDashboard() {
   }, []);
 
   if (loading) {
-    return <LoadingState message="Loading dashboard statistics..." />;
+    return <LoadingState message={t("student.dashboard.loading")} />;
   }
 
   const activeApp =
@@ -80,7 +80,7 @@ export default function StudentDashboard() {
   const latestPayment = payments[0];
   const translateMaybe = (value) => {
     if (!value || !String(value).includes(".")) return value;
-    return t(value, value);
+    return t(value);
   };
 
   return (
@@ -95,10 +95,7 @@ export default function StudentDashboard() {
             {t("student.welcome")}
           </h1>
           <p className="text-gray-300 text-xs font-semibold max-w-xl">
-            {t(
-              "student.welcomeSubtitle",
-              "Complete your profile, submit dynamic documents, and track your admission status in real-time.",
-            )}
+            {t("student.welcomeSubtitle")}
           </p>
         </div>
       </div>
@@ -110,11 +107,11 @@ export default function StudentDashboard() {
           <div className="flex justify-between items-start">
             <div className="space-y-1">
               <span className="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest">
-                Active Application
+                {t("student.dashboard.activeApplication")}
               </span>
               <h3 className="text-base font-bold text-navy">
                 {activeApp?.program?.translations?.[0]?.name ||
-                  "No active application"}
+                  t("student.dashboard.noActiveApplication")}
               </h3>
             </div>
             <div className="w-10 h-10 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
@@ -128,7 +125,7 @@ export default function StudentDashboard() {
                 to="/student/application"
                 className="text-xs font-extrabold text-primary hover:underline flex items-center gap-1"
               >
-                <span>View Details</span>
+                <span>{t("button.viewDetails")}</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
@@ -138,7 +135,7 @@ export default function StudentDashboard() {
                 to="/student/application"
                 className="text-xs font-extrabold text-primary hover:underline flex items-center gap-1"
               >
-                <span>Start Application</span>
+                <span>{t("button.startApplication")}</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
@@ -150,10 +147,12 @@ export default function StudentDashboard() {
           <div className="flex justify-between items-start">
             <div className="space-y-1">
               <span className="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest">
-                Profile Status
+                {t("student.dashboard.profileStatus")}
               </span>
               <h3 className="text-base font-bold text-navy">
-                {profile ? "Profile Completed" : "Profile Incomplete"}
+                {profile
+                  ? t("student.dashboard.profileCompleted")
+                  : t("student.dashboard.profileIncomplete")}
               </h3>
             </div>
             <div
@@ -168,13 +167,17 @@ export default function StudentDashboard() {
           </div>
           <div className="flex items-center justify-between pt-2 border-t border-gray-50">
             <span className="text-xs font-bold text-gray-400">
-              {profile ? "Details fully updated" : "Required to apply"}
+              {profile
+                ? t("student.dashboard.detailsUpdated")
+                : t("student.dashboard.requiredToApply")}
             </span>
             <Link
               to="/student/profile"
               className="text-xs font-extrabold text-primary hover:underline flex items-center gap-1"
             >
-              <span>{profile ? "Edit Profile" : "Complete Profile"}</span>
+              <span>
+                {profile ? t("button.editProfile") : t("button.completeProfile")}
+              </span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
@@ -185,12 +188,12 @@ export default function StudentDashboard() {
           <div className="flex justify-between items-start">
             <div className="space-y-1">
               <span className="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest">
-                Verification Documents
+                {t("student.dashboard.verificationDocuments")}
               </span>
               <h3 className="text-base font-bold text-navy">
                 {missingDocs.length > 0
-                  ? `${missingDocs.length} Missing File(s)`
-                  : "All Files Uploaded"}
+                  ? t("student.dashboard.missingFiles").replace(":count", missingDocs.length)
+                  : t("student.dashboard.allFilesUploaded")}
               </h3>
             </div>
             <div
@@ -202,14 +205,14 @@ export default function StudentDashboard() {
           <div className="flex items-center justify-between pt-2 border-t border-gray-50">
             <span className="text-xs font-bold text-gray-400">
               {activeApp
-                ? `${activeApp.documents?.length || 0} file(s) attached`
-                : "Application draft needed"}
+                ? t("student.dashboard.filesAttached").replace(":count", activeApp.documents?.length || 0)
+                : t("student.dashboard.applicationDraftNeeded")}
             </span>
             <Link
               to="/student/documents"
               className="text-xs font-extrabold text-primary hover:underline flex items-center gap-1"
             >
-              <span>Upload Files</span>
+              <span>{t("button.uploadFiles")}</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
@@ -229,7 +232,7 @@ export default function StudentDashboard() {
                 to="/student/notifications"
                 className="text-xs font-extrabold text-primary hover:underline"
               >
-                View All
+                {t("button.viewAll")}
               </Link>
             </div>
             {notifications.length > 0 ? (
@@ -258,7 +261,7 @@ export default function StudentDashboard() {
               </div>
             ) : (
               <p className="text-xs text-gray-400 font-bold text-center py-6">
-                No recent notifications found.
+                {t("notification.noneRecent")}
               </p>
             )}
           </div>
@@ -268,7 +271,7 @@ export default function StudentDashboard() {
         <div className="space-y-8">
           <div className="bg-white border border-gray-100 rounded-3xl p-6 shadow-xs space-y-4">
             <h3 className="text-base font-extrabold text-navy uppercase tracking-wider pb-2 border-b border-gray-50">
-              Contracts & Billing
+              {t("student.dashboard.contractsBilling")}
             </h3>
             <div className="p-4 rounded-2xl border border-gray-50 bg-gray-50/50 flex items-center justify-between gap-3">
               <div className="flex items-center gap-3">
@@ -277,12 +280,12 @@ export default function StudentDashboard() {
                 </div>
                 <div>
                   <p className="text-[10px] text-gray-400 font-black uppercase tracking-wider">
-                    Latest Payment
+                    {t("student.dashboard.latestPayment")}
                   </p>
                   <p className="text-xs font-extrabold text-navy">
                     {latestPayment
                       ? latestPayment.status.replace("_", " ").toUpperCase()
-                      : "NO PAYMENT REQUEST"}
+                      : t("payment.noRequest")}
                   </p>
                 </div>
               </div>
@@ -290,7 +293,7 @@ export default function StudentDashboard() {
                 to="/student/payments"
                 className="text-xs font-extrabold text-primary hover:underline"
               >
-                View
+                {t("button.view")}
               </Link>
             </div>
             {contracts.length > 0 ? (
@@ -313,7 +316,7 @@ export default function StudentDashboard() {
                     <div className="flex justify-between items-end">
                       <div className="space-y-0.5">
                         <p className="text-[10px] text-gray-400 font-bold">
-                          Total Amount
+                          {t("payment.totalAmount")}
                         </p>
                         <p className="text-xs font-black text-navy">
                           ${Number(c.amount).toLocaleString()}
@@ -323,7 +326,7 @@ export default function StudentDashboard() {
                         to="/student/contracts"
                         className="text-xs font-extrabold text-primary hover:underline"
                       >
-                        Details
+                        {t("button.details")}
                       </Link>
                     </div>
                   </div>
@@ -332,9 +335,9 @@ export default function StudentDashboard() {
             ) : (
               <div className="text-center py-8 text-gray-400 font-bold text-xs space-y-2">
                 <Clock className="w-8 h-8 text-gray-300 mx-auto" />
-                <p>No contract details generated yet.</p>
+                <p>{t("contract.noneGenerated")}</p>
                 <p className="text-[10px] font-semibold">
-                  Your contract slip will appear here once accepted.
+                  {t("contract.appearsAfterAccepted")}
                 </p>
               </div>
             )}

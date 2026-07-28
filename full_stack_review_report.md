@@ -1884,6 +1884,73 @@
 
 ---
 
+## إعادة تحقق React Apanel Pages 2026-07-28
+
+تاريخ إعادة التحقق: 2026-07-28
+
+## ملفات إعادة تحقق React Apanel Pages 2026-07-28 التي تمت مراجعتها
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\pages`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\pages\ApanelAboutPage.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\pages\ApanelAdministration.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\pages\ApanelAnnouncements.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\pages\ApanelApplicationDetail.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\pages\ApanelApplicationsWorkflow.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\pages\ApanelBlog.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\pages\ApanelCenters.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\pages\ApanelContactManagement.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\pages\ApanelContactPage.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\pages\ApanelCrud.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\pages\ApanelDashboard.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\pages\ApanelFooterWeb.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\pages\ApanelGreenCampus.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\pages\ApanelHeaderNavbar.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\pages\ApanelInteractiveServices.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\pages\ApanelLocales.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\pages\ApanelLogin.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\pages\ApanelMedia.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\pages\ApanelNewsEvents.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\pages\ApanelNewsletterSubscriptions.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\pages\ApanelTranslations.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\pages\ApanelVideoBdtu.jsx`
+
+## نتيجة إعادة تحقق React Apanel Pages 2026-07-28
+
+- لم تظهر نصوص واجهة ثابتة جديدة داخل صفحات apanel المحددة بعد تحويل الجولة السابقة.
+- لم تظهر fallbacks من نوع `t("key", "Static text")` داخل النطاق.
+- لم تظهر قوائم لغات ثابتة أو استخدامات `translations.en` داخل النطاق.
+- لم تظهر روابط API أو storage مكررة مثل `localhost`, `127.0.0.1`, `VITE_API_BASE_URL`, أو `/storage/` داخل النطاق.
+- لا توجد تعديلات مصدر جديدة مطلوبة في هذه الإعادة؛ التعديل الوحيد في هذه الجولة هو توثيق نتيجة إعادة التحقق في هذا التقرير.
+
+## ربط إعادة تحقق React Apanel Pages 2026-07-28 بالبيانات
+
+- نصوص واجهة apanel: `translation_keys`, `translation_values`.
+- اللغات الديناميكية: `locales`.
+- مفاتيح واجهة CRUD العامة: `apps\api\database\data\apanel_crud_ui_translations.json` محملة عبر `StudentSystemTranslationSeeder.php`.
+- مفاتيح واجهة صفحات apanel المتخصصة: `apps\api\database\data\apanel_pages_ui_translations.json` محملة عبر `StudentSystemTranslationSeeder.php`.
+- API اللغات والترجمات: `GET /api/v1/locales`, `GET /api/v1/translations`.
+- API إدارة محتوى apanel العام: endpoints الموجودة تحت `/api/v1/apanel/*`.
+- إدارة اللغات والترجمات من `/apanel/locales` و `/apanel/translations`.
+- إدارة محتوى الصفحات المتخصصة من صفحات `/apanel` القائمة مثل centers, blog, news-events, announcements, green-campus, footer, contact, video-bdtu, administration, about-page, و interactive-services.
+
+## تحقق إعادة React Apanel Pages 2026-07-28
+
+- إعادة فحص النصوص الظاهرة الثابتة و `label`, `title`, `placeholder`, `aria-label`, `alert`, `confirm`, و `prompt`: لم تظهر نتائج داخل `apps\web\src\features\apanel\pages`.
+- إعادة فحص hardcoded fallbacks واللغات والروابط المكررة: لم تظهر نتائج داخل `apps\web\src\features\apanel\pages`.
+- `npm.cmd run lint -- --quiet` نجح.
+- `npm.cmd run build` نجح.
+- `php-local.bat -l database\seeders\StudentSystemTranslationSeeder.php` نجح.
+- `php-local.bat artisan route:list --path=api/v1 --except-vendor` نجح وأظهر 170 route.
+- `php-local.bat artisan test` نجح: 4 tests passed, 7 assertions.
+- `php-local.bat artisan optimize:clear` نجح.
+
+## المتبقي بعد إعادة تحقق React Apanel Pages 2026-07-28
+
+- لا يوجد محتوى واجهة قابل للإدارة تم رصده كقيمة ثابتة داخل ملفات `apps\web\src\features\apanel\pages` المحددة.
+- بقيت أسماء resources وroute paths وstatus codes التقنية داخل المنطق البرمجي فقط، وليست محتوى CMS.
+
+---
+
 ## مراجعة React Student Features 2026-07-28
 
 تاريخ المراجعة: 2026-07-28

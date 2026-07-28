@@ -14,6 +14,7 @@ import FormError from "../../../components/common/FormError";
 import { apanelService } from "../../../services/apanelService";
 import ConfirmDialog from "../components/ConfirmDialog";
 import { useApanelLocaleCodes } from "../utils/locales";
+import { useLanguage } from "../../../context/LanguageContext";
 
 const statusOptions = [
   { value: "", label: "All messages" },
@@ -52,6 +53,7 @@ function normalizeMessage(item) {
 }
 
 export default function ApanelContactManagement() {
+  const { t } = useLanguage();
   const localeCodes = useApanelLocaleCodes();
   const primaryLocale = localeCodes[0] || undefined;
   const [items, setItems] = useState([]);
@@ -124,7 +126,7 @@ export default function ApanelContactManagement() {
       const saved = normalizeMessage(await apanelService.update("inquiries", selected.id, payload));
       setSelected(saved);
       setItems((current) => current.map((item) => (item.id === saved.id ? saved : item)));
-      setSuccess("Contact message updated successfully.");
+      setSuccess(t("apanel.contactManagement.updated"));
     } catch (err) {
       setError(err?.message || "Failed to update contact message.");
     } finally {
@@ -155,7 +157,7 @@ export default function ApanelContactManagement() {
       setPendingDelete(null);
       setSelected(null);
       await fetchMessages();
-      setSuccess("Contact message deleted successfully.");
+      setSuccess(t("apanel.contactManagement.deleted"));
     } catch (err) {
       setError(err?.message || "Failed to delete contact message.");
     } finally {
@@ -233,7 +235,7 @@ export default function ApanelContactManagement() {
                   setPage(1);
                   setSearch(event.target.value);
                 }}
-                placeholder="Search messages..."
+                placeholder={t("apanel.contactManagement.searchPlaceholder")}
                 className="w-full text-sm font-semibold text-gray-700 outline-none"
               />
             </div>
@@ -423,7 +425,7 @@ export default function ApanelContactManagement() {
                     updateSelectedField("reply_message", event.target.value)
                   }
                   rows={7}
-                  placeholder="Write the reply that should be recorded for this inquiry..."
+                  placeholder={t("apanel.contactManagement.replyPlaceholder")}
                   className="mt-2 w-full resize-y rounded-xl border border-gray-200 px-3 py-2 text-sm font-semibold leading-relaxed text-gray-700 outline-none focus:border-primary"
                 />
               </label>

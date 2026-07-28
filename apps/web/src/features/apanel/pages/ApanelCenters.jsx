@@ -5,6 +5,7 @@ import { apanelService } from "../../../services/apanelService";
 import { publicAssetUrl } from "../../../lib/api";
 import ConfirmDialog from "../components/ConfirmDialog";
 import { useApanelLocaleOptions } from "../utils/locales";
+import { useLanguage } from "../../../context/LanguageContext";
 
 const emptyTranslations = (localeCodes) =>
   Object.fromEntries(
@@ -61,6 +62,7 @@ const storageUrl = (path) => {
 };
 
 export default function ApanelCenters() {
+  const { t } = useLanguage();
   const localeOptions = useApanelLocaleOptions();
   const localeCodes = useMemo(() => localeOptions.map((locale) => locale.code), [localeOptions]);
   const primaryLocale = localeCodes[0] || "";
@@ -158,10 +160,10 @@ export default function ApanelCenters() {
     try {
       if (editing?.numeric_id) {
         await centerService.adminUpdateCenter(editing.numeric_id, form);
-        showToast("Centre / Department updated successfully!");
+        showToast(t("apanel.centers.updated"));
       } else {
         await centerService.adminCreateCenter(form);
-        showToast("Centre / Department created successfully!");
+        showToast(t("apanel.centers.created"));
       }
       await load();
       setTab("list");
@@ -169,7 +171,7 @@ export default function ApanelCenters() {
       setForm(emptyForm(localeCodes));
     } catch (err) {
       console.error("Failed to save center:", err);
-      showToast("Error occurred while saving.");
+      showToast(t("apanel.centers.saveError"));
     } finally {
       setSaving(false);
     }
@@ -180,12 +182,12 @@ export default function ApanelCenters() {
     setSaving(true);
     try {
       await centerService.adminUpdateSettings(settingsForm);
-      showToast("Settings updated successfully!");
+      showToast(t("apanel.centers.settingsUpdated"));
       await load();
       setTab("list");
     } catch (err) {
       console.error("Failed to save settings:", err);
-      showToast("Error occurred while saving settings.");
+      showToast(t("apanel.centers.settingsSaveError"));
     } finally {
       setSaving(false);
     }
@@ -195,12 +197,12 @@ export default function ApanelCenters() {
     if (!pendingDelete) return;
     try {
       await centerService.adminDeleteCenter(pendingDelete.numeric_id);
-      showToast("Centre / Department deleted successfully.");
+      showToast(t("apanel.centers.deleted"));
       setPendingDelete(null);
       await load();
     } catch (err) {
       console.error("Failed to delete center:", err);
-      showToast("Error occurred while deleting.");
+      showToast(t("apanel.centers.deleteError"));
     }
   };
 
@@ -273,12 +275,12 @@ export default function ApanelCenters() {
             <table className="w-full border-collapse text-left text-sm text-gray-500">
               <thead className="bg-gray-55 text-xs font-bold uppercase text-navy border-b border-gray-100">
                 <tr>
-                  <th className="px-6 py-4">Sort</th>
-                  <th className="px-6 py-4">Name</th>
-                  <th className="px-6 py-4">Slug</th>
-                  <th className="px-6 py-4">Head / Staff</th>
-                  <th className="px-6 py-4">Status</th>
-                  <th className="px-6 py-4 text-right">Actions</th>
+                  <th className="px-6 py-4">{t("apanel.centers.sort")}</th>
+                  <th className="px-6 py-4">{t("apanel.centers.name")}</th>
+                  <th className="px-6 py-4">{t("apanel.centers.slug")}</th>
+                  <th className="px-6 py-4">{t("apanel.centers.headStaff")}</th>
+                  <th className="px-6 py-4">{t("apanel.centers.status")}</th>
+                  <th className="px-6 py-4 text-right">{t("apanel.centers.actions")}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100 font-semibold">
@@ -376,28 +378,28 @@ export default function ApanelCenters() {
               {/* Left Column: Core Fields */}
               <div className="space-y-4">
                 <TextField
-                  label="Slug"
+                  label={t("apanel.centers.label.slug")}
                   value={form.slug}
                   required
                   onChange={(val) => setForm((prev) => ({ ...prev, slug: val }))}
                 />
 
                 <TextField
-                  label="Email"
+                  label={t("apanel.centers.label.email")}
                   type="email"
                   value={form.email}
                   onChange={(val) => setForm((prev) => ({ ...prev, email: val }))}
                 />
 
                 <TextField
-                  label="Phone"
+                  label={t("apanel.centers.label.phone")}
                   value={form.phone}
                   onChange={(val) => setForm((prev) => ({ ...prev, phone: val }))}
                 />
 
                 <div className="grid grid-cols-2 gap-4">
                   <TextField
-                    label="Sort Order"
+                    label={t("apanel.centers.label.sortOrder")}
                     type="number"
                     value={form.sort_order}
                     onChange={(val) => setForm((prev) => ({ ...prev, sort_order: Number(val) }))}
@@ -410,8 +412,8 @@ export default function ApanelCenters() {
                       onChange={(e) => setForm((prev) => ({ ...prev, is_active: e.target.value === "1" }))}
                       className="mt-1 rounded-xl border border-gray-100 px-3 py-2.5 text-sm text-navy outline-none focus:border-primary"
                     >
-                      <option value="1">Active</option>
-                      <option value="0">Draft</option>
+                      <option value="1">{t("status.active")}</option>
+                      <option value="0">{t("status.draft")}</option>
                     </select>
                   </label>
                 </div>
@@ -419,7 +421,7 @@ export default function ApanelCenters() {
 
               {/* Right Column: Image Upload */}
               <div className="space-y-2">
-                <span className="text-xs font-bold text-gray-500">Banner / Profile Image</span>
+                <span className="text-xs font-bold text-gray-500">{t("apanel.centers.bannerProfileImage")}</span>
                 <div className="flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-gray-100 p-6 text-center hover:border-primary/50 transition-colors relative group min-h-55">
                   {form.image ? (
                     <>
@@ -441,7 +443,7 @@ export default function ApanelCenters() {
                   ) : (
                     <label className="flex flex-col items-center justify-center gap-2 cursor-pointer w-full h-full py-8">
                       <UploadCloud className="w-10 h-10 text-gray-300" />
-                      <span className="text-xs font-bold text-gray-400">Click to upload photo</span>
+                      <span className="text-xs font-bold text-gray-400">{t("apanel.centers.clickUploadPhoto")}</span>
                       <input
                         type="file"
                         accept="image/*"
@@ -467,14 +469,14 @@ export default function ApanelCenters() {
 
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <TextField
-                  label="Name / Title"
+                  label={t("apanel.centers.label.nameTitle")}
                   value={form.translations[activeLocale]?.name || ""}
                   required={activeLocale === primaryLocale}
                   onChange={(val) => setTranslation("name", val)}
                 />
 
                 <TextField
-                  label="Head of Centre / Department"
+                  label={t("apanel.centers.label.headOfCentreDepartment")}
                   value={form.translations[activeLocale]?.head || ""}
                   onChange={(val) => setTranslation("head", val)}
                 />
@@ -482,32 +484,32 @@ export default function ApanelCenters() {
 
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <TextField
-                  label="Head Title / Job Position"
+                  label={t("apanel.centers.label.headTitleJobPosition")}
                   value={form.translations[activeLocale]?.head_title || ""}
                   onChange={(val) => setTranslation("head_title", val)}
                 />
 
                 <TextField
-                  label="Reception / Office Hours"
+                  label={t("apanel.centers.label.receptionOfficeHours")}
                   value={form.translations[activeLocale]?.office_hours || ""}
                   onChange={(val) => setTranslation("office_hours", val)}
                 />
               </div>
 
               <TextArea
-                label="About the Centre / Department"
+                label={t("apanel.centers.label.aboutTheCentreDepartment")}
                 value={form.translations[activeLocale]?.about || ""}
                 onChange={(val) => setTranslation("about", val)}
               />
 
               <TextArea
-                label="Supervisor Specific Description (If left empty, will use the default description)"
+                label={t("apanel.centers.label.supervisorSpecificDescriptionIfLeftEmptyWillUseTheDefaultDescription")}
                 value={form.translations[activeLocale]?.head_description || ""}
                 onChange={(val) => setTranslation("head_description", val)}
               />
 
               <TextArea
-                label="Functions & Activities (One per line)"
+                label={t("apanel.centers.label.functionsAndActivitiesOnePerLine")}
                 value={(form.translations[activeLocale]?.functions || []).join("\n")}
                 onChange={(val) =>
                   setTranslation(
@@ -565,56 +567,56 @@ export default function ApanelCenters() {
           <form onSubmit={saveSettings} className="space-y-6">
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               <TextField
-                label="Sidebar / Menu Category Title"
+                label={t("apanel.centers.label.sidebarMenuCategoryTitle")}
                 value={settingsForm.translations[activeLocale]?.sidebar_title || ""}
                 required
                 onChange={(val) => setSettingsTranslation("sidebar_title", val)}
               />
 
               <TextField
-                label="Structure Breadcrumb Section Label"
+                label={t("apanel.centers.label.structureBreadcrumbSectionLabel")}
                 value={settingsForm.translations[activeLocale]?.structure_label || ""}
                 required
                 onChange={(val) => setSettingsTranslation("structure_label", val)}
               />
 
               <TextField
-                label="About Section Header Label"
+                label={t("apanel.centers.label.aboutSectionHeaderLabel")}
                 value={settingsForm.translations[activeLocale]?.about_label || ""}
                 required
                 onChange={(val) => setSettingsTranslation("about_label", val)}
               />
 
               <TextField
-                label="Staff & Members Title Label"
+                label={t("apanel.centers.label.staffAndMembersTitleLabel")}
                 value={settingsForm.translations[activeLocale]?.staff_label || ""}
                 required
                 onChange={(val) => setSettingsTranslation("staff_label", val)}
               />
 
               <TextField
-                label="Functions & Missions Heading Label"
+                label={t("apanel.centers.label.functionsAndMissionsHeadingLabel")}
                 value={settingsForm.translations[activeLocale]?.mission_label || ""}
                 required
                 onChange={(val) => setSettingsTranslation("mission_label", val)}
               />
 
               <TextField
-                label="Support Widget Title"
+                label={t("apanel.centers.label.supportWidgetTitle")}
                 value={settingsForm.translations[activeLocale]?.support_title || ""}
                 required
                 onChange={(val) => setSettingsTranslation("support_title", val)}
               />
 
               <TextField
-                label="Contact University Button Label"
+                label={t("apanel.centers.label.contactUniversityButtonLabel")}
                 value={settingsForm.translations[activeLocale]?.contact_btn_label || ""}
                 required
                 onChange={(val) => setSettingsTranslation("contact_btn_label", val)}
               />
 
               <TextField
-                label="Mission / Function Badge Label"
+                label={t("apanel.centers.label.missionFunctionBadgeLabel")}
                 value={settingsForm.translations[activeLocale]?.function_badge_label || ""}
                 required
                 onChange={(val) => setSettingsTranslation("function_badge_label", val)}
@@ -622,13 +624,13 @@ export default function ApanelCenters() {
             </div>
 
             <TextArea
-              label="Default Staff Supervising Description"
+              label={t("apanel.centers.label.defaultStaffSupervisingDescription")}
               value={settingsForm.translations[activeLocale]?.default_head_desc || ""}
               onChange={(val) => setSettingsTranslation("default_head_desc", val)}
             />
 
             <TextArea
-              label="Support Widget Description text"
+              label={t("apanel.centers.label.supportWidgetDescriptionText")}
               value={settingsForm.translations[activeLocale]?.support_desc || ""}
               onChange={(val) => setSettingsTranslation("support_desc", val)}
             />
@@ -661,7 +663,7 @@ export default function ApanelCenters() {
       {/* CONFIRM DELETE DIALOG */}
       <ConfirmDialog
         isOpen={pendingDelete !== null}
-        title="Delete Centre / Department"
+        title={t("apanel.centers.title.deleteCentreDepartment")}
         message={`Are you sure you want to delete "${pendingDelete?.name}"? This action cannot be undone.`}
         onConfirm={confirmDelete}
         onCancel={() => setPendingDelete(null)}

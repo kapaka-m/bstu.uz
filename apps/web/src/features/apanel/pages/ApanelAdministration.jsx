@@ -4,6 +4,7 @@ import { apanelService } from "../../../services/apanelService";
 import { publicAssetUrl } from "../../../lib/api";
 import ConfirmDialog from "../components/ConfirmDialog";
 import { buildLocaleMap, useApanelLocaleOptions } from "../utils/locales";
+import { useLanguage } from "../../../context/LanguageContext";
 
 const emptyProfileTranslation = {
   full_name: "",
@@ -57,6 +58,7 @@ const storageUrl = (path) => {
 };
 
 export default function ApanelAdministration() {
+  const { t } = useLanguage();
   const localeOptions = useApanelLocaleOptions();
   const localeCodes = useMemo(() => localeOptions.map((locale) => locale.code), [localeOptions]);
   const primaryLocale = localeCodes[0] || "";
@@ -172,7 +174,7 @@ export default function ApanelAdministration() {
     <div className="space-y-6">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-extrabold text-navy">Administration CMS</h1>
+          <h1 className="text-2xl font-extrabold text-navy">{t("apanel.administration.title")}</h1>
           <p className="text-sm text-gray-500 font-semibold mt-1">
             Manage university leadership shown on the homepage, profile pages, and Structure menu.
           </p>
@@ -231,7 +233,7 @@ export default function ApanelAdministration() {
                   </div>
                   <div className="mt-3 flex flex-wrap gap-2 text-[11px] font-bold text-gray-500">
                     <span>#{item.sort_order}</span>
-                    {item.is_rector && <span className="text-primary">Rector</span>}
+                    {item.is_rector && <span className="text-primary">{t("apanel.administration.rector")}</span>}
                     <span>{item.phone}</span>
                   </div>
                   <div className="mt-4 flex gap-2">
@@ -278,7 +280,7 @@ export default function ApanelAdministration() {
               />
             </label>
             <div className="space-y-1 text-xs font-bold text-gray-500">
-              <span>Active</span>
+              <span>{t("status.active")}</span>
               <label className="flex min-h-10.5 items-center gap-2 rounded-xl border border-gray-100 px-3 py-2.5 text-sm font-bold text-navy">
                 <input
                   type="checkbox"
@@ -338,7 +340,7 @@ export default function ApanelAdministration() {
       )}
       <ConfirmDialog
         isOpen={Boolean(pendingDelete)}
-        title="Delete profile?"
+        title={t("apanel.administration.title.deleteProfile")}
         message={`This will permanently delete ${pendingDelete?.slug || "this profile"}. This action cannot be undone.`}
         onConfirm={confirmDelete}
         onCancel={() => setPendingDelete(null)}
@@ -384,12 +386,12 @@ function ProfileForm({ activeLocale, form, saving, setActiveLocale, setForm, onC
 
         <div className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <TextField label="Slug" value={form.slug} onChange={(value) => setForm((prev) => ({ ...prev, slug: value }))} required />
-            <TextField label="Photo URL or storage path" value={form.photo} onChange={(value) => setForm((prev) => ({ ...prev, photo: value }))} />
-            <TextField label="Phone" value={form.phone} onChange={(value) => setForm((prev) => ({ ...prev, phone: value }))} />
-            <TextField label="Email" type="email" value={form.email} onChange={(value) => setForm((prev) => ({ ...prev, email: value }))} />
-            <TextField label="Telegram URL" value={form.telegram_url} onChange={(value) => setForm((prev) => ({ ...prev, telegram_url: value }))} />
-            <TextField label="Sort Order" type="number" value={form.sort_order} onChange={(value) => setForm((prev) => ({ ...prev, sort_order: Number(value) }))} />
+            <TextField label={t("apanel.administration.label.slug")} value={form.slug} onChange={(value) => setForm((prev) => ({ ...prev, slug: value }))} required />
+            <TextField label={t("apanel.administration.label.photoUrlOrStoragePath")} value={form.photo} onChange={(value) => setForm((prev) => ({ ...prev, photo: value }))} />
+            <TextField label={t("apanel.administration.label.phone")} value={form.phone} onChange={(value) => setForm((prev) => ({ ...prev, phone: value }))} />
+            <TextField label={t("apanel.administration.label.email")} type="email" value={form.email} onChange={(value) => setForm((prev) => ({ ...prev, email: value }))} />
+            <TextField label={t("apanel.administration.label.telegramUrl")} value={form.telegram_url} onChange={(value) => setForm((prev) => ({ ...prev, telegram_url: value }))} />
+            <TextField label={t("apanel.administration.label.sortOrder")} type="number" value={form.sort_order} onChange={(value) => setForm((prev) => ({ ...prev, sort_order: Number(value) }))} />
           </div>
           <div className="flex flex-wrap gap-3">
             <label className="inline-flex items-center gap-2 text-xs font-bold text-navy">
@@ -406,15 +408,15 @@ function ProfileForm({ activeLocale, form, saving, setActiveLocale, setForm, onC
 
       <LocaleTabs active={activeLocale} onChange={setActiveLocale} localeOptions={localeOptions} />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <TextField label="Full Name" value={t.full_name || ""} onChange={(value) => setTranslation("full_name", value)} required />
-        <TextField label="Position" value={t.position || ""} onChange={(value) => setTranslation("position", value)} required />
-        <TextField label="Degree" value={t.degree || ""} onChange={(value) => setTranslation("degree", value)} />
-        <TextField label="Office Hours" value={t.office_hours || ""} onChange={(value) => setTranslation("office_hours", value)} />
+        <TextField label={t("apanel.administration.label.fullName")} value={t.full_name || ""} onChange={(value) => setTranslation("full_name", value)} required />
+        <TextField label={t("apanel.administration.label.position")} value={t.position || ""} onChange={(value) => setTranslation("position", value)} required />
+        <TextField label={t("apanel.administration.label.degree")} value={t.degree || ""} onChange={(value) => setTranslation("degree", value)} />
+        <TextField label={t("apanel.administration.label.officeHours")} value={t.office_hours || ""} onChange={(value) => setTranslation("office_hours", value)} />
       </div>
-      <TextArea label="About" value={t.about || ""} onChange={(value) => setTranslation("about", value)} />
-      <TextArea label="Details" value={t.details || ""} onChange={(value) => setTranslation("details", value)} />
+      <TextArea label={t("apanel.administration.label.about")} value={t.about || ""} onChange={(value) => setTranslation("about", value)} />
+      <TextArea label={t("apanel.administration.label.details")} value={t.details || ""} onChange={(value) => setTranslation("details", value)} />
       <TextArea
-        label="Achievements"
+        label={t("apanel.administration.label.achievements")}
         value={(t.achievements || []).join("\n")}
         onChange={(value) => setTranslation("achievements", value.split("\n").map((line) => line.trim()).filter(Boolean))}
       />

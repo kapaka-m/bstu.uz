@@ -4,6 +4,7 @@ import FormError from "../../../components/common/FormError";
 import { footerService } from "../../../services/footerService";
 import ConfirmDialog from "../components/ConfirmDialog";
 import { useApanelLocaleCodes } from "../utils/locales";
+import { useLanguage } from "../../../context/LanguageContext";
 
 
 const TRANSLATION_FIELDS = [
@@ -123,6 +124,7 @@ function TextField({ label, value, onChange, type = "text", textarea = false }) 
 }
 
 function LinkEditor({ title, links, locales, onChange, labelValues, onLabelChange, onDeleteClick }) {
+  const { t } = useLanguage();
   const updateLink = (index, field, value) => {
     const next = [...links];
     next[index] = { ...next[index], [field]: value };
@@ -141,7 +143,7 @@ function LinkEditor({ title, links, locales, onChange, labelValues, onLabelChang
           className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-primary text-white text-xs font-extrabold cursor-pointer"
         >
           <Plus className="w-4 h-4" />
-          Add
+          {t("button.add")}
         </button>
       </div>
 
@@ -153,14 +155,14 @@ function LinkEditor({ title, links, locales, onChange, labelValues, onLabelChang
           >
             <div className="lg:col-span-2">
               <TextField
-                label="Key"
+                label={t("apanel.footerWeb.label.key")}
                 value={link.key}
                 onChange={(value) => updateLink(index, "key", value)}
               />
             </div>
             <div className="lg:col-span-4">
               <TextField
-                label="URL"
+                label={t("apanel.footerWeb.label.url")}
                 value={link.url}
                 onChange={(value) => updateLink(index, "url", value)}
               />
@@ -180,7 +182,7 @@ function LinkEditor({ title, links, locales, onChange, labelValues, onLabelChang
                 type="button"
                 onClick={() => onDeleteClick(index)}
                 className="w-full h-10 rounded-xl border border-rose-100 text-rose-600 hover:bg-rose-50 cursor-pointer inline-flex items-center justify-center"
-                aria-label="Remove link"
+                aria-label={t("apanel.footerWeb.arialabel.removeLink")}
               >
                 <Trash2 className="w-4 h-4" />
               </button>
@@ -193,6 +195,7 @@ function LinkEditor({ title, links, locales, onChange, labelValues, onLabelChang
 }
 
 export default function ApanelFooterWeb() {
+  const { t } = useLanguage();
   const localeCodes = useApanelLocaleCodes();
   const primaryLocale = localeCodes[0] || "";
   const [footer, setFooter] = useState(() => createEmptyFooter([]));
@@ -371,18 +374,18 @@ export default function ApanelFooterWeb() {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <TextField
-            label="Phone"
+            label={t("apanel.footerWeb.label.phone")}
             value={footer.phone}
             onChange={(value) => updateRoot("phone", value)}
           />
           <TextField
-            label="Email"
+            label={t("apanel.footerWeb.label.email")}
             type="email"
             value={footer.email}
             onChange={(value) => updateRoot("email", value)}
           />
           <TextField
-            label="Copyright year"
+            label={t("apanel.footerWeb.label.copyrightYear")}
             type="number"
             value={footer.copyright_year}
             onChange={(value) =>
@@ -438,7 +441,7 @@ export default function ApanelFooterWeb() {
           </div>
           <div className="w-full sm:w-64">
             <TextField
-              label="Apply button URL"
+              label={t("apanel.footerWeb.label.applyButtonUrl")}
               value={footer.admissions_apply_url}
               onChange={(value) => updateRoot("admissions_apply_url", value)}
             />
@@ -461,7 +464,7 @@ export default function ApanelFooterWeb() {
       </section>
 
       <LinkEditor
-        title="Primary Link Group"
+        title={t("apanel.footerWeb.title.primaryLinkGroup")}
         links={footer.useful_links}
         locales={localeCodes}
         onChange={(value) => updateRoot("useful_links", value)}
@@ -473,7 +476,7 @@ export default function ApanelFooterWeb() {
       />
 
       <LinkEditor
-        title="Faculty Links"
+        title={t("apanel.footerWeb.title.facultyLinks")}
         links={footer.faculty_links}
         locales={localeCodes}
         onChange={(value) => updateRoot("faculty_links", value)}
@@ -527,7 +530,7 @@ export default function ApanelFooterWeb() {
                   type="button"
                   onClick={() => handleSocialDeleteClick(index, social)}
                   className="w-full h-10 rounded-xl border border-rose-100 text-rose-600 hover:bg-rose-50 cursor-pointer inline-flex items-center justify-center"
-                  aria-label="Remove social link"
+                  aria-label={t("apanel.footerWeb.arialabel.removeSocialLink")}
                 >
                   <Trash2 className="w-4 h-4" />
                 </button>

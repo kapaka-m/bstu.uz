@@ -3,6 +3,7 @@ import { Plus, Save, Trash2 } from "lucide-react";
 import { apanelService } from "../../../services/apanelService";
 import ConfirmDialog from "../components/ConfirmDialog";
 import { useApanelLocaleOptions } from "../utils/locales";
+import { useLanguage } from "../../../context/LanguageContext";
 
 const defaultContent = {
   tag: "",
@@ -85,6 +86,7 @@ function SelectField({ label, value, options, onChange }) {
 }
 
 export default function ApanelContactPage() {
+  const { t } = useLanguage();
   const localeOptions = useApanelLocaleOptions();
   const localeCodes = useMemo(
     () => localeOptions.map((locale) => locale.code),
@@ -242,7 +244,7 @@ export default function ApanelContactPage() {
         ),
       });
       await loadContactPage();
-      setSuccess("Contact page content saved successfully.");
+      setSuccess(t("apanel.contactPage.saved"));
     } catch (err) {
       setError(errorMessage(err, "Failed to save Contact page content."));
     } finally {
@@ -251,7 +253,7 @@ export default function ApanelContactPage() {
   };
 
   if (loading) {
-    return <div className="p-8 text-sm font-bold text-gray-500">Loading Contact page CMS...</div>;
+    return <div className="p-8 text-sm font-bold text-gray-500">{t("apanel.contactPage.loading")}</div>;
   }
 
   const renderCards = () => (
@@ -259,14 +261,14 @@ export default function ApanelContactPage() {
       {(content.cards || []).map((card, index) => (
         <div key={index} className="rounded-2xl border border-gray-100 bg-gray-50 p-4">
           <div className="mb-4 flex items-center justify-between">
-            <h3 className="text-sm font-extrabold text-navy">Contact Card #{index + 1}</h3>
+            <h3 className="text-sm font-extrabold text-navy">{t("apanel.contactPage.contactCard")} #{index + 1}</h3>
             <button type="button" onClick={() => requestRemove("cards", index, `Contact Card #${index + 1}`)} className="text-rose-600">
               <Trash2 className="h-4 w-4" />
             </button>
           </div>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <SelectField
-              label="Kind"
+              label={t("apanel.contactPage.label.kind")}
               value={card.kind}
               options={[
                 { value: "address", label: "Address" },
@@ -276,9 +278,9 @@ export default function ApanelContactPage() {
               ]}
               onChange={(value) => updateArrayItem("cards", index, "kind", value)}
             />
-            <Field label="Title" value={card.title} onChange={(value) => updateArrayItem("cards", index, "title", value)} />
+            <Field label={t("apanel.contactPage.label.title")} value={card.title} onChange={(value) => updateArrayItem("cards", index, "title", value)} />
             <Field
-              label="Details, one per line"
+              label={t("apanel.contactPage.label.detailsOnePerLine")}
               value={(card.details || []).join("\n")}
               multiline
               onChange={(value) => updateArrayItem("cards", index, "details", value.split("\n").map((line) => line.trim()).filter(Boolean))}
@@ -302,14 +304,14 @@ export default function ApanelContactPage() {
       {(content.faq?.items || []).map((item, index) => (
         <div key={index} className="rounded-2xl border border-gray-100 bg-gray-50 p-4">
           <div className="mb-4 flex items-center justify-between">
-            <h3 className="text-sm font-extrabold text-navy">FAQ #{index + 1}</h3>
+            <h3 className="text-sm font-extrabold text-navy">{t("apanel.contactPage.faqItem")} #{index + 1}</h3>
             <button type="button" onClick={() => requestRemove("faq.items", index, `FAQ #${index + 1}`)} className="text-rose-600">
               <Trash2 className="h-4 w-4" />
             </button>
           </div>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <Field label="Question" value={item.question} onChange={(value) => updateArrayItem("faq.items", index, "question", value)} />
-            <Field label="Answer" value={item.answer} multiline onChange={(value) => updateArrayItem("faq.items", index, "answer", value)} />
+            <Field label={t("apanel.contactPage.label.question")} value={item.question} onChange={(value) => updateArrayItem("faq.items", index, "question", value)} />
+            <Field label={t("apanel.contactPage.label.answer")} value={item.answer} multiline onChange={(value) => updateArrayItem("faq.items", index, "answer", value)} />
           </div>
         </div>
       ))}
@@ -401,7 +403,7 @@ export default function ApanelContactPage() {
           {activeSection === "controls" && (
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1fr_auto]">
               <Field
-                label="Map Embed URL"
+                label={t("apanel.contactPage.label.mapEmbedUrl")}
                 value={form.map_embed_url}
                 onChange={(value) => updateField("map_embed_url", value)}
               />
@@ -422,17 +424,17 @@ export default function ApanelContactPage() {
           {activeSection === "content" && (
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
               <Field
-                label="Tag"
+                label={t("apanel.contactPage.label.tag")}
                 value={content.tag}
                 onChange={(value) => updateContent("tag", value)}
               />
               <Field
-                label="Title"
+                label={t("apanel.contactPage.label.title")}
                 value={content.title}
                 onChange={(value) => updateContent("title", value)}
               />
               <Field
-                label="Map Title"
+                label={t("apanel.contactPage.label.mapTitle")}
                 value={content.mapTitle}
                 onChange={(value) => updateContent("mapTitle", value)}
               />
@@ -459,12 +461,12 @@ export default function ApanelContactPage() {
             <div className="space-y-6">
               <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
                 <Field
-                  label="FAQ Tag"
+                  label={t("apanel.contactPage.label.faqTag")}
                   value={content.faq?.tag}
                   onChange={(value) => updateContent("faq.tag", value)}
                 />
                 <Field
-                  label="FAQ Title"
+                  label={t("apanel.contactPage.label.faqTitle")}
                   value={content.faq?.title}
                   onChange={(value) => updateContent("faq.title", value)}
                 />

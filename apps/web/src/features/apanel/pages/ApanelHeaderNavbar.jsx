@@ -4,6 +4,7 @@ import FormError from "../../../components/common/FormError";
 import { apanelService } from "../../../services/apanelService";
 import ConfirmDialog from "../components/ConfirmDialog";
 import { useApanelLocaleOptions } from "../utils/locales";
+import { useLanguage } from "../../../context/LanguageContext";
 
 const itemTypes = [
   { value: "link", label: "Direct Link" },
@@ -136,6 +137,7 @@ function errorMessage(err, fallback) {
 }
 
 export default function ApanelHeaderNavbar() {
+  const { t } = useLanguage();
   const localeOptions = useApanelLocaleOptions();
   const localeCodes = useMemo(
     () => localeOptions.map((locale) => locale.code),
@@ -246,7 +248,7 @@ export default function ApanelHeaderNavbar() {
       };
       await apanelService.updateHeaderNavbar(payload);
       await loadNavbar();
-      setSuccess("Header navbar saved successfully.");
+      setSuccess(t("apanel.headerNavbar.saved"));
     } catch (err) {
       setError(errorMessage(err, "Failed to save header navbar."));
     } finally {
@@ -334,7 +336,7 @@ export default function ApanelHeaderNavbar() {
                 <input
                   value={item.icon || ""}
                   onChange={(event) => updateItem(path, "icon", event.target.value)}
-                  placeholder="login, apply"
+                  placeholder={t("apanel.headerNavbar.keywordsPlaceholder")}
                   className="mt-2 w-full rounded-xl border border-gray-200 px-3 py-2 text-sm font-semibold text-gray-700 outline-none focus:border-primary"
                 />
               </label>
@@ -370,7 +372,7 @@ export default function ApanelHeaderNavbar() {
   );
 
   if (loading) {
-    return <div className="p-8 text-sm font-bold text-gray-500">Loading Header Navbar CMS...</div>;
+    return <div className="p-8 text-sm font-bold text-gray-500">{t("apanel.headerNavbar.loading")}</div>;
   }
 
   return (

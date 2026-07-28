@@ -15,6 +15,7 @@ import FormError from "../../../components/common/FormError";
 import { apanelService } from "../../../services/apanelService";
 import ConfirmDialog from "../components/ConfirmDialog";
 import { useApanelLocaleCodes } from "../utils/locales";
+import { useLanguage } from "../../../context/LanguageContext";
 
 const colors = ["cyan", "teal", "red", "indigo", "orange", "pink", "blue", "emerald", "violet", "amber", "rose"];
 const icons = [
@@ -134,6 +135,7 @@ function toggleClass() {
 }
 
 export default function ApanelInteractiveServices() {
+  const { t } = useLanguage();
   const localeCodes = useApanelLocaleCodes();
   const primaryLocale = localeCodes[0] || "";
   const [activeTab, setActiveTab] = useState("items");
@@ -363,7 +365,7 @@ export default function ApanelInteractiveServices() {
                   value={search}
                   onChange={(event) => setSearch(event.target.value)}
                   className="w-full rounded-xl border border-gray-200 bg-gray-50 py-2.5 pl-10 pr-3 text-sm font-semibold focus:border-primary focus:outline-none"
-                  placeholder="Search services..."
+                  placeholder={t("apanel.interactiveServices.searchPlaceholder")}
                 />
               </div>
               <button
@@ -384,11 +386,11 @@ export default function ApanelInteractiveServices() {
                 <table className="w-full min-w-215 text-left text-sm">
                   <thead className="bg-gray-50 text-xs uppercase tracking-wide text-gray-500">
                     <tr>
-                      <th className="px-4 py-3">Service</th>
+                      <th className="px-4 py-3">{t("apanel.interactiveServices.service")}</th>
                       <th className="px-4 py-3">URL</th>
-                      <th className="px-4 py-3">Home</th>
-                      <th className="px-4 py-3">Status</th>
-                      <th className="px-4 py-3 text-right">Actions</th>
+                      <th className="px-4 py-3">{t("apanel.interactiveServices.home")}</th>
+                      <th className="px-4 py-3">{t("apanel.interactiveServices.status")}</th>
+                      <th className="px-4 py-3 text-right">{t("apanel.interactiveServices.actions")}</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-100">
@@ -776,7 +778,7 @@ export default function ApanelInteractiveServices() {
       )}
       <ConfirmDialog
         isOpen={Boolean(pendingDelete)}
-        title="Delete service?"
+        title={t("apanel.interactiveServices.title.deleteService")}
         message={`This will permanently delete ${pendingDelete?.slug || "this service"}. This action cannot be undone.`}
         confirmText={deletingId ? "Deleting..." : "Delete"}
         cancelText="Cancel"

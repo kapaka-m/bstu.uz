@@ -20,6 +20,7 @@ import { apanelService } from "../../../services/apanelService";
 import { publicAssetUrl } from "../../../lib/api";
 import ConfirmDialog from "../components/ConfirmDialog";
 import { useApanelLocaleCodes } from "../utils/locales";
+import { useLanguage } from "../../../context/LanguageContext";
 
 const emptyTranslation = { title: "", category_label: "", summary: "", content: "" };
 const emptyForm = (localeCodes) => ({
@@ -139,6 +140,7 @@ function toPayload(form, primaryLocale, localeCodes) {
 }
 
 export default function ApanelAnnouncements() {
+  const { t } = useLanguage();
   const localeCodes = useApanelLocaleCodes();
   const primaryLocale = localeCodes[0] || "";
   const [activeTab, setActiveTab] = useState("items");
@@ -387,7 +389,7 @@ export default function ApanelAnnouncements() {
                 name="apanel_announcements_search"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search announcements..."
+                placeholder={t("apanel.announcements.searchPlaceholder")}
                 className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-gray-100 text-sm focus:outline-none focus:border-primary"
               />
             </div>
@@ -510,7 +512,7 @@ export default function ApanelAnnouncements() {
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
             <label className="space-y-1">
-              <span className="text-xs font-extrabold text-gray-500">Slug</span>
+              <span className="text-xs font-extrabold text-gray-500">{t("apanel.announcements.slug")}</span>
               <input
                 value={form.slug}
                 onChange={(e) =>
@@ -553,8 +555,8 @@ export default function ApanelAnnouncements() {
                 }
                 className="w-full border border-gray-100 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-primary"
               >
-                <option value="normal">Normal</option>
-                <option value="high">Important</option>
+                <option value="normal">{t("apanel.announcements.normal")}</option>
+                <option value="high">{t("apanel.announcements.important")}</option>
               </select>
             </label>
             <label className="space-y-1">
@@ -618,7 +620,7 @@ export default function ApanelAnnouncements() {
                 onChange={(e) =>
                   setForm((current) => ({ ...current, image: e.target.value }))
                 }
-                placeholder="media/announcement.jpg"
+                placeholder={t("apanel.announcements.imagePlaceholder")}
                 className="w-full border border-gray-100 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-primary"
               />
             </label>
@@ -748,7 +750,7 @@ export default function ApanelAnnouncements() {
           onSubmit={saveSettings}
           className="bg-white border border-gray-100 rounded-2xl shadow-xs p-6 space-y-6"
         >
-          <h2 className="font-black text-navy">Announcement Settings</h2>
+          <h2 className="font-black text-navy">{t("apanel.announcements.settingsTitle")}</h2>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             {["home_limit", "recent_limit", "important_limit"].map((key) => (
               <label key={key} className="space-y-1">
@@ -784,8 +786,8 @@ export default function ApanelAnnouncements() {
                 }
                 className="w-full border border-gray-100 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-primary"
               >
-                <option value="1">Active</option>
-                <option value="0">Hidden</option>
+                <option value="1">{t("status.active")}</option>
+                <option value="0">{t("status.hidden")}</option>
               </select>
             </label>
           </div>
@@ -835,7 +837,7 @@ export default function ApanelAnnouncements() {
       )}
       <ConfirmDialog
         isOpen={Boolean(pendingDelete)}
-        title="Delete announcement?"
+        title={t("apanel.announcements.title.deleteAnnouncement")}
         message={`This will permanently delete ${pendingDelete?.slug || "this announcement"}. This action cannot be undone.`}
         confirmText={deletingId ? "Deleting..." : "Delete"}
         cancelText="Cancel"

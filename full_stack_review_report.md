@@ -915,6 +915,79 @@
 
 ---
 
+## إكمال React Apanel Pages 2026-07-28
+
+تاريخ المراجعة: 2026-07-28
+
+## ملفات إكمال React Apanel Pages 2026-07-28 التي تمت مراجعتها
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\pages`
+- `ApanelAboutPage.jsx`
+- `ApanelAdministration.jsx`
+- `ApanelAnnouncements.jsx`
+- `ApanelApplicationDetail.jsx`
+- `ApanelApplicationsWorkflow.jsx`
+- `ApanelBlog.jsx`
+- `ApanelCenters.jsx`
+- `ApanelContactManagement.jsx`
+- `ApanelContactPage.jsx`
+- `ApanelCrud.jsx`
+- `ApanelDashboard.jsx`
+- `ApanelFooterWeb.jsx`
+- `ApanelGreenCampus.jsx`
+- `ApanelHeaderNavbar.jsx`
+- `ApanelInteractiveServices.jsx`
+- `ApanelLocales.jsx`
+- `ApanelLogin.jsx`
+- `ApanelMedia.jsx`
+- `ApanelNewsEvents.jsx`
+- `ApanelNewsletterSubscriptions.jsx`
+- `ApanelTranslations.jsx`
+- `ApanelVideoBdtu.jsx`
+
+## ما تم العثور عليه في إكمال React Apanel Pages 2026-07-28
+
+- بعد المراجعة الجزئية السابقة، بقيت labels/placeholders/toasts ثابتة داخل صفحات apanel المتخصصة.
+- المتبقي كان في props مثل `label`, `title`, `aria-label`, و `placeholder`، إضافة إلى بعض نصوص الجداول والأزرار ورسائل الخطأ.
+
+## تغييرات إكمال React Apanel Pages 2026-07-28
+
+- تم تحويل النصوص المتبقية في صفحات apanel إلى مفاتيح ترجمة عبر `useLanguage().t`.
+- تم إنشاء `apps\api\database\data\apanel_pages_ui_translations.json` ويحتوي 206 مفاتيح ترجمة لواجهة صفحات apanel المتخصصة.
+- تم تحديث `StudentSystemTranslationSeeder.php` ليقرأ `apanel_pages_ui_translations.json` بالإضافة إلى `apanel_crud_ui_translations.json`.
+- تم الحفاظ على تعريفات الحقول والمسارات التقنية داخل React لأنها implementation details، بينما النصوص الظاهرة للمستخدم أصبحت من جدول الترجمات.
+
+## ربط إكمال React Apanel Pages 2026-07-28 بالبيانات
+
+- نصوص واجهة apanel: `translation_keys` و `translation_values`.
+- اللغات: `locales`.
+- محتوى CMS المدار في الصفحات: جداول المحتوى القائمة مثل `about_pages`, `announcements`, `blogs`, `news`, `videos`, `university_centers`, `green_campus_articles`, `green_campus_stats`, `web_footers`, `menus`, `media`, `newsletter_subscriptions`, و `settings`.
+- endpoints العامة والإدارية المستخدمة: `GET /api/v1/translations`, `GET /api/v1/locales`, `GET /api/v1/settings`, `GET/POST/PUT/DELETE /api/v1/apanel/{resource}`, و endpoints `/api/v1/apanel/cms/*`.
+- الإدارة من `/apanel/`: صفحات CMS الحالية داخل `/apanel`, مع إدارة النصوص من `/apanel/translations`, `/apanel/translation-keys`, و `/apanel/translation-values`.
+
+## المتبقي بعد إكمال React Apanel Pages 2026-07-28
+
+- لا توجد نتائج في الفحص الموسع للنصوص الثابتة الظاهرة داخل `apps\web\src\features\apanel\pages`.
+- لا توجد hardcoded fallback translations مثل `t("key", "fallback")` داخل النطاق.
+- لا توجد قوائم لغات ثابتة أو روابط API/storage مكررة داخل النطاق حسب الفحص.
+- قد تبقى أسماء حقول تقنية أو route/resource names داخل الكود، وهذا مسموح لأنه implementation logic وليس محتوى CMS قابل للإدارة.
+
+## تحقق إكمال React Apanel Pages 2026-07-28
+
+- فحص `setError("...")`, `setSuccess("...")`, `alert("...")`, `placeholder="..."`, `label="..."`, `title="..."`, `aria-label="..."`, والنصوص المباشرة بين الوسوم: لا توجد نتائج داخل النطاق.
+- فحص `t("key", "fallback")`, `fallbackTranslations`, `localhost`, `127.0.0.1`, `VITE_API_BASE_URL`, `/storage/`, وقوائم اللغات الثابتة: لا توجد نتائج داخل النطاق.
+- فحص مفاتيح `t("...")`: كل مفاتيح صفحات apanel موجودة في seeder أو ملفات JSON seed.
+- `npm.cmd run lint -- --quiet`: نجح.
+- `npm.cmd run build`: نجح.
+- `php-local.bat -l database\seeders\StudentSystemTranslationSeeder.php`: نجح بدون أخطاء syntax.
+- `php-local.bat artisan db:seed --class=StudentSystemTranslationSeeder`: نجح.
+- `php-local.bat artisan route:list --path=api/v1 --except-vendor`: نجح وأظهر 170 route.
+- `php-local.bat artisan test`: نجح، 4 tests passed و 7 assertions.
+- `php-local.bat artisan optimize:clear`: نجح.
+- فحص عناوين التقرير: لا توجد عناوين Markdown مكررة.
+
+---
+
 ## مراجعة React Apanel Pages Partial 2026-07-28
 
 تاريخ المراجعة: 2026-07-28

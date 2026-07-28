@@ -1,0 +1,1238 @@
+{
+  "apanel.aboutPage.statValidation": {
+    "en": "Please fill Number and Label before adding the stat item.",
+    "uz": "Please fill Number and Label before adding the stat item.",
+    "ru": "Please fill Number and Label before adding the stat item.",
+    "ar": "Please fill Number and Label before adding the stat item."
+  },
+  "apanel.aboutPage.facultyValidation": {
+    "en": "Please fill ID, Name, and Link before adding the faculty item.",
+    "uz": "Please fill ID, Name, and Link before adding the faculty item.",
+    "ru": "Please fill ID, Name, and Link before adding the faculty item.",
+    "ar": "Please fill ID, Name, and Link before adding the faculty item."
+  },
+  "apanel.aboutPage.title": {
+    "en": "About Page CMS",
+    "uz": "About Page CMS",
+    "ru": "About Page CMS",
+    "ar": "About Page CMS"
+  },
+  "apanel.aboutPage.addStat": {
+    "en": "Add Stat",
+    "uz": "Add Stat",
+    "ru": "Add Stat",
+    "ar": "Add Stat"
+  },
+  "apanel.aboutPage.addFaculty": {
+    "en": "Add Faculty",
+    "uz": "Add Faculty",
+    "ru": "Add Faculty",
+    "ar": "Add Faculty"
+  },
+  "apanel.contactPage.saved": {
+    "en": "Contact page content saved successfully.",
+    "uz": "Contact page content saved successfully.",
+    "ru": "Contact page content saved successfully.",
+    "ar": "Contact page content saved successfully."
+  },
+  "apanel.contactPage.loading": {
+    "en": "Loading Contact page CMS...",
+    "uz": "Loading Contact page CMS...",
+    "ru": "Loading Contact page CMS...",
+    "ar": "Loading Contact page CMS..."
+  },
+  "apanel.contactPage.contactCard": {
+    "en": "Contact Card",
+    "uz": "Contact Card",
+    "ru": "Contact Card",
+    "ar": "Contact Card"
+  },
+  "apanel.contactPage.faqItem": {
+    "en": "FAQ",
+    "uz": "FAQ",
+    "ru": "FAQ",
+    "ar": "FAQ"
+  },
+  "apanel.contactManagement.updated": {
+    "en": "Contact message updated successfully.",
+    "uz": "Contact message updated successfully.",
+    "ru": "Contact message updated successfully.",
+    "ar": "Contact message updated successfully."
+  },
+  "apanel.contactManagement.deleted": {
+    "en": "Contact message deleted successfully.",
+    "uz": "Contact message deleted successfully.",
+    "ru": "Contact message deleted successfully.",
+    "ar": "Contact message deleted successfully."
+  },
+  "apanel.contactManagement.searchPlaceholder": {
+    "en": "Search messages...",
+    "uz": "Search messages...",
+    "ru": "Search messages...",
+    "ar": "Search messages..."
+  },
+  "apanel.contactManagement.replyPlaceholder": {
+    "en": "Write the reply that should be recorded for this inquiry...",
+    "uz": "Write the reply that should be recorded for this inquiry...",
+    "ru": "Write the reply that should be recorded for this inquiry...",
+    "ar": "Write the reply that should be recorded for this inquiry..."
+  },
+  "apanel.headerNavbar.saved": {
+    "en": "Header navbar saved successfully.",
+    "uz": "Header navbar saved successfully.",
+    "ru": "Header navbar saved successfully.",
+    "ar": "Header navbar saved successfully."
+  },
+  "apanel.headerNavbar.keywordsPlaceholder": {
+    "en": "login, apply",
+    "uz": "login, apply",
+    "ru": "login, apply",
+    "ar": "login, apply"
+  },
+  "apanel.headerNavbar.loading": {
+    "en": "Loading Header Navbar CMS...",
+    "uz": "Loading Header Navbar CMS...",
+    "ru": "Loading Header Navbar CMS...",
+    "ar": "Loading Header Navbar CMS..."
+  },
+  "apanel.interactiveServices.searchPlaceholder": {
+    "en": "Search services...",
+    "uz": "Search services...",
+    "ru": "Search services...",
+    "ar": "Search services..."
+  },
+  "apanel.interactiveServices.service": {
+    "en": "Service",
+    "uz": "Service",
+    "ru": "Service",
+    "ar": "Service"
+  },
+  "apanel.interactiveServices.home": {
+    "en": "Home",
+    "uz": "Home",
+    "ru": "Home",
+    "ar": "Home"
+  },
+  "apanel.interactiveServices.status": {
+    "en": "Status",
+    "uz": "Status",
+    "ru": "Status",
+    "ar": "Status"
+  },
+  "apanel.interactiveServices.actions": {
+    "en": "Actions",
+    "uz": "Actions",
+    "ru": "Actions",
+    "ar": "Actions"
+  },
+  "apanel.administration.title": {
+    "en": "Administration CMS",
+    "uz": "Administration CMS",
+    "ru": "Administration CMS",
+    "ar": "Administration CMS"
+  },
+  "apanel.administration.rector": {
+    "en": "Rector",
+    "uz": "Rector",
+    "ru": "Rector",
+    "ar": "Rector"
+  },
+  "status.active": {
+    "en": "Active",
+    "uz": "Active",
+    "ru": "Active",
+    "ar": "Active"
+  },
+  "apanel.greenCampus.initiatives": {
+    "en": "Green Campus Initiatives",
+    "uz": "Green Campus Initiatives",
+    "ru": "Green Campus Initiatives",
+    "ar": "Green Campus Initiatives"
+  },
+  "apanel.greenCampus.sustainabilityStats": {
+    "en": "Sustainability Stats",
+    "uz": "Sustainability Stats",
+    "ru": "Sustainability Stats",
+    "ar": "Sustainability Stats"
+  },
+  "apanel.greenCampus.settingsTitle": {
+    "en": "Green Campus Settings",
+    "uz": "Green Campus Settings",
+    "ru": "Green Campus Settings",
+    "ar": "Green Campus Settings"
+  },
+  "apanel.greenCampus.settingsSubtitle": {
+    "en": "Control all visible labels for the public section, listing page, and detail page.",
+    "uz": "Control all visible labels for the public section, listing page, and detail page.",
+    "ru": "Control all visible labels for the public section, listing page, and detail page.",
+    "ar": "Control all visible labels for the public section, listing page, and detail page."
+  },
+  "apanel.greenCampus.categoryLabels": {
+    "en": "Category labels",
+    "uz": "Category labels",
+    "ru": "Category labels",
+    "ar": "Category labels"
+  },
+  "apanel.greenCampus.gallery": {
+    "en": "Gallery",
+    "uz": "Gallery",
+    "ru": "Gallery",
+    "ar": "Gallery"
+  },
+  "apanel.centers.sort": {
+    "en": "Sort",
+    "uz": "Sort",
+    "ru": "Sort",
+    "ar": "Sort"
+  },
+  "apanel.centers.name": {
+    "en": "Name",
+    "uz": "Name",
+    "ru": "Name",
+    "ar": "Name"
+  },
+  "apanel.centers.slug": {
+    "en": "Slug",
+    "uz": "Slug",
+    "ru": "Slug",
+    "ar": "Slug"
+  },
+  "apanel.centers.headStaff": {
+    "en": "Head / Staff",
+    "uz": "Head / Staff",
+    "ru": "Head / Staff",
+    "ar": "Head / Staff"
+  },
+  "apanel.centers.status": {
+    "en": "Status",
+    "uz": "Status",
+    "ru": "Status",
+    "ar": "Status"
+  },
+  "apanel.centers.actions": {
+    "en": "Actions",
+    "uz": "Actions",
+    "ru": "Actions",
+    "ar": "Actions"
+  },
+  "status.draft": {
+    "en": "Draft",
+    "uz": "Draft",
+    "ru": "Draft",
+    "ar": "Draft"
+  },
+  "apanel.centers.bannerProfileImage": {
+    "en": "Banner / Profile Image",
+    "uz": "Banner / Profile Image",
+    "ru": "Banner / Profile Image",
+    "ar": "Banner / Profile Image"
+  },
+  "apanel.centers.clickUploadPhoto": {
+    "en": "Click to upload photo",
+    "uz": "Click to upload photo",
+    "ru": "Click to upload photo",
+    "ar": "Click to upload photo"
+  },
+  "apanel.centers.updated": {
+    "en": "Centre / Department updated successfully!",
+    "uz": "Centre / Department updated successfully!",
+    "ru": "Centre / Department updated successfully!",
+    "ar": "Centre / Department updated successfully!"
+  },
+  "apanel.centers.created": {
+    "en": "Centre / Department created successfully!",
+    "uz": "Centre / Department created successfully!",
+    "ru": "Centre / Department created successfully!",
+    "ar": "Centre / Department created successfully!"
+  },
+  "apanel.centers.saveError": {
+    "en": "Error occurred while saving.",
+    "uz": "Error occurred while saving.",
+    "ru": "Error occurred while saving.",
+    "ar": "Error occurred while saving."
+  },
+  "apanel.centers.settingsUpdated": {
+    "en": "Settings updated successfully!",
+    "uz": "Settings updated successfully!",
+    "ru": "Settings updated successfully!",
+    "ar": "Settings updated successfully!"
+  },
+  "apanel.centers.settingsSaveError": {
+    "en": "Error occurred while saving settings.",
+    "uz": "Error occurred while saving settings.",
+    "ru": "Error occurred while saving settings.",
+    "ar": "Error occurred while saving settings."
+  },
+  "apanel.centers.deleted": {
+    "en": "Centre / Department deleted successfully.",
+    "uz": "Centre / Department deleted successfully.",
+    "ru": "Centre / Department deleted successfully.",
+    "ar": "Centre / Department deleted successfully."
+  },
+  "apanel.centers.deleteError": {
+    "en": "Error occurred while deleting.",
+    "uz": "Error occurred while deleting.",
+    "ru": "Error occurred while deleting.",
+    "ar": "Error occurred while deleting."
+  },
+  "apanel.newsEvents.iconPlaceholder": {
+    "en": "newspaper, calendar-days, megaphone",
+    "uz": "newspaper, calendar-days, megaphone",
+    "ru": "newspaper, calendar-days, megaphone",
+    "ar": "newspaper, calendar-days, megaphone"
+  },
+  "apanel.newsEvents.bodyPlaceholder": {
+    "en": "Separate paragraphs with a blank line.",
+    "uz": "Separate paragraphs with a blank line.",
+    "ru": "Separate paragraphs with a blank line.",
+    "ar": "Separate paragraphs with a blank line."
+  },
+  "apanel.newsEvents.searchPlaceholder": {
+    "en": "Search title, slug, category, or content",
+    "uz": "Search title, slug, category, or content",
+    "ru": "Search title, slug, category, or content",
+    "ar": "Search title, slug, category, or content"
+  },
+  "status.inactive": {
+    "en": "Inactive",
+    "uz": "Inactive",
+    "ru": "Inactive",
+    "ar": "Inactive"
+  },
+  "apanel.newsEvents.news": {
+    "en": "News",
+    "uz": "News",
+    "ru": "News",
+    "ar": "News"
+  },
+  "apanel.newsEvents.events": {
+    "en": "Events",
+    "uz": "Events",
+    "ru": "Events",
+    "ar": "Events"
+  },
+  "status.published": {
+    "en": "Published",
+    "uz": "Published",
+    "ru": "Published",
+    "ar": "Published"
+  },
+  "status.hidden": {
+    "en": "Hidden",
+    "uz": "Hidden",
+    "ru": "Hidden",
+    "ar": "Hidden"
+  },
+  "apanel.newsEvents.newsEvent": {
+    "en": "News/Event",
+    "uz": "News/Event",
+    "ru": "News/Event",
+    "ar": "News/Event"
+  },
+  "apanel.newsEvents.category": {
+    "en": "Category",
+    "uz": "Category",
+    "ru": "Category",
+    "ar": "Category"
+  },
+  "apanel.newsEvents.date": {
+    "en": "Date",
+    "uz": "Date",
+    "ru": "Date",
+    "ar": "Date"
+  },
+  "apanel.newsEvents.status": {
+    "en": "Status",
+    "uz": "Status",
+    "ru": "Status",
+    "ar": "Status"
+  },
+  "apanel.newsEvents.views": {
+    "en": "Views",
+    "uz": "Views",
+    "ru": "Views",
+    "ar": "Views"
+  },
+  "apanel.newsEvents.actions": {
+    "en": "Actions",
+    "uz": "Actions",
+    "ru": "Actions",
+    "ar": "Actions"
+  },
+  "apanel.blog.iconPlaceholder": {
+    "en": "book-open, pen-line, newspaper",
+    "uz": "book-open, pen-line, newspaper",
+    "ru": "book-open, pen-line, newspaper",
+    "ar": "book-open, pen-line, newspaper"
+  },
+  "apanel.blog.authorPlaceholder": {
+    "en": "Author name",
+    "uz": "Author name",
+    "ru": "Author name",
+    "ar": "Author name"
+  },
+  "apanel.blog.authorImagePlaceholder": {
+    "en": "media/uploads/author-image.jpg",
+    "uz": "media/uploads/author-image.jpg",
+    "ru": "media/uploads/author-image.jpg",
+    "ar": "media/uploads/author-image.jpg"
+  },
+  "apanel.blog.bodyPlaceholder": {
+    "en": "Separate paragraphs with a blank line.",
+    "uz": "Separate paragraphs with a blank line.",
+    "ru": "Separate paragraphs with a blank line.",
+    "ar": "Separate paragraphs with a blank line."
+  },
+  "apanel.blog.searchPlaceholder": {
+    "en": "Search title, slug, category, or content",
+    "uz": "Search title, slug, category, or content",
+    "ru": "Search title, slug, category, or content",
+    "ar": "Search title, slug, category, or content"
+  },
+  "apanel.blog.blogPost": {
+    "en": "Blog Post",
+    "uz": "Blog Post",
+    "ru": "Blog Post",
+    "ar": "Blog Post"
+  },
+  "apanel.blog.category": {
+    "en": "Category",
+    "uz": "Category",
+    "ru": "Category",
+    "ar": "Category"
+  },
+  "apanel.blog.date": {
+    "en": "Date",
+    "uz": "Date",
+    "ru": "Date",
+    "ar": "Date"
+  },
+  "apanel.blog.status": {
+    "en": "Status",
+    "uz": "Status",
+    "ru": "Status",
+    "ar": "Status"
+  },
+  "apanel.blog.views": {
+    "en": "Views",
+    "uz": "Views",
+    "ru": "Views",
+    "ar": "Views"
+  },
+  "apanel.blog.actions": {
+    "en": "Actions",
+    "uz": "Actions",
+    "ru": "Actions",
+    "ar": "Actions"
+  },
+  "apanel.announcements.searchPlaceholder": {
+    "en": "Search announcements...",
+    "uz": "Search announcements...",
+    "ru": "Search announcements...",
+    "ar": "Search announcements..."
+  },
+  "apanel.announcements.imagePlaceholder": {
+    "en": "media/announcement.jpg",
+    "uz": "media/announcement.jpg",
+    "ru": "media/announcement.jpg",
+    "ar": "media/announcement.jpg"
+  },
+  "apanel.announcements.slug": {
+    "en": "Slug",
+    "uz": "Slug",
+    "ru": "Slug",
+    "ar": "Slug"
+  },
+  "apanel.announcements.normal": {
+    "en": "Normal",
+    "uz": "Normal",
+    "ru": "Normal",
+    "ar": "Normal"
+  },
+  "apanel.announcements.important": {
+    "en": "Important",
+    "uz": "Important",
+    "ru": "Important",
+    "ar": "Important"
+  },
+  "apanel.announcements.settingsTitle": {
+    "en": "Announcement Settings",
+    "uz": "Announcement Settings",
+    "ru": "Announcement Settings",
+    "ar": "Announcement Settings"
+  },
+  "apanel.videoBdtu.fileTooLarge": {
+    "en": "Video file is too large. Please upload a video up to 200 MB.",
+    "uz": "Video file is too large. Please upload a video up to 200 MB.",
+    "ru": "Video file is too large. Please upload a video up to 200 MB.",
+    "ar": "Video file is too large. Please upload a video up to 200 MB."
+  },
+  "apanel.videoBdtu.title": {
+    "en": "Video Gallery CMS",
+    "uz": "Video Gallery CMS",
+    "ru": "Video Gallery CMS",
+    "ar": "Video Gallery CMS"
+  },
+  "apanel.videoBdtu.homeLimit": {
+    "en": "Home limit",
+    "uz": "Home limit",
+    "ru": "Home limit",
+    "ar": "Home limit"
+  },
+  "apanel.videoBdtu.subscribers": {
+    "en": "Subscribers",
+    "uz": "Subscribers",
+    "ru": "Subscribers",
+    "ar": "Subscribers"
+  },
+  "apanel.videoBdtu.youtubeChannelUrl": {
+    "en": "YouTube channel URL",
+    "uz": "YouTube channel URL",
+    "ru": "YouTube channel URL",
+    "ar": "YouTube channel URL"
+  },
+  "apanel.videoBdtu.sourcePublishing": {
+    "en": "Video Source & Publishing",
+    "uz": "Video Source & Publishing",
+    "ru": "Video Source & Publishing",
+    "ar": "Video Source & Publishing"
+  },
+  "apanel.videoBdtu.slug": {
+    "en": "Slug",
+    "uz": "Slug",
+    "ru": "Slug",
+    "ar": "Slug"
+  },
+  "apanel.videoBdtu.videoType": {
+    "en": "Video type",
+    "uz": "Video type",
+    "ru": "Video type",
+    "ar": "Video type"
+  },
+  "apanel.videoBdtu.youtubeUrl": {
+    "en": "YouTube URL",
+    "uz": "YouTube URL",
+    "ru": "YouTube URL",
+    "ar": "YouTube URL"
+  },
+  "apanel.videoBdtu.uploadedVideo": {
+    "en": "Uploaded video",
+    "uz": "Uploaded video",
+    "ru": "Uploaded video",
+    "ar": "Uploaded video"
+  },
+  "apanel.videoBdtu.sortOrder": {
+    "en": "Sort order",
+    "uz": "Sort order",
+    "ru": "Sort order",
+    "ar": "Sort order"
+  },
+  "apanel.videoBdtu.videoUrlStoragePath": {
+    "en": "Video URL or storage path",
+    "uz": "Video URL or storage path",
+    "ru": "Video URL or storage path",
+    "ar": "Video URL or storage path"
+  },
+  "apanel.videoBdtu.thumbnailUrlStoragePath": {
+    "en": "Thumbnail URL or storage path",
+    "uz": "Thumbnail URL or storage path",
+    "ru": "Thumbnail URL or storage path",
+    "ar": "Thumbnail URL or storage path"
+  },
+  "apanel.videoBdtu.youtubeId": {
+    "en": "YouTube ID",
+    "uz": "YouTube ID",
+    "ru": "YouTube ID",
+    "ar": "YouTube ID"
+  },
+  "apanel.videoBdtu.youtubeIdPlaceholder": {
+    "en": "YouTube ID",
+    "uz": "YouTube ID",
+    "ru": "YouTube ID",
+    "ar": "YouTube ID"
+  },
+  "apanel.videoBdtu.duration": {
+    "en": "Duration",
+    "uz": "Duration",
+    "ru": "Duration",
+    "ar": "Duration"
+  },
+  "apanel.videoBdtu.viewsCount": {
+    "en": "Views count",
+    "uz": "Views count",
+    "ru": "Views count",
+    "ar": "Views count"
+  },
+  "apanel.videoBdtu.viewsPlaceholder": {
+    "en": "Views",
+    "uz": "Views",
+    "ru": "Views",
+    "ar": "Views"
+  },
+  "apanel.videoBdtu.likesCount": {
+    "en": "Likes count",
+    "uz": "Likes count",
+    "ru": "Likes count",
+    "ar": "Likes count"
+  },
+  "apanel.videoBdtu.likesPlaceholder": {
+    "en": "Likes",
+    "uz": "Likes",
+    "ru": "Likes",
+    "ar": "Likes"
+  },
+  "apanel.videoBdtu.publishDate": {
+    "en": "Publish date",
+    "uz": "Publish date",
+    "ru": "Publish date",
+    "ar": "Publish date"
+  },
+  "apanel.videoBdtu.videoTitleLabel": {
+    "en": "Title",
+    "uz": "Title",
+    "ru": "Title",
+    "ar": "Title"
+  },
+  "apanel.videoBdtu.videoTitlePlaceholder": {
+    "en": "Video title",
+    "uz": "Video title",
+    "ru": "Video title",
+    "ar": "Video title"
+  },
+  "apanel.videoBdtu.category": {
+    "en": "Category",
+    "uz": "Category",
+    "ru": "Category",
+    "ar": "Category"
+  },
+  "apanel.videoBdtu.categoryPlaceholder": {
+    "en": "Category",
+    "uz": "Category",
+    "ru": "Category",
+    "ar": "Category"
+  },
+  "apanel.videoBdtu.description": {
+    "en": "Description",
+    "uz": "Description",
+    "ru": "Description",
+    "ar": "Description"
+  },
+  "apanel.videoBdtu.descriptionPlaceholder": {
+    "en": "Video description",
+    "uz": "Video description",
+    "ru": "Video description",
+    "ar": "Video description"
+  },
+  "apanel.videoBdtu.video": {
+    "en": "Video",
+    "uz": "Video",
+    "ru": "Video",
+    "ar": "Video"
+  },
+  "apanel.videoBdtu.stats": {
+    "en": "Stats",
+    "uz": "Stats",
+    "ru": "Stats",
+    "ar": "Stats"
+  },
+  "apanel.videoBdtu.status": {
+    "en": "Status",
+    "uz": "Status",
+    "ru": "Status",
+    "ar": "Status"
+  },
+  "apanel.videoBdtu.actions": {
+    "en": "Actions",
+    "uz": "Actions",
+    "ru": "Actions",
+    "ar": "Actions"
+  },
+  "apanel.greenCampus.addImage": {
+    "en": "Add image",
+    "uz": "Add image",
+    "ru": "Add image",
+    "ar": "Add image"
+  },
+  "apanel.aboutPage.label.number": {
+    "en": "Number",
+    "uz": "Number",
+    "ru": "Number",
+    "ar": "Number"
+  },
+  "apanel.aboutPage.label.label": {
+    "en": "Label",
+    "uz": "Label",
+    "ru": "Label",
+    "ar": "Label"
+  },
+  "apanel.aboutPage.label.description": {
+    "en": "Description",
+    "uz": "Description",
+    "ru": "Description",
+    "ar": "Description"
+  },
+  "apanel.aboutPage.label.icon": {
+    "en": "Icon",
+    "uz": "Icon",
+    "ru": "Icon",
+    "ar": "Icon"
+  },
+  "apanel.aboutPage.label.color": {
+    "en": "Color",
+    "uz": "Color",
+    "ru": "Color",
+    "ar": "Color"
+  },
+  "apanel.aboutPage.label.id": {
+    "en": "ID",
+    "uz": "ID",
+    "ru": "ID",
+    "ar": "ID"
+  },
+  "apanel.aboutPage.label.name": {
+    "en": "Name",
+    "uz": "Name",
+    "ru": "Name",
+    "ar": "Name"
+  },
+  "apanel.aboutPage.label.dean": {
+    "en": "Dean",
+    "uz": "Dean",
+    "ru": "Dean",
+    "ar": "Dean"
+  },
+  "apanel.aboutPage.label.count": {
+    "en": "Count",
+    "uz": "Count",
+    "ru": "Count",
+    "ar": "Count"
+  },
+  "apanel.aboutPage.label.link": {
+    "en": "Link",
+    "uz": "Link",
+    "ru": "Link",
+    "ar": "Link"
+  },
+  "apanel.aboutPage.label.year": {
+    "en": "Year",
+    "uz": "Year",
+    "ru": "Year",
+    "ar": "Year"
+  },
+  "apanel.aboutPage.label.title": {
+    "en": "Title",
+    "uz": "Title",
+    "ru": "Title",
+    "ar": "Title"
+  },
+  "apanel.aboutPage.label.contactButtonUrl": {
+    "en": "Contact Button URL",
+    "uz": "Contact Button URL",
+    "ru": "Contact Button URL",
+    "ar": "Contact Button URL"
+  },
+  "apanel.aboutPage.label.campusButtonUrl": {
+    "en": "Campus Button URL",
+    "uz": "Campus Button URL",
+    "ru": "Campus Button URL",
+    "ar": "Campus Button URL"
+  },
+  "apanel.aboutPage.label.rectorProfileSlug": {
+    "en": "Rector Profile Slug",
+    "uz": "Rector Profile Slug",
+    "ru": "Rector Profile Slug",
+    "ar": "Rector Profile Slug"
+  },
+  "apanel.aboutPage.label.identityImageUrlOrStoragePath": {
+    "en": "Identity Image URL or storage path",
+    "uz": "Identity Image URL or storage path",
+    "ru": "Identity Image URL or storage path",
+    "ar": "Identity Image URL or storage path"
+  },
+  "apanel.administration.title.deleteProfile": {
+    "en": "Delete profile?",
+    "uz": "Delete profile?",
+    "ru": "Delete profile?",
+    "ar": "Delete profile?"
+  },
+  "apanel.administration.label.slug": {
+    "en": "Slug",
+    "uz": "Slug",
+    "ru": "Slug",
+    "ar": "Slug"
+  },
+  "apanel.administration.label.photoUrlOrStoragePath": {
+    "en": "Photo URL or storage path",
+    "uz": "Photo URL or storage path",
+    "ru": "Photo URL or storage path",
+    "ar": "Photo URL or storage path"
+  },
+  "apanel.administration.label.phone": {
+    "en": "Phone",
+    "uz": "Phone",
+    "ru": "Phone",
+    "ar": "Phone"
+  },
+  "apanel.administration.label.email": {
+    "en": "Email",
+    "uz": "Email",
+    "ru": "Email",
+    "ar": "Email"
+  },
+  "apanel.administration.label.telegramUrl": {
+    "en": "Telegram URL",
+    "uz": "Telegram URL",
+    "ru": "Telegram URL",
+    "ar": "Telegram URL"
+  },
+  "apanel.administration.label.sortOrder": {
+    "en": "Sort Order",
+    "uz": "Sort Order",
+    "ru": "Sort Order",
+    "ar": "Sort Order"
+  },
+  "apanel.administration.label.fullName": {
+    "en": "Full Name",
+    "uz": "Full Name",
+    "ru": "Full Name",
+    "ar": "Full Name"
+  },
+  "apanel.administration.label.position": {
+    "en": "Position",
+    "uz": "Position",
+    "ru": "Position",
+    "ar": "Position"
+  },
+  "apanel.administration.label.degree": {
+    "en": "Degree",
+    "uz": "Degree",
+    "ru": "Degree",
+    "ar": "Degree"
+  },
+  "apanel.administration.label.officeHours": {
+    "en": "Office Hours",
+    "uz": "Office Hours",
+    "ru": "Office Hours",
+    "ar": "Office Hours"
+  },
+  "apanel.administration.label.about": {
+    "en": "About",
+    "uz": "About",
+    "ru": "About",
+    "ar": "About"
+  },
+  "apanel.administration.label.details": {
+    "en": "Details",
+    "uz": "Details",
+    "ru": "Details",
+    "ar": "Details"
+  },
+  "apanel.administration.label.achievements": {
+    "en": "Achievements",
+    "uz": "Achievements",
+    "ru": "Achievements",
+    "ar": "Achievements"
+  },
+  "apanel.announcements.title.deleteAnnouncement": {
+    "en": "Delete announcement?",
+    "uz": "Delete announcement?",
+    "ru": "Delete announcement?",
+    "ar": "Delete announcement?"
+  },
+  "apanel.blog.title.deleteBlogPost": {
+    "en": "Delete blog post?",
+    "uz": "Delete blog post?",
+    "ru": "Delete blog post?",
+    "ar": "Delete blog post?"
+  },
+  "apanel.centers.label.slug": {
+    "en": "Slug",
+    "uz": "Slug",
+    "ru": "Slug",
+    "ar": "Slug"
+  },
+  "apanel.centers.label.email": {
+    "en": "Email",
+    "uz": "Email",
+    "ru": "Email",
+    "ar": "Email"
+  },
+  "apanel.centers.label.phone": {
+    "en": "Phone",
+    "uz": "Phone",
+    "ru": "Phone",
+    "ar": "Phone"
+  },
+  "apanel.centers.label.sortOrder": {
+    "en": "Sort Order",
+    "uz": "Sort Order",
+    "ru": "Sort Order",
+    "ar": "Sort Order"
+  },
+  "apanel.centers.label.nameTitle": {
+    "en": "Name / Title",
+    "uz": "Name / Title",
+    "ru": "Name / Title",
+    "ar": "Name / Title"
+  },
+  "apanel.centers.label.headOfCentreDepartment": {
+    "en": "Head of Centre / Department",
+    "uz": "Head of Centre / Department",
+    "ru": "Head of Centre / Department",
+    "ar": "Head of Centre / Department"
+  },
+  "apanel.centers.label.headTitleJobPosition": {
+    "en": "Head Title / Job Position",
+    "uz": "Head Title / Job Position",
+    "ru": "Head Title / Job Position",
+    "ar": "Head Title / Job Position"
+  },
+  "apanel.centers.label.receptionOfficeHours": {
+    "en": "Reception / Office Hours",
+    "uz": "Reception / Office Hours",
+    "ru": "Reception / Office Hours",
+    "ar": "Reception / Office Hours"
+  },
+  "apanel.centers.label.aboutTheCentreDepartment": {
+    "en": "About the Centre / Department",
+    "uz": "About the Centre / Department",
+    "ru": "About the Centre / Department",
+    "ar": "About the Centre / Department"
+  },
+  "apanel.centers.label.supervisorSpecificDescriptionIfLeftEmptyWillUseTheDefaultDescription": {
+    "en": "Supervisor Specific Description (If left empty, will use the default description)",
+    "uz": "Supervisor Specific Description (If left empty, will use the default description)",
+    "ru": "Supervisor Specific Description (If left empty, will use the default description)",
+    "ar": "Supervisor Specific Description (If left empty, will use the default description)"
+  },
+  "apanel.centers.label.functionsAndActivitiesOnePerLine": {
+    "en": "Functions & Activities (One per line)",
+    "uz": "Functions & Activities (One per line)",
+    "ru": "Functions & Activities (One per line)",
+    "ar": "Functions & Activities (One per line)"
+  },
+  "apanel.centers.label.sidebarMenuCategoryTitle": {
+    "en": "Sidebar / Menu Category Title",
+    "uz": "Sidebar / Menu Category Title",
+    "ru": "Sidebar / Menu Category Title",
+    "ar": "Sidebar / Menu Category Title"
+  },
+  "apanel.centers.label.structureBreadcrumbSectionLabel": {
+    "en": "Structure Breadcrumb Section Label",
+    "uz": "Structure Breadcrumb Section Label",
+    "ru": "Structure Breadcrumb Section Label",
+    "ar": "Structure Breadcrumb Section Label"
+  },
+  "apanel.centers.label.aboutSectionHeaderLabel": {
+    "en": "About Section Header Label",
+    "uz": "About Section Header Label",
+    "ru": "About Section Header Label",
+    "ar": "About Section Header Label"
+  },
+  "apanel.centers.label.staffAndMembersTitleLabel": {
+    "en": "Staff & Members Title Label",
+    "uz": "Staff & Members Title Label",
+    "ru": "Staff & Members Title Label",
+    "ar": "Staff & Members Title Label"
+  },
+  "apanel.centers.label.functionsAndMissionsHeadingLabel": {
+    "en": "Functions & Missions Heading Label",
+    "uz": "Functions & Missions Heading Label",
+    "ru": "Functions & Missions Heading Label",
+    "ar": "Functions & Missions Heading Label"
+  },
+  "apanel.centers.label.supportWidgetTitle": {
+    "en": "Support Widget Title",
+    "uz": "Support Widget Title",
+    "ru": "Support Widget Title",
+    "ar": "Support Widget Title"
+  },
+  "apanel.centers.label.contactUniversityButtonLabel": {
+    "en": "Contact University Button Label",
+    "uz": "Contact University Button Label",
+    "ru": "Contact University Button Label",
+    "ar": "Contact University Button Label"
+  },
+  "apanel.centers.label.missionFunctionBadgeLabel": {
+    "en": "Mission / Function Badge Label",
+    "uz": "Mission / Function Badge Label",
+    "ru": "Mission / Function Badge Label",
+    "ar": "Mission / Function Badge Label"
+  },
+  "apanel.centers.label.defaultStaffSupervisingDescription": {
+    "en": "Default Staff Supervising Description",
+    "uz": "Default Staff Supervising Description",
+    "ru": "Default Staff Supervising Description",
+    "ar": "Default Staff Supervising Description"
+  },
+  "apanel.centers.label.supportWidgetDescriptionText": {
+    "en": "Support Widget Description text",
+    "uz": "Support Widget Description text",
+    "ru": "Support Widget Description text",
+    "ar": "Support Widget Description text"
+  },
+  "apanel.centers.title.deleteCentreDepartment": {
+    "en": "Delete Centre / Department",
+    "uz": "Delete Centre / Department",
+    "ru": "Delete Centre / Department",
+    "ar": "Delete Centre / Department"
+  },
+  "apanel.contactPage.label.kind": {
+    "en": "Kind",
+    "uz": "Kind",
+    "ru": "Kind",
+    "ar": "Kind"
+  },
+  "apanel.contactPage.label.title": {
+    "en": "Title",
+    "uz": "Title",
+    "ru": "Title",
+    "ar": "Title"
+  },
+  "apanel.contactPage.label.detailsOnePerLine": {
+    "en": "Details, one per line",
+    "uz": "Details, one per line",
+    "ru": "Details, one per line",
+    "ar": "Details, one per line"
+  },
+  "apanel.contactPage.label.question": {
+    "en": "Question",
+    "uz": "Question",
+    "ru": "Question",
+    "ar": "Question"
+  },
+  "apanel.contactPage.label.answer": {
+    "en": "Answer",
+    "uz": "Answer",
+    "ru": "Answer",
+    "ar": "Answer"
+  },
+  "apanel.contactPage.label.mapEmbedUrl": {
+    "en": "Map Embed URL",
+    "uz": "Map Embed URL",
+    "ru": "Map Embed URL",
+    "ar": "Map Embed URL"
+  },
+  "apanel.contactPage.label.tag": {
+    "en": "Tag",
+    "uz": "Tag",
+    "ru": "Tag",
+    "ar": "Tag"
+  },
+  "apanel.contactPage.label.mapTitle": {
+    "en": "Map Title",
+    "uz": "Map Title",
+    "ru": "Map Title",
+    "ar": "Map Title"
+  },
+  "apanel.contactPage.label.faqTag": {
+    "en": "FAQ Tag",
+    "uz": "FAQ Tag",
+    "ru": "FAQ Tag",
+    "ar": "FAQ Tag"
+  },
+  "apanel.contactPage.label.faqTitle": {
+    "en": "FAQ Title",
+    "uz": "FAQ Title",
+    "ru": "FAQ Title",
+    "ar": "FAQ Title"
+  },
+  "apanel.footerWeb.label.key": {
+    "en": "Key",
+    "uz": "Key",
+    "ru": "Key",
+    "ar": "Key"
+  },
+  "apanel.footerWeb.label.url": {
+    "en": "URL",
+    "uz": "URL",
+    "ru": "URL",
+    "ar": "URL"
+  },
+  "apanel.footerWeb.arialabel.removeLink": {
+    "en": "Remove link",
+    "uz": "Remove link",
+    "ru": "Remove link",
+    "ar": "Remove link"
+  },
+  "apanel.footerWeb.label.phone": {
+    "en": "Phone",
+    "uz": "Phone",
+    "ru": "Phone",
+    "ar": "Phone"
+  },
+  "apanel.footerWeb.label.email": {
+    "en": "Email",
+    "uz": "Email",
+    "ru": "Email",
+    "ar": "Email"
+  },
+  "apanel.footerWeb.label.copyrightYear": {
+    "en": "Copyright year",
+    "uz": "Copyright year",
+    "ru": "Copyright year",
+    "ar": "Copyright year"
+  },
+  "apanel.footerWeb.label.applyButtonUrl": {
+    "en": "Apply button URL",
+    "uz": "Apply button URL",
+    "ru": "Apply button URL",
+    "ar": "Apply button URL"
+  },
+  "apanel.footerWeb.title.primaryLinkGroup": {
+    "en": "Primary Link Group",
+    "uz": "Primary Link Group",
+    "ru": "Primary Link Group",
+    "ar": "Primary Link Group"
+  },
+  "apanel.footerWeb.title.facultyLinks": {
+    "en": "Faculty Links",
+    "uz": "Faculty Links",
+    "ru": "Faculty Links",
+    "ar": "Faculty Links"
+  },
+  "apanel.footerWeb.arialabel.removeSocialLink": {
+    "en": "Remove social link",
+    "uz": "Remove social link",
+    "ru": "Remove social link",
+    "ar": "Remove social link"
+  },
+  "apanel.greenCampus.label.slug": {
+    "en": "Slug",
+    "uz": "Slug",
+    "ru": "Slug",
+    "ar": "Slug"
+  },
+  "apanel.greenCampus.label.categoryKey": {
+    "en": "Category Key",
+    "uz": "Category Key",
+    "ru": "Category Key",
+    "ar": "Category Key"
+  },
+  "apanel.greenCampus.label.publishedDate": {
+    "en": "Published Date",
+    "uz": "Published Date",
+    "ru": "Published Date",
+    "ar": "Published Date"
+  },
+  "apanel.greenCampus.label.sortOrder": {
+    "en": "Sort Order",
+    "uz": "Sort Order",
+    "ru": "Sort Order",
+    "ar": "Sort Order"
+  },
+  "apanel.greenCampus.label.views": {
+    "en": "Views",
+    "uz": "Views",
+    "ru": "Views",
+    "ar": "Views"
+  },
+  "apanel.greenCampus.label.published": {
+    "en": "Published",
+    "uz": "Published",
+    "ru": "Published",
+    "ar": "Published"
+  },
+  "apanel.greenCampus.label.mainImage": {
+    "en": "Main Image",
+    "uz": "Main Image",
+    "ru": "Main Image",
+    "ar": "Main Image"
+  },
+  "apanel.greenCampus.label.title": {
+    "en": "Title",
+    "uz": "Title",
+    "ru": "Title",
+    "ar": "Title"
+  },
+  "apanel.greenCampus.label.categoryLabel": {
+    "en": "Category Label",
+    "uz": "Category Label",
+    "ru": "Category Label",
+    "ar": "Category Label"
+  },
+  "apanel.greenCampus.label.author": {
+    "en": "Author",
+    "uz": "Author",
+    "ru": "Author",
+    "ar": "Author"
+  },
+  "apanel.greenCampus.label.excerpt": {
+    "en": "Excerpt",
+    "uz": "Excerpt",
+    "ru": "Excerpt",
+    "ar": "Excerpt"
+  },
+  "apanel.greenCampus.label.content": {
+    "en": "Content",
+    "uz": "Content",
+    "ru": "Content",
+    "ar": "Content"
+  },
+  "apanel.greenCampus.label.iconKey": {
+    "en": "Icon Key",
+    "uz": "Icon Key",
+    "ru": "Icon Key",
+    "ar": "Icon Key"
+  },
+  "apanel.greenCampus.label.value": {
+    "en": "Value",
+    "uz": "Value",
+    "ru": "Value",
+    "ar": "Value"
+  },
+  "apanel.greenCampus.label.label": {
+    "en": "Label",
+    "uz": "Label",
+    "ru": "Label",
+    "ar": "Label"
+  },
+  "apanel.greenCampus.label.homeLimit": {
+    "en": "Home Limit",
+    "uz": "Home Limit",
+    "ru": "Home Limit",
+    "ar": "Home Limit"
+  },
+  "apanel.greenCampus.label.recentLimit": {
+    "en": "Recent Limit",
+    "uz": "Recent Limit",
+    "ru": "Recent Limit",
+    "ar": "Recent Limit"
+  },
+  "apanel.greenCampus.label.active": {
+    "en": "Active",
+    "uz": "Active",
+    "ru": "Active",
+    "ar": "Active"
+  },
+  "apanel.greenCampus.label.calloutDescription": {
+    "en": "Callout description",
+    "uz": "Callout description",
+    "ru": "Callout description",
+    "ar": "Callout description"
+  },
+  "apanel.interactiveServices.title.deleteService": {
+    "en": "Delete service?",
+    "uz": "Delete service?",
+    "ru": "Delete service?",
+    "ar": "Delete service?"
+  },
+  "apanel.newsEvents.title.deleteNewsEvent": {
+    "en": "Delete news/event?",
+    "uz": "Delete news/event?",
+    "ru": "Delete news/event?",
+    "ar": "Delete news/event?"
+  },
+  "apanel.videoBdtu.title.deleteVideo": {
+    "en": "Delete video?",
+    "uz": "Delete video?",
+    "ru": "Delete video?",
+    "ar": "Delete video?"
+  },
+  "button.add": {
+    "en": "Add",
+    "uz": "Add",
+    "ru": "Add",
+    "ar": "Add"
+  }
+}

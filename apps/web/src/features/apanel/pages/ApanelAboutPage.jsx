@@ -10,6 +10,7 @@ import { apanelService } from "../../../services/apanelService";
 import { publicAssetUrl } from "../../../lib/api";
 import ConfirmDialog from "../components/ConfirmDialog";
 import { useApanelLocaleOptions } from "../utils/locales";
+import { useLanguage } from "../../../context/LanguageContext";
 
 const SECTIONS = [
   { key: "controls", label: "Page Controls" },
@@ -157,6 +158,7 @@ function SelectField({ label, value, options, onChange, name }) {
 }
 
 export default function ApanelAboutPage() {
+  const { t } = useLanguage();
   const localeOptions = useApanelLocaleOptions();
   const localeCodes = useMemo(
     () => localeOptions.map((locale) => locale.code),
@@ -589,7 +591,7 @@ export default function ApanelAboutPage() {
     };
 
     if (!draft.number || !draft.label) {
-      setError("Please fill Number and Label before adding the stat item.");
+      setError(t("apanel.aboutPage.statValidation"));
       return;
     }
 
@@ -638,7 +640,7 @@ export default function ApanelAboutPage() {
     };
 
     if (!draft.id || !draft.name || !draft.link) {
-      setError("Please fill ID, Name, and Link before adding the faculty item.");
+      setError(t("apanel.aboutPage.facultyValidation"));
       return;
     }
 
@@ -727,21 +729,21 @@ export default function ApanelAboutPage() {
           </div>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <Field
-              label="Number"
+              label={t("apanel.aboutPage.label.number")}
               value={item.number}
               onChange={(value) =>
                 updateSharedArrayItem("stats.items", index, "number", value)
               }
             />
             <Field
-              label="Label"
+              label={t("apanel.aboutPage.label.label")}
               value={item.label}
               onChange={(value) =>
                 updateArrayItem("stats.items", index, "label", value)
               }
             />
             <Field
-              label="Description"
+              label={t("apanel.aboutPage.label.description")}
               value={item.desc}
               multiline
               onChange={(value) =>
@@ -749,7 +751,7 @@ export default function ApanelAboutPage() {
               }
             />
             <SelectField
-              label="Icon"
+              label={t("apanel.aboutPage.label.icon")}
               value={item.icon}
               options={statIcons}
               onChange={(value) =>
@@ -757,7 +759,7 @@ export default function ApanelAboutPage() {
               }
             />
             <SelectField
-              label="Color"
+              label={t("apanel.aboutPage.label.color")}
               value={item.color}
               options={statColors}
               onChange={(value) =>
@@ -813,42 +815,42 @@ export default function ApanelAboutPage() {
           </div>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <Field
-              label="ID"
+              label={t("apanel.aboutPage.label.id")}
               value={item.id}
               onChange={(value) =>
                 updateSharedArrayItem("facultiesList.items", index, "id", value)
               }
             />
             <Field
-              label="Name"
+              label={t("apanel.aboutPage.label.name")}
               value={item.name}
               onChange={(value) =>
                 updateArrayItem("facultiesList.items", index, "name", value)
               }
             />
             <Field
-              label="Dean"
+              label={t("apanel.aboutPage.label.dean")}
               value={item.dean}
               onChange={(value) =>
                 updateArrayItem("facultiesList.items", index, "dean", value)
               }
             />
             <Field
-              label="Count"
+              label={t("apanel.aboutPage.label.count")}
               value={item.count}
               onChange={(value) =>
                 updateArrayItem("facultiesList.items", index, "count", value)
               }
             />
             <Field
-              label="Link"
+              label={t("apanel.aboutPage.label.link")}
               value={item.link}
               onChange={(value) =>
                 updateSharedArrayItem("facultiesList.items", index, "link", value)
               }
             />
             <SelectField
-              label="Color"
+              label={t("apanel.aboutPage.label.color")}
               value={item.color}
               options={facultyColors}
               onChange={(value) =>
@@ -856,7 +858,7 @@ export default function ApanelAboutPage() {
               }
             />
             <Field
-              label="Description"
+              label={t("apanel.aboutPage.label.description")}
               value={item.desc}
               multiline
               onChange={(value) =>
@@ -914,21 +916,21 @@ export default function ApanelAboutPage() {
           </div>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <Field
-              label="Year"
+              label={t("apanel.aboutPage.label.year")}
               value={item.year}
               onChange={(value) =>
                 updateSharedArrayItem("timeline.items", index, "year", value)
               }
             />
             <Field
-              label="Title"
+              label={t("apanel.aboutPage.label.title")}
               value={item.title}
               onChange={(value) =>
                 updateArrayItem("timeline.items", index, "title", value)
               }
             />
             <Field
-              label="Description"
+              label={t("apanel.aboutPage.label.description")}
               value={item.desc}
               multiline
               onChange={(value) =>
@@ -952,22 +954,22 @@ export default function ApanelAboutPage() {
   const renderControls = () => (
     <div className="grid grid-cols-1 gap-4 xl:grid-cols-[1fr_1fr_1fr_1.25fr]">
       <Field
-        label="Contact Button URL"
+        label={t("apanel.aboutPage.label.contactButtonUrl")}
         value={form.hero_contact_url}
         onChange={(value) => updateField("hero_contact_url", value)}
       />
       <Field
-        label="Campus Button URL"
+        label={t("apanel.aboutPage.label.campusButtonUrl")}
         value={form.hero_campus_url}
         onChange={(value) => updateField("hero_campus_url", value)}
       />
       <Field
-        label="Rector Profile Slug"
+        label={t("apanel.aboutPage.label.rectorProfileSlug")}
         value={form.rector_profile_slug}
         onChange={(value) => updateField("rector_profile_slug", value)}
       />
       <Field
-        label="Identity Image URL or storage path"
+        label={t("apanel.aboutPage.label.identityImageUrlOrStoragePath")}
         value={form.identity_image}
         onChange={(value) => updateField("identity_image", value)}
       />
@@ -1135,7 +1137,7 @@ export default function ApanelAboutPage() {
     <div className="space-y-6">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div>
-          <h1 className="mt-1 text-2xl font-black text-navy">About Page CMS</h1>
+          <h1 className="mt-1 text-2xl font-black text-navy">{t("apanel.aboutPage.title")}</h1>
           <p className="mt-1 text-sm font-semibold text-gray-500">
             Full control for the public About page at /about.
           </p>
@@ -1246,7 +1248,7 @@ export default function ApanelAboutPage() {
 
             <div className="space-y-4">
               <Field
-                label="Year"
+                label={t("apanel.aboutPage.label.year")}
                 name="year"
                 value={timelineDraft.year}
                 onChange={(value) =>
@@ -1254,7 +1256,7 @@ export default function ApanelAboutPage() {
                 }
               />
               <Field
-                label="Title"
+                label={t("apanel.aboutPage.label.title")}
                 name="title"
                 value={timelineDraft.title}
                 onChange={(value) =>
@@ -1262,7 +1264,7 @@ export default function ApanelAboutPage() {
                 }
               />
               <Field
-                label="Description"
+                label={t("apanel.aboutPage.label.description")}
                 name="desc"
                 value={timelineDraft.desc}
                 multiline
@@ -1305,7 +1307,7 @@ export default function ApanelAboutPage() {
               <p className="text-xs font-extrabold uppercase tracking-widest text-primary">
                 {activeLocaleLabel}
               </p>
-              <h3 className="mt-1 text-xl font-black text-navy">Add Stat</h3>
+              <h3 className="mt-1 text-xl font-black text-navy">{t("apanel.aboutPage.addStat")}</h3>
               <p className="mt-1 text-sm font-semibold text-gray-500">
                 This item will be saved to the database immediately.
               </p>
@@ -1313,7 +1315,7 @@ export default function ApanelAboutPage() {
 
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <Field
-                label="Number"
+                label={t("apanel.aboutPage.label.number")}
                 name="number"
                 value={statDraft.number}
                 onChange={(value) =>
@@ -1321,7 +1323,7 @@ export default function ApanelAboutPage() {
                 }
               />
               <Field
-                label="Label"
+                label={t("apanel.aboutPage.label.label")}
                 name="label"
                 value={statDraft.label}
                 onChange={(value) =>
@@ -1329,7 +1331,7 @@ export default function ApanelAboutPage() {
                 }
               />
               <Field
-                label="Description"
+                label={t("apanel.aboutPage.label.description")}
                 name="desc"
                 value={statDraft.desc}
                 multiline
@@ -1338,7 +1340,7 @@ export default function ApanelAboutPage() {
                 }
               />
               <SelectField
-                label="Icon"
+                label={t("apanel.aboutPage.label.icon")}
                 name="icon"
                 value={statDraft.icon}
                 options={statIcons}
@@ -1347,7 +1349,7 @@ export default function ApanelAboutPage() {
                 }
               />
               <SelectField
-                label="Color"
+                label={t("apanel.aboutPage.label.color")}
                 name="color"
                 value={statDraft.color}
                 options={statColors}
@@ -1390,7 +1392,7 @@ export default function ApanelAboutPage() {
               <p className="text-xs font-extrabold uppercase tracking-widest text-primary">
                 {activeLocaleLabel}
               </p>
-              <h3 className="mt-1 text-xl font-black text-navy">Add Faculty</h3>
+              <h3 className="mt-1 text-xl font-black text-navy">{t("apanel.aboutPage.addFaculty")}</h3>
               <p className="mt-1 text-sm font-semibold text-gray-500">
                 This item will be saved to the database immediately.
               </p>
@@ -1398,7 +1400,7 @@ export default function ApanelAboutPage() {
 
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <Field
-                label="ID"
+                label={t("apanel.aboutPage.label.id")}
                 name="id"
                 value={facultyDraft.id}
                 onChange={(value) =>
@@ -1406,7 +1408,7 @@ export default function ApanelAboutPage() {
                 }
               />
               <Field
-                label="Name"
+                label={t("apanel.aboutPage.label.name")}
                 name="name"
                 value={facultyDraft.name}
                 onChange={(value) =>
@@ -1414,7 +1416,7 @@ export default function ApanelAboutPage() {
                 }
               />
               <Field
-                label="Dean"
+                label={t("apanel.aboutPage.label.dean")}
                 name="dean"
                 value={facultyDraft.dean}
                 onChange={(value) =>
@@ -1422,7 +1424,7 @@ export default function ApanelAboutPage() {
                 }
               />
               <Field
-                label="Count"
+                label={t("apanel.aboutPage.label.count")}
                 name="count"
                 value={facultyDraft.count}
                 onChange={(value) =>
@@ -1430,7 +1432,7 @@ export default function ApanelAboutPage() {
                 }
               />
               <Field
-                label="Link"
+                label={t("apanel.aboutPage.label.link")}
                 name="link"
                 value={facultyDraft.link}
                 onChange={(value) =>
@@ -1438,7 +1440,7 @@ export default function ApanelAboutPage() {
                 }
               />
               <SelectField
-                label="Color"
+                label={t("apanel.aboutPage.label.color")}
                 name="color"
                 value={facultyDraft.color}
                 options={facultyColors}
@@ -1448,7 +1450,7 @@ export default function ApanelAboutPage() {
               />
               <div className="md:col-span-2">
                 <Field
-                  label="Description"
+                  label={t("apanel.aboutPage.label.description")}
                   name="desc"
                   value={facultyDraft.desc}
                   multiline

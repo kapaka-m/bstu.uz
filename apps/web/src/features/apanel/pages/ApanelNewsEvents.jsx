@@ -19,6 +19,7 @@ import { apanelService } from "../../../services/apanelService";
 import { publicAssetUrl } from "../../../lib/api";
 import ConfirmDialog from "../components/ConfirmDialog";
 import { useApanelLocaleCodes } from "../utils/locales";
+import { useLanguage } from "../../../context/LanguageContext";
 
 const emptyTranslation = {
   title: "",
@@ -160,6 +161,7 @@ function imagePreviewSrc(image) {
 }
 
 export default function ApanelNewsEvents() {
+  const { t } = useLanguage();
   const localeCodes = useApanelLocaleCodes();
   const primaryLocale = localeCodes[0] || "";
   const [activeTab, setActiveTab] = useState("items");
@@ -568,8 +570,8 @@ export default function ApanelNewsEvents() {
                   }
                   className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm font-semibold text-navy focus:outline-none focus:border-primary bg-white"
                 >
-                  <option value="1">Active</option>
-                  <option value="0">Inactive</option>
+                  <option value="1">{t("status.active")}</option>
+                  <option value="0">{t("status.inactive")}</option>
                 </select>
               </label>
               <label className="space-y-1.5">
@@ -581,7 +583,7 @@ export default function ApanelNewsEvents() {
                   onChange={(event) =>
                     setSettingsField("home_icon", event.target.value)
                   }
-                  placeholder="newspaper, calendar-days, megaphone"
+                  placeholder={t("apanel.newsEvents.iconPlaceholder")}
                   className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm font-semibold text-navy focus:outline-none focus:border-primary"
                 />
               </label>
@@ -719,8 +721,8 @@ export default function ApanelNewsEvents() {
                   required
                 >
                   <option value=""></option>
-                  <option value="News">News</option>
-                  <option value="Events">Events</option>
+                  <option value="News">{t("apanel.newsEvents.news")}</option>
+                  <option value="Events">{t("apanel.newsEvents.events")}</option>
                 </select>
               </label>
               <label className="space-y-1.5">
@@ -747,8 +749,8 @@ export default function ApanelNewsEvents() {
                   }
                   className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm font-semibold text-navy focus:outline-none focus:border-primary bg-white"
                 >
-                  <option value="1">Published</option>
-                  <option value="0">Hidden</option>
+                  <option value="1">{t("status.published")}</option>
+                  <option value="0">{t("status.hidden")}</option>
                 </select>
               </label>
             </div>
@@ -858,7 +860,7 @@ export default function ApanelNewsEvents() {
                 }
                 rows={8}
                 className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm font-semibold text-navy focus:outline-none focus:border-primary"
-                placeholder="Separate paragraphs with a blank line."
+                placeholder={t("apanel.newsEvents.bodyPlaceholder")}
               />
             </label>
 
@@ -906,7 +908,7 @@ export default function ApanelNewsEvents() {
                   setSearch(event.target.value);
                   setPage(1);
                 }}
-                placeholder="Search title, slug, category, or content"
+                placeholder={t("apanel.newsEvents.searchPlaceholder")}
                 className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold text-navy"
               />
             </div>
@@ -919,12 +921,12 @@ export default function ApanelNewsEvents() {
             <table className="w-full min-w-240 text-start">
               <thead className="bg-gray-50 text-[10px] uppercase tracking-wider text-gray-400 font-black">
                 <tr>
-                  <th className="px-5 py-3 text-start">News/Event</th>
-                  <th className="px-5 py-3 text-start">Category</th>
-                  <th className="px-5 py-3 text-start">Date</th>
-                  <th className="px-5 py-3 text-start">Status</th>
-                  <th className="px-5 py-3 text-start">Views</th>
-                  <th className="px-5 py-3 text-end">Actions</th>
+                  <th className="px-5 py-3 text-start">{t("apanel.newsEvents.newsEvent")}</th>
+                  <th className="px-5 py-3 text-start">{t("apanel.newsEvents.category")}</th>
+                  <th className="px-5 py-3 text-start">{t("apanel.newsEvents.date")}</th>
+                  <th className="px-5 py-3 text-start">{t("apanel.newsEvents.status")}</th>
+                  <th className="px-5 py-3 text-start">{t("apanel.newsEvents.views")}</th>
+                  <th className="px-5 py-3 text-end">{t("apanel.newsEvents.actions")}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
@@ -1065,7 +1067,7 @@ export default function ApanelNewsEvents() {
       )}
       <ConfirmDialog
         isOpen={Boolean(pendingDelete)}
-        title="Delete news/event?"
+        title={t("apanel.newsEvents.title.deleteNewsEvent")}
         message={`This will permanently delete ${pendingDelete?.slug || "this item"}. This action cannot be undone.`}
         confirmText={deletingId ? "Deleting..." : "Delete"}
         cancelText="Cancel"

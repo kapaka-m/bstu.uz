@@ -1053,7 +1053,11 @@ class StudentSystemTranslationSeeder extends Seeder
             $keys["status.{$status}"] = $labels;
         }
 
-        foreach (array_merge($keys, $this->loadDataTranslations('apanel_crud_ui_translations.json')) as $path => $values) {
+        foreach (array_merge(
+            $keys,
+            $this->loadDataTranslations('apanel_crud_ui_translations.json'),
+            $this->loadDataTranslations('apanel_pages_ui_translations.json'),
+        ) as $path => $values) {
             [$group, $key] = explode('.', $path, 2);
             $translationKey = TranslationKey::firstOrCreate(
                 ['group' => $group, 'key' => $key],

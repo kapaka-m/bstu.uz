@@ -18,6 +18,7 @@ import { apanelService } from "../../../services/apanelService";
 import { publicAssetUrl } from "../../../lib/api";
 import ConfirmDialog from "../components/ConfirmDialog";
 import { useApanelLocaleCodes } from "../utils/locales";
+import { useLanguage } from "../../../context/LanguageContext";
 
 const emptyArticleTranslation = {
   title: "",
@@ -192,6 +193,7 @@ function statPayload(form, localeCodes, primaryLocale) {
 }
 
 export default function ApanelGreenCampus() {
+  const { t } = useLanguage();
   const localeCodes = useApanelLocaleCodes();
   const primaryLocale = localeCodes[0] || "";
   const [activeTab, setActiveTab] = useState("articles");
@@ -577,7 +579,7 @@ export default function ApanelGreenCampus() {
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
           <section className="xl:col-span-2 bg-white border border-gray-100 rounded-3xl shadow-xs overflow-hidden">
             <div className="p-5 border-b border-gray-100">
-              <h2 className="text-lg font-extrabold text-navy">Green Campus Initiatives</h2>
+              <h2 className="text-lg font-extrabold text-navy">{t("apanel.greenCampus.initiatives")}</h2>
             </div>
             <div className="divide-y divide-gray-100">
               {articles.map((item) => {
@@ -632,15 +634,15 @@ export default function ApanelGreenCampus() {
               </div>
               <form onSubmit={saveArticle} className="p-5 space-y-4">
                 <LocaleTabs activeLocale={activeLocale} locales={localeCodes} onChange={setActiveLocale} />
-                <Input label="Slug" value={articleForm.slug} onChange={(value) => setArticleField("slug", value)} />
-                <Input label="Category Key" value={articleForm.category} onChange={(value) => setArticleField("category", slugify(value))} />
-                <Input label="Published Date" type="date" value={articleForm.published_at} onChange={(value) => setArticleField("published_at", value)} />
-                <Input label="Sort Order" type="number" value={articleForm.sort_order} onChange={(value) => setArticleField("sort_order", value)} />
-                <Input label="Views" type="number" value={articleForm.views} onChange={(value) => setArticleField("views", value)} />
-                <Checkbox label="Published" checked={articleForm.is_published} onChange={(value) => setArticleField("is_published", value)} />
+                <Input label={t("apanel.greenCampus.label.slug")} value={articleForm.slug} onChange={(value) => setArticleField("slug", value)} />
+                <Input label={t("apanel.greenCampus.label.categoryKey")} value={articleForm.category} onChange={(value) => setArticleField("category", slugify(value))} />
+                <Input label={t("apanel.greenCampus.label.publishedDate")} type="date" value={articleForm.published_at} onChange={(value) => setArticleField("published_at", value)} />
+                <Input label={t("apanel.greenCampus.label.sortOrder")} type="number" value={articleForm.sort_order} onChange={(value) => setArticleField("sort_order", value)} />
+                <Input label={t("apanel.greenCampus.label.views")} type="number" value={articleForm.views} onChange={(value) => setArticleField("views", value)} />
+                <Checkbox label={t("apanel.greenCampus.label.published")} checked={articleForm.is_published} onChange={(value) => setArticleField("is_published", value)} />
 
                 <UploadField
-                  label="Main Image"
+                  label={t("apanel.greenCampus.label.mainImage")}
                   value={articleForm.image}
                   preview={mediaPreviewSrc(articleForm.image)}
                   uploading={uploading}
@@ -655,14 +657,14 @@ export default function ApanelGreenCampus() {
                   onUpload={uploadArticleImage}
                 />
 
-                <Input label="Title" value={currentArticleTranslation.title} onChange={(value) => {
+                <Input label={t("apanel.greenCampus.label.title")} value={currentArticleTranslation.title} onChange={(value) => {
                   setArticleTranslationField("title", value);
                   if (activeLocale === primaryLocale && !articleForm.slug) setArticleField("slug", slugify(value));
                 }} />
-                <Input label="Category Label" value={currentArticleTranslation.category} onChange={(value) => setArticleTranslationField("category", value)} />
-                <Input label="Author" value={currentArticleTranslation.author} onChange={(value) => setArticleTranslationField("author", value)} />
-                <Textarea label="Excerpt" value={currentArticleTranslation.excerpt} onChange={(value) => setArticleTranslationField("excerpt", value)} />
-                <Textarea label="Content" value={currentArticleTranslation.content} rows={8} onChange={(value) => setArticleTranslationField("content", value)} />
+                <Input label={t("apanel.greenCampus.label.categoryLabel")} value={currentArticleTranslation.category} onChange={(value) => setArticleTranslationField("category", value)} />
+                <Input label={t("apanel.greenCampus.label.author")} value={currentArticleTranslation.author} onChange={(value) => setArticleTranslationField("author", value)} />
+                <Textarea label={t("apanel.greenCampus.label.excerpt")} value={currentArticleTranslation.excerpt} onChange={(value) => setArticleTranslationField("excerpt", value)} />
+                <Textarea label={t("apanel.greenCampus.label.content")} value={currentArticleTranslation.content} rows={8} onChange={(value) => setArticleTranslationField("content", value)} />
 
                 <button type="submit" disabled={saving} className="w-full inline-flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-60 text-white px-5 py-3 rounded-xl text-xs font-extrabold cursor-pointer">
                   <Save className="w-4 h-4" />
@@ -678,7 +680,7 @@ export default function ApanelGreenCampus() {
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
           <section className="xl:col-span-2 bg-white border border-gray-100 rounded-3xl shadow-xs overflow-hidden">
             <div className="p-5 border-b border-gray-100">
-              <h2 className="text-lg font-extrabold text-navy">Sustainability Stats</h2>
+              <h2 className="text-lg font-extrabold text-navy">{t("apanel.greenCampus.sustainabilityStats")}</h2>
             </div>
             <div className="divide-y divide-gray-100">
               {stats.map((item) => {
@@ -714,10 +716,10 @@ export default function ApanelGreenCampus() {
               </div>
               <form onSubmit={saveStat} className="p-5 space-y-4">
                 <LocaleTabs activeLocale={activeLocale} locales={localeCodes} onChange={setActiveLocale} />
-                <Input label="Icon Key" value={statForm.icon} onChange={(value) => setStatField("icon", value)} />
-                <Input label="Sort Order" type="number" value={statForm.sort_order} onChange={(value) => setStatField("sort_order", value)} />
-                <Input label="Value" value={currentStatTranslation.value} onChange={(value) => setStatTranslationField("value", value)} />
-                <Input label="Label" value={currentStatTranslation.label} onChange={(value) => setStatTranslationField("label", value)} />
+                <Input label={t("apanel.greenCampus.label.iconKey")} value={statForm.icon} onChange={(value) => setStatField("icon", value)} />
+                <Input label={t("apanel.greenCampus.label.sortOrder")} type="number" value={statForm.sort_order} onChange={(value) => setStatField("sort_order", value)} />
+                <Input label={t("apanel.greenCampus.label.value")} value={currentStatTranslation.value} onChange={(value) => setStatTranslationField("value", value)} />
+                <Input label={t("apanel.greenCampus.label.label")} value={currentStatTranslation.label} onChange={(value) => setStatTranslationField("label", value)} />
                 <button type="submit" disabled={saving} className="w-full inline-flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-60 text-white px-5 py-3 rounded-xl text-xs font-extrabold cursor-pointer">
                   <Save className="w-4 h-4" />
                   Save Stat
@@ -731,14 +733,14 @@ export default function ApanelGreenCampus() {
       {activeTab === "settings" && (
         <section className="bg-white border border-gray-100 rounded-3xl shadow-xs overflow-hidden">
           <div className="p-5 border-b border-gray-100">
-            <h2 className="text-lg font-extrabold text-navy">Green Campus Settings</h2>
-            <p className="text-xs font-semibold text-gray-400">Control all visible labels for the public section, listing page, and detail page.</p>
+            <h2 className="text-lg font-extrabold text-navy">{t("apanel.greenCampus.settingsTitle")}</h2>
+            <p className="text-xs font-semibold text-gray-400">{t("apanel.greenCampus.settingsSubtitle")}</p>
           </div>
           <form onSubmit={saveSettings} className="p-5 space-y-5">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <Input label="Home Limit" type="number" value={settingsForm.home_limit} onChange={(value) => setSettingsField("home_limit", Number(value))} />
-              <Input label="Recent Limit" type="number" value={settingsForm.recent_limit} onChange={(value) => setSettingsField("recent_limit", Number(value))} />
-              <Checkbox label="Active" checked={settingsForm.is_active} onChange={(value) => setSettingsField("is_active", value)} />
+              <Input label={t("apanel.greenCampus.label.homeLimit")} type="number" value={settingsForm.home_limit} onChange={(value) => setSettingsField("home_limit", Number(value))} />
+              <Input label={t("apanel.greenCampus.label.recentLimit")} type="number" value={settingsForm.recent_limit} onChange={(value) => setSettingsField("recent_limit", Number(value))} />
+              <Checkbox label={t("apanel.greenCampus.label.active")} checked={settingsForm.is_active} onChange={(value) => setSettingsField("is_active", value)} />
             </div>
             <LocaleTabs activeLocale={activeLocale} locales={localeCodes} onChange={setActiveLocale} />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -771,13 +773,13 @@ export default function ApanelGreenCampus() {
                 />
               ))}
               <Textarea
-                label="Callout description"
+                label={t("apanel.greenCampus.label.calloutDescription")}
                 value={currentSettingsTranslation.callout_description || ""}
                 onChange={(value) => setSettingsTranslationField("callout_description", value)}
               />
             </div>
             <div className="border border-gray-100 rounded-2xl p-4">
-              <h3 className="text-sm font-extrabold text-navy mb-3">Category labels</h3>
+              <h3 className="text-sm font-extrabold text-navy mb-3">{t("apanel.greenCampus.categoryLabels")}</h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                 {categories.map((category) => (
                   <Input
@@ -902,16 +904,17 @@ function UploadField({ label, value, preview, uploading, onValueChange, onUpload
 }
 
 function GalleryEditor({ gallery, uploading, onChange, onUpload }) {
+  const { t } = useLanguage();
   return (
     <div className="space-y-2">
       <div className="flex items-center justify-between">
-        <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">Gallery</span>
+        <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">{t("apanel.greenCampus.gallery")}</span>
         <button
           type="button"
           onClick={() => onChange([...gallery, ""])}
           className="text-xs font-extrabold text-emerald-700 hover:underline cursor-pointer"
         >
-          Add image
+          {t("apanel.greenCampus.addImage")}
         </button>
       </div>
       <div className="space-y-2">

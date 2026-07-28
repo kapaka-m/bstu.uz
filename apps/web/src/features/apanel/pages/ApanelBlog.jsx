@@ -19,6 +19,7 @@ import { apanelService } from "../../../services/apanelService";
 import { publicAssetUrl } from "../../../lib/api";
 import ConfirmDialog from "../components/ConfirmDialog";
 import { useApanelLocaleCodes } from "../utils/locales";
+import { useLanguage } from "../../../context/LanguageContext";
 
 const emptyTranslation = {
   title: "",
@@ -183,6 +184,7 @@ function imagePreviewSrc(image) {
 }
 
 export default function ApanelBlog() {
+  const { t } = useLanguage();
   const localeCodes = useApanelLocaleCodes();
   const primaryLocale = localeCodes[0] || "";
   const [activeTab, setActiveTab] = useState("items");
@@ -624,8 +626,8 @@ export default function ApanelBlog() {
                   }
                   className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm font-semibold text-navy focus:outline-none focus:border-primary bg-white"
                 >
-                  <option value="1">Active</option>
-                  <option value="0">Inactive</option>
+                  <option value="1">{t("status.active")}</option>
+                  <option value="0">{t("status.inactive")}</option>
                 </select>
               </label>
               <label className="space-y-1.5">
@@ -637,7 +639,7 @@ export default function ApanelBlog() {
                   onChange={(event) =>
                     setSettingsField("home_icon", event.target.value)
                   }
-                  placeholder="book-open, pen-line, newspaper"
+                  placeholder={t("apanel.blog.iconPlaceholder")}
                   className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm font-semibold text-navy focus:outline-none focus:border-primary"
                 />
               </label>
@@ -792,8 +794,8 @@ export default function ApanelBlog() {
                   }
                   className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm font-semibold text-navy focus:outline-none focus:border-primary bg-white"
                 >
-                  <option value="1">Published</option>
-                  <option value="0">Hidden</option>
+                  <option value="1">{t("status.published")}</option>
+                  <option value="0">{t("status.hidden")}</option>
                 </select>
               </label>
             </div>
@@ -807,7 +809,7 @@ export default function ApanelBlog() {
                   value={form.author}
                   onChange={(event) => setField("author", event.target.value)}
                   className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm font-semibold text-navy focus:outline-none focus:border-primary"
-                  placeholder="Author name"
+                  placeholder={t("apanel.blog.authorPlaceholder")}
                 />
               </label>
               <label className="space-y-1.5">
@@ -821,7 +823,7 @@ export default function ApanelBlog() {
                       setField("author_image", event.target.value)
                     }
                     className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm font-semibold text-navy focus:outline-none focus:border-primary"
-                    placeholder="media/uploads/author-image.jpg"
+                    placeholder={t("apanel.blog.authorImagePlaceholder")}
                   />
                   <label className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-navy text-white text-xs font-extrabold hover:bg-primary transition-colors cursor-pointer shrink-0">
                     {uploadingAuthorImage ? (
@@ -974,7 +976,7 @@ export default function ApanelBlog() {
                 }
                 rows={8}
                 className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm font-semibold text-navy focus:outline-none focus:border-primary"
-                placeholder="Separate paragraphs with a blank line."
+                placeholder={t("apanel.blog.bodyPlaceholder")}
               />
             </label>
 
@@ -1022,7 +1024,7 @@ export default function ApanelBlog() {
                   setSearch(event.target.value);
                   setPage(1);
                 }}
-                placeholder="Search title, slug, category, or content"
+                placeholder={t("apanel.blog.searchPlaceholder")}
                 className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold text-navy"
               />
             </div>
@@ -1035,12 +1037,12 @@ export default function ApanelBlog() {
             <table className="w-full min-w-240 text-start">
               <thead className="bg-gray-50 text-[10px] uppercase tracking-wider text-gray-400 font-black">
                 <tr>
-                  <th className="px-5 py-3 text-start">Blog Post</th>
-                  <th className="px-5 py-3 text-start">Category</th>
-                  <th className="px-5 py-3 text-start">Date</th>
-                  <th className="px-5 py-3 text-start">Status</th>
-                  <th className="px-5 py-3 text-start">Views</th>
-                  <th className="px-5 py-3 text-end">Actions</th>
+                  <th className="px-5 py-3 text-start">{t("apanel.blog.blogPost")}</th>
+                  <th className="px-5 py-3 text-start">{t("apanel.blog.category")}</th>
+                  <th className="px-5 py-3 text-start">{t("apanel.blog.date")}</th>
+                  <th className="px-5 py-3 text-start">{t("apanel.blog.status")}</th>
+                  <th className="px-5 py-3 text-start">{t("apanel.blog.views")}</th>
+                  <th className="px-5 py-3 text-end">{t("apanel.blog.actions")}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
@@ -1181,7 +1183,7 @@ export default function ApanelBlog() {
       )}
       <ConfirmDialog
         isOpen={Boolean(pendingDelete)}
-        title="Delete blog post?"
+        title={t("apanel.blog.title.deleteBlogPost")}
         message={`This will permanently delete ${pendingDelete?.slug || "this blog post"}. This action cannot be undone.`}
         confirmText={deletingId ? "Deleting..." : "Delete"}
         cancelText="Cancel"

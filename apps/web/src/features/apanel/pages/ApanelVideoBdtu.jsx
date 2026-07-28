@@ -16,6 +16,7 @@ import { apanelService } from "../../../services/apanelService";
 import { publicAssetUrl } from "../../../lib/api";
 import ConfirmDialog from "../components/ConfirmDialog";
 import { useApanelLocaleOptions } from "../utils/locales";
+import { useLanguage } from "../../../context/LanguageContext";
 
 const emptyTranslation = {
   title: "",
@@ -188,6 +189,7 @@ function toPayload(form, primaryLocale, localeCodes) {
 }
 
 export default function ApanelVideoBdtu() {
+  const { t } = useLanguage();
   const localeOptions = useApanelLocaleOptions();
   const localeCodes = useMemo(() => localeOptions.map((locale) => locale.code), [localeOptions]);
   const localeNames = useMemo(
@@ -337,7 +339,7 @@ export default function ApanelVideoBdtu() {
   const handleUpload = async (file, targetField) => {
     if (!file) return;
     if (file.type.startsWith("video/") && file.size > MAX_VIDEO_UPLOAD_BYTES) {
-      setError("Video file is too large. Please upload a video up to 200 MB.");
+      setError(t("apanel.videoBdtu.fileTooLarge"));
       return;
     }
 
@@ -433,7 +435,7 @@ export default function ApanelVideoBdtu() {
     <div className="space-y-6">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div>
-          <h1 className="text-2xl font-black text-navy">Video Gallery CMS</h1>
+          <h1 className="text-2xl font-black text-navy">{t("apanel.videoBdtu.title")}</h1>
           <p className="text-sm font-semibold text-gray-500">
             Control homepage videos and the public video gallery page.
           </p>
@@ -501,15 +503,15 @@ export default function ApanelVideoBdtu() {
         <section className="bg-white border border-gray-100 rounded-3xl p-6 shadow-xs space-y-5">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <label className="space-y-1.5">
-              <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">Home limit</span>
+              <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">{t("apanel.videoBdtu.homeLimit")}</span>
               <input type="number" min="1" max="12" value={settingsForm.home_limit} onChange={(e) => setSettingsForm((p) => ({ ...p, home_limit: Number(e.target.value) }))} className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm font-semibold text-navy" />
             </label>
             <label className="space-y-1.5">
-              <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">Subscribers</span>
+              <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">{t("apanel.videoBdtu.subscribers")}</span>
               <input type="number" min="0" value={settingsForm.subscriber_count} onChange={(e) => setSettingsForm((p) => ({ ...p, subscriber_count: Number(e.target.value) }))} className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm font-semibold text-navy" />
             </label>
             <label className="space-y-1.5">
-              <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">YouTube channel URL</span>
+              <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">{t("apanel.videoBdtu.youtubeChannelUrl")}</span>
               <input value={settingsForm.youtube_channel_url || ""} onChange={(e) => setSettingsForm((p) => ({ ...p, youtube_channel_url: e.target.value }))} className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm font-semibold text-navy" />
             </label>
           </div>
@@ -594,7 +596,7 @@ export default function ApanelVideoBdtu() {
 
             <div className="rounded-2xl border border-gray-100 bg-gray-50/70 p-4 space-y-4">
               <div>
-                <h3 className="text-sm font-black text-navy">Video Source & Publishing</h3>
+                <h3 className="text-sm font-black text-navy">{t("apanel.videoBdtu.sourcePublishing")}</h3>
                 <p className="text-[11px] font-semibold text-gray-500">
                   These fields control the media file or YouTube video and the public visibility.
                 </p>
@@ -602,25 +604,25 @@ export default function ApanelVideoBdtu() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <label className="space-y-1.5">
-                <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">Slug</span>
+                <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">{t("apanel.videoBdtu.slug")}</span>
                 <input value={form.slug} onChange={(e) => setField("slug", slugify(e.target.value))} className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm font-semibold text-navy" required />
               </label>
               <label className="space-y-1.5">
-                <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">Video type</span>
+                <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">{t("apanel.videoBdtu.videoType")}</span>
                 <select value={form.video_type} onChange={(e) => setField("video_type", e.target.value)} className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm font-semibold text-navy">
-                  <option value="youtube">YouTube URL</option>
-                  <option value="local">Uploaded video</option>
+                  <option value="youtube">{t("apanel.videoBdtu.youtubeUrl")}</option>
+                  <option value="local">{t("apanel.videoBdtu.uploadedVideo")}</option>
                 </select>
               </label>
               <label className="space-y-1.5">
-                <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">Sort order</span>
+                <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">{t("apanel.videoBdtu.sortOrder")}</span>
                 <input type="number" value={form.sort_order} onChange={(e) => setField("sort_order", e.target.value)} className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm font-semibold text-navy" />
               </label>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <label className="space-y-1.5">
-                <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">Video URL or storage path</span>
+                <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">{t("apanel.videoBdtu.videoUrlStoragePath")}</span>
                 <div className="flex gap-2">
                   <input value={form.url} onChange={(e) => {
                     setField("url", e.target.value);
@@ -633,7 +635,7 @@ export default function ApanelVideoBdtu() {
                 </div>
               </label>
               <label className="space-y-1.5">
-                <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">Thumbnail URL or storage path</span>
+                <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">{t("apanel.videoBdtu.thumbnailUrlStoragePath")}</span>
                 <div className="flex gap-2">
                   <input value={form.thumbnail} onChange={(e) => setField("thumbnail", e.target.value)} className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm font-semibold text-navy" />
                   <label className="inline-flex items-center justify-center rounded-xl border border-gray-200 px-3 cursor-pointer">
@@ -646,23 +648,23 @@ export default function ApanelVideoBdtu() {
 
             <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
               <label className="space-y-1.5">
-                <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">YouTube ID</span>
-                <input placeholder="YouTube ID" value={form.youtube_id} onChange={(e) => setField("youtube_id", e.target.value)} className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm font-semibold text-navy" />
+                <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">{t("apanel.videoBdtu.youtubeId")}</span>
+                <input placeholder={t("apanel.videoBdtu.youtubeIdPlaceholder")} value={form.youtube_id} onChange={(e) => setField("youtube_id", e.target.value)} className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm font-semibold text-navy" />
               </label>
               <label className="space-y-1.5">
-                <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">Duration</span>
+                <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">{t("apanel.videoBdtu.duration")}</span>
                 <input placeholder="4:15" value={form.duration} onChange={(e) => setField("duration", e.target.value)} className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm font-semibold text-navy" />
               </label>
               <label className="space-y-1.5">
-                <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">Views count</span>
-                <input type="number" placeholder="Views" value={form.views_count} onChange={(e) => setField("views_count", e.target.value)} className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm font-semibold text-navy" />
+                <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">{t("apanel.videoBdtu.viewsCount")}</span>
+                <input type="number" placeholder={t("apanel.videoBdtu.viewsPlaceholder")} value={form.views_count} onChange={(e) => setField("views_count", e.target.value)} className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm font-semibold text-navy" />
               </label>
               <label className="space-y-1.5">
-                <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">Likes count</span>
-                <input type="number" placeholder="Likes" value={form.likes_count} onChange={(e) => setField("likes_count", e.target.value)} className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm font-semibold text-navy" />
+                <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">{t("apanel.videoBdtu.likesCount")}</span>
+                <input type="number" placeholder={t("apanel.videoBdtu.likesPlaceholder")} value={form.likes_count} onChange={(e) => setField("likes_count", e.target.value)} className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm font-semibold text-navy" />
               </label>
               <label className="space-y-1.5">
-                <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">Publish date</span>
+                <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">{t("apanel.videoBdtu.publishDate")}</span>
                 <input type="date" value={form.published_at} onChange={(e) => setField("published_at", e.target.value)} className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm font-semibold text-navy" />
               </label>
             </div>
@@ -685,21 +687,21 @@ export default function ApanelVideoBdtu() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <label className="space-y-1.5">
-                  <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">Title</span>
-                  <input placeholder="Video title" value={currentTranslation.title} onChange={(e) => {
+                  <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">{t("apanel.videoBdtu.videoTitleLabel")}</span>
+                  <input placeholder={t("apanel.videoBdtu.videoTitlePlaceholder")} value={currentTranslation.title} onChange={(e) => {
                     setTranslationField("title", e.target.value);
                     if (!form.slug && activeLocale === primaryLocale) setField("slug", slugify(e.target.value));
                   }} className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm font-semibold text-navy" />
                 </label>
                 <label className="space-y-1.5">
-                  <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">Category</span>
-                  <input placeholder="Category" value={currentTranslation.category} onChange={(e) => setTranslationField("category", e.target.value)} className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm font-semibold text-navy" />
+                  <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">{t("apanel.videoBdtu.category")}</span>
+                  <input placeholder={t("apanel.videoBdtu.categoryPlaceholder")} value={currentTranslation.category} onChange={(e) => setTranslationField("category", e.target.value)} className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm font-semibold text-navy" />
                 </label>
               </div>
 
               <label className="space-y-1.5 block">
-                <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">Description</span>
-                <textarea placeholder="Video description" value={currentTranslation.description} rows={5} onChange={(e) => setTranslationField("description", e.target.value)} className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm font-semibold text-navy" />
+                <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">{t("apanel.videoBdtu.description")}</span>
+                <textarea placeholder={t("apanel.videoBdtu.descriptionPlaceholder")} value={currentTranslation.description} rows={5} onChange={(e) => setTranslationField("description", e.target.value)} className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm font-semibold text-navy" />
               </label>
             </div>
 
@@ -719,11 +721,11 @@ export default function ApanelVideoBdtu() {
             <table className="w-full min-w-220 text-start">
               <thead className="bg-gray-50 text-[10px] uppercase tracking-wider text-gray-400 font-black">
                 <tr>
-                  <th className="px-5 py-3 text-start">Video</th>
-                  <th className="px-5 py-3 text-start">Category</th>
-                  <th className="px-5 py-3 text-start">Stats</th>
-                  <th className="px-5 py-3 text-start">Status</th>
-                  <th className="px-5 py-3 text-end">Actions</th>
+                  <th className="px-5 py-3 text-start">{t("apanel.videoBdtu.video")}</th>
+                  <th className="px-5 py-3 text-start">{t("apanel.videoBdtu.category")}</th>
+                  <th className="px-5 py-3 text-start">{t("apanel.videoBdtu.stats")}</th>
+                  <th className="px-5 py-3 text-start">{t("apanel.videoBdtu.status")}</th>
+                  <th className="px-5 py-3 text-end">{t("apanel.videoBdtu.actions")}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
@@ -773,7 +775,7 @@ export default function ApanelVideoBdtu() {
       )}
       <ConfirmDialog
         isOpen={Boolean(pendingDelete)}
-        title="Delete video?"
+        title={t("apanel.videoBdtu.title.deleteVideo")}
         message={`This will permanently delete ${pendingDelete?.slug || "this video"}. This action cannot be undone.`}
         onConfirm={confirmDelete}
         onCancel={() => setPendingDelete(null)}

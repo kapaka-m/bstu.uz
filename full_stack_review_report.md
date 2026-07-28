@@ -717,6 +717,84 @@
 
 ---
 
+## مراجعة Laravel Public Root Environment Files
+
+تاريخ المراجعة: 2026-07-28
+
+## ملفات Laravel Public Root Environment التي تمت مراجعتها
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\public`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\public\storage`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\public\storage\cms`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\public\robots.txt`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\public\index.php`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\public\favicon.ico`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\public\.htaccess`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\.editorconfig`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\.env`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\.env.example`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\.gitattributes`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\.gitignore`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\.npmrc`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\.phpunit.result.cache`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\.styleci.yml`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\artisan`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\composer.json`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\composer.lock`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\package.json`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\package-lock.json`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\php-local.bat`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\php.ini`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\phpunit.xml`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\serve-local.bat`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\vite.config.js`
+
+## ما تم العثور عليه في Laravel Public Root Environment
+
+- `public/storage` هو Junction إلى `storage/app/public` وليس نسخة مستقلة من ملفات CMS.
+- `public/storage/cms/*` يعرض ملفات CMS المنظمة الموجودة في storage العام، وهي مربوطة بجداول CMS/media ولا يجب نقلها من هذا المسار.
+- `public/favicon.ico` مطابق hash للملف `storage/app/public/cms/branding/favicon.ico`.
+- `public/index.php`, `.htaccess`, و`robots.txt` ملفات front controller وتشغيل عامة ولا تحتوي محتوى CMS.
+- `.env.example`, `serve-local.bat`, و`php.ini` كانت تحتوي قيم أو مسارات محلية ثابتة.
+- `.env` يحتوي إعدادات بيئة الجهاز الحالية، وتم فحصه بنمط masked فقط بدون عرض القيم السرية أو تعديلها.
+- `.phpunit.result.cache` ملف مولد من PHPUnit.
+
+## تغييرات Laravel Public Root Environment
+
+- تم تنظيف `.env.example` من `localhost`, `127.0.0.1`, اسم التطبيق الثابت، وقيم قاعدة البيانات المحلية.
+- تم تعديل `serve-local.bat` لاستخدام `PHP_SERVER_HOST` و`PHP_SERVER_PORT` بدلاً من تثبيت `127.0.0.1:8000`.
+- تم تعديل `php-local.bat` و`serve-local.bat` لاكتشاف `extension_dir` تلقائياً من مسار `php.exe` وإنشاء `storage/temp/php.ini` وقت التشغيل بدلاً من تخزين مسار Windows ثابت داخل `php.ini`.
+- تم حذف `extension_dir = C:\Program Files\...` من `php.ini`.
+- تم حذف `.phpunit.result.cache` لأنه cache مولد.
+- تم تنظيف ملفات temp/compiled view التي أنشأتها الفحوصات بعد انتهاء الاختبارات.
+
+## ربط Laravel Public Root Environment بالبيانات
+
+- ملفات branding وCMS في `public/storage/cms/*` مرتبطة بمسارات التخزين في جداول `media`, `settings`, وجداول CMS الخاصة مثل footer/header/home/news/blog/videos/staff/centers.
+- `public/favicon.ico` مطابق لنسخة branding الموجودة في storage، لكن إدارة favicon الفعلية تتم من مصدر CMS/branding وليس من كود React.
+- API المستخدم لعرض ملفات ومحتوى CMS: `/api/v1/media/{id}`, `/api/v1/settings/public`, وpublic CMS endpoints.
+- `/apanel/`: إدارة الملفات والمحتوى من `/apanel/cms/*`, `/apanel/{resource}`, وصفحات media/settings الحالية.
+
+## تحقق Laravel Public Root Environment
+
+- تم فحص `.env` بنمط masked فقط للتأكد من وجود إعدادات بيئة محلية دون كشف أسرار.
+- إعادة المسح لم تجد `http://localhost`, `localhost:`, `127.0.0.1`, `VITE_API_BASE_URL`, `/admin`, `demo`, `TODO`, `FIXME`, `C:\Program Files`, أو `BSTU Platform` داخل ملفات هذه المجموعة باستثناء dependency اسمها `mockery/mockery`.
+- `php-local.bat -l public/index.php` و`php-local.bat -l artisan` نجحا بدون تحذيرات extensions بعد تعديل السكربت.
+- `php-local.bat artisan optimize:clear` نجح.
+- `php-local.bat artisan route:list --path=api/v1 --except-vendor` نجح وأظهر 170 route.
+- `php-local.bat artisan test` نجح: 4 tests passed, 7 assertions.
+- `npm.cmd run lint` نجح.
+- `npm.cmd run build` نجح.
+
+## المتبقي في Laravel Public Root Environment
+
+- `.env` بقي كما هو لأنه ملف بيئة محلي فعلي؛ لم يتم تحويله إلى قاعدة البيانات ولا تعديله حتى لا ينكسر تشغيل الجهاز.
+- `public/favicon.ico` بقي لأنه root favicon تقني، ومطابق لنسخة branding الموجودة في storage.
+- ملفات `composer.lock` و`package-lock.json` بقيت كما هي لأنها lockfiles وليست محتوى CMS.
+- `public/storage` بقي Junction كما هو لأنه رابط Laravel العام إلى storage، وليس مجلد محتوى مستقل.
+
+---
+
 ## مراجعة Laravel App Backend Dynamic Runtime
 
 تاريخ المراجعة: 2026-07-28

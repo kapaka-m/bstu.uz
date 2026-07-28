@@ -650,6 +650,64 @@
 
 ---
 
+## مراجعة Web Public Root Environment
+
+تاريخ المراجعة: 2026-07-28
+
+## ملفات Web Public Root Environment التي تمت مراجعتها
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\public`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\public\robots.txt`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\node_modules`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\vite.config.js`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\tailwind.config.js`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\package.json`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\package-lock.json`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\index.html`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\eslint.config.js`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\.env`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\.env.example`
+
+## ما تم العثور عليه في Web Public Root Environment
+
+- `public` يحتوي `robots.txt` فقط، وهو ملف SEO/crawling تقني وليس محتوى CMS.
+- `node_modules` يحتوي مكتبات طرف ثالث وملفات dependency cache، ولا يتم نقله إلى قاعدة البيانات أو تعديله يدوياً.
+- `vite.config.js`, `tailwind.config.js`, `eslint.config.js`, `package.json`, و `package-lock.json` تحتوي إعدادات بناء واعتمادات فقط.
+- `index.html` يحتوي bootstrap HTML فقط. العنوان وmeta/favicon يتم تحديثها وقت التشغيل من `settings` عبر `LocaleContext.jsx`.
+- `.env` ملف بيئة محلي وتمت مراجعته بدون عرض قيمه أو تعديلها.
+- `.env.example` كان يحتوي قيمة API محلية `127.0.0.1`.
+
+## تغييرات Web Public Root Environment
+
+- تم تعديل `apps/web/.env.example` وإزالة رابط API المحلي، وأصبح `VITE_API_BASE_URL=` فارغاً ليتم ضبطه من بيئة التشغيل.
+- لم يتم إنشاء جداول أو Models أو صفحات `/apanel/` جديدة، لأن الملفات في هذه المجموعة ليست محتوى قابل للإدارة.
+- تم تنظيف ملفات runtime المؤقتة التي أنشأتها فحوصات Laravel داخل `apps/api/storage/temp` و `.phpunit.result.cache`.
+
+## ربط Web Public Root Environment بالبيانات
+
+- قاعدة البيانات: لا توجد بيانات CMS جديدة في هذه المجموعة.
+- Laravel API: الواجهة تستخدم طبقة API المركزية، وقيمة `VITE_API_BASE_URL` تأتي من بيئة التشغيل وليست hardcoded داخل القالب.
+- `/apanel/`: محتوى branding وsite title وmeta وfavicon يدار من إعدادات CMS الموجودة في apanel ويعرض عبر `/api/v1/settings/public`.
+- نظام اللغات: اللغات الفعلية تأتي من جدول `locales` عبر `/api/v1/locales`، و`index.html` يعمل كغلاف أولي فقط قبل تحميل React.
+
+## تحقق Web Public Root Environment
+
+- إعادة المسح داخل الملفات المطلوبة لم تجد `localhost`, `127.0.0.1`, `VITE_API_BASE_URL=http`, `/storage`, `assets/img`, `cms/branding`, أو hardcoded `t("key", "fallback")`.
+- تم التأكد أن `apps/web/node_modules/.vite-temp` فارغ.
+- `npm.cmd run lint` نجح.
+- `npm.cmd run build` نجح.
+- `php-local.bat artisan route:list --path=api/v1 --except-vendor` نجح وأظهر 170 route.
+- `php-local.bat artisan test` نجح: 4 tests passed, 7 assertions.
+- `php-local.bat artisan optimize:clear` نجح.
+
+## المتبقي في Web Public Root Environment
+
+- `index.html` ما زال يحتوي عنصر `<title>` و`lang` كـ bootstrap HTML ضروري قبل تحميل React؛ القيم النهائية يتم ضبطها من قاعدة البيانات بعد تحميل التطبيق.
+- `package.json` يحتوي اسم package تقني، وليس نصاً عاماً للموقع أو محتوى يديره apanel.
+- `.env` المحلي لم يتم تعديله حفاظاً على إعدادات بيئة جهازك.
+
+---
+
 ## مراجعة Laravel Routes Storage Tests Vendor
 
 تاريخ المراجعة: 2026-07-28

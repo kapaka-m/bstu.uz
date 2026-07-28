@@ -4,12 +4,11 @@ import { centerService } from "../../../services/centerService";
 import { apanelService } from "../../../services/apanelService";
 import { publicAssetUrl } from "../../../lib/api";
 import ConfirmDialog from "../components/ConfirmDialog";
+import { useApanelLocaleOptions } from "../utils/locales";
 
-const LOCALES = ["en", "uz", "ru", "ar"];
-
-const emptyTranslations = () =>
+const emptyTranslations = (localeCodes) =>
   Object.fromEntries(
-    LOCALES.map((locale) => [
+    localeCodes.map((locale) => [
       locale,
       {
         name: "",
@@ -23,19 +22,19 @@ const emptyTranslations = () =>
     ]),
   );
 
-const emptyForm = () => ({
+const emptyForm = (localeCodes) => ({
   slug: "",
   image: "",
   email: "",
   phone: "",
   sort_order: 0,
   is_active: true,
-  translations: emptyTranslations(),
+  translations: emptyTranslations(localeCodes),
 });
 
-const emptySettingsTranslations = () =>
+const emptySettingsTranslations = (localeCodes) =>
   Object.fromEntries(
-    LOCALES.map((locale) => [
+    localeCodes.map((locale) => [
       locale,
       {
         sidebar_title: "",
@@ -52,9 +51,9 @@ const emptySettingsTranslations = () =>
     ]),
   );
 
-const emptySettingsForm = () => ({
+const emptySettingsForm = (localeCodes) => ({
   is_active: true,
-  translations: emptySettingsTranslations(),
+  translations: emptySettingsTranslations(localeCodes),
 });
 
 const storageUrl = (path) => {
@@ -62,16 +61,38 @@ const storageUrl = (path) => {
 };
 
 export default function ApanelCenters() {
+  const localeOptions = useApanelLocaleOptions();
+  const localeCodes = useMemo(() => localeOptions.map((locale) => locale.code), [localeOptions]);
+  const primaryLocale = localeCodes[0] || "";
   const [tab, setTab] = useState("list"); // "list", "editor", "settings"
   const [items, setItems] = useState([]);
   const [editing, setEditing] = useState(null);
-  const [form, setForm] = useState(emptyForm());
-  const [settingsForm, setSettingsForm] = useState(emptySettingsForm());
-  const [activeLocale, setActiveLocale] = useState("en");
+  const [form, setForm] = useState(() => emptyForm([]));
+  const [settingsForm, setSettingsForm] = useState(() => emptySettingsForm([]));
+  const [activeLocale, setActiveLocale] = useState("");
   const [saving, setSaving] = useState(false);
   const [pendingDelete, setPendingDelete] = useState(null);
   const [loading, setLoading] = useState(true);
   const [toast, setToast] = useState(null);
+
+  useEffect(() => {
+    if (!localeCodes.length) return;
+    setActiveLocale((current) => (localeCodes.includes(current) ? current : primaryLocale));
+    setForm((current) => ({
+      ...current,
+      translations: {
+        ...emptyTranslations(localeCodes),
+        ...current.translations,
+      },
+    }));
+    setSettingsForm((current) => ({
+      ...current,
+      translations: {
+        ...emptySettingsTranslations(localeCodes),
+        ...current.translations,
+      },
+    }));
+  }, [localeCodes, primaryLocale]);
 
   const sortedItems = useMemo(
     () => [...items].sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0)),
@@ -94,7 +115,7 @@ export default function ApanelCenters() {
       ]);
       setItems(data || []);
       if (settingsData) {
-        setSettingsForm(normalizeSettingsForm(settingsData));
+        setSettingsForm(normalizeSettingsForm(settingsData, localeCodes));
       }
     } catch (err) {
       console.error("Failed to load centers:", err);
@@ -104,13 +125,14 @@ export default function ApanelCenters() {
   };
 
   useEffect(() => {
+    if (!localeCodes.length) return;
     load();
-  }, []);
+  }, [localeCodes]);
 
   const startCreate = () => {
     setEditing(null);
-    setForm(emptyForm());
-    setActiveLocale("en");
+    setForm(emptyForm(localeCodes));
+    setActiveLocale(primaryLocale);
     setTab("editor");
   };
 
@@ -119,8 +141,8 @@ export default function ApanelCenters() {
     try {
       const fullItem = await centerService.adminGetCenter(item.numeric_id);
       setEditing(item);
-      setForm(normalizeCenterForm(fullItem));
-      setActiveLocale("en");
+      setForm(normalizeCenterForm(fullItem, localeCodes));
+      setActiveLocale(primaryLocale);
       setTab("editor");
     } catch (err) {
       console.error("Failed to load center details:", err);
@@ -143,7 +165,7 @@ export default function ApanelCenters() {
       await load();
       setTab("list");
       setEditing(null);
-      setForm(emptyForm());
+      setForm(emptyForm(localeCodes));
     } catch (err) {
       console.error("Failed to save center:", err);
       showToast("Error occurred while saving.");
@@ -220,7 +242,7 @@ export default function ApanelCenters() {
             <>
               <button
                 onClick={() => {
-                  setActiveLocale("en");
+                  setActiveLocale(primaryLocale);
                   setTab("settings");
                 }}
                 className="inline-flex cursor-pointer items-center gap-2 rounded-xl border border-gray-100 bg-white px-4 py-2.5 text-xs font-extrabold text-navy transition-all hover:bg-gray-55"
@@ -345,7 +367,7 @@ export default function ApanelCenters() {
                 Provide basic details and translations in all 4 languages.
               </p>
             </div>
-            <LocaleTabs active={activeLocale} onChange={setActiveLocale} />
+            <LocaleTabs active={activeLocale} onChange={setActiveLocale} localeOptions={localeOptions} />
           </div>
 
           <form onSubmit={saveCenter} className="space-y-6">
@@ -446,7 +468,7 @@ export default function ApanelCenters() {
                 <TextField
                   label="Name / Title"
                   value={form.translations[activeLocale]?.name || ""}
-                  required={activeLocale === "en"}
+                  required={activeLocale === primaryLocale}
                   onChange={(val) => setTranslation("name", val)}
                 />
 
@@ -513,7 +535,7 @@ export default function ApanelCenters() {
                 onClick={() => {
                   setTab("list");
                   setEditing(null);
-                  setForm(emptyForm());
+                  setForm(emptyForm(localeCodes));
                 }}
                 className="inline-flex cursor-pointer items-center gap-2 rounded-xl border border-gray-100 bg-white px-4 py-2.5 text-xs font-extrabold text-navy hover:bg-gray-50"
               >
@@ -536,7 +558,7 @@ export default function ApanelCenters() {
                 Change buttons, sidebar titles, and standard support card descriptions for all 4 languages.
               </p>
             </div>
-            <LocaleTabs active={activeLocale} onChange={setActiveLocale} />
+            <LocaleTabs active={activeLocale} onChange={setActiveLocale} localeOptions={localeOptions} />
           </div>
 
           <form onSubmit={saveSettings} className="space-y-6">
@@ -675,19 +697,19 @@ export default function ApanelCenters() {
   }
 }
 
-function LocaleTabs({ active, onChange }) {
+function LocaleTabs({ active, onChange, localeOptions }) {
   return (
     <div className="flex flex-wrap gap-2">
-      {LOCALES.map((locale) => (
+      {localeOptions.map((locale) => (
         <button
           type="button"
-          key={locale}
-          onClick={() => onChange(locale)}
+          key={locale.code}
+          onClick={() => onChange(locale.code)}
           className={`rounded-lg px-3 py-1.5 text-[11px] font-black uppercase transition-colors cursor-pointer ${
-            active === locale ? "bg-primary text-white" : "bg-gray-55 text-gray-500 hover:text-navy hover:bg-gray-100"
+            active === locale.code ? "bg-primary text-white" : "bg-gray-55 text-gray-500 hover:text-navy hover:bg-gray-100"
           }`}
         >
-          {locale}
+          {locale.label}
         </button>
       ))}
     </div>
@@ -723,8 +745,8 @@ function TextArea({ label, value, onChange }) {
   );
 }
 
-function normalizeCenterForm(item = {}) {
-  const translations = emptyTranslations();
+function normalizeCenterForm(item = {}, localeCodes) {
+  const translations = emptyTranslations(localeCodes);
   (item.translations || []).forEach((translation) => {
     translations[translation.locale] = {
       name: translation.name || "",
@@ -748,8 +770,8 @@ function normalizeCenterForm(item = {}) {
   };
 }
 
-function normalizeSettingsForm(data = {}) {
-  const translations = emptySettingsTranslations();
+function normalizeSettingsForm(data = {}, localeCodes) {
+  const translations = emptySettingsTranslations(localeCodes);
   (data.translations || []).forEach((translation) => {
     translations[translation.locale] = {
       sidebar_title: translation.sidebar_title || "",

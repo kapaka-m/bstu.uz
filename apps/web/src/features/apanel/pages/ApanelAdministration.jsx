@@ -3,25 +3,22 @@ import { Camera, Edit3, Plus, Save, Trash2, UploadCloud, X } from "lucide-react"
 import { apanelService } from "../../../services/apanelService";
 import { publicAssetUrl } from "../../../lib/api";
 import ConfirmDialog from "../components/ConfirmDialog";
+import { buildLocaleMap, useApanelLocaleOptions } from "../utils/locales";
 
-const LOCALES = ["en", "uz", "ru", "ar"];
-const emptyTranslations = () =>
-  Object.fromEntries(
-    LOCALES.map((locale) => [
-      locale,
-      {
-        full_name: "",
-        position: "",
-        degree: "",
-        office_hours: "",
-        about: "",
-        details: "",
-        achievements: [],
-      },
-    ]),
-  );
+const emptyProfileTranslation = {
+  full_name: "",
+  position: "",
+  degree: "",
+  office_hours: "",
+  about: "",
+  details: "",
+  achievements: [],
+};
 
-const emptyForm = () => ({
+const emptyTranslations = (localeCodes) =>
+  buildLocaleMap(localeCodes, () => ({ ...emptyProfileTranslation }));
+
+const emptyForm = (localeCodes) => ({
   slug: "",
   photo: "",
   email: "",
@@ -30,49 +27,49 @@ const emptyForm = () => ({
   sort_order: 0,
   is_rector: false,
   is_published: true,
-  translations: emptyTranslations(),
+  translations: emptyTranslations(localeCodes),
 });
 
-const emptySettingsTranslations = () =>
-  Object.fromEntries(
-    LOCALES.map((locale) => [
-      locale,
-      {
-        home_tag: "",
-        home_title: "",
-        reception_label: "",
-        phone_label: "",
-        email_label: "",
-        telegram_label: "",
-        rector_bot_label: "",
-        structure_title: "",
-        profile_category_label: "",
-        email_address_label: "",
-        phone_number_label: "",
-        office_hours_label: "",
-        academic_rank_label: "",
-        biography_label: "",
-        duties_label: "",
-        achievements_label: "",
-      },
-    ]),
-  );
+const emptySettingsTranslation = {
+  home_tag: "",
+  home_title: "",
+  reception_label: "",
+  phone_label: "",
+  email_label: "",
+  telegram_label: "",
+  rector_bot_label: "",
+  structure_title: "",
+  profile_category_label: "",
+  email_address_label: "",
+  phone_number_label: "",
+  office_hours_label: "",
+  academic_rank_label: "",
+  biography_label: "",
+  duties_label: "",
+  achievements_label: "",
+};
+
+const emptySettingsTranslations = (localeCodes) =>
+  buildLocaleMap(localeCodes, () => ({ ...emptySettingsTranslation }));
 
 const storageUrl = (path) => {
   return publicAssetUrl(path);
 };
 
 export default function ApanelAdministration() {
+  const localeOptions = useApanelLocaleOptions();
+  const localeCodes = useMemo(() => localeOptions.map((locale) => locale.code), [localeOptions]);
+  const primaryLocale = localeCodes[0] || "";
   const [tab, setTab] = useState("profiles");
   const [items, setItems] = useState([]);
   const [editing, setEditing] = useState(null);
-  const [form, setForm] = useState(emptyForm());
+  const [form, setForm] = useState(() => emptyForm([]));
   const [settings, setSettings] = useState({
     home_limit: 6,
     is_active: true,
-    translations: emptySettingsTranslations(),
+    translations: emptySettingsTranslations([]),
   });
-  const [activeLocale, setActiveLocale] = useState("en");
+  const [activeLocale, setActiveLocale] = useState("");
   const [saving, setSaving] = useState(false);
   const [pendingDelete, setPendingDelete] = useState(null);
 
@@ -81,28 +78,48 @@ export default function ApanelAdministration() {
     [items],
   );
 
-  const load = async () => {
+  useEffect(() => {
+    if (!localeCodes.length) return;
+    setActiveLocale((current) => (localeCodes.includes(current) ? current : primaryLocale));
+    setForm((current) => ({
+      ...current,
+      translations: {
+        ...emptyTranslations(localeCodes),
+        ...current.translations,
+      },
+    }));
+    setSettings((current) => ({
+      ...current,
+      translations: {
+        ...emptySettingsTranslations(localeCodes),
+        ...current.translations,
+      },
+    }));
+  }, [localeCodes, primaryLocale]);
+
+  const load = React.useCallback(async () => {
+    if (!localeCodes.length) return;
     const [profilesPage, settingsData] = await Promise.all([
       apanelService.listPage("administration-profiles", { per_page: 100, sort_by: "sort_order", sort_dir: "asc" }),
       apanelService.getAdministrationSettings(),
     ]);
     setItems(profilesPage.items || []);
-    setSettings(normalizeSettings(settingsData));
-  };
+    setSettings(normalizeSettings(settingsData, localeCodes));
+  }, [localeCodes]);
 
   useEffect(() => {
     load().catch((err) => console.error("Administration CMS load failed", err));
-  }, []);
+  }, [load]);
 
   const startCreate = () => {
     setEditing(null);
-    setForm(emptyForm());
+    setForm(emptyForm(localeCodes));
     setTab("editor");
   };
 
   const startEdit = (item) => {
     setEditing(item);
-    setForm(normalizeProfileForm(item));
+    setForm(normalizeProfileForm(item, localeCodes));
     setTab("editor");
   };
 
@@ -118,7 +135,7 @@ export default function ApanelAdministration() {
       await load();
       setTab("profiles");
       setEditing(null);
-      setForm(emptyForm());
+      setForm(emptyForm(localeCodes));
     } finally {
       setSaving(false);
     }
@@ -190,12 +207,12 @@ export default function ApanelAdministration() {
       {tab === "profiles" && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {sortedItems.map((item) => {
-            const en = item.translations?.find((translation) => translation.locale === "en") || item.translations?.[0] || {};
+            const primaryTranslation = item.translations?.find((translation) => translation.locale === primaryLocale) || item.translations?.[0] || {};
             return (
               <div key={item.id} className="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm flex gap-4">
                 <div className="w-24 h-28 rounded-xl overflow-hidden bg-gray-100 shrink-0">
                   {item.photo ? (
-                    <img src={storageUrl(item.photo)} alt={en.full_name || item.slug} className="w-full h-full object-cover" />
+                    <img src={storageUrl(item.photo)} alt={primaryTranslation.full_name || item.slug} className="w-full h-full object-cover" />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-primary">
                       <Camera className="w-7 h-7" />
@@ -205,8 +222,8 @@ export default function ApanelAdministration() {
                 <div className="min-w-0 flex-1">
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <h2 className="text-sm font-extrabold text-navy">{en.full_name || item.slug}</h2>
-                      <p className="text-xs text-gray-500 font-semibold mt-1">{en.position}</p>
+                      <h2 className="text-sm font-extrabold text-navy">{primaryTranslation.full_name || item.slug}</h2>
+                      <p className="text-xs text-gray-500 font-semibold mt-1">{primaryTranslation.position}</p>
                     </div>
                     <span className={`text-[10px] font-black rounded-full px-2 py-1 ${item.is_published ? "bg-emerald-50 text-emerald-700" : "bg-gray-100 text-gray-500"}`}>
                       {item.is_published ? "Published" : "Hidden"}
@@ -240,6 +257,7 @@ export default function ApanelAdministration() {
           form={form}
           saving={saving}
           setActiveLocale={setActiveLocale}
+          localeOptions={localeOptions}
           setForm={setForm}
           onCancel={() => setTab("profiles")}
           onSave={saveProfile}
@@ -272,7 +290,7 @@ export default function ApanelAdministration() {
             </div>
           </div>
 
-          <LocaleTabs active={activeLocale} onChange={setActiveLocale} />
+          <LocaleTabs active={activeLocale} onChange={setActiveLocale} localeOptions={localeOptions} />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {[
               "home_tag",
@@ -329,7 +347,7 @@ export default function ApanelAdministration() {
   );
 }
 
-function ProfileForm({ activeLocale, form, saving, setActiveLocale, setForm, onCancel, onSave, onUpload }) {
+function ProfileForm({ activeLocale, form, saving, setActiveLocale, setForm, onCancel, onSave, onUpload, localeOptions }) {
   const t = form.translations[activeLocale] || {};
   const setTranslation = (field, value) => {
     setForm((prev) => ({
@@ -386,7 +404,7 @@ function ProfileForm({ activeLocale, form, saving, setActiveLocale, setForm, onC
         </div>
       </div>
 
-      <LocaleTabs active={activeLocale} onChange={setActiveLocale} />
+      <LocaleTabs active={activeLocale} onChange={setActiveLocale} localeOptions={localeOptions} />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <TextField label="Full Name" value={t.full_name || ""} onChange={(value) => setTranslation("full_name", value)} required />
         <TextField label="Position" value={t.position || ""} onChange={(value) => setTranslation("position", value)} required />
@@ -415,19 +433,19 @@ function ProfileForm({ activeLocale, form, saving, setActiveLocale, setForm, onC
   );
 }
 
-function LocaleTabs({ active, onChange }) {
+function LocaleTabs({ active, onChange, localeOptions }) {
   return (
     <div className="flex flex-wrap gap-2">
-      {LOCALES.map((locale) => (
+      {localeOptions.map((locale) => (
         <button
           type="button"
-          key={locale}
-          onClick={() => onChange(locale)}
+          key={locale.code}
+          onClick={() => onChange(locale.code)}
           className={`rounded-lg px-3 py-1.5 text-[11px] font-black uppercase ${
-            active === locale ? "bg-primary text-white" : "bg-gray-50 text-gray-500 hover:text-navy"
+            active === locale.code ? "bg-primary text-white" : "bg-gray-50 text-gray-500 hover:text-navy"
           }`}
         >
-          {locale}
+          {locale.label}
         </button>
       ))}
     </div>
@@ -463,8 +481,8 @@ function TextArea({ label, value, onChange }) {
   );
 }
 
-function normalizeProfileForm(item = {}) {
-  const translations = emptyTranslations();
+function normalizeProfileForm(item = {}, localeCodes) {
+  const translations = emptyTranslations(localeCodes);
   (item.translations || []).forEach((translation) => {
     translations[translation.locale] = {
       full_name: translation.full_name || "",
@@ -490,8 +508,8 @@ function normalizeProfileForm(item = {}) {
   };
 }
 
-function normalizeSettings(data = {}) {
-  const translations = emptySettingsTranslations();
+function normalizeSettings(data = {}, localeCodes) {
+  const translations = emptySettingsTranslations(localeCodes);
   (data.translations || []).forEach((translation) => {
     translations[translation.locale] = {
       ...translations[translation.locale],

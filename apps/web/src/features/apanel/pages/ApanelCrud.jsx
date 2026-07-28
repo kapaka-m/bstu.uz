@@ -1041,7 +1041,7 @@ const RESOURCE_SCHEMAS = {
 };
 
 export default function ApanelCrud() {
-  const { t, availableLocales } = useLanguage();
+  const { t, locales: availableLocales } = useLanguage();
   const { resource } = useParams();
   const navigate = useNavigate();
 

@@ -19,10 +19,10 @@ import FormError from "../../../components/common/FormError";
 import { apanelService } from "../../../services/apanelService";
 import { publicAssetUrl } from "../../../lib/api";
 import ConfirmDialog from "../components/ConfirmDialog";
+import { useApanelLocaleCodes } from "../utils/locales";
 
-const locales = ["en", "uz", "ru", "ar"];
 const emptyTranslation = { title: "", category_label: "", summary: "", content: "" };
-const emptyForm = {
+const emptyForm = (localeCodes) => ({
   slug: "",
   type: "announcements",
   priority: "normal",
@@ -31,8 +31,8 @@ const emptyForm = {
   ends_at: "",
   is_published: true,
   views_count: 0,
-  translations: Object.fromEntries(locales.map((locale) => [locale, { ...emptyTranslation }])),
-};
+  translations: Object.fromEntries(localeCodes.map((locale) => [locale, { ...emptyTranslation }])),
+});
 
 const emptySettingsTranslation = {
   home_tag: "",
@@ -56,15 +56,15 @@ const emptySettingsTranslation = {
   publisher_name: "",
 };
 
-const emptySettings = {
+const emptySettings = (localeCodes) => ({
   home_limit: 4,
   recent_limit: 5,
   important_limit: 3,
   is_active: true,
   translations: Object.fromEntries(
-    locales.map((locale) => [locale, { ...emptySettingsTranslation }]),
+    localeCodes.map((locale) => [locale, { ...emptySettingsTranslation }]),
   ),
-};
+});
 
 function slugify(value) {
   return value
@@ -87,16 +87,16 @@ function imagePreviewSrc(image) {
   return publicAssetUrl(image);
 }
 
-function translationsFromRecord(record) {
+function translationsFromRecord(record, localeCodes) {
   return Object.fromEntries(
-    locales.map((locale) => {
+    localeCodes.map((locale) => {
       const existing = record.translations?.find((item) => item.locale === locale);
       return [locale, { ...emptyTranslation, ...(existing || {}) }];
     }),
   );
 }
 
-function fromRecord(record) {
+function fromRecord(record, localeCodes) {
   return {
     slug: record.slug || "",
     type: record.type || "announcements",
@@ -106,12 +106,12 @@ function fromRecord(record) {
     ends_at: toDateInput(record.ends_at),
     is_published: Boolean(record.is_published ?? true),
     views_count: Number(record.views_count || 0),
-    translations: translationsFromRecord(record),
+    translations: translationsFromRecord(record, localeCodes),
   };
 }
 
-function toPayload(form) {
-  const fallback = form.translations.en || emptyTranslation;
+function toPayload(form, primaryLocale, localeCodes) {
+  const fallback = form.translations[primaryLocale] || Object.values(form.translations || {})[0] || emptyTranslation;
   return {
     slug: form.slug,
     type: form.type,
@@ -122,7 +122,7 @@ function toPayload(form) {
     is_published: Boolean(form.is_published),
     views_count: Number(form.views_count || 0),
     translations: Object.fromEntries(
-      locales.map((locale) => {
+      localeCodes.map((locale) => {
         const current = form.translations[locale] || emptyTranslation;
         return [
           locale,
@@ -139,11 +139,13 @@ function toPayload(form) {
 }
 
 export default function ApanelAnnouncements() {
+  const localeCodes = useApanelLocaleCodes();
+  const primaryLocale = localeCodes[0] || "";
   const [activeTab, setActiveTab] = useState("items");
-  const [activeLocale, setActiveLocale] = useState("en");
+  const [activeLocale, setActiveLocale] = useState("");
   const [items, setItems] = useState([]);
-  const [settingsForm, setSettingsForm] = useState(emptySettings);
-  const [form, setForm] = useState(emptyForm);
+  const [settingsForm, setSettingsForm] = useState(() => emptySettings([]));
+  const [form, setForm] = useState(() => emptyForm([]));
   const [editingRecord, setEditingRecord] = useState(null);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
@@ -153,6 +155,25 @@ export default function ApanelAnnouncements() {
   const [deletingId, setDeletingId] = useState(null);
   const [pendingDelete, setPendingDelete] = useState(null);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (!localeCodes.length) return;
+    setActiveLocale((current) => (localeCodes.includes(current) ? current : primaryLocale));
+    setForm((current) => ({
+        ...current,
+        translations: {
+        ...emptyForm(localeCodes).translations,
+        ...current.translations,
+      },
+    }));
+    setSettingsForm((current) => ({
+        ...current,
+        translations: {
+        ...emptySettings(localeCodes).translations,
+        ...current.translations,
+      },
+    }));
+  }, [localeCodes, primaryLocale]);
 
   const fetchItems = useCallback(async () => {
     try {
@@ -182,7 +203,7 @@ export default function ApanelAnnouncements() {
         important_limit: setting.important_limit || 3,
         is_active: Boolean(setting.is_active ?? true),
         translations: Object.fromEntries(
-          locales.map((locale) => {
+          localeCodes.map((locale) => {
             const existing = setting.translations?.find((item) => item.locale === locale);
             return [locale, { ...emptySettingsTranslation, ...(existing || {}) }];
           }),
@@ -191,7 +212,7 @@ export default function ApanelAnnouncements() {
     } catch (err) {
       setError(err?.message || "Failed to load announcement settings.");
     }
-  }, []);
+  }, [localeCodes]);
 
   useEffect(() => {
     fetchItems();
@@ -225,13 +246,15 @@ export default function ApanelAnnouncements() {
 
   const startCreate = () => {
     setEditingRecord(null);
-    setForm(emptyForm);
+    setForm(emptyForm(localeCodes));
+    setActiveLocale(primaryLocale);
     setActiveTab("editor");
   };
 
   const startEdit = (record) => {
     setEditingRecord(record);
-    setForm(fromRecord(record));
+    setForm(fromRecord(record, localeCodes));
+    setActiveLocale(primaryLocale);
     setActiveTab("editor");
   };
 
@@ -240,9 +263,10 @@ export default function ApanelAnnouncements() {
     if (!file) return;
     try {
       setUploading(true);
+      const uploadTitle = form.translations[primaryLocale]?.title || file.name;
       const response = await apanelService.uploadMedia(file, {
-        title: form.translations.en.title || file.name,
-        alt_text: form.translations.en.title || file.name,
+        title: uploadTitle,
+        alt_text: uploadTitle,
         type: "image",
         is_public: true,
       });
@@ -253,7 +277,7 @@ export default function ApanelAnnouncements() {
 
       if (editingRecord && imagePath) {
         await apanelService.update("announcements", editingRecord.id, {
-          ...toPayload(form),
+          ...toPayload(form, primaryLocale, localeCodes),
           image: imagePath,
         });
         await fetchItems();
@@ -271,13 +295,13 @@ export default function ApanelAnnouncements() {
     try {
       setSaving(true);
       setError("");
-      const payload = toPayload(form);
+      const payload = toPayload(form, primaryLocale, localeCodes);
       if (editingRecord) {
         await apanelService.update("announcements", editingRecord.id, payload);
       } else {
         await apanelService.create("announcements", payload);
       }
-      setForm(emptyForm);
+      setForm(emptyForm(localeCodes));
       setEditingRecord(null);
       setActiveTab("items");
       await fetchItems();
@@ -385,7 +409,9 @@ export default function ApanelAnnouncements() {
             <div className="divide-y divide-gray-100">
               {filteredItems.map((record) => {
                 const title =
-                  record.translations?.find((item) => item.locale === "en")
+                  record.translations?.find((item) => item.locale === primaryLocale)
+                    ?.title ||
+                  record.translations?.[0]
                     ?.title || record.slug;
                 return (
                   <div
@@ -627,7 +653,7 @@ export default function ApanelAnnouncements() {
           </label>
 
           <div className="flex flex-wrap gap-2">
-            {locales.map((locale) => (
+            {localeCodes.map((locale) => (
               <button
                 type="button"
                 key={locale}
@@ -648,7 +674,7 @@ export default function ApanelAnnouncements() {
                 value={form.translations[activeLocale].title}
                 onChange={(e) => {
                   updateTranslation(activeLocale, "title", e.target.value);
-                  if (!editingRecord && activeLocale === "en") {
+                  if (!editingRecord && activeLocale === primaryLocale) {
                     setForm((current) => ({
                       ...current,
                       slug: slugify(e.target.value),
@@ -765,7 +791,7 @@ export default function ApanelAnnouncements() {
           </div>
 
           <div className="flex flex-wrap gap-2">
-            {locales.map((locale) => (
+            {localeCodes.map((locale) => (
               <button
                 type="button"
                 key={locale}

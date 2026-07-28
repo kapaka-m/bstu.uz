@@ -14,8 +14,8 @@ import {
 import FormError from "../../../components/common/FormError";
 import { apanelService } from "../../../services/apanelService";
 import ConfirmDialog from "../components/ConfirmDialog";
+import { useApanelLocaleCodes } from "../utils/locales";
 
-const locales = ["en", "uz", "ru", "ar"];
 const colors = ["cyan", "teal", "red", "indigo", "orange", "pink", "blue", "emerald", "violet", "amber", "rose"];
 const icons = [
   "contact",
@@ -42,7 +42,7 @@ const emptyTranslation = {
   action_label: "",
 };
 
-const emptyForm = {
+const emptyForm = (localeCodes) => ({
   slug: "",
   icon: "contact",
   url: "",
@@ -51,8 +51,8 @@ const emptyForm = {
   opens_new_tab: true,
   sort_order: 0,
   is_active: true,
-  translations: Object.fromEntries(locales.map((locale) => [locale, { ...emptyTranslation }])),
-};
+  translations: Object.fromEntries(localeCodes.map((locale) => [locale, { ...emptyTranslation }])),
+});
 
 const emptySettingsTranslation = {
   home_tag: "",
@@ -62,13 +62,13 @@ const emptySettingsTranslation = {
   no_results_label: "",
 };
 
-const emptySettings = {
+const emptySettings = (localeCodes) => ({
   home_limit: 4,
   is_active: true,
   translations: Object.fromEntries(
-    locales.map((locale) => [locale, { ...emptySettingsTranslation }]),
+    localeCodes.map((locale) => [locale, { ...emptySettingsTranslation }]),
   ),
-};
+});
 
 function slugify(value) {
   return value
@@ -80,16 +80,16 @@ function slugify(value) {
     .replace(/^-+|-+$/g, "");
 }
 
-function translationsFromRecord(record) {
+function translationsFromRecord(record, localeCodes) {
   return Object.fromEntries(
-    locales.map((locale) => {
+    localeCodes.map((locale) => {
       const existing = record.translations?.find((item) => item.locale === locale);
       return [locale, { ...emptyTranslation, ...(existing || {}) }];
     }),
   );
 }
 
-function fromRecord(record) {
+function fromRecord(record, localeCodes) {
   return {
     slug: record.slug || "",
     icon: record.icon || "contact",
@@ -99,18 +99,18 @@ function fromRecord(record) {
     opens_new_tab: Boolean(record.opens_new_tab ?? true),
     sort_order: Number(record.sort_order || 0),
     is_active: Boolean(record.is_active ?? true),
-    translations: translationsFromRecord(record),
+    translations: translationsFromRecord(record, localeCodes),
   };
 }
 
-function toPayload(form) {
-  const fallback = form.translations.en || emptyTranslation;
+function toPayload(form, primaryLocale, localeCodes) {
+  const fallback = form.translations[primaryLocale] || Object.values(form.translations || {})[0] || emptyTranslation;
   return {
     ...form,
     url: form.url || null,
     sort_order: Number(form.sort_order || 0),
     translations: Object.fromEntries(
-      locales.map((locale) => {
+      localeCodes.map((locale) => {
         const current = form.translations[locale] || emptyTranslation;
         return [
           locale,
@@ -134,11 +134,13 @@ function toggleClass() {
 }
 
 export default function ApanelInteractiveServices() {
+  const localeCodes = useApanelLocaleCodes();
+  const primaryLocale = localeCodes[0] || "";
   const [activeTab, setActiveTab] = useState("items");
-  const [activeLocale, setActiveLocale] = useState("en");
+  const [activeLocale, setActiveLocale] = useState("");
   const [items, setItems] = useState([]);
-  const [form, setForm] = useState(emptyForm);
-  const [settingsForm, setSettingsForm] = useState(emptySettings);
+  const [form, setForm] = useState(() => emptyForm([]));
+  const [settingsForm, setSettingsForm] = useState(() => emptySettings([]));
   const [editingRecord, setEditingRecord] = useState(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [pendingDelete, setPendingDelete] = useState(null);
@@ -148,6 +150,25 @@ export default function ApanelInteractiveServices() {
   const [savingSettings, setSavingSettings] = useState(false);
   const [deletingId, setDeletingId] = useState(null);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (!localeCodes.length) return;
+    setActiveLocale((current) => (localeCodes.includes(current) ? current : primaryLocale));
+    setForm((current) => ({
+      ...current,
+      translations: {
+        ...emptyForm(localeCodes).translations,
+        ...current.translations,
+      },
+    }));
+    setSettingsForm((current) => ({
+      ...current,
+      translations: {
+        ...emptySettings(localeCodes).translations,
+        ...current.translations,
+      },
+    }));
+  }, [localeCodes, primaryLocale]);
 
   const fetchItems = useCallback(async () => {
     try {
@@ -175,7 +196,7 @@ export default function ApanelInteractiveServices() {
         home_limit: Number(setting.home_limit || 4),
         is_active: Boolean(setting.is_active ?? true),
         translations: Object.fromEntries(
-          locales.map((locale) => {
+          localeCodes.map((locale) => {
             const existing = setting.translations?.find((item) => item.locale === locale);
             return [locale, { ...emptySettingsTranslation, ...(existing || {}) }];
           }),
@@ -184,7 +205,7 @@ export default function ApanelInteractiveServices() {
     } catch (err) {
       setError(err?.message || "Failed to load interactive service settings.");
     }
-  }, []);
+  }, [localeCodes]);
 
   useEffect(() => {
     fetchItems();
@@ -218,16 +239,16 @@ export default function ApanelInteractiveServices() {
 
   const startCreate = () => {
     setEditingRecord(null);
-    setForm(emptyForm);
-    setActiveLocale("en");
+    setForm(emptyForm(localeCodes));
+    setActiveLocale(primaryLocale);
     setActiveTab("items");
     setIsFormOpen(true);
   };
 
   const startEdit = (record) => {
     setEditingRecord(record);
-    setForm(fromRecord(record));
-    setActiveLocale("en");
+    setForm(fromRecord(record, localeCodes));
+    setActiveLocale(primaryLocale);
     setActiveTab("items");
     setIsFormOpen(true);
   };
@@ -235,7 +256,7 @@ export default function ApanelInteractiveServices() {
   const closeForm = () => {
     setIsFormOpen(false);
     setEditingRecord(null);
-    setForm(emptyForm);
+    setForm(emptyForm(localeCodes));
   };
 
   const handleSubmit = async (event) => {
@@ -243,13 +264,13 @@ export default function ApanelInteractiveServices() {
     setSaving(true);
     setError("");
     try {
-      const payload = toPayload(form);
+      const payload = toPayload(form, primaryLocale, localeCodes);
       if (editingRecord) {
         await apanelService.update("services", editingRecord.id, payload);
       } else {
         await apanelService.create("services", payload);
       }
-      setForm(emptyForm);
+      setForm(emptyForm(localeCodes));
       setEditingRecord(null);
       setIsFormOpen(false);
       await fetchItems();
@@ -261,7 +282,7 @@ export default function ApanelInteractiveServices() {
   };
 
   const togglePublish = async (record) => {
-    const payload = toPayload(fromRecord(record));
+    const payload = toPayload(fromRecord(record, localeCodes), primaryLocale, localeCodes);
     payload.is_active = !record.is_active;
     await apanelService.update("services", record.id, payload);
     await fetchItems();
@@ -372,14 +393,14 @@ export default function ApanelInteractiveServices() {
                   </thead>
                   <tbody className="divide-y divide-gray-100">
                     {filteredItems.map((item) => {
-                      const en = item.translations?.find(
-                        (translation) => translation.locale === "en",
+                      const primaryTranslation = item.translations?.find(
+                        (translation) => translation.locale === primaryLocale,
                       );
                       return (
                         <tr key={item.id} className="align-top">
                           <td className="px-4 py-4">
                             <div className="font-extrabold text-navy">
-                              {en?.title || item.slug}
+                              {primaryTranslation?.title || item.translations?.[0]?.title || item.slug}
                             </div>
                             <div className="mt-1 text-xs font-semibold text-gray-400">
                               {item.slug}
@@ -600,7 +621,7 @@ export default function ApanelInteractiveServices() {
                   </label>
 
                   <div className="flex flex-wrap gap-2 border-t border-gray-100 pt-4 lg:col-span-3">
-                    {locales.map((locale) => (
+                    {localeCodes.map((locale) => (
                       <button
                         type="button"
                         key={locale}
@@ -709,7 +730,7 @@ export default function ApanelInteractiveServices() {
           </div>
 
           <div className="mb-5 flex flex-wrap gap-2">
-            {locales.map((locale) => (
+            {localeCodes.map((locale) => (
               <button
                 type="button"
                 key={locale}

@@ -31,7 +31,7 @@ export default function FormBuilder({
   isEdit = false,
   validationErrors = {},
 }) {
-  const { t, availableLocales } = useLanguage();
+  const { t, locales: availableLocales } = useLanguage();
   const localeCodes = React.useMemo(
     () => (availableLocales || []).filter((locale) => locale?.code).map((locale) => locale.code),
     [availableLocales],

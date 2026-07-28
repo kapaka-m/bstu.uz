@@ -17,8 +17,7 @@ import FormError from "../../../components/common/FormError";
 import { apanelService } from "../../../services/apanelService";
 import { publicAssetUrl } from "../../../lib/api";
 import ConfirmDialog from "../components/ConfirmDialog";
-
-const locales = ["en", "uz", "ru", "ar"];
+import { useApanelLocaleCodes } from "../utils/locales";
 
 const emptyArticleTranslation = {
   title: "",
@@ -28,7 +27,7 @@ const emptyArticleTranslation = {
   author: "",
 };
 
-const emptyArticleForm = {
+const createEmptyArticleForm = (localeCodes) => ({
   slug: "",
   category: "",
   image: "",
@@ -38,18 +37,18 @@ const emptyArticleForm = {
   is_published: true,
   sort_order: 0,
   translations: Object.fromEntries(
-    locales.map((locale) => [locale, { ...emptyArticleTranslation }]),
+    localeCodes.map((locale) => [locale, { ...emptyArticleTranslation }]),
   ),
-};
+});
 
 const emptyStatTranslation = { value: "", label: "" };
-const emptyStatForm = {
+const createEmptyStatForm = (localeCodes) => ({
   icon: "leaf",
   sort_order: 0,
   translations: Object.fromEntries(
-    locales.map((locale) => [locale, { ...emptyStatTranslation }]),
+    localeCodes.map((locale) => [locale, { ...emptyStatTranslation }]),
   ),
-};
+});
 
 const emptySettingsTranslation = {
   home_tag: "",
@@ -75,14 +74,14 @@ const emptySettingsTranslation = {
   category_labels: {},
 };
 
-const emptySettings = {
+const createEmptySettings = (localeCodes) => ({
   home_limit: 3,
   recent_limit: 4,
   is_active: true,
   translations: Object.fromEntries(
-    locales.map((locale) => [locale, { ...emptySettingsTranslation }]),
+    localeCodes.map((locale) => [locale, { ...emptySettingsTranslation }]),
   ),
-};
+});
 
 function slugify(value) {
   return value
@@ -105,7 +104,7 @@ function mediaPreviewSrc(image) {
   return publicAssetUrl(image);
 }
 
-function translationsFromRecord(record, emptyTranslation) {
+function translationsFromRecord(record, emptyTranslation, localeCodes) {
   const translations = Array.isArray(record.translations)
     ? record.translations
     : Object.entries(record.translations || {}).map(([locale, values]) => ({
@@ -114,14 +113,14 @@ function translationsFromRecord(record, emptyTranslation) {
       }));
 
   return Object.fromEntries(
-    locales.map((locale) => {
+    localeCodes.map((locale) => {
       const existing = translations.find((item) => item.locale === locale);
       return [locale, { ...emptyTranslation, ...(existing || {}) }];
     }),
   );
 }
 
-function articleFromRecord(record) {
+function articleFromRecord(record, localeCodes) {
   return {
     slug: record.slug || "",
     category: record.category || "",
@@ -131,20 +130,20 @@ function articleFromRecord(record) {
     published_at: toDateInput(record.published_at || record.created_at),
     is_published: Boolean(record.is_published ?? true),
     sort_order: Number(record.sort_order || 0),
-    translations: translationsFromRecord(record, emptyArticleTranslation),
+    translations: translationsFromRecord(record, emptyArticleTranslation, localeCodes),
   };
 }
 
-function statFromRecord(record) {
+function statFromRecord(record, localeCodes) {
   return {
     icon: record.icon || "leaf",
     sort_order: Number(record.sort_order || 0),
-    translations: translationsFromRecord(record, emptyStatTranslation),
+    translations: translationsFromRecord(record, emptyStatTranslation, localeCodes),
   };
 }
 
-function articlePayload(form) {
-  const fallback = form.translations.en || emptyArticleTranslation;
+function articlePayload(form, localeCodes, primaryLocale) {
+  const fallback = form.translations[primaryLocale] || emptyArticleTranslation;
   return {
     slug: form.slug,
     category: form.category,
@@ -155,7 +154,7 @@ function articlePayload(form) {
     is_published: Boolean(form.is_published),
     sort_order: Number(form.sort_order || 0),
     translations: Object.fromEntries(
-      locales.map((locale) => {
+      localeCodes.map((locale) => {
         const current = form.translations[locale] || emptyArticleTranslation;
         return [
           locale,
@@ -172,13 +171,13 @@ function articlePayload(form) {
   };
 }
 
-function statPayload(form) {
-  const fallback = form.translations.en || emptyStatTranslation;
+function statPayload(form, localeCodes, primaryLocale) {
+  const fallback = form.translations[primaryLocale] || emptyStatTranslation;
   return {
     icon: form.icon,
     sort_order: Number(form.sort_order || 0),
     translations: Object.fromEntries(
-      locales.map((locale) => {
+      localeCodes.map((locale) => {
         const current = form.translations[locale] || emptyStatTranslation;
         return [
           locale,
@@ -193,13 +192,15 @@ function statPayload(form) {
 }
 
 export default function ApanelGreenCampus() {
+  const localeCodes = useApanelLocaleCodes();
+  const primaryLocale = localeCodes[0] || "";
   const [activeTab, setActiveTab] = useState("articles");
-  const [activeLocale, setActiveLocale] = useState("en");
+  const [activeLocale, setActiveLocale] = useState("");
   const [articles, setArticles] = useState([]);
   const [stats, setStats] = useState([]);
-  const [articleForm, setArticleForm] = useState(emptyArticleForm);
-  const [statForm, setStatForm] = useState(emptyStatForm);
-  const [settingsForm, setSettingsForm] = useState(emptySettings);
+  const [articleForm, setArticleForm] = useState(() => createEmptyArticleForm([]));
+  const [statForm, setStatForm] = useState(() => createEmptyStatForm([]));
+  const [settingsForm, setSettingsForm] = useState(() => createEmptySettings([]));
   const [editingArticle, setEditingArticle] = useState(null);
   const [editingStat, setEditingStat] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -209,6 +210,8 @@ export default function ApanelGreenCampus() {
   const [pendingDelete, setPendingDelete] = useState(null);
 
   const fetchAll = useCallback(async () => {
+    if (!primaryLocale) return;
+
     try {
       setLoading(true);
       setError("");
@@ -234,7 +237,7 @@ export default function ApanelGreenCampus() {
         recent_limit: setting.recent_limit || 4,
         is_active: Boolean(setting.is_active ?? true),
         translations: Object.fromEntries(
-          locales.map((locale) => {
+          localeCodes.map((locale) => {
             const existing = setting.translations?.find((item) => item.locale === locale);
             return [
               locale,
@@ -252,11 +255,52 @@ export default function ApanelGreenCampus() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [localeCodes, primaryLocale]);
 
   useEffect(() => {
     fetchAll();
   }, [fetchAll]);
+
+  useEffect(() => {
+    if (!primaryLocale) return;
+
+    setActiveLocale((current) =>
+      current && localeCodes.includes(current) ? current : primaryLocale,
+    );
+    setArticleForm((current) => ({
+      ...current,
+      translations: {
+        ...createEmptyArticleForm(localeCodes).translations,
+        ...Object.fromEntries(
+          Object.entries(current.translations || {}).filter(([locale]) =>
+            localeCodes.includes(locale),
+          ),
+        ),
+      },
+    }));
+    setStatForm((current) => ({
+      ...current,
+      translations: {
+        ...createEmptyStatForm(localeCodes).translations,
+        ...Object.fromEntries(
+          Object.entries(current.translations || {}).filter(([locale]) =>
+            localeCodes.includes(locale),
+          ),
+        ),
+      },
+    }));
+    setSettingsForm((current) => ({
+      ...current,
+      translations: {
+        ...createEmptySettings(localeCodes).translations,
+        ...Object.fromEntries(
+          Object.entries(current.translations || {}).filter(([locale]) =>
+            localeCodes.includes(locale),
+          ),
+        ),
+      },
+    }));
+  }, [localeCodes, primaryLocale]);
 
   const categories = useMemo(() => {
     const values = new Set(articles.map((item) => item.category).filter(Boolean));
@@ -275,33 +319,31 @@ export default function ApanelGreenCampus() {
   const startCreateArticle = () => {
     setEditingArticle(null);
     setArticleForm({
-      ...emptyArticleForm,
+      ...createEmptyArticleForm(localeCodes),
       published_at: new Date().toISOString().slice(0, 10),
-      translations: Object.fromEntries(locales.map((locale) => [locale, { ...emptyArticleTranslation }])),
     });
-    setActiveLocale("en");
+    setActiveLocale(primaryLocale);
   };
 
   const startEditArticle = (record) => {
     setEditingArticle(record);
-    setArticleForm(articleFromRecord(record));
-    setActiveLocale("en");
+    setArticleForm(articleFromRecord(record, localeCodes));
+    setActiveLocale(primaryLocale);
   };
 
   const startCreateStat = () => {
     setEditingStat(null);
     setStatForm({
-      ...emptyStatForm,
+      ...createEmptyStatForm(localeCodes),
       sort_order: stats.length + 1,
-      translations: Object.fromEntries(locales.map((locale) => [locale, { ...emptyStatTranslation }])),
     });
-    setActiveLocale("en");
+    setActiveLocale(primaryLocale);
   };
 
   const startEditStat = (record) => {
     setEditingStat(record);
-    setStatForm(statFromRecord(record));
-    setActiveLocale("en");
+    setStatForm(statFromRecord(record, localeCodes));
+    setActiveLocale(primaryLocale);
   };
 
   const setArticleField = (field, value) => {
@@ -364,7 +406,7 @@ export default function ApanelGreenCampus() {
       setUploading(true);
       const uploaded = await apanelService.uploadMedia(file, {
         title: file.name,
-        alt_text: articleForm.translations.en.title || file.name,
+        alt_text: articleForm.translations[primaryLocale]?.title || file.name,
         type: "image",
         is_public: "1",
       });
@@ -391,14 +433,14 @@ export default function ApanelGreenCampus() {
     try {
       setSaving(true);
       setError("");
-      const payload = articlePayload(articleForm);
+      const payload = articlePayload(articleForm, localeCodes, primaryLocale);
       if (editingArticle?.id) {
         await apanelService.update("green-campus-articles", editingArticle.id, payload);
       } else {
         await apanelService.create("green-campus-articles", payload);
       }
       setEditingArticle(null);
-      setArticleForm(emptyArticleForm);
+      setArticleForm(createEmptyArticleForm(localeCodes));
       fetchAll();
     } catch (err) {
       setError(err?.message || "Failed to save Green Campus article.");
@@ -412,14 +454,14 @@ export default function ApanelGreenCampus() {
     try {
       setSaving(true);
       setError("");
-      const payload = statPayload(statForm);
+      const payload = statPayload(statForm, localeCodes, primaryLocale);
       if (editingStat?.id) {
         await apanelService.update("green-campus-stats", editingStat.id, payload);
       } else {
         await apanelService.create("green-campus-stats", payload);
       }
       setEditingStat(null);
-      setStatForm(emptyStatForm);
+      setStatForm(createEmptyStatForm(localeCodes));
       fetchAll();
     } catch (err) {
       setError(err?.message || "Failed to save Green Campus stat.");
@@ -444,7 +486,7 @@ export default function ApanelGreenCampus() {
 
   const toggleArticle = async (record) => {
     await apanelService.update("green-campus-articles", record.id, {
-      ...articlePayload(articleFromRecord(record)),
+      ...articlePayload(articleFromRecord(record, localeCodes), localeCodes, primaryLocale),
       is_published: !record.is_published,
     });
     fetchAll();
@@ -458,7 +500,7 @@ export default function ApanelGreenCampus() {
   };
 
   const articleEditorOpen = editingArticle !== null || articleForm.slug || articleForm.published_at;
-  const statEditorOpen = editingStat !== null || statForm.sort_order || statForm.translations.en.value;
+  const statEditorOpen = editingStat !== null || statForm.sort_order || statForm.translations[primaryLocale]?.value;
 
   return (
     <>
@@ -584,12 +626,12 @@ export default function ApanelGreenCampus() {
             <section className="bg-white border border-gray-100 rounded-3xl shadow-xs overflow-hidden">
               <div className="p-5 border-b border-gray-100 flex items-center justify-between">
                 <h2 className="text-lg font-extrabold text-navy">{editingArticle ? "Edit Initiative" : "Create Initiative"}</h2>
-                <button type="button" onClick={() => { setEditingArticle(null); setArticleForm(emptyArticleForm); }} className="text-gray-400 hover:text-navy cursor-pointer">
+                <button type="button" onClick={() => { setEditingArticle(null); setArticleForm(createEmptyArticleForm(localeCodes)); }} className="text-gray-400 hover:text-navy cursor-pointer">
                   <X className="w-5 h-5" />
                 </button>
               </div>
               <form onSubmit={saveArticle} className="p-5 space-y-4">
-                <LocaleTabs activeLocale={activeLocale} onChange={setActiveLocale} />
+                <LocaleTabs activeLocale={activeLocale} locales={localeCodes} onChange={setActiveLocale} />
                 <Input label="Slug" value={articleForm.slug} onChange={(value) => setArticleField("slug", value)} />
                 <Input label="Category Key" value={articleForm.category} onChange={(value) => setArticleField("category", slugify(value))} />
                 <Input label="Published Date" type="date" value={articleForm.published_at} onChange={(value) => setArticleField("published_at", value)} />
@@ -615,7 +657,7 @@ export default function ApanelGreenCampus() {
 
                 <Input label="Title" value={currentArticleTranslation.title} onChange={(value) => {
                   setArticleTranslationField("title", value);
-                  if (activeLocale === "en" && !articleForm.slug) setArticleField("slug", slugify(value));
+                  if (activeLocale === primaryLocale && !articleForm.slug) setArticleField("slug", slugify(value));
                 }} />
                 <Input label="Category Label" value={currentArticleTranslation.category} onChange={(value) => setArticleTranslationField("category", value)} />
                 <Input label="Author" value={currentArticleTranslation.author} onChange={(value) => setArticleTranslationField("author", value)} />
@@ -666,12 +708,12 @@ export default function ApanelGreenCampus() {
             <section className="bg-white border border-gray-100 rounded-3xl shadow-xs overflow-hidden">
               <div className="p-5 border-b border-gray-100 flex items-center justify-between">
                 <h2 className="text-lg font-extrabold text-navy">{editingStat ? "Edit Stat" : "Create Stat"}</h2>
-                <button type="button" onClick={() => { setEditingStat(null); setStatForm(emptyStatForm); }} className="text-gray-400 hover:text-navy cursor-pointer">
+                <button type="button" onClick={() => { setEditingStat(null); setStatForm(createEmptyStatForm(localeCodes)); }} className="text-gray-400 hover:text-navy cursor-pointer">
                   <X className="w-5 h-5" />
                 </button>
               </div>
               <form onSubmit={saveStat} className="p-5 space-y-4">
-                <LocaleTabs activeLocale={activeLocale} onChange={setActiveLocale} />
+                <LocaleTabs activeLocale={activeLocale} locales={localeCodes} onChange={setActiveLocale} />
                 <Input label="Icon Key" value={statForm.icon} onChange={(value) => setStatField("icon", value)} />
                 <Input label="Sort Order" type="number" value={statForm.sort_order} onChange={(value) => setStatField("sort_order", value)} />
                 <Input label="Value" value={currentStatTranslation.value} onChange={(value) => setStatTranslationField("value", value)} />
@@ -698,7 +740,7 @@ export default function ApanelGreenCampus() {
               <Input label="Recent Limit" type="number" value={settingsForm.recent_limit} onChange={(value) => setSettingsField("recent_limit", Number(value))} />
               <Checkbox label="Active" checked={settingsForm.is_active} onChange={(value) => setSettingsField("is_active", value)} />
             </div>
-            <LocaleTabs activeLocale={activeLocale} onChange={setActiveLocale} />
+            <LocaleTabs activeLocale={activeLocale} locales={localeCodes} onChange={setActiveLocale} />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {[
                 ["home_tag", "Home tag"],
@@ -771,7 +813,7 @@ export default function ApanelGreenCampus() {
   );
 }
 
-function LocaleTabs({ activeLocale, onChange }) {
+function LocaleTabs({ activeLocale, locales, onChange }) {
   return (
     <div className="flex flex-wrap gap-2">
       {locales.map((locale) => (

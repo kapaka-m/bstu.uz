@@ -11,10 +11,11 @@ import {
 import FormError from "../../../components/common/FormError";
 import { apanelService } from "../../../services/apanelService";
 import ConfirmDialog from "../components/ConfirmDialog";
+import { useApanelLocaleCodes } from "../utils/locales";
 
-function formatDate(value) {
+function formatDate(value, locale) {
   if (!value) return "—";
-  return new Intl.DateTimeFormat("en", {
+  return new Intl.DateTimeFormat(locale, {
     year: "numeric",
     month: "short",
     day: "2-digit",
@@ -24,6 +25,8 @@ function formatDate(value) {
 }
 
 export default function ApanelNewsletterSubscriptions() {
+  const localeCodes = useApanelLocaleCodes();
+  const primaryLocale = localeCodes[0] || undefined;
   const [items, setItems] = useState([]);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
@@ -111,7 +114,7 @@ export default function ApanelNewsletterSubscriptions() {
           { label: "Active on this page", value: activeCount, icon: Mail },
           {
             label: "Latest subscription",
-            value: latestDate ? formatDate(latestDate) : "—",
+            value: latestDate ? formatDate(latestDate, primaryLocale) : "—",
             icon: CalendarClock,
           },
         ].map((stat) => {
@@ -207,7 +210,7 @@ export default function ApanelNewsletterSubscriptions() {
                       </span>
                     </td>
                     <td className="px-5 py-4 text-xs font-semibold text-gray-500">
-                      {formatDate(item.subscribed_at || item.created_at)}
+                      {formatDate(item.subscribed_at || item.created_at, primaryLocale)}
                     </td>
                     <td className="px-5 py-4 text-xs font-semibold text-gray-500">
                       {item.ip_address || "—"}

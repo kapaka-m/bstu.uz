@@ -13,6 +13,7 @@ import {
 import FormError from "../../../components/common/FormError";
 import { apanelService } from "../../../services/apanelService";
 import ConfirmDialog from "../components/ConfirmDialog";
+import { useApanelLocaleCodes } from "../utils/locales";
 
 const statusOptions = [
   { value: "", label: "All messages" },
@@ -23,9 +24,9 @@ const statusOptions = [
   { value: "archived", label: "Archived" },
 ];
 
-function formatDate(value) {
+function formatDate(value, locale) {
   if (!value) return "-";
-  return new Intl.DateTimeFormat("en", {
+  return new Intl.DateTimeFormat(locale, {
     year: "numeric",
     month: "short",
     day: "2-digit",
@@ -51,6 +52,8 @@ function normalizeMessage(item) {
 }
 
 export default function ApanelContactManagement() {
+  const localeCodes = useApanelLocaleCodes();
+  const primaryLocale = localeCodes[0] || undefined;
   const [items, setItems] = useState([]);
   const [selected, setSelected] = useState(null);
   const [search, setSearch] = useState("");
@@ -195,7 +198,7 @@ export default function ApanelContactManagement() {
           { label: "Unread on this page", value: stats.unread, icon: MailOpen },
           {
             label: "Latest message",
-            value: stats.latest ? formatDate(stats.latest) : "-",
+            value: stats.latest ? formatDate(stats.latest, primaryLocale) : "-",
             icon: Clock3,
           },
         ].map((stat) => {
@@ -288,7 +291,7 @@ export default function ApanelContactManagement() {
                       {item.message}
                     </p>
                     <p className="mt-3 text-[10px] font-extrabold uppercase tracking-widest text-gray-400">
-                      {formatDate(item.created_at)}
+                      {formatDate(item.created_at, primaryLocale)}
                     </p>
                   </button>
                 ))}
@@ -346,7 +349,7 @@ export default function ApanelContactManagement() {
                     </a>
                   </p>
                   <p className="mt-1 text-xs font-semibold text-gray-400">
-                    Submitted {formatDate(selected.created_at)}
+                    Submitted {formatDate(selected.created_at, primaryLocale)}
                   </p>
                 </div>
                 <div className="flex flex-wrap gap-2">

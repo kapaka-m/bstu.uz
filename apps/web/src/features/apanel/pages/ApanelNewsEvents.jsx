@@ -18,8 +18,8 @@ import FormError from "../../../components/common/FormError";
 import { apanelService } from "../../../services/apanelService";
 import { publicAssetUrl } from "../../../lib/api";
 import ConfirmDialog from "../components/ConfirmDialog";
+import { useApanelLocaleCodes } from "../utils/locales";
 
-const locales = ["en", "uz", "ru", "ar"];
 const emptyTranslation = {
   title: "",
   summary: "",
@@ -28,7 +28,7 @@ const emptyTranslation = {
   meta_description: "",
 };
 
-const emptyForm = {
+const emptyForm = (localeCodes) => ({
   slug: "",
   image: "",
   category: "",
@@ -36,17 +36,17 @@ const emptyForm = {
   is_published: true,
   views_count: 0,
   translations: Object.fromEntries(
-    locales.map((locale) => [locale, emptyTranslation]),
+    localeCodes.map((locale) => [locale, { ...emptyTranslation }]),
   ),
-};
+});
 
-const emptySettings = {
+const emptySettings = (localeCodes) => ({
   home_limit: 4,
   recent_limit: 5,
   home_icon: "newspaper",
   is_active: true,
   translations: Object.fromEntries(
-    locales.map((locale) => [
+    localeCodes.map((locale) => [
       locale,
       {
         home_tag: "",
@@ -68,7 +68,7 @@ const emptySettings = {
       },
     ]),
   ),
-};
+});
 
 function slugify(value) {
   return value
@@ -87,9 +87,9 @@ function toDateInput(value) {
   return date.toISOString().slice(0, 10);
 }
 
-function fromRecord(record) {
+function fromRecord(record, localeCodes) {
   const translations = Object.fromEntries(
-    locales.map((locale) => {
+    localeCodes.map((locale) => {
       const existing = record.translations?.find((item) => item.locale === locale);
       return [
         locale,
@@ -116,10 +116,10 @@ function fromRecord(record) {
   };
 }
 
-function toPayload(form) {
-  const fallback = form.translations.en || emptyTranslation;
+function toPayload(form, primaryLocale, localeCodes) {
+  const fallback = form.translations[primaryLocale] || Object.values(form.translations || {})[0] || emptyTranslation;
   const translations = Object.fromEntries(
-    locales.map((locale) => {
+    localeCodes.map((locale) => {
       const current = form.translations[locale] || emptyTranslation;
       return [
         locale,
@@ -146,9 +146,9 @@ function toPayload(form) {
   };
 }
 
-function formatDate(value) {
+function formatDate(value, locale) {
   if (!value) return "";
-  return new Intl.DateTimeFormat("en", {
+  return new Intl.DateTimeFormat(locale, {
     year: "numeric",
     month: "short",
     day: "2-digit",
@@ -160,6 +160,8 @@ function imagePreviewSrc(image) {
 }
 
 export default function ApanelNewsEvents() {
+  const localeCodes = useApanelLocaleCodes();
+  const primaryLocale = localeCodes[0] || "";
   const [activeTab, setActiveTab] = useState("items");
   const [items, setItems] = useState([]);
   const [search, setSearch] = useState("");
@@ -172,11 +174,30 @@ export default function ApanelNewsEvents() {
   const [pendingDelete, setPendingDelete] = useState(null);
   const [error, setError] = useState("");
   const [editingRecord, setEditingRecord] = useState(null);
-  const [form, setForm] = useState(emptyForm);
-  const [settingsForm, setSettingsForm] = useState(emptySettings);
+  const [form, setForm] = useState(() => emptyForm([]));
+  const [settingsForm, setSettingsForm] = useState(() => emptySettings([]));
   const [savingSettings, setSavingSettings] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
-  const [activeLocale, setActiveLocale] = useState("en");
+  const [activeLocale, setActiveLocale] = useState("");
+
+  useEffect(() => {
+    if (!localeCodes.length) return;
+    setActiveLocale((current) => (localeCodes.includes(current) ? current : primaryLocale));
+    setForm((current) => ({
+      ...current,
+      translations: {
+        ...emptyForm(localeCodes).translations,
+        ...current.translations,
+      },
+    }));
+    setSettingsForm((current) => ({
+      ...current,
+      translations: {
+        ...emptySettings(localeCodes).translations,
+        ...current.translations,
+      },
+    }));
+  }, [localeCodes, primaryLocale]);
 
   const fetchNews = useCallback(async () => {
     try {
@@ -214,14 +235,14 @@ export default function ApanelNewsEvents() {
         home_icon: setting.home_icon || "newspaper",
         is_active: Boolean(setting.is_active ?? true),
         translations: Object.fromEntries(
-          locales.map((locale) => {
+          localeCodes.map((locale) => {
             const existing = setting.translations?.find(
               (item) => item.locale === locale,
             );
             return [
               locale,
               {
-                ...emptySettings.translations[locale],
+                ...emptySettings(localeCodes).translations[locale],
                 ...(existing || {}),
               },
             ];
@@ -231,7 +252,7 @@ export default function ApanelNewsEvents() {
     } catch (err) {
       setError(err?.message || "Failed to load news and events settings.");
     }
-  }, []);
+  }, [localeCodes]);
 
   useEffect(() => {
     fetchSettings();
@@ -245,26 +266,26 @@ export default function ApanelNewsEvents() {
   const startCreate = () => {
     setEditingRecord(null);
     setForm({
-      ...emptyForm,
+      ...emptyForm(localeCodes),
       published_at: new Date().toISOString().slice(0, 10),
       translations: Object.fromEntries(
-        locales.map((locale) => [locale, { ...emptyTranslation }]),
+        localeCodes.map((locale) => [locale, { ...emptyTranslation }]),
       ),
     });
-    setActiveLocale("en");
+    setActiveLocale(primaryLocale);
     setError("");
   };
 
   const startEdit = (record) => {
     setEditingRecord(record);
-    setForm(fromRecord(record));
-    setActiveLocale("en");
+    setForm(fromRecord(record, localeCodes));
+    setActiveLocale(primaryLocale);
     setError("");
   };
 
   const closeEditor = () => {
     setEditingRecord(null);
-    setForm(emptyForm);
+    setForm(emptyForm(localeCodes));
   };
 
   const setField = (field, value) => {
@@ -302,8 +323,8 @@ export default function ApanelNewsEvents() {
   };
 
   const handleEnglishTitleBlur = () => {
-    if (!form.slug && form.translations.en.title) {
-      setField("slug", slugify(form.translations.en.title));
+    if (!form.slug && form.translations[primaryLocale]?.title) {
+      setField("slug", slugify(form.translations[primaryLocale].title));
     }
   };
 
@@ -318,7 +339,7 @@ export default function ApanelNewsEvents() {
       setError("");
       const uploaded = await apanelService.uploadMedia(file, {
         title: file.name,
-        alt_text: form.translations.en.title || file.name,
+        alt_text: form.translations[primaryLocale]?.title || file.name,
         type: "image",
         is_public: "1",
       });
@@ -340,7 +361,7 @@ export default function ApanelNewsEvents() {
     try {
       setSaving(true);
       setError("");
-      const payload = toPayload(form);
+      const payload = toPayload(form, primaryLocale, localeCodes);
       if (editingRecord?.id) {
         await apanelService.update("news", editingRecord.id, payload);
       } else {
@@ -360,9 +381,9 @@ export default function ApanelNewsEvents() {
       setError("");
       await apanelService.update("news", record.id, {
         ...toPayload({
-          ...fromRecord(record),
+          ...fromRecord(record, localeCodes),
           is_published: !record.is_published,
-        }),
+        }, primaryLocale, localeCodes),
       });
       fetchNews();
     } catch (err) {
@@ -402,7 +423,8 @@ export default function ApanelNewsEvents() {
   const currentTranslation = form.translations[activeLocale] || emptyTranslation;
   const currentSettingsTranslation =
     settingsForm.translations[activeLocale] ||
-    emptySettings.translations[activeLocale];
+    emptySettings(localeCodes).translations[activeLocale] ||
+    {};
   const editorOpen = editingRecord !== null || form.slug || form.published_at;
 
   return (
@@ -566,7 +588,7 @@ export default function ApanelNewsEvents() {
             </div>
 
             <div className="flex flex-wrap gap-2">
-              {locales.map((locale) => (
+              {localeCodes.map((locale) => (
                 <button
                   type="button"
                   key={locale}
@@ -764,7 +786,7 @@ export default function ApanelNewsEvents() {
             </label>
 
             <div className="flex flex-wrap gap-2">
-              {locales.map((locale) => (
+              {localeCodes.map((locale) => (
                 <button
                   type="button"
                   key={locale}
@@ -791,10 +813,10 @@ export default function ApanelNewsEvents() {
                     setTranslationField("title", event.target.value)
                   }
                   onBlur={
-                    activeLocale === "en" ? handleEnglishTitleBlur : undefined
+                    activeLocale === primaryLocale ? handleEnglishTitleBlur : undefined
                   }
                   className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm font-semibold text-navy focus:outline-none focus:border-primary"
-                  required={activeLocale === "en"}
+                  required={activeLocale === primaryLocale}
                 />
               </label>
               <label className="space-y-1.5">
@@ -925,8 +947,10 @@ export default function ApanelNewsEvents() {
                   items.map((item) => {
                     const title =
                       item.translations?.find(
-                        (translation) => translation.locale === "en",
-                      )?.title || item.slug;
+                        (translation) => translation.locale === primaryLocale,
+                      )?.title ||
+                      item.translations?.[0]?.title ||
+                      item.slug;
                     return (
                       <tr key={item.id} className="hover:bg-gray-50/70">
                         <td className="px-5 py-4">
@@ -959,7 +983,7 @@ export default function ApanelNewsEvents() {
                           {item.category}
                         </td>
                         <td className="px-5 py-4 text-xs font-semibold text-gray-500">
-                          {formatDate(item.published_at)}
+                          {formatDate(item.published_at, activeLocale || primaryLocale)}
                         </td>
                         <td className="px-5 py-4">
                           <span

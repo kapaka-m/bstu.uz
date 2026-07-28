@@ -9,13 +9,7 @@ import { Plus, Save, Trash2, Upload } from "lucide-react";
 import { apanelService } from "../../../services/apanelService";
 import { publicAssetUrl } from "../../../lib/api";
 import ConfirmDialog from "../components/ConfirmDialog";
-
-const LOCALES = [
-  { code: "en", label: "English" },
-  { code: "uz", label: "O'zbek" },
-  { code: "ru", label: "Русский" },
-  { code: "ar", label: "العربية" },
-];
+import { useApanelLocaleOptions } from "../utils/locales";
 
 const SECTIONS = [
   { key: "controls", label: "Page Controls" },
@@ -40,19 +34,19 @@ const defaultContent = {
   timeline: { items: [] },
 };
 
-const emptyForm = {
+const createEmptyForm = (localeCodes) => ({
   hero_contact_url: "",
   hero_campus_url: "",
   identity_image: "",
   rector_profile_slug: "",
   is_published: true,
   translations: Object.fromEntries(
-    LOCALES.map((locale) => [
-      locale.code,
+    localeCodes.map((locale) => [
+      locale,
       { content: structuredClone(defaultContent) },
     ]),
   ),
-};
+});
 
 const statIcons = [
   "users",
@@ -163,8 +157,19 @@ function SelectField({ label, value, options, onChange, name }) {
 }
 
 export default function ApanelAboutPage() {
-  const [form, setForm] = useState(emptyForm);
-  const [activeLocale, setActiveLocale] = useState("en");
+  const localeOptions = useApanelLocaleOptions();
+  const localeCodes = useMemo(
+    () => localeOptions.map((locale) => locale.code),
+    [localeOptions],
+  );
+  const primaryLocale = localeCodes[0] || "";
+  const initialForm = useMemo(
+    () => createEmptyForm(localeCodes),
+    [localeCodes],
+  );
+
+  const [form, setForm] = useState(() => createEmptyForm([]));
+  const [activeLocale, setActiveLocale] = useState("");
   const [activeSection, setActiveSection] = useState("hero");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -175,14 +180,14 @@ export default function ApanelAboutPage() {
   const [timelineDraft, setTimelineDraft] = useState(null);
   const [statDraft, setStatDraft] = useState(null);
   const [facultyDraft, setFacultyDraft] = useState(null);
-  const formRef = useRef(emptyForm);
+  const formRef = useRef(createEmptyForm([]));
 
   const content = form.translations[activeLocale]?.content || defaultContent;
   const activeLocaleLabel = useMemo(
     () =>
-      LOCALES.find((locale) => locale.code === activeLocale)?.label ||
+      localeOptions.find((locale) => locale.code === activeLocale)?.label ||
       activeLocale,
-    [activeLocale],
+    [activeLocale, localeOptions],
   );
   const activeSectionLabel =
     SECTIONS.find((section) => section.key === activeSection)?.label ||
@@ -192,9 +197,34 @@ export default function ApanelAboutPage() {
       ? "Save Page Settings"
       : `Save ${activeSectionLabel}`;
 
+  useEffect(() => {
+    if (!primaryLocale) return;
+
+    setActiveLocale((current) =>
+      current && localeCodes.includes(current) ? current : primaryLocale,
+    );
+    setForm((current) => {
+      const translations = clone(initialForm.translations);
+      Object.entries(current.translations || {}).forEach(([locale, value]) => {
+        if (localeCodes.includes(locale)) {
+          translations[locale] = {
+            content: {
+              ...clone(defaultContent),
+              ...clone(value?.content),
+            },
+          };
+        }
+      });
+      const updated = { ...current, translations };
+      formRef.current = updated;
+      return updated;
+    });
+  }, [initialForm.translations, localeCodes, primaryLocale]);
+
   const applyPageToForm = useCallback((page) => {
-    const translations = clone(emptyForm.translations);
+    const translations = clone(initialForm.translations);
     (page.translations || []).forEach((translation) => {
+      if (!localeCodes.includes(translation.locale)) return;
       translations[translation.locale] = {
         content: { ...clone(defaultContent), ...clone(translation.content) },
       };
@@ -214,7 +244,7 @@ export default function ApanelAboutPage() {
     };
     formRef.current = nextForm;
     setForm(nextForm);
-  }, []);
+  }, [initialForm.translations, localeCodes]);
 
   const loadAboutPageForm = useCallback(
     async (isAlive = () => true) => {
@@ -226,6 +256,8 @@ export default function ApanelAboutPage() {
   );
 
   useEffect(() => {
+    if (!primaryLocale) return undefined;
+
     let alive = true;
     setLoading(true);
 
@@ -240,7 +272,7 @@ export default function ApanelAboutPage() {
     return () => {
       alive = false;
     };
-  }, [loadAboutPageForm]);
+  }, [loadAboutPageForm, primaryLocale]);
 
   const updateField = (field, value) => {
     setForm((current) => {
@@ -283,10 +315,10 @@ export default function ApanelAboutPage() {
   const updateSharedArrayItem = (path, index, field, value) => {
     setForm((current) => {
       const translations = clone(current.translations);
-      LOCALES.forEach((locale) => {
+      localeCodes.forEach((locale) => {
         const nextContent = {
           ...clone(defaultContent),
-          ...clone(translations[locale.code]?.content),
+          ...clone(translations[locale]?.content),
         };
         const keys = path.split(".");
         let target = nextContent;
@@ -301,7 +333,7 @@ export default function ApanelAboutPage() {
         target[keys.at(-1)] = items.map((item, itemIndex) =>
           itemIndex === index ? { ...(item || {}), [field]: value } : item,
         );
-        translations[locale.code] = { content: nextContent };
+        translations[locale] = { content: nextContent };
       });
       const updated = { ...current, translations };
       formRef.current = updated;
@@ -330,9 +362,9 @@ export default function ApanelAboutPage() {
     type: "section",
     key: sectionKey,
     translations: Object.fromEntries(
-      LOCALES.map((locale) => [
-        locale.code,
-        clone(contentForLocale(sourceForm, locale.code)?.[sectionKey] || {}),
+      localeCodes.map((locale) => [
+        locale,
+        clone(contentForLocale(sourceForm, locale)?.[sectionKey] || {}),
       ]),
     ),
   });
@@ -369,21 +401,21 @@ export default function ApanelAboutPage() {
       key: `${config.section}_${index}`,
       metadata,
       translations: Object.fromEntries(
-        LOCALES.map((locale) => {
+        localeCodes.map((locale) => {
           const item = getByPath(
-            contentForLocale(sourceForm, locale.code),
+            contentForLocale(sourceForm, locale),
             `${config.itemPath}.${index}`,
             {},
           );
           if (sectionKey === "stats") {
             return [
-              locale.code,
+              locale,
               { label: item.label || "", description: item.desc || "" },
             ];
           }
           if (sectionKey === "facultiesList") {
             return [
-              locale.code,
+              locale,
               {
                 name: item.name || "",
                 dean: item.dean || "",
@@ -393,7 +425,7 @@ export default function ApanelAboutPage() {
             ];
           }
           return [
-            locale.code,
+            locale,
             { title: item.title || "", description: item.desc || "" },
           ];
         }),
@@ -528,8 +560,8 @@ export default function ApanelAboutPage() {
         key: `timeline_${Date.now()}`,
         metadata: { year: draft.year },
         translations: Object.fromEntries(
-          LOCALES.map((locale) => [
-            locale.code,
+          localeCodes.map((locale) => [
+            locale,
             {
               title: draft.title,
               description: draft.desc,
@@ -575,8 +607,8 @@ export default function ApanelAboutPage() {
           color: draft.color,
         },
         translations: Object.fromEntries(
-          LOCALES.map((locale) => [
-            locale.code,
+          localeCodes.map((locale) => [
+            locale,
             {
               label: draft.label,
               description: draft.desc,
@@ -625,8 +657,8 @@ export default function ApanelAboutPage() {
           color: draft.color,
         },
         translations: Object.fromEntries(
-          LOCALES.map((locale) => [
-            locale.code,
+          localeCodes.map((locale) => [
+            locale,
             {
               name: draft.name,
               dean: draft.dean,
@@ -1150,7 +1182,7 @@ export default function ApanelAboutPage() {
         {activeSection !== "controls" && (
           <div className="border-b border-gray-100 py-4">
             <div className="inline-flex flex-wrap rounded-2xl bg-gray-100 p-1">
-              {LOCALES.map((locale) => (
+              {localeOptions.map((locale) => (
                 <button
                   key={locale.code}
                   type="button"

@@ -1,15 +1,9 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { GripVertical, Plus, Save, Trash2 } from "lucide-react";
 import FormError from "../../../components/common/FormError";
 import { apanelService } from "../../../services/apanelService";
 import ConfirmDialog from "../components/ConfirmDialog";
-
-const LOCALES = [
-  { code: "en", label: "English" },
-  { code: "uz", label: "O'zbek" },
-  { code: "ru", label: "Русский" },
-  { code: "ar", label: "العربية" },
-];
+import { useApanelLocaleOptions } from "../utils/locales";
 
 const itemTypes = [
   { value: "link", label: "Direct Link" },
@@ -20,16 +14,12 @@ const itemTypes = [
   { value: "structure", label: "Structure Dropdown" },
 ];
 
-const defaultTranslations = {
-  en: { label: "" },
-  uz: { label: "" },
-  ru: { label: "" },
-  ar: { label: "" },
-};
+const createDefaultTranslations = (localeCodes) =>
+  Object.fromEntries(localeCodes.map((locale) => [locale, { label: "" }]));
 
-function cloneTranslations(translations = {}) {
+function cloneTranslations(translations = {}, localeCodes) {
   return {
-    ...structuredClone(defaultTranslations),
+    ...structuredClone(createDefaultTranslations(localeCodes)),
     ...Object.fromEntries(
       Object.entries(translations).map(([locale, value]) => [
         locale,
@@ -39,7 +29,7 @@ function cloneTranslations(translations = {}) {
   };
 }
 
-function normalizeItem(item, index = 0) {
+function normalizeItem(item, index = 0, localeCodes = []) {
   return {
     id: item.id || null,
     parent_id: item.parent_id || null,
@@ -48,12 +38,12 @@ function normalizeItem(item, index = 0) {
     icon: item.icon || "",
     sort_order: item.sort_order ?? index + 1,
     is_active: item.is_active !== false,
-    translations: cloneTranslations(item.translations),
-    children: sortTree((item.children || []).map((c, i) => normalizeItem(c, i))),
+    translations: cloneTranslations(item.translations, localeCodes),
+    children: sortTree((item.children || []).map((c, i) => normalizeItem(c, i, localeCodes))),
   };
 }
 
-function createItem(sortOrder = 1, routeName = "link") {
+function createItem(sortOrder = 1, routeName = "link", localeCodes = []) {
   return {
     id: null,
     parent_id: null,
@@ -62,7 +52,7 @@ function createItem(sortOrder = 1, routeName = "link") {
     icon: "",
     sort_order: sortOrder,
     is_active: true,
-    translations: structuredClone(defaultTranslations),
+    translations: structuredClone(createDefaultTranslations(localeCodes)),
     children: [],
   };
 }
@@ -116,7 +106,7 @@ function moveInTree(items, path, direction) {
   );
 }
 
-function prepareItems(items) {
+function prepareItems(items, localeCodes, primaryLocale) {
   if (!Array.isArray(items)) return [];
   return items.map((item) => ({
     id: item.id,
@@ -126,12 +116,12 @@ function prepareItems(items) {
     sort_order: item.sort_order,
     is_active: item.is_active,
     translations: Object.fromEntries(
-      LOCALES.map((locale) => [
-        locale.code,
-        { label: item.translations?.[locale.code]?.label || item.translations?.en?.label || "Menu Item" },
+      localeCodes.map((locale) => [
+        locale,
+        { label: item.translations?.[locale]?.label || item.translations?.[primaryLocale]?.label || "" },
       ]),
     ),
-    children: prepareItems(item.children || []),
+    children: prepareItems(item.children || [], localeCodes, primaryLocale),
   }));
 }
 
@@ -146,9 +136,15 @@ function errorMessage(err, fallback) {
 }
 
 export default function ApanelHeaderNavbar() {
+  const localeOptions = useApanelLocaleOptions();
+  const localeCodes = useMemo(
+    () => localeOptions.map((locale) => locale.code),
+    [localeOptions],
+  );
+  const primaryLocale = localeCodes[0] || "";
   const [isActive, setIsActive] = useState(true);
   const [items, setItems] = useState([]);
-  const [activeLocale, setActiveLocale] = useState("en");
+  const [activeLocale, setActiveLocale] = useState("");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
@@ -158,11 +154,13 @@ export default function ApanelHeaderNavbar() {
   const sortedItems = items;
 
   const loadNavbar = useCallback(async () => {
+    if (!primaryLocale) return;
+
     try {
       setLoading(true);
       setError("");
       const data = await apanelService.getHeaderNavbar();
-      const nextItems = sortTree((data.items || []).map(normalizeItem));
+      const nextItems = sortTree((data.items || []).map((item, index) => normalizeItem(item, index, localeCodes)));
       setIsActive(data.is_active !== false);
       setItems(nextItems);
     } catch (err) {
@@ -171,11 +169,22 @@ export default function ApanelHeaderNavbar() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [localeCodes, primaryLocale]);
 
   useEffect(() => {
     loadNavbar();
   }, [loadNavbar]);
+
+  useEffect(() => {
+    if (!primaryLocale) return;
+
+    setActiveLocale((current) =>
+      current && localeCodes.includes(current) ? current : primaryLocale,
+    );
+    setItems((current) =>
+      sortTree(current.map((item, index) => normalizeItem(item, index, localeCodes))),
+    );
+  }, [localeCodes, primaryLocale]);
 
   const updateItem = (path, field, value) => {
     setItems((current) => {
@@ -204,14 +213,14 @@ export default function ApanelHeaderNavbar() {
   };
 
   const addItem = () => {
-    setItems((current) => sortTree([...current, createItem(current.length + 1)]));
+    setItems((current) => sortTree([...current, createItem(current.length + 1, "link", localeCodes)]));
   };
 
   const addChild = (path) => {
     setItems((current) => {
       const updated = updateTree(current, path, (item) => ({
         ...item,
-        children: [...(item.children || []), createItem((item.children || []).length + 1)],
+        children: [...(item.children || []), createItem((item.children || []).length + 1, "link", localeCodes)],
       }));
       return sortTree(updated);
     });
@@ -233,9 +242,8 @@ export default function ApanelHeaderNavbar() {
       setSuccess("");
       const payload = {
         is_active: isActive,
-        items: prepareItems(items),
+        items: prepareItems(items, localeCodes, primaryLocale),
       };
-      console.log("SAVE NAVBAR PAYLOAD:", payload);
       await apanelService.updateHeaderNavbar(payload);
       await loadNavbar();
       setSuccess("Header navbar saved successfully.");
@@ -250,7 +258,7 @@ export default function ApanelHeaderNavbar() {
     <div className="space-y-4">
       {(list || []).map((item, index) => {
         const path = [...parentPath, index];
-        const label = item.translations?.[activeLocale]?.label || item.translations?.en?.label || "Menu Item";
+        const label = item.translations?.[activeLocale]?.label || item.translations?.[primaryLocale]?.label || "";
         const canHaveChildren = !["link", "action"].includes(item.route_name) && parentPath.length < 2;
 
         return (
@@ -408,7 +416,7 @@ export default function ApanelHeaderNavbar() {
           </label>
 
           <div className="inline-flex flex-wrap rounded-2xl bg-gray-100 p-1">
-            {LOCALES.map((locale) => (
+            {localeOptions.map((locale) => (
               <button
                 key={locale.code}
                 type="button"

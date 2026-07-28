@@ -15,21 +15,15 @@ import FormError from "../../../components/common/FormError";
 import { apanelService } from "../../../services/apanelService";
 import { publicAssetUrl } from "../../../lib/api";
 import ConfirmDialog from "../components/ConfirmDialog";
+import { useApanelLocaleOptions } from "../utils/locales";
 
-const locales = ["en", "uz", "ru", "ar"];
-const localeNames = {
-  en: "English",
-  uz: "Uzbek",
-  ru: "Russian",
-  ar: "Arabic",
-};
 const emptyTranslation = {
   title: "",
   category: "",
   description: "",
 };
 
-const emptyForm = {
+const emptyForm = (localeCodes) => ({
   slug: "",
   url: "",
   thumbnail: "",
@@ -41,16 +35,16 @@ const emptyForm = {
   published_at: "",
   is_active: true,
   sort_order: 0,
-  translations: Object.fromEntries(locales.map((locale) => [locale, emptyTranslation])),
-};
+  translations: Object.fromEntries(localeCodes.map((locale) => [locale, { ...emptyTranslation }])),
+});
 
-const emptySettings = {
+const emptySettings = (localeCodes) => ({
   home_limit: 4,
   subscriber_count: 0,
   youtube_channel_url: "",
   is_active: true,
   translations: Object.fromEntries(
-    locales.map((locale) => [
+    localeCodes.map((locale) => [
       locale,
       {
         home_tag: "",
@@ -92,7 +86,7 @@ const emptySettings = {
       },
     ]),
   ),
-};
+});
 const MAX_VIDEO_UPLOAD_BYTES = 200 * 1024 * 1024;
 
 function slugify(value) {
@@ -130,9 +124,9 @@ function findTranslation(translations, locale) {
   return translations?.[locale] || null;
 }
 
-function fromRecord(record) {
+function fromRecord(record, localeCodes) {
   const translations = Object.fromEntries(
-    locales.map((locale) => {
+    localeCodes.map((locale) => {
       const existing = findTranslation(record.translations, locale);
       return [
         locale,
@@ -161,10 +155,10 @@ function fromRecord(record) {
   };
 }
 
-function toPayload(form) {
-  const fallback = form.translations.en || emptyTranslation;
+function toPayload(form, primaryLocale, localeCodes) {
+  const fallback = form.translations[primaryLocale] || Object.values(form.translations || {})[0] || emptyTranslation;
   const translations = Object.fromEntries(
-    locales.map((locale) => {
+    localeCodes.map((locale) => {
       const current = form.translations[locale] || emptyTranslation;
       return [
         locale,
@@ -194,16 +188,42 @@ function toPayload(form) {
 }
 
 export default function ApanelVideoBdtu() {
+  const localeOptions = useApanelLocaleOptions();
+  const localeCodes = useMemo(() => localeOptions.map((locale) => locale.code), [localeOptions]);
+  const localeNames = useMemo(
+    () => Object.fromEntries(localeOptions.map((locale) => [locale.code, locale.label])),
+    [localeOptions],
+  );
+  const primaryLocale = localeCodes[0] || "";
   const [items, setItems] = useState([]);
-  const [settingsForm, setSettingsForm] = useState(emptySettings);
-  const [form, setForm] = useState(emptyForm);
+  const [settingsForm, setSettingsForm] = useState(() => emptySettings([]));
+  const [form, setForm] = useState(() => emptyForm([]));
   const [editingRecord, setEditingRecord] = useState(null);
-  const [activeLocale, setActiveLocale] = useState("en");
+  const [activeLocale, setActiveLocale] = useState("");
   const [activeTab, setActiveTab] = useState("items");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [pendingDelete, setPendingDelete] = useState(null);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (!localeCodes.length) return;
+    setActiveLocale((current) => (localeCodes.includes(current) ? current : primaryLocale));
+    setForm((current) => ({
+      ...current,
+      translations: {
+        ...emptyForm(localeCodes).translations,
+        ...current.translations,
+      },
+    }));
+    setSettingsForm((current) => ({
+      ...current,
+      translations: {
+        ...emptySettings(localeCodes).translations,
+        ...current.translations,
+      },
+    }));
+  }, [localeCodes, primaryLocale]);
 
   const fetchVideos = useCallback(async () => {
     setLoading(true);
@@ -222,15 +242,15 @@ export default function ApanelVideoBdtu() {
       const response = await apanelService.getVideoGallerySettings();
       const setting = response?.data || response;
       setSettingsForm({
-        ...emptySettings,
+        ...emptySettings(localeCodes),
         ...setting,
         translations: Object.fromEntries(
-          locales.map((locale) => {
+          localeCodes.map((locale) => {
             const existing = setting.translations?.find((item) => item.locale === locale);
             return [
               locale,
               {
-                ...emptySettings.translations[locale],
+                ...emptySettings(localeCodes).translations[locale],
                 ...(existing || {}),
                 category_labels: existing?.category_labels || {},
               },
@@ -241,7 +261,7 @@ export default function ApanelVideoBdtu() {
     } catch (err) {
       setError(err?.message || "Failed to load video gallery settings.");
     }
-  }, []);
+  }, [localeCodes]);
 
   useEffect(() => {
     fetchVideos();
@@ -250,7 +270,7 @@ export default function ApanelVideoBdtu() {
 
   const currentTranslation = form.translations[activeLocale] || emptyTranslation;
   const currentSettingsTranslation =
-    settingsForm.translations[activeLocale] || emptySettings.translations[activeLocale];
+    settingsForm.translations[activeLocale] || emptySettings(localeCodes).translations[activeLocale] || {};
 
   const sortedItems = useMemo(
     () => [...items].sort((a, b) => Number(a.sort_order || 0) - Number(b.sort_order || 0)),
@@ -272,7 +292,7 @@ export default function ApanelVideoBdtu() {
   }, [activeLocale, currentSettingsTranslation.category_labels, items]);
 
   const resetForm = () => {
-    setForm(emptyForm);
+    setForm(emptyForm(localeCodes));
     setEditingRecord(null);
     setError("");
   };
@@ -309,7 +329,7 @@ export default function ApanelVideoBdtu() {
 
   const startEdit = (record) => {
     setEditingRecord(record);
-    setForm(fromRecord(record));
+    setForm(fromRecord(record, localeCodes));
     setActiveTab("form");
     setError("");
   };
@@ -324,7 +344,7 @@ export default function ApanelVideoBdtu() {
     try {
       const media = await apanelService.uploadMedia(file, {
         type: file.type.startsWith("video/") ? "video" : "image",
-        alt_text: form.translations.en.title || file.name,
+        alt_text: form.translations[primaryLocale]?.title || file.name,
       });
       setField(targetField, media.path || media.url || media.data?.path || "");
     } catch (err) {
@@ -337,7 +357,7 @@ export default function ApanelVideoBdtu() {
     setSaving(true);
     setError("");
     try {
-      const payload = toPayload(form);
+      const payload = toPayload(form, primaryLocale, localeCodes);
       if (editingRecord) {
         await apanelService.update("videos", editingRecord.id, payload);
       } else {
@@ -378,8 +398,8 @@ export default function ApanelVideoBdtu() {
       const normalizedSettings = {
         ...settingsForm,
         translations: Object.fromEntries(
-          locales.map((locale) => {
-            const existing = settingsForm.translations[locale] || emptySettings.translations[locale];
+          localeCodes.map((locale) => {
+            const existing = settingsForm.translations[locale] || emptySettings(localeCodes).translations[locale];
             const labels = { ...(existing.category_labels || {}) };
 
             items.forEach((item) => {
@@ -463,7 +483,7 @@ export default function ApanelVideoBdtu() {
       </div>
 
       <div className="flex gap-2">
-        {locales.map((locale) => (
+        {localeCodes.map((locale) => (
           <button
             key={locale}
             type="button"
@@ -668,7 +688,7 @@ export default function ApanelVideoBdtu() {
                   <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">Title</span>
                   <input placeholder="Video title" value={currentTranslation.title} onChange={(e) => {
                     setTranslationField("title", e.target.value);
-                    if (!form.slug && activeLocale === "en") setField("slug", slugify(e.target.value));
+                    if (!form.slug && activeLocale === primaryLocale) setField("slug", slugify(e.target.value));
                   }} className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm font-semibold text-navy" />
                 </label>
                 <label className="space-y-1.5">
@@ -710,8 +730,14 @@ export default function ApanelVideoBdtu() {
                 {loading ? (
                   <tr><td colSpan="5" className="px-5 py-12 text-center"><Loader2 className="w-7 h-7 animate-spin text-primary mx-auto" /></td></tr>
                 ) : sortedItems.map((item) => {
-                  const title = item.translations?.find((translation) => translation.locale === "en")?.title || item.slug;
-                  const category = item.translations?.find((translation) => translation.locale === "en")?.category || "";
+                  const title =
+                    item.translations?.find((translation) => translation.locale === primaryLocale)?.title ||
+                    item.translations?.[0]?.title ||
+                    item.slug;
+                  const category =
+                    item.translations?.find((translation) => translation.locale === primaryLocale)?.category ||
+                    item.translations?.[0]?.category ||
+                    "";
                   return (
                     <tr key={item.id} className="hover:bg-gray-50/70">
                       <td className="px-5 py-4">

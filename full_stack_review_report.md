@@ -1409,15 +1409,40 @@
 ## ملفات متابعة Features Apanel Student 2026-07-28 التي تمت مراجعتها
 
 - `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\components\FormBuilder.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\utils\locales.js`
 - `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\pages\ApanelCrud.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\pages\ApanelAboutPage.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\pages\ApanelAdministration.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\pages\ApanelAnnouncements.jsx`
 - `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\pages\ApanelApplicationsWorkflow.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\pages\ApanelBlog.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\pages\ApanelCenters.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\pages\ApanelContactPage.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\pages\ApanelContactManagement.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\pages\ApanelFooterWeb.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\pages\ApanelGreenCampus.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\pages\ApanelHeaderNavbar.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\pages\ApanelInteractiveServices.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\pages\ApanelNewsEvents.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\pages\ApanelNewsletterSubscriptions.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\pages\ApanelVideoBdtu.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\student`
 - `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\seeders\StudentSystemTranslationSeeder.php`
 
 ## ما تم تنفيذه في متابعة Features Apanel Student 2026-07-28
 
 - تم تحويل رسائل `ApanelCrud.jsx` الخاصة بالتحميل، الإضافة، التعديل، الحذف، الفلاتر، وحوار الحذف إلى مفاتيح ترجمة من قاعدة البيانات.
-- تم حذف قائمة اللغات الثابتة من `ApanelCrud.jsx` لحقل `translation-values.locale`، وأصبحت الخيارات تأتي من `availableLocales` القادمة من API.
-- تم حذف قائمة اللغات الثابتة من `FormBuilder.jsx`، وأصبحت نماذج الحقول المترجمة تعتمد على `availableLocales` من نظام اللغة الديناميكي.
+- تم إضافة helper مشترك `features/apanel/utils/locales.js` لقراءة اللغات النشطة من `LocaleContext` وتحويلها إلى codes/options.
+- تم حذف قائمة اللغات الثابتة من `ApanelCrud.jsx` لحقل `translation-values.locale`، وأصبحت الخيارات تأتي من `locales` القادمة من API.
+- تم حذف قائمة اللغات الثابتة من `FormBuilder.jsx`، وأصبحت نماذج الحقول المترجمة تعتمد على `locales` من نظام اللغة الديناميكي.
+- تم تحويل `ApanelAdministration.jsx` ليبني نماذج profile/settings حسب اللغات النشطة القادمة من API بدل `["en", "uz", "ru", "ar"]`.
+- تم تحويل `ApanelAnnouncements.jsx` ليبني item/settings translations حسب اللغات النشطة القادمة من API، وأصبح fallback الخاص بالـ slug/title يعتمد على أول لغة نشطة بدل تثبيت `en`.
+- تم تحويل `ApanelAboutPage.jsx`، `ApanelContactPage.jsx`، `ApanelFooterWeb.jsx`، `ApanelHeaderNavbar.jsx`، و `ApanelGreenCampus.jsx` لاستخدام اللغات النشطة القادمة من API في tabs، forms، payloads، link labels، menu item labels، settings translations، article translations، و stat translations.
+- تم تحويل `ApanelBlog.jsx`، `ApanelCenters.jsx`، `ApanelInteractiveServices.jsx`، `ApanelNewsEvents.jsx`، و `ApanelVideoBdtu.jsx` في نفس اتجاه اللغات الديناميكية، وأصبحت تعتمد على أول لغة نشطة من API بدل تثبيت `en`.
+- تم حذف fallback النصي `"Menu Item"` من `ApanelHeaderNavbar.jsx` عند تجهيز payload، حتى لا يتم إخفاء نقص الترجمة بنص ثابت داخل الكود.
+- تم حذف `console.log` الخاص بحفظ payload الهيدر من `ApanelHeaderNavbar.jsx`.
+- تم إزالة تثبيت `Intl.DateTimeFormat("en")` من صفحات apanel التي تعرض تواريخ داخل النطاق، وأصبح التنسيق يستخدم اللغة النشطة أو أول لغة قادمة من API.
+- ملاحظة مهمة: تحويل اللغات في `ApanelAdministration.jsx` و `ApanelAnnouncements.jsx` لا يعني أن كل labels الإدارية داخلهما أصبحت مترجمة؛ ما زالت هناك عناوين وأزرار إدارية ثابتة تحتاج جولة ترجمة منفصلة.
 - تم تحويل رسائل `FormBuilder.jsx` العامة مثل أخطاء JSON، أخطاء validation، زر الإلغاء، وزر إنشاء/تحديث السجل إلى مفاتيح ترجمة.
 - تم تحويل معظم رسائل وأزرار وحقول `ApanelApplicationsWorkflow.jsx` إلى مفاتيح ترجمة بدلاً من نصوص ثابتة، خصوصاً:
   - عناوين مراحل workflow.
@@ -1441,21 +1466,13 @@
 
 ## المتبقي بعد متابعة Features Apanel Student 2026-07-28
 
-- لا أستطيع اعتبار كل `features/apanel` منتهياً بالكامل بعد هذه المتابعة.
-- بقيت قوائم locale ثابتة داخل صفحات CMS الكبيرة التالية، وتحتاج جولة تحويل مستقلة لأن كل صفحة تبني `emptyForm` و `normalize` و tabs الخاصة بها حول هذه القائمة:
-  - `ApanelAboutPage.jsx`
-  - `ApanelAdministration.jsx`
-  - `ApanelAnnouncements.jsx`
-  - `ApanelBlog.jsx`
-  - `ApanelCenters.jsx`
-  - `ApanelContactPage.jsx`
-  - `ApanelFooterWeb.jsx`
-  - `ApanelGreenCampus.jsx`
-  - `ApanelHeaderNavbar.jsx`
-  - `ApanelInteractiveServices.jsx`
-  - `ApanelNewsEvents.jsx`
-  - `ApanelVideoBdtu.jsx`
-- هذه البقايا ليست بيانات محتوى نهائي للموقع، لكنها تمنع إضافة لغة خامسة من الظهور تلقائياً داخل بعض نماذج apanel بدون تعديل الكود.
+- تم فحص `features/apanel` و `features/student` ولم تعد تظهر أنماط قوائم اللغات الثابتة `en/uz/ru/ar` أو `translations.en` أو `activeLocale === "en"` داخل النطاق المحدد.
+- لا أستطيع اعتبار كل `features/apanel` منتهياً بالكامل من ناحية النصوص الإدارية؛ ما زالت توجد labels وأزرار ورسائل إدارية ثابتة في بعض صفحات apanel. هذه ليست محتوى الموقع العام، لكنها نصوص واجهة قابلة للترجمة ويجب نقلها تدريجياً إلى `translation_keys` و `translation_values`.
+- بقيت placeholders إرشادية ثابتة داخل حقول إدخال الصور في:
+  - `ApanelBlog.jsx`: `https://... or media/uploads/image.jpg`
+  - `ApanelNewsEvents.jsx`: `https://... or media/news/image.jpg`
+- هذه placeholders لا تبني URL ولا تستخدم API/storage مباشرة، لكنها ما زالت نصوص UI ثابتة إذا أردنا الوصول لصفر نصوص ثابتة في apanel.
+- لم يتم العثور على URL API مكرر أو `localhost` أو `127.0.0.1` داخل النطاق المحدد.
 
 ## تحقق متابعة Features Apanel Student 2026-07-28
 
@@ -1466,3 +1483,7 @@
 - `php-local.bat artisan route:list --path=api/v1 --except-vendor` نجح وأظهر 170 route.
 - `php-local.bat artisan test` نجح: 4 tests passed, 7 assertions.
 - `php-local.bat artisan optimize:clear` نجح.
+- تم حذف ملف temp cache الناتج من تعارض Laravel: `apps/api/bootstrap/cache/serB77E.tmp`.
+- تم إعادة فحص `features/apanel` و `features/student` بعد التعديلات ولم تظهر قوائم locale ثابتة أو hardcoded `translations.en`.
+- تم فحص `t("key", "fallback")` داخل النطاق ولم تظهر fallbacks نصية من هذا النوع.
+- تم فحص `Intl.DateTimeFormat("en")` داخل النطاق ولم تظهر نتائج بعد التعديل.

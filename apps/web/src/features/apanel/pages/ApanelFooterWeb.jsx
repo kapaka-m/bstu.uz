@@ -3,9 +3,9 @@ import { Save, Loader2, Plus, Trash2 } from "lucide-react";
 import FormError from "../../../components/common/FormError";
 import { footerService } from "../../../services/footerService";
 import ConfirmDialog from "../components/ConfirmDialog";
+import { useApanelLocaleCodes } from "../utils/locales";
 
 
-const LOCALES = ["en", "uz", "ru", "ar"];
 const TRANSLATION_FIELDS = [
   ["logo_alt", "Logo alt text"],
   ["description", "Footer description", "textarea"],
@@ -29,7 +29,7 @@ const PROMO_FIELDS = [
   ["newsletter_success_message", "Newsletter success message"],
 ];
 
-const emptyFooter = {
+const createEmptyFooter = (localeCodes) => ({
   useful_links: [],
   faculty_links: [],
   social_links: [],
@@ -38,7 +38,7 @@ const emptyFooter = {
   email: "",
   copyright_year: "",
   is_active: true,
-  translations: LOCALES.reduce((acc, locale) => {
+  translations: localeCodes.reduce((acc, locale) => {
     acc[locale] = {
       logo_alt: "",
       description: "",
@@ -63,9 +63,10 @@ const emptyFooter = {
     };
     return acc;
   }, {}),
-};
+});
 
-function normalizeFooter(record) {
+function normalizeFooter(record, localeCodes) {
+  const emptyFooter = createEmptyFooter(localeCodes);
   const next = {
     ...emptyFooter,
     ...record,
@@ -75,9 +76,15 @@ function normalizeFooter(record) {
     translations: { ...emptyFooter.translations },
   };
 
-  (record?.translations || []).forEach((translation) => {
-    next.translations[translation.locale] = {
-      ...emptyFooter.translations[translation.locale],
+  const translations = Array.isArray(record?.translations)
+    ? record.translations.map((translation) => [translation.locale, translation])
+    : Object.entries(record?.translations || {});
+
+  translations.forEach(([locale, translation]) => {
+    if (!localeCodes.includes(locale)) return;
+
+    next.translations[locale] = {
+      ...emptyFooter.translations[locale],
       ...translation,
       useful_link_labels: translation.useful_link_labels || {},
       faculty_link_labels: translation.faculty_link_labels || {},
@@ -115,7 +122,7 @@ function TextField({ label, value, onChange, type = "text", textarea = false }) 
   );
 }
 
-function LinkEditor({ title, links, onChange, labelValues, onLabelChange, onDeleteClick }) {
+function LinkEditor({ title, links, locales, onChange, labelValues, onLabelChange, onDeleteClick }) {
   const updateLink = (index, field, value) => {
     const next = [...links];
     next[index] = { ...next[index], [field]: value };
@@ -159,7 +166,7 @@ function LinkEditor({ title, links, onChange, labelValues, onLabelChange, onDele
               />
             </div>
             <div className="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {LOCALES.map((locale) => (
+              {locales.map((locale) => (
                 <TextField
                   key={locale}
                   label={`${locale.toUpperCase()} label`}
@@ -186,8 +193,10 @@ function LinkEditor({ title, links, onChange, labelValues, onLabelChange, onDele
 }
 
 export default function ApanelFooterWeb() {
-  const [footer, setFooter] = useState(emptyFooter);
-  const [activeLocale, setActiveLocale] = useState("en");
+  const localeCodes = useApanelLocaleCodes();
+  const primaryLocale = localeCodes[0] || "";
+  const [footer, setFooter] = useState(() => createEmptyFooter([]));
+  const [activeLocale, setActiveLocale] = useState("");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
@@ -222,12 +231,14 @@ export default function ApanelFooterWeb() {
 
 
   useEffect(() => {
+    if (!primaryLocale) return undefined;
+
     const loadFooter = async () => {
       try {
         setLoading(true);
         setError("");
         const data = await footerService.getCmsFooter();
-        setFooter(normalizeFooter(data));
+        setFooter(normalizeFooter(data, localeCodes));
       } catch (err) {
         setError(err?.message || "Failed to load footer CMS content.");
       } finally {
@@ -236,20 +247,29 @@ export default function ApanelFooterWeb() {
     };
 
     loadFooter();
-  }, []);
+  }, [localeCodes, primaryLocale]);
+
+  useEffect(() => {
+    if (!primaryLocale) return;
+
+    setActiveLocale((current) =>
+      current && localeCodes.includes(current) ? current : primaryLocale,
+    );
+    setFooter((current) => normalizeFooter(current, localeCodes));
+  }, [localeCodes, primaryLocale]);
 
   const linkLabels = useMemo(
     () => ({
-      useful: LOCALES.reduce((acc, locale) => {
+      useful: localeCodes.reduce((acc, locale) => {
         acc[locale] = footer.translations[locale]?.useful_link_labels || {};
         return acc;
       }, {}),
-      faculty: LOCALES.reduce((acc, locale) => {
+      faculty: localeCodes.reduce((acc, locale) => {
         acc[locale] = footer.translations[locale]?.faculty_link_labels || {};
         return acc;
       }, {}),
     }),
-    [footer.translations],
+    [footer.translations, localeCodes],
   );
 
   const updateRoot = (field, value) => {
@@ -295,7 +315,7 @@ export default function ApanelFooterWeb() {
       setSaved(false);
       setError("");
       const data = await footerService.updateCmsFooter(footer);
-      setFooter(normalizeFooter(data));
+      setFooter(normalizeFooter(data, localeCodes));
       setSaved(true);
     } catch (err) {
       setError(err?.message || "Failed to save footer CMS content.");
@@ -374,7 +394,7 @@ export default function ApanelFooterWeb() {
 
       <section className="bg-white border border-gray-100 rounded-3xl p-5 shadow-xs space-y-5">
         <div className="flex flex-wrap gap-2">
-          {LOCALES.map((locale) => (
+          {localeCodes.map((locale) => (
             <button
               key={locale}
               type="button"
@@ -443,6 +463,7 @@ export default function ApanelFooterWeb() {
       <LinkEditor
         title="Primary Link Group"
         links={footer.useful_links}
+        locales={localeCodes}
         onChange={(value) => updateRoot("useful_links", value)}
         labelValues={linkLabels.useful}
         onLabelChange={(locale, key, value) =>
@@ -454,6 +475,7 @@ export default function ApanelFooterWeb() {
       <LinkEditor
         title="Faculty Links"
         links={footer.faculty_links}
+        locales={localeCodes}
         onChange={(value) => updateRoot("faculty_links", value)}
         labelValues={linkLabels.faculty}
         onLabelChange={(locale, key, value) =>

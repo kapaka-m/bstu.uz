@@ -2,13 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Plus, Save, Trash2 } from "lucide-react";
 import { apanelService } from "../../../services/apanelService";
 import ConfirmDialog from "../components/ConfirmDialog";
-
-const LOCALES = [
-  { code: "en", label: "English" },
-  { code: "uz", label: "O'zbek" },
-  { code: "ru", label: "Русский" },
-  { code: "ar", label: "العربية" },
-];
+import { useApanelLocaleOptions } from "../utils/locales";
 
 const defaultContent = {
   tag: "",
@@ -36,13 +30,16 @@ const defaultContent = {
   },
 };
 
-const emptyForm = {
+const createEmptyForm = (localeCodes) => ({
   map_embed_url: "",
   is_published: true,
   translations: Object.fromEntries(
-    LOCALES.map((locale) => [locale.code, { content: structuredClone(defaultContent) }]),
+    localeCodes.map((locale) => [
+      locale,
+      { content: structuredClone(defaultContent) },
+    ]),
   ),
-};
+});
 
 const clone = (value) => JSON.parse(JSON.stringify(value || {}));
 
@@ -88,8 +85,19 @@ function SelectField({ label, value, options, onChange }) {
 }
 
 export default function ApanelContactPage() {
-  const [form, setForm] = useState(emptyForm);
-  const [activeLocale, setActiveLocale] = useState("en");
+  const localeOptions = useApanelLocaleOptions();
+  const localeCodes = useMemo(
+    () => localeOptions.map((locale) => locale.code),
+    [localeOptions],
+  );
+  const primaryLocale = localeCodes[0] || "";
+  const initialForm = useMemo(
+    () => createEmptyForm(localeCodes),
+    [localeCodes],
+  );
+
+  const [form, setForm] = useState(() => createEmptyForm([]));
+  const [activeLocale, setActiveLocale] = useState("");
   const [activeSection, setActiveSection] = useState("content");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -99,13 +107,16 @@ export default function ApanelContactPage() {
 
   const content = form.translations[activeLocale]?.content || defaultContent;
   const activeLocaleLabel = useMemo(
-    () => LOCALES.find((locale) => locale.code === activeLocale)?.label || activeLocale,
-    [activeLocale],
+    () =>
+      localeOptions.find((locale) => locale.code === activeLocale)?.label ||
+      activeLocale,
+    [activeLocale, localeOptions],
   );
 
   const applyPageToForm = useCallback((page) => {
-    const translations = clone(emptyForm.translations);
+    const translations = clone(initialForm.translations);
     (page.translations || []).forEach((translation) => {
+      if (!localeCodes.includes(translation.locale)) return;
       translations[translation.locale] = {
         content: { ...clone(defaultContent), ...clone(translation.content) },
       };
@@ -116,7 +127,7 @@ export default function ApanelContactPage() {
       is_published: Boolean(page.is_published),
       translations,
     });
-  }, []);
+  }, [initialForm.translations, localeCodes]);
 
   const loadContactPage = useCallback(async (isAlive = () => true) => {
     const page = await apanelService.getContactPage();
@@ -125,6 +136,8 @@ export default function ApanelContactPage() {
   }, [applyPageToForm]);
 
   useEffect(() => {
+    if (!primaryLocale) return undefined;
+
     let alive = true;
     setLoading(true);
 
@@ -137,7 +150,29 @@ export default function ApanelContactPage() {
     return () => {
       alive = false;
     };
-  }, [loadContactPage]);
+  }, [loadContactPage, primaryLocale]);
+
+  useEffect(() => {
+    if (!primaryLocale) return;
+
+    setActiveLocale((current) =>
+      current && localeCodes.includes(current) ? current : primaryLocale,
+    );
+    setForm((current) => {
+      const translations = clone(initialForm.translations);
+      Object.entries(current.translations || {}).forEach(([locale, value]) => {
+        if (localeCodes.includes(locale)) {
+          translations[locale] = {
+            content: {
+              ...clone(defaultContent),
+              ...clone(value?.content),
+            },
+          };
+        }
+      });
+      return { ...current, translations };
+    });
+  }, [initialForm.translations, localeCodes, primaryLocale]);
 
   const updateField = (field, value) => {
     setForm((current) => ({ ...current, [field]: value }));
@@ -195,12 +230,12 @@ export default function ApanelContactPage() {
         map_embed_url: form.map_embed_url || "",
         is_published: Boolean(form.is_published),
         translations: Object.fromEntries(
-          LOCALES.map((locale) => [
-            locale.code,
+          localeCodes.map((locale) => [
+            locale,
             {
               content: {
                 ...clone(defaultContent),
-                ...clone(form.translations?.[locale.code]?.content),
+                ...clone(form.translations?.[locale]?.content),
               },
             },
           ]),
@@ -342,7 +377,7 @@ export default function ApanelContactPage() {
         {activeSection !== "controls" && (
           <div className="border-b border-gray-100 py-4">
             <div className="inline-flex flex-wrap rounded-2xl bg-gray-100 p-1">
-              {LOCALES.map((locale) => (
+              {localeOptions.map((locale) => (
                 <button
                   key={locale.code}
                   type="button"

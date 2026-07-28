@@ -3,6 +3,8 @@ import { applicationService } from "../../../services/applicationService";
 import { useLanguage } from "../../../context/LanguageContext";
 import { Loader2, Upload, Trash2, ExternalLink } from "lucide-react";
 import FormError from "../../../components/common/FormError";
+import { publicAssetUrl } from "../../../lib/api";
+import { studentPortalService } from "../../../services/studentPortalService";
 
 export default function StudentDocuments() {
   const { t } = useLanguage();
@@ -12,55 +14,23 @@ export default function StudentDocuments() {
   const [deletingId, setDeletingId] = useState(null);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-
-  const docTypes = [
-    {
-      key: "passport",
-      label: "Passport Scanned Copy *",
-      desc: "Main information page with photo",
-    },
-    {
-      key: "photo",
-      label: "Applicant Passport Photo (3x4) *",
-      desc: "Recent color photo with white background",
-    },
-    {
-      key: "education_certificate",
-      label: "Diploma / School Certificate *",
-      desc: "Proof of completed educational stage",
-    },
-    {
-      key: "transcript",
-      label: "Academic Transcript *",
-      desc: "List of grades and course evaluations",
-    },
-    {
-      key: "medical_certificate",
-      label: "Medical Certificate (Form 086)",
-      desc: "General health clearance check",
-    },
-    {
-      key: "language_certificate",
-      label: "Language Proficiency Certificate",
-      desc: "e.g., IELTS, TOEFL, CEFR (If applicable)",
-    },
-    {
-      key: "payment_receipt",
-      label: "Tuition / Application Fee Receipt",
-      desc: "Proof of billing transaction payment slip",
-    },
-    {
-      key: "other",
-      label: "Other Documents",
-      desc: "Any additional supplementary recommendations",
-    },
-  ];
+  const [docTypes, setDocTypes] = useState([]);
 
   const loadDocuments = React.useCallback(async () => {
     try {
       setLoading(true);
       setError("");
-      const apps = await applicationService.getApplications();
+      const [apps, requirements] = await Promise.all([
+        applicationService.getApplications(),
+        studentPortalService.documents().catch(() => []),
+      ]);
+      setDocTypes(
+        (requirements || []).map((item) => ({
+          key: item.document_type,
+          label: item.required ? `${item.name} *` : item.name,
+          desc: item.description,
+        })),
+      );
       const app =
         apps.find((a) => a.status !== "graduated" && a.status !== "rejected") ||
         apps[0];
@@ -70,11 +40,11 @@ export default function StudentDocuments() {
         setActiveApp(details);
       }
     } catch {
-      setError("Failed to fetch documents checklist.");
+      setError(t("document.loadError"));
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [t]);
 
   useEffect(() => {
     loadDocuments();
@@ -86,7 +56,7 @@ export default function StudentDocuments() {
 
     // Check size limit: max 10MB
     if (file.size > 10 * 1024 * 1024) {
-      setError("File exceeds maximum allowed size (10 MB).");
+      setError(t("document.fileTooLarge"));
       return;
     }
 
@@ -95,10 +65,10 @@ export default function StudentDocuments() {
       setError("");
       setSuccess("");
       await applicationService.uploadDocument(activeApp.id, typeKey, file);
-      setSuccess(`Document uploaded successfully!`);
+      setSuccess(t("document.uploaded"));
       loadDocuments();
     } catch (err) {
-      setError(err?.message || "Failed to upload file.");
+      setError(err?.message || t("document.uploadFailed"));
     } finally {
       setUploadingType(null);
     }
@@ -111,23 +81,23 @@ export default function StudentDocuments() {
       setError("");
       setSuccess("");
       await applicationService.deleteDocument(activeApp.id, docId);
-      setSuccess("Document deleted successfully!");
+      setSuccess(t("document.deleted"));
       loadDocuments();
     } catch {
-      setError("Failed to delete document.");
+      setError(t("document.deleteFailed"));
     } finally {
       setDeletingId(null);
     }
   };
 
   if (loading) {
-    return <LoadingState message="Loading documents checklist..." />;
+    return <LoadingState message={t("document.loading")} />;
   }
 
   if (!activeApp) {
     return (
       <div className="bg-white border border-gray-100 rounded-3xl p-8 text-center text-gray-400 font-bold shadow-xs">
-        No active applications found. Please start an application draft first!
+        {t("application.empty")}
       </div>
     );
   }
@@ -176,11 +146,10 @@ export default function StudentDocuments() {
     <div className="max-w-4xl mx-auto space-y-6 animate-in fade-in duration-200">
       <div>
         <h1 className="text-2xl font-extrabold text-navy uppercase tracking-wider">
-          {t("document.checklistTitle", "Application Documents Checklist")}
+          {t("document.checklistTitle")}
         </h1>
         <p className="text-xs font-semibold text-gray-400">
-          Upload scan copies of required documents in PDF, PNG, or JPEG format
-          (max 10MB per file)
+          {t("document.uploadHint")}
         </p>
       </div>
 
@@ -226,7 +195,7 @@ export default function StudentDocuments() {
                     </span>
                     <div className="flex gap-2">
                       <a
-                        href={`/storage/${uploadedDoc.file_path}`}
+                        href={publicAssetUrl(uploadedDoc.file_path)}
                         target="_blank"
                         rel="noreferrer"
                         className="p-1.5 bg-gray-50 border border-gray-150 rounded-lg hover:text-primary transition-all cursor-pointer"

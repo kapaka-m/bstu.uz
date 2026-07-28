@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import StatusBadge from "../components/StatusBadge";
 import FormError from "../../../components/common/FormError";
+import { publicAssetUrl } from "../../../lib/api";
 
 export default function ApanelApplicationDetail() {
   const { id } = useParams();
@@ -368,11 +369,7 @@ export default function ApanelApplicationDetail() {
                 </p>
               ) : (
                 application.documents.map((doc) => {
-                  const path =
-                    doc.file_path.startsWith("http") ||
-                    doc.file_path.startsWith("/")
-                      ? doc.file_path
-                      : "/storage/" + doc.file_path;
+                  const path = publicAssetUrl(doc.file_path);
                   const documentStatus =
                     doc.status ||
                     (doc.document_name.includes("[APPROVED]")

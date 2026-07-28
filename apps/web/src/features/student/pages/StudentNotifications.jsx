@@ -62,7 +62,7 @@ export default function StudentNotifications() {
       <div className="flex flex-col items-center justify-center min-h-75 space-y-3">
         <Loader2 className="w-8 h-8 text-primary animate-spin" />
         <span className="text-xs font-bold text-navy select-none">
-          {t("notification.loading", "Loading notifications feed...")}
+          {t("notification.loading")}
         </span>
       </div>
     );
@@ -73,7 +73,7 @@ export default function StudentNotifications() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-extrabold text-navy uppercase tracking-wider">
-            {t("student.notifications", "Notifications")}
+            {t("student.notifications")}
           </h1>
           <p className="text-xs font-semibold text-gray-400">
             {t(
@@ -94,7 +94,7 @@ export default function StudentNotifications() {
             ) : (
               <CheckCheck className="w-4 h-4" />
             )}
-            {t("button.markAllRead", "Mark All as Read")} ({unreadCount})
+            {t("button.markAllRead")} ({unreadCount})
           </button>
         )}
       </div>
@@ -146,7 +146,7 @@ export default function StudentNotifications() {
                           onClick={() => handleMarkRead(notif.id)}
                           className="text-[10px] font-extrabold text-primary hover:text-primary-hover underline cursor-pointer whitespace-nowrap"
                         >
-                          {t("button.markRead", "Mark read")}
+                          {t("button.markRead")}
                         </button>
                       )}
                     </div>
@@ -156,7 +156,7 @@ export default function StudentNotifications() {
                   </p>
                   {!notif.is_read && (
                     <span className="inline-flex items-center gap-1 text-[9px] font-extrabold text-primary uppercase tracking-wider bg-primary/10 px-2 py-0.5 rounded-full">
-                      {t("notification.unread", "New")}
+                      {t("notification.unread")}
                     </span>
                   )}
                 </div>

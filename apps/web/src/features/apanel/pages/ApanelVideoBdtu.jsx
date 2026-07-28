@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import FormError from "../../../components/common/FormError";
 import { apanelService } from "../../../services/apanelService";
+import { publicAssetUrl } from "../../../lib/api";
 import ConfirmDialog from "../components/ConfirmDialog";
 
 const locales = ["en", "uz", "ru", "ar"];
@@ -118,14 +119,7 @@ function toDateInput(value) {
 }
 
 function mediaPreviewSrc(path) {
-  if (!path) return "";
-  if (path.startsWith("http://") || path.startsWith("https://")) return path;
-  if (path.startsWith("/")) return path;
-
-  const apiBase =
-    import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/api/v1";
-  const storagePath = path.replace(/^public\//, "");
-  return `${apiBase.replace(/\/api\/v1\/?$/, "")}/storage/${storagePath}`;
+  return publicAssetUrl(path);
 }
 
 function findTranslation(translations, locale) {

@@ -721,6 +721,86 @@
 
 ---
 
+## مراجعة Features Apanel Student 2026-07-28
+
+تاريخ المراجعة: 2026-07-28
+
+## مسارات Features Apanel Student
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\student`
+- الملف المباشر المطلوب للترجمات:
+  - `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\seeders\StudentSystemTranslationSeeder.php`
+
+## محتوى Features Apanel Student الذي تم العثور عليه
+
+- وجدت fallbacks نصية داخل student بصيغة `t("key", "Static text")`.
+- وجدت بناء روابط storage/API داخل صفحات apanel وstudent بدل استخدام helper مركزي.
+- وجدت مصفوفة وثائق ثابتة داخل `StudentDocuments.jsx`.
+- وجدت مقارنة `language === "ar"` داخل layouts.
+- وجدت hardcoded locale arrays داخل بعض صفحات apanel CMS forms.
+- وجدت رسائل وأزرار ثابتة متبقية داخل `ApanelApplicationsWorkflow.jsx` و`ApanelCrud.jsx`.
+
+## تغييرات Features Apanel Student
+
+- أزلت fallbacks النصية من ملفات student التي كانت تستخدم `t("key", "fallback")`.
+- جعلت `StudentDocuments.jsx` يأخذ checklist الوثائق من `GET /api/v1/student/documents/checklist` بدل مصفوفة ثابتة داخل React.
+- جعلت روابط ملفات الطالب والعقود تستخدم `publicAssetUrl`.
+- جعلت `MediaPicker.jsx` يخزن مسار media القادم من API ويستخدم `publicAssetUrl` للمعاينة بدل إنشاء `/storage/...` داخل المكون.
+- استبدلت بناء روابط storage اليدوي في صفحات apanel التالية بـ `publicAssetUrl`:
+  - `ApanelAboutPage.jsx`
+  - `ApanelAdministration.jsx`
+  - `ApanelAnnouncements.jsx`
+  - `ApanelApplicationDetail.jsx`
+  - `ApanelBlog.jsx`
+  - `ApanelCenters.jsx`
+  - `ApanelGreenCampus.jsx`
+  - `ApanelMedia.jsx`
+  - `ApanelNewsEvents.jsx`
+  - `ApanelVideoBdtu.jsx`
+- جعلت `ApanelLayout.jsx` و`StudentLayout.jsx` يستخدمان `isRtl` من نظام اللغة الديناميكي.
+- جعلت `TranslationTabs.jsx` يستخدم اللغات القادمة من `GET /api/v1/locales` عند عدم تمرير قائمة locales له.
+- أضفت مفاتيح ترجمة جديدة لقائمة الطالب ورسائل الوثائق وtooltips الخاصة بالترجمة داخل `StudentSystemTranslationSeeder`.
+
+## ربط Features Apanel Student بالبيانات
+
+- قاعدة البيانات:
+  - `locales` للغات واتجاه النص.
+  - `translation_keys` و`translation_values` لنصوص الطالب والـ apanel tooltips التي أضيفت.
+  - `document_requirements` و`application_documents` لقائمة وثائق الطالب.
+  - جداول CMS الموجودة التي تديرها صفحات apanel مثل الأخبار، الإعلانات، الفيديو، المدونة، Green Campus، المراكز، الإدارة، الهيدر، الفوتر، والصفحات.
+- Laravel API:
+  - `GET /api/v1/locales`
+  - `GET /api/v1/translations`
+  - `GET /api/v1/student/documents/checklist`
+  - `POST /api/v1/applications/{id}/documents/private`
+  - `GET /api/v1/student/private-documents/{id}/download`
+  - endpoints إدارة apanel مثل `/api/v1/apanel/{resource}` و`/api/v1/apanel/cms/*`.
+- `/apanel/`:
+  - اللغات من `/apanel/locales`.
+  - الترجمات من `/apanel/translations`.
+  - media من `/apanel/media`.
+  - CMS من صفحات `/apanel/cms/*` والموارد العامة تحت `/apanel`.
+
+## تحقق Features Apanel Student
+
+- `npm.cmd run lint` نجح.
+- `npm.cmd run build` نجح.
+- `php-local.bat -l database\seeders\StudentSystemTranslationSeeder.php` نجح.
+- `php-local.bat artisan db:seed --class=StudentSystemTranslationSeeder` نجح بدون حذف بيانات.
+- `php-local.bat artisan route:list --path=api/v1 --except-vendor` نجح وأظهر 170 route.
+- `php-local.bat artisan test` نجح: 4 tests passed.
+- `php-local.bat artisan optimize:clear` نجح.
+- تم حذف ملفات PHPUnit المؤقتة من `storage/temp` و`.phpunit.result.cache`.
+
+## متبقي Features Apanel Student
+
+- لا تزال بعض صفحات apanel تحتوي قوائم locales ثابتة داخل state initialization، مثل `ApanelAboutPage.jsx`, `ApanelAdministration.jsx`, `ApanelAnnouncements.jsx`, `ApanelBlog.jsx`, `ApanelCenters.jsx`, `ApanelContactPage.jsx`, `ApanelFooterWeb.jsx`, `ApanelGreenCampus.jsx`, `ApanelHeaderNavbar.jsx`, `ApanelInteractiveServices.jsx`, `ApanelNewsEvents.jsx`, و`ApanelVideoBdtu.jsx`. لم أحذفها في هذه الجولة لأنها مرتبطة ببنية forms والترجمات وتحتاج تحويلًا أوسع حتى لا نفقد حقول التحرير.
+- لا تزال `ApanelApplicationsWorkflow.jsx` و`ApanelCrud.jsx` تحتوي رسائل أزرار/توست/prompt ثابتة. تحتاج نقلها لاحقًا إلى مفاتيح ترجمة أو إعدادات workflow مناسبة.
+- لا أدعي أن كل `features/apanel` أصبح ديناميكيًا بالكامل؛ تم إصلاح الروابط، RTL، بعض student labels، وdocument checklist، وبقيت عناصر apanel المذكورة أعلاه.
+
+---
+
 ## مراجعة Web Public Root Environment
 
 تاريخ المراجعة: 2026-07-28
@@ -1319,3 +1399,70 @@
 - `npm.cmd run build` نجح.
 - `php-local.bat artisan test` نجح: 5 tests passed.
 - `php-local.bat artisan route:list --path=api/v1 --except-vendor` نجح وأظهر 170 route.
+
+---
+
+## متابعة تنظيف Features Apanel Student 2026-07-28
+
+تاريخ المتابعة: 2026-07-28
+
+## ملفات متابعة Features Apanel Student 2026-07-28 التي تمت مراجعتها
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\components\FormBuilder.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\pages\ApanelCrud.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\pages\ApanelApplicationsWorkflow.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\seeders\StudentSystemTranslationSeeder.php`
+
+## ما تم تنفيذه في متابعة Features Apanel Student 2026-07-28
+
+- تم تحويل رسائل `ApanelCrud.jsx` الخاصة بالتحميل، الإضافة، التعديل، الحذف، الفلاتر، وحوار الحذف إلى مفاتيح ترجمة من قاعدة البيانات.
+- تم حذف قائمة اللغات الثابتة من `ApanelCrud.jsx` لحقل `translation-values.locale`، وأصبحت الخيارات تأتي من `availableLocales` القادمة من API.
+- تم حذف قائمة اللغات الثابتة من `FormBuilder.jsx`، وأصبحت نماذج الحقول المترجمة تعتمد على `availableLocales` من نظام اللغة الديناميكي.
+- تم تحويل رسائل `FormBuilder.jsx` العامة مثل أخطاء JSON، أخطاء validation، زر الإلغاء، وزر إنشاء/تحديث السجل إلى مفاتيح ترجمة.
+- تم تحويل معظم رسائل وأزرار وحقول `ApanelApplicationsWorkflow.jsx` إلى مفاتيح ترجمة بدلاً من نصوص ثابتة، خصوصاً:
+  - عناوين مراحل workflow.
+  - أزرار approve/reject/download/issue.
+  - prompts الخاصة بالرفض والتصحيح والسكن والتلكس والإقامة.
+  - رسائل النجاح والفشل داخل workflow.
+  - labels الخاصة بالمراجعة النهائية والقبول والتسجيل والأمر ورسوم الخدمة.
+- تمت إضافة مفاتيح الترجمة الجديدة في `StudentSystemTranslationSeeder.php` بطريقة آمنة تستخدم `firstOrCreate` ولا تحذف أو تستبدل تعديلات apanel الحالية.
+
+## ربط متابعة Features Apanel Student 2026-07-28 بالبيانات
+
+- جدول اللغات: `locales`.
+- جدول مفاتيح الترجمة: `translation_keys`.
+- جدول قيم الترجمة: `translation_values`.
+- API اللغات: `GET /api/v1/locales`.
+- API الترجمات: `GET /api/v1/translations`.
+- إدارة اللغات من apanel: `/apanel/locales`.
+- إدارة الترجمات من apanel: `/apanel/translations`.
+- إدارة موارد CRUD العامة من apanel: `/apanel/{resource}`.
+- إدارة سير الطلبات من apanel: `/apanel/applications/*`.
+
+## المتبقي بعد متابعة Features Apanel Student 2026-07-28
+
+- لا أستطيع اعتبار كل `features/apanel` منتهياً بالكامل بعد هذه المتابعة.
+- بقيت قوائم locale ثابتة داخل صفحات CMS الكبيرة التالية، وتحتاج جولة تحويل مستقلة لأن كل صفحة تبني `emptyForm` و `normalize` و tabs الخاصة بها حول هذه القائمة:
+  - `ApanelAboutPage.jsx`
+  - `ApanelAdministration.jsx`
+  - `ApanelAnnouncements.jsx`
+  - `ApanelBlog.jsx`
+  - `ApanelCenters.jsx`
+  - `ApanelContactPage.jsx`
+  - `ApanelFooterWeb.jsx`
+  - `ApanelGreenCampus.jsx`
+  - `ApanelHeaderNavbar.jsx`
+  - `ApanelInteractiveServices.jsx`
+  - `ApanelNewsEvents.jsx`
+  - `ApanelVideoBdtu.jsx`
+- هذه البقايا ليست بيانات محتوى نهائي للموقع، لكنها تمنع إضافة لغة خامسة من الظهور تلقائياً داخل بعض نماذج apanel بدون تعديل الكود.
+
+## تحقق متابعة Features Apanel Student 2026-07-28
+
+- `npm.cmd run lint` نجح بدون أخطاء.
+- `npm.cmd run build` نجح.
+- `php-local.bat -l database\seeders\StudentSystemTranslationSeeder.php` نجح.
+- `php-local.bat artisan db:seed --class=StudentSystemTranslationSeeder` نجح.
+- `php-local.bat artisan route:list --path=api/v1 --except-vendor` نجح وأظهر 170 route.
+- `php-local.bat artisan test` نجح: 4 tests passed, 7 assertions.
+- `php-local.bat artisan optimize:clear` نجح.

@@ -20,7 +20,7 @@ import {
 import { studentPortalService } from "../../../services/studentPortalService";
 
 export default function StudentLayout({ children }) {
-  const { language, changeLanguage } = useLanguage();
+  const { t, language, changeLanguage, isRtl } = useLanguage();
   const { user, logout } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
@@ -28,8 +28,6 @@ export default function StudentLayout({ children }) {
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
   const [isTransferStudent, setIsTransferStudent] = useState(false);
-
-  const isRtl = language === "ar";
 
   useEffect(() => {
     studentPortalService
@@ -53,38 +51,38 @@ export default function StudentLayout({ children }) {
   };
 
   const menuLinks = [
-    { path: "/student/dashboard", label: "Dashboard", icon: LayoutDashboard },
-    { path: "/student/profile", label: "Personal Information", icon: User },
+    { path: "/student/dashboard", label: t("student.dashboard.title"), icon: LayoutDashboard },
+    { path: "/student/profile", label: t("student.profile.title"), icon: User },
     {
       path: "/student/application",
-      label: "Application Overview",
+      label: t("student.nav.applicationOverview"),
       icon: ClipboardList,
     },
     {
       path: "/student/academic-information",
-      label: "Academic Information",
+      label: t("student.nav.academicInformation"),
       icon: ClipboardList,
     },
-    { path: "/student/documents", label: "Required Documents", icon: FileCheck },
+    { path: "/student/documents", label: t("student.nav.requiredDocuments"), icon: FileCheck },
     ...(isTransferStudent
       ? [
           {
             path: "/student/equivalency",
-            label: "Academic Equivalency",
+            label: t("student.nav.academicEquivalency"),
             icon: FileCheck,
           },
         ]
       : []),
-    { path: "/student/payments", label: "Payments", icon: CreditCard },
-    { path: "/student/admission", label: "Admission", icon: FileCheck },
-    { path: "/student/enrollment", label: "Enrollment", icon: FileCheck },
-    { path: "/student/prikaz", label: "Prikaz", icon: FileCheck },
-    { path: "/student/service-fee", label: "Service Fee", icon: CreditCard },
-    { path: "/student/visa", label: "Telex & Visa", icon: FileCheck },
-    { path: "/student/housing", label: "Housing", icon: ClipboardList },
-    { path: "/student/residence", label: "Residence", icon: FileCheck },
-    { path: "/student/notifications", label: "Notifications", icon: Bell },
-    { path: "/student/support", label: "Support Center", icon: MessageSquare },
+    { path: "/student/payments", label: t("student.nav.payments"), icon: CreditCard },
+    { path: "/student/admission", label: t("student.nav.admission"), icon: FileCheck },
+    { path: "/student/enrollment", label: t("student.nav.enrollment"), icon: FileCheck },
+    { path: "/student/prikaz", label: t("student.nav.prikaz"), icon: FileCheck },
+    { path: "/student/service-fee", label: t("student.nav.serviceFee"), icon: CreditCard },
+    { path: "/student/visa", label: t("student.nav.visa"), icon: FileCheck },
+    { path: "/student/housing", label: t("student.nav.housing"), icon: ClipboardList },
+    { path: "/student/residence", label: t("student.nav.residence"), icon: FileCheck },
+    { path: "/student/notifications", label: t("student.notifications"), icon: Bell },
+    { path: "/student/support", label: t("student.nav.support"), icon: MessageSquare },
   ];
 
   const isActive = (path) => {
@@ -95,7 +93,7 @@ export default function StudentLayout({ children }) {
 
   const getBreadcrumbLabel = () => {
     const activeLink = menuLinks.find((link) => isActive(link.path));
-    return activeLink ? activeLink.label : "Dashboard";
+    return activeLink ? activeLink.label : t("student.dashboard.title");
   };
 
   const renderSidebar = () => (
@@ -111,7 +109,7 @@ export default function StudentLayout({ children }) {
               BSTU
             </span>
             <span className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mt-0.5">
-              Student Portal
+              {t("auth.loginTitle")}
             </span>
           </div>
         </Link>

@@ -1,25 +1,25 @@
 import React from "react";
 import { AlertCircle, CheckCircle } from "lucide-react";
+import { useLanguage } from "../../../context/LanguageContext";
 
 export default function TranslationTabs({
   activeTab,
   onTabChange,
-  locales = ["en", "uz", "ru", "ar"],
+  locales,
   missingLocales = [],
 }) {
-  const languageNames = {
-    en: "English",
-    uz: "O'zbek",
-    ru: "Русский",
-    ar: "العربية",
-  };
+  const { locales: availableLocales, t } = useLanguage();
+  const tabLocales = locales || availableLocales.map((item) => item.code);
+  const localeNames = Object.fromEntries(
+    availableLocales.map((item) => [item.code, item.native_name || item.name || item.code.toUpperCase()]),
+  );
 
   return (
     <div className="flex border-b border-gray-150 gap-2 mb-6">
-      {locales.map((locale) => {
+      {tabLocales.map((locale) => {
         const isMissing = missingLocales.includes(locale);
         const isActive = activeTab === locale;
-        const name = languageNames[locale] || locale.toUpperCase();
+        const name = localeNames[locale] || locale.toUpperCase();
 
         return (
           <button
@@ -36,14 +36,14 @@ export default function TranslationTabs({
             {isMissing ? (
               <span
                 className="flex items-center text-amber-500 hover:text-amber-600"
-                title="Missing translation fields"
+                title={t("apanel.translations.missingFields")}
               >
                 <AlertCircle className="w-3.5 h-3.5 fill-amber-50" />
               </span>
             ) : (
               <span
                 className="flex items-center text-emerald-500"
-                title="All fields filled"
+                title={t("apanel.translations.allFieldsFilled")}
               >
                 <CheckCircle className="w-3.5 h-3.5 fill-emerald-50" />
               </span>

@@ -7,11 +7,8 @@ import React, {
 } from "react";
 import { Plus, Save, Trash2, Upload } from "lucide-react";
 import { apanelService } from "../../../services/apanelService";
+import { publicAssetUrl } from "../../../lib/api";
 import ConfirmDialog from "../components/ConfirmDialog";
-
-const API_ORIGIN = (
-  import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/api/v1"
-).replace(/\/api\/v1\/?$/, "");
 
 const LOCALES = [
   { code: "en", label: "English" },
@@ -105,15 +102,7 @@ const sectionAliases = {
 const clone = (value) => JSON.parse(JSON.stringify(value || {}));
 
 const resolveAssetUrl = (path) => {
-  if (!path) return "";
-  if (
-    path.startsWith("http://") ||
-    path.startsWith("https://") ||
-    path.startsWith("/")
-  ) {
-    return path;
-  }
-  return `${API_ORIGIN}/storage/${path}`;
+  return publicAssetUrl(path);
 };
 
 const errorMessage = (err, fallback) => {

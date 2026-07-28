@@ -92,7 +92,7 @@ export default function StudentDashboard() {
         </div>
         <div className="relative z-10 space-y-2">
           <h1 className="text-2xl md:text-3xl font-extrabold uppercase tracking-wide">
-            {t("student.welcome", "Welcome Back!")}
+            {t("student.welcome")}
           </h1>
           <p className="text-gray-300 text-xs font-semibold max-w-xl">
             {t(
@@ -223,7 +223,7 @@ export default function StudentDashboard() {
           <div className="bg-white border border-gray-100 rounded-3xl p-6 shadow-xs space-y-4">
             <div className="flex justify-between items-center pb-2 border-b border-gray-50">
               <h3 className="text-base font-extrabold text-navy uppercase tracking-wider">
-                {t("student.notifications", "Recent Notifications")}
+                {t("student.notifications")}
               </h3>
               <Link
                 to="/student/notifications"

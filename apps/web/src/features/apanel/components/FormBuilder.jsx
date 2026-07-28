@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import TranslationTabs from "./TranslationTabs";
 import MediaPicker from "./MediaPicker";
 import { Loader2, AlertCircle } from "lucide-react";
-
-const locales = ["en", "uz", "ru", "ar"];
+import { useLanguage } from "../../../context/LanguageContext";
 
 const formatJsonFieldValue = (value) => {
   if (value === null || value === undefined || value === "") return "";
@@ -32,7 +31,13 @@ export default function FormBuilder({
   isEdit = false,
   validationErrors = {},
 }) {
-  const [activeLocale, setActiveLocale] = useState("en");
+  const { t, availableLocales } = useLanguage();
+  const localeCodes = React.useMemo(
+    () => (availableLocales || []).filter((locale) => locale?.code).map((locale) => locale.code),
+    [availableLocales],
+  );
+  const primaryLocale = localeCodes[0] || "";
+  const [activeLocale, setActiveLocale] = useState(primaryLocale);
   const [formState, setFormState] = useState({});
   const [formError, setFormError] = useState("");
 
@@ -41,17 +46,25 @@ export default function FormBuilder({
 
   // Initialize form state
   useEffect(() => {
+    if (!localeCodes.length) return;
+    if (!localeCodes.includes(activeLocale)) {
+      setActiveLocale(primaryLocale);
+    }
+  }, [activeLocale, localeCodes, primaryLocale]);
+
+  useEffect(() => {
+    if (!localeCodes.length) return;
     const state = { translations: {} };
 
     // Setup translations sub-objects
-    locales.forEach((loc) => {
+    localeCodes.forEach((loc) => {
       state.translations[loc] = {};
     });
 
     // Populate values
     fields.forEach((field) => {
       if (field.translated) {
-        locales.forEach((loc) => {
+        localeCodes.forEach((loc) => {
           let value = "";
           // Check if initialValues has translations array
           if (Array.isArray(initialValues?.translations)) {
@@ -79,7 +92,7 @@ export default function FormBuilder({
     });
 
     setFormState(state);
-  }, [fields, initialValues]);
+  }, [fields, initialValues, localeCodes]);
 
   // Check completeness whenever translations change
   useEffect(() => {
@@ -87,7 +100,7 @@ export default function FormBuilder({
     const translatedFields = fields.filter((f) => f.translated);
 
     if (translatedFields.length > 0 && formState.translations) {
-      locales.forEach((loc) => {
+      localeCodes.forEach((loc) => {
         const hasEmpty = translatedFields.some((field) => {
           const val = formState.translations[loc]?.[field.name];
           return !val || String(val).trim() === "";
@@ -98,7 +111,7 @@ export default function FormBuilder({
       });
     }
     setMissingLocales(missing);
-  }, [formState, fields]);
+  }, [formState, fields, localeCodes]);
 
   const handleRootChange = (name, value) => {
     setFormState((prev) => ({
@@ -129,7 +142,7 @@ export default function FormBuilder({
 
         if (translatedJsonFields.length > 0) {
           preparedState.translations = { ...preparedState.translations };
-          locales.forEach((loc) => {
+          localeCodes.forEach((loc) => {
             preparedState.translations[loc] = {
               ...preparedState.translations[loc],
             };
@@ -154,7 +167,7 @@ export default function FormBuilder({
         setFormError("");
         onSubmit(preparedState);
       } catch (err) {
-        setFormError(err.message || "Please enter valid JSON.");
+        setFormError(err.message || t("apanel.formBuilder.invalidJson"));
       }
     }
   };
@@ -168,7 +181,7 @@ export default function FormBuilder({
         <div className="bg-rose-50 border border-rose-100 p-4 rounded-2xl flex gap-3 text-rose-600 text-xs font-bold">
           <AlertCircle className="w-5 h-5 shrink-0" />
           <div className="space-y-1">
-            <p>Please fix the validation errors below:</p>
+            <p>{t("apanel.formBuilder.fixValidationErrors")}</p>
             <ul className="list-disc pl-4 space-y-0.5 font-semibold">
               {Object.entries(validationErrors).map(([key, errs]) => (
                 <li key={key}>
@@ -233,7 +246,7 @@ export default function FormBuilder({
                         e.target.value,
                       )
                     }
-                    required={field.required && activeLocale === "en"} // Require at least English fallback
+                    required={field.required && activeLocale === primaryLocale}
                     rows={field.type === "json" ? 8 : 6}
                     className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold bg-white text-navy"
                   />
@@ -248,7 +261,7 @@ export default function FormBuilder({
                         e.target.value,
                       )
                     }
-                    required={field.required && activeLocale === "en"}
+                    required={field.required && activeLocale === primaryLocale}
                     className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold bg-white text-navy"
                   />
                 )}
@@ -282,7 +295,7 @@ export default function FormBuilder({
                   required={field.required}
                   className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold bg-white text-navy cursor-pointer"
                 >
-                  <option value="">Select option</option>
+                  <option value="">{t("apanel.formBuilder.selectOption")}</option>
                   {(field.options || []).map((opt) => (
                     <option
                       key={typeof opt === "object" ? opt.value : opt}
@@ -417,7 +430,7 @@ export default function FormBuilder({
             onClick={onCancel}
             className="px-5 py-2.5 border border-gray-200 hover:border-gray-300 text-navy font-bold text-xs rounded-xl transition-all cursor-pointer bg-white"
           >
-            Cancel
+            {t("button.cancel")}
           </button>
         )}
         <button
@@ -426,7 +439,7 @@ export default function FormBuilder({
           className="bg-primary hover:bg-primary-hover text-white px-6 py-2.5 rounded-xl text-xs font-extrabold shadow-sm hover:shadow-md cursor-pointer transition-all inline-flex items-center gap-1.5"
         >
           {isSubmitting && <Loader2 className="w-4 h-4 animate-spin" />}
-          {isEdit ? "Update Record" : "Create Record"}
+          {isEdit ? t("apanel.formBuilder.updateRecord") : t("apanel.formBuilder.createRecord")}
         </button>
       </div>
     </form>

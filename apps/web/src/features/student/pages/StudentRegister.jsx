@@ -29,7 +29,7 @@ export default function StudentRegister() {
     if (!name || !email || !password || !passwordConfirmation) return;
 
     if (password !== passwordConfirmation) {
-      setError(t("validation.passwordMismatch", "Passwords do not match"));
+      setError(t("validation.passwordMismatch"));
       return;
     }
 
@@ -57,7 +57,7 @@ export default function StudentRegister() {
           </div>
           <div className="space-y-1">
             <h2 className="font-extrabold text-navy text-xl uppercase tracking-wider">
-              {t("auth.registerTitle", "Create Account")}
+              {t("auth.registerTitle")}
             </h2>
             <p className="text-gray-400 text-xs font-semibold">
               {t(
@@ -73,7 +73,7 @@ export default function StudentRegister() {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-1.5">
             <label className="block text-[10px] font-extrabold text-navy uppercase tracking-wider">
-              {t("form.fullName", "Full Name")}
+              {t("form.fullName")}
             </label>
             <div className="relative">
               <input
@@ -90,7 +90,7 @@ export default function StudentRegister() {
 
           <div className="space-y-1.5">
             <label className="block text-[10px] font-extrabold text-navy uppercase tracking-wider">
-              {t("form.email", "Email Address")}
+              {t("form.email")}
             </label>
             <div className="relative">
               <input
@@ -107,7 +107,7 @@ export default function StudentRegister() {
 
           <div className="space-y-1.5">
             <label className="block text-[10px] font-extrabold text-navy uppercase tracking-wider">
-              {t("form.password", "Password")}
+              {t("form.password")}
             </label>
             <div className="relative">
               <input
@@ -124,7 +124,7 @@ export default function StudentRegister() {
 
           <div className="space-y-1.5">
             <label className="block text-[10px] font-extrabold text-navy uppercase tracking-wider">
-              {t("form.confirmPassword", "Confirm Password")}
+              {t("form.confirmPassword")}
             </label>
             <div className="relative">
               <input
@@ -148,7 +148,7 @@ export default function StudentRegister() {
               <Loader2 className="w-4 h-4 animate-spin" />
             ) : (
               <>
-                <span>{t("button.register", "Create Account")}</span>
+                <span>{t("button.register")}</span>
                 <ArrowRight className="w-4 h-4" />
               </>
             )}
@@ -156,12 +156,12 @@ export default function StudentRegister() {
         </form>
 
         <div className="text-center text-xs font-bold text-gray-400 pt-2">
-          {t("auth.alreadyHaveAccount", "Already have an account?")}{" "}
+          {t("auth.alreadyHaveAccount")}{" "}
           <Link
             to="/student/login"
             className="text-primary hover:underline ml-1"
           >
-            {t("auth.loginNow", "Sign In")}
+            {t("auth.loginNow")}
           </Link>
         </div>
       </div>

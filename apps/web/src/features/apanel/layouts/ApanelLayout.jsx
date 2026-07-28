@@ -39,15 +39,13 @@ import {
 } from "lucide-react";
 
 export default function ApanelLayout({ children }) {
-  const { language, changeLanguage } = useLanguage();
+  const { language, changeLanguage, isRtl } = useLanguage();
   const { user, logout } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
 
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
-
-  const isRtl = language === "ar";
 
   const handleLogout = async () => {
     try {

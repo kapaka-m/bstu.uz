@@ -4,6 +4,7 @@ import { CheckCircle, Download, Plus, Search, XCircle } from "lucide-react";
 import LoadingState from "../../../components/common/LoadingState";
 import FormError from "../../../components/common/FormError";
 import { apanelApplicationsService } from "../../../services/apanelApplicationsService";
+import { useLanguage } from "../../../context/LanguageContext";
 
 const statusClass = (status = "") => {
   const value = String(status).toUpperCase();
@@ -12,7 +13,7 @@ const statusClass = (status = "") => {
   return "bg-blue-50 text-blue-700 border-blue-100";
 };
 const labelize = (value) => String(value || "not_started").replaceAll("_", " ");
-const Status = ({ value }) => <span className={`inline-flex px-2.5 py-1 rounded-full border text-[10px] font-black uppercase ${statusClass(value)}`}>{labelize(value)}</span>;
+const Status = ({ value, t }) => <span className={`inline-flex px-2.5 py-1 rounded-full border text-[10px] font-black uppercase ${statusClass(value)}`}>{t(`status.${String(value || "not_started").toLowerCase()}`)}</span>;
 
 function Panel({ title, children, action }) {
   return (
@@ -27,6 +28,7 @@ function Panel({ title, children, action }) {
 }
 
 export default function ApanelApplicationsWorkflow() {
+  const { t } = useLanguage();
   const { id } = useParams();
   const location = useLocation();
   const [loading, setLoading] = useState(true);
@@ -65,7 +67,7 @@ export default function ApanelApplicationsWorkflow() {
         setList(data);
       }
     } catch (err) {
-      setError(err?.message || "Unable to load applications.");
+      setError(err?.message || t("apanel.workflow.loadFailed"));
     } finally {
       setLoading(false);
     }
@@ -77,7 +79,7 @@ export default function ApanelApplicationsWorkflow() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, location.pathname]);
 
-  if (loading) return <LoadingState message="Loading applications workflow..." />;
+  if (loading) return <LoadingState message={t("apanel.workflow.loading")} />;
   if (error) return <FormError message={error} />;
 
   if (!id) {
@@ -85,11 +87,11 @@ export default function ApanelApplicationsWorkflow() {
     return (
       <div className="space-y-6 animate-in fade-in duration-200">
         <div>
-          <h1 className="text-2xl font-extrabold text-navy uppercase tracking-wider">Applications</h1>
-          <p className="text-xs font-semibold text-gray-400">Review international student applications, documents, payments, and admissions.</p>
+          <h1 className="text-2xl font-extrabold text-navy uppercase tracking-wider">{t("apanel.workflow.applications")}</h1>
+          <p className="text-xs font-semibold text-gray-400">{t("apanel.workflow.subtitle")}</p>
         </div>
         <Panel
-          title="All Applications"
+          title={t("apanel.workflow.allApplications")}
           action={
             <form
               onSubmit={(e) => {
@@ -98,7 +100,7 @@ export default function ApanelApplicationsWorkflow() {
               }}
               className="flex gap-2"
             >
-              <input value={search} onChange={(e) => setSearch(e.target.value)} className="px-3 py-2 rounded-xl border border-gray-200 text-xs font-bold" placeholder="Search name, passport, email..." />
+              <input value={search} onChange={(e) => setSearch(e.target.value)} className="px-3 py-2 rounded-xl border border-gray-200 text-xs font-bold" placeholder={t("apanel.workflow.searchPlaceholder")} />
               <button className="px-3 py-2 rounded-xl bg-primary text-white text-xs font-extrabold"><Search className="w-4 h-4" /></button>
             </form>
           }
@@ -107,7 +109,18 @@ export default function ApanelApplicationsWorkflow() {
             <table className="min-w-full text-xs">
               <thead>
                 <tr className="text-left text-gray-400 uppercase">
-                  {["Application", "Student", "Passport", "Program", "Student Type", "Status", "Documents", "Payment", "Admission", ""].map((h) => <th key={h} className="py-3 px-3">{h}</th>)}
+                  {[
+                    t("apanel.workflow.application"),
+                    t("apanel.workflow.student"),
+                    t("apanel.workflow.passport"),
+                    t("apanel.workflow.program"),
+                    t("apanel.workflow.studentType"),
+                    t("apanel.workflow.status"),
+                    t("apanel.workflow.documents"),
+                    t("apanel.workflow.payment"),
+                    t("apanel.workflow.admission"),
+                    "",
+                  ].map((h) => <th key={h} className="py-3 px-3">{h}</th>)}
                 </tr>
               </thead>
               <tbody>
@@ -118,11 +131,11 @@ export default function ApanelApplicationsWorkflow() {
                     <td className="py-3 px-3">{app.student_profile?.passport_number}</td>
                     <td className="py-3 px-3">{app.program?.translations?.[0]?.name || app.program?.slug}</td>
                     <td className="py-3 px-3">{app.student_type}</td>
-                    <td className="py-3 px-3"><Status value={app.status} /></td>
-                    <td className="py-3 px-3"><Status value={app.documents_status} /></td>
-                    <td className="py-3 px-3"><Status value={app.application_fee_status} /></td>
-                    <td className="py-3 px-3"><Status value={app.admission_status} /></td>
-                    <td className="py-3 px-3"><Link className="text-primary font-extrabold" to={`/apanel/applications/${app.id}`}>Open</Link></td>
+                    <td className="py-3 px-3"><Status value={app.status} t={t} /></td>
+                    <td className="py-3 px-3"><Status value={app.documents_status} t={t} /></td>
+                    <td className="py-3 px-3"><Status value={app.application_fee_status} t={t} /></td>
+                    <td className="py-3 px-3"><Status value={app.admission_status} t={t} /></td>
+                    <td className="py-3 px-3"><Link className="text-primary font-extrabold" to={`/apanel/applications/${app.id}`}>{t("apanel.workflow.open")}</Link></td>
                   </tr>
                 ))}
               </tbody>
@@ -134,7 +147,7 @@ export default function ApanelApplicationsWorkflow() {
   }
 
   const app = snapshot?.application;
-  if (!app) return <FormError message="Application not found." />;
+  if (!app) return <FormError message={t("apanel.workflow.notFound")} />;
   const student = app.student_profile || {};
   const programName = app.program?.translations?.[0]?.name || app.program?.slug;
   const base = `/apanel/applications/${id}`;
@@ -148,7 +161,7 @@ export default function ApanelApplicationsWorkflow() {
       setSuccess(message);
       await load();
     } catch (err) {
-      setError(err?.message || "Action failed.");
+      setError(err?.message || t("apanel.workflow.actionFailed"));
     } finally {
       setBusy("");
     }
@@ -157,18 +170,18 @@ export default function ApanelApplicationsWorkflow() {
   const renderTabs = () => (
     <div className="flex flex-wrap gap-2">
       {[
-        [base, "Overview"],
-        [`${base}/documents`, "Documents"],
-        ...(app.student_type === "transfer" ? [[`${base}/equivalency`, "Academic Review"]] : []),
-        [`${base}/payments`, "Payments"],
-        [`${base}/final-review`, "Final Review"],
-        [`${base}/admission`, "Admission"],
-        [`${base}/enrollment`, "Enrollment"],
-        [`${base}/prikaz`, "Prikaz"],
-        [`${base}/service-fee`, "Service Fee"],
-        [`${base}/visa`, "Telex & Visa"],
-        [`${base}/housing`, "Housing"],
-        [`${base}/residence`, "Residence"],
+        [base, t("apanel.workflow.overview")],
+        [`${base}/documents`, t("apanel.workflow.documents")],
+        ...(app.student_type === "transfer" ? [[`${base}/equivalency`, t("apanel.workflow.academicReview")]] : []),
+        [`${base}/payments`, t("apanel.workflow.payments")],
+        [`${base}/final-review`, t("apanel.workflow.finalReview")],
+        [`${base}/admission`, t("apanel.workflow.admission")],
+        [`${base}/enrollment`, t("apanel.workflow.enrollment")],
+        [`${base}/prikaz`, t("apanel.workflow.prikaz")],
+        [`${base}/service-fee`, t("apanel.workflow.serviceFee")],
+        [`${base}/visa`, t("apanel.workflow.visa")],
+        [`${base}/housing`, t("apanel.workflow.housing")],
+        [`${base}/residence`, t("apanel.workflow.residence")],
       ].map(([to, label]) => (
         <Link key={to} to={to} className={`px-3 py-2 rounded-xl text-xs font-extrabold border ${location.pathname === to ? "bg-primary text-white border-primary" : "bg-white text-navy border-gray-100"}`}>{label}</Link>
       ))}
@@ -176,42 +189,42 @@ export default function ApanelApplicationsWorkflow() {
   );
 
   const renderOverview = () => (
-    <Panel title="Application File">
+    <Panel title={t("apanel.workflow.applicationFile")}>
       <Info rows={[
-        ["Application Number", app.application_number],
-        ["Student Name", student.full_name_english || student.user?.name],
-        ["Email", student.user?.email],
-        ["Passport", student.passport_number],
-        ["Nationality", student.nationality],
-        ["Program", programName],
-        ["Degree", app.degree_level],
-        ["Student Type", app.student_type],
-        ["Current Status", labelize(app.status)],
+        [t("apanel.workflow.applicationNumber"), app.application_number],
+        [t("apanel.workflow.studentName"), student.full_name_english || student.user?.name],
+        [t("apanel.workflow.email"), student.user?.email],
+        [t("apanel.workflow.passport"), student.passport_number],
+        [t("apanel.workflow.nationality"), student.nationality],
+        [t("apanel.workflow.program"), programName],
+        [t("apanel.workflow.degree"), app.degree_level],
+        [t("apanel.workflow.studentType"), app.student_type],
+        [t("apanel.workflow.currentStatus"), labelize(app.status)],
       ]} />
-      <Timeline items={snapshot.timeline || []} />
+      <Timeline items={snapshot.timeline || []} t={t} />
     </Panel>
   );
 
   const renderDocuments = () => (
     <Panel
-      title="Documents Review"
-      action={<button onClick={() => requestExtraDocument(action)} className="px-3 py-2 rounded-xl bg-primary text-white text-xs font-extrabold flex items-center gap-1"><Plus className="w-4 h-4" /> Request Document</button>}
+      title={t("apanel.workflow.documentsReview")}
+      action={<button onClick={() => requestExtraDocument(action, t)} className="px-3 py-2 rounded-xl bg-primary text-white text-xs font-extrabold flex items-center gap-1"><Plus className="w-4 h-4" /> {t("apanel.workflow.requestDocument")}</button>}
     >
       <div className="space-y-3">
         {(snapshot.requirements || []).map((req) => (
           <div key={req.document_type} className="rounded-2xl border border-gray-100 p-4 flex flex-col xl:flex-row xl:items-center justify-between gap-4">
             <div>
               <p className="text-xs font-extrabold text-navy">{req.name}</p>
-              <p className="text-[11px] text-gray-500">{req.document?.original_name || "Not uploaded"}</p>
+              <p className="text-[11px] text-gray-500">{req.document?.original_name || t("apanel.workflow.notUploaded")}</p>
               {req.document?.rejection_reason && <p className="text-[11px] font-bold text-rose-600">{req.document.rejection_reason}</p>}
             </div>
             <div className="flex flex-wrap items-center gap-2">
-              <Status value={req.status} />
+              <Status value={req.status} t={t} />
               {req.document && (
                 <>
-                  <button onClick={() => apanelApplicationsService.downloadDocument(id, req.document.id)} className="px-3 py-2 rounded-xl border border-gray-200 text-navy text-xs font-extrabold">Download</button>
-                  <button onClick={() => action(() => apanelApplicationsService.reviewDocument(id, req.document.id, { status: "APPROVED" }), "Document approved")} className="px-3 py-2 rounded-xl bg-emerald-600 text-white text-xs font-extrabold"><CheckCircle className="inline w-4 h-4" /></button>
-                  <button onClick={() => rejectDocument(action, req.document.id)} className="px-3 py-2 rounded-xl bg-rose-600 text-white text-xs font-extrabold"><XCircle className="inline w-4 h-4" /></button>
+                  <button onClick={() => apanelApplicationsService.downloadDocument(id, req.document.id)} className="px-3 py-2 rounded-xl border border-gray-200 text-navy text-xs font-extrabold">{t("button.download")}</button>
+                  <button onClick={() => action(() => apanelApplicationsService.reviewDocument(id, req.document.id, { status: "APPROVED" }), t("apanel.workflow.documentApproved"))} className="px-3 py-2 rounded-xl bg-emerald-600 text-white text-xs font-extrabold"><CheckCircle className="inline w-4 h-4" /></button>
+                  <button onClick={() => rejectDocument(action, req.document.id, t)} className="px-3 py-2 rounded-xl bg-rose-600 text-white text-xs font-extrabold"><XCircle className="inline w-4 h-4" /></button>
                 </>
               )}
             </div>
@@ -222,26 +235,26 @@ export default function ApanelApplicationsWorkflow() {
   );
 
   const renderEquivalency = () => (
-    <Panel title="Academic Equivalency">
+    <Panel title={t("apanel.workflow.academicEquivalency")}>
       <Info rows={[
-        ["Status", app.equivalency?.status],
-        ["Previous University", app.equivalency?.previous_university],
-        ["Accepted Credits", app.equivalency?.accepted_credits],
-        ["Rejected Credits", app.equivalency?.rejected_credits],
-        ["Entry Year", app.equivalency?.proposed_entry_year],
+        [t("apanel.workflow.status"), app.equivalency?.status],
+        [t("apanel.workflow.previousUniversity"), app.equivalency?.previous_university],
+        [t("apanel.workflow.acceptedCredits"), app.equivalency?.accepted_credits],
+        [t("apanel.workflow.rejectedCredits"), app.equivalency?.rejected_credits],
+        [t("apanel.workflow.entryYear"), app.equivalency?.proposed_entry_year],
       ]} />
       <div className="flex flex-wrap gap-2">
-        <button onClick={() => seedEquivalency(action)} className="px-3 py-2 rounded-xl bg-primary text-white text-xs font-extrabold">Save Draft Result</button>
-        <button onClick={() => action(() => apanelApplicationsService.issueEquivalency(id), "Equivalency result issued")} className="px-3 py-2 rounded-xl bg-emerald-600 text-white text-xs font-extrabold">Issue Result</button>
+        <button onClick={() => seedEquivalency(action, t)} className="px-3 py-2 rounded-xl bg-primary text-white text-xs font-extrabold">{t("apanel.workflow.saveDraftResult")}</button>
+        <button onClick={() => action(() => apanelApplicationsService.issueEquivalency(id), t("apanel.workflow.equivalencyIssued"))} className="px-3 py-2 rounded-xl bg-emerald-600 text-white text-xs font-extrabold">{t("apanel.workflow.issueResult")}</button>
       </div>
     </Panel>
   );
 
   const renderPayments = () => (
-    <Panel title="Payments Review">
+    <Panel title={t("apanel.workflow.paymentsReview")}>
       <div className="space-y-6">
         <div className="space-y-3">
-          <h3 className="text-xs font-extrabold text-navy uppercase tracking-wider">Application Fee</h3>
+          <h3 className="text-xs font-extrabold text-navy uppercase tracking-wider">{t("apanel.workflow.applicationFee")}</h3>
           {(app.application_fee_payments || []).map((payment) => (
             <div key={payment.id} className="rounded-2xl border border-gray-100 p-4 flex justify-between gap-4">
               <div>
@@ -250,21 +263,25 @@ export default function ApanelApplicationsWorkflow() {
                 {payment.rejection_reason && <p className="text-[11px] font-bold text-rose-600">{payment.rejection_reason}</p>}
               </div>
               <div className="flex gap-2">
-                <Status value={payment.status} />
-                <button onClick={() => action(() => apanelApplicationsService.reviewPayment(id, payment.id, { status: "APPROVED" }), "Payment approved")} className="px-3 py-2 rounded-xl bg-emerald-600 text-white text-xs font-extrabold">Approve</button>
-                <button onClick={() => rejectPayment(action, payment.id)} className="px-3 py-2 rounded-xl bg-rose-600 text-white text-xs font-extrabold">Reject</button>
+                <Status value={payment.status} t={t} />
+                <button onClick={() => action(() => apanelApplicationsService.reviewPayment(id, payment.id, { status: "APPROVED" }), t("apanel.workflow.paymentApproved"))} className="px-3 py-2 rounded-xl bg-emerald-600 text-white text-xs font-extrabold">{t("button.approve")}</button>
+                <button onClick={() => rejectPayment(action, payment.id, t)} className="px-3 py-2 rounded-xl bg-rose-600 text-white text-xs font-extrabold">{t("button.reject")}</button>
               </div>
             </div>
           ))}
         </div>
         <div className="space-y-3">
-          <h3 className="text-xs font-extrabold text-navy uppercase tracking-wider">30% Contract Payment</h3>
+          <h3 className="text-xs font-extrabold text-navy uppercase tracking-wider">{t("apanel.workflow.contractAdvancePayment")}</h3>
           {(app.contracts || []).map((contract) => (
             <div key={contract.id} className="rounded-2xl border border-gray-100 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-              <Info rows={[["Contract Number", contract.contract_number], ["Amount", `${contract.amount || 0} ${contract.currency || "USD"}`], ["Advance", `${contract.advance_amount || "30%"} ${contract.currency || ""}`]]} />
+              <Info rows={[
+                [t("apanel.workflow.contractNumber"), contract.contract_number],
+                [t("apanel.workflow.amount"), [contract.amount, contract.currency].filter(Boolean).join(" ")],
+                [t("apanel.workflow.advance"), [contract.advance_amount, contract.currency].filter(Boolean).join(" ")],
+              ]} />
               <button onClick={() => apanelApplicationsService.downloadContract(id)} className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-navy text-white text-xs font-extrabold">
                 <Download className="h-4 w-4" />
-                Contract PDF
+                {t("apanel.workflow.contractPdf")}
               </button>
             </div>
           ))}
@@ -277,9 +294,9 @@ export default function ApanelApplicationsWorkflow() {
                 {payment.rejection_reason && <p className="text-[11px] font-bold text-rose-600">{payment.rejection_reason}</p>}
               </div>
               <div className="flex gap-2">
-                <Status value={payment.status} />
-                <button onClick={() => action(() => apanelApplicationsService.reviewContractPayment(id, payment.id, { status: "APPROVED" }), "30% payment approved")} className="px-3 py-2 rounded-xl bg-emerald-600 text-white text-xs font-extrabold">Approve</button>
-                <button onClick={() => action(() => apanelApplicationsService.reviewContractPayment(id, payment.id, { status: "REUPLOAD_REQUIRED", rejection_reason: window.prompt("Rejection reason:") || "Please upload a clearer contract payment receipt." }), "30% payment rejected")} className="px-3 py-2 rounded-xl bg-rose-600 text-white text-xs font-extrabold">Reject</button>
+                <Status value={payment.status} t={t} />
+                <button onClick={() => action(() => apanelApplicationsService.reviewContractPayment(id, payment.id, { status: "APPROVED" }), t("apanel.workflow.contractPaymentApproved"))} className="px-3 py-2 rounded-xl bg-emerald-600 text-white text-xs font-extrabold">{t("button.approve")}</button>
+                <button onClick={() => action(() => apanelApplicationsService.reviewContractPayment(id, payment.id, { status: "REUPLOAD_REQUIRED", rejection_reason: window.prompt(t("apanel.workflow.rejectionReasonPrompt")) || t("apanel.workflow.clearerContractReceipt") }), t("apanel.workflow.contractPaymentRejected"))} className="px-3 py-2 rounded-xl bg-rose-600 text-white text-xs font-extrabold">{t("button.reject")}</button>
               </div>
             </div>
           ))}
@@ -289,75 +306,99 @@ export default function ApanelApplicationsWorkflow() {
   );
 
   const renderFinal = () => (
-    <Panel title="Final Review Checklist">
+    <Panel title={t("apanel.workflow.finalReviewChecklist")}>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         {Object.entries(snapshot.checks || {}).map(([key, value]) => (
           <div key={key} className="rounded-2xl border border-gray-100 p-4 flex justify-between">
             <span className="text-xs font-extrabold text-navy">{labelize(key)}</span>
-            <Status value={value ? "Completed" : "Not Started"} />
+            <Status value={value ? "completed" : "not_started"} t={t} />
           </div>
         ))}
       </div>
       <div className="flex flex-wrap gap-2">
-        <button onClick={() => action(() => apanelApplicationsService.approveFinalReview(id), "Final review approved")} className="px-4 py-2 rounded-xl bg-emerald-600 text-white text-xs font-extrabold">Approve Application</button>
-        <button onClick={() => returnCorrection(action)} className="px-4 py-2 rounded-xl bg-amber-500 text-white text-xs font-extrabold">Return for Correction</button>
-        <button onClick={() => rejectApplication(action)} className="px-4 py-2 rounded-xl bg-rose-600 text-white text-xs font-extrabold">Reject Application</button>
+        <button onClick={() => action(() => apanelApplicationsService.approveFinalReview(id), t("apanel.workflow.finalReviewApproved"))} className="px-4 py-2 rounded-xl bg-emerald-600 text-white text-xs font-extrabold">{t("apanel.workflow.approveApplication")}</button>
+        <button onClick={() => returnCorrection(action, t)} className="px-4 py-2 rounded-xl bg-amber-500 text-white text-xs font-extrabold">{t("apanel.workflow.returnForCorrection")}</button>
+        <button onClick={() => rejectApplication(action, t)} className="px-4 py-2 rounded-xl bg-rose-600 text-white text-xs font-extrabold">{t("apanel.workflow.rejectApplication")}</button>
       </div>
     </Panel>
   );
 
   const renderAdmission = () => (
-    <Panel title="Admission">
+    <Panel title={t("apanel.workflow.admission")}>
       {app.admission ? (
         <div className="space-y-4">
-          <Info rows={[["Admission Number", app.admission.admission_number], ["Issue Date", app.admission.issue_date], ["Status", app.admission.status]]} />
+          <Info rows={[
+            [t("apanel.workflow.admissionNumber"), app.admission.admission_number],
+            [t("apanel.workflow.issueDate"), app.admission.issue_date],
+            [t("apanel.workflow.status"), app.admission.status],
+          ]} />
           <button onClick={() => apanelApplicationsService.downloadAdmission(id)} className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-navy text-white text-xs font-extrabold">
             <Download className="h-4 w-4" />
-            Download Admission PDF
+            {t("apanel.workflow.downloadAdmissionPdf")}
           </button>
         </div>
-      ) : <p className="text-xs font-bold text-gray-500">Admission is not issued yet.</p>}
-      <button onClick={() => action(() => apanelApplicationsService.issueAdmission(id), "Admission issued")} className="px-4 py-2 rounded-xl bg-primary text-white text-xs font-extrabold">Issue Admission</button>
+      ) : <p className="text-xs font-bold text-gray-500">{t("apanel.workflow.admissionNotIssued")}</p>}
+      <button onClick={() => action(() => apanelApplicationsService.issueAdmission(id), t("apanel.workflow.admissionIssued"))} className="px-4 py-2 rounded-xl bg-primary text-white text-xs font-extrabold">{t("apanel.workflow.issueAdmission")}</button>
     </Panel>
   );
 
   const renderEnrollment = () => (
-    <Panel title="Enrollment">
+    <Panel title={t("apanel.workflow.enrollment")}>
       {app.enrollment ? (
         <div className="space-y-4">
-          <Info rows={[["Student Number", app.enrollment.student_number], ["Academic Year", app.enrollment.academic_year], ["Issue Date", app.enrollment.issue_date], ["Status", app.enrollment.status]]} />
+          <Info rows={[
+            [t("apanel.workflow.studentNumber"), app.enrollment.student_number],
+            [t("apanel.workflow.academicYear"), app.enrollment.academic_year],
+            [t("apanel.workflow.issueDate"), app.enrollment.issue_date],
+            [t("apanel.workflow.status"), app.enrollment.status],
+          ]} />
           <button onClick={() => apanelApplicationsService.downloadEnrollment(id)} className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-navy text-white text-xs font-extrabold">
             <Download className="h-4 w-4" />
-            Download Enrollment PDF
+            {t("apanel.workflow.downloadEnrollmentPdf")}
           </button>
         </div>
       ) : (
-        <Info rows={[["Admission Issued", snapshot.checks?.admission_issued ? "Yes" : "No"], ["30% Payment Approved", snapshot.checks?.contract_advance_paid ? "Yes" : "No"]]} />
+        <Info rows={[
+          [t("apanel.workflow.admissionIssued"), snapshot.checks?.admission_issued ? t("common.yes") : t("common.no")],
+          [t("apanel.workflow.contractPaymentApproved"), snapshot.checks?.contract_advance_paid ? t("common.yes") : t("common.no")],
+        ]} />
       )}
-      <button onClick={() => action(() => apanelApplicationsService.issueEnrollment(id), "Enrollment certificate issued")} className="px-4 py-2 rounded-xl bg-primary text-white text-xs font-extrabold">Issue Enrollment Certificate</button>
+      <button onClick={() => action(() => apanelApplicationsService.issueEnrollment(id), t("apanel.workflow.enrollmentCertificateIssued"))} className="px-4 py-2 rounded-xl bg-primary text-white text-xs font-extrabold">{t("apanel.workflow.issueEnrollmentCertificate")}</button>
     </Panel>
   );
 
   const renderPrikaz = () => (
-    <Panel title="Prikaz">
+    <Panel title={t("apanel.workflow.prikaz")}>
       {app.prikaz ? (
         <div className="space-y-4">
-          <Info rows={[["Prikaz Number", app.prikaz.prikaz_number], ["Academic Year", app.prikaz.academic_year], ["Issue Date", app.prikaz.issue_date], ["Status", app.prikaz.status]]} />
+          <Info rows={[
+            [t("apanel.workflow.prikazNumber"), app.prikaz.prikaz_number],
+            [t("apanel.workflow.academicYear"), app.prikaz.academic_year],
+            [t("apanel.workflow.issueDate"), app.prikaz.issue_date],
+            [t("apanel.workflow.status"), app.prikaz.status],
+          ]} />
           <button onClick={() => apanelApplicationsService.downloadPrikaz(id)} className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-navy text-white text-xs font-extrabold">
             <Download className="h-4 w-4" />
-            Download Prikaz PDF
+            {t("apanel.workflow.downloadPrikazPdf")}
           </button>
         </div>
       ) : (
-        <Info rows={[["Enrollment Issued", snapshot.checks?.enrollment_issued ? "Yes" : "No"], ["Prikaz", "Not issued"]]} />
+        <Info rows={[
+          [t("apanel.workflow.enrollmentIssued"), snapshot.checks?.enrollment_issued ? t("common.yes") : t("common.no")],
+          [t("apanel.workflow.prikaz"), t("apanel.workflow.notIssued")],
+        ]} />
       )}
-      <button onClick={() => action(() => apanelApplicationsService.issuePrikaz(id), "Prikaz issued")} className="px-4 py-2 rounded-xl bg-primary text-white text-xs font-extrabold">Issue Prikaz</button>
+      <button onClick={() => action(() => apanelApplicationsService.issuePrikaz(id), t("apanel.workflow.prikazIssued"))} className="px-4 py-2 rounded-xl bg-primary text-white text-xs font-extrabold">{t("apanel.workflow.issuePrikaz")}</button>
     </Panel>
   );
 
   const renderServiceFee = () => (
-    <Panel title="Service Fee Review">
-      <Info rows={[["Required Amount", "300 USD"], ["Prikaz Issued", snapshot.checks?.prikaz_issued ? "Yes" : "No"], ["Service Fee Approved", snapshot.checks?.service_fee_paid ? "Yes" : "No"]]} />
+    <Panel title={t("apanel.workflow.serviceFeeReview")}>
+      <Info rows={[
+        [t("apanel.workflow.requiredAmount"), app.service_fee_required_amount || t("apanel.workflow.serviceFeeDefaultAmount")],
+        [t("apanel.workflow.prikazIssued"), snapshot.checks?.prikaz_issued ? t("common.yes") : t("common.no")],
+        [t("apanel.workflow.serviceFeeApproved"), snapshot.checks?.service_fee_paid ? t("common.yes") : t("common.no")],
+      ]} />
       <div className="space-y-3">
         {(app.service_fee_payments || []).map((payment) => (
           <div key={payment.id} className="rounded-2xl border border-gray-100 p-4 flex justify-between gap-4">
@@ -367,9 +408,9 @@ export default function ApanelApplicationsWorkflow() {
               {payment.rejection_reason && <p className="text-[11px] font-bold text-rose-600">{payment.rejection_reason}</p>}
             </div>
             <div className="flex gap-2">
-              <Status value={payment.status} />
-              <button onClick={() => action(() => apanelApplicationsService.reviewServiceFee(id, payment.id, { status: "APPROVED" }), "Service fee approved")} className="px-3 py-2 rounded-xl bg-emerald-600 text-white text-xs font-extrabold">Approve</button>
-              <button onClick={() => action(() => apanelApplicationsService.reviewServiceFee(id, payment.id, { status: "REUPLOAD_REQUIRED", rejection_reason: window.prompt("Rejection reason:") || "Please upload a clearer service fee receipt." }), "Service fee rejected")} className="px-3 py-2 rounded-xl bg-rose-600 text-white text-xs font-extrabold">Reject</button>
+              <Status value={payment.status} t={t} />
+              <button onClick={() => action(() => apanelApplicationsService.reviewServiceFee(id, payment.id, { status: "APPROVED" }), t("apanel.workflow.serviceFeeApproved"))} className="px-3 py-2 rounded-xl bg-emerald-600 text-white text-xs font-extrabold">{t("button.approve")}</button>
+              <button onClick={() => action(() => apanelApplicationsService.reviewServiceFee(id, payment.id, { status: "REUPLOAD_REQUIRED", rejection_reason: window.prompt(t("apanel.workflow.rejectionReasonPrompt")) || t("apanel.workflow.clearerServiceFeeReceipt") }), t("apanel.workflow.serviceFeeRejected"))} className="px-3 py-2 rounded-xl bg-rose-600 text-white text-xs font-extrabold">{t("button.reject")}</button>
             </div>
           </div>
         ))}
@@ -378,48 +419,48 @@ export default function ApanelApplicationsWorkflow() {
   );
 
   const renderVisa = () => (
-    <Panel title="Telex & Visa">
+    <Panel title={t("apanel.workflow.visa")}>
       <Info rows={[
-        ["Telex Number", app.visa_process?.telex_number],
-        ["Telex Status", app.visa_process?.telex_status],
-        ["Visa Status", app.visa_process?.visa_status],
-        ["Notes", app.visa_process?.visa_notes],
+        [t("apanel.workflow.telexNumber"), app.visa_process?.telex_number],
+        [t("apanel.workflow.telexStatus"), app.visa_process?.telex_status],
+        [t("apanel.workflow.visaStatus"), app.visa_process?.visa_status],
+        [t("apanel.workflow.notes"), app.visa_process?.visa_notes],
       ]} />
       <div className="flex flex-wrap gap-2">
-        <button onClick={() => updateVisa(action, id, "telex")} className="px-4 py-2 rounded-xl bg-primary text-white text-xs font-extrabold">Mark Telex Issued</button>
-        <button onClick={() => action(() => apanelApplicationsService.updateVisa(id, { visa_status: "ISSUED", visa_notes: "Visa is ready." }), "Visa marked ready")} className="px-4 py-2 rounded-xl bg-emerald-600 text-white text-xs font-extrabold">Mark Visa Ready</button>
+        <button onClick={() => updateVisa(action, id, "telex", t)} className="px-4 py-2 rounded-xl bg-primary text-white text-xs font-extrabold">{t("apanel.workflow.markTelexIssued")}</button>
+        <button onClick={() => action(() => apanelApplicationsService.updateVisa(id, { visa_status: "ISSUED", visa_notes: t("apanel.workflow.visaReadyNote") }), t("apanel.workflow.visaMarkedReady"))} className="px-4 py-2 rounded-xl bg-emerald-600 text-white text-xs font-extrabold">{t("apanel.workflow.markVisaReady")}</button>
       </div>
     </Panel>
   );
 
   const renderHousing = () => (
-    <Panel title="Housing">
+    <Panel title={t("apanel.workflow.housing")}>
       <Info rows={[
-        ["Requested", app.housing_request?.requested ? "Yes" : "No"],
-        ["Status", app.housing_request?.status],
-        ["Preferred Room", app.housing_request?.preferred_room_type],
-        ["Student Notes", app.housing_request?.notes],
-        ["Admin Notes", app.housing_request?.admin_notes],
+        [t("apanel.workflow.requested"), app.housing_request?.requested ? t("common.yes") : t("common.no")],
+        [t("apanel.workflow.status"), app.housing_request?.status],
+        [t("apanel.workflow.preferredRoom"), app.housing_request?.preferred_room_type],
+        [t("apanel.workflow.studentNotes"), app.housing_request?.notes],
+        [t("apanel.workflow.adminNotes"), app.housing_request?.admin_notes],
       ]} />
       <div className="flex flex-wrap gap-2">
-        <button onClick={() => action(() => apanelApplicationsService.reviewHousing(id, { status: "APPROVED", admin_notes: window.prompt("Housing notes:") || "" }), "Housing approved")} className="px-4 py-2 rounded-xl bg-emerald-600 text-white text-xs font-extrabold">Approve Housing</button>
-        <button onClick={() => action(() => apanelApplicationsService.reviewHousing(id, { status: "REJECTED", admin_notes: window.prompt("Housing rejection reason:") || "Housing is not available." }), "Housing rejected")} className="px-4 py-2 rounded-xl bg-rose-600 text-white text-xs font-extrabold">Reject Housing</button>
-        <button onClick={() => action(() => apanelApplicationsService.reviewHousing(id, { status: "NOT_REQUIRED", admin_notes: "Housing is not required by the student." }), "Housing marked not required")} className="px-4 py-2 rounded-xl border border-gray-200 text-navy text-xs font-extrabold">Not Required</button>
+        <button onClick={() => action(() => apanelApplicationsService.reviewHousing(id, { status: "APPROVED", admin_notes: window.prompt(t("apanel.workflow.housingNotesPrompt")) || "" }), t("apanel.workflow.housingApproved"))} className="px-4 py-2 rounded-xl bg-emerald-600 text-white text-xs font-extrabold">{t("apanel.workflow.approveHousing")}</button>
+        <button onClick={() => action(() => apanelApplicationsService.reviewHousing(id, { status: "REJECTED", admin_notes: window.prompt(t("apanel.workflow.housingRejectionPrompt")) || t("apanel.workflow.housingUnavailable") }), t("apanel.workflow.housingRejected"))} className="px-4 py-2 rounded-xl bg-rose-600 text-white text-xs font-extrabold">{t("apanel.workflow.rejectHousing")}</button>
+        <button onClick={() => action(() => apanelApplicationsService.reviewHousing(id, { status: "NOT_REQUIRED", admin_notes: t("apanel.workflow.housingNotRequiredNote") }), t("apanel.workflow.housingMarkedNotRequired"))} className="px-4 py-2 rounded-xl border border-gray-200 text-navy text-xs font-extrabold">{t("apanel.workflow.notRequired")}</button>
       </div>
     </Panel>
   );
 
   const renderResidence = () => (
-    <Panel title="Residence Permit">
+    <Panel title={t("apanel.workflow.residence")}>
       <Info rows={[
-        ["Status", app.residence_permit_process?.status],
-        ["Issued At", app.residence_permit_process?.issued_at],
-        ["Expires At", app.residence_permit_process?.expires_at],
-        ["Admin Notes", app.residence_permit_process?.admin_notes],
+        [t("apanel.workflow.status"), app.residence_permit_process?.status],
+        [t("apanel.workflow.issuedAt"), app.residence_permit_process?.issued_at],
+        [t("apanel.workflow.expiresAt"), app.residence_permit_process?.expires_at],
+        [t("apanel.workflow.adminNotes"), app.residence_permit_process?.admin_notes],
       ]} />
       <div className="flex flex-wrap gap-2">
-        <button onClick={() => action(() => apanelApplicationsService.updateResidence(id, { status: "IN_PROGRESS", admin_notes: "Residence permit is being processed." }), "Residence marked in progress")} className="px-4 py-2 rounded-xl bg-primary text-white text-xs font-extrabold">Mark In Progress</button>
-        <button onClick={() => action(() => apanelApplicationsService.updateResidence(id, { status: "ISSUED", expires_at: window.prompt("Residence expiry date YYYY-MM-DD, optional:") || "", admin_notes: "Residence permit issued." }), "Residence issued")} className="px-4 py-2 rounded-xl bg-emerald-600 text-white text-xs font-extrabold">Mark Issued</button>
+        <button onClick={() => action(() => apanelApplicationsService.updateResidence(id, { status: "IN_PROGRESS", admin_notes: t("apanel.workflow.residenceInProgressNote") }), t("apanel.workflow.residenceMarkedInProgress"))} className="px-4 py-2 rounded-xl bg-primary text-white text-xs font-extrabold">{t("apanel.workflow.markInProgress")}</button>
+        <button onClick={() => action(() => apanelApplicationsService.updateResidence(id, { status: "ISSUED", expires_at: window.prompt(t("apanel.workflow.residenceExpiryPrompt")) || "", admin_notes: t("apanel.workflow.residenceIssuedNote") }), t("apanel.workflow.residenceIssued"))} className="px-4 py-2 rounded-xl bg-emerald-600 text-white text-xs font-extrabold">{t("apanel.workflow.markIssued")}</button>
       </div>
     </Panel>
   );
@@ -428,7 +469,7 @@ export default function ApanelApplicationsWorkflow() {
     <div className="space-y-6 animate-in fade-in duration-200">
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-extrabold text-navy uppercase tracking-wider">{app.application_number || `Application #${id}`}</h1>
+          <h1 className="text-2xl font-extrabold text-navy uppercase tracking-wider">{app.application_number || `${t("apanel.workflow.application")} #${id}`}</h1>
           <p className="text-xs font-semibold text-gray-400">{student.full_name_english || student.user?.name} · {programName}</p>
         </div>
         {renderTabs()}
@@ -463,34 +504,34 @@ function Info({ rows }) {
   );
 }
 
-function Timeline({ items }) {
+function Timeline({ items, t }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
       {items.map((item) => (
         <div key={item.key} className="rounded-2xl border border-gray-100 p-4 flex justify-between">
           <span className="text-xs font-extrabold text-navy">{item.label}</span>
-          <Status value={item.status} />
+          <Status value={item.status} t={t} />
         </div>
       ))}
     </div>
   );
 }
 
-function rejectDocument(action, documentId) {
-  const reason = window.prompt("Rejection reason shown to student:");
+function rejectDocument(action, documentId, t) {
+  const reason = window.prompt(t("apanel.workflow.documentRejectionPrompt"));
   if (!reason) return;
-  action(() => apanelApplicationsService.reviewDocument(window.location.pathname.split("/")[3], documentId, { status: "REUPLOAD_REQUIRED", rejection_reason: reason }), "Document rejected");
+  action(() => apanelApplicationsService.reviewDocument(window.location.pathname.split("/")[3], documentId, { status: "REUPLOAD_REQUIRED", rejection_reason: reason }), t("apanel.workflow.documentRejected"));
 }
 
-function rejectPayment(action, paymentId) {
-  const reason = window.prompt("Payment rejection reason shown to student:");
+function rejectPayment(action, paymentId, t) {
+  const reason = window.prompt(t("apanel.workflow.paymentRejectionPrompt"));
   if (!reason) return;
-  action(() => apanelApplicationsService.reviewPayment(window.location.pathname.split("/")[3], paymentId, { status: "REJECTED", rejection_reason: reason }), "Payment rejected");
+  action(() => apanelApplicationsService.reviewPayment(window.location.pathname.split("/")[3], paymentId, { status: "REJECTED", rejection_reason: reason }), t("apanel.workflow.paymentRejected"));
 }
 
-function updateVisa(action, id, type) {
+function updateVisa(action, id, type, t) {
   if (type === "telex") {
-    const telexNumber = window.prompt("Telex number:");
+    const telexNumber = window.prompt(t("apanel.workflow.telexNumberPrompt"));
     if (!telexNumber) return;
     action(
       () =>
@@ -498,37 +539,37 @@ function updateVisa(action, id, type) {
           telex_number: telexNumber,
           telex_status: "ISSUED",
           visa_status: "IN_PROGRESS",
-          visa_notes: "Telex issued. Visa processing started.",
+          visa_notes: t("apanel.workflow.telexIssuedNote"),
         }),
-      "Telex issued",
+      t("apanel.workflow.telexIssued"),
     );
   }
 }
 
-function requestExtraDocument(action) {
-  const name = window.prompt("Additional document name:");
+function requestExtraDocument(action, t) {
+  const name = window.prompt(t("apanel.workflow.additionalDocumentPrompt"));
   if (!name) return;
   const type = name.toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_|_$/g, "");
-  action(() => apanelApplicationsService.requestDocument(window.location.pathname.split("/")[3], { document_type: type, name, is_required: true, request_reason: "Requested by administration" }), "Additional document requested");
+  action(() => apanelApplicationsService.requestDocument(window.location.pathname.split("/")[3], { document_type: type, name, is_required: true, request_reason: t("apanel.workflow.requestedByAdministration") }), t("apanel.workflow.additionalDocumentRequested"));
 }
 
-function seedEquivalency(action) {
+function seedEquivalency(action, t) {
   action(() => apanelApplicationsService.saveEquivalency(window.location.pathname.split("/")[3], {
     status: "UNDER_REVIEW",
-    previous_university: "Pending academic reviewer input",
-    general_academic_notes: "Draft equivalency record created. Replace this with reviewed academic notes.",
+    previous_university: t("apanel.workflow.pendingReviewerInput"),
+    general_academic_notes: t("apanel.workflow.equivalencyDraftNotes"),
     courses: [],
-  }), "Equivalency draft saved");
+  }), t("apanel.workflow.equivalencyDraftSaved"));
 }
 
-function returnCorrection(action) {
-  const reason = window.prompt("Correction instructions for student:");
+function returnCorrection(action, t) {
+  const reason = window.prompt(t("apanel.workflow.correctionPrompt"));
   if (!reason) return;
-  action(() => apanelApplicationsService.returnForCorrection(window.location.pathname.split("/")[3], reason), "Application returned for correction");
+  action(() => apanelApplicationsService.returnForCorrection(window.location.pathname.split("/")[3], reason), t("apanel.workflow.applicationReturned"));
 }
 
-function rejectApplication(action) {
-  const reason = window.prompt("Application rejection reason:");
+function rejectApplication(action, t) {
+  const reason = window.prompt(t("apanel.workflow.applicationRejectionPrompt"));
   if (!reason) return;
-  action(() => apanelApplicationsService.reject(window.location.pathname.split("/")[3], reason), "Application rejected");
+  action(() => apanelApplicationsService.reject(window.location.pathname.split("/")[3], reason), t("apanel.workflow.applicationRejected"));
 }

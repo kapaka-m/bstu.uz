@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import FormError from "../../../components/common/FormError";
 import { apanelService } from "../../../services/apanelService";
+import { publicAssetUrl } from "../../../lib/api";
 import ConfirmDialog from "../components/ConfirmDialog";
 
 const locales = ["en", "uz", "ru", "ar"];
@@ -155,14 +156,7 @@ function formatDate(value) {
 }
 
 function imagePreviewSrc(image) {
-  if (!image) return "";
-  if (image.startsWith("http://") || image.startsWith("https://")) return image;
-  if (image.startsWith("/")) return image;
-
-  const apiBase =
-    import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/api/v1";
-  const storagePath = image.replace(/^public\//, "");
-  return `${apiBase.replace(/\/api\/v1\/?$/, "")}/storage/${storagePath}`;
+  return publicAssetUrl(image);
 }
 
 export default function ApanelNewsEvents() {

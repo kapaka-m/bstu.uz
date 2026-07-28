@@ -66,7 +66,7 @@ export default function StudentSupport() {
     <div className="max-w-4xl mx-auto space-y-6 animate-in fade-in duration-200">
       <div>
         <h1 className="text-2xl font-extrabold text-navy uppercase tracking-wider">
-          {t("support.title", "Help & Support Desk")}
+          {t("support.title")}
         </h1>
         <p className="text-xs font-semibold text-gray-400">
           Open an inquiry ticket, check status, or communicate directly with

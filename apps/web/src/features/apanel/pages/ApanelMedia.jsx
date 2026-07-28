@@ -11,20 +11,10 @@ import {
 } from "lucide-react";
 import ConfirmDialog from "../components/ConfirmDialog";
 import Pagination from "../components/Pagination";
+import { publicAssetUrl } from "../../../lib/api";
 
 function mediaUrl(path) {
-  if (!path) return "";
-  if (path.startsWith("http://") || path.startsWith("https://")) return path;
-
-  const apiBase =
-    import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/api/v1";
-  const origin = apiBase.replace(/\/api\/v1\/?$/, "");
-  const cleanPath = path
-    .replace(/^public\//, "")
-    .replace(/^\/storage\//, "")
-    .replace(/^storage\//, "");
-
-  return `${origin}/storage/${cleanPath}`;
+  return publicAssetUrl(path);
 }
 
 export default function ApanelMedia() {

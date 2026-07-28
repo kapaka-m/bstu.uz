@@ -42,7 +42,7 @@ export default function StudentLogin() {
           </div>
           <div className="space-y-1">
             <h2 className="font-extrabold text-navy text-xl uppercase tracking-wider">
-              {t("auth.loginTitle", "Student Portal")}
+              {t("auth.loginTitle")}
             </h2>
             <p className="text-gray-400 text-xs font-semibold">
               {t(
@@ -58,7 +58,7 @@ export default function StudentLogin() {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-1.5">
             <label className="block text-[10px] font-extrabold text-navy uppercase tracking-wider">
-              {t("form.email", "Email Address")}
+              {t("form.email")}
             </label>
             <div className="relative">
               <input
@@ -75,7 +75,7 @@ export default function StudentLogin() {
 
           <div className="space-y-1.5">
             <label className="block text-[10px] font-extrabold text-navy uppercase tracking-wider">
-              {t("form.password", "Password")}
+              {t("form.password")}
             </label>
             <div className="relative">
               <input
@@ -99,7 +99,7 @@ export default function StudentLogin() {
               <Loader2 className="w-4 h-4 animate-spin" />
             ) : (
               <>
-                <span>{t("button.login", "Sign In")}</span>
+                <span>{t("button.login")}</span>
                 <ArrowRight className="w-4 h-4" />
               </>
             )}
@@ -107,12 +107,12 @@ export default function StudentLogin() {
         </form>
 
         <div className="text-center text-xs font-bold text-gray-400 pt-2">
-          {t("auth.noAccount", "Don't have an account?")}{" "}
+          {t("auth.noAccount")}{" "}
           <Link
             to="/student/register"
             className="text-primary hover:underline ml-1"
           >
-            {t("auth.signUpNow", "Register Now")}
+            {t("auth.signUpNow")}
           </Link>
         </div>
       </div>

@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Camera, Edit3, Plus, Save, Trash2, UploadCloud, X } from "lucide-react";
 import { apanelService } from "../../../services/apanelService";
+import { publicAssetUrl } from "../../../lib/api";
 import ConfirmDialog from "../components/ConfirmDialog";
 
 const LOCALES = ["en", "uz", "ru", "ar"];
@@ -58,10 +59,7 @@ const emptySettingsTranslations = () =>
   );
 
 const storageUrl = (path) => {
-  if (!path) return "";
-  if (/^https?:\/\//i.test(path) || path.startsWith("/")) return path;
-  const apiBase = import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/api/v1";
-  return `${apiBase.replace(/\/api\/v1\/?$/, "")}/storage/${path.replace(/^public\//, "")}`;
+  return publicAssetUrl(path);
 };
 
 export default function ApanelAdministration() {

@@ -40,7 +40,7 @@ export default function StatusBadge({ status }) {
     <span
       className={`inline-flex items-center text-[10px] font-extrabold uppercase tracking-wider border px-2.5 py-0.5 rounded-full ${style}`}
     >
-      {t(`status.${normalized}`, normalized.replaceAll("_", " "))}
+      {t(`status.${normalized}`)}
     </span>
   );
 }

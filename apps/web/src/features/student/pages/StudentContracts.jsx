@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { studentService } from "../../../services/studentService";
 import { useLanguage } from "../../../context/LanguageContext";
 import { Loader2, CreditCard, Download } from "lucide-react";
+import { publicAssetUrl } from "../../../lib/api";
 
 export default function StudentContracts() {
   const { t } = useLanguage();
@@ -34,7 +35,7 @@ export default function StudentContracts() {
     <div className="max-w-4xl mx-auto space-y-6 animate-in fade-in duration-200">
       <div>
         <h1 className="text-2xl font-extrabold text-navy uppercase tracking-wider">
-          {t("contract.title", "Tuition Contracts & Invoices")}
+          {t("contract.title")}
         </h1>
         <p className="text-xs font-semibold text-gray-400">
           View contract parameters, bill amounts, and download tuition documents
@@ -88,13 +89,13 @@ export default function StudentContracts() {
                 </div>
                 <div className="flex gap-2 w-full sm:w-auto">
                   <a
-                    href={`/storage/${c.file_path}`}
+                    href={publicAssetUrl(c.file_path)}
                     target="_blank"
                     rel="noreferrer"
                     className="w-full sm:w-auto text-center flex items-center justify-center gap-1.5 px-4 py-2.5 bg-primary text-white hover:bg-primary-hover text-xs font-extrabold rounded-xl transition-all cursor-pointer shadow-sm hover:shadow"
                   >
                     <Download className="w-4 h-4" />
-                    <span>Download Contract PDF</span>
+                    <span>{t("contract.downloadPdf")}</span>
                   </a>
                 </div>
               </div>

@@ -228,7 +228,7 @@ export default function StudentApplication() {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <h1 className="text-2xl font-extrabold text-navy uppercase tracking-wider">
-            {t("student.application.title", "Start/Edit Application")}
+            {t("student.application.title")}
           </h1>
           <p className="text-xs font-semibold text-gray-400">
             Select your academic options and complete your admission request

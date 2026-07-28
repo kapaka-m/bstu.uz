@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Image, Upload, Search, X, Loader2, Link2 } from "lucide-react";
 import { apanelService } from "../../../services/apanelService";
+import { publicAssetUrl } from "../../../lib/api";
 
 export default function MediaPicker({ value, onChange, label }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -38,7 +39,7 @@ export default function MediaPicker({ value, onChange, label }) {
       const res = await apanelService.uploadMedia(file, file.name);
       // Backend returns created media object
       if (res && res.path) {
-        onChange("/storage/" + res.path);
+        onChange(res.path);
         setIsOpen(false);
       } else {
         throw new Error("Invalid response format");
@@ -51,13 +52,7 @@ export default function MediaPicker({ value, onChange, label }) {
   };
 
   const handleSelectPath = (path) => {
-    // Prefix with /storage/ if not there
-    const mediaPath = String(path || "");
-    const fullPath =
-      mediaPath.startsWith("http") || mediaPath.startsWith("/")
-        ? mediaPath
-        : "/storage/" + mediaPath;
-    onChange(fullPath);
+    onChange(String(path || ""));
     setIsOpen(false);
   };
 
@@ -74,7 +69,7 @@ export default function MediaPicker({ value, onChange, label }) {
             type="text"
             value={value || ""}
             onChange={(e) => onChange(e.target.value)}
-            placeholder="/storage/cms/media-library/example.jpg"
+            placeholder="cms/media-library/example.jpg"
             className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold bg-white text-navy"
           />
           <Link2 className="absolute left-3.5 top-3.5 w-3.5 h-3.5 text-gray-400" />
@@ -158,11 +153,7 @@ export default function MediaPicker({ value, onChange, label }) {
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                   {mediaList.map((media) => {
                     const mediaPath = String(media.path || "");
-                    const fullUrl =
-                      mediaPath.startsWith("http") ||
-                      mediaPath.startsWith("/")
-                        ? mediaPath
-                        : "/storage/" + mediaPath;
+                    const fullUrl = publicAssetUrl(mediaPath);
                     const isImg = /\.(jpeg|jpg|gif|png|webp)$/i.test(
                       mediaPath,
                     );

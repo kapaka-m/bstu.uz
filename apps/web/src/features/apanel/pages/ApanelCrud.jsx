@@ -8,6 +8,7 @@ import FormBuilder from "../components/FormBuilder";
 import ConfirmDialog from "../components/ConfirmDialog";
 import { Loader2, Plus } from "lucide-react";
 import FormError from "../../../components/common/FormError";
+import { useLanguage } from "../../../context/LanguageContext";
 
 // Config schemas for all whitelisted resources
 const RESOURCE_SCHEMAS = {
@@ -73,7 +74,7 @@ const RESOURCE_SCHEMAS = {
         name: "locale",
         label: "Locale Code",
         type: "select",
-        options: ["en", "uz", "ru", "ar"],
+        options: "__active_locales__",
         required: true,
       },
       { name: "value", label: "Value Label", type: "textarea", required: true },
@@ -1040,6 +1041,7 @@ const RESOURCE_SCHEMAS = {
 };
 
 export default function ApanelCrud() {
+  const { t, availableLocales } = useLanguage();
   const { resource } = useParams();
   const navigate = useNavigate();
 
@@ -1091,11 +1093,11 @@ export default function ApanelCrud() {
       setTotal(pageData.total);
       setLastPage(pageData.lastPage);
     } catch {
-      setError("Failed to fetch whitelisted resource listings.");
+      setError(t("apanel.crud.fetchFailed"));
     } finally {
       setLoading(false);
     }
-  }, [resource, search, page, sortBy, sortDir, activeFilters]);
+  }, [resource, search, page, sortBy, sortDir, activeFilters, t]);
 
   useEffect(() => {
     fetchRecords();
@@ -1105,10 +1107,20 @@ export default function ApanelCrud() {
   if (!schema) {
     return (
       <div className="bg-white border border-gray-100 rounded-3xl p-8 text-center text-rose-600 font-bold shadow-xs">
-        Resource config '{resource}' is not defined or whitelisted.
+        {t("apanel.crud.resourceNotConfigured")} {resource}
       </div>
     );
   }
+  const formFields = schema.fields.map((field) => {
+    if (field.options !== "__active_locales__") return field;
+    return {
+      ...field,
+      options: (availableLocales || []).map((locale) => ({
+        value: locale.code,
+        label: locale.native_name || locale.name || locale.code,
+      })),
+    };
+  });
 
   // Handle item status toggle directly from table
   const handleStatusToggle = async (id, statusField, nextVal) => {
@@ -1119,11 +1131,11 @@ export default function ApanelCrud() {
 
       const payload = { ...item, [statusField]: nextVal };
       await apanelService.update(resource, id, payload);
-      showToast("Status updated successfully!");
+      showToast(t("apanel.crud.statusUpdated"));
       fetchRecords();
     } catch {
-      setError("Failed to toggle status flag.");
-      showToast("Failed to toggle status flag.", "error");
+      setError(t("apanel.crud.statusToggleFailed"));
+      showToast(t("apanel.crud.statusToggleFailed"), "error");
     }
   };
 
@@ -1142,7 +1154,7 @@ export default function ApanelCrud() {
       setValidationErrors({});
       setIsFormOpen(true);
     } catch {
-      setError("Failed to retrieve record details.");
+      setError(t("apanel.crud.retrieveFailed"));
     } finally {
       setLoading(false);
     }
@@ -1156,10 +1168,10 @@ export default function ApanelCrud() {
 
       if (editItem) {
         await apanelService.update(resource, editItem.id, formState);
-        showToast("Record updated successfully!");
+        showToast(t("apanel.crud.recordUpdated"));
       } else {
         await apanelService.create(resource, formState);
-        showToast("Record created successfully!");
+        showToast(t("apanel.crud.recordCreated"));
       }
 
       setIsFormOpen(false);
@@ -1168,9 +1180,9 @@ export default function ApanelCrud() {
     } catch (err) {
       if (err?.status === 422 && err?.errors) {
         setValidationErrors(err.errors);
-        showToast("Please correct the highlighted validation errors.", "error");
+        showToast(t("apanel.crud.validationErrors"), "error");
       } else {
-        const errMsg = err?.message || "Failed to save record.";
+        const errMsg = err?.message || t("apanel.crud.saveFailed");
         setError(errMsg);
         showToast(errMsg, "error");
       }
@@ -1185,12 +1197,12 @@ export default function ApanelCrud() {
     try {
       setError("");
       await apanelService.delete(resource, deleteTarget.id);
-      showToast("Record deleted successfully!");
+      showToast(t("apanel.crud.recordDeleted"));
       setDeleteTarget(null);
       fetchRecords();
     } catch {
-      setError("Failed to delete record.");
-      showToast("Failed to delete record.", "error");
+      setError(t("apanel.crud.deleteFailed"));
+      showToast(t("apanel.crud.deleteFailed"), "error");
     }
   };
 
@@ -1245,17 +1257,17 @@ export default function ApanelCrud() {
             {schema.title}
           </h1>
           <p className="text-gray-400 text-xs font-semibold mt-1">
-            Resource slug: /apanel/{resource}
+            {t("apanel.crud.resourceSlug")} /apanel/{resource}
           </p>
         </div>
 
-        {schema.fields.length > 0 && (
+        {formFields.length > 0 && (
           <button
             onClick={handleOpenCreate}
             className="w-full sm:w-auto bg-primary hover:bg-primary-hover text-white px-5 py-2.5 rounded-xl text-xs font-extrabold shadow-sm hover:shadow-md transition-all cursor-pointer inline-flex items-center justify-center gap-1.5 shrink-0"
           >
             <Plus className="w-4 h-4" />
-            Add New Record
+            {t("apanel.crud.addNewRecord")}
           </button>
         )}
       </div>
@@ -1275,7 +1287,7 @@ export default function ApanelCrud() {
             ? [
                 {
                   name: "status",
-                  label: "Status",
+                  label: t("apanel.workflow.status"),
                   options: applicationStatusOptions.map((status) => ({
                     value: status,
                     label: status.replaceAll("_", " "),
@@ -1294,14 +1306,14 @@ export default function ApanelCrud() {
             type="number"
             value={activeFilters.program_id || ""}
             onChange={(e) => handleFilterChange("program_id", e.target.value)}
-            placeholder="Program ID"
+            placeholder={t("apanel.crud.programId")}
             className="px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold bg-white text-navy"
           />
           <input
             type="text"
             value={activeFilters.nationality || ""}
             onChange={(e) => handleFilterChange("nationality", e.target.value)}
-            placeholder="Nationality"
+            placeholder={t("apanel.workflow.nationality")}
             className="px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold bg-white text-navy"
           />
           <button
@@ -1309,7 +1321,7 @@ export default function ApanelCrud() {
             onClick={() => setActiveFilters({})}
             className="px-4 py-2.5 rounded-xl border border-gray-200 text-xs font-extrabold text-navy hover:bg-gray-50 cursor-pointer"
           >
-            Clear Filters
+            {t("apanel.crud.clearFilters")}
           </button>
         </div>
       )}
@@ -1331,8 +1343,8 @@ export default function ApanelCrud() {
               setSortDir(dir);
             }}
             onViewClick={handleViewAction}
-            onEditClick={schema.fields.length > 0 ? handleOpenEdit : null}
-            onDeleteClick={schema.fields.length > 0 ? setDeleteTarget : null}
+            onEditClick={formFields.length > 0 ? handleOpenEdit : null}
+            onDeleteClick={formFields.length > 0 ? setDeleteTarget : null}
             onStatusToggle={handleStatusToggle}
           />
 
@@ -1352,12 +1364,12 @@ export default function ApanelCrud() {
           <div className="bg-white border border-gray-100 rounded-3xl max-w-3xl w-full p-6 shadow-2xl animate-in fade-in zoom-in-95 duration-200 my-8">
             <h3 className="font-extrabold text-navy text-lg border-b border-gray-50 pb-4 mb-6 uppercase tracking-wider">
               {editItem
-                ? `Edit ${schema.title} Record (#${editItem.id})`
-                : `Create New ${schema.title}`}
+                ? `${t("apanel.crud.editRecord")} ${schema.title} (#${editItem.id})`
+                : `${t("apanel.crud.createNew")} ${schema.title}`}
             </h3>
 
             <FormBuilder
-              fields={schema.fields}
+              fields={formFields}
               initialValues={editItem || {}}
               onSubmit={handleFormSubmit}
               onCancel={() => setIsFormOpen(false)}
@@ -1372,8 +1384,8 @@ export default function ApanelCrud() {
       {/* Confirm deletion warnings */}
       <ConfirmDialog
         isOpen={!!deleteTarget}
-        title="Delete Record?"
-        message={`Are you sure you want to delete this ${schema.title} record (#${deleteTarget?.id})? This is irreversible and will delete any related translations.`}
+        title={t("apanel.crud.deleteRecordTitle")}
+        message={`${t("apanel.crud.deleteRecordMessage")} ${schema.title} (#${deleteTarget?.id})`}
         onConfirm={handleDeleteConfirm}
         onCancel={() => setDeleteTarget(null)}
       />

@@ -8,6 +8,7 @@ use App\Models\ApplicationNationality;
 use App\Models\Application;
 use App\Models\ApplicationStatusHistory;
 use App\Models\EducationBackground;
+use App\Models\Locale;
 use App\Models\Program;
 use App\Models\Role;
 use App\Models\StudentProfile;
@@ -26,6 +27,8 @@ class InitialApplicationController extends Controller
 {
     use ApiResponse;
 
+    private ?string $fallbackLocaleCode = null;
+
     public function metadata(Request $request)
     {
         $locale = $this->getLocale($request);
@@ -37,11 +40,11 @@ class InitialApplicationController extends Controller
             ->get()
             ->map(function (Program $program) use ($locale) {
                 $translation = $program->translations->firstWhere('locale', $locale)
-                    ?: $program->translations->firstWhere('locale', 'en');
+                    ?: $program->translations->firstWhere('locale', $this->fallbackLocale());
                 $facultyTranslation = $program->faculty?->translations->firstWhere('locale', $locale)
-                    ?: $program->faculty?->translations->firstWhere('locale', 'en');
+                    ?: $program->faculty?->translations->firstWhere('locale', $this->fallbackLocale());
                 $departmentTranslation = $program->department?->translations->firstWhere('locale', $locale)
-                    ?: $program->department?->translations->firstWhere('locale', 'en');
+                    ?: $program->department?->translations->firstWhere('locale', $this->fallbackLocale());
 
                 $educationTypes = $this->parseOptionList($program->study_mode);
                 $languages = $this->parseStudyLanguages($program->language_of_study);
@@ -261,9 +264,29 @@ class InitialApplicationController extends Controller
 
     private function getLocale(Request $request): string
     {
-        $locale = $request->query('locale', $request->header('X-Locale', 'en'));
+        $locale = $request->query('locale', $request->header('X-Locale', $this->fallbackLocale()));
 
-        return in_array($locale, ['en', 'uz', 'ru', 'ar'], true) ? $locale : 'en';
+        $supported = Locale::query()
+            ->where('is_active', true)
+            ->pluck('code')
+            ->all();
+
+        return in_array($locale, $supported, true) ? $locale : $this->fallbackLocale();
+    }
+
+    private function fallbackLocale(): string
+    {
+        if ($this->fallbackLocaleCode === null) {
+            $this->fallbackLocaleCode = Locale::query()
+                ->where('is_active', true)
+                ->orderBy('sort_order')
+                ->orderBy('id')
+                ->value('code')
+                ?: config('app.fallback_locale')
+                ?: config('app.locale');
+        }
+
+        return $this->fallbackLocaleCode;
     }
 
     private function parseStudyLanguages(?string $value): array

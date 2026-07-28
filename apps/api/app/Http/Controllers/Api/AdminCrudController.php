@@ -563,12 +563,11 @@ class AdminCrudController extends Controller
     protected function notifyAnnouncementCreated(Announcement $announcement): void
     {
         $announcement->loadMissing('translations');
-        $translation = $announcement->translations->firstWhere('locale', 'en')
-            ?: $announcement->translations->first();
+        $translation = $announcement->translations->first();
 
         $title = $translation?->title ?: $announcement->slug;
         $summary = $translation?->summary ?: '';
-        $url = rtrim((string) config('app.frontend_url', env('FRONTEND_URL', 'http://localhost:5173')), '/')
+        $url = rtrim((string) (config('app.frontend_url') ?: config('app.url')), '/')
             .'/announcements/'.$announcement->slug;
 
         User::query()

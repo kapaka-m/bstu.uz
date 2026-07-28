@@ -444,8 +444,14 @@ class ApplicationWorkflowService
             $this->ensureContract($application);
 
             $application->forceFill(['admission_status' => 'ISSUED'])->save();
-            $this->transition($application, 'ADMISSION_ISSUED', $actorId, 'Final admission issued.');
-            $this->notify($application, 'Admission issued', 'Your final admission has been issued.', 'admission', '/student/admission');
+            $this->transition($application, 'ADMISSION_ISSUED', $actorId, $this->settingText('workflow.history.admission_issued'));
+            $this->notify(
+                $application,
+                $this->settingText('workflow.notification.admission_issued.title'),
+                $this->settingText('workflow.notification.admission_issued.message'),
+                'admission',
+                '/student/admission'
+            );
 
             return $admission;
         });
@@ -489,26 +495,26 @@ class ApplicationWorkflowService
     {
         $transfer = $this->isTransfer($application);
         $items = [
-            ['key' => 'account', 'label' => 'Account Created', 'status' => 'Completed'],
-            ['key' => 'documents_required', 'label' => 'Documents Required', 'status' => $checks['documents_approved'] ? 'Completed' : 'Action Required'],
-            ['key' => 'documents_review', 'label' => 'Documents Under Review', 'status' => $checks['documents_approved'] ? 'Approved' : 'In Progress'],
+            ['key' => 'account', 'label' => $this->timelineLabel('account'), 'status' => $this->workflowStatus('completed')],
+            ['key' => 'documents_required', 'label' => $this->timelineLabel('documents_required'), 'status' => $checks['documents_approved'] ? $this->workflowStatus('completed') : $this->workflowStatus('action_required')],
+            ['key' => 'documents_review', 'label' => $this->timelineLabel('documents_review'), 'status' => $checks['documents_approved'] ? $this->workflowStatus('approved') : $this->workflowStatus('in_progress')],
         ];
         if ($transfer) {
-            $items[] = ['key' => 'academic_review', 'label' => 'Academic Review', 'status' => $checks['equivalency_complete'] ? 'Approved' : 'Under Review'];
+            $items[] = ['key' => 'academic_review', 'label' => $this->timelineLabel('academic_review'), 'status' => $checks['equivalency_complete'] ? $this->workflowStatus('approved') : $this->workflowStatus('under_review')];
         }
-        $items[] = ['key' => 'fee', 'label' => 'Application Fee Required', 'status' => $checks['payment_approved'] ? 'Completed' : 'Action Required'];
-        $items[] = ['key' => 'payment_review', 'label' => 'Payment Under Review', 'status' => $application->application_fee_status === 'APPROVED' ? 'Approved' : 'Not Started'];
-        $items[] = ['key' => 'final_review', 'label' => 'Final Application Review', 'status' => $checks['final_review_approved'] ? 'Approved' : 'Not Started'];
-        $items[] = ['key' => 'admission', 'label' => 'Admission Issued', 'status' => $checks['admission_issued'] ? 'Completed' : 'Not Started'];
-        $items[] = ['key' => 'study_contract', 'label' => 'Study Contract', 'status' => $checks['study_contract_issued'] ? 'Issued' : ($checks['admission_issued'] ? 'Action Required' : 'Not Started')];
-        $items[] = ['key' => 'contract_advance', 'label' => '30% Contract Payment', 'status' => $checks['contract_advance_paid'] ? 'Completed' : ($checks['admission_issued'] ? 'Action Required' : 'Not Started')];
-        $items[] = ['key' => 'enrollment', 'label' => 'Enrollment Certificate', 'status' => $checks['enrollment_issued'] ? 'Completed' : 'Not Started'];
-        $items[] = ['key' => 'prikaz', 'label' => 'Prikaz', 'status' => $checks['prikaz_issued'] ? 'Issued' : 'Not Started'];
-        $items[] = ['key' => 'service_fee', 'label' => 'Service Fee', 'status' => $checks['service_fee_paid'] ? 'Completed' : ($checks['prikaz_issued'] ? 'Action Required' : 'Not Started')];
-        $items[] = ['key' => 'telex', 'label' => 'Telex', 'status' => $checks['telex_issued'] ? 'Issued' : 'Not Started'];
-        $items[] = ['key' => 'visa', 'label' => 'Visa', 'status' => $checks['visa_ready'] ? 'Ready' : 'Not Started'];
-        $items[] = ['key' => 'housing', 'label' => 'Housing', 'status' => $checks['housing_completed'] ? 'Completed' : 'In Progress'];
-        $items[] = ['key' => 'residence', 'label' => 'Residence Permit', 'status' => $checks['residence_completed'] ? 'Completed' : 'Not Started'];
+        $items[] = ['key' => 'fee', 'label' => $this->timelineLabel('fee'), 'status' => $checks['payment_approved'] ? $this->workflowStatus('completed') : $this->workflowStatus('action_required')];
+        $items[] = ['key' => 'payment_review', 'label' => $this->timelineLabel('payment_review'), 'status' => $application->application_fee_status === 'APPROVED' ? $this->workflowStatus('approved') : $this->workflowStatus('not_started')];
+        $items[] = ['key' => 'final_review', 'label' => $this->timelineLabel('final_review'), 'status' => $checks['final_review_approved'] ? $this->workflowStatus('approved') : $this->workflowStatus('not_started')];
+        $items[] = ['key' => 'admission', 'label' => $this->timelineLabel('admission'), 'status' => $checks['admission_issued'] ? $this->workflowStatus('completed') : $this->workflowStatus('not_started')];
+        $items[] = ['key' => 'study_contract', 'label' => $this->timelineLabel('study_contract'), 'status' => $checks['study_contract_issued'] ? $this->workflowStatus('issued') : ($checks['admission_issued'] ? $this->workflowStatus('action_required') : $this->workflowStatus('not_started'))];
+        $items[] = ['key' => 'contract_advance', 'label' => $this->timelineLabel('contract_advance'), 'status' => $checks['contract_advance_paid'] ? $this->workflowStatus('completed') : ($checks['admission_issued'] ? $this->workflowStatus('action_required') : $this->workflowStatus('not_started'))];
+        $items[] = ['key' => 'enrollment', 'label' => $this->timelineLabel('enrollment'), 'status' => $checks['enrollment_issued'] ? $this->workflowStatus('completed') : $this->workflowStatus('not_started')];
+        $items[] = ['key' => 'prikaz', 'label' => $this->timelineLabel('prikaz'), 'status' => $checks['prikaz_issued'] ? $this->workflowStatus('issued') : $this->workflowStatus('not_started')];
+        $items[] = ['key' => 'service_fee', 'label' => $this->timelineLabel('service_fee'), 'status' => $checks['service_fee_paid'] ? $this->workflowStatus('completed') : ($checks['prikaz_issued'] ? $this->workflowStatus('action_required') : $this->workflowStatus('not_started'))];
+        $items[] = ['key' => 'telex', 'label' => $this->timelineLabel('telex'), 'status' => $checks['telex_issued'] ? $this->workflowStatus('issued') : $this->workflowStatus('not_started')];
+        $items[] = ['key' => 'visa', 'label' => $this->timelineLabel('visa'), 'status' => $checks['visa_ready'] ? $this->workflowStatus('ready') : $this->workflowStatus('not_started')];
+        $items[] = ['key' => 'housing', 'label' => $this->timelineLabel('housing'), 'status' => $checks['housing_completed'] ? $this->workflowStatus('completed') : $this->workflowStatus('in_progress')];
+        $items[] = ['key' => 'residence', 'label' => $this->timelineLabel('residence'), 'status' => $checks['residence_completed'] ? $this->workflowStatus('completed') : $this->workflowStatus('not_started')];
 
         return $items;
     }
@@ -593,6 +599,21 @@ class ApplicationWorkflowService
     private function moneyLabel(float $amount): string
     {
         return fmod($amount, 1.0) === 0.0 ? (string) (int) $amount : number_format($amount, 2);
+    }
+
+    private function timelineLabel(string $key): string
+    {
+        return $this->settingText("workflow.timeline.{$key}");
+    }
+
+    private function workflowStatus(string $key): string
+    {
+        return $this->settingText("workflow.status.{$key}");
+    }
+
+    private function settingText(string $key): string
+    {
+        return $this->settings()->text($key, "[missing:{$key}]") ?? "[missing:{$key}]";
     }
 
     private function settings(): CmsSettingService

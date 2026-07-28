@@ -83,7 +83,7 @@ class StudyContractPdfService
         $pdf = new \TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
         $pdf->SetCreator($this->settings()->text('pdf.shared.university', ''));
         $pdf->SetAuthor($this->settings()->text('pdf.shared.university', ''));
-        $pdf->SetTitle('Study Contract '.$data['number']);
+        $pdf->SetTitle($this->settings()->render('pdf.study_contract.document_title', ['number' => $data['number']], $this->missing('pdf.study_contract.document_title')));
         $pdf->setPrintHeader(false);
         $pdf->setPrintFooter(false);
         $pdf->SetMargins(18, 14, 18);
@@ -97,19 +97,19 @@ class StudyContractPdfService
     private function html(array $data): string
     {
         $rows = collect([
-            [$this->pdfLabel('pdf.study_contract.labels', 0, 'Student Name'), $data['student']],
-            [$this->pdfLabel('pdf.study_contract.labels', 1, 'Passport No / National ID'), $data['passport']],
-            [$this->pdfLabel('pdf.study_contract.labels', 2, 'Nationality'), $data['nationality']],
-            [$this->pdfLabel('pdf.study_contract.labels', 3, 'Application Number'), $data['application_number']],
-            [$this->pdfLabel('pdf.study_contract.labels', 4, 'Admission Number'), $data['admission_number']],
-            [$this->pdfLabel('pdf.study_contract.labels', 5, 'Degree'), $data['degree']],
-            [$this->pdfLabel('pdf.study_contract.labels', 6, 'Faculty'), $data['faculty']],
-            [$this->pdfLabel('pdf.study_contract.labels', 7, 'Program'), $data['program']],
-            [$this->pdfLabel('pdf.study_contract.labels', 8, 'Study Language'), $data['study_language']],
-            [$this->pdfLabel('pdf.study_contract.labels', 9, 'Education Type'), $data['education_type']],
-            [$this->pdfLabel('pdf.study_contract.labels', 10, 'Academic Year'), $data['academic_year']],
-            [$this->pdfLabel('pdf.study_contract.labels', 11, 'Total Contract Amount'), $data['amount']],
-            [$this->pdfLabel('pdf.study_contract.labels', 12, 'Required Advance Payment'), $data['advance'].' ('.$data['advance_percentage'].'%)'],
+            [$this->pdfLabel('pdf.study_contract.labels', 0), $data['student']],
+            [$this->pdfLabel('pdf.study_contract.labels', 1), $data['passport']],
+            [$this->pdfLabel('pdf.study_contract.labels', 2), $data['nationality']],
+            [$this->pdfLabel('pdf.study_contract.labels', 3), $data['application_number']],
+            [$this->pdfLabel('pdf.study_contract.labels', 4), $data['admission_number']],
+            [$this->pdfLabel('pdf.study_contract.labels', 5), $data['degree']],
+            [$this->pdfLabel('pdf.study_contract.labels', 6), $data['faculty']],
+            [$this->pdfLabel('pdf.study_contract.labels', 7), $data['program']],
+            [$this->pdfLabel('pdf.study_contract.labels', 8), $data['study_language']],
+            [$this->pdfLabel('pdf.study_contract.labels', 9), $data['education_type']],
+            [$this->pdfLabel('pdf.study_contract.labels', 10), $data['academic_year']],
+            [$this->pdfLabel('pdf.study_contract.labels', 11), $data['amount']],
+            [$this->pdfLabel('pdf.study_contract.labels', 12), $data['advance'].' ('.$data['advance_percentage'].'%)'],
         ])->map(fn ($row) => '<tr><td class="label">'.$this->e($row[0]).':</td><td class="value">'.$this->e($row[1]).'</td></tr>')->implode('');
         $settings = $this->settings();
         $ministry = $this->e($settings->text('pdf.shared.ministry', ''));
@@ -174,17 +174,16 @@ HTML;
             $date = Carbon::parse($date);
         }
 
-        $months = $this->settings()->list('pdf.shared.uzbek_months', [
-            'yanvar', 'fevral', 'mart', 'aprel', 'may', 'iyun',
-            'iyul', 'avgust', 'sentabr', 'oktabr', 'noyabr', 'dekabr',
-        ]);
+        $months = $this->settings()->list('pdf.shared.uzbek_months');
 
         return ((int) $date->format('j')).' '.($months[(int) $date->format('n') - 1] ?? '').' '.$date->format('Y').' yil.';
     }
 
     private function money(float|int|string|null $amount, ?string $currency): string
     {
-        return $amount !== null ? number_format((float) $amount, 2).' '.($currency ?: 'USD') : 'To be calculated';
+        return $amount !== null
+            ? number_format((float) $amount, 2).' '.($currency ?: $this->settings()->text('workflow.currency', ''))
+            : $this->settings()->text('pdf.study_contract.amount_to_be_calculated', $this->missing('pdf.study_contract.amount_to_be_calculated'));
     }
 
     private function label(?string $value): string
@@ -197,9 +196,14 @@ HTML;
         return htmlspecialchars((string) $value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
     }
 
-    private function pdfLabel(string $key, int $index, string $default): string
+    private function pdfLabel(string $key, int $index): string
     {
-        return $this->settings()->list($key)[$index] ?? $default;
+        return $this->settings()->list($key)[$index] ?? $this->missing("{$key}.{$index}");
+    }
+
+    private function missing(string $key): string
+    {
+        return "[missing:{$key}]";
     }
 
     private function settings(): CmsSettingService

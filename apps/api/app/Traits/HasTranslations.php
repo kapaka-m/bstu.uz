@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use App\Models\Locale;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Str;
@@ -39,7 +40,7 @@ trait HasTranslations
     }
 
     /**
-     * Get a translation value with English fallback.
+     * Get a translation value with the database-configured fallback locale.
      */
     public function translate(string $field, ?string $locale = null): mixed
     {
@@ -52,8 +53,9 @@ trait HasTranslations
             return $translation->{$field};
         }
 
-        if ($locale !== 'en') {
-            $fallbackTranslation = $translations->where('locale', 'en')->first();
+        $fallbackLocale = $this->fallbackLocaleCode();
+        if ($fallbackLocale && $locale !== $fallbackLocale) {
+            $fallbackTranslation = $translations->where('locale', $fallbackLocale)->first();
 
             if ($fallbackTranslation && ! empty($fallbackTranslation->{$field})) {
                 return $fallbackTranslation->{$field};
@@ -61,6 +63,16 @@ trait HasTranslations
         }
 
         return null;
+    }
+
+    protected function fallbackLocaleCode(): ?string
+    {
+        return Locale::query()
+            ->where('is_active', true)
+            ->orderBy('sort_order')
+            ->orderBy('id')
+            ->value('code')
+            ?: config('app.fallback_locale');
     }
 
     /**

@@ -71,7 +71,7 @@ class PrikazPdfService
         $pdf = new \TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
         $pdf->SetCreator($this->settings()->text('pdf.shared.university', ''));
         $pdf->SetAuthor($this->settings()->text('pdf.shared.university', ''));
-        $pdf->SetTitle('Prikaz '.$data['number']);
+        $pdf->SetTitle($this->settings()->render('pdf.prikaz.document_title', ['number' => $data['number']], $this->missing('pdf.prikaz.document_title')));
         $pdf->setPrintHeader(false);
         $pdf->setPrintFooter(false);
         $pdf->SetMargins(18, 14, 18);
@@ -85,14 +85,14 @@ class PrikazPdfService
     private function html(array $data): string
     {
         $rows = collect([
-            [$this->pdfLabel('pdf.prikaz.labels', 0, 'Student Name'), $data['student']],
-            [$this->pdfLabel('pdf.prikaz.labels', 1, 'Passport No / National ID'), $data['passport']],
-            [$this->pdfLabel('pdf.prikaz.labels', 2, 'Nationality'), $data['nationality']],
-            [$this->pdfLabel('pdf.prikaz.labels', 3, 'Degree'), $data['degree']],
-            [$this->pdfLabel('pdf.prikaz.labels', 4, 'Program'), $data['program']],
-            [$this->pdfLabel('pdf.prikaz.labels', 5, 'Academic Year'), $data['academic_year']],
-            [$this->pdfLabel('pdf.prikaz.labels', 6, 'Admission Number'), $data['admission_number']],
-            [$this->pdfLabel('pdf.prikaz.labels', 7, 'Enrollment Number'), $data['student_number']],
+            [$this->pdfLabel('pdf.prikaz.labels', 0), $data['student']],
+            [$this->pdfLabel('pdf.prikaz.labels', 1), $data['passport']],
+            [$this->pdfLabel('pdf.prikaz.labels', 2), $data['nationality']],
+            [$this->pdfLabel('pdf.prikaz.labels', 3), $data['degree']],
+            [$this->pdfLabel('pdf.prikaz.labels', 4), $data['program']],
+            [$this->pdfLabel('pdf.prikaz.labels', 5), $data['academic_year']],
+            [$this->pdfLabel('pdf.prikaz.labels', 6), $data['admission_number']],
+            [$this->pdfLabel('pdf.prikaz.labels', 7), $data['student_number']],
         ])->map(fn ($row) => '<tr><td class="label">'.$this->e($row[0]).':</td><td class="value">'.$this->e($row[1]).'</td></tr>')->implode('');
         $settings = $this->settings();
         $ministry = $this->e($settings->text('pdf.shared.ministry', ''));
@@ -147,10 +147,7 @@ HTML;
             $date = Carbon::parse($date);
         }
 
-        $months = $this->settings()->list('pdf.shared.uzbek_months', [
-            'yanvar', 'fevral', 'mart', 'aprel', 'may', 'iyun',
-            'iyul', 'avgust', 'sentabr', 'oktabr', 'noyabr', 'dekabr',
-        ]);
+        $months = $this->settings()->list('pdf.shared.uzbek_months');
 
         return ((int) $date->format('j')).' '.($months[(int) $date->format('n') - 1] ?? '').' '.$date->format('Y').' yil.';
     }
@@ -165,9 +162,14 @@ HTML;
         return htmlspecialchars((string) $value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
     }
 
-    private function pdfLabel(string $key, int $index, string $default): string
+    private function pdfLabel(string $key, int $index): string
     {
-        return $this->settings()->list($key)[$index] ?? $default;
+        return $this->settings()->list($key)[$index] ?? $this->missing("{$key}.{$index}");
+    }
+
+    private function missing(string $key): string
+    {
+        return "[missing:{$key}]";
     }
 
     private function settings(): CmsSettingService

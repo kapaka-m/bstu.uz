@@ -81,7 +81,7 @@ class AdmissionPdfService
         $pdf = new \TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
         $pdf->SetCreator($this->settings()->text('pdf.shared.university', ''));
         $pdf->SetAuthor($this->settings()->text('pdf.shared.university', ''));
-        $pdf->SetTitle('Admission Letter '.$data['number']);
+        $pdf->SetTitle($this->settings()->render('pdf.admission.document_title', ['number' => $data['number']], $this->missing('pdf.admission.document_title')));
         $pdf->setPrintHeader(false);
         $pdf->setPrintFooter(false);
         $pdf->SetMargins(18, 14, 18);
@@ -97,14 +97,14 @@ class AdmissionPdfService
     private function html(array $data): string
     {
         $tableRows = [
-            [$this->pdfLabel('pdf.admission.labels', 0, 'Student Name'), $data['name']],
-            [$this->pdfLabel('pdf.admission.labels', 1, 'Gender'), $data['gender']],
-            [$this->pdfLabel('pdf.admission.labels', 2, 'Date of Birth'), $data['birth_date']],
-            [$this->pdfLabel('pdf.admission.labels', 3, 'Nationality'), $data['nationality']],
-            [$this->pdfLabel('pdf.admission.labels', 4, 'Passport No / National ID'), $data['passport']],
-            [$this->pdfLabel('pdf.admission.labels', 5, 'Degree'), $data['degree']],
-            [$this->pdfLabel('pdf.admission.labels', 6, 'Program'), $data['program']],
-            [$this->pdfLabel('pdf.admission.labels', 7, 'Duration of Study'), $data['duration']],
+            [$this->pdfLabel('pdf.admission.labels', 0), $data['name']],
+            [$this->pdfLabel('pdf.admission.labels', 1), $data['gender']],
+            [$this->pdfLabel('pdf.admission.labels', 2), $data['birth_date']],
+            [$this->pdfLabel('pdf.admission.labels', 3), $data['nationality']],
+            [$this->pdfLabel('pdf.admission.labels', 4), $data['passport']],
+            [$this->pdfLabel('pdf.admission.labels', 5), $data['degree']],
+            [$this->pdfLabel('pdf.admission.labels', 6), $data['program']],
+            [$this->pdfLabel('pdf.admission.labels', 7), $data['duration']],
         ];
 
         $rows = collect($tableRows)->map(fn ($row) => '<tr><td class="label">'.$this->e($row[0]).':</td><td class="value">'.$this->e($row[1]).'</td></tr>')->implode('');
@@ -182,7 +182,10 @@ HTML;
         if ($equivalency?->estimated_remaining_duration) {
             $duration = strtoupper((string) $equivalency->estimated_remaining_duration);
             if ($equivalency->proposed_entry_year) {
-                return $duration.' (the student will join the '.$this->ordinal((int) $equivalency->proposed_entry_year).' level of the program)';
+                return $this->settings()->render('pdf.admission.duration_transfer_level', [
+                    'duration' => $duration,
+                    'level' => $this->ordinal((int) $equivalency->proposed_entry_year),
+                ], $this->missing('pdf.admission.duration_transfer_level'));
             }
 
             return $duration;
@@ -196,7 +199,7 @@ HTML;
             return strtoupper($application->program->duration_years.' years');
         }
 
-        return 'TO BE DETERMINED';
+        return $this->settings()->text('pdf.admission.duration_to_be_determined', $this->missing('pdf.admission.duration_to_be_determined'));
     }
 
     private function academicYear(?string $intake, ?int $fallbackYear): string
@@ -222,10 +225,7 @@ HTML;
             $date = Carbon::parse($date);
         }
 
-        $months = $this->settings()->list('pdf.shared.uzbek_months', [
-            'yanvar', 'fevral', 'mart', 'aprel', 'may', 'iyun',
-            'iyul', 'avgust', 'sentabr', 'oktabr', 'noyabr', 'dekabr',
-        ]);
+        $months = $this->settings()->list('pdf.shared.uzbek_months');
 
         return ((int) $date->format('j')).' '.($months[(int) $date->format('n') - 1] ?? '').' '.$date->format('Y').' yil.';
     }
@@ -270,9 +270,14 @@ HTML;
         return htmlspecialchars((string) $value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
     }
 
-    private function pdfLabel(string $key, int $index, string $default): string
+    private function pdfLabel(string $key, int $index): string
     {
-        return $this->settings()->list($key)[$index] ?? $default;
+        return $this->settings()->list($key)[$index] ?? $this->missing("{$key}.{$index}");
+    }
+
+    private function missing(string $key): string
+    {
+        return "[missing:{$key}]";
     }
 
     private function settings(): CmsSettingService

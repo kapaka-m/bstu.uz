@@ -647,6 +647,70 @@
 - `npm.cmd run lint` نجح بدون أخطاء أو تحذيرات.
 - `php-local.bat artisan test` نجح: 5 tests passed.
 - `php-local.bat artisan route:list --path=api/v1 --except-vendor` نجح وأظهر 170 route.
+
+---
+
+## مراجعة Laravel App Backend Dynamic Runtime
+
+تاريخ المراجعة: 2026-07-28
+
+## ملفات Laravel App Backend التي تمت مراجعتها
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\app\Traits`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\app\Services`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\app\Providers`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\app\Models`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\app\Console\Commands`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\app\Http\Controllers`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\app\Http\Middleware`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\app\Http\Requests`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\app\Http\Resources`
+
+## ما تم العثور عليه في Laravel App Backend
+
+- كان `HasTranslations` و `PublicApiController` و `InitialApplicationController` يعتمدون على fallback ثابت للغة `en`.
+- كان `PublicApiController` يحدد اتجاه اللغة بـ `ar => rtl` داخل الكود، وهذا يقفل النظام على لغة واحدة RTL.
+- كانت خدمات PDF تحتوي عناوين وlabels وعبارات افتراضية داخل الكود مثل Admission Letter وStudent Name وشهور أوزبكية.
+- كان `ApplicationWorkflowService` يحتوي أسماء خطوات workflow وحالات وإشعار إصدار القبول كنصوص مباشرة.
+- كان إشعار الإعلان في `AdminCrudController` يحتوي fallback رابط واجهة محلي `http://localhost:5173`.
+- بقية النصوص التي بقيت داخل هذه المجموعة هي نصوص تقنية: أسماء حالات قاعدة البيانات، قواعد validation، مفاتيح settings/translations، أسماء routes، أسماء storage folders، ورسائل أخطاء تقنية.
+
+## تغييرات Laravel App Backend
+
+- تم جعل fallback اللغة في `HasTranslations` من جدول `locales` حسب أول لغة نشطة مرتبة، مع `config` كحل تقني أخير فقط عند غياب جدول/بيانات اللغات.
+- تم جعل `PublicApiController` يقرأ اللغات النشطة واتجاه اللغة من جدول `locales` بدلاً من قائمة ثابتة.
+- تم تحويل fallback ترجمة المحتوى داخل `PublicApiController` و `InitialApplicationController` من `en` إلى fallback ديناميكي من قاعدة البيانات.
+- تم إزالة fallback labels وعناوين PDF من خدمات `AdmissionPdfService`, `EnrollmentCertificatePdfService`, `PrikazPdfService`, و `StudyContractPdfService`.
+- عند نقص إعداد PDF أو workflow يظهر marker تقني مثل `[missing:pdf.admission.labels.0]` بدلاً من إخفاء المشكلة بنص ثابت.
+- تم تحويل أسماء خطوات workflow والحالات وإشعار إصدار القبول إلى مفاتيح في جدول `settings`.
+- تم تعديل `WorkflowConfigurationSeeder` ليستخدم `Setting::firstOrCreate` لإعدادات workflow/pdf حتى لا يكتب فوق تعديلات apanel عند إعادة تشغيله.
+- تم إدخال مفاتيح settings الجديدة في قاعدة البيانات باستخدام `firstOrCreate` فقط، بدون حذف أو overwrite.
+- تم إزالة fallback `localhost` من رابط إشعار الإعلان.
+
+## ربط Laravel App Backend بالبيانات
+
+- جدول اللغات: `locales`.
+- جداول الترجمات العامة: `translation_keys`, `translation_values`.
+- جداول ترجمات المحتوى: جداول `*_translations` الموجودة لكل نموذج مثل departments, programs, pages, videos, footer, settings.
+- جدول إعدادات PDF وworkflow: `settings`.
+- API المستخدم: `/api/v1/locales`, `/api/v1/translations`, `/api/v1/settings/public`, `/api/v1/applications/initial/metadata`, ومسارات `/api/v1/student/*` و `/api/v1/apanel/applications-workflow/*`.
+- إدارة `/apanel/`: اللغات والترجمات من صفحات apanel الخاصة بها، وإعدادات CMS العامة من صفحات `/apanel/cms/*`، وworkflow من `/apanel/applications-workflow`.
+
+## تحقق Laravel App Backend
+
+- `php-local.bat -l` نجح للملفات PHP المعدلة.
+- تم إدخال مفاتيح settings الجديدة بـ `Setting::firstOrCreate` فقط.
+- إعادة المسح لم تجد fallback ثابت `locale = en` أو قائمة لغات ثابتة أو fallback labels داخل خدمات PDF المعدلة.
+- `php-local.bat artisan optimize:clear` نجح.
+- `php-local.bat artisan route:list --path=api/v1 --except-vendor` نجح وأظهر 170 route.
+- `php-local.bat artisan test` نجح: 5 tests passed, 8 assertions.
+- `npm.cmd run lint` نجح.
+- `npm.cmd run build` نجح.
+
+## المتبقي في Laravel App Backend
+
+- `OrganizeStorageCommand.php` يحتوي خريطة مسارات تخزين تقنية لتنظيم الملفات داخل Laravel storage؛ لم يتم تحويلها إلى قاعدة البيانات لأنها ليست محتوى ظاهر للمستخدم.
+- بعض رسائل API التقنية ورسائل validation ما زالت داخل الكود لأنها منطق تحقق وتشخيص، وليست محتوى CMS قابل للتحرير.
 - لا يوجد داخل `apps/web/src/services` استخدام مباشر لـ `VITE_API_BASE_URL`, `http://127.0.0.1`, `DEFAULT_LOCALE`, `fallbackTranslations`, أو `translations.js`.
 
 ---

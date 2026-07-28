@@ -55,13 +55,16 @@ class PublicApiController extends Controller
 {
     use ApiResponse;
 
+    protected ?string $fallbackLocaleCode = null;
+    protected array $activeLocaleCodes = [];
+
     /**
      * Set locale from request query parameter or Accept-Language header.
      */
     protected function getRequestLocale(Request $request): string
     {
         $locale = $request->query('locale') ?: $request->header('Accept-Language');
-        $supported = ['en', 'uz', 'ru', 'ar'];
+        $supported = $this->activeLocaleCodes();
 
         if ($locale) {
             $locale = strtolower(trim(explode(',', $locale)[0]));
@@ -74,7 +77,39 @@ class PublicApiController extends Controller
             }
         }
 
-        return 'en';
+        return $this->fallbackLocale();
+    }
+
+    protected function activeLocaleCodes(): array
+    {
+        if ($this->activeLocaleCodes === []) {
+            $this->activeLocaleCodes = Locale::query()
+                ->where('is_active', true)
+                ->orderBy('sort_order')
+                ->orderBy('id')
+                ->pluck('code')
+                ->filter()
+                ->values()
+                ->all();
+        }
+
+        return $this->activeLocaleCodes;
+    }
+
+    protected function fallbackLocale(): string
+    {
+        if ($this->fallbackLocaleCode === null) {
+            $this->fallbackLocaleCode = $this->activeLocaleCodes()[0]
+                ?? config('app.fallback_locale')
+                ?? config('app.locale');
+        }
+
+        return $this->fallbackLocaleCode;
+    }
+
+    protected function directionForLocale(string $locale): string
+    {
+        return Locale::query()->where('code', $locale)->value('direction') ?: 'ltr';
     }
 
     protected function localizedData(Request $request, object $model, string $locale): array
@@ -116,7 +151,7 @@ class PublicApiController extends Controller
 
         $headName = trim((string) $department->head_name);
         $head = $staffProfiles->first(function (StaffProfile $profile) use ($headName) {
-            return $headName !== '' && trim((string) $profile->translate('full_name', 'en')) === $headName;
+            return $headName !== '' && trim((string) $profile->translate('full_name', $this->fallbackLocale())) === $headName;
         }) ?: $staffProfiles->first(function (StaffProfile $profile) use ($department) {
             return $department->email && $profile->email === $department->email;
         }) ?: $staffProfiles->first();
@@ -175,11 +210,12 @@ class PublicApiController extends Controller
     public function translations(Request $request)
     {
         $locale = $this->getRequestLocale($request);
-        $direction = $locale === 'ar' ? 'rtl' : 'ltr';
+        $fallbackLocale = $this->fallbackLocale();
+        $direction = $this->directionForLocale($locale);
 
-        $dictionary = $this->publicCache($request, 'translations', [$locale], function () use ($locale) {
-            $keys = TranslationKey::with(['values' => function ($q) use ($locale) {
-                $q->whereIn('locale', array_unique([$locale, 'en']));
+        $dictionary = $this->publicCache($request, 'translations', [$locale, $fallbackLocale], function () use ($locale, $fallbackLocale) {
+            $keys = TranslationKey::with(['values' => function ($q) use ($locale, $fallbackLocale) {
+                $q->whereIn('locale', array_unique(array_filter([$locale, $fallbackLocale])));
             }])->get()->sortBy(function ($keyModel) {
                 return substr_count($keyModel->group.'.'.$keyModel->key, '.');
             });
@@ -192,8 +228,8 @@ class PublicApiController extends Controller
                 $valueModel = $keyModel->values->firstWhere('locale', $locale);
                 $value = $valueModel ? $valueModel->value : null;
 
-                if (is_null($value) && $locale !== 'en') {
-                    $fallback = $keyModel->values->where('locale', 'en')->first();
+                if (is_null($value) && $fallbackLocale && $locale !== $fallbackLocale) {
+                    $fallback = $keyModel->values->where('locale', $fallbackLocale)->first();
                     $value = $fallback ? $fallback->value : '';
                 }
 
@@ -295,7 +331,7 @@ class PublicApiController extends Controller
             }
 
             $translation = $page->translations->firstWhere('locale', $locale)
-                ?: $page->translations->firstWhere('locale', 'en')
+                ?: $page->translations->firstWhere('locale', $this->fallbackLocale())
                 ?: $page->translations->first();
 
             return [
@@ -327,7 +363,7 @@ class PublicApiController extends Controller
             }
 
             $translation = $setting->translations->firstWhere('locale', $locale)
-                ?: $setting->translations->firstWhere('locale', 'en');
+                ?: $setting->translations->firstWhere('locale', $this->fallbackLocale());
 
             return array_merge([
                 'key' => $setting->key,
@@ -383,7 +419,7 @@ class PublicApiController extends Controller
 
         return response()->json([
             'locale' => $locale,
-            'direction' => $locale === 'ar' ? 'rtl' : 'ltr',
+            'direction' => $this->directionForLocale($locale),
             'data' => $items,
         ]);
     }
@@ -402,7 +438,7 @@ class PublicApiController extends Controller
 
         return response()->json([
             'locale' => $locale,
-            'direction' => $locale === 'ar' ? 'rtl' : 'ltr',
+            'direction' => $this->directionForLocale($locale),
             'data' => $this->formatAdministrationProfile($request, $profile, $locale),
         ]);
     }
@@ -437,7 +473,7 @@ class PublicApiController extends Controller
             }
 
             $translation = $setting->translations->firstWhere('locale', $locale)
-                ?: $setting->translations->firstWhere('locale', 'en');
+                ?: $setting->translations->firstWhere('locale', $this->fallbackLocale());
 
             return array_merge([
                 'key' => $setting->key,
@@ -485,7 +521,7 @@ class PublicApiController extends Controller
             }
 
             $translation = $setting->translations->firstWhere('locale', $locale)
-                ?: $setting->translations->firstWhere('locale', 'en');
+                ?: $setting->translations->firstWhere('locale', $this->fallbackLocale());
 
             $categories = Blog::where('is_published', true)
                 ->whereNotNull('category')
@@ -495,7 +531,7 @@ class PublicApiController extends Controller
                 ->groupBy('category')
                 ->map(function ($items, string $category) use ($locale) {
                     $translation = $items->first()->translations->firstWhere('locale', $locale)
-                        ?: $items->first()->translations->firstWhere('locale', 'en');
+                        ?: $items->first()->translations->firstWhere('locale', $this->fallbackLocale());
 
                     return [
                         'value' => $category,
@@ -550,7 +586,7 @@ class PublicApiController extends Controller
     protected function formatFooterWeb(WebFooter $footer, string $locale): array
     {
         $translation = $footer->translations->firstWhere('locale', $locale)
-            ?: $footer->translations->firstWhere('locale', 'en');
+            ?: $footer->translations->firstWhere('locale', $this->fallbackLocale());
 
         $usefulLabels = $translation?->useful_link_labels ?: [];
         $facultyLabels = $translation?->faculty_link_labels ?: [];
@@ -622,7 +658,7 @@ class PublicApiController extends Controller
 
             return [
                 'locale' => $locale,
-                'direction' => $locale === 'ar' ? 'rtl' : 'ltr',
+                'direction' => $this->directionForLocale($locale),
                 'data' => $items->map(fn (MenuItem $item) => $this->formatMenuItem($item, $locale))->values()->all(),
             ];
         });
@@ -672,7 +708,7 @@ class PublicApiController extends Controller
     protected function formatMenuItem(MenuItem $item, string $locale): array
     {
         $translation = $item->translations->firstWhere('locale', $locale)
-            ?: $item->translations->firstWhere('locale', 'en')
+            ?: $item->translations->firstWhere('locale', $this->fallbackLocale())
             ?: $item->translations->first();
 
         return [
@@ -814,7 +850,7 @@ class PublicApiController extends Controller
 
             return [
                 'locale' => $locale,
-                'direction' => $locale === 'ar' ? 'rtl' : 'ltr',
+                'direction' => $this->directionForLocale($locale),
                 'data' => $data,
             ];
         });
@@ -875,7 +911,7 @@ class PublicApiController extends Controller
 
         return response()->json([
             'locale' => $locale,
-            'direction' => $locale === 'ar' ? 'rtl' : 'ltr',
+            'direction' => $this->directionForLocale($locale),
             'data' => $data,
         ]);
     }
@@ -952,7 +988,7 @@ class PublicApiController extends Controller
 
         return response()->json([
             'locale' => $locale,
-            'direction' => $locale === 'ar' ? 'rtl' : 'ltr',
+            'direction' => $this->directionForLocale($locale),
             'data' => $data,
         ]);
     }
@@ -995,7 +1031,7 @@ class PublicApiController extends Controller
 
         return response()->json([
             'locale' => $locale,
-            'direction' => $locale === 'ar' ? 'rtl' : 'ltr',
+            'direction' => $this->directionForLocale($locale),
             'data' => $items,
             'meta' => [
                 'current_page' => $news->currentPage(),
@@ -1026,7 +1062,7 @@ class PublicApiController extends Controller
 
         return response()->json([
             'locale' => $locale,
-            'direction' => $locale === 'ar' ? 'rtl' : 'ltr',
+            'direction' => $this->directionForLocale($locale),
             'data' => $this->formatNewsItem($request, $item->fresh('translations'), $locale),
         ]);
     }
@@ -1082,7 +1118,7 @@ class PublicApiController extends Controller
 
         return response()->json([
             'locale' => $locale,
-            'direction' => $locale === 'ar' ? 'rtl' : 'ltr',
+            'direction' => $this->directionForLocale($locale),
             'data' => $items,
             'meta' => [
                 'current_page' => $posts->currentPage(),
@@ -1115,7 +1151,7 @@ class PublicApiController extends Controller
 
         return response()->json([
             'locale' => $locale,
-            'direction' => $locale === 'ar' ? 'rtl' : 'ltr',
+            'direction' => $this->directionForLocale($locale),
             'data' => $this->formatBlogItem($request, $post->fresh('translations'), $locale),
         ]);
     }
@@ -1124,7 +1160,7 @@ class PublicApiController extends Controller
     {
         $data = $this->localizedData($request, $item, $locale);
         $translation = $item->translations->firstWhere('locale', $locale)
-            ?: $item->translations->firstWhere('locale', 'en');
+            ?: $item->translations->firstWhere('locale', $this->fallbackLocale());
 
         $data['slug'] = $item->slug;
         $data['author'] = $translation?->author ?: $item->author;
@@ -1226,7 +1262,7 @@ class PublicApiController extends Controller
             }
 
             $translation = $setting->translations->firstWhere('locale', $locale)
-                ?: $setting->translations->firstWhere('locale', 'en');
+                ?: $setting->translations->firstWhere('locale', $this->fallbackLocale());
 
             return array_merge([
                 'key' => $setting->key,
@@ -1303,7 +1339,7 @@ class PublicApiController extends Controller
 
         return response()->json([
             'locale' => $locale,
-            'direction' => $locale === 'ar' ? 'rtl' : 'ltr',
+            'direction' => $this->directionForLocale($locale),
             'data' => $items,
             'meta' => [
                 'current_page' => $announcements->currentPage(),
@@ -1328,7 +1364,7 @@ class PublicApiController extends Controller
 
         return response()->json([
             'locale' => $locale,
-            'direction' => $locale === 'ar' ? 'rtl' : 'ltr',
+            'direction' => $this->directionForLocale($locale),
             'data' => $this->formatAnnouncementItem($request, $ann->fresh('translations'), $locale),
         ]);
     }
@@ -1337,7 +1373,7 @@ class PublicApiController extends Controller
     {
         $data = $this->localizedData($request, $item, $locale);
         $translation = $item->translations->firstWhere('locale', $locale)
-            ?: $item->translations->firstWhere('locale', 'en');
+            ?: $item->translations->firstWhere('locale', $this->fallbackLocale());
 
         $data['id'] = $item->id;
         $data['slug'] = $item->slug;
@@ -1385,7 +1421,7 @@ class PublicApiController extends Controller
 
         return response()->json([
             'locale' => $locale,
-            'direction' => $locale === 'ar' ? 'rtl' : 'ltr',
+            'direction' => $this->directionForLocale($locale),
             'data' => $payload,
         ]);
     }
@@ -1411,7 +1447,7 @@ class PublicApiController extends Controller
 
         return response()->json([
             'locale' => $locale,
-            'direction' => $locale === 'ar' ? 'rtl' : 'ltr',
+            'direction' => $this->directionForLocale($locale),
             'data' => $payload,
         ]);
     }
@@ -1444,7 +1480,7 @@ class PublicApiController extends Controller
 
         return response()->json([
             'locale' => $locale,
-            'direction' => $locale === 'ar' ? 'rtl' : 'ltr',
+            'direction' => $this->directionForLocale($locale),
             'data' => $payload,
         ]);
     }
@@ -1463,7 +1499,7 @@ class PublicApiController extends Controller
             }
 
             $translation = $setting->translations->firstWhere('locale', $locale)
-                ?: $setting->translations->firstWhere('locale', 'en');
+                ?: $setting->translations->firstWhere('locale', $this->fallbackLocale());
 
             return array_merge([
                 'key' => $setting->key,
@@ -1616,7 +1652,7 @@ class PublicApiController extends Controller
     {
         $data = $this->localizedData($request, $video, $locale);
         $translation = $video->translations->firstWhere('locale', $locale)
-            ?: $video->translations->firstWhere('locale', 'en');
+            ?: $video->translations->firstWhere('locale', $this->fallbackLocale());
         $thumbnail = $video->thumbnail;
         $url = $video->url;
 
@@ -1657,7 +1693,7 @@ class PublicApiController extends Controller
 
         return response()->json([
             'locale' => $locale,
-            'direction' => $locale === 'ar' ? 'rtl' : 'ltr',
+            'direction' => $this->directionForLocale($locale),
             'data' => $this->localizedStaffList($request, $staff, $locale),
         ]);
     }
@@ -1699,7 +1735,7 @@ class PublicApiController extends Controller
 
         return response()->json([
             'locale' => $locale,
-            'direction' => $locale === 'ar' ? 'rtl' : 'ltr',
+            'direction' => $this->directionForLocale($locale),
             'data' => $data,
         ]);
     }
@@ -1787,7 +1823,7 @@ class PublicApiController extends Controller
     protected function formatGreenCampusStat(GreenCampusStat $stat, string $locale): array
     {
         $translation = $stat->translations->where('locale', $locale)->first()
-            ?: $stat->translations->where('locale', 'en')->first();
+            ?: $stat->translations->where('locale', $this->fallbackLocale())->first();
 
         return [
             'id' => $stat->id,
@@ -1815,7 +1851,7 @@ class PublicApiController extends Controller
             }
 
             $translation = $setting->translations->where('locale', $locale)->first()
-                ?: $setting->translations->where('locale', 'en')->first();
+                ?: $setting->translations->where('locale', $this->fallbackLocale())->first();
 
             if (! $translation) {
                 return null;
@@ -1911,7 +1947,7 @@ class PublicApiController extends Controller
     protected function formatGreenCampusArticle(GreenCampusArticle $article, string $locale): array
     {
         $translation = $article->translations->where('locale', $locale)->first()
-            ?: $article->translations->where('locale', 'en')->first();
+            ?: $article->translations->where('locale', $this->fallbackLocale())->first();
 
         return [
             'id' => $article->id,
@@ -1974,7 +2010,7 @@ class PublicApiController extends Controller
     protected function formatUniversityCenter(UniversityCenter $center, string $locale): array
     {
         $translation = $center->translations->where('locale', $locale)->first()
-            ?: $center->translations->where('locale', 'en')->first();
+            ?: $center->translations->where('locale', $this->fallbackLocale())->first();
 
         return [
             'id' => $center->id,
@@ -2009,7 +2045,7 @@ class PublicApiController extends Controller
             }
 
             $translation = $setting->translations->firstWhere('locale', $locale)
-                ?: $setting->translations->firstWhere('locale', 'en');
+                ?: $setting->translations->firstWhere('locale', $this->fallbackLocale());
 
             return array_merge([
                 'id' => $setting->id,

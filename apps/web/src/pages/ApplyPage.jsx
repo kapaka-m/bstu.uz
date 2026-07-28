@@ -55,7 +55,8 @@ const initialForm = {
 };
 
 const cleanPhone = (value) => value.replace(/[^\d+]/g, "");
-const titleCase = (value) => String(value || "").replace(/_/g, " ").replace(/\b\w/g, (char) => char.toUpperCase());
+const optionKey = (group, value) =>
+  `initialApplication.options.${group}.${String(value || "").replace(/[^a-zA-Z0-9]+/g, "_")}`;
 
 function Field({ id, label, error, children, hint }) {
   return (
@@ -128,7 +129,7 @@ function Row({ label, value }) {
 }
 
 export default function ApplyPage() {
-  const { t: translate, language } = useLanguage();
+  const { t: translate, language, isRtl } = useLanguage();
   const t = useMemo(
     () =>
       new Proxy(
@@ -139,7 +140,7 @@ export default function ApplyPage() {
       ),
     [translate],
   );
-  const isRtl = language === "ar";
+
   const firstErrorRef = useRef(null);
   const [step, setStep] = useState(0);
   const [direction, setDirection] = useState(1);
@@ -195,6 +196,7 @@ export default function ApplyPage() {
   const selectedProgram = programs.find((program) => String(program.id) === String(form.program_id));
   const selectedProgramEducationTypes = selectedProgram?.available_education_types || [];
   const selectedProgramLanguages = selectedProgram?.available_study_languages || [];
+  const optionLabel = (group, value) => translate(optionKey(group, value));
   const passwordScore = [
     form.password.length >= 8,
     /[A-Za-z]/.test(form.password),
@@ -385,15 +387,15 @@ export default function ApplyPage() {
                 <Select id="country_of_birth" label={t.countryBirth} value={form.country_of_birth} onChange={(e) => setValue("country_of_birth", e.target.value)} error={errors.country_of_birth} options={(metadata?.countries || []).map((x) => ({ value: x, label: x }))} />
                 <Input id="place_of_birth" label={t.placeBirth} value={form.place_of_birth} onChange={(e) => setValue("place_of_birth", e.target.value)} error={errors.place_of_birth} />
                 <Select id="nationality" label={t.nationality} value={form.nationality} onChange={(e) => setValue("nationality", e.target.value)} error={errors.nationality} options={(metadata?.nationalities || []).map((x) => ({ value: x, label: x }))} />
-                <Select id="gender" label={t.gender} value={form.gender} onChange={(e) => setValue("gender", e.target.value)} error={errors.gender} options={(metadata?.genders || []).map((x) => ({ value: x, label: titleCase(x) }))} />
+                <Select id="gender" label={t.gender} value={form.gender} onChange={(e) => setValue("gender", e.target.value)} error={errors.gender} options={(metadata?.genders || []).map((x) => ({ value: x, label: optionLabel("gender", x) }))} />
                 <Input id="passport_number" label={t.passportNumber} value={form.passport_number} onChange={(e) => setValue("passport_number", e.target.value)} error={errors.passport_number} />
-                <Select id="passport_type" label={t.passportType} value={form.passport_type} onChange={(e) => setValue("passport_type", e.target.value)} error={errors.passport_type} options={(metadata?.passport_types || []).map((x) => ({ value: x, label: titleCase(x) }))} />
+                <Select id="passport_type" label={t.passportType} value={form.passport_type} onChange={(e) => setValue("passport_type", e.target.value)} error={errors.passport_type} options={(metadata?.passport_types || []).map((x) => ({ value: x, label: optionLabel("passport_type", x) }))} />
                 <Input id="passport_issue_date" label={t.issueDate} type="date" max={new Date().toISOString().slice(0, 10)} value={form.passport_issue_date} onChange={(e) => setValue("passport_issue_date", e.target.value)} error={errors.passport_issue_date} />
                 <Input id="passport_expiry_date" label={t.expiryDate} type="date" value={form.passport_expiry_date} onChange={(e) => setValue("passport_expiry_date", e.target.value)} error={errors.passport_expiry_date} />
                 <Select id="passport_issuing_country" label={t.issuingCountry} value={form.passport_issuing_country} onChange={(e) => setValue("passport_issuing_country", e.target.value)} error={errors.passport_issuing_country} options={(metadata?.countries || []).map((x) => ({ value: x, label: x }))} />
                 <Input id="passport_place_of_issue" label={t.placeIssue} value={form.passport_place_of_issue} onChange={(e) => setValue("passport_place_of_issue", e.target.value)} error={errors.passport_place_of_issue} />
                 <Input id="primary_phone" label={t.primaryPhone} value={form.primary_phone} onChange={(e) => setValue("primary_phone", e.target.value)} error={errors.primary_phone} icon={Phone} placeholder="+998901234567" />
-                <Select id="preferred_messenger" label={t.messenger} value={form.preferred_messenger} onChange={(e) => setValue("preferred_messenger", e.target.value)} error={errors.preferred_messenger} options={["whatsapp", "telegram", "both"].map((x) => ({ value: x, label: titleCase(x) }))} />
+                <Select id="preferred_messenger" label={t.messenger} value={form.preferred_messenger} onChange={(e) => setValue("preferred_messenger", e.target.value)} error={errors.preferred_messenger} options={(metadata?.messengers || []).map((x) => ({ value: x, label: optionLabel("messenger", x) }))} />
                 {(form.preferred_messenger === "telegram" || form.preferred_messenger === "both") && <Input id="telegram_username" label={t.telegram} value={form.telegram_username} onChange={(e) => setValue("telegram_username", e.target.value)} error={errors.telegram_username} />}
                 <Input id="alternative_phone" label={t.alternativePhone} value={form.alternative_phone} onChange={(e) => setValue("alternative_phone", e.target.value)} error={errors.alternative_phone} icon={Phone} placeholder="+998901234568" />
               </div>
@@ -401,8 +403,8 @@ export default function ApplyPage() {
 
             {step === 1 && (
               <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-                <Select id="degree_level" label={t.degree} value={form.degree_level} onChange={(e) => setValue("degree_level", e.target.value)} error={errors.degree_level} options={(metadata?.degrees || []).map((x) => ({ value: x, label: titleCase(x === "phd" ? "Doctorate" : x) }))} />
-                <Select id="student_type" label={t.studentType} value={form.student_type} onChange={(e) => setValue("student_type", e.target.value)} error={errors.student_type} options={(metadata?.student_types || []).map((x) => ({ value: x, label: x === "new" ? "New Student" : "Transfer Student" }))} />
+                <Select id="degree_level" label={t.degree} value={form.degree_level} onChange={(e) => setValue("degree_level", e.target.value)} error={errors.degree_level} options={(metadata?.degrees || []).map((x) => ({ value: x, label: optionLabel("degree_level", x) }))} />
+                <Select id="student_type" label={t.studentType} value={form.student_type} onChange={(e) => setValue("student_type", e.target.value)} error={errors.student_type} options={(metadata?.student_types || []).map((x) => ({ value: x, label: optionLabel("student_type", x) }))} />
                 <Select id="faculty_id" label={t.faculty} value={form.faculty_id} onChange={(e) => setValue("faculty_id", e.target.value)} error={errors.faculty_id} disabled={!form.degree_level} options={filteredFaculties.map((x) => ({ value: x.id, label: x.name }))} />
                 <Select id="program_id" label={t.program} value={form.program_id} onChange={(e) => setValue("program_id", e.target.value)} error={errors.program_id} disabled={!form.faculty_id} options={availablePrograms.map((x) => ({ value: x.id, label: `${x.code} - ${x.name}` }))} />
                 <Select
@@ -412,7 +414,7 @@ export default function ApplyPage() {
                   onChange={(e) => setValue("education_type", e.target.value)}
                   error={errors.education_type}
                   disabled={!selectedProgram}
-                  options={selectedProgramEducationTypes.map((x) => ({ value: x, label: titleCase(x) }))}
+                  options={selectedProgramEducationTypes.map((x) => ({ value: x, label: optionLabel("education_type", x) }))}
                 />
                 <Select
                   id="study_language"
@@ -421,12 +423,12 @@ export default function ApplyPage() {
                   onChange={(e) => setValue("study_language", e.target.value)}
                   error={errors.study_language}
                   disabled={!selectedProgram}
-                  options={selectedProgramLanguages.map((x) => ({ value: x, label: titleCase(x) }))}
+                  options={selectedProgramLanguages.map((x) => ({ value: x, label: optionLabel("study_language", x) }))}
                 />
-                <Select id="intended_intake" label={t.intake} value={form.intended_intake} onChange={(e) => setValue("intended_intake", e.target.value)} error={errors.intended_intake} options={(metadata?.intakes || []).map((x) => ({ value: x, label: titleCase(x) }))} />
+                <Select id="intended_intake" label={t.intake} value={form.intended_intake} onChange={(e) => setValue("intended_intake", e.target.value)} error={errors.intended_intake} options={(metadata?.intakes || []).map((x) => ({ value: x, label: x }))} />
                 <div className="rounded-2xl border border-gray-100 bg-gray-50 p-4">
                   <p className="text-[11px] font-extrabold uppercase tracking-wider text-gray-400">{t.duration}</p>
-                  <p className="mt-1 text-sm font-extrabold text-navy">{selectedProgram?.duration_years ? `${selectedProgram.duration_years} years` : "--"}</p>
+                  <p className="mt-1 text-sm font-extrabold text-navy">{selectedProgram?.duration_years ? `${selectedProgram.duration_years} ${t.yearsLabel}` : "--"}</p>
                 </div>
                 {form.student_type === "transfer" && <div className="md:col-span-2 rounded-2xl border border-amber-100 bg-amber-50 p-4 text-sm font-bold text-amber-700">{t.transferNote}</div>}
               </div>
@@ -453,16 +455,16 @@ export default function ApplyPage() {
                   <Row label={t.nationality} value={form.nationality} />
                   <Row label={t.passportNumber} value={form.passport_number} />
                   <Row label={t.primaryPhone} value={form.primary_phone} />
-                  <Row label={t.messenger} value={titleCase(form.preferred_messenger)} />
+                  <Row label={t.messenger} value={optionLabel("messenger", form.preferred_messenger)} />
                 </ReviewBox>
                 <ReviewBox title={t.academicInfo} action={{ label: t.editAcademic, onClick: () => setStep(1) }}>
-                  <Row label={t.degree} value={titleCase(form.degree_level)} />
-                  <Row label={t.studentType} value={form.student_type === "transfer" ? "Transfer Student" : "New Student"} />
-                  <Row label={t.educationType} value={titleCase(form.education_type)} />
+                  <Row label={t.degree} value={optionLabel("degree_level", form.degree_level)} />
+                  <Row label={t.studentType} value={optionLabel("student_type", form.student_type)} />
+                  <Row label={t.educationType} value={optionLabel("education_type", form.education_type)} />
                   <Row label={t.faculty} value={selectedProgram?.faculty?.name} />
                   <Row label={t.program} value={selectedProgram?.name} />
-                  <Row label={t.language} value={titleCase(form.study_language)} />
-                  <Row label={t.intake} value={titleCase(form.intended_intake)} />
+                  <Row label={t.language} value={optionLabel("study_language", form.study_language)} />
+                  <Row label={t.intake} value={form.intended_intake} />
                 </ReviewBox>
                 <ReviewBox title={t.accountInfo} action={{ label: t.editLogin, onClick: () => document.getElementById("email")?.focus() }}>
                   <Row label={t.email} value={form.email} />

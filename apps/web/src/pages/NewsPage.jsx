@@ -7,7 +7,7 @@ import { newsService } from "../services/newsService";
 export default function NewsPage() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { language } = useLanguage();
+  const { language, isRtl } = useLanguage();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [newsItems, setNewsItems] = useState([]);
@@ -195,7 +195,7 @@ export default function NewsPage() {
                       >
                         {settings?.read_details_label || ""}
                         <ArrowRight
-                          className={`w-4 h-4 transition-transform duration-300 ${language === "ar" ? "rotate-180 group-hover:-translate-x-0.5" : "group-hover:translate-x-0.5"}`}
+                          className={`w-4 h-4 transition-transform duration-300 ${isRtl ? "rotate-180 group-hover:-translate-x-0.5" : "group-hover:translate-x-0.5"}`}
                         />
                       </Link>
                     </div>

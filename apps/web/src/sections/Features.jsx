@@ -7,7 +7,7 @@ import { aboutService } from "../services/aboutService";
 import { publicAssetUrl } from "../lib/api";
 
 export default function Features() {
-  const { language } = useLanguage();
+  const { language, isRtl } = useLanguage();
   const [aboutPage, setAboutPage] = useState(null);
 
   useEffect(() => {
@@ -58,9 +58,7 @@ export default function Features() {
           <div className="w-16 h-1 bg-primary mx-auto mt-4 rounded-full" />
         </div>
 
-        {/* Row 1: About BSTU & Main Image */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-20">
-          {/* Left Column (About BSTU Text) */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -102,7 +100,7 @@ export default function Features() {
                 className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-white px-7 py-3 rounded-xl font-extrabold text-xs transition-all shadow-md shadow-primary/20 hover:shadow-primary/30 hover:-translate-y-0.5"
               >
                 {content.hero?.campusBtn || ""}
-                <ArrowRight className={`w-3.5 h-3.5 transition-transform duration-300 ${language === 'ar' ? 'rotate-180' : ''}`} />
+                <ArrowRight className={`w-3.5 h-3.5 transition-transform duration-300 ${isRtl ? 'rotate-180' : ''}`} />
               </Link>
             </div>
           </motion.div>

@@ -38,16 +38,9 @@ export default function GreenCampusPage() {
     const parsed = new Date(dateValue);
     if (Number.isNaN(parsed.getTime())) return dateValue;
 
-    const locale =
-      language === "ru"
-        ? "ru-RU"
-        : language === "ar"
-          ? "ar-EG-u-ca-gregory-nu-latn"
-          : "en-US";
-
-    return new Intl.DateTimeFormat(locale, {
+    return new Intl.DateTimeFormat(language || undefined, {
       day: "numeric",
-      month: language === "ar" ? "long" : "short",
+      month: "short",
       year: "numeric",
     }).format(parsed);
   };

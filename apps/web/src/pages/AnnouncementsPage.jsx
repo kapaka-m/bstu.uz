@@ -6,7 +6,7 @@ import { useLanguage } from "../context/LanguageContext";
 import { announcementService } from "../services/announcementService";
 
 export default function AnnouncementsPage() {
-  const { language } = useLanguage();
+  const { language, isRtl } = useLanguage();
   const location = useLocation();
   const [announcements, setAnnouncements] = useState([]);
   const [settings, setSettings] = useState(null);
@@ -49,8 +49,7 @@ export default function AnnouncementsPage() {
     if (!value) return "";
     const date = new Date(value);
     if (Number.isNaN(date.getTime())) return value;
-    const localeMap = { ar: "ar", uz: "uz-Latn-UZ", ru: "ru-RU", en: "en-US" };
-    return new Intl.DateTimeFormat(localeMap[language] || "en-US", {
+    return new Intl.DateTimeFormat(language || undefined, {
       year: "numeric",
       month: "short",
       day: "2-digit",
@@ -159,7 +158,7 @@ export default function AnnouncementsPage() {
                     >
                       {importantSlugs.has(item.slug) && (
                         <div
-                          className={`absolute top-4 ${language === "ar" ? "left-4" : "right-4"} z-20 bg-amber-500 text-white text-[9px] font-extrabold uppercase px-2 py-0.5 rounded-md shadow-xs flex items-center gap-1`}
+                          className={`absolute top-4 ${isRtl ? "left-4" : "right-4"} z-20 bg-amber-500 text-white text-[9px] font-extrabold uppercase px-2 py-0.5 rounded-md shadow-xs flex items-center gap-1`}
                         >
                           <Sparkles className="w-2.5 h-2.5" />
                           {settings?.important_label || ""}
@@ -173,7 +172,7 @@ export default function AnnouncementsPage() {
                           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                         />
                         <span
-                          className={`absolute bottom-3 ${language === "ar" ? "right-3" : "left-3"} bg-navy/80 backdrop-blur-xs text-white text-[10px] font-bold px-2.5 py-1 rounded-lg`}
+                          className={`absolute bottom-3 ${isRtl ? "right-3" : "left-3"} bg-navy/80 backdrop-blur-xs text-white text-[10px] font-bold px-2.5 py-1 rounded-lg`}
                         >
                           {item.category_label}
                         </span>
@@ -208,7 +207,7 @@ export default function AnnouncementsPage() {
                           >
                             {settings?.read_details_label || ""}
                             <ArrowRight
-                              className={`w-4 h-4 transition-transform duration-300 ${language === "ar" ? "rotate-180 group-hover:-translate-x-1" : "group-hover:translate-x-1"}`}
+                              className={`w-4 h-4 transition-transform duration-300 ${isRtl ? "rotate-180 group-hover:-translate-x-1" : "group-hover:translate-x-1"}`}
                             />
                           </Link>
                         </div>

@@ -93,7 +93,7 @@ const iconMap = {
 };
 
 export default function Services({ limit }) {
-  const { language } = useLanguage();
+  const { language, isRtl } = useLanguage();
   const [settings, setSettings] = useState({});
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -156,7 +156,7 @@ export default function Services({ limit }) {
           >
             {service.action_label}
             <span
-              className={`transition-transform duration-300 ${language === "ar" ? "rotate-180 group-hover:-translate-x-1" : "group-hover:translate-x-1"}`}
+              className={`transition-transform duration-300 ${isRtl ? "rotate-180 group-hover:-translate-x-1" : "group-hover:translate-x-1"}`}
             >
               →
             </span>
@@ -197,7 +197,7 @@ export default function Services({ limit }) {
           limit ? (
             <Swiper
               key={language}
-              dir={language === "ar" ? "rtl" : "ltr"}
+              dir={isRtl ? "rtl" : "ltr"}
               modules={[Autoplay]}
               spaceBetween={28}
               slidesPerView={1}
@@ -231,7 +231,7 @@ export default function Services({ limit }) {
             >
               {settings.view_all_label || ""}
               <ArrowRight
-                className={`w-4 h-4 transition-transform ${language === "ar" ? "rotate-180" : ""}`}
+                className={`w-4 h-4 transition-transform ${isRtl ? "rotate-180" : ""}`}
               />
             </Link>
           </div>

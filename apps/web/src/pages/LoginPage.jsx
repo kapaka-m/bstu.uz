@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
 
 export default function LoginPage() {
-  const { t, language, logoSrc } = useLanguage();
+  const { t, logoSrc, isRtl } = useLanguage();
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -110,7 +110,7 @@ export default function LoginPage() {
           <span>{t("auth.dontHaveAccount")} </span>
           <Link to="/register" className="text-primary hover:underline inline-flex items-center gap-0.5 font-bold">
             {t("auth.signUp")} 
-            <ArrowRight className={`w-3.5 h-3.5 transition-transform ${language === 'ar' ? 'rotate-180' : ''}`} />
+            <ArrowRight className={`w-3.5 h-3.5 transition-transform ${isRtl ? 'rotate-180' : ''}`} />
           </Link>
         </div>
       </motion.div>

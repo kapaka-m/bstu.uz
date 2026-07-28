@@ -170,7 +170,6 @@ const shortText = (text, max = 260) => {
 
 const normalizeText = (text) =>
   String(text || "")
-    .replace(/public\\assets\\img\\/g, "/assets/img/")
     .replace(/\\/g, "/")
     .replace(/\n{3,}/g, "\n\n")
     .trim();
@@ -449,7 +448,7 @@ function DepartmentProgramList({ programs, labels, t }) {
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {items.map((item, index) => {
-              const programName = item.id ? t(`programs.${item.id}.name`, item.name) : item.name;
+              const programName = item.name || (item.id ? t(`programs.${item.id}.name`) : "");
               const content = (
                 <>
                   <div className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
@@ -627,8 +626,8 @@ function DepartmentGallery({ images, labels }) {
 
 export default function DepartmentPage() {
   const { id } = useParams();
-  const { t, language } = useLanguage();
-  const isRtl = language === "ar";
+  const { t, language, isRtl } = useLanguage();
+
   const [department, setDepartment] = useState(null);
   const [departmentList, setDepartmentList] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -684,7 +683,9 @@ export default function DepartmentPage() {
         const normalized = normalizeApiDepartment(departmentData);
         setDepartment(normalized);
         setDepartmentList((departmentsData || []).filter((item) => item.faculty_id === normalized?.faculty_id));
-        document.title = `${normalized?.name || "Department"} | BSTU`;
+        if (normalized?.name) {
+          document.title = normalized.name;
+        }
       })
       .catch(() => {
         if (!active) return;

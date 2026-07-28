@@ -39,7 +39,7 @@ const ABOUT_ICON_MAP = {
 };
 
 export default function AboutPage() {
-  const { t, language } = useLanguage();
+  const { t, language, isRtl } = useLanguage();
   const [aboutPage, setAboutPage] = useState(null);
   const [rectorProfile, setRectorProfile] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -97,7 +97,7 @@ export default function AboutPage() {
   const heroCampusUrl = aboutPage?.hero_campus_url || "";
   const rectorProfileSlug = aboutPage?.rector_profile_slug || "";
 
-  const isRtl = language === "ar";
+
 
   if (loading) {
     return (

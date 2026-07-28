@@ -15,7 +15,7 @@ const HOME_ICON_MAP = {
 };
 
 export default function News() {
-  const { language } = useLanguage();
+  const { language, isRtl } = useLanguage();
   const [homeNews, setHomeNews] = useState([]);
   const [settings, setSettings] = useState(null);
 
@@ -107,7 +107,7 @@ export default function News() {
           >
             {settings?.read_details_label || ""}
             <ArrowRight
-              className={`w-3.5 h-3.5 transition-transform duration-300 ${language === "ar" ? "rotate-180 group-hover:-translate-x-0.5" : "group-hover:translate-x-0.5"}`}
+              className={`w-3.5 h-3.5 transition-transform duration-300 ${isRtl ? "rotate-180 group-hover:-translate-x-0.5" : "group-hover:translate-x-0.5"}`}
             />
           </Link>
         </div>
@@ -137,7 +137,7 @@ export default function News() {
         <div className="lg:hidden">
           <Swiper
             key={language}
-            dir={language === "ar" ? "rtl" : "ltr"}
+            dir={isRtl ? "rtl" : "ltr"}
             modules={[Autoplay]}
             spaceBetween={24}
             slidesPerView={1}
@@ -164,7 +164,7 @@ export default function News() {
           >
             {settings?.view_all_label || ""}
             <ArrowRight
-              className={`w-4 h-4 transition-transform ${language === "ar" ? "rotate-180" : ""}`}
+              className={`w-4 h-4 transition-transform ${isRtl ? "rotate-180" : ""}`}
             />
           </Link>
         </div>

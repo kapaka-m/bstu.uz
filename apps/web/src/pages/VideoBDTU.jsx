@@ -29,14 +29,7 @@ export default function VideoBDTU() {
   const formatViews = (viewsCount) => {
     const numericValue = Number(viewsCount || 0);
 
-    const localeByLang = {
-      en: "en-US",
-      uz: "uz-UZ",
-      ru: "ru-RU",
-      ar: "ar",
-    };
-
-    const locale = localeByLang[language] || "en-US";
+    const locale = language || undefined;
     const formattedNumber = new Intl.NumberFormat(locale, {
       notation: numericValue >= 1000 ? "compact" : "standard",
       maximumFractionDigits: 1,
@@ -61,9 +54,7 @@ export default function VideoBDTU() {
           ? Math.round(days / 30)
           : Math.round(days / 365);
     const value = -count;
-    const localeByLang = { en: "en-US", uz: "uz-UZ", ru: "ru-RU", ar: "ar" };
-
-    return new Intl.RelativeTimeFormat(localeByLang[language] || language, {
+    return new Intl.RelativeTimeFormat(language || undefined, {
       numeric: "auto",
     }).format(value, unit);
   };
@@ -470,7 +461,7 @@ export default function VideoBDTU() {
                               <span className="text-xs text-gray-400 font-semibold">
                                 {comment.date
                                   ? new Date(comment.date).toLocaleDateString(
-                                      language === "ar" ? "ar" : language,
+                                      language || undefined,
                                     )
                                   : ""}
                               </span>

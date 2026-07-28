@@ -34,7 +34,7 @@ const labelText = (value, fallback) => asText(value, asText(fallback));
 export default function BlogDetails() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { language } = useLanguage();
+  const { language, isRtl } = useLanguage();
   const { user, isAuthenticated, loading: authLoading } = useAuth();
   const [post, setPost] = useState(null);
   const [settings, setSettings] = useState({});
@@ -299,32 +299,32 @@ export default function BlogDetails() {
 
             {/* Author Section */}
             <div
-              dir={language === "ar" ? "ltr" : undefined}
-              className={`bg-primary-light border border-gray-100 p-8 rounded-3xl flex gap-6 ${language === "ar" ? "flex-row items-center justify-end text-right" : "flex-col sm:flex-row items-center sm:items-start"}`}
+              dir={isRtl ? "ltr" : undefined}
+              className={`bg-primary-light border border-gray-100 p-8 rounded-3xl flex gap-6 ${isRtl ? "flex-row items-center justify-end text-right" : "flex-col sm:flex-row items-center sm:items-start"}`}
             >
               {post.authorImage ? (
                 <img
                   src={post.authorImage}
                   alt={post.author}
-                  className={`w-20 h-20 rounded-full object-cover border-2 border-white shadow-md shrink-0 ${language === "ar" ? "order-2" : ""}`}
+                  className={`w-20 h-20 rounded-full object-cover border-2 border-white shadow-md shrink-0 ${isRtl ? "order-2" : ""}`}
                 />
               ) : (
                 <div
-                  className={`w-20 h-20 rounded-full border-2 border-white shadow-md shrink-0 bg-white text-primary flex items-center justify-center ${language === "ar" ? "order-2" : ""}`}
+                  className={`w-20 h-20 rounded-full border-2 border-white shadow-md shrink-0 bg-white text-primary flex items-center justify-center ${isRtl ? "order-2" : ""}`}
                   aria-label={post.author}
                 >
                   <User className="w-8 h-8" />
                 </div>
               )}
               <div
-                dir={language === "ar" ? "rtl" : undefined}
-                className={`${language === "ar" ? "order-1 text-right items-end shrink-0" : "text-center sm:text-left items-center sm:items-start grow w-full"} flex flex-col`}
+                dir={isRtl ? "rtl" : undefined}
+                className={`${isRtl ? "order-1 text-right items-end shrink-0" : "text-center sm:text-left items-center sm:items-start grow w-full"} flex flex-col`}
               >
                 <h4 className="text-lg font-extrabold text-navy mb-1">
                   {post.author}
                 </h4>
                 <div
-                  className={`flex items-center ${language === "ar" ? "justify-end" : "justify-center sm:justify-start"} gap-2.5 mb-3`}
+                  className={`flex items-center ${isRtl ? "justify-end" : "justify-center sm:justify-start"} gap-2.5 mb-3`}
                 >
                   <a
                     href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(currentUrl)}&text=${encodeURIComponent(post.title)}`}
@@ -395,7 +395,7 @@ export default function BlogDetails() {
                             <span className="text-xs text-gray-400 font-semibold">
                               {comment.date
                                 ? new Date(comment.date).toLocaleDateString(
-                                    language === "ar" ? "ar" : language,
+                                    language || undefined,
                                   )
                                 : ""}
                             </span>

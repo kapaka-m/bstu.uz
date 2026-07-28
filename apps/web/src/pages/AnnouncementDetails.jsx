@@ -16,7 +16,7 @@ import { useLanguage } from "../context/LanguageContext";
 import { announcementService } from "../services/announcementService";
 
 export default function AnnouncementDetails() {
-  const { language } = useLanguage();
+  const { language, isRtl } = useLanguage();
   const navigate = useNavigate();
   const { id } = useParams();
   const [copied, setCopied] = useState(false);
@@ -56,8 +56,7 @@ export default function AnnouncementDetails() {
     if (!value) return "";
     const date = new Date(value);
     if (Number.isNaN(date.getTime())) return value;
-    const localeMap = { ar: "ar", uz: "uz-Latn-UZ", ru: "ru-RU", en: "en-US" };
-    return new Intl.DateTimeFormat(localeMap[language] || "en-US", {
+    return new Intl.DateTimeFormat(language || undefined, {
       year: "numeric",
       month: "short",
       day: "2-digit",
@@ -127,7 +126,7 @@ export default function AnnouncementDetails() {
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-103"
                 />
                 <span
-                  className={`absolute top-4 ${language === "ar" ? "right-4" : "left-4"} bg-primary text-white text-xs font-extrabold uppercase px-3 py-1 rounded-lg shadow-sm`}
+                  className={`absolute top-4 ${isRtl ? "right-4" : "left-4"} bg-primary text-white text-xs font-extrabold uppercase px-3 py-1 rounded-lg shadow-sm`}
                 >
                   {announcement.category_label}
                 </span>

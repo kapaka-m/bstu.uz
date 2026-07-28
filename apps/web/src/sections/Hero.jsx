@@ -9,7 +9,7 @@ import { publicAssetUrl } from "../lib/api";
 export default function Hero() {
   const [isVideoOpen, setIsVideoOpen] = useState(false);
   const [heroVideo, setHeroVideo] = useState(null);
-  const { t, language, settings } = useLanguage();
+  const { t, language, settings, isRtl } = useLanguage();
   const heroBackgroundImage = publicAssetUrl(settings?.home_hero_background_image);
   const heroMainImage = publicAssetUrl(settings?.home_hero_main_image);
   const heroStudentCount = settings?.home_hero_student_count;
@@ -58,7 +58,7 @@ export default function Hero() {
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary-hover text-white px-8 py-4 rounded-xl font-bold shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all duration-300 hover:-translate-y-0.5 group cursor-pointer"
               >
                 {t("common.applyNow")}
-                <ArrowRight className={`w-4 h-4 transition-transform duration-300 ${language === "ar" ? "rotate-180 group-hover:-translate-x-1" : "group-hover:translate-x-1"}`} />
+                <ArrowRight className={`w-4 h-4 transition-transform duration-300 ${isRtl ? "rotate-180 group-hover:-translate-x-1" : "group-hover:translate-x-1"}`} />
               </Link>
               {heroVideo && (
                 <button

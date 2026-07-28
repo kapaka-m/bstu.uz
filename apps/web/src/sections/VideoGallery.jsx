@@ -16,7 +16,7 @@ export default function VideoGallery() {
   const [videos, setVideos] = useState([]);
   const [settings, setSettings] = useState({});
   const [now] = useState(() => Date.now());
-  const { t, language } = useLanguage();
+  const { t, language, isRtl } = useLanguage();
 
   useEffect(() => {
     let active = true;
@@ -46,14 +46,7 @@ export default function VideoGallery() {
   const formatViews = (viewsCount) => {
     const numericValue = Number(viewsCount || 0);
 
-    const localeByLang = {
-      en: "en-US",
-      uz: "uz-UZ",
-      ru: "ru-RU",
-      ar: "ar",
-    };
-
-    const locale = localeByLang[language] || "en-US";
+    const locale = language || undefined;
     const formattedNumber = new Intl.NumberFormat(locale, {
       notation: numericValue >= 1000 ? "compact" : "standard",
       maximumFractionDigits: 1,
@@ -70,9 +63,7 @@ export default function VideoGallery() {
     const unit = days < 30 ? "day" : days < 365 ? "month" : "year";
     const count = days < 30 ? days : days < 365 ? Math.round(days / 30) : Math.round(days / 365);
     const value = -count;
-    const localeByLang = { en: "en-US", uz: "uz-UZ", ru: "ru-RU", ar: "ar" };
-
-    return new Intl.RelativeTimeFormat(localeByLang[language] || language, {
+    return new Intl.RelativeTimeFormat(language || undefined, {
       numeric: "auto",
     }).format(value, unit);
   };
@@ -208,7 +199,7 @@ export default function VideoGallery() {
             className="inline-flex items-center gap-2 bg-navy hover:bg-primary text-white font-extrabold px-8 py-3.5 rounded-full transition-all duration-300 shadow-md shadow-navy/10 hover:shadow-primary/20 hover:-translate-y-0.5 cursor-pointer"
           >
             {settings.view_all_label || settings.home_tag || ""}
-            <ArrowRight className={`w-4 h-4 transition-transform ${language === 'ar' ? 'rotate-180' : ''}`} />
+            <ArrowRight className={`w-4 h-4 transition-transform ${isRtl ? 'rotate-180' : ''}`} />
           </Link>
         </div>
       </div>

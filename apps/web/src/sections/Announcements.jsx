@@ -11,7 +11,7 @@ import { announcementService } from "../services/announcementService";
 import "swiper/css";
 
 export default function Announcements() {
-  const { language } = useLanguage();
+  const { language, isRtl } = useLanguage();
   const [announcements, setAnnouncements] = useState([]);
   const [settings, setSettings] = useState(null);
 
@@ -42,8 +42,7 @@ export default function Announcements() {
     if (!value) return "";
     const date = new Date(value);
     if (Number.isNaN(date.getTime())) return value;
-    const localeMap = { ar: "ar", uz: "uz-Latn-UZ", ru: "ru-RU", en: "en-US" };
-    return new Intl.DateTimeFormat(localeMap[language] || "en-US", {
+    return new Intl.DateTimeFormat(language || undefined, {
       year: "numeric",
       month: "short",
       day: "2-digit",
@@ -97,7 +96,7 @@ export default function Announcements() {
         >
           <Swiper
             key={language} // Force re-initialization on language change to adapt RTL/LTR native layout
-            dir={language === "ar" ? "rtl" : "ltr"}
+            dir={isRtl ? "rtl" : "ltr"}
             modules={[Autoplay]}
             spaceBetween={28}
             slidesPerView={1}
@@ -120,7 +119,7 @@ export default function Announcements() {
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                       />
                       <span
-                        className={`absolute bottom-3 ${language === "ar" ? "right-3" : "left-3"} bg-navy/80 backdrop-blur-xs text-white text-[10px] font-extrabold uppercase px-3 py-1 rounded-lg`}
+                        className={`absolute bottom-3 ${isRtl ? "right-3" : "left-3"} bg-navy/80 backdrop-blur-xs text-white text-[10px] font-extrabold uppercase px-3 py-1 rounded-lg`}
                       >
                         {item.category_label}
                       </span>
@@ -135,7 +134,7 @@ export default function Announcements() {
                           <span className="truncate">{formatDate(item.date)}</span>
                         </span>
                         <span
-                          className={`flex items-center gap-1.5 shrink-0 ${language === "ar" ? "mr-auto" : "ml-auto"}`}
+                          className={`flex items-center gap-1.5 shrink-0 ${isRtl ? "mr-auto" : "ml-auto"}`}
                         >
                           <Eye className="w-3.5 h-3.5" />
                           {item.views} {settings?.views_label || ""}
@@ -160,7 +159,7 @@ export default function Announcements() {
                         >
                           {settings?.read_details_label || ""}
                           <ArrowRight
-                            className={`w-3.5 h-3.5 transition-transform duration-300 ${language === "ar" ? "rotate-180 group-hover:-translate-x-1" : "group-hover:translate-x-1"}`}
+                            className={`w-3.5 h-3.5 transition-transform duration-300 ${isRtl ? "rotate-180 group-hover:-translate-x-1" : "group-hover:translate-x-1"}`}
                           />
                         </Link>
                       </div>
@@ -179,7 +178,7 @@ export default function Announcements() {
           >
             {settings?.view_all_label || ""}
             <ArrowRight
-              className={`w-4 h-4 ${language === "ar" ? "rotate-180" : ""}`}
+              className={`w-4 h-4 ${isRtl ? "rotate-180" : ""}`}
             />
           </Link>
         </div>

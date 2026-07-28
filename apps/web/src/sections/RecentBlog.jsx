@@ -15,7 +15,7 @@ const HOME_ICON_MAP = {
 };
 
 export default function RecentBlog() {
-  const { language } = useLanguage();
+  const { language, isRtl } = useLanguage();
   const [settings, setSettings] = useState({});
   const [recentPosts, setRecentPosts] = useState([]);
 
@@ -100,7 +100,7 @@ export default function RecentBlog() {
           >
             {settings.read_more_label || ""}
             <ArrowRight
-              className={`w-4 h-4 transition-transform duration-300 ${language === "ar" ? "rotate-180 group-hover:-translate-x-1" : "group-hover:translate-x-1"}`}
+              className={`w-4 h-4 transition-transform duration-300 ${isRtl ? "rotate-180 group-hover:-translate-x-1" : "group-hover:translate-x-1"}`}
             />
           </Link>
         </div>
@@ -128,7 +128,7 @@ export default function RecentBlog() {
         <div className="lg:hidden">
           <Swiper
             key={language}
-            dir={language === "ar" ? "rtl" : "ltr"}
+            dir={isRtl ? "rtl" : "ltr"}
             modules={[Autoplay]}
             spaceBetween={24}
             slidesPerView={1}
@@ -155,7 +155,7 @@ export default function RecentBlog() {
           >
             {settings.view_all_label || ""}
             <ArrowRight
-              className={`w-4 h-4 ${language === "ar" ? "rotate-180" : ""}`}
+              className={`w-4 h-4 ${isRtl ? "rotate-180" : ""}`}
             />
           </Link>
         </div>

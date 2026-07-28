@@ -9,7 +9,7 @@ import { useLanguage } from "../context/LanguageContext";
 import "swiper/css";
 
 export default function GreenCampusSection() {
-  const { language } = useLanguage();
+  const { language, isRtl } = useLanguage();
   const [settings, setSettings] = useState({});
   const [articles, setArticles] = useState([]);
 
@@ -106,7 +106,7 @@ export default function GreenCampusSection() {
         <div className="lg:hidden mb-16">
           <Swiper
             key={language}
-            dir={language === "ar" ? "rtl" : "ltr"}
+            dir={isRtl ? "rtl" : "ltr"}
             modules={[Autoplay]}
             spaceBetween={24}
             slidesPerView={1}

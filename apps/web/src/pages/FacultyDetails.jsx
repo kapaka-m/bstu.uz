@@ -141,11 +141,11 @@ function ProgramGrid({ programs, label, icon: Icon }) {
 
 export default function FacultyDetails() {
   const { id } = useParams();
-  const { t, language } = useLanguage();
+  const { t, language, isRtl } = useLanguage();
   const [faculty, setFaculty] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const isRtl = language === "ar";
+
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -161,7 +161,9 @@ export default function FacultyDetails() {
       .then((data) => {
         if (!active) return;
         setFaculty(data || null);
-        document.title = `${data?.name || "Faculty"} | BSTU`;
+        if (data?.name) {
+          document.title = data.name;
+        }
       })
       .catch(() => {
         if (!active) return;
@@ -458,7 +460,7 @@ export default function FacultyDetails() {
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
             {facultyDepartmentsList.map((department, index) => {
               const summary = shortText(
-                t(`departments.${department.slug}.about`, department.about),
+                department.about || t(`departments.${department.slug}.about`),
                 160,
               );
               return (

@@ -650,6 +650,77 @@
 
 ---
 
+## مراجعة Pages Sections Dynamic Cleanup 2026-07-28
+
+تاريخ المراجعة: 2026-07-28
+
+## مسارات Pages Sections Dynamic Cleanup
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\pages`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\sections`
+- الملفات المباشرة المطلوبة لدعم الاتصال الديناميكي:
+  - `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\app\Http\Controllers\Api\InitialApplicationController.php`
+  - `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\seeders\WorkflowConfigurationSeeder.php`
+  - `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\seeders\StudentSystemTranslationSeeder.php`
+
+## محتوى Pages Sections Dynamic Cleanup
+
+- وجدت بقايا منطق لغة ثابت مثل خرائط `en/uz/ru/ar` داخل تنسيق التاريخ والأرقام في صفحات الإعلانات والفيديو وGreen Campus.
+- وجدت خيارات ثابتة في `ApplyPage.jsx` مثل messenger وstudent type وdegree labels كانت تُحوّل داخل React.
+- وجدت استخداماً قديماً لمسار `/assets/img` داخل `DepartmentPage.jsx`.
+- لم أجد mock arrays أو demo content مستخدمة كمصدر محتوى داخل هذه المجموعة بعد التعديل.
+
+## تغييرات Pages Sections Dynamic Cleanup
+
+- أزلت خرائط اللغة الثابتة من `Announcements.jsx`, `AnnouncementDetails.jsx`, `AnnouncementsPage.jsx`, `VideoGallery.jsx`, `VideoBDTU.jsx`, `GreenCampusPage.jsx`, و`GreenCampusDetails.jsx`، وأصبح التنسيق يستخدم كود اللغة القادم من API عبر `useLanguage()`.
+- جعلت اتجاه RTL يعتمد على `isRtl` القادم من نظام اللغة بدل مقارنة `language === "ar"` داخل صفحات وsections المجموعة.
+- نقلت خيارات messenger في نموذج التقديم من React إلى إعداد `application.messengers` في قاعدة البيانات.
+- جعلت `InitialApplicationController` يرسل `messengers` ضمن metadata ويتحقق منها من إعدادات قاعدة البيانات.
+- أضفت مفاتيح ترجمة خيارات نموذج التقديم مثل `initialApplication.options.gender.*`, `initialApplication.options.messenger.*`, `initialApplication.options.degree_level.*`, `initialApplication.options.education_type.*`, و`initialApplication.yearsLabel`.
+- أزلت fallback النصي المحلي من خيارات نموذج التقديم؛ قيم labels الآن تأتي من جدول الترجمات، بينما قيم intakes تبقى كما تأتي من إعدادات قاعدة البيانات لأنها محتوى موسمي قابل للإدارة.
+- جعلت `StudentSystemTranslationSeeder` يستخدم `firstOrCreate` للترجمات حتى ينشئ المفاتيح والقيم الناقصة فقط ولا يكتب فوق تعديلات `/apanel/` عند تشغيله مرة أخرى.
+
+## ربط Pages Sections Dynamic Cleanup
+
+- قاعدة البيانات:
+  - `settings` لإعدادات `application.messengers` وبقية metadata الخاصة بالتقديم.
+  - `translation_keys` و`translation_values` لترجمة labels وخيارات النموذج.
+  - جداول CMS الموجودة للمحتوى العام: `pages`, `page_blocks`, `about_pages`, `announcements`, `blogs`, `news`, `videos`, `green_campus_articles`, `green_campus_settings`, `services`, `programs`, `faculties`, `departments`, `staff_profiles`, `administration_profiles`, وملحقات الترجمات الخاصة بها.
+- Laravel API:
+  - `GET /api/v1/applications/initial/metadata`
+  - `POST /api/v1/applications/initial`
+  - `GET /api/v1/locales`
+  - `GET /api/v1/translations`
+  - endpoints المحتوى العامة مثل `/api/v1/home`, `/api/v1/pages`, `/api/v1/announcements`, `/api/v1/news`, `/api/v1/blog`, `/api/v1/videos`, `/api/v1/green-campus/*`, `/api/v1/programs`, `/api/v1/faculties`, و`/api/v1/departments`.
+- `/apanel/`:
+  - إدارة الترجمات من صفحة الترجمات.
+  - إدارة اللغات من صفحة locales.
+  - إدارة إعدادات CMS من صفحات `/apanel/cms/*`.
+  - إدارة محتوى الأخبار والإعلانات والفيديو والمدونة والخدمات والبرامج والكليات والأقسام عبر موارد `/apanel`.
+  - إعدادات workflow/application قابلة للتوسعة عبر جدول `settings` ولا تتطلب فتح React code.
+
+## تحقق Pages Sections Dynamic Cleanup
+
+- إعادة فحص الملفات أكدت عدم وجود `t("key", "static fallback")` داخل `apps/web/src/pages` و`apps/web/src/sections`.
+- إعادة فحص الملفات أكدت عدم وجود `VITE_API_BASE_URL`, `localhost`, `127.0.0.1`, `/assets/img`, أو `public\assets\img` داخل المجموعة.
+- `npm.cmd run lint` نجح.
+- `npm.cmd run build` نجح.
+- `php-local.bat -l app\Http\Controllers\Api\InitialApplicationController.php` نجح.
+- `php-local.bat -l database\seeders\WorkflowConfigurationSeeder.php` نجح.
+- `php-local.bat -l database\seeders\StudentSystemTranslationSeeder.php` نجح.
+- `php-local.bat artisan db:seed --class=WorkflowConfigurationSeeder` نجح بدون حذف بيانات.
+- `php-local.bat artisan db:seed --class=StudentSystemTranslationSeeder` نجح بدون حذف بيانات.
+- `php-local.bat artisan route:list --path=api/v1 --except-vendor` نجح وأظهر 170 route.
+- `php-local.bat artisan test` نجح: 4 tests passed.
+- `php-local.bat artisan optimize:clear` نجح.
+
+## متبقي Pages Sections Dynamic Cleanup
+
+- لا يوجد محتوى ظاهر قابل للإدارة بقي static داخل هذه المجموعة حسب الفحص الحالي.
+- بقيت داخل الملفات أسماء دوال، routes داخلية، icons، CSS classes، مفاتيح ترجمة، وتنسيق أرقام/تواريخ تقني فقط.
+
+---
+
 ## مراجعة Web Public Root Environment
 
 تاريخ المراجعة: 2026-07-28

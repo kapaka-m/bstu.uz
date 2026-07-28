@@ -26,7 +26,7 @@ export default function CmsDetailPage({
 }) {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { t, language } = useLanguage();
+  const { t, language, isRtl } = useLanguage();
   const [item, setItem] = useState(null);
   const [recentItems, setRecentItems] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -96,7 +96,7 @@ export default function CmsDetailPage({
             className="inline-flex items-center gap-2 text-sm font-bold text-primary hover:text-primary-hover group"
           >
             <ArrowLeft
-              className={`w-4 h-4 transition-transform ${language === "ar" ? "rotate-180 group-hover:translate-x-1" : "group-hover:-translate-x-1"}`}
+              className={`w-4 h-4 transition-transform ${isRtl ? "rotate-180 group-hover:translate-x-1" : "group-hover:-translate-x-1"}`}
             />
             {backLabel || t("common.back")}
           </Link>

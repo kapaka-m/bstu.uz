@@ -13,7 +13,7 @@ import { motion } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
 
 export default function RegisterPage() {
-  const { t, language, logoSrc } = useLanguage();
+  const { t, logoSrc, isRtl } = useLanguage();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -197,7 +197,7 @@ export default function RegisterPage() {
           >
             {t("auth.signIn")}
             <ArrowRight
-              className={`w-3.5 h-3.5 transition-transform ${language === "ar" ? "rotate-180" : ""}`}
+              className={`w-3.5 h-3.5 transition-transform ${isRtl ? "rotate-180" : ""}`}
             />
           </Link>
         </div>

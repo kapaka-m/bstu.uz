@@ -227,6 +227,28 @@ class StudentSystemTranslationSeeder extends Seeder
             'initialApplication.language' => ['en' => 'Study Language', 'uz' => 'Taʼlim tili', 'ru' => 'Язык обучения', 'ar' => 'لغة الدراسة'],
             'initialApplication.intake' => ['en' => 'Intended Intake', 'uz' => 'Rejalashtirilgan qabul', 'ru' => 'Планируемый набор', 'ar' => 'فترة القبول المطلوبة'],
             'initialApplication.duration' => ['en' => 'Estimated Duration', 'uz' => 'Taxminiy davomiylik', 'ru' => 'Ориентировочная продолжительность', 'ar' => 'المدة التقديرية'],
+            'initialApplication.yearsLabel' => ['en' => 'years', 'uz' => 'yil', 'ru' => 'лет', 'ar' => 'سنوات'],
+            'initialApplication.options.gender.male' => ['en' => 'Male', 'uz' => 'Erkak', 'ru' => 'Мужской', 'ar' => 'ذكر'],
+            'initialApplication.options.gender.female' => ['en' => 'Female', 'uz' => 'Ayol', 'ru' => 'Женский', 'ar' => 'أنثى'],
+            'initialApplication.options.passport_type.ordinary' => ['en' => 'Ordinary', 'uz' => 'Oddiy', 'ru' => 'Обычный', 'ar' => 'عادي'],
+            'initialApplication.options.passport_type.diplomatic' => ['en' => 'Diplomatic', 'uz' => 'Diplomatik', 'ru' => 'Дипломатический', 'ar' => 'دبلوماسي'],
+            'initialApplication.options.passport_type.service' => ['en' => 'Service', 'uz' => 'Xizmat', 'ru' => 'Служебный', 'ar' => 'خدمة'],
+            'initialApplication.options.messenger.whatsapp' => ['en' => 'WhatsApp', 'uz' => 'WhatsApp', 'ru' => 'WhatsApp', 'ar' => 'واتساب'],
+            'initialApplication.options.messenger.telegram' => ['en' => 'Telegram', 'uz' => 'Telegram', 'ru' => 'Telegram', 'ar' => 'تيليجرام'],
+            'initialApplication.options.messenger.both' => ['en' => 'Both', 'uz' => 'Ikkalasi ham', 'ru' => 'Оба', 'ar' => 'كلاهما'],
+            'initialApplication.options.degree_level.bachelor' => ['en' => 'Bachelor', 'uz' => 'Bakalavr', 'ru' => 'Бакалавриат', 'ar' => 'بكالوريوس'],
+            'initialApplication.options.degree_level.master' => ['en' => 'Master', 'uz' => 'Magistratura', 'ru' => 'Магистратура', 'ar' => 'ماجستير'],
+            'initialApplication.options.degree_level.phd' => ['en' => 'PhD', 'uz' => 'PhD', 'ru' => 'PhD', 'ar' => 'دكتوراه'],
+            'initialApplication.options.degree_level.doctorate' => ['en' => 'Doctorate', 'uz' => 'Doktorantura', 'ru' => 'Докторантура', 'ar' => 'دكتوراه'],
+            'initialApplication.options.student_type.new' => ['en' => 'New Student', 'uz' => 'Yangi talaba', 'ru' => 'Новый студент', 'ar' => 'طالب جديد'],
+            'initialApplication.options.student_type.transfer' => ['en' => 'Transfer Student', 'uz' => 'Ko‘chirilgan talaba', 'ru' => 'Переводящийся студент', 'ar' => 'طالب منتقل'],
+            'initialApplication.options.education_type.full_time' => ['en' => 'Full time', 'uz' => 'Kunduzgi', 'ru' => 'Очная', 'ar' => 'دوام كامل'],
+            'initialApplication.options.education_type.part_time' => ['en' => 'Part time', 'uz' => 'Sirtqi', 'ru' => 'Заочная', 'ar' => 'دوام جزئي'],
+            'initialApplication.options.education_type.evening' => ['en' => 'Evening', 'uz' => 'Kechki', 'ru' => 'Вечерняя', 'ar' => 'مسائي'],
+            'initialApplication.options.education_type.distance' => ['en' => 'Distance', 'uz' => 'Masofaviy', 'ru' => 'Дистанционная', 'ar' => 'عن بعد'],
+            'initialApplication.options.study_language.english' => ['en' => 'English', 'uz' => 'Inglizcha', 'ru' => 'Английский', 'ar' => 'الإنجليزية'],
+            'initialApplication.options.study_language.uzbek' => ['en' => 'Uzbek', 'uz' => 'O‘zbekcha', 'ru' => 'Узбекский', 'ar' => 'الأوزبكية'],
+            'initialApplication.options.study_language.russian' => ['en' => 'Russian', 'uz' => 'Ruscha', 'ru' => 'Русский', 'ar' => 'الروسية'],
             'initialApplication.transferNote' => ['en' => 'Your study year and final study duration will be determined after the university reviews your transcript and completes the academic equivalency.', 'uz' => 'O‘qish yilingiz va yakuniy davomiylik universitet transkriptingizni ko‘rib chiqib, akademik ekvivalentlikni tugatgandan keyin belgilanadi.', 'ru' => 'Курс и окончательная продолжительность обучения будут определены после проверки транскрипта и завершения академического признания.', 'ar' => 'سيتم تحديد سنة الدراسة والمدة النهائية بعد مراجعة كشف الدرجات وإكمال المعادلة الأكاديمية.'],
             'initialApplication.email' => ['en' => 'Email Address', 'uz' => 'Email manzil', 'ru' => 'Email адрес', 'ar' => 'البريد الإلكتروني'],
             'initialApplication.password' => ['en' => 'Password', 'uz' => 'Parol', 'ru' => 'Пароль', 'ar' => 'كلمة المرور'],
@@ -342,13 +364,13 @@ class StudentSystemTranslationSeeder extends Seeder
 
         foreach ($keys as $path => $values) {
             [$group, $key] = explode('.', $path, 2);
-            $translationKey = TranslationKey::updateOrCreate(
+            $translationKey = TranslationKey::firstOrCreate(
                 ['group' => $group, 'key' => $key],
                 ['description' => 'Student system UI: '.$path, 'is_system' => true]
             );
 
             foreach ($this->locales as $locale) {
-                TranslationValue::updateOrCreate(
+                TranslationValue::firstOrCreate(
                     ['translation_key_id' => $translationKey->id, 'locale' => $locale],
                     ['value' => $values[$locale] ?? $values['en']]
                 );

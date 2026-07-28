@@ -48,6 +48,7 @@ class WorkflowConfigurationSeeder extends Seeder
         }
 
         $this->setting('application.genders', "male\nfemale", 'list', 'application', true);
+        $this->setting('application.messengers', "whatsapp\ntelegram\nboth", 'list', 'application', true);
         $this->setting('application.passport_types', "ordinary\ndiplomatic\nservice", 'list', 'application', true);
         $this->setting('application.student_types', "new\ntransfer", 'list', 'application', true);
         $this->setting('application.password_min_length', '8', 'integer', 'application', false);

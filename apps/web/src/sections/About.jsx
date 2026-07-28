@@ -6,7 +6,7 @@ import { aboutService } from "../services/aboutService";
 import { publicAssetUrl } from "../lib/api";
 
 export default function About() {
-  const { language } = useLanguage();
+  const { language, isRtl } = useLanguage();
   const [aboutPage, setAboutPage] = useState(null);
 
   useEffect(() => {
@@ -69,7 +69,7 @@ export default function About() {
                 className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-white px-6 py-3.5 rounded-xl text-sm font-semibold shadow-md shadow-primary/20 hover:shadow-primary/30 transition-all duration-300 hover:-translate-y-0.5 group"
               >
                 {hero.campusBtn || ""}
-                <ArrowRight className={`w-4 h-4 transition-transform duration-300 ${language === 'ar' ? 'rotate-180 group-hover:-translate-x-1' : 'group-hover:translate-x-1'}`} />
+                <ArrowRight className={`w-4 h-4 transition-transform duration-300 ${isRtl ? 'rotate-180 group-hover:-translate-x-1' : 'group-hover:translate-x-1'}`} />
               </a>
             </div>
           </motion.div>

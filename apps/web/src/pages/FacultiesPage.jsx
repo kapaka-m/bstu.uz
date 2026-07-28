@@ -13,7 +13,7 @@ function getSlug(item) {
 }
 
 export default function FacultiesPage() {
-  const { t, language } = useLanguage();
+  const { t, isRtl } = useLanguage();
   const { faculties, loading, error, retry } = useAppData();
 
   useEffect(() => {
@@ -71,7 +71,7 @@ export default function FacultiesPage() {
                         {t("common.learnMore")}
                         <ArrowRight
                           className={`w-4 h-4 transition-transform group-hover:translate-x-1 ${
-                            language === "ar" ? "rotate-180 group-hover:-translate-x-1" : ""
+                            isRtl ? "rotate-180 group-hover:-translate-x-1" : ""
                           }`}
                         />
                       </span>

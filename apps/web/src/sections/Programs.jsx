@@ -82,7 +82,7 @@ const normalizeProgram = (program, index) => ({
 });
 
 export default function Programs({ limit, showRemaining }) {
-  const { t, language } = useLanguage();
+  const { t, language, isRtl } = useLanguage();
   const [selectedFaculty, setSelectedFaculty] = useState("all");
   const [selectedDegree, setSelectedDegree] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
@@ -316,7 +316,7 @@ export default function Programs({ limit, showRemaining }) {
                     className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-primary group-hover:underline"
                   >
                     {t("home.programs.explore")}
-                    <span className={`transition-transform duration-300 ${language === 'ar' ? 'rotate-180 group-hover:-translate-x-1' : 'group-hover:translate-x-1'}`}>→</span>
+                    <span className={`transition-transform duration-300 ${isRtl ? 'rotate-180 group-hover:-translate-x-1' : 'group-hover:translate-x-1'}`}>→</span>
                   </Link>
                 </div>
               </div>
@@ -333,7 +333,7 @@ export default function Programs({ limit, showRemaining }) {
               className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-white px-8 py-4 rounded-xl font-extrabold text-sm transition-all shadow-md shadow-primary/20 hover:shadow-primary/30 hover:-translate-y-0.5"
             >
               {t("home.programs.viewAll")}
-              <ArrowRight className={`w-4 h-4 transition-transform ${language === 'ar' ? 'rotate-180' : ''}`} />
+              <ArrowRight className={`w-4 h-4 transition-transform ${isRtl ? 'rotate-180' : ''}`} />
             </Link>
           </div>
         )}

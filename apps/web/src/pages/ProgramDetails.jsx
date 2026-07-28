@@ -19,7 +19,7 @@ const degreeLabelKey = (degree) => String(degree || "").toLowerCase();
 
 export default function ProgramDetails() {
   const { id } = useParams();
-  const { t, language } = useLanguage();
+  const { t, language, isRtl } = useLanguage();
   const [program, setProgram] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -96,7 +96,7 @@ export default function ProgramDetails() {
           to="/programs"
           className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-white px-6 py-3 rounded-xl font-bold transition-all shadow-md"
         >
-          <ArrowLeft className={`w-4 h-4 transition-transform ${language === 'ar' ? 'rotate-180' : ''}`} /> {t("common.backToPrograms")}
+          <ArrowLeft className={`w-4 h-4 transition-transform ${isRtl ? 'rotate-180' : ''}`} /> {t("common.backToPrograms")}
         </Link>
       </div>
     );

@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
 
 export default function ForgotPassword() {
-  const { t, language, logoSrc } = useLanguage();
+  const { t, logoSrc, isRtl } = useLanguage();
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -94,7 +94,7 @@ export default function ForgotPassword() {
         {/* Back to Login */}
         <div className="text-center mt-8 pt-6 border-t border-gray-50 text-sm font-semibold text-gray-500">
           <Link to="/login" className="text-primary hover:underline inline-flex items-center gap-1.5 font-bold">
-            <ArrowLeft className={`w-3.5 h-3.5 transition-transform ${language === 'ar' ? 'rotate-180' : ''}`} /> 
+            <ArrowLeft className={`w-3.5 h-3.5 transition-transform ${isRtl ? 'rotate-180' : ''}`} /> 
             {t("auth.backToLogin")}
           </Link>
         </div>

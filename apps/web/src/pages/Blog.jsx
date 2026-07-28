@@ -21,7 +21,7 @@ const labelText = (value, fallback) => asText(value, asText(fallback));
 
 export default function Blog() {
   const location = useLocation();
-  const { language } = useLanguage();
+  const { language, isRtl } = useLanguage();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [posts, setPosts] = useState([]);
@@ -238,7 +238,7 @@ export default function Blog() {
                           "",
                         )}
                         <ArrowRight
-                          className={`w-4 h-4 transition-transform duration-300 ${language === "ar" ? "rotate-180 group-hover:-translate-x-1" : "group-hover:translate-x-1"}`}
+                          className={`w-4 h-4 transition-transform duration-300 ${isRtl ? "rotate-180 group-hover:-translate-x-1" : "group-hover:translate-x-1"}`}
                         />
                       </Link>
                     </div>

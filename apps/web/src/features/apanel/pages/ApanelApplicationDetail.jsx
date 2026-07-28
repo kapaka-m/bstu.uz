@@ -596,7 +596,7 @@ export default function ApanelApplicationDetail() {
                 <textarea
                   value={comment}
                   onChange={(e) => setComment(e.target.value)}
-                  placeholder="Approve passport credentials and mark for interview..."
+                  placeholder={t("apanel.applicationDetail.adminNotesPlaceholder")}
                   rows={3}
                   className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-xs font-semibold bg-white text-navy"
                 />
@@ -622,13 +622,13 @@ export default function ApanelApplicationDetail() {
                       type="text"
                       value={notifyTitle}
                       onChange={(e) => setNotifyTitle(e.target.value)}
-                      placeholder="Title"
+                      placeholder={t("apanel.applicationDetail.notificationTitlePlaceholder")}
                       className="w-full px-3 py-2 rounded-lg border border-gray-200 text-xs font-semibold bg-white text-navy"
                     />
                     <textarea
                       value={notifyMessage}
                       onChange={(e) => setNotifyMessage(e.target.value)}
-                      placeholder="Message content..."
+                      placeholder={t("apanel.applicationDetail.notificationMessagePlaceholder")}
                       rows={3}
                       className="w-full px-3 py-2 rounded-lg border border-gray-200 text-xs font-semibold bg-white text-navy"
                     />
@@ -663,7 +663,7 @@ export default function ApanelApplicationDetail() {
                   step="0.01"
                   value={contractAmount}
                   onChange={(e) => setContractAmount(e.target.value)}
-                  placeholder="Contract amount"
+                  placeholder={t("apanel.applicationDetail.contractAmountPlaceholder")}
                   className="min-w-0 flex-1 px-4 py-2.5 rounded-xl border border-gray-200 text-xs font-semibold bg-white text-navy"
                 />
                 <button
@@ -683,7 +683,7 @@ export default function ApanelApplicationDetail() {
                   step="0.01"
                   value={paymentAmount}
                   onChange={(e) => setPaymentAmount(e.target.value)}
-                  placeholder="Payment amount"
+                  placeholder={t("apanel.applicationDetail.paymentAmountPlaceholder")}
                   className="min-w-0 flex-1 px-4 py-2.5 rounded-xl border border-gray-200 text-xs font-semibold bg-white text-navy"
                 />
                 <button

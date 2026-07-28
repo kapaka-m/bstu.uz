@@ -12,12 +12,14 @@ import {
 import ConfirmDialog from "../components/ConfirmDialog";
 import Pagination from "../components/Pagination";
 import { publicAssetUrl } from "../../../lib/api";
+import { useLanguage } from "../../../context/LanguageContext";
 
 function mediaUrl(path) {
   return publicAssetUrl(path);
 }
 
 export default function ApanelMedia() {
+  const { t } = useLanguage();
   const [mediaList, setMediaList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
@@ -72,7 +74,7 @@ export default function ApanelMedia() {
       });
       fetchMedia();
     } catch {
-      alert("Failed to upload media file");
+      alert(t("apanel.mediaPage.uploadFailed"));
     } finally {
       setUploading(false);
     }
@@ -93,7 +95,7 @@ export default function ApanelMedia() {
       setDeleteTarget(null);
       fetchMedia();
     } catch {
-      alert("Failed to delete media asset");
+      alert(t("apanel.mediaPage.deleteFailed"));
     }
   };
 
@@ -103,10 +105,10 @@ export default function ApanelMedia() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-extrabold text-navy uppercase tracking-wider">
-            Media Library
+            {t("apanel.mediaPage.title")}
           </h1>
           <p className="text-gray-400 text-xs font-semibold mt-1">
-            Upload and manage campus documents, pictures, and video assets
+            {t("apanel.mediaPage.subtitle")}
           </p>
         </div>
 
@@ -116,7 +118,7 @@ export default function ApanelMedia() {
           ) : (
             <Upload className="w-4 h-4" />
           )}
-          Upload New File
+          {t("apanel.mediaPage.uploadNewFile")}
           <input
             type="file"
             accept="image/*,video/*,application/pdf"
@@ -133,7 +135,7 @@ export default function ApanelMedia() {
           <div className="relative lg:col-span-2">
           <input
             type="text"
-            placeholder="Search filenames..."
+            placeholder={t("apanel.mediaPage.searchPlaceholder")}
             value={search}
             onChange={(e) => {
               setSearch(e.target.value);
@@ -145,7 +147,7 @@ export default function ApanelMedia() {
           </div>
           <input
             type="text"
-            placeholder="Upload title"
+            placeholder={t("apanel.mediaPage.uploadTitlePlaceholder")}
             value={uploadMeta.title}
             onChange={(e) =>
               setUploadMeta((prev) => ({ ...prev, title: e.target.value }))
@@ -154,7 +156,7 @@ export default function ApanelMedia() {
           />
           <input
             type="text"
-            placeholder="Alt text"
+            placeholder={t("apanel.mediaPage.altTextPlaceholder")}
             value={uploadMeta.alt_text}
             onChange={(e) =>
               setUploadMeta((prev) => ({ ...prev, alt_text: e.target.value }))
@@ -169,9 +171,9 @@ export default function ApanelMedia() {
               }
               className="grow px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold bg-white text-navy"
             >
-              <option value="image">Image</option>
-              <option value="document">Document</option>
-              <option value="video">Video</option>
+              <option value="image">{t("apanel.mediaPage.imageType")}</option>
+              <option value="document">{t("apanel.mediaPage.documentType")}</option>
+              <option value="video">{t("apanel.mediaPage.videoType")}</option>
             </select>
             <label className="inline-flex items-center gap-1.5 text-xs font-bold text-navy">
               <input
@@ -184,7 +186,7 @@ export default function ApanelMedia() {
                   }))
                 }
               />
-              Public
+              {t("apanel.mediaPage.public")}
             </label>
           </div>
         </div>
@@ -199,7 +201,7 @@ export default function ApanelMedia() {
         <div className="bg-white border border-gray-100 rounded-3xl p-12 text-center text-gray-400 font-semibold shadow-xs">
           <div className="flex flex-col items-center gap-3">
             <ImageIcon className="w-12 h-12 text-gray-300 stroke-1" />
-            <p className="text-sm">No media assets found</p>
+            <p className="text-sm">{t("apanel.mediaPage.noAssets")}</p>
           </div>
         </div>
       ) : (
@@ -238,7 +240,7 @@ export default function ApanelMedia() {
                         {String(media.filename || mediaPath || "asset")
                           .split(".")
                           .pop()}{" "}
-                        file
+                        {t("apanel.mediaPage.file")}
                       </div>
                     )}
                   </div>
@@ -250,7 +252,7 @@ export default function ApanelMedia() {
                         className="text-xs font-extrabold text-navy truncate"
                         title={media.filename}
                       >
-                        {media.filename || mediaPath || "Untitled asset"}
+                        {media.filename || mediaPath || t("apanel.mediaPage.untitledAsset")}
                       </p>
                       {media.title && (
                         <p className="text-[10px] text-gray-500 font-semibold truncate">
@@ -258,7 +260,7 @@ export default function ApanelMedia() {
                         </p>
                       )}
                       <p className="text-[10px] text-gray-400 font-semibold">
-                        Size: {Math.round((Number(media.size) || 0) / 1024)} KB
+                        {t("apanel.mediaPage.size")} {Math.round((Number(media.size) || 0) / 1024)} KB
                       </p>
                     </div>
 
@@ -274,12 +276,12 @@ export default function ApanelMedia() {
                         {isCopied ? (
                           <>
                             <ClipboardCheck className="w-3.5 h-3.5" />
-                            Copied
+                            {t("apanel.mediaPage.copied")}
                           </>
                         ) : (
                           <>
                             <Link2 className="w-3.5 h-3.5" />
-                            Copy Path
+                            {t("apanel.mediaPage.copyPath")}
                           </>
                         )}
                       </button>
@@ -287,7 +289,7 @@ export default function ApanelMedia() {
                       <button
                         onClick={() => setDeleteTarget(media)}
                         className="p-2 border border-gray-100 hover:border-red-100 hover:bg-red-50 text-gray-400 hover:text-red-600 rounded-xl transition-all cursor-pointer shrink-0"
-                        title="Delete File"
+                        title={t("apanel.mediaPage.deleteFile")}
                       >
                         <Trash2 className="w-3.5 h-3.5" />
                       </button>
@@ -311,8 +313,8 @@ export default function ApanelMedia() {
       {/* Confirm Deletion Dialog */}
       <ConfirmDialog
         isOpen={!!deleteTarget}
-        title="Delete Media File?"
-        message={`Are you sure you want to delete ${deleteTarget?.filename}? This will permanently remove it from public storage.`}
+        title={t("apanel.mediaPage.deleteTitle")}
+        message={`${t("apanel.mediaPage.deleteMessage")} ${deleteTarget?.filename || t("apanel.mediaPage.thisAsset")}`}
         onConfirm={handleDeleteConfirm}
         onCancel={() => setDeleteTarget(null)}
       />

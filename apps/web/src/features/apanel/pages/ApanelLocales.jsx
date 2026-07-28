@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import FormError from "../../../components/common/FormError";
 import { apanelService } from "../../../services/apanelService";
+import { useLanguage } from "../../../context/LanguageContext";
 import ConfirmDialog from "../components/ConfirmDialog";
 
 const emptyForm = {
@@ -25,6 +26,7 @@ const emptyForm = {
 };
 
 export default function ApanelLocales() {
+  const { t } = useLanguage();
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -45,11 +47,11 @@ export default function ApanelLocales() {
       });
       setItems(page.items || []);
     } catch (err) {
-      setError(err?.message || "Failed to load locales.");
+      setError(err?.message || t("apanel.locales.loadFailed"));
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [t]);
 
   useEffect(() => {
     fetchLocales();
@@ -114,7 +116,7 @@ export default function ApanelLocales() {
       closeForm();
       fetchLocales();
     } catch (err) {
-      setError(err?.message || "Failed to save locale.");
+      setError(err?.message || t("apanel.locales.saveFailed"));
     } finally {
       setSaving(false);
     }
@@ -127,7 +129,7 @@ export default function ApanelLocales() {
       setPendingDelete(null);
       fetchLocales();
     } catch (err) {
-      setError(err?.message || "Failed to delete locale.");
+      setError(err?.message || t("apanel.locales.deleteFailed"));
     }
   };
 
@@ -136,10 +138,10 @@ export default function ApanelLocales() {
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-extrabold text-navy uppercase tracking-wider">
-            Locales
+            {t("apanel.locales.title")}
           </h1>
           <p className="text-gray-400 text-xs font-semibold mt-1">
-            Manage website languages, text direction, activation state, and display order.
+            {t("apanel.locales.subtitle")}
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -149,7 +151,7 @@ export default function ApanelLocales() {
             className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-gray-200 bg-white text-navy text-xs font-extrabold hover:bg-gray-50 cursor-pointer"
           >
             <RefreshCw className="w-4 h-4" />
-            Refresh
+            {t("button.refresh")}
           </button>
           <button
             type="button"
@@ -157,7 +159,7 @@ export default function ApanelLocales() {
             className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-primary text-white text-xs font-extrabold hover:bg-primary-hover cursor-pointer"
           >
             <Plus className="w-4 h-4" />
-            Add Locale
+            {t("apanel.locales.add")}
           </button>
         </div>
       </div>
@@ -166,9 +168,9 @@ export default function ApanelLocales() {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {[
-          ["Total Locales", stats.total, Globe2, "text-blue-600 bg-blue-50 border-blue-100"],
-          ["Active Languages", stats.active, CheckCircle2, "text-emerald-600 bg-emerald-50 border-emerald-100"],
-          ["RTL Languages", stats.rtl, Languages, "text-purple-600 bg-purple-50 border-purple-100"],
+          [t("apanel.locales.totalLocales"), stats.total, Globe2, "text-blue-600 bg-blue-50 border-blue-100"],
+          [t("apanel.locales.activeLanguages"), stats.active, CheckCircle2, "text-emerald-600 bg-emerald-50 border-emerald-100"],
+          [t("apanel.locales.rtlLanguages"), stats.rtl, Languages, "text-purple-600 bg-purple-50 border-purple-100"],
         ].map(([label, value, Icon, color]) => (
           <div key={label} className="bg-white border border-gray-100 rounded-3xl p-5 flex items-center justify-between shadow-xs">
             <div>
@@ -188,9 +190,9 @@ export default function ApanelLocales() {
         <section className="xl:col-span-2 bg-white border border-gray-100 rounded-3xl shadow-xs overflow-hidden">
           <div className="p-5 border-b border-gray-100 flex items-center justify-between gap-4">
             <div>
-              <h2 className="text-lg font-extrabold text-navy">Language Registry</h2>
+              <h2 className="text-lg font-extrabold text-navy">{t("apanel.locales.registryTitle")}</h2>
               <p className="text-xs font-semibold text-gray-400">
-                Public language switcher follows these active locale records.
+                {t("apanel.locales.registrySubtitle")}
               </p>
             </div>
           </div>
@@ -204,13 +206,13 @@ export default function ApanelLocales() {
               <table className="w-full text-sm">
                 <thead className="bg-gray-50 text-[10px] uppercase tracking-wider text-gray-400 font-black">
                   <tr>
-                    <th className="px-5 py-3 text-start">Code</th>
-                    <th className="px-5 py-3 text-start">Language</th>
-                    <th className="px-5 py-3 text-start">Native Name</th>
-                    <th className="px-5 py-3 text-start">Direction</th>
-                    <th className="px-5 py-3 text-start">Status</th>
-                    <th className="px-5 py-3 text-start">Sort</th>
-                    <th className="px-5 py-3 text-end">Actions</th>
+                    <th className="px-5 py-3 text-start">{t("apanel.locales.code")}</th>
+                    <th className="px-5 py-3 text-start">{t("apanel.locales.language")}</th>
+                    <th className="px-5 py-3 text-start">{t("apanel.locales.nativeName")}</th>
+                    <th className="px-5 py-3 text-start">{t("apanel.locales.direction")}</th>
+                    <th className="px-5 py-3 text-start">{t("apanel.locales.status")}</th>
+                    <th className="px-5 py-3 text-start">{t("apanel.locales.sort")}</th>
+                    <th className="px-5 py-3 text-end">{t("apanel.locales.actions")}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
@@ -232,7 +234,7 @@ export default function ApanelLocales() {
                         <span className={`rounded-lg px-2 py-1 text-[10px] font-black uppercase ${
                           item.is_active ? "bg-emerald-50 text-emerald-700" : "bg-gray-100 text-gray-500"
                         }`}>
-                          {item.is_active ? "Active" : "Hidden"}
+                          {item.is_active ? t("status.active") : t("status.hidden")}
                         </span>
                       </td>
                       <td className="px-5 py-4 font-bold text-gray-400">{item.sort_order}</td>
@@ -266,18 +268,18 @@ export default function ApanelLocales() {
           <section className="bg-white border border-gray-100 rounded-3xl shadow-xs overflow-hidden">
             <div className="p-5 border-b border-gray-100 flex items-center justify-between">
               <h2 className="text-lg font-extrabold text-navy">
-                {editing ? "Edit Locale" : "Create Locale"}
+                {editing ? t("apanel.locales.edit") : t("apanel.locales.create")}
               </h2>
               <button type="button" onClick={closeForm} className="text-gray-400 hover:text-navy cursor-pointer">
                 <X className="w-5 h-5" />
               </button>
             </div>
             <form onSubmit={saveLocale} className="p-5 space-y-4">
-              <Field label="Code" value={form.code} onChange={(value) => setField("code", value)} placeholder="en, uz, ru, ar" disabled={Boolean(editing)} />
-              <Field label="English Name" value={form.name} onChange={(value) => setField("name", value)} placeholder="English" />
-              <Field label="Native Name" value={form.native_name} onChange={(value) => setField("native_name", value)} placeholder="English" />
+              <Field label={t("apanel.locales.code")} value={form.code} onChange={(value) => setField("code", value)} placeholder={t("apanel.locales.codePlaceholder")} disabled={Boolean(editing)} />
+              <Field label={t("apanel.locales.englishName")} value={form.name} onChange={(value) => setField("name", value)} placeholder={t("apanel.locales.englishNamePlaceholder")} />
+              <Field label={t("apanel.locales.nativeName")} value={form.native_name} onChange={(value) => setField("native_name", value)} placeholder={t("apanel.locales.nativeNamePlaceholder")} />
               <label className="space-y-1.5 block">
-                <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">Direction</span>
+                <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">{t("apanel.locales.direction")}</span>
                 <select
                   value={form.direction}
                   onChange={(event) => setField("direction", event.target.value)}
@@ -287,7 +289,7 @@ export default function ApanelLocales() {
                   <option value="rtl">RTL</option>
                 </select>
               </label>
-              <Field label="Sort Order" type="number" value={form.sort_order} onChange={(value) => setField("sort_order", Number(value))} />
+              <Field label={t("apanel.locales.sortOrder")} type="number" value={form.sort_order} onChange={(value) => setField("sort_order", Number(value))} />
               <label className="flex min-h-11 items-center gap-2 rounded-xl border border-gray-200 px-3 py-2.5 text-sm font-bold text-navy bg-white">
                 <input
                   type="checkbox"
@@ -295,7 +297,7 @@ export default function ApanelLocales() {
                   onChange={(event) => setField("is_active", event.target.checked)}
                   className="h-4 w-4 accent-primary"
                 />
-                Active in public language switcher
+                {t("apanel.locales.activeInSwitcher")}
               </label>
               <button
                 type="submit"
@@ -303,7 +305,7 @@ export default function ApanelLocales() {
                 className="w-full inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary-hover disabled:opacity-60 text-white px-5 py-3 rounded-xl text-xs font-extrabold cursor-pointer"
               >
                 {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-                Save Locale
+                {t("apanel.locales.save")}
               </button>
             </form>
           </section>
@@ -311,8 +313,8 @@ export default function ApanelLocales() {
       </div>
       <ConfirmDialog
         isOpen={Boolean(pendingDelete)}
-        title="Delete locale?"
-        message={`This will permanently delete ${pendingDelete?.code || "this locale"}. This action cannot be undone.`}
+        title={t("apanel.locales.deleteTitle")}
+        message={`${t("apanel.locales.deleteMessage")} ${pendingDelete?.code || t("apanel.locales.thisLocale")}`}
         onConfirm={confirmDelete}
         onCancel={() => setPendingDelete(null)}
       />

@@ -12,6 +12,7 @@ import FormError from "../../../components/common/FormError";
 import { apanelService } from "../../../services/apanelService";
 import ConfirmDialog from "../components/ConfirmDialog";
 import { useApanelLocaleCodes } from "../utils/locales";
+import { useLanguage } from "../../../context/LanguageContext";
 
 function formatDate(value, locale) {
   if (!value) return "—";
@@ -25,6 +26,7 @@ function formatDate(value, locale) {
 }
 
 export default function ApanelNewsletterSubscriptions() {
+  const { t } = useLanguage();
   const localeCodes = useApanelLocaleCodes();
   const primaryLocale = localeCodes[0] || undefined;
   const [items, setItems] = useState([]);
@@ -54,11 +56,11 @@ export default function ApanelNewsletterSubscriptions() {
       setTotal(pageData.total);
       setLastPage(pageData.lastPage);
     } catch (err) {
-      setError(err?.message || "Failed to load newsletter subscriptions.");
+      setError(err?.message || t("apanel.newsletter.loadFailed"));
     } finally {
       setLoading(false);
     }
-  }, [page, search]);
+  }, [page, search, t]);
 
   useEffect(() => {
     fetchSubscriptions();
@@ -79,7 +81,7 @@ export default function ApanelNewsletterSubscriptions() {
       setPendingDelete(null);
       fetchSubscriptions();
     } catch (err) {
-      setError(err?.message || "Failed to delete subscription.");
+      setError(err?.message || t("apanel.newsletter.deleteFailed"));
     } finally {
       setDeletingId(null);
     }
@@ -90,10 +92,10 @@ export default function ApanelNewsletterSubscriptions() {
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-extrabold text-navy uppercase tracking-wider">
-            Newsletter Subscriptions
+            {t("apanel.newsletter.title")}
           </h1>
           <p className="text-gray-400 text-xs font-semibold mt-1">
-            Emails collected from the public footer newsletter form.
+            {t("apanel.newsletter.subtitle")}
           </p>
         </div>
         <button
@@ -102,7 +104,7 @@ export default function ApanelNewsletterSubscriptions() {
           className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-gray-200 bg-white text-navy text-xs font-extrabold hover:bg-gray-50 cursor-pointer"
         >
           <RefreshCw className="w-4 h-4" />
-          Refresh
+          {t("button.refresh")}
         </button>
       </div>
 
@@ -110,10 +112,10 @@ export default function ApanelNewsletterSubscriptions() {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {[
-          { label: "Total subscribers", value: total, icon: Users },
-          { label: "Active on this page", value: activeCount, icon: Mail },
+          { label: t("apanel.newsletter.totalSubscribers"), value: total, icon: Users },
+          { label: t("apanel.newsletter.activeOnPage"), value: activeCount, icon: Mail },
           {
-            label: "Latest subscription",
+            label: t("apanel.newsletter.latestSubscription"),
             value: latestDate ? formatDate(latestDate, primaryLocale) : "—",
             icon: CalendarClock,
           },
@@ -151,12 +153,12 @@ export default function ApanelNewsletterSubscriptions() {
                 setSearch(event.target.value);
                 setPage(1);
               }}
-              placeholder="Search by email, locale, or status"
+              placeholder={t("apanel.newsletter.searchPlaceholder")}
               className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold text-navy"
             />
           </div>
           <p className="text-xs font-bold text-gray-400">
-            Page {page} of {lastPage}
+            {t("apanel.newsletter.page")} {page} {t("apanel.newsletter.of")} {lastPage}
           </p>
         </div>
 
@@ -164,12 +166,12 @@ export default function ApanelNewsletterSubscriptions() {
           <table className="w-full min-w-200 text-start">
             <thead className="bg-gray-50 text-[10px] uppercase tracking-wider text-gray-400 font-black">
               <tr>
-                <th className="px-5 py-3 text-start">Email</th>
-                <th className="px-5 py-3 text-start">Locale</th>
-                <th className="px-5 py-3 text-start">Status</th>
-                <th className="px-5 py-3 text-start">Subscribed</th>
-                <th className="px-5 py-3 text-start">IP Address</th>
-                <th className="px-5 py-3 text-end">Actions</th>
+                <th className="px-5 py-3 text-start">{t("form.email")}</th>
+                <th className="px-5 py-3 text-start">{t("apanel.newsletter.locale")}</th>
+                <th className="px-5 py-3 text-start">{t("apanel.newsletter.status")}</th>
+                <th className="px-5 py-3 text-start">{t("apanel.newsletter.subscribed")}</th>
+                <th className="px-5 py-3 text-start">{t("apanel.newsletter.ipAddress")}</th>
+                <th className="px-5 py-3 text-end">{t("apanel.newsletter.actions")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
@@ -185,7 +187,7 @@ export default function ApanelNewsletterSubscriptions() {
                     colSpan="6"
                     className="px-5 py-12 text-center text-sm font-bold text-gray-400"
                   >
-                    No newsletter subscriptions found.
+                    {t("apanel.newsletter.empty")}
                   </td>
                 </tr>
               ) : (
@@ -221,7 +223,7 @@ export default function ApanelNewsletterSubscriptions() {
                         onClick={() => setPendingDelete(item)}
                         disabled={deletingId === item.id}
                         className="inline-flex items-center justify-center w-9 h-9 rounded-xl border border-rose-100 text-rose-600 hover:bg-rose-50 disabled:opacity-60 cursor-pointer"
-                        aria-label={`Delete ${item.email}`}
+                        aria-label={`${t("button.delete")} ${item.email}`}
                       >
                         {deletingId === item.id ? (
                           <Loader2 className="w-4 h-4 animate-spin" />
@@ -244,7 +246,7 @@ export default function ApanelNewsletterSubscriptions() {
             disabled={page <= 1}
             className="px-4 py-2 rounded-xl border border-gray-200 text-xs font-extrabold text-navy disabled:opacity-40 cursor-pointer"
           >
-            Previous
+            {t("button.previous")}
           </button>
           <button
             type="button"
@@ -254,16 +256,16 @@ export default function ApanelNewsletterSubscriptions() {
             disabled={page >= lastPage}
             className="px-4 py-2 rounded-xl border border-gray-200 text-xs font-extrabold text-navy disabled:opacity-40 cursor-pointer"
           >
-            Next
+            {t("button.next")}
           </button>
         </div>
       </section>
       <ConfirmDialog
         isOpen={Boolean(pendingDelete)}
-        title="Delete subscription?"
-        message={`This will permanently delete ${pendingDelete?.email || "this subscription"}. This action cannot be undone.`}
-        confirmText={deletingId ? "Deleting..." : "Delete"}
-        cancelText="Cancel"
+        title={t("apanel.newsletter.deleteTitle")}
+        message={`${t("apanel.newsletter.deleteMessage")} ${pendingDelete?.email || t("apanel.newsletter.thisSubscription")}`}
+        confirmText={deletingId ? t("apanel.newsletter.deleting") : t("button.delete")}
+        cancelText={t("button.cancel")}
         onConfirm={confirmDelete}
         onCancel={() => setPendingDelete(null)}
       />

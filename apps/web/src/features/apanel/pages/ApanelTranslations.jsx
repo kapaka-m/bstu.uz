@@ -1,18 +1,20 @@
 import { Link } from "react-router-dom";
 import { KeyRound, Languages, Text } from "lucide-react";
+import { useLanguage } from "../../../context/LanguageContext";
 
 export default function ApanelTranslations() {
+  const { t } = useLanguage();
   const tools = [
     {
       to: "/apanel/translation-keys",
-      title: "Translation Keys",
-      description: "Manage grouped translation key definitions.",
+      title: t("apanel.translationManagement.keysTitle"),
+      description: t("apanel.translationManagement.keysDescription"),
       icon: KeyRound,
     },
     {
       to: "/apanel/translation-values",
-      title: "Translation Values",
-      description: "Edit localized values for en, uz, ru, and ar.",
+      title: t("apanel.translationManagement.valuesTitle"),
+      description: t("apanel.translationManagement.valuesDescription"),
       icon: Text,
     },
   ];
@@ -21,11 +23,10 @@ export default function ApanelTranslations() {
     <div className="space-y-6 animate-in fade-in duration-200">
       <div>
         <h1 className="text-xl font-extrabold text-navy uppercase tracking-wider">
-          Translation Management
+          {t("apanel.translationManagement.title")}
         </h1>
         <p className="text-gray-400 text-xs font-semibold">
-          Manage translation keys and localized values backed by the Laravel
-          API.
+          {t("apanel.translationManagement.subtitle")}
         </p>
       </div>
 
@@ -59,9 +60,7 @@ export default function ApanelTranslations() {
       <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-xs flex items-start gap-4">
         <Languages className="w-5 h-5 text-primary shrink-0 mt-0.5" />
         <p className="text-xs font-semibold text-gray-500 leading-relaxed">
-          This page intentionally routes to the existing
-          `/api/v1/apanel/translation-keys` and
-          `/api/v1/apanel/translation-values` resources.
+          {t("apanel.translationManagement.routeNote")}
         </p>
       </div>
     </div>

@@ -915,6 +915,83 @@
 
 ---
 
+## مراجعة React Apanel Pages Partial 2026-07-28
+
+تاريخ المراجعة: 2026-07-28
+
+## ملفات React Apanel Pages Partial 2026-07-28 التي تمت مراجعتها
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\pages`
+- `ApanelAboutPage.jsx`
+- `ApanelAdministration.jsx`
+- `ApanelAnnouncements.jsx`
+- `ApanelApplicationDetail.jsx`
+- `ApanelApplicationsWorkflow.jsx`
+- `ApanelBlog.jsx`
+- `ApanelCenters.jsx`
+- `ApanelContactManagement.jsx`
+- `ApanelContactPage.jsx`
+- `ApanelCrud.jsx`
+- `ApanelDashboard.jsx`
+- `ApanelFooterWeb.jsx`
+- `ApanelGreenCampus.jsx`
+- `ApanelHeaderNavbar.jsx`
+- `ApanelInteractiveServices.jsx`
+- `ApanelLocales.jsx`
+- `ApanelLogin.jsx`
+- `ApanelMedia.jsx`
+- `ApanelNewsEvents.jsx`
+- `ApanelNewsletterSubscriptions.jsx`
+- `ApanelTranslations.jsx`
+- `ApanelVideoBdtu.jsx`
+
+## ما تم العثور عليه في React Apanel Pages Partial 2026-07-28
+
+- وجدت labels/placeholders ورسائل إدارية ثابتة داخل صفحات apanel الكبيرة.
+- `ApanelCrud.jsx` كان يحتوي schema labels/titles ثابتة كثيرة لواجهة CRUD العامة.
+- `ApanelLocales.jsx` و `ApanelTranslations.jsx` كانتا تحتويان نصوص لغة وترجمة ثابتة، ومنها إشارة ثابتة للغات الأربع.
+- `ApanelMedia.jsx`, `ApanelNewsletterSubscriptions.jsx`, `ApanelDashboard.jsx`, و `ApanelApplicationDetail.jsx` كانت تحتوي نصوص واجهة أو placeholders ثابتة.
+
+## تغييرات React Apanel Pages Partial 2026-07-28
+
+- تم تحويل `ApanelCrud.jsx` لاستخدام مفاتيح ترجمة في schema بدل النصوص المباشرة، مع طبقة `localizeResourceSchema` التي تمرر `title`, `columns`, `fields`, و option labels عبر `t(...)`.
+- تم إنشاء `apps\api\database\data\apanel_crud_ui_translations.json` ويحتوي 247 مفتاح ترجمة أولي لواجهة CRUD العامة.
+- تم تعديل `StudentSystemTranslationSeeder.php` ليقرأ مفاتيح `apanel_crud_ui_translations.json` بطريقة آمنة idempotent.
+- تم تحويل نصوص `ApanelLocales.jsx`, `ApanelTranslations.jsx`, `ApanelMedia.jsx`, `ApanelNewsletterSubscriptions.jsx`, `ApanelDashboard.jsx`, و placeholders في `ApanelApplicationDetail.jsx` إلى مفاتيح ترجمة من قاعدة البيانات.
+- تمت إضافة مفاتيح ترجمة جديدة للغات، إدارة الترجمات، مكتبة الوسائط، اشتراكات النشرة، dashboard، و application detail placeholders.
+
+## ربط React Apanel Pages Partial 2026-07-28 بالبيانات
+
+- النصوص الإدارية: `translation_keys` و `translation_values`.
+- اللغات: `locales`.
+- إعدادات النظام العامة والشعارات: `settings`.
+- ملفات الوسائط: `media`.
+- اشتراكات النشرة: `newsletter_subscriptions`.
+- لوحة dashboard: endpoint إدارة `/api/v1/apanel/dashboard` عبر `apanelService.dashboard()`.
+- CRUD العام: endpoints `GET/POST/PUT/DELETE /api/v1/apanel/{resource}`.
+- الإدارة من لوحة التحكم: `/apanel/translations`, `/apanel/translation-keys`, `/apanel/translation-values`, `/apanel/locales`, `/apanel/media`, `/apanel/newsletter/subscriptions`, وموارد `/apanel/{resource}`.
+
+## المتبقي بعد React Apanel Pages Partial 2026-07-28
+
+- لا أستطيع القول إن كل `apps\web\src\features\apanel\pages` أصبح خاليًا تمامًا من النصوص الثابتة في هذه الجولة.
+- الفحص الأخير ما زال يظهر placeholders/messages ثابتة في صفحات متخصصة مثل `ApanelAnnouncements.jsx`, `ApanelBlog.jsx`, `ApanelAboutPage.jsx`, `ApanelContactPage.jsx`, `ApanelContactManagement.jsx`, `ApanelVideoBdtu.jsx`, `ApanelHeaderNavbar.jsx`, `ApanelInteractiveServices.jsx`, و `ApanelNewsEvents.jsx`.
+- هذه البقايا هي labels/placeholders/toast أو رسائل واجهة إدارية، وليست بيانات public CMS؛ لكنها ما زالت قابلة للتغيير ويجب تحويلها إلى translation keys في الجولة التالية قبل اعتبار كل apanel pages مكتملة.
+
+## تحقق React Apanel Pages Partial 2026-07-28
+
+- فحص static/fallback داخل النطاق: كشف المتبقي المذكور أعلاه، لذلك لم يتم ادعاء اكتمال كل الصفحات.
+- فحص مفاتيح الصفحات المعدلة: كل مفاتيح `t("...")` في الملفات المعدلة موجودة في seeder أو JSON seed.
+- `npm.cmd run lint -- --quiet`: نجح.
+- `npm.cmd run build`: نجح.
+- `php-local.bat -l database\seeders\StudentSystemTranslationSeeder.php`: نجح بدون أخطاء syntax.
+- `php-local.bat artisan db:seed --class=StudentSystemTranslationSeeder`: نجح عند تشغيله منفردًا. فشل مرة أثناء التشغيل المتوازي بسبب Windows file lock في `bootstrap\cache` ثم نجح بعد الإعادة.
+- `php-local.bat artisan route:list --path=api/v1 --except-vendor`: نجح وأظهر 170 route.
+- `php-local.bat artisan test`: نجح، 4 tests passed و 7 assertions.
+- `php-local.bat artisan optimize:clear`: نجح.
+- فحص عناوين التقرير: لا توجد عناوين Markdown مكررة.
+
+---
+
 ## مراجعة React Apanel Features 2026-07-28
 
 تاريخ المراجعة: 2026-07-28

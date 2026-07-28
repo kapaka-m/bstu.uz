@@ -851,6 +851,13 @@
 - `php-local.bat artisan test` نجح: 4 tests passed, 7 assertions.
 - `php-local.bat artisan optimize:clear` نجح.
 
+إعادة تحقق نفس النطاق بعد الطلب المتكرر:
+
+- تمت إعادة قراءة قائمة الملفات داخل `apps\web\src\features\student` وتأكيد أنها نفس مجموعة الطالب فقط.
+- تمت إعادة فحص `t("key", "fallback")`, قوائم اللغات الثابتة, `localhost`, `127.0.0.1`, `VITE_API_BASE_URL`, `/storage/`, `student@example.com`, `BSTU`, و `requiredTypes = [` ولم تظهر نتائج داخل النطاق.
+- تمت إعادة مطابقة كل مفاتيح `t("...")` داخل ملفات الطالب مع `StudentSystemTranslationSeeder.php` أو status keys المولدة.
+- النتائج الوحيدة المتبقية في الفحص النصي هي `console.error` ورسائل status تقنية مثل `APPROVED` و `REJECTED`، وليست محتوى CMS قابلاً للإدارة.
+
 ## المتبقي في Web Public Root Environment
 
 - `index.html` ما زال يحتوي عنصر `<title>` و`lang` كـ bootstrap HTML ضروري قبل تحميل React؛ القيم النهائية يتم ضبطها من قاعدة البيانات بعد تحميل التطبيق.

@@ -1468,10 +1468,8 @@
 
 - تم فحص `features/apanel` و `features/student` ولم تعد تظهر أنماط قوائم اللغات الثابتة `en/uz/ru/ar` أو `translations.en` أو `activeLocale === "en"` داخل النطاق المحدد.
 - لا أستطيع اعتبار كل `features/apanel` منتهياً بالكامل من ناحية النصوص الإدارية؛ ما زالت توجد labels وأزرار ورسائل إدارية ثابتة في بعض صفحات apanel. هذه ليست محتوى الموقع العام، لكنها نصوص واجهة قابلة للترجمة ويجب نقلها تدريجياً إلى `translation_keys` و `translation_values`.
-- بقيت placeholders إرشادية ثابتة داخل حقول إدخال الصور في:
-  - `ApanelBlog.jsx`: `https://... or media/uploads/image.jpg`
-  - `ApanelNewsEvents.jsx`: `https://... or media/news/image.jpg`
-- هذه placeholders لا تبني URL ولا تستخدم API/storage مباشرة، لكنها ما زالت نصوص UI ثابتة إذا أردنا الوصول لصفر نصوص ثابتة في apanel.
+- تمت إزالة placeholders الإرشادية التي كانت تحتوي أمثلة روابط صور من `ApanelBlog.jsx` و `ApanelNewsEvents.jsx`.
+- ما زالت توجد labels وأزرار إدارية ثابتة داخل بعض صفحات apanel إذا كان الهدف ترجمة لوحة التحكم بالكامل، لكنها ليست مصدر محتوى الموقع العام ولا تبني بيانات CMS ثابتة للموقع.
 - لم يتم العثور على URL API مكرر أو `localhost` أو `127.0.0.1` داخل النطاق المحدد.
 
 ## تحقق متابعة Features Apanel Student 2026-07-28
@@ -1487,3 +1485,4 @@
 - تم إعادة فحص `features/apanel` و `features/student` بعد التعديلات ولم تظهر قوائم locale ثابتة أو hardcoded `translations.en`.
 - تم فحص `t("key", "fallback")` داخل النطاق ولم تظهر fallbacks نصية من هذا النوع.
 - تم فحص `Intl.DateTimeFormat("en")` داخل النطاق ولم تظهر نتائج بعد التعديل.
+- تم فحص `localhost` و `127.0.0.1` و `VITE_API_BASE_URL` و `/storage/` و `http://` و `https://` داخل `apps/web/src/features` ولم تظهر نتائج بعد إزالة placeholders.

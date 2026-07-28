@@ -1,4 +1,4 @@
-import { api } from "../lib/api";
+import { api, downloadBlob } from "../lib/api";
 
 export const applicationService = {
   getApplications() {
@@ -34,6 +34,6 @@ export const applicationService = {
   },
 
   downloadDocument(documentId) {
-    return api.get(`/student/documents/${documentId}/download`);
+    return downloadBlob(`/student/documents/${documentId}/download`);
   }
 };

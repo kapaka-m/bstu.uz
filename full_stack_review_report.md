@@ -1552,3 +1552,57 @@
 - `php-local.bat artisan test` نجح: 4 tests passed, 7 assertions.
 - `php-local.bat artisan optimize:clear` نجح.
 - `php-local.bat -l database\seeders\StudentSystemTranslationSeeder.php` نجح.
+
+---
+
+## مراجعة React Lib Services Utils 2026-07-28
+
+تاريخ المراجعة: 2026-07-28
+
+## ملفات React Lib Services Utils 2026-07-28 التي تمت مراجعتها
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\utils`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\utils\cmsContent.js`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\main.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\index.css`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\App.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\services`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\services\*.js`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\lib`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\lib\*.js`
+
+## ما تم العثور عليه في React Lib Services Utils 2026-07-28
+
+- لم تظهر بيانات CMS أو mock/demo arrays أو fallbacks من نوع `t("key", "Static text")` داخل النطاق المفحوص.
+- `apps\web\src\lib\api.js` هو المصدر المركزي الصحيح لـ `VITE_API_BASE_URL`, headers, locale query, auth token, storage URL building, و file download.
+- `apps\web\src\index.css` يحتوي import خطوط Google و selectors فنية للـ fonts والاتجاهات، وليست محتوى CMS قابل للإدارة.
+- `apps\web\src\App.jsx` يحتوي route definitions تقنية فقط، ويستخدم `/apanel/` و `/student/` ولا ينشئ صفحات تحت `/admin`.
+
+## تغييرات React Lib Services Utils 2026-07-28
+
+- تم تعديل `apps\web\src\utils\cmsContent.js` ليستخدم `publicAssetUrl` من `apps\web\src\lib\api.js` بدلاً من بناء `/storage` داخل helper منفصل.
+- تم تعديل `apps\web\src\services\applicationService.js` ليستخدم `downloadBlob` من `apps\web\src\lib\api.js` عند تنزيل مستند الطالب بدلاً من تنفيذ تنزيل غير مركزي.
+
+## ربط React Lib Services Utils 2026-07-28 بالبيانات
+
+- جداول اللغات والترجمات: `locales`, `translation_keys`, `translation_values`.
+- API اللغات والترجمات: `GET /api/v1/locales`, `GET /api/v1/translations`.
+- إدارة اللغات والترجمات من `/apanel/locales` و `/apanel/translations`.
+- خدمات React داخل `apps\web\src\services` تعتمد على Laravel API من خلال `apps\web\src\lib\api.js`، ولا تحتوي مصدر بيانات CMS مستقل.
+- مسارات الملفات العامة تمر عبر `publicAssetUrl` المركزي، وتنزيل الملفات يمر عبر `downloadBlob` المركزي.
+
+## المتبقي بعد React Lib Services Utils 2026-07-28
+
+- لم يتم نقل endpoint names أو route definitions أو storage keys أو CSS/font rules إلى قاعدة البيانات لأنها تفاصيل تنفيذ تقنية وليست محتوى يديره المدير.
+- لم أجد داخل هذه المجموعة محتوى قابل للإدارة يحتاج جدولاً جديداً أو صفحة apanel جديدة.
+
+## تحقق React Lib Services Utils 2026-07-28
+
+- تم فحص `fetch`, `VITE_API_BASE_URL`, `/storage/`, و `downloadBlob`: الاستخدام المركزي موجود في `apps\web\src\lib\api.js` فقط، مع استدعاءات خدمات مسموحة للدوال المركزية.
+- تم فحص `t("key", "fallback")`, `fallbackTranslations`, قوائم اللغات الثابتة، و `Intl.DateTimeFormat("en")`: لم تظهر نتائج داخل النطاق.
+- `npm.cmd run lint -- --quiet` نجح.
+- `npm.cmd run build` نجح.
+- `php-local.bat artisan route:list --path=api/v1 --except-vendor` نجح وأظهر 170 route.
+- `php-local.bat artisan test` نجح: 4 tests passed, 7 assertions.
+- `php-local.bat artisan optimize:clear` نجح.
+- لم يتم تعديل PHP ضمن هذه المجموعة، لذلك لم تكن هناك ملفات PHP جديدة تحتاج `php -l`.

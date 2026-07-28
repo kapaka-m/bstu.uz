@@ -1,3 +1,5 @@
+import { publicAssetUrl } from "../lib/api";
+
 export function asArray(value) {
   if (Array.isArray(value)) return value;
   if (!value) return [];
@@ -81,11 +83,7 @@ export function cmsImage(item, fallback = "") {
     item?.photo ||
     item?.avatar;
 
-  if (!value) return fallback;
-  if (/^https?:\/\//i.test(value)) return value;
-  if (value.startsWith("/")) return value;
-  if (value.startsWith("storage/")) return `/${value}`;
-  return `/storage/${value}`;
+  return value ? publicAssetUrl(value) : fallback;
 }
 
 export function cmsDate(item) {

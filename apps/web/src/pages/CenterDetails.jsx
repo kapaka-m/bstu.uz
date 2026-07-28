@@ -164,8 +164,8 @@ export default function CenterDetails() {
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <div className="w-full h-full bg-gradient-to-tr from-navy via-navy/95 to-primary flex flex-col items-center justify-center p-8 text-center relative overflow-hidden select-none">
-                  <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white/5 to-transparent opacity-40 pointer-events-none" />
+                <div className="w-full h-full bg-linear-to-tr from-navy via-navy/95 to-primary flex flex-col items-center justify-center p-8 text-center relative overflow-hidden select-none">
+                  <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--tw-gradient-stops))] from-white/5 to-transparent opacity-40 pointer-events-none" />
                   <div className="relative z-10 space-y-3">
                     <span className="inline-flex rounded-full bg-white/10 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-primary-light">
                       {settings?.structure_label || t("common.universityStructure")}
@@ -217,7 +217,7 @@ export default function CenterDetails() {
                       className="w-20 h-20 rounded-full object-cover border-2 border-white shadow-md shrink-0"
                     />
                   ) : (
-                    <div className="w-20 h-20 rounded-full bg-gradient-to-br from-primary/10 to-primary/20 flex items-center justify-center border border-primary/20 shrink-0 shadow-sm text-primary">
+                    <div className="w-20 h-20 rounded-full bg-linear-to-br from-primary/10 to-primary/20 flex items-center justify-center border border-primary/20 shrink-0 shadow-sm text-primary">
                       <UserCheck className="w-8 h-8" />
                     </div>
                   )}

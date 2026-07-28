@@ -650,6 +650,73 @@
 
 ---
 
+## مراجعة Laravel Routes Storage Tests Vendor
+
+تاريخ المراجعة: 2026-07-28
+
+## ملفات Laravel Routes Storage Tests Vendor التي تمت مراجعتها
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\routes`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\routes\api.php`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\routes\web.php`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\routes\console.php`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\storage`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\storage\app`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\storage\app\private`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\storage\app\public`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\storage\framework`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\storage\logs`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\storage\temp`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\tests`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\vendor`
+
+## ما تم العثور عليه في Laravel Routes Storage Tests Vendor
+
+- `routes/api.php` يستخدم `/api/v1`, `/student/*`, و`/apanel/*` فقط لإدارة لوحة التحكم، ولا يحتوي route باسم `/admin`.
+- public website routes تعتمد على `PublicApiController` وجداول CMS الحالية.
+- student portal routes تعتمد على `StudentApiController` و`StudentApplicationPortalController`.
+- apanel routes تعتمد على `AdminCrudController` و`ApanelApplicationWorkflowController`.
+- `storage/app/public/cms` يحتوي ملفات CMS منظمة حسب المجالات مثل branding, news-events, blog, green-campus, staff, videos, media-library.
+- `storage/app/private` يحتوي ملفات طلاب ووثائق ومدفوعات ومستندات PDF مولدة، وهي بيانات مستخدمين لا يجب حذفها أو نقلها بدون تحديث قاعدة البيانات.
+- `storage/temp` و`storage/framework/views` احتويا ملفات مؤقتة مولدة من PHPUnit/Laravel.
+- `vendor` حزم Composer طرف ثالث، وليست مصدر محتوى للمشروع.
+- `tests/Feature/ExampleTest.php` و`tests/Unit/ExampleTest.php` كانا boilerplate افتراضيين من Laravel.
+- `routes/console.php` كان يحتوي command `inspire` الافتراضي من Laravel.
+
+## تغييرات Laravel Routes Storage Tests Vendor
+
+- تمت إزالة command `inspire` الافتراضي من `routes/console.php`.
+- تم حذف `tests/Unit/ExampleTest.php` لأنه اختبار demo لا يختبر سلوكاً حقيقياً.
+- تم استبدال `tests/Feature/ExampleTest.php` بـ `tests/Feature/HealthRouteTest.php` لاختبار health route باسم واضح.
+- تم تنظيف ملفات temp/compiled view المولدة داخل `storage/temp` و`storage/framework/views`، مع ترك ملفات `.gitignore`.
+- لم يتم حذف أو نقل أي ملف طالب أو CMS من `storage/app/private` أو `storage/app/public/cms`.
+
+## ربط Laravel Routes Storage Tests Vendor بالبيانات
+
+- ملفات CMS العامة مربوطة بجداول مثل `media`, `news`, `blogs`, `staff_profiles`, `videos`, `settings`, وجداول CMS/translation الخاصة بها.
+- ملفات الطلاب الخاصة مربوطة بجداول مثل `application_documents`, `application_fee_payments`, `service_fee_payments`, `contracts`, `admissions`, `enrollments`, و`prikazes`.
+- تم التحقق من وجود سجلات قاعدة بيانات مرتبطة بهذه الأنواع: `media=17`, `application_documents=5`, `application_fee_payments=1`, `service_fee_payments=1`, `contracts=1`, `admissions=1`, `enrollments=1`, `prikazes=1`.
+- API المستخدم للعرض والإدارة: `/api/v1/media/{id}`, `/api/v1/settings/public`, public CMS endpoints، `/api/v1/student/*`, و`/api/v1/apanel/*`.
+- `/apanel/`: إدارة CMS من `/apanel/cms/*` وCRUD العام من `/apanel/{resource}`، وإدارة workflow/وثائق الطلاب من `/apanel/applications-workflow/*`.
+
+## تحقق Laravel Routes Storage Tests Vendor
+
+- إعادة المسح لم تجد `/admin`, `localhost`, `127.0.0.1`, `VITE_API_BASE_URL`, `mock`, `demo`, `ExampleTest`, أو `inspire` داخل `routes` و`tests`.
+- تم فحص syntax للملفات المعدلة: `routes/api.php`, `routes/web.php`, `routes/console.php`, `tests/Feature/ApiSecurityTest.php`, `tests/Feature/HealthRouteTest.php`, و`tests/TestCase.php`.
+- `php-local.bat artisan optimize:clear` نجح.
+- `php-local.bat artisan route:list --path=api/v1 --except-vendor` نجح وأظهر 170 route.
+- `php-local.bat artisan test` نجح: 4 tests passed, 7 assertions.
+- `npm.cmd run lint` نجح.
+- `npm.cmd run build` نجح.
+
+## المتبقي في Laravel Routes Storage Tests Vendor
+
+- `vendor` لم يتم تعديله لأنه dependency folder لطرف ثالث.
+- `storage/logs/laravel.log` لم يتم حذفه لأنه ملف log تشخيصي وليس محتوى CMS.
+- ملفات `storage/app/public/cms` و`storage/app/private` باقية كما هي لأنها بيانات وملفات فعلية مربوطة بقاعدة البيانات.
+
+---
+
 ## مراجعة Laravel App Backend Dynamic Runtime
 
 تاريخ المراجعة: 2026-07-28

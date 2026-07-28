@@ -1,5 +1,6 @@
 import React from "react";
 import { Search, Plus } from "lucide-react";
+import { useLanguage } from "../../../context/LanguageContext";
 
 export default function SearchFilterBar({
   searchQuery = "",
@@ -9,8 +10,9 @@ export default function SearchFilterBar({
   activeFilters = {},
   onFilterChange,
   onAddClick,
-  addLabel = "Add New",
+  addLabel,
 }) {
+  const { t } = useLanguage();
   const handleSubmit = (e) => {
     e.preventDefault();
     if (onSearchSubmit) onSearchSubmit();
@@ -26,7 +28,7 @@ export default function SearchFilterBar({
               type="text"
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
-              placeholder="Search..."
+              placeholder={t("apanel.search.placeholder")}
               className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold bg-white text-navy"
             />
             <Search className="absolute left-3.5 top-3.5 w-3.5 h-3.5 text-gray-400" />
@@ -49,7 +51,7 @@ export default function SearchFilterBar({
               onChange={(e) => onFilterChange(filter.name, e.target.value)}
               className="w-full sm:w-auto text-xs font-semibold px-3 py-2.5 rounded-xl border border-gray-200 outline-none focus:border-primary bg-white text-navy cursor-pointer"
             >
-              <option value="">All</option>
+              <option value="">{t("common.all")}</option>
               {filter.options.map((opt) => (
                 <option key={opt.value} value={opt.value}>
                   {opt.label}
@@ -67,7 +69,7 @@ export default function SearchFilterBar({
           className="w-full md:w-auto inline-flex items-center justify-center gap-1.5 bg-primary hover:bg-primary-hover text-white px-5 py-2.5 rounded-xl text-xs font-extrabold shadow-sm hover:shadow-md cursor-pointer transition-all shrink-0"
         >
           <Plus className="w-4 h-4" />
-          {addLabel}
+          {addLabel || t("apanel.search.addNew")}
         </button>
       )}
     </div>

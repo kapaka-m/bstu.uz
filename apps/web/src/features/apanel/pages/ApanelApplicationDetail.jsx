@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { apanelService } from "../../../services/apanelService";
 import { useAuth } from "../../../context/AuthContext";
+import { useLanguage } from "../../../context/LanguageContext";
 import {
   ArrowLeft,
   Loader2,
@@ -21,6 +22,7 @@ import { publicAssetUrl } from "../../../lib/api";
 export default function ApanelApplicationDetail() {
   const { id } = useParams();
   const { user: adminUser } = useAuth();
+  const { t, settings = {} } = useLanguage();
 
   const [application, setApplication] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -46,17 +48,22 @@ export default function ApanelApplicationDetail() {
       setApplication(data);
       setStatus(data.status || "");
       setNotifyTitle(
-        `Application Status Update: ${String(data.status).replace("_", " ").toUpperCase()}`,
+        t("apanel.applicationDetail.notificationTitle").replace(
+          ":status",
+          String(data.status).replace("_", " ").toUpperCase(),
+        ),
       );
       setNotifyMessage(
-        `Dear student, the status of your application for ${data?.program?.translations?.[0]?.name || "selected program"} has been updated to ${String(data.status).replace("_", " ")}.`,
+        t("apanel.applicationDetail.notificationMessage")
+          .replace(":program", data?.program?.translations?.[0]?.name || t("apanel.applicationDetail.selectedProgram"))
+          .replace(":status", String(data.status).replace("_", " ")),
       );
     } catch {
-      setError("Failed to load application details.");
+      setError(t("apanel.applicationDetail.loadFailed"));
     } finally {
       setLoading(false);
     }
-  }, [id]);
+  }, [id, t]);
 
   useEffect(() => {
     fetchApplication();
@@ -82,10 +89,10 @@ export default function ApanelApplicationDetail() {
 
       // 2. If send notification is toggled, call notify service
       if (sendNotify && application?.studentProfile?.user_id) {
-        const title = notifyTitle || `Application Status Update`;
+        const title = notifyTitle || t("apanel.applicationDetail.notificationTitle").replace(":status", status);
         const msg =
           notifyMessage ||
-          `Your application status has been changed to ${status}.`;
+          t("apanel.applicationDetail.statusChangedMessage").replace(":status", status);
         await apanelService.sendNotification(
           application.studentProfile.user_id,
           title,
@@ -93,11 +100,11 @@ export default function ApanelApplicationDetail() {
         );
       }
 
-      setSuccess("Application status updated successfully!");
+      setSuccess(t("apanel.applicationDetail.statusUpdated"));
       setComment("");
       fetchApplication();
     } catch (err) {
-      setError(err?.message || "Failed to update application status.");
+      setError(err?.message || t("apanel.applicationDetail.statusUpdateFailed"));
     } finally {
       setUpdating(false);
     }
@@ -125,20 +132,30 @@ export default function ApanelApplicationDetail() {
         status: statusMap[action],
         note:
           action === "request"
-            ? "Replacement or missing document requested by admissions."
+            ? t("apanel.applicationDetail.replacementDocumentRequested")
             : doc.note,
       });
 
-      setSuccess(`Document status marked as ${statusMap[action]}!`);
+      setSuccess(
+        t("apanel.applicationDetail.documentStatusMarked").replace(
+          ":status",
+          t(`status.${statusMap[action]}`),
+        ),
+      );
       fetchApplication();
     } catch {
-      setError("Failed to verify document.");
+      setError(t("apanel.applicationDetail.documentVerifyFailed"));
     }
   };
 
   const handleCreateContract = async () => {
     if (!contractAmount) {
-      setError("Enter a contract amount first.");
+      setError(t("apanel.applicationDetail.enterContractAmount"));
+      return;
+    }
+    const contractPrefix = settings.workflow_contract_prefix;
+    if (!contractPrefix) {
+      setError(t("apanel.applicationDetail.contractPrefixMissing"));
       return;
     }
 
@@ -148,7 +165,7 @@ export default function ApanelApplicationDetail() {
       setSuccess("");
       await apanelService.create("contracts", {
         application_id: Number(id),
-        contract_number: `BSTU-${id}-${Date.now()}`,
+        contract_number: `${contractPrefix}-${id}-${Date.now()}`,
         amount: Number(contractAmount),
         status: "pending",
       });
@@ -156,14 +173,14 @@ export default function ApanelApplicationDetail() {
         id,
         application,
         "contract_pending",
-        "Contract record created.",
+        t("apanel.applicationDetail.contractRecordCreated"),
         adminUser?.id,
       );
       setContractAmount("");
-      setSuccess("Contract created and application marked contract pending.");
+      setSuccess(t("apanel.applicationDetail.contractCreated"));
       fetchApplication();
     } catch (err) {
-      setError(err?.message || "Failed to create contract.");
+      setError(err?.message || t("apanel.applicationDetail.contractCreateFailed"));
     } finally {
       setUpdating(false);
     }
@@ -172,11 +189,16 @@ export default function ApanelApplicationDetail() {
   const handleCreatePayment = async () => {
     const contract = application?.contracts?.[0];
     if (!contract) {
-      setError("Create a contract before requesting payment.");
+      setError(t("apanel.applicationDetail.createContractFirst"));
       return;
     }
     if (!paymentAmount) {
-      setError("Enter a payment amount first.");
+      setError(t("apanel.applicationDetail.enterPaymentAmount"));
+      return;
+    }
+    const paymentPrefix = settings.workflow_payment_prefix;
+    if (!paymentPrefix) {
+      setError(t("apanel.applicationDetail.paymentPrefixMissing"));
       return;
     }
 
@@ -186,7 +208,7 @@ export default function ApanelApplicationDetail() {
       setSuccess("");
       await apanelService.create("payments", {
         contract_id: contract.id,
-        payment_number: `PAY-${contract.id}-${Date.now()}`,
+        payment_number: `${paymentPrefix}-${contract.id}-${Date.now()}`,
         amount: Number(paymentAmount),
         payment_date: new Date().toISOString().slice(0, 10),
         status: "pending",
@@ -195,16 +217,14 @@ export default function ApanelApplicationDetail() {
         id,
         application,
         "payment_pending",
-        "Payment request created.",
+        t("apanel.applicationDetail.paymentRequestCreated"),
         adminUser?.id,
       );
       setPaymentAmount("");
-      setSuccess(
-        "Payment request created and application marked payment pending.",
-      );
+      setSuccess(t("apanel.applicationDetail.paymentCreated"));
       fetchApplication();
     } catch (err) {
-      setError(err?.message || "Failed to create payment request.");
+      setError(err?.message || t("apanel.applicationDetail.paymentCreateFailed"));
     } finally {
       setUpdating(false);
     }
@@ -219,13 +239,13 @@ export default function ApanelApplicationDetail() {
         id,
         application,
         "enrolled",
-        "Applicant marked as enrolled.",
+        t("apanel.applicationDetail.applicantMarkedEnrolled"),
         adminUser?.id,
       );
-      setSuccess("Application marked as enrolled.");
+      setSuccess(t("apanel.applicationDetail.applicationEnrolled"));
       fetchApplication();
     } catch (err) {
-      setError(err?.message || "Failed to mark enrolled.");
+      setError(err?.message || t("apanel.applicationDetail.enrollFailed"));
     } finally {
       setUpdating(false);
     }

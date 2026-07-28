@@ -39,7 +39,15 @@ import {
 } from "lucide-react";
 
 export default function ApanelLayout({ children }) {
-  const { language, changeLanguage, isRtl } = useLanguage();
+  const {
+    t,
+    language,
+    changeLanguage,
+    isRtl,
+    locales = [],
+    settings = {},
+    logoSrc,
+  } = useLanguage();
   const { user, logout } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
@@ -59,198 +67,198 @@ export default function ApanelLayout({ children }) {
   // Nav categories & links configuration
   const menuCategories = [
     {
-      title: "Core Admin",
+      title: t("apanel.nav.coreAdmin"),
       links: [
         {
           path: "/apanel/dashboard",
-          label: "Dashboard",
+          label: t("apanel.nav.dashboard"),
           icon: LayoutDashboard,
         },
-        { path: "/apanel/settings", label: "Settings", icon: Settings },
+        { path: "/apanel/settings", label: t("apanel.nav.settings"), icon: Settings },
         {
           path: "/apanel/translations",
-          label: "Translation Dict",
+          label: t("apanel.nav.translationDict"),
           icon: Languages,
         },
-        { path: "/apanel/audit-logs", label: "Audit Logs", icon: History },
+        { path: "/apanel/audit-logs", label: t("apanel.nav.auditLogs"), icon: History },
       ],
     },
     {
-      title: "CMS",
+      title: t("apanel.nav.cms"),
       links: [
         {
           path: "/apanel/cms/about-page",
-          label: "About Page",
+          label: t("apanel.nav.aboutPage"),
           icon: FileText,
         },
         {
           path: "/apanel/cms/contact-page",
-          label: "Contact Page",
+          label: t("apanel.nav.contactPage"),
           icon: Mail,
         },
         {
           path: "/apanel/cms/header-navbar",
-          label: "Header Navbar",
+          label: t("apanel.nav.headerNavbar"),
           icon: MenuIcon,
         },
         {
           path: "/apanel/cms/footer-web",
-          label: "Footer Web",
+          label: t("apanel.nav.footerWeb"),
           icon: PanelBottom,
         },
         {
           path: "/apanel/cms/locales",
-          label: "Locales",
+          label: t("apanel.nav.locales"),
           icon: Globe,
         },
         {
           path: "/apanel/cms/news-events",
-          label: "News & Events",
+          label: t("apanel.nav.newsEvents"),
           icon: Newspaper,
         },
         {
           path: "/apanel/cms/announcements",
-          label: "Announcements",
+          label: t("apanel.nav.announcements"),
           icon: Megaphone,
         },
         {
           path: "/apanel/cms/blog",
-          label: "Blog",
+          label: t("apanel.nav.blog"),
           icon: BookOpen,
         },
         {
           path: "/apanel/cms/video-bdtu",
-          label: "Video Gallery",
+          label: t("apanel.nav.videoGallery"),
           icon: Video,
         },
         {
           path: "/apanel/cms/green-campus",
-          label: "Green Campus",
+          label: t("apanel.nav.greenCampus"),
           icon: Leaf,
         },
         {
           path: "/apanel/cms/administration",
-          label: "Administration",
+          label: t("apanel.nav.administration"),
           icon: UsersRound,
         },
         {
           path: "/apanel/centres-and-departments",
-          label: "Centres & Depts",
+          label: t("apanel.nav.centresDepartments"),
           icon: Building2,
         },
         {
           path: "/apanel/cms/interactive-services",
-          label: "Interactive Services",
+          label: t("apanel.nav.interactiveServices"),
           icon: Briefcase,
         },
       ],
     },
     {
-      title: "Marketing",
+      title: t("apanel.nav.marketing"),
       links: [
         {
           path: "/apanel/newsletter/subscriptions",
-          label: "Newsletter Subscriptions",
+          label: t("apanel.nav.newsletterSubscriptions"),
           icon: MailPlus,
         },
         {
           path: "/apanel/management/contact",
-          label: "Contact Messages",
+          label: t("apanel.nav.contactMessages"),
           icon: HelpCircle,
         },
       ],
     },
     {
-      title: "Academic Hub",
+      title: t("apanel.nav.academicHub"),
       links: [
-        { path: "/apanel/faculties", label: "Faculties", icon: GraduationCap },
-        { path: "/apanel/departments", label: "Departments", icon: Building2 },
-        { path: "/apanel/programs", label: "Study Programs", icon: BookOpen },
-        { path: "/apanel/courses", label: "Courses", icon: BookOpen },
-        { path: "/apanel/staff", label: "Staff Profiles", icon: Contact },
+        { path: "/apanel/faculties", label: t("apanel.nav.faculties"), icon: GraduationCap },
+        { path: "/apanel/departments", label: t("apanel.nav.departments"), icon: Building2 },
+        { path: "/apanel/programs", label: t("apanel.nav.studyPrograms"), icon: BookOpen },
+        { path: "/apanel/courses", label: t("apanel.nav.courses"), icon: BookOpen },
+        { path: "/apanel/staff", label: t("apanel.nav.staffProfiles"), icon: Contact },
       ],
     },
     {
-      title: "Admissions & Students",
+      title: t("apanel.nav.admissionsStudents"),
       links: [
-        { path: "/apanel/students", label: "Students", icon: User },
+        { path: "/apanel/students", label: t("apanel.nav.students"), icon: User },
       ],
     },
     {
-      title: "Applications",
+      title: t("apanel.nav.applications"),
       links: [
         {
           path: "/apanel/applications",
-          label: "All Applications",
+          label: t("apanel.nav.allApplications"),
           icon: ClipboardList,
         },
         {
           path: "/apanel/applications?stage=documents",
-          label: "Documents Review",
+          label: t("apanel.nav.documentsReview"),
           icon: FileCheck,
         },
         {
           path: "/apanel/applications?stage=equivalency",
-          label: "Academic Review",
+          label: t("apanel.nav.academicReview"),
           icon: GraduationCap,
         },
         {
           path: "/apanel/applications?stage=payments",
-          label: "Payments Review",
+          label: t("apanel.nav.paymentsReview"),
           icon: CreditCard,
         },
         {
           path: "/apanel/applications?stage=final-review",
-          label: "Final Review",
+          label: t("apanel.nav.finalReview"),
           icon: FileCheck,
         },
         {
           path: "/apanel/applications?stage=admissions",
-          label: "Admissions",
+          label: t("apanel.nav.admissions"),
           icon: Shield,
         },
         {
           path: "/apanel/countries",
-          label: "Countries",
+          label: t("apanel.nav.countries"),
           icon: Globe,
         },
         {
           path: "/apanel/nationalities",
-          label: "Nationalities",
+          label: t("apanel.nav.nationalities"),
           icon: Globe,
         },
       ],
     },
     {
-      title: "Student Services",
+      title: t("apanel.nav.studentServices"),
       links: [
-        { path: "/apanel/application-documents", label: "Legacy Documents", icon: FileCheck },
-        { path: "/apanel/payments", label: "Legacy Payments", icon: CreditCard },
+        { path: "/apanel/application-documents", label: t("apanel.nav.legacyDocuments"), icon: FileCheck },
+        { path: "/apanel/payments", label: t("apanel.nav.legacyPayments"), icon: CreditCard },
         {
           path: "/apanel/support-tickets",
-          label: "Support Tickets",
+          label: t("apanel.nav.supportTickets"),
           icon: MessageSquare,
         },
-        { path: "/apanel/comments", label: "Comments", icon: MessageCircle },
-        { path: "/apanel/notifications", label: "Notifications", icon: Bell },
+        { path: "/apanel/comments", label: t("apanel.nav.comments"), icon: MessageCircle },
+        { path: "/apanel/notifications", label: t("apanel.nav.notifications"), icon: Bell },
         {
           path: "/apanel/application-status-histories",
-          label: "Status History",
+          label: t("apanel.nav.statusHistory"),
           icon: History,
         },
       ],
     },
     {
-      title: "Access Control",
+      title: t("apanel.nav.accessControl"),
       links: [
-        { path: "/apanel/users", label: "Users", icon: User },
-        { path: "/apanel/roles", label: "Roles", icon: Shield },
-        { path: "/apanel/permissions", label: "Permissions", icon: Shield },
+        { path: "/apanel/users", label: t("apanel.nav.users"), icon: User },
+        { path: "/apanel/roles", label: t("apanel.nav.roles"), icon: Shield },
+        { path: "/apanel/permissions", label: t("apanel.nav.permissions"), icon: Shield },
       ],
     },
     {
-      title: "Assets Manager",
-      links: [{ path: "/apanel/media", label: "Media Library", icon: Image }],
+      title: t("apanel.nav.assetsManager"),
+      links: [{ path: "/apanel/media", label: t("apanel.nav.mediaLibrary"), icon: Image }],
     },
   ];
 
@@ -266,7 +274,7 @@ export default function ApanelLayout({ children }) {
     const activeLink = menuCategories
       .flatMap((cat) => cat.links)
       .find((link) => isActive(link.path));
-    return activeLink ? activeLink.label : "Dashboard";
+    return activeLink ? activeLink.label : t("apanel.nav.dashboard");
   };
 
   const renderSidebarContent = () => (
@@ -274,15 +282,23 @@ export default function ApanelLayout({ children }) {
       {/* Brand Logo header */}
       <div className="flex items-center justify-between px-6 py-5 border-b border-navy-dark">
         <Link to="/apanel" className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-xl bg-primary flex items-center justify-center font-black text-white text-base">
-            B
-          </div>
+          {logoSrc ? (
+            <img
+              src={logoSrc}
+              alt={settings.site_name || t("app.name")}
+              className="w-8 h-8 rounded-xl object-contain bg-white"
+            />
+          ) : (
+            <div className="w-8 h-8 rounded-xl bg-primary flex items-center justify-center font-black text-white text-base">
+              {t("apanel.initials")}
+            </div>
+          )}
           <div className="flex flex-col">
             <span className="font-extrabold text-xs tracking-wider uppercase leading-none">
-              BSTU
+              {settings.site_name || t("app.name")}
             </span>
             <span className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mt-0.5">
-              Control Panel
+              {t("apanel.controlPanel")}
             </span>
           </div>
         </Link>
@@ -364,7 +380,7 @@ export default function ApanelLayout({ children }) {
 
             {/* Breadcrumbs */}
             <div className="hidden sm:flex items-center gap-2 text-xs font-semibold text-gray-400 select-none">
-              <span>Admin</span>
+              <span>{t("apanel.breadcrumbRoot")}</span>
               <span>/</span>
               <span className="text-navy font-bold">
                 {getBreadcrumbLabel()}
@@ -382,10 +398,13 @@ export default function ApanelLayout({ children }) {
                 onChange={(e) => changeLanguage(e.target.value)}
                 className="text-xs font-bold text-navy outline-none bg-transparent cursor-pointer"
               >
-                <option value="en">EN</option>
-                <option value="uz">UZ</option>
-                <option value="ru">RU</option>
-                <option value="ar">AR</option>
+                {locales
+                  .filter((item) => item?.is_active !== false)
+                  .map((item) => (
+                    <option key={item.code} value={item.code}>
+                      {item.native_name || item.name || item.code.toUpperCase()}
+                    </option>
+                  ))}
               </select>
             </div>
 
@@ -396,10 +415,10 @@ export default function ApanelLayout({ children }) {
                 className="flex items-center gap-2 px-3 py-1.5 rounded-xl border border-gray-100 hover:border-gray-200 cursor-pointer bg-white transition-all shadow-2xs"
               >
                 <div className="w-6 h-6 rounded-lg bg-primary/10 text-primary flex items-center justify-center font-bold text-xs select-none uppercase">
-                  {user?.name?.slice(0, 2) || "AP"}
+                  {user?.name?.slice(0, 2) || t("apanel.initials")}
                 </div>
                 <span className="hidden sm:inline text-xs font-bold text-navy select-none">
-                  {user?.name || "Apanel User"}
+                  {user?.name || t("apanel.user")}
                 </span>
                 <ChevronDown className="w-3.5 h-3.5 text-gray-400" />
               </button>
@@ -425,7 +444,7 @@ export default function ApanelLayout({ children }) {
                       className="w-full text-start flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs font-bold text-rose-600 hover:bg-rose-50 cursor-pointer transition-all mt-1"
                     >
                       <LogOut className="w-4 h-4 shrink-0" />
-                      Log Out
+                      {t("auth.logout")}
                     </button>
                   </div>
                 </>

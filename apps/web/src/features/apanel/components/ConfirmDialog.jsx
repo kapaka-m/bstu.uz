@@ -1,5 +1,6 @@
 import React from "react";
 import { AlertTriangle } from "lucide-react";
+import { useLanguage } from "../../../context/LanguageContext";
 
 export default function ConfirmDialog({
   isOpen,
@@ -7,9 +8,10 @@ export default function ConfirmDialog({
   message,
   onConfirm,
   onCancel,
-  confirmText = "Delete",
-  cancelText = "Cancel",
+  confirmText,
+  cancelText,
 }) {
+  const { t } = useLanguage();
   if (!isOpen) return null;
 
   return (
@@ -20,13 +22,13 @@ export default function ConfirmDialog({
             <AlertTriangle className="w-5 h-5" />
           </div>
           <h3 className="font-extrabold text-navy text-lg">
-            {title || "Are you sure?"}
+            {title || t("apanel.confirm.title")}
           </h3>
         </div>
 
         <p className="text-gray-500 text-sm leading-relaxed mb-6 font-medium">
           {message ||
-            "This action cannot be undone. Please confirm to proceed."}
+            t("apanel.confirm.message")}
         </p>
 
         <div className="flex justify-end gap-3">
@@ -34,13 +36,13 @@ export default function ConfirmDialog({
             onClick={onCancel}
             className="px-4 py-2 border border-gray-200 hover:border-gray-300 text-navy font-bold text-xs rounded-xl transition-all cursor-pointer bg-white"
           >
-            {cancelText}
+            {cancelText || t("button.cancel")}
           </button>
           <button
             onClick={onConfirm}
             className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-xl transition-all shadow-md shadow-red-600/20 cursor-pointer"
           >
-            {confirmText}
+            {confirmText || t("button.delete")}
           </button>
         </div>
       </div>

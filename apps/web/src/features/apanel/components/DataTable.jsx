@@ -9,6 +9,7 @@ import {
   ShieldAlert,
 } from "lucide-react";
 import StatusBadge from "./StatusBadge";
+import { useLanguage } from "../../../context/LanguageContext";
 
 /** Resolve dot-notation key path from an object (e.g. "studentProfile.user.name") */
 function getNestedValue(obj, keyPath) {
@@ -32,6 +33,7 @@ export default function DataTable({
   onDeleteClick,
   onStatusToggle,
 }) {
+  const { t } = useLanguage();
   const handleSort = (key) => {
     if (!onSortChange) return;
     const newDir = sortBy === key && sortDir === "desc" ? "asc" : "desc";
@@ -58,7 +60,7 @@ export default function DataTable({
                   </div>
                 </th>
               ))}
-              <th className="px-6 py-4.5 text-end">Actions</th>
+              <th className="px-6 py-4.5 text-end">{t("apanel.dataTable.actions")}</th>
             </tr>
           </thead>
 
@@ -71,7 +73,7 @@ export default function DataTable({
                 >
                   <div className="flex flex-col items-center justify-center gap-2">
                     <ShieldAlert className="w-8 h-8 stroke-1 text-gray-300" />
-                    <span>No records found</span>
+                    <span>{t("apanel.dataTable.noRecords")}</span>
                   </div>
                 </td>
               </tr>
@@ -107,7 +109,7 @@ export default function DataTable({
                                   ? "bg-emerald-50 text-emerald-600 border-emerald-100 hover:bg-emerald-100"
                                   : "bg-rose-50 text-rose-600 border-rose-100 hover:bg-rose-100"
                               }`}
-                              title="Toggle status"
+                              title={t("apanel.dataTable.toggleStatus")}
                             >
                               {value ? (
                                 <Check className="w-3.5 h-3.5" />
@@ -143,7 +145,7 @@ export default function DataTable({
                         <button
                           onClick={() => onViewClick(row)}
                           className="p-2 text-gray-400 hover:text-navy hover:bg-gray-100 rounded-lg cursor-pointer transition-all"
-                          title="View details"
+                          title={t("apanel.dataTable.viewDetails")}
                         >
                           <Eye className="w-3.5 h-3.5" />
                         </button>
@@ -152,7 +154,7 @@ export default function DataTable({
                         <button
                           onClick={() => onEditClick(row)}
                           className="p-2 text-gray-400 hover:text-primary hover:bg-primary-light rounded-lg cursor-pointer transition-all"
-                          title="Edit"
+                          title={t("button.edit")}
                         >
                           <Edit2 className="w-3.5 h-3.5" />
                         </button>
@@ -161,7 +163,7 @@ export default function DataTable({
                         <button
                           onClick={() => onDeleteClick(row)}
                           className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg cursor-pointer transition-all"
-                          title="Delete"
+                          title={t("button.delete")}
                         >
                           <Trash2 className="w-3.5 h-3.5" />
                         </button>

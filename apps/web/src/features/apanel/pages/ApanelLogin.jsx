@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
+import { useLanguage } from "../../../context/LanguageContext";
 import { Loader2, ShieldCheck, Lock, Mail } from "lucide-react";
 import FormError from "../../../components/common/FormError";
 
 export default function ApanelLogin() {
   const navigate = useNavigate();
   const { login, checkAdminRole, clearSession } = useAuth();
+  const { t, settings = {}, logoSrc } = useLanguage();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -28,9 +30,7 @@ export default function ApanelLogin() {
       // 2. Perform verification of role in backend user response
       const hasAccess = await checkAdminRole();
       if (!hasAccess) {
-        setError(
-          "Access Denied: You do not have the permissions required to view apanel.",
-        );
+        setError(t("apanel.login.accessDenied"));
         setSubmitting(false);
         return;
       }
@@ -39,10 +39,7 @@ export default function ApanelLogin() {
       navigate("/apanel");
     } catch (err) {
       console.error("Admin login error", err);
-      setError(
-        err?.message ||
-          "Login failed. Please check your credentials and try again.",
-      );
+      setError(err?.message || t("apanel.login.failed"));
     } finally {
       setSubmitting(false);
     }
@@ -53,15 +50,23 @@ export default function ApanelLogin() {
       <div className="bg-white border border-gray-100 rounded-3xl p-8 max-w-md w-full shadow-2xl space-y-6">
         {/* Header branding */}
         <div className="flex flex-col items-center justify-center text-center space-y-3">
-          <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center font-black text-2xl">
-            B
-          </div>
+          {logoSrc ? (
+            <img
+              src={logoSrc}
+              alt={settings.site_name || t("app.name")}
+              className="w-12 h-12 rounded-2xl object-contain"
+            />
+          ) : (
+            <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center font-black text-2xl">
+              {t("apanel.initials")}
+            </div>
+          )}
           <div className="space-y-1">
             <h2 className="font-extrabold text-navy text-xl uppercase tracking-wider">
-              BSTU Admin Panel
+              {t("apanel.login.title")}
             </h2>
             <p className="text-gray-400 text-xs font-semibold">
-              Sign in to control international website content
+              {t("apanel.login.subtitle")}
             </p>
           </div>
         </div>
@@ -71,14 +76,14 @@ export default function ApanelLogin() {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-1.5">
             <label className="block text-[10px] font-extrabold text-navy uppercase tracking-wider">
-              Email Address
+              {t("form.email")}
             </label>
             <div className="relative">
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="apanel@bstu.uz"
+                placeholder={t("apanel.login.emailPlaceholder")}
                 required
                 className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold bg-white text-navy"
               />
@@ -88,7 +93,7 @@ export default function ApanelLogin() {
 
           <div className="space-y-1.5">
             <label className="block text-[10px] font-extrabold text-navy uppercase tracking-wider">
-              Password
+              {t("form.password")}
             </label>
             <div className="relative">
               <input
@@ -113,7 +118,7 @@ export default function ApanelLogin() {
             ) : (
               <ShieldCheck className="w-4 h-4" />
             )}
-            Verify & Enter
+            {t("apanel.login.verifyEnter")}
           </button>
         </form>
       </div>

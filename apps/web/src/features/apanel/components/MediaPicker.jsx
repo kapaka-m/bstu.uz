@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import { Image, Upload, Search, X, Loader2, Link2 } from "lucide-react";
 import { apanelService } from "../../../services/apanelService";
 import { publicAssetUrl } from "../../../lib/api";
+import { useLanguage } from "../../../context/LanguageContext";
 
 export default function MediaPicker({ value, onChange, label }) {
+  const { t } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const [mediaList, setMediaList] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -42,10 +44,10 @@ export default function MediaPicker({ value, onChange, label }) {
         onChange(res.path);
         setIsOpen(false);
       } else {
-        throw new Error("Invalid response format");
+        throw new Error(t("apanel.media.invalidUploadResponse"));
       }
     } catch (err) {
-      setUploadError(err?.message || "Failed to upload file");
+      setUploadError(err?.message || t("apanel.media.uploadFailed"));
     } finally {
       setUploading(false);
     }
@@ -80,7 +82,7 @@ export default function MediaPicker({ value, onChange, label }) {
           className="bg-navy hover:bg-navy-dark text-white px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer inline-flex items-center gap-1.5 shrink-0"
         >
           <Image className="w-4 h-4" />
-          Browse
+          {t("button.browse")}
         </button>
       </div>
 
@@ -91,7 +93,7 @@ export default function MediaPicker({ value, onChange, label }) {
             {/* Header */}
             <div className="flex justify-between items-center pb-4 border-b border-gray-100 mb-4">
               <h3 className="font-extrabold text-navy text-base">
-                Select Media Asset
+                {t("apanel.media.selectAsset")}
               </h3>
               <button
                 type="button"
@@ -107,7 +109,7 @@ export default function MediaPicker({ value, onChange, label }) {
               <div className="relative grow">
                 <input
                   type="text"
-                  placeholder="Search files..."
+                  placeholder={t("apanel.media.searchFiles")}
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold bg-white text-navy"
@@ -121,7 +123,7 @@ export default function MediaPicker({ value, onChange, label }) {
                 ) : (
                   <Upload className="w-4 h-4" />
                 )}
-                Upload Asset
+                {t("apanel.media.uploadAsset")}
                 <input
                   type="file"
                   accept="image/*,video/*,application/pdf"
@@ -147,7 +149,9 @@ export default function MediaPicker({ value, onChange, label }) {
               ) : mediaList.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full text-gray-400 gap-2">
                   <Image className="w-10 h-10 stroke-1" />
-                  <p className="text-xs font-semibold">No media files found</p>
+                  <p className="text-xs font-semibold">
+                    {t("apanel.media.noFiles")}
+                  </p>
                 </div>
               ) : (
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
@@ -173,10 +177,9 @@ export default function MediaPicker({ value, onChange, label }) {
                             />
                           ) : (
                             <div className="text-xs font-extrabold text-gray-400 uppercase p-2 text-center break-all">
-                              {String(media.filename || mediaPath || "asset")
-                                .split(".")
-                                .pop()}{" "}
-                              file
+                              {(media.filename || mediaPath)
+                                ? `${String(media.filename || mediaPath).split(".").pop()} ${t("apanel.media.fileLabel")}`
+                                : t("apanel.media.fileLabel")}
                             </div>
                           )}
                         </div>
@@ -185,7 +188,7 @@ export default function MediaPicker({ value, onChange, label }) {
                             className="text-[10px] font-bold text-navy truncate"
                             title={media.filename}
                           >
-                            {media.filename || mediaPath || "Untitled asset"}
+                            {media.filename || mediaPath || t("apanel.media.untitledAsset")}
                           </p>
                           <p className="text-[9px] text-gray-400 font-semibold">
                             {Math.round((Number(media.size) || 0) / 1024)} KB

@@ -1,5 +1,6 @@
 import React from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useLanguage } from "../../../context/LanguageContext";
 
 export default function Pagination({
   currentPage = 1,
@@ -8,6 +9,7 @@ export default function Pagination({
   perPage = 15,
   onPageChange,
 }) {
+  const { t } = useLanguage();
   if (total === 0 || lastPage <= 1) return null;
 
   const startRecord = (currentPage - 1) * perPage + 1;
@@ -16,9 +18,13 @@ export default function Pagination({
   return (
     <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mt-6 pt-6 border-t border-gray-50 text-xs font-semibold text-gray-500">
       <div>
-        Showing <span className="font-bold text-navy">{startRecord}</span> to{" "}
-        <span className="font-bold text-navy">{endRecord}</span> of{" "}
-        <span className="font-bold text-navy">{total}</span> records
+        {t("apanel.pagination.showing")}{" "}
+        <span className="font-bold text-navy">{startRecord}</span>{" "}
+        {t("apanel.pagination.to")}{" "}
+        <span className="font-bold text-navy">{endRecord}</span>{" "}
+        {t("apanel.pagination.of")}{" "}
+        <span className="font-bold text-navy">{total}</span>{" "}
+        {t("apanel.pagination.records")}
       </div>
 
       <div className="flex items-center gap-1.5">

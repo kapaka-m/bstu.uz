@@ -858,6 +858,69 @@
 - تمت إعادة مطابقة كل مفاتيح `t("...")` داخل ملفات الطالب مع `StudentSystemTranslationSeeder.php` أو status keys المولدة.
 - النتائج الوحيدة المتبقية في الفحص النصي هي `console.error` ورسائل status تقنية مثل `APPROVED` و `REJECTED`، وليست محتوى CMS قابلاً للإدارة.
 
+---
+
+## مراجعة React Apanel Features 2026-07-28
+
+تاريخ المراجعة: 2026-07-28
+
+## ملفات React Apanel Features 2026-07-28 التي تمت مراجعتها
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\components`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\layouts`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\pages`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\utils`
+
+## ما تم العثور عليه في React Apanel Features 2026-07-28
+
+- كان `ApanelLayout.jsx` يحتوي قائمة لغات ثابتة `EN/UZ/RU/AR` ونصوص branding/user ثابتة.
+- كانت المكونات المشتركة تحتوي defaults ظاهرة مثل confirm/search/table/pagination/media labels.
+- كان `ApanelLogin.jsx` يحتوي branding ونصوص login ثابتة.
+- كان `ApanelApplicationDetail.jsx` يولد `contract_number` و `payment_number` باستخدام prefixes ثابتة داخل React.
+- لا توجد داخل النطاق روابط `localhost`, `127.0.0.1`, `VITE_API_BASE_URL`, أو `/storage/` مكررة؛ الخدمات ما زالت تمر عبر الطبقة المركزية.
+
+## تغييرات React Apanel Features 2026-07-28
+
+- تم تحويل language selector في `ApanelLayout.jsx` ليستخدم `locales` القادمة من API بدلاً من قائمة ثابتة.
+- تم ربط شعار واسم apanel بإعدادات `settings` و `logoSrc` القادمة من `LocaleContext`.
+- تم تحويل navigation labels داخل `ApanelLayout.jsx` إلى مفاتيح ترجمة.
+- تم تحويل defaults في `ConfirmDialog`, `SearchFilterBar`, `DataTable`, `Pagination`, `MediaPicker`, و `FormBuilder` إلى مفاتيح ترجمة.
+- تم تحويل `ApanelLogin.jsx` إلى ترجمات وإعدادات branding بدلاً من نصوص ثابتة.
+- تم نقل prefixes الخاصة بأرقام العقود والمدفوعات من React إلى settings: `workflow_contract_prefix`, `workflow_payment_prefix`.
+- تم إضافة مفاتيح الترجمة والإعدادات الناقصة في `StudentSystemTranslationSeeder.php` بطريقة safe `firstOrCreate`.
+
+## ربط React Apanel Features 2026-07-28 بالبيانات
+
+- جدول اللغات: `locales`.
+- جداول الترجمات: `translation_keys`, `translation_values`.
+- جدول إعدادات branding و workflow prefixes: `settings`.
+- API اللغات والترجمات: `GET /api/v1/locales`, `GET /api/v1/translations`.
+- API إعدادات الموقع: `GET /api/v1/settings`.
+- إدارة اللغات والترجمات من `/apanel/locales` و `/apanel/translations`.
+- إدارة settings من resource `settings` داخل `/apanel` عبر AdminCrud.
+- صفحات CMS نفسها ما زالت تحفظ محتوى الموقع في جداولها الحالية مثل about/contact/header/footer/news/blog/videos/centers حسب endpoints الموجودة.
+
+## المتبقي بعد React Apanel Features 2026-07-28
+
+- لا تزال توجد نصوص UI داخل صفحات apanel الكبيرة مثل form labels, tab labels, placeholders, toast/error messages في صفحات CMS المتخصصة. هذه ليست محتوى الموقع العام، لكنها ما زالت نصوص واجهة داخل الكود ولم يتم تحويلها كلها إلى جدول الترجمات في هذه الجولة.
+- بقيت status constants وأسماء resources وfield keys وroute paths لأنها تفاصيل تقنية لازمة.
+- لم يتم إنشاء صفحات `/admin` ولم يتم توسيع النطاق خارج `features/apanel` والـ seeder المرتبط بالترجمات/settings.
+
+## تحقق React Apanel Features 2026-07-28
+
+- تم فحص قوائم اللغات الثابتة و `t("key", "fallback")`: لم يظهر fallback translation أو قائمة لغات ثابتة بعد تعديل layout.
+- تم فحص `localhost`, `127.0.0.1`, `VITE_API_BASE_URL`, و `/storage/`: لم تظهر نتائج داخل النطاق.
+- تم فحص `BSTU-`, `PAY-`, `apanel@bstu.uz`, و branding الثابت في الملفات المعدلة: لم تعد موجودة في React ضمن هذه المواضع.
+- تم التحقق أن مفاتيح `t("...")` داخل `features/apanel` موجودة في seeder أو مولدة كـ status keys.
+- `npm.cmd run lint -- --quiet` نجح.
+- `npm.cmd run build` نجح.
+- `php-local.bat -l database\seeders\StudentSystemTranslationSeeder.php` نجح.
+- `php-local.bat artisan db:seed --class=StudentSystemTranslationSeeder` نجح.
+- `php-local.bat artisan route:list --path=api/v1 --except-vendor` نجح وأظهر 170 route.
+- `php-local.bat artisan test` نجح: 4 tests passed, 7 assertions.
+- `php-local.bat artisan optimize:clear` نجح.
+
 ## المتبقي في Web Public Root Environment
 
 - `index.html` ما زال يحتوي عنصر `<title>` و`lang` كـ bootstrap HTML ضروري قبل تحميل React؛ القيم النهائية يتم ضبطها من قاعدة البيانات بعد تحميل التطبيق.

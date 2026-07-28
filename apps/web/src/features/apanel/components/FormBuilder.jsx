@@ -10,7 +10,7 @@ const formatJsonFieldValue = (value) => {
   return JSON.stringify(value, null, 2);
 };
 
-const parseJsonFieldValue = (value, label) => {
+const parseJsonFieldValue = (value, label, message) => {
   if (value === null || value === undefined || String(value).trim() === "") {
     return null;
   }
@@ -18,7 +18,7 @@ const parseJsonFieldValue = (value, label) => {
   try {
     return JSON.parse(value);
   } catch {
-    throw new Error(`${label} must be valid JSON.`);
+    throw new Error(message.replace(":field", label));
   }
 };
 
@@ -152,6 +152,7 @@ export default function FormBuilder({
                 parseJsonFieldValue(
                   preparedState.translations[loc]?.[field.name],
                   `${field.label} (${loc.toUpperCase()})`,
+                  t("apanel.formBuilder.fieldMustBeValidJson"),
                 );
             });
           });
@@ -161,6 +162,7 @@ export default function FormBuilder({
           preparedState[field.name] = parseJsonFieldValue(
             preparedState[field.name],
             field.label,
+            t("apanel.formBuilder.fieldMustBeValidJson"),
           );
         });
 

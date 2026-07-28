@@ -807,3 +807,51 @@
 - `npm.cmd run lint` نجح.
 - `npm.cmd run build` نجح.
 - لا توجد استدعاءات `t("key", "static fallback")` داخل `apps/web/src/pages`.
+
+---
+
+## مراجعة Tooling And Workflow Config
+
+تاريخ المراجعة: 2026-07-28
+
+## ملفات Tooling And Workflow Config التي تمت مراجعتها
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\.agents`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\.vscode`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\.vscode\settings.json`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\.github`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\.github\workflows`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\.github\workflows\issues.yml`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\.github\workflows\pull-requests.yml`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\.github\workflows\tests.yml`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\.github\workflows\update-changelog.yml`
+
+## ما تم العثور عليه في Tooling And Workflow Config
+
+- `.agents` موجود لكنه فارغ.
+- `.vscode/settings.json` يحتوي إعدادات محرر وبحث واستثناءات ملفات تقنية فقط.
+- ملفات `.github/workflows` تحتوي GitHub Actions خاصة بالـ issues, pull requests, tests, changelog.
+- لا توجد نصوص موقع، صور، روابط CMS، أرقام محتوى، أو بيانات قابلة لإدارة `/apanel/` داخل هذه المجموعة.
+- لا توجد حاجة لإنشاء جدول أو Model أو API أو صفحة `/apanel/` لهذه الملفات لأنها إعدادات تطوير وتشغيل وليست محتوى عام.
+
+## تغييرات Tooling And Workflow Config
+
+- تمت إزالة `dart.flutterSdkPath` و `dart.sdkPath` من `.vscode/settings.json` لأنها مسارات Windows محلية خاصة بجهاز واحد وليست إعدادات مشروع قابلة للمشاركة.
+- بقيت استثناءات `apps/api/storage/framework/views` لأنها إعدادات تقنية للمحرر والبحث، وليست روابط تخزين أو محتوى.
+
+## ربط Tooling And Workflow Config بالبيانات
+
+- قاعدة البيانات: لا ينطبق؛ لا يوجد محتوى قابل للإدارة.
+- Laravel API: لا ينطبق؛ الملفات لا تعرض محتوى للمستخدم.
+- `/apanel/`: لا ينطبق؛ هذه إعدادات أدوات وCI وليست عناصر CMS.
+- نظام اللغات: لا ينطبق؛ لا توجد نصوص واجهة أو ترجمات داخل هذه الملفات.
+
+## تحقق Tooling And Workflow Config
+
+- تم التحقق أن `.vscode/settings.json` صالح JSON.
+- تم التحقق أن `.agents` فارغ.
+- تم البحث داخل `.vscode` و `apps/api/.github` عن روابط API أو storage أو محتوى CMS؛ لم يظهر إلا استثناء تقني لـ `storage/framework/views`.
+- `npm.cmd run lint` نجح.
+- `npm.cmd run build` نجح.
+- `php-local.bat artisan test` نجح: 5 tests passed.
+- `php-local.bat artisan route:list --path=api/v1 --except-vendor` نجح وأظهر 170 route.

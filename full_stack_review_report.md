@@ -711,7 +711,65 @@
 
 - `OrganizeStorageCommand.php` يحتوي خريطة مسارات تخزين تقنية لتنظيم الملفات داخل Laravel storage؛ لم يتم تحويلها إلى قاعدة البيانات لأنها ليست محتوى ظاهر للمستخدم.
 - بعض رسائل API التقنية ورسائل validation ما زالت داخل الكود لأنها منطق تحقق وتشخيص، وليست محتوى CMS قابل للتحرير.
-- لا يوجد داخل `apps/web/src/services` استخدام مباشر لـ `VITE_API_BASE_URL`, `http://127.0.0.1`, `DEFAULT_LOCALE`, `fallbackTranslations`, أو `translations.js`.
+
+---
+
+## مراجعة Laravel Resources Config Bootstrap
+
+تاريخ المراجعة: 2026-07-28
+
+## ملفات Laravel Resources Config Bootstrap التي تمت مراجعتها
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\resources`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\resources\views`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\resources\js\app.js`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\resources\css\app.css`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\node_modules`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\config`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\bootstrap`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\bootstrap\cache`
+
+## ما تم العثور عليه في Laravel Resources Config Bootstrap
+
+- `resources/views` غير موجود به ملفات views فعلية في هذه المجموعة.
+- `resources/js/app.js` و `resources/css/app.css` يحتويان bootstrap/Tailwind setup فقط، ولا يوجد بهما محتوى موقع أو صور أو روابط API.
+- `node_modules` يحتوي حزم طرف ثالث ناتجة عن npm، وليس مصدر محتوى للمشروع ولا يتم ربطه بـ `/apanel/`.
+- `bootstrap/app.php` و `bootstrap/providers.php` يحتويان إعداد Laravel وميدلوير وأخطاء API تقنية فقط.
+- `bootstrap/cache/packages.php` و `bootstrap/cache/services.php` ملفات manifest/cache مولدة من Composer/Laravel، وليست مصدر محتوى CMS.
+- ملفات `config` كانت تحتوي defaults محلية مثل `http://localhost`, `127.0.0.1`, و `localhost` في إعدادات URL/CORS/Sanctum/storage/database/mail/cache/queue.
+
+## تغييرات Laravel Resources Config Bootstrap
+
+- تمت إزالة fallback المحلي من `config/app.php` لقيمة `APP_URL`.
+- تمت إزالة اسم التطبيق الثابت `BSTU Platform` من `config/app.php` حتى يأتي الاسم من `.env`.
+- تمت إزالة origins المحلية الثابتة من `config/cors.php`.
+- تم جعل رابط public disk في `config/filesystems.php` يعتمد على `APP_URL` أو `/storage` بدون `localhost`.
+- تمت إزالة قائمة Sanctum المحلية الثابتة من `config/sanctum.php`.
+- تمت إزالة defaults المحلية من `DB_HOST`, `REDIS_HOST`, `MEMCACHED_HOST`, `MAIL_HOST`, و `BEANSTALKD_QUEUE_HOST`.
+- تمت إزالة مثال SQS URL الثابت من `config/queue.php`.
+
+## ربط Laravel Resources Config Bootstrap بالبيانات
+
+- قاعدة البيانات: لا يوجد محتوى CMS جديد في هذه المجموعة.
+- Laravel API: لا توجد endpoints جديدة؛ هذه ملفات إعداد وتشغيل.
+- `/apanel/`: لا ينطبق على ملفات config/bootstrap/resources لأنها ليست بيانات يديرها admin.
+- نظام اللغات: `config/app.php` بقي يحتوي `APP_LOCALE` و `APP_FALLBACK_LOCALE` كـ Laravel technical fallback فقط، أما نظام اللغات الفعلي في المشروع فيأتي من جدول `locales` عبر `/api/v1/locales`.
+
+## تحقق Laravel Resources Config Bootstrap
+
+- تم فحص ملفات PHP المعدلة بـ `php-local.bat -l` ونجحت كلها.
+- إعادة المسح لم تجد `http://localhost`, `localhost:`, `127.0.0.1`, `VITE_API_BASE_URL`, `/admin`, `mock`, `demo`, أو `BSTU Platform` داخل المجموعة.
+- `php-local.bat artisan optimize:clear` نجح.
+- `php-local.bat artisan route:list --path=api/v1 --except-vendor` نجح وأظهر 170 route.
+- `php-local.bat artisan config:show app.name` أكد أن الاسم يأتي من البيئة: `Platform BSTU`.
+- `php-local.bat artisan test` نجح: 5 tests passed, 8 assertions.
+- `npm.cmd run lint` نجح.
+- `npm.cmd run build` نجح.
+
+## المتبقي في Laravel Resources Config Bootstrap
+
+- بقيت defaults تقنية مثل أسماء drivers والجداول وqueues وcache stores لأنها إعدادات تشغيل وليست محتوى قابل للتحرير من `/apanel/`.
+- بقي `resources/css/app.css` يحتوي `@source '../../storage/framework/views/*.php'` كمسار Tailwind تقني لفحص Blade cache، وليس رابط تخزين عام أو محتوى صورة.
 
 ---
 

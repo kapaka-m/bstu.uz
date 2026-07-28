@@ -851,12 +851,67 @@
 - `php-local.bat artisan test` نجح: 4 tests passed, 7 assertions.
 - `php-local.bat artisan optimize:clear` نجح.
 
-إعادة تحقق نفس النطاق بعد الطلب المتكرر:
+---
 
-- تمت إعادة قراءة قائمة الملفات داخل `apps\web\src\features\student` وتأكيد أنها نفس مجموعة الطالب فقط.
-- تمت إعادة فحص `t("key", "fallback")`, قوائم اللغات الثابتة, `localhost`, `127.0.0.1`, `VITE_API_BASE_URL`, `/storage/`, `student@example.com`, `BSTU`, و `requiredTypes = [` ولم تظهر نتائج داخل النطاق.
-- تمت إعادة مطابقة كل مفاتيح `t("...")` داخل ملفات الطالب مع `StudentSystemTranslationSeeder.php` أو status keys المولدة.
-- النتائج الوحيدة المتبقية في الفحص النصي هي `console.error` ورسائل status تقنية مثل `APPROVED` و `REJECTED`، وليست محتوى CMS قابلاً للإدارة.
+## مراجعة React Apanel Shared Runtime 2026-07-28
+
+تاريخ المراجعة: 2026-07-28
+
+## ملفات React Apanel Shared Runtime 2026-07-28 التي تمت مراجعتها
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\components`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\components\ConfirmDialog.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\components\DataTable.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\components\FormBuilder.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\components\MediaPicker.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\components\Pagination.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\components\SearchFilterBar.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\components\StatusBadge.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\components\TranslationTabs.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\layouts`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\layouts\ApanelLayout.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\utils`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\apanel\utils\locales.js`
+
+## ما تم العثور عليه في React Apanel Shared Runtime 2026-07-28
+
+- هذا النطاق كان يحتوي سابقاً على نصوص واجهة مشتركة وbranding وقائمة لغات ثابتة، وتمت معالجتها في مراجعة apanel السابقة.
+- في إعادة الفحص الحالية لم تظهر fallbacks ترجمة أو قوائم لغات ثابتة أو روابط API/storage مكررة داخل هذا النطاق.
+- النتائج الوحيدة المتبقية في الفحص النصي هي `console.error` و input `type="file"`، وهي تفاصيل تقنية وليست محتوى CMS.
+
+## تغييرات React Apanel Shared Runtime 2026-07-28
+
+- لم تكن هناك حاجة لتعديلات إضافية على ملفات هذا النطاق في هذه الجولة لأن التغييرات السابقة ما زالت سليمة.
+- تم توثيق إعادة التحقق الحالية بشكل منفصل عن صفحات apanel الكبيرة.
+
+## ربط React Apanel Shared Runtime 2026-07-28 بالبيانات
+
+- قائمة اللغات في `ApanelLayout.jsx` تأتي من جدول `locales` عبر `GET /api/v1/locales`.
+- نصوص الواجهة المشتركة تأتي من `translation_keys` و `translation_values` عبر `GET /api/v1/translations`.
+- branding في `ApanelLayout.jsx` يأتي من جدول `settings` عبر `GET /api/v1/settings`.
+- إدارة اللغات والترجمات من `/apanel/locales` و `/apanel/translations`.
+- إدارة settings من resource `settings` داخل `/apanel` عبر AdminCrud.
+
+## المتبقي بعد React Apanel Shared Runtime 2026-07-28
+
+- لا يوجد داخل هذا النطاق الضيق محتوى قابل للإدارة باقٍ في الكود حسب الفحص الحالي.
+- صفحات apanel الكبيرة خارج هذا النطاق ما زالت تحتوي بعض labels/placeholders/toasts ثابتة، وهي مسجلة في مراجعة `React Apanel Features 2026-07-28`.
+
+## تحقق React Apanel Shared Runtime 2026-07-28
+
+- تم فحص `t("key", "fallback")`: لم تظهر نتائج داخل النطاق.
+- تم فحص قوائم اللغات الثابتة و `translations.en`: لم تظهر نتائج داخل النطاق.
+- تم فحص `localhost`, `127.0.0.1`, `VITE_API_BASE_URL`, و `/storage/`: لم تظهر نتائج داخل النطاق.
+- تم فحص branding/default labels مثل `BSTU`, `Control Panel`, `Apanel User`, `Delete`, `Cancel`, `Search...`, `No records found`, و `Browse`: لم تظهر نتائج داخل النطاق.
+- تم التحقق أن كل مفاتيح `t("...")` داخل components/layouts/utils موجودة في seeder أو مولدة كـ status keys.
+- `npm.cmd run lint -- --quiet`: نجح.
+- `npm.cmd run build`: نجح.
+- `php-local.bat -l database\seeders\StudentSystemTranslationSeeder.php`: نجح بدون أخطاء syntax.
+- `php-local.bat artisan db:seed --class=StudentSystemTranslationSeeder`: نجح بدون حذف أو reset.
+- `php-local.bat artisan route:list --path=api/v1 --except-vendor`: نجح وأظهر 170 route، ومنها `locales`, `translations`, `settings`, ومسارات `/apanel`.
+- `php-local.bat artisan test`: نجح، 4 tests passed و 7 assertions.
+- `php-local.bat artisan optimize:clear`: نجح.
+- فحص عناوين `full_stack_review_report.md`: لا توجد عناوين Markdown مكررة.
 
 ---
 

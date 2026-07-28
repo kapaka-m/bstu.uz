@@ -22,7 +22,6 @@ Copy `.env.example` to `.env` and keep the API URL pointed at the Laravel API:
 ```env
 VITE_API_BASE_URL=http://127.0.0.1:8000/api/v1
 VITE_DEFAULT_LOCALE=en
-VITE_SUPPORTED_LOCALES=en,uz,ru,ar
 ```
 
 The Laravel API must be running at `VITE_API_BASE_URL`. The default local API is:
@@ -44,7 +43,8 @@ If the backend is unavailable, public API-driven sections should show loading/er
 ## Multilingual and RTL
 
 - Locale state is managed by `LocaleProvider` in `src/App.jsx`.
-- Arabic sets `dir="rtl"` on `html` and `body`.
+- Active languages are loaded from `GET /api/v1/locales`; do not keep a frontend-only fixed language list.
+- Document direction is set from each locale record's database `direction` value.
 - Translations are loaded from the Laravel API/MySQL translation tables.
 
 ## Content Rules
@@ -75,5 +75,5 @@ If the backend is unavailable, public API-driven sections should show loading/er
 - `spawn EPERM` from Vite/Tailwind on Windows: rerun the same command from a normal terminal with access to native Node binaries.
 - Backend unavailable: confirm Laravel is running and `VITE_API_BASE_URL` points to `/api/v1`.
 - CORS/API errors: check Laravel CORS and Sanctum configuration, then restart the Vite dev server after changing `.env`.
-- Raw translation keys: confirm `/translations?locale=...` responds and fallback translation files contain the UI key.
+- Raw translation keys: confirm `/translations?locale=...` responds and the key exists in `translation_keys` / `translation_values`.
 - Broken images: check whether the value is an API media URL or `/storage/...` path.

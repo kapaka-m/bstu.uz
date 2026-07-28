@@ -57,7 +57,7 @@ Every important application status change writes to `application_status_historie
 
 Required document types: `passport`, `photo`, `education_certificate`, `transcript`, `medical_certificate`, `language_certificate`, `payment_receipt`, `other`.
 
-Upload stores files on Laravel's `public` disk under `storage/app/public/documents/` and saves metadata in `application_documents`: `application_id`, `document_name`, `document_type`, `file_path`, `original_name`, `mime_type`, `size`, `status`, and `note`.
+Upload stores student workflow files on Laravel's private disk under the application document path and saves metadata in `application_documents`: `application_id`, `document_name`, `document_type`, `file_path`, `original_name`, `mime_type`, `size`, `status`, and `note`.
 
 Students can delete their own documents only while the application is still `draft`. Student download is protected by `GET /api/v1/student/documents/{id}/download`, which verifies ownership. Apanel download is protected by `GET /api/v1/apanel/application-documents/{id}/download` and requires the `apanel` role.
 
@@ -104,7 +104,7 @@ Student private routes require Sanctum auth in React and Laravel. Student API qu
 
 ## Translation And RTL
 
-Student pages use `useLanguage()` / `t()` where practical, with translation values loaded from MySQL through Laravel. Supported locales are `en`, `uz`, `ru`, and `ar`. Arabic sets `document.documentElement.dir = rtl`; English, Uzbek, and Russian use LTR.
+Student pages use `useLanguage()` / `t()` where practical, with translation values loaded from MySQL through Laravel. English, Uzbek, Russian, and Arabic are seeded defaults, but active locales and text direction come from the database through `GET /api/v1/locales` and are managed from `/apanel/locales`.
 
 ## Known Limitations
 

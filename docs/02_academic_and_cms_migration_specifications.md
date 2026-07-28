@@ -48,3 +48,19 @@ This document outlines the operational specs for each dynamic module migrated fr
 
 - **Frontend Route**: `/apply` and `/student/dashboard`.
 - **Behavior**: Multi-phase admission workflow covering nationality, country selection, academic credentials, and document uploads.
+
+## 9. Legacy Draft Cleanup
+
+Historical root-level drafts and exports for academic structures were reviewed
+and removed during documentation cleanup. Their useful summary is retained in
+the active documentation set:
+
+- Faculty migration status and department slugs are documented in
+  `docs/04_faculty_migration_notes.md`.
+- Administrative departments and centers are summarized in
+  `docs/03_university_departments_and_centers.md`.
+- Database migration ownership and seed data guidance are documented in
+  `database-docs/database_migration_guide.md`.
+
+Do not recreate root-level draft/export files for CMS content. Long-lived notes
+belong in `docs/`, `database-docs/`, or `storage-docs/`.

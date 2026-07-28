@@ -29,7 +29,8 @@ API:
 cd apps/api
 composer install
 .\php-local.bat artisan route:list
-.\php-local.bat artisan migrate:fresh --seed
+.\php-local.bat artisan migrate
+.\php-local.bat artisan db:seed
 ```
 
 Mobile:
@@ -71,11 +72,11 @@ If `flutter` is not available on PATH, report that clearly rather than claiming 
 - Student workflows are handled by `Api\StudentApiController`.
 - Apanel CRUD is handled by `Api\AdminCrudController`.
 - Database content is seeded from `apps/api/database/data/` and seeder classes.
-- Public content should be treated as MySQL/API source-of-truth. Static React/Dart data files are migration references or temporary fallbacks unless a feature explicitly documents otherwise.
-- Legacy React import scripts were removed after their reviewed content was merged into `apps/api/database/data/`. Do not use `apps/web/src/data` for production content. It contains only the technical translation fallback.
+- Public content should be treated as MySQL/API source-of-truth. Static React/Dart data files are migration references only and must not be used as runtime fallbacks.
+- Legacy React import scripts were removed after their reviewed content was merged into `apps/api/database/data/`. Do not use `apps/web/src/data` for production content or translation fallbacks.
 - Keep file uploads on Laravel's public disk and document URL handling in `storage-docs`.
 - Preserve `apps/api/public/storage`; it is a Laravel public link/junction to `storage/app/public`, not a duplicate upload folder.
-- Database changes in `apps/api` should use additive migrations. Do not run `migrate:fresh` against shared or real data, and keep seeders idempotent using stable keys such as slugs, codes, locales, and emails.
+- Database changes in `apps/api` should use additive migrations. Do not run `migrate:fresh` against shared or real data, and keep seeders idempotent using stable keys such as slugs, codes, locales, and emails. `migrate:fresh --seed` is only for disposable local databases.
 - Keep API production settings explicit: `APP_DEBUG=false`, narrow `CORS_ALLOWED_ORIGINS`, configured Sanctum domains/token expiration, rotating logs, and a real cache/queue store for production.
 - Do not cache private student or apanel responses. Public CMS cache is versioned by `public_content_cache_version` and can be reset with `cache:clear` / `optimize:clear`.
 - Do not manually edit `package-lock.json` or `node_modules/.package-lock.json`; npm lockfile version `3` is expected for this project.

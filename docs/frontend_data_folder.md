@@ -4,7 +4,7 @@
 
 There are no runtime data files in that folder now. Public website, academic,
 media, menu, page, translation, branding, and mobile-visible content must come
-from the Laravel API/MySQL database and be managed through apanel.
+from the Laravel API/MySQL database and be managed through `/apanel/`.
 
 Legacy React content captures were moved into API seed JSON. The old
 `scripts/import-react-content` helper was removed after migration review.

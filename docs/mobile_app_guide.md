@@ -64,20 +64,21 @@ flutter run --dart-define=API_BASE_URL=http://YOUR_PC_LOCAL_IP:8000/api/v1
 
 Instead of packaging local JSON translation files, the Flutter app fetches all content directly from the database through the Laravel API:
 
-- **API Request**: `GET /api/v1/translations?locale={locale}` (e.g. `en`, `uz`, `ru`, `ar`).
-- **Fallback Resolution**:
+- **Locales API**: `GET /api/v1/locales`; active language codes, names, and directions are database-managed through `/apanel/locales`.
+- **Translations API**: `GET /api/v1/translations?locale={locale}`.
+- **Missing Translation Handling**:
   The `AppState` class (`lib/shared/app_state.dart`) provides the global translation utility:
 
   ```dart
-  String text = state.t('nav.home', 'Home');
+  String text = state.t('nav.home');
   ```
 
-  It resolves dot-notation strings (like `nav.home`) from the loaded translation dictionary, falling back to the default label if a key does not exist.
+  It resolves dot-notation strings from the loaded translation dictionary. Mobile code should not hide missing translations behind hardcoded display fallback strings.
 
 ### 📐 Right-to-Left (RTL) Layout
 
-- The app has native support for **Arabic RTL**.
-- The `AppState` defines a helper `bool get isRtl => locale == 'ar'`.
+- The app supports RTL/LTR rendering based on the selected locale direction.
+- Direction should come from the active locale record instead of a fixed language-code list.
 - The root of the widget tree in `app.dart` wraps the `MaterialApp` in a `Directionality` widget:
 
   ```dart

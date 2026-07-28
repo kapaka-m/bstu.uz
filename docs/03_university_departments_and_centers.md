@@ -2,6 +2,10 @@
 
 The following centers and departments are officially configured in the BSTU International portal.
 
+This file is a documentation summary only. The public website source of truth is
+the Laravel/MySQL CMS data, managed from `/apanel/`; do not copy these entries
+into React source files.
+
 ## Administrative Centers
 
 1. **Digital Educational Technologies Centre**: Manages campus-wide network, software licenses, computer labs, and portals.
@@ -11,7 +15,7 @@ The following centers and departments are officially configured in the BSTU Inte
 
 ## University Departments
 
-5.**Сhancellery and Archival Department**: Coordinates formal university document flows.
+1. **Сhancellery and Archival Department**: Coordinates formal university document flows.
 2. **Monitoring and Inner Control Department**: Reviews internal policies and educational standards.
 3. **Human Resources Department**: Manages academic staff and administration recruitment.
 4. **Education Quality Control Department**: Audits curriculum delivery and student learning satisfaction.

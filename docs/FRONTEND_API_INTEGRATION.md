@@ -16,8 +16,11 @@ The application uses Vite's environment system. In `apps/web/`, two files define
 ```env
 VITE_API_BASE_URL=http://127.0.0.1:8000/api/v1
 VITE_DEFAULT_LOCALE=en
-VITE_SUPPORTED_LOCALES=en,uz,ru,ar
 ```
+
+`VITE_API_BASE_URL` is environment-specific. Active languages are loaded from
+`GET /api/v1/locales` and managed in `/apanel/locales`; do not maintain a
+frontend-only supported-locale list.
 
 ---
 
@@ -39,9 +42,10 @@ Three React context layers manage global state across the site:
 ### A. LocaleContext (`apps/web/src/context/LocaleContext.jsx`)
 
 * **Purpose:** Manages the selected language, website settings, menu structures, and loads translations directly from the API database.
+* **Locales:** Dynamically fetches active languages from `GET /api/v1/locales`.
 * **Translations:** Dynamically fetches translations from `GET /api/v1/translations?locale={lang}` and stores the returned dictionary.
-* **RTL/LTR Switcher:** Automatically sets `document.documentElement.dir` and `document.body.dir` to `rtl` for Arabic (`ar`), and `ltr` for English, Uzbek, and Russian.
-* **Compatibility:** Exposes `t(keyPath, defaultText)` which resolves dot-notation keys from the API dictionary. If a key is absent, it uses the caller-provided fallback text, then the key string.
+* **RTL/LTR Switcher:** Sets document direction from the active locale's database `direction` value.
+* **Missing translations:** UI code should call `t(keyPath)` without hardcoded fallback text. Missing keys should remain detectable during review instead of being hidden by source-code strings.
 
 ### B. AuthContext (`apps/web/src/context/AuthContext.jsx`)
 

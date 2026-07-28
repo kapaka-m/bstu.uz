@@ -47,10 +47,12 @@ graph TD
 
 ## Localization And Data Flow
 
-The system supports `en`, `uz`, `ru`, and `ar`. Arabic is rendered right-to-left in both web and mobile clients. Public UI text is loaded from `GET /api/v1/translations?locale=...`, while dynamic models use localized database records and English fallback behavior during seeding where translated values are missing.
+English (`en`), Uzbek (`uz`), Russian (`ru`), and Arabic (`ar`) are seeded defaults. Active languages are read from the `locales` table and managed from `/apanel/locales`, so additional active languages can be added without frontend code changes. Web and mobile clients render RTL/LTR from each locale's database `direction` value.
+
+Public UI text is loaded from `GET /api/v1/translations?locale=...`, while dynamic models use localized database records. Missing translations should remain detectable by review and testing instead of being hidden behind hardcoded frontend fallback text.
 
 The typical data path is:
 
-1. Seed/static JSON or apanel writes content into MySQL.
+1. Safe seeders or `/apanel/` writes content into MySQL.
 2. Laravel exposes localized resources through `/api/v1`.
 3. React and Flutter fetch the same API and render localized UI.

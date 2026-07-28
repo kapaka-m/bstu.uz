@@ -28,7 +28,7 @@ department runtime pages fetch their content from Laravel API/MySQL.
 
 The extracted JSON datasets were mapped onto the normalized, multi-language MySQL schema:
 
-- **`locales`** — Configured system language codes (`en`, `uz`, `ru`, `ar`) with text direction traits (`ltr` or `rtl`).
+- **`locales`** — Seeded default language codes (`en`, `uz`, `ru`, `ar`) with text direction traits (`ltr` or `rtl`); active locales remain database-managed through `/apanel/locales`.
 - **`translation_keys` & `translation_values`** — Flat-mapped UI labels grouped under system categories.
 - **`pages` & `page_translations`** — Metadata and global details for `home` and `about` routes.
 - **`page_blocks` & `page_block_translations`** — Dynamic legacy homepage sections such as `home_hero`; current Administration content is managed by the dedicated Administration CMS tables.
@@ -56,8 +56,8 @@ Interactive Services content is managed only through the Interactive Services CM
 
 ### Generation Logic
 
-1. Dynamic content models (News, Announcements, Programs, etc.) use a normalized translation sub-table (e.g. `news_translations`). They are seeded in a locale loop (`en`, `uz`, `ru`, `ar`).
-2. If a translation is missing or blank for a non-English locale, the seeder automatically falls back to the English source text.
+1. Dynamic content models (News, Announcements, Programs, etc.) use a normalized translation sub-table (e.g. `news_translations`).
+2. Seeders may create initial records for the seeded default locales, but runtime frontend code must not keep a fixed language list or hardcoded display fallback strings.
 3. UI labels are flattened into dot-notation paths (e.g. `nav.home`) from `translations.json`.
 
 ### UI Key Groups

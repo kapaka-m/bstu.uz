@@ -73,27 +73,16 @@ On Windows, `public/storage` may appear as a junction/reparse point. This is exp
 
 ## Path Resolution
 
-### Web App (`apps/web`)
+Do not repeat storage URL construction in pages, components, or service files.
+Use the shared storage/media helpers in each client:
 
-When rendering images or referencing uploaded files, prefix the `file_path` returned by the API:
+- Web: `apps/web/src/lib/storage.js`.
+- Mobile: the central app configuration/storage helper under `apps/mobile`.
 
-```javascript
-const absoluteUrl = filePath.startsWith("http")
-  ? filePath
-  : `/storage/${filePath}`;
-```
-
-### Mobile App (`apps/mobile`)
-
-When fetching files on mobile, resolve path names against the dynamic base host:
-
-```dart
-final absoluteUrl = filePath.startsWith("http")
-  ? filePath
-  : '${AppConfig.defaultApiBaseUrl}/storage/${filePath}';
-```
-
-**Important:** remove the `/api/v1` suffix from the API base URL when resolving storage paths. For example, if the API base is `http://127.0.0.1:8000/api/v1`, file URLs should resolve against `http://127.0.0.1:8000/storage/...`.
+The helper must resolve API-returned file paths against the environment-specific
+Laravel host and must not append duplicate `/api/v1` segments. Local development
+URLs may be used in `.env` examples only; production deployments should rely on
+environment variables and the shared helper layer.
 
 ## Upload Security
 

@@ -21,8 +21,10 @@ Configure it in `apps/web/.env`:
 ```env
 VITE_API_BASE_URL=http://127.0.0.1:8000/api/v1
 VITE_DEFAULT_LOCALE=en
-VITE_SUPPORTED_LOCALES=en,uz,ru,ar
 ```
+
+Active locales are loaded from `GET /api/v1/locales` and managed in
+`/apanel/locales`; do not keep a separate frontend-only supported-locale list.
 
 Do not commit `.env`.
 
@@ -67,8 +69,7 @@ Smoke-test these routes after preview starts:
 
 - `LocaleProvider` manages locale, menus, settings, and translations.
 - API requests include `locale` and `Accept-Language`.
-- Arabic sets `dir="rtl"` on `html` and `body`.
-- English, Uzbek, and Russian remain LTR.
+- Text direction is read from the active locale record and applied to `html` and `body`.
 
 ## Content and Assets
 
@@ -87,4 +88,4 @@ Smoke-test these routes after preview starts:
 - Backend unavailable: start Laravel API and verify `VITE_API_BASE_URL`.
 - CORS/API URL problems: check Laravel CORS settings and restart Vite after `.env` changes.
 - Raw translation keys: verify `/api/v1/translations?locale=en` or the selected locale.
-- Broken image URLs: verify public asset paths, `/storage/...` links, or API media URL generation.
+- Broken image URLs: verify whether the value comes from an API media record and is resolved by the shared storage/media helper.

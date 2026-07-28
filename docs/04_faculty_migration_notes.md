@@ -20,3 +20,11 @@ This file documents the cleanups performed to enforce dynamic data flow for facu
   4. Department of Light Industry Engineering and Design (`light-industry-engineering-and-design`)
   5. Department of Mechanics and Engineering Graphics (`mechanics-engineering-graphics`)
   6. Department of Technological Machines and Equipment (`technological-machines-equipment`)
+
+## Removed Legacy Drafts
+
+The old root-level files `engineering_faculty_drafts.md`,
+`legacy_academic_drafts.md`, and `project_information_export.md` were removed
+because they were large historical captures that duplicated this migration
+summary and the database migration documentation. Future faculty notes should be
+kept here only when they summarize verified architecture or migration decisions.

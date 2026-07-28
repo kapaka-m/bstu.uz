@@ -92,7 +92,7 @@ Default Admin User credentials:
 
 ### Custom Middlewares Registered
 
-- **`LocaleMiddleware` (Global)**: Automatically inspects the `Accept-Language` request header or `lang` query parameter (supporting `en`, `uz`, `ru`, `ar`) and dynamically configures the system locale.
+- **`LocaleMiddleware` (Global)**: Inspects the `Accept-Language` request header or `lang` query parameter and validates it against active database locales before configuring the system locale.
 - **`role`**: Check if user has specified roles (e.g. `role:admin` or `role:admin|super_admin`). The `apanel` role bypasses all checks.
 - **`permission`**: Check if user has specified permissions (e.g. `permission:manage-users`). The `apanel` role bypasses all checks.
 

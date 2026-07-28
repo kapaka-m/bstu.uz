@@ -853,6 +853,142 @@
 
 ---
 
+## Documentation Cleanup Pass 2026-07-29
+
+تاريخ التنظيف: 2026-07-29
+
+## Documentation Cleanup Pass 2026-07-29 paths reviewed
+
+- `docs`
+- `database-docs`
+- `storage-docs`
+- `README.md`
+- `AGENTS.md`
+- `.gitignore`
+- `international.bstu.uz.code-workspace`
+- `after.md`
+- `walkthrough.md`
+- `engineering_faculty_drafts.md`
+- `legacy_academic_drafts.md`
+- `project_information_export.md`
+- `full_stack_review_report.md`
+
+## Documentation Cleanup Pass 2026-07-29 files kept
+
+- `README.md`, `AGENTS.md`, `.gitignore`, `international.bstu.uz.code-workspace`, و `full_stack_review_report.md` لأنها ملفات دخول/ميتا مهمة.
+- ملفات `docs`, `database-docs`, و `storage-docs` الحالية لأنها تمثل المصدر المنظم للتوثيق.
+
+## Documentation Cleanup Pass 2026-07-29 files cleaned
+
+- `AGENTS.md`: استبدال أمر `migrate:fresh --seed` العادي بأوامر `migrate` و `db:seed`، وتوضيح أن `migrate:fresh --seed` مخصص فقط لقواعد بيانات محلية قابلة للحذف.
+- `docs/02_academic_and_cms_migration_specifications.md`: إضافة خلاصة مكان حفظ ملاحظات الهجرة بعد حذف المسودات.
+- `docs/04_faculty_migration_notes.md`: إضافة ملاحظة أن ملفات المسودات الأكاديمية الجذرية حذفت لأن خلاصة الهجرة موجودة هنا وفي وثائق قاعدة البيانات.
+
+## Documentation Cleanup Pass 2026-07-29 files deleted
+
+- `after.md`: سجل عمل مؤقت باللغة العربية، ومحتواه عبارة عن توجيه مرحلي مكرر وموجود بشكل أفضل داخل تقرير المراجعة والوثائق المنظمة.
+- `walkthrough.md`: سجل تاريخي لعملية resequencing محلية؛ يحتوي خطوات قد تكون مضللة أو خطرة إذا اعتبرت runbook حالي.
+- `engineering_faculty_drafts.md`: مسودة محتوى كلية الهندسة، وخلاصتها المفيدة موجودة في `docs/04_faculty_migration_notes.md`.
+- `legacy_academic_drafts.md`: ملف ضخم لمسودات كليات/أقسام/برامج وروابط محلية قديمة، واستبدلته الوثائق المنظمة في `docs/03_university_departments_and_centers.md`, `docs/04_faculty_migration_notes.md`, و `database-docs/database_migration_guide.md`.
+- `project_information_export.md`: export ضخم ومكرر للمشروع، وليس مصدر توثيق عملي بعد وجود `database-docs` وملفات `docs` المنظمة.
+
+## Documentation Cleanup Pass 2026-07-29 useful content moved
+
+- خلاصة أن المسودات الأكاديمية القديمة لم تعد مصدرًا مباشرًا أضيفت إلى `docs/02_academic_and_cms_migration_specifications.md`.
+- خلاصة حذف مسودات الكليات ومكان حفظ ملخصات الهجرة أضيفت إلى `docs/04_faculty_migration_notes.md`.
+- لم تكن هناك حاجة لنقل export كامل؛ كان مكررًا وضخمًا ومناسبًا للحذف بعد وجود وثائق schema/migration الحالية.
+
+## Documentation Cleanup Pass 2026-07-29 references updated
+
+- لم تكن هناك روابط نشطة في `README.md` أو فهارس `docs` تشير إلى الملفات المحذوفة.
+- تم فحص مراجع الملفات المحذوفة داخل المسارات المحددة؛ المتبقي فقط سجل تاريخي داخل `full_stack_review_report.md` وملاحظة حذف مقصودة داخل `docs/04_faculty_migration_notes.md`.
+
+## Documentation Cleanup Pass 2026-07-29 manual decisions
+
+- لا توجد ملفات متبقية تحتاج قرارًا يدويًا قبل الحذف ضمن هذه المجموعة.
+
+## Documentation Cleanup Pass 2026-07-29 checks
+
+- تم فحص مراجع الملفات المحذوفة قبل وبعد الحذف.
+- تم فحص `/admin`, `/admin/`, `file:///`, روابط docs القديمة، و `VITE_SUPPORTED_LOCALES`: لا توجد نتائج داخل وثائق المشروع النشطة.
+- تم فحص روابط Markdown النسبية في `README.md`, `docs`, `database-docs`, و `storage-docs`: الروابط المفحوصة تعمل.
+- تم فحص عناوين `full_stack_review_report.md`: لا توجد headings مكررة من المستوى الثاني.
+- تم تشغيل `git status` لمراجعة الملفات المعدلة والمحذوفة.
+- لم يتم تشغيل ESLint أو React build أو Laravel/PHP checks لأن التغيير وثائقي فقط.
+
+---
+
+## مراجعة Documentation And Project Notes 2026-07-28
+
+تاريخ المراجعة: 2026-07-28
+
+## ملفات Documentation And Project Notes 2026-07-28 التي تمت مراجعتها
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\database-docs`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\docs`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\storage-docs`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\.gitignore`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\after.md`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\AGENTS.md`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\engineering_faculty_drafts.md`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\international.bstu.uz.code-workspace`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\legacy_academic_drafts.md`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\project_information_export.md`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\walkthrough.md`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\README.md`
+
+## توثيق Documentation And Project Notes 2026-07-28 الذي تم تنظيفه
+
+- تم تحديث روابط `README.md` لتشير إلى أسماء ملفات الوثائق الفعلية الموجودة، بدلاً من أسماء قديمة مثل `docs/APANEL.md`, `docs/API.md`, و `database-docs/DATA_MIGRATION.md`.
+- تم تصحيح روابط `docs/00_overview.md` من روابط Windows `file:///.../doc/...` إلى روابط Markdown نسبية داخل `docs`.
+- تم تحديث وثائق اللغة في `README.md`, `docs/frontend_api_integration.md`, `docs/frontend_setup_guide.md`, `docs/web_frontend_development.md`, `docs/system_architecture.md`, `database-docs/database_schema.md`, و `database-docs/database_migration_guide.md` لتوضيح أن اللغات النشطة تأتي من جدول `locales` وتدار من `/apanel/locales`.
+- تم تحديث وثائق الترجمة لتمنع hardcoded display fallbacks مثل `t("key", "Static text")` وتطلب أن تبقى الترجمات الناقصة قابلة للكشف.
+- تم تحديث `storage-docs/laravel_storage_guide.md` ليطلب استخدام helper مركزي لحل روابط الملفات بدلاً من نسخ منطق `/storage/...` داخل الصفحات أو الخدمات.
+- تم تصحيح `docs/student_system_guide.md` لتوثيق مستندات الطلاب كملفات workflow خاصة وليست public CMS media.
+- تم تنظيم `walkthrough.md`, `after.md`, `engineering_faculty_drafts.md`, `legacy_academic_drafts.md`, و `project_information_export.md` بعلامات واضحة أنها سجلات/مسودات legacy وليست مصدر runtime أو مصدر seed مباشر.
+- تم إصلاح ترقيم وسياق `docs/03_university_departments_and_centers.md` وتوضيح أن الملف ملخص وثائقي فقط.
+
+## المحتوى القابل للعرض الذي وجد في Documentation And Project Notes 2026-07-28
+
+- وجدت مسودات ومقتطفات عامة عن الكليات، الأقسام، البرامج، موظفي الكليات، المراكز، وأرقام/بيانات اتصال داخل `engineering_faculty_drafts.md`, `legacy_academic_drafts.md`, `project_information_export.md`, و `docs/03_university_departments_and_centers.md`.
+- تمت مقارنة أمثلة رئيسية مثل Faculty of Engineering, Electrical and Power Engineering, Digital Educational Technologies Centre, Inclusive IT Center, Information Resource Center, و International Cooperation Department مع `apps/api/database/data` وseeders الأكاديمية، وظهر أنها ممثلة بالفعل في بيانات Laravel/MySQL الحالية مثل `translations.json`, `academic_department_details.json`, وseeders الأكاديمية.
+- لذلك لم يتم إدخال نفس النصوص مرة ثانية إلى قاعدة البيانات حتى لا ننشئ محتوى مكررًا أو نظام seed موازٍ.
+
+## ربط Documentation And Project Notes 2026-07-28 بالبيانات
+
+- اللغات: `locales`.
+- ترجمات واجهة النظام: `translation_keys`, `translation_values`.
+- الكليات: `faculties`, `faculty_translations`.
+- الأقسام: `departments`, `department_translations`.
+- البرامج: `programs`, `program_translations`.
+- المراكز والإدارة العامة: بيانات CMS/translation الموجودة في `apps/api/database/data/translations.json` وجداول CMS المرتبطة حسب الوحدة.
+- ملفات الطلاب الخاصة: `application_documents` مع تخزين private workflow وتنزيل محمي.
+- API اللغات والترجمات: `GET /api/v1/locales`, `GET /api/v1/translations`.
+- API المحتوى العام والأكاديمي: endpoints العامة تحت `/api/v1`.
+- إدارة المحتوى من `/apanel/`, خصوصًا `/apanel/locales`, `/apanel/translations`, `/apanel/faculties`, `/apanel/departments`, `/apanel/programs`, وصفحات CMS المتخصصة.
+
+## المحتوى الذي بقي Documentation فقط في Documentation And Project Notes 2026-07-28
+
+- أوامر الإعداد، مسارات التطوير المحلي، بنية المشروع، أدلة API، أدلة التخزين، وأدلة الاختبار بقيت في الوثائق لأنها معلومات تقنية وليست محتوى CMS.
+- `legacy_academic_drafts.md`, `engineering_faculty_drafts.md`, و `project_information_export.md` بقيت كسجلات migration/legacy فقط لأنها تحتوي مسودات أو snapshots تحتاج تحقق يدوي قبل أي seed جديد، ومعظمها ممثل بالفعل في بيانات Laravel.
+- روابط `localhost` و `127.0.0.1` بقيت فقط عندما كانت أمثلة تطوير محلية موضحة أو داخل ملف legacy معلّم بوضوح.
+
+## المتبقي بعد Documentation And Project Notes 2026-07-28
+
+- لا توجد قاعدة بيانات جديدة مطلوبة لهذه المجموعة.
+- لا توجد ترجمات جديدة مضافة، لأن المحتوى العام الموجود في الوثائق كان إما ممثلًا مسبقًا في بيانات Laravel أو غير مؤكد كمسودة legacy.
+- أي اختلاف بين `project_information_export.md` وبين قاعدة البيانات الحالية يجب التعامل معه كقرار محتوى لاحق قبل seed، وليس إدخالًا تلقائيًا.
+
+## تحقق Documentation And Project Notes 2026-07-28
+
+- تم فحص `/admin`, `/admin/`, روابط `file:///`, وروابط وثائق قديمة مثل `docs/APANEL.md`: لم تظهر نتائج بعد التنظيف داخل النطاق، باستثناء كلمات وصفية مثل admin panel دون route خاطئ.
+- تم فحص `VITE_SUPPORTED_LOCALES` و hardcoded translation fallback patterns داخل الوثائق المحددة؛ تمت إزالة القائمة الثابتة من أدلة إعداد الواجهة.
+- تم فحص `localhost`, `127.0.0.1`, و `/storage/`: المتبقي موثق كأمثلة تطوير محلية أو storage setup وليس منطق تنفيذ.
+- تم فحص المحتوى الأكاديمي/المراكز مقابل `apps/api/database/data` وseeders، ولم تكن هناك حاجة إلى seed جديد.
+- لم يتم تعديل ملفات React أو PHP implementation، لذلك لم يتم تشغيل ESLint أو Laravel tests لهذه الجولة.
+
+---
+
 ## مراجعة React Apanel Shared Runtime 2026-07-28
 
 تاريخ المراجعة: 2026-07-28

@@ -15,18 +15,23 @@ The database utilizes a hybrid approach for translations:
 
 Locales are configured in the `locales` table:
 
-- **English (`en`):** `ltr`
-- **Uzbek (`uz`):** `ltr`
-- **Russian (`ru`):** `ltr`
-- **Arabic (`ar`):** `rtl` (RTL is dynamically set in client-side HTML structure).
+- English (`en`), Uzbek (`uz`), Russian (`ru`), and Arabic (`ar`) are seeded
+  defaults.
+- Additional locales can be created and activated from `/apanel/locales`.
+- Each locale stores its own `direction` value, and the clients render RTL/LTR
+  from the database response rather than from a fixed frontend list.
 
-### Fallback Logic
+### Missing Translation Handling
 
 The API handles translatable queries using the `HasTranslations` trait:
 
 1. Search for the localized value in the requested locale.
 2. If the translation record does not exist or the field is empty, fallback to the English (`en`) translation.
 3. If English translation is also missing, return `null`.
+
+Frontend code should not provide a hardcoded display string as a translation
+fallback argument; missing translation keys should remain detectable through
+raw keys, `null` values, or validation/reporting checks.
 
 ---
 

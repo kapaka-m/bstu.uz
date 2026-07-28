@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Camera, Edit3, Plus, Save, Trash2, UploadCloud, X, Settings as SettingsIcon } from "lucide-react";
 import { centerService } from "../../../services/centerService";
 import { apanelService } from "../../../services/apanelService";
@@ -106,7 +106,9 @@ export default function ApanelCenters() {
     }, 3000);
   };
 
-  const load = async () => {
+  const load = useCallback(async () => {
+    if (!localeCodes.length) return;
+
     setLoading(true);
     try {
       const [data, settingsData] = await Promise.all([
@@ -122,12 +124,11 @@ export default function ApanelCenters() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [localeCodes]);
 
   useEffect(() => {
-    if (!localeCodes.length) return;
     load();
-  }, [localeCodes]);
+  }, [load]);
 
   const startCreate = () => {
     setEditing(null);
@@ -419,13 +420,13 @@ export default function ApanelCenters() {
               {/* Right Column: Image Upload */}
               <div className="space-y-2">
                 <span className="text-xs font-bold text-gray-500">Banner / Profile Image</span>
-                <div className="flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-gray-100 p-6 text-center hover:border-primary/50 transition-colors relative group min-h-[220px]">
+                <div className="flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-gray-100 p-6 text-center hover:border-primary/50 transition-colors relative group min-h-55">
                   {form.image ? (
                     <>
                       <img
                         src={storageUrl(form.image)}
                         alt="Preview"
-                        className="max-h-[180px] w-full rounded-xl object-cover"
+                        className="max-h-45 w-full rounded-xl object-cover"
                       />
                       <label className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 rounded-2xl transition-opacity cursor-pointer">
                         <Camera className="w-8 h-8 text-white" />

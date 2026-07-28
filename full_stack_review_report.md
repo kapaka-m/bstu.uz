@@ -1486,3 +1486,69 @@
 - تم فحص `t("key", "fallback")` داخل النطاق ولم تظهر fallbacks نصية من هذا النوع.
 - تم فحص `Intl.DateTimeFormat("en")` داخل النطاق ولم تظهر نتائج بعد التعديل.
 - تم فحص `localhost` و `127.0.0.1` و `VITE_API_BASE_URL` و `/storage/` و `http://` و `https://` داخل `apps/web/src/features` ولم تظهر نتائج بعد إزالة placeholders.
+
+---
+
+## مراجعة تجميعية Api Web Core Paths 2026-07-28
+
+تاريخ المراجعة: 2026-07-28
+
+## ملفات مراجعة Api Web Core Paths 2026-07-28 التي تمت مراجعتها
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\.agents`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\.vscode`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\.github`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\app`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\bootstrap`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\config`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\public`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\resources`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\routes`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\storage`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\tests`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api` root config files
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\public`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\components`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\context`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\pages`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\sections`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web` root config files
+- `node_modules`, `vendor`, و `apps\web\dist` تمت مراجعتها كتصنيف مولد أو طرف ثالث، وليست مصدر محتوى CMS.
+
+## ما تم العثور عليه في مراجعة Api Web Core Paths 2026-07-28
+
+- لم تظهر روابط API ثابتة أو `localhost` أو `127.0.0.1` أو `/storage/` مكررة داخل كود المشروع بعد استبعاد `node_modules`, `vendor`, و `dist`.
+- لم تظهر fallbacks من نوع `t("key", "Static text")` داخل النطاق المفحوص.
+- لم تظهر قوائم لغات ثابتة `en/uz/ru/ar` داخل كود React الذي تمت مراجعته سابقاً.
+- `apps/api/.env` يحتوي إعدادات بيئة مثل `APP_KEY`، وهي أسرار/إعدادات تشغيل وليست محتوى CMS ولا يجب نقلها إلى قاعدة البيانات.
+- `vendor`, `node_modules`, و `dist` ليست مصادر محتوى قابلة للإدارة من `/apanel/`; هي dependencies أو build output ويمكن إعادة توليدها.
+- `apps/api/storage/temp` يحتوي ملفات تشغيل مؤقتة ينتجها `php-local` و Symfony أثناء الاختبارات.
+
+## تغييرات مراجعة Api Web Core Paths 2026-07-28
+
+- تم إضافة `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\storage\temp\.gitignore` لمنع دخول ملفات temp المؤقتة إلى المشروع.
+- بقي إصلاح `ApanelCenters.jsx` السابق ضمن نفس الجولة: تحويل `load` إلى `useCallback` وإصلاح تحذيرات Tailwind canonical classes.
+
+## ربط مراجعة Api Web Core Paths 2026-07-28 بالبيانات
+
+- المحتوى العام والمدخلات القابلة للإدارة تعتمد على جداول CMS القائمة حسب المجال، مثل pages, page blocks, menus, settings, translations, locales, news, blogs, announcements, centers, videos, applications.
+- جدول اللغات: `locales`.
+- جداول الترجمة: `translation_keys`, `translation_values`.
+- API اللغات والترجمات: `GET /api/v1/locales`, `GET /api/v1/translations`.
+- إدارة اللغة والترجمة من `/apanel/locales` و `/apanel/translations`.
+- إدارة محتوى CMS من endpoints الموجودة تحت `/api/v1/apanel/cms/*` و `/api/v1/apanel/{resource}`.
+
+## المتبقي بعد مراجعة Api Web Core Paths 2026-07-28
+
+- لم يتم نقل إعدادات تقنية مثل `.env`, config files, package files, workflows, أو bootstrap files إلى قاعدة البيانات لأنها ليست محتوى يديره المدير من `/apanel/`.
+- لا يتم تعديل `vendor`, `node_modules`, أو `dist` كمصدر CMS؛ إذا احتجنا تنظيفها فيتم حذفها وإعادة توليدها بالأوامر المناسبة، وليس تحويل محتواها إلى قاعدة البيانات.
+- لم أحذف ملفات `storage/temp` مباشرة لأن أمر الحذف رُفض من سياسة الأداة، لكن تمت إضافة `.gitignore` للمجلد لمنع تتبع هذه الملفات المؤقتة.
+
+## تحقق مراجعة Api Web Core Paths 2026-07-28
+
+- `npm.cmd run lint -- --quiet` نجح.
+- `npm.cmd run build` نجح.
+- `php-local.bat artisan route:list --path=api/v1 --except-vendor` نجح وأظهر 170 route.
+- `php-local.bat artisan test` نجح: 4 tests passed, 7 assertions.
+- `php-local.bat artisan optimize:clear` نجح.
+- `php-local.bat -l database\seeders\StudentSystemTranslationSeeder.php` نجح.

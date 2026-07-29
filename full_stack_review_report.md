@@ -2320,6 +2320,96 @@
 
 ---
 
+## تحويل ملف SQL إلى CMS Snapshot Seeder 2026-07-29
+
+تاريخ التنفيذ: 2026-07-29
+
+## المسارات التي تمت مراجعتها
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\bstu_international (1).sql`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\data`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\seeders`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\seeders\DatabaseSeeder.php`
+
+## ما تم العثور عليه
+
+- ملف SQL يحتوي dump كامل لقاعدة البيانات، وليس CMS فقط.
+- تم العثور على جداول CMS قابلة للإدارة من `/apanel/` مثل الأخبار، الإعلانات، المدونة، الفيديو، الفوتر، الإدارة، الصفحات، القوائم، الإعدادات، الترجمات، الميديا، المراكز الجامعية، Green Campus، والكليات/الأقسام/البرامج.
+- تم العثور أيضًا على جداول تشغيل وخصوصية لا يجب تحويلها إلى seed مثل `users`, `personal_access_tokens`, `student_profiles`, `applications`, `payments`, `audit_logs`, `sessions`, وبيانات الطالب/المدفوعات/التذاكر.
+
+## التغييرات المنفذة
+
+- تم إنشاء ملف بيانات seed منظم:
+  - `apps/api/database/data/sql_cms_snapshot.json`
+- تم إنشاء Seeder آمن:
+  - `apps/api/database/seeders/SqlCmsSnapshotSeeder.php`
+- تم ربطه داخل `DatabaseSeeder.php` بعد seeders الأساسية.
+- يستخدم `SqlCmsSnapshotSeeder` دالة `insertOrIgnore` على دفعات صغيرة، لذلك:
+  - لا يكرر الصفوف الموجودة.
+  - لا يكتب فوق تعديلات `/apanel/`.
+  - يمكن تشغيله أكثر من مرة بأمان.
+- تم تنظيف روابط التطوير `localhost` و`127.0.0.1` من snapshot.
+- تم تنظيف بقايا `localhost` الحالية في `department_translations.content_sections` داخل قاعدة البيانات.
+
+## الجداول التي تم تضمينها في snapshot
+
+- اللغات والترجمات: `locales`, `translation_keys`, `translation_values`.
+- الأكاديميات: `faculties`, `departments`, `programs`, `courses`, `program_courses` وجداول الترجمة التابعة.
+- الكادر: `staff_profiles`, `staff_profile_translations`.
+- القوائم والصفحات: `menus`, `menu_items`, `pages`, `page_blocks` وجداول الترجمة.
+- الإعدادات والميديا والخدمات: `settings`, `media`, `services`, `service_translations`.
+- الأخبار والإعلانات والمدونة والفيديو: `news`, `announcements`, `blogs`, `videos` وجداول settings/translations التابعة.
+- الفوتر وGreen Campus والإدارة والتواصل والمراكز الجامعية: الجداول العامة وجداول الترجمة التابعة لها.
+- Workflow seed العام: `document_requirements`, `application_countries`, `application_nationalities`.
+
+## الجداول التي تم استبعادها
+
+- بيانات المستخدمين والتوكنات.
+- بيانات الطلاب والطلبات والمستندات والمدفوعات.
+- audit/runtime/session/cache/migration data.
+- التعليقات والاشتراكات والاستفسارات والتذاكر لأنها بيانات مستخدمين runtime وليست CMS seed أولي.
+
+## API وواجهة الإدارة
+
+- المحتوى العام يعرض عبر مسارات `/api/v1/*` مثل news, announcements, blog, videos, menus, pages, settings, footer, centers, academic resources.
+- الإدارة تتم عبر `/api/v1/apanel/{resource}` وواجهات CMS الخاصة مثل:
+  - `/apanel/news`
+  - `/apanel/announcements`
+  - `/apanel/blog`
+  - `/apanel/videos`
+  - `/apanel/settings`
+  - `/apanel/translations`
+  - `/apanel/programs`
+  - `/apanel/departments`
+  - `/apanel/cms/*`
+
+## نتيجة تشغيل Seeder
+
+- تم تشغيل:
+  - `php-local.bat artisan db:seed --class=SqlCmsSnapshotSeeder`
+- إجمالي snapshot:
+  - 62 جدول CMS.
+  - 17,874 صفًا.
+  - 33 جدول تشغيل/خصوصية مستبعد.
+- نتيجة التشغيل الحالية: كل الصفوف كانت موجودة بالفعل في قاعدة البيانات، لذلك تم تخطيها بدون تكرار.
+
+## الفحوص المنفذة
+
+- JSON validation لـ `sql_cms_snapshot.json`: نجح.
+- التأكد من عدم وجود جداول حساسة داخل `snapshot.tables`: نجح.
+- فحص روابط `localhost` و`127.0.0.1` داخل snapshot/seeder: نجح بلا نتائج.
+- PHP syntax لـ `SqlCmsSnapshotSeeder.php` و`DatabaseSeeder.php`: نجح.
+- تشغيل `SqlCmsSnapshotSeeder`: نجح.
+- `php-local.bat artisan test`: نجح، 4 tests passed و7 assertions.
+- `php-local.bat artisan route:list --path=api/v1`: نجح وأظهر 170 route.
+- `php-local.bat artisan optimize:clear`: نجح.
+
+## المتبقي
+
+- لم يتم تحويل جداول الطلاب/المعاملات/التوكنات/المدفوعات إلى seed، وهذا مقصود لحماية بيانات التشغيل ومنع إدخال بيانات شخصية أو سجلات runtime كبيانات CMS.
+
+---
+
 ## إعادة تحقق Database Scope بدون تغييرات إضافية 2026-07-29
 
 تاريخ إعادة التحقق: 2026-07-29

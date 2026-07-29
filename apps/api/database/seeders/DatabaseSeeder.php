@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
             EngineeringFacultyContentSeeder::class,
             SettingSeeder::class,
             WorkflowConfigurationSeeder::class,
+            SqlCmsSnapshotSeeder::class,
         ]);
     }
 }

@@ -29,7 +29,7 @@ class RoleSeeder extends Seeder
 
         $seededRoles = [];
         foreach ($roles as $slug => $name) {
-            $seededRoles[$slug] = Role::updateOrCreate(['slug' => $slug], [
+            $seededRoles[$slug] = Role::firstOrCreate(['slug' => $slug], [
                 'name' => $name,
                 'slug' => $slug,
                 'description' => "Role for {$name}",

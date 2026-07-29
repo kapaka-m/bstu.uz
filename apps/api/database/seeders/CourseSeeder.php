@@ -6,11 +6,13 @@ use App\Models\Course;
 use App\Models\CourseTranslation;
 use App\Models\Department;
 use App\Models\Program;
+use Database\Seeders\Concerns\ResolvesSeedLocales;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
 class CourseSeeder extends Seeder
 {
+    use ResolvesSeedLocales;
     public function run(): void
     {
         $translationsPath = database_path('data/translations.json');
@@ -22,6 +24,11 @@ class CourseSeeder extends Seeder
 
         $translations = json_decode(file_get_contents($translationsPath), true);
         $deptsMetadata = json_decode(file_get_contents($departmentsPath), true);
+        $locales = $this->activeSeedLocales();
+        $sourceLocale = $this->sourceSeedLocale($translations, $locales);
+        if ($sourceLocale === null) {
+            return;
+        }
 
         $courseCount = 1;
 
@@ -42,7 +49,7 @@ class CourseSeeder extends Seeder
                 $code = strtoupper(substr(str_replace('-', '', $slug), 0, 4)).'-'.(100 + $index);
 
                 // Create course
-                $course = Course::updateOrCreate(
+                $course = Course::firstOrCreate(
                     ['code' => $code],
                     [
                         'credits' => rand(3, 5),
@@ -51,21 +58,24 @@ class CourseSeeder extends Seeder
                     ]
                 );
 
-                // Seed translations for en, uz, ru, ar
-                foreach (['en', 'uz', 'ru', 'ar'] as $locale) {
-                    $name = $translations[$locale]['departments'][$deptSlug]['subjects']['bachelor'][$index] ?? $nameEn;
-                    if (empty($name)) {
+                foreach ($locales as $locale) {
+                    $name = $translations[$locale]['departments'][$deptSlug]['subjects']['bachelor'][$index] ?? null;
+                    if (($name === null || $name === '') && $locale === $sourceLocale) {
                         $name = $nameEn;
                     }
 
-                    CourseTranslation::updateOrCreate(
+                    if ($name === null || $name === '') {
+                        continue;
+                    }
+
+                    CourseTranslation::firstOrCreate(
                         [
                             'course_id' => $course->id,
                             'locale' => $locale,
                         ],
                         [
                             'name' => $name,
-                            'description' => "Standard course covering topics in {$name}.",
+                            'description' => null,
                         ]
                     );
                 }

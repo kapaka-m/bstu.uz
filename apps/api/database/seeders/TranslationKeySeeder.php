@@ -17,10 +17,13 @@ class TranslationKeySeeder extends Seeder
         }
 
         $translations = json_decode(file_get_contents($filePath), true);
-        $en = $translations['en'] ?? [];
 
-        // Flatten the array and get keys
-        $flat = $this->flattenArray($en);
+        $flat = [];
+        foreach ($translations as $localeData) {
+            if (is_array($localeData)) {
+                $flat += $this->flattenArray($localeData);
+            }
+        }
 
         // Group mapping mapping
         $groupMapping = [
@@ -71,7 +74,7 @@ class TranslationKeySeeder extends Seeder
                 $group = 'common';
             }
 
-            TranslationKey::updateOrCreate(
+            TranslationKey::firstOrCreate(
                 ['group' => $group, 'key' => $key],
                 [
                     'description' => 'System UI label: '.$flatKey,
@@ -103,7 +106,7 @@ class TranslationKeySeeder extends Seeder
         ];
 
         foreach ($additionalKeys as $ak) {
-            TranslationKey::updateOrCreate(
+            TranslationKey::firstOrCreate(
                 ['group' => $ak['group'], 'key' => $ak['key']],
                 ['description' => $ak['description'], 'is_system' => true]
             );

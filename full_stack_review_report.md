@@ -714,6 +714,66 @@
 - `php-local.bat artisan test` نجح: 4 tests passed.
 - `php-local.bat artisan optimize:clear` نجح.
 
+---
+
+## مراجعة Laravel Database CMS Seed Safety 2026-07-29
+
+تاريخ المراجعة: 2026-07-29
+
+## ملفات Laravel Database CMS Seed Safety 2026-07-29 التي تمت مراجعتها
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\data`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\migrations`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\seeders`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\factories\UserFactory.php`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\.gitignore`
+
+## ما تم العثور عليه في Laravel Database CMS Seed Safety 2026-07-29
+
+- كانت seeders كثيرة تستخدم `updateOrCreate` بطريقة قد تعيد كتابة محتوى عدله الأدمن من `/apanel/`.
+- كان `MenuSeeder.php` يحذف عناصر قائمة الهيدر قبل إعادة إنشائها، وهذا كان سيمس الترتيب والنشر والتعديلات المدارة من `/apanel/header-navbar`.
+- كانت بعض seeders الأكاديمية تعطل سجلات موجودة عبر `is_active = false` أثناء إعادة البذر.
+- كان `TranslationValueSeeder.php` يستخدم قائمة لغات ثابتة ويملأ الترجمات الناقصة بالإنجليزية أو بالمفتاح نفسه.
+- كان `academic_department_details.json` يحتوي تعليمات قديمة، روابط `localhost`, قسم `mockData`, ومفاتيح صور legacy من نوع `fallbackImage`/`fallback`.
+
+## تغييرات Laravel Database CMS Seed Safety 2026-07-29
+
+- تم تحويل seeders التي كانت تعيد كتابة البيانات إلى إنشاء السجلات المفقودة فقط باستخدام `firstOrCreate`.
+- تمت إضافة `Database\Seeders\Concerns\ResolvesSeedLocales` لاستخدام اللغات النشطة من جدول `locales` داخل seeders بدلاً من تثبيت قائمة اللغات في منطق البذر.
+- تم تعديل `TranslationValueSeeder.php` ليقرأ اللغات من قاعدة البيانات، ويتخطى الترجمة الناقصة بدل تخزين fallback إنجليزي أو اسم المفتاح.
+- تم تعديل `MenuSeeder.php` ليحافظ على قائمة الهيدر الموجودة إذا كانت تحتوي عناصر، ولا يحذف أو يعيد ترتيب ما أداره الأدمن.
+- تم إيقاف عمليات تعطيل المحتوى الجماعية داخل seeders الأكاديمية والتقنية، مع إبقاء إنشاء المحتوى المفقود.
+- تم تنظيف `academic_department_details.json` من روابط التطوير، تعليمات التحكم القديمة، `mockData`, ومفاتيح fallback الخاصة بالصور.
+- تم تقليل seed fallbacks العامة في seeders الصفحات، الكليات، الأقسام، البرامج، المقررات، والكادر بحيث لا تنشئ ترجمة للغة لا تملك قيمة مصدر.
+
+## ربط Laravel Database CMS Seed Safety 2026-07-29 بالبيانات
+
+- اللغات الديناميكية: جدول `locales`، Model `Locale`، API `GET /api/v1/locales`، وإدارة `/apanel/locales`.
+- الترجمات: جداول `translation_keys` و `translation_values`، API `GET /api/v1/translations`، وإدارة `/apanel/translations`.
+- القوائم والهيدر: جداول `menus`, `menu_items`, `menu_item_translations`، API `GET /api/v1/menus` و `GET /api/v1/menus/{location}`، وإدارة `/apanel/header-navbar`.
+- الكليات والأقسام والبرامج والمقررات: جداول `faculties`, `departments`, `programs`, `courses` وجداول translations التابعة لها، API public تحت `/api/v1/faculties`, `/api/v1/departments`, `/api/v1/programs`, `/api/v1/courses`، وإدارة `/apanel/faculties`, `/apanel/departments`, `/apanel/programs`.
+- الكادر والإدارة: جداول `staff_profiles`, `staff_profile_translations`, و `administration_*`، API `GET /api/v1/staff`, `GET /api/v1/administration`، وإدارة `/apanel/administration` وموارد staff في `/apanel`.
+- الإعدادات والوسائط: جداول `settings` و `media`, API `GET /api/v1/settings`, `GET /api/v1/media/{id}`، وإدارة `/apanel/media` وصفحات إعدادات CMS ذات الصلة.
+- سير الطالب والطلبات: جداول student/application workflow، API `/api/v1/student/*`, `/api/v1/applications/*`, `/api/v1/apanel/applications-workflow/*`، وإدارة `/apanel/applications-workflow`.
+
+## المتبقي بعد Laravel Database CMS Seed Safety 2026-07-29
+
+- توجد migration تاريخية `2026_07_16_000005_remove_legacy_footer_translation_keys.php` تحتوي حذفًا لمفاتيح footer legacy. لم يتم تعديلها لأنها migration قديمة وقد تكون منفذة، وتغيير migrations التاريخية قد يسبب عدم تطابق بين البيئات. يلزم قرار منفصل إن كان يجب استبدال أثرها بمسار migration تعويضي.
+- بقيت بيانات seed فعلية داخل `database/data` و seeders، وهذا مقبول فقط كبيانات أولية قابلة للإدارة من `/apanel/` وليست runtime fallback داخل React.
+
+## تحقق Laravel Database CMS Seed Safety 2026-07-29
+
+- تم فحص `localhost`, `127.0.0.1`, `/admin`, `mockData`, `fallbackImage`, و image fallback داخل `apps\api\database`: لم تظهر نتائج ذات صلة بعد التنظيف.
+- تم فحص قوائم اللغات الثابتة `['en', 'uz', 'ru', 'ar']`: لم تظهر داخل seeders/data/migrations بعد إضافة helper اللغات.
+- تم فحص `updateOrCreate`, `delete`, `truncate`, وتعطيل `is_active` داخل seeders: لم يبق إلا migration footer legacy المذكورة أعلاه.
+- `php-local.bat -l` نجح لكل ملفات PHP المعدلة داخل `apps\api\database`.
+- `npm.cmd run lint` نجح مع تحذيرين قديمين في ملفات student خارج هذه الجولة، بدون أخطاء.
+- `npm.cmd run build` نجح.
+- `php-local.bat artisan route:list --path=api/v1` نجح وأظهر 170 route.
+- `php-local.bat artisan test` نجح: 4 tests passed, 7 assertions.
+- `php-local.bat artisan optimize:clear` نجح.
+
 ## متبقي Pages Sections Dynamic Cleanup
 
 - لا يوجد محتوى ظاهر قابل للإدارة بقي static داخل هذه المجموعة حسب الفحص الحالي.
@@ -2157,3 +2217,196 @@
 - `php-local.bat artisan route:list --path=api/v1 --except-vendor` نجح وأظهر 170 route.
 - `php-local.bat artisan test` نجح: 4 tests passed, 7 assertions.
 - `php-local.bat artisan optimize:clear` نجح.
+
+---
+
+## إعادة تحقق Laravel Database Migrations Safety 2026-07-29
+
+تاريخ إعادة التحقق: 2026-07-29
+
+## ملفات إعادة تحقق Laravel Database Migrations Safety 2026-07-29 التي تمت مراجعتها
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\data`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\migrations`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\seeders`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\factories`
+
+## ما تم العثور عليه في إعادة تحقق Laravel Database Migrations Safety 2026-07-29
+
+- كانت migration `2026_07_16_000005_remove_legacy_footer_translation_keys.php` تحذف مفاتيح ترجمة footer legacy من قاعدة البيانات.
+- كانت migration `2026_07_20_000001_expand_green_campus_cms.php` تستخدم تحديثًا عامًا قد يغير `published_at` عند ملء `category`.
+- كانت migration `2026_07_23_000002_create_about_page_content_entry_tables.php` تسقط جداول content entries إن وجدت، ثم تصفر `about_page_translations.content` بعد النقل.
+- لم تظهر روابط `localhost`, `127.0.0.1`, `/admin`, `VITE_API_BASE_URL`, `/storage/`, `mockData`, أو image fallback داخل نطاق `apps\api\database` بعد التنظيف السابق.
+
+## تغييرات إعادة تحقق Laravel Database Migrations Safety 2026-07-29
+
+- تم تحويل migration حذف مفاتيح footer legacy إلى no-op يحافظ على الترجمات الموجودة.
+- تم فصل تحديث `green_campus_articles.category` عن `published_at` حتى لا يتم تعديل `published_at` إلا عندما يكون فارغًا.
+- تم تغيير إدخال `green_campus_settings` الافتراضي إلى insert عند الغياب فقط، بدلاً من overwrite.
+- تم جعل migration about content entries تنشئ الجداول فقط إذا كانت غير موجودة، وتتجنب إعادة النقل إذا وُجدت entries مسبقًا.
+- تم منع تصفير `about_page_translations.content` للحفاظ على النسخة القديمة كمرآة/مصدر احتياطي تقني بدل فقدانها.
+
+## ربط إعادة تحقق Laravel Database Migrations Safety 2026-07-29 بالبيانات
+
+- Footer translations: `translation_keys`, `translation_values`, وتدار من `/apanel/translations`.
+- Green campus settings/articles: `green_campus_articles`, `green_campus_settings`, `green_campus_setting_translations`, API `GET /api/v1/green-campus/*`, وإدارة `/apanel/green-campus`.
+- About page structured content: `about_pages`, `about_page_translations`, `about_page_content_entries`, `about_page_content_entry_translations`, API `GET /api/v1/about-page`, وإدارة `/apanel/about-page`.
+
+## المتبقي بعد إعادة تحقق Laravel Database Migrations Safety 2026-07-29
+
+- لا توجد عمليات حذف أو تصفير بيانات داخل `up()` للملفات الثلاثة التي تم تعديلها.
+- بقيت `Schema::dropIfExists` داخل دوال `down()` في migrations متعددة. لم يتم تغييرها لأنها مسار rollback قياسي، وليست تشغيلًا عاديًا أثناء migration forward.
+- بقيت عبارات محتوى أكاديمي تحتوي كلمات مثل `Faculty members` داخل بيانات seed؛ هذه محتوى CMS أولي قابل للإدارة وليست fallback.
+
+## تحقق إعادة Laravel Database Migrations Safety 2026-07-29
+
+- إعادة فحص روابط التطوير، `/admin`, `mockData`, و image fallback داخل `apps\api\database`: لا توجد نتائج ذات صلة.
+- إعادة فحص قوائم اللغات الثابتة داخل `apps\api\database`: لا توجد نتائج.
+- إعادة فحص `updateOrCreate`, `truncate`, `delete`, وتعطيل `is_active` داخل seeders/migrations: لا توجد نتائج خطرة داخل `up()` بعد التعديل؛ نتائج `dropIfExists` المتبقية في `down()` فقط.
+- `php-local.bat -l` نجح لكل ملفات PHP المعدلة داخل `apps\api\database`.
+- `php-local.bat artisan test` نجح: 4 tests passed, 7 assertions.
+- `php-local.bat artisan route:list --path=api/v1` نجح وأظهر 170 route.
+- `npm.cmd run lint` نجح مع تحذيرين قديمين خارج نطاق هذه الجولة في student React files.
+- `npm.cmd run build` نجح.
+- `php-local.bat artisan optimize:clear` نجح.
+
+---
+
+## إعادة تحقق نهائية Laravel Database Scope 2026-07-29
+
+تاريخ إعادة التحقق: 2026-07-29
+
+## المسارات التي تمت مراجعتها في إعادة التحقق النهائية
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\data`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\factories`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\migrations`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\seeders`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\seeders\Concerns`
+
+## نتيجة إعادة التحقق النهائية
+
+- لم تظهر بقايا `translations['en']`, قائمة لغات ثابتة، أو `locale === 'en'` داخل seeders/migrations بعد التعديلات.
+- لم تظهر روابط تطوير، `/admin`, `VITE_API_BASE_URL`, `/storage/`, `mockData`, أو مفاتيح fallback image داخل `apps\api\database`.
+- لم تظهر عمليات `updateOrCreate` أو `truncate` داخل seeders/migrations/factories في النطاق المراجع.
+- ملفات JSON داخل `apps\api\database\data` صالحة نحويًا.
+
+## التخزين والإدارة
+
+- اللغات مخزنة في `locales` وتدار من `/apanel/locales` وتعرض عبر `GET /api/v1/locales`.
+- الترجمات مخزنة في `translation_keys` و`translation_values` وتدار من `/apanel/translations` وتعرض عبر `GET /api/v1/translations`.
+- المحتوى العام والأكاديمي والطالب يستخدم جداول CMS/academic/student الموجودة في migrations، ويعرض عبر مسارات `/api/v1/*` العامة ومسارات الطالب، ويدار عبر `/apanel/` resources وCMS settings.
+
+## المتبقي
+
+- سجلات اللغات الأولية داخل `LocaleSeeder.php` بقيت كبيانات seed قابلة للإدارة وليست قائمة ثابتة في منطق runtime.
+- تم نقل قيم seed الأولية المطلوبة من schema للبرامج إلى `programs.json` حتى لا تبقى مضمنة داخل `ProgramSeeder.php`.
+- دوال `down()` في migrations ما زالت تحتوي rollback drops قياسية، ولم يتم اعتبارها حذفًا تشغيليًا في مسار `up()`.
+
+## فحوص إعادة التحقق النهائية
+
+- إعادة مسح hardcoded language source/fallback داخل seeders/migrations: نجح بلا نتائج.
+- إعادة مسح روابط التطوير وfallback/media URL داخل `apps\api\database`: نجح بلا نتائج.
+- إعادة مسح `updateOrCreate` و`truncate`: نجح بلا نتائج.
+- JSON validation لملفات `apps\api\database\data\*.json`: نجح.
+- PHP syntax للملفات المعدلة داخل `apps\api\database`: نجح.
+- `php-local.bat artisan test`: نجح، 4 tests passed و7 assertions.
+- `php-local.bat artisan route:list --path=api/v1`: نجح وأظهر 170 route.
+- `php-local.bat artisan optimize:clear`: نجح.
+- `npm.cmd run lint`: نجح مع تحذيرين قديمين خارج نطاق قاعدة البيانات في ملفات student React.
+- `npm.cmd run build`: نجح.
+
+---
+
+## إعادة تحقق Laravel Database Seed Locale Source 2026-07-29
+
+تاريخ إعادة التحقق: 2026-07-29
+
+## ملفات إعادة تحقق Laravel Database Seed Locale Source 2026-07-29 التي تمت مراجعتها
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\data`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\migrations`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\seeders`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\factories\UserFactory.php`
+
+## ما تم العثور عليه في إعادة تحقق Laravel Database Seed Locale Source 2026-07-29
+
+- كان `TranslationKeySeeder.php` يعتمد على `translations['en']` فقط لاكتشاف مفاتيح الترجمة.
+- كان `StaffSeeder.php` يستخدم الإنجليزية كمصدر ثابت لبعض بيانات seed، وكان يولد بريدًا وهاتفًا افتراضيين عند غياب المصدر الحقيقي.
+- كانت seeders الأكاديمية `CourseSeeder.php`, `DepartmentSeeder.php`, و `ProgramSeeder.php` تستخدم `locale === 'en'` كلغة مصدر للبيانات المفقودة.
+- ظهرت `en` المتبقية فقط داخل `LocaleSeeder.php` كبيانات أولية لإنشاء سجل اللغة الإنجليزية، وليس كقائمة لغات ثابتة أو fallback runtime.
+
+## تغييرات إعادة تحقق Laravel Database Seed Locale Source 2026-07-29
+
+- تم توسيع `ResolvesSeedLocales` بدالة `sourceSeedLocale()` لاختيار أول لغة نشطة متاحة من قاعدة البيانات أو أول لغة موجودة في ملف الترجمات.
+- تم تعديل `TranslationKeySeeder.php` ليكتشف مفاتيح الترجمة من كل اللغات المتاحة داخل `translations.json` بدلاً من الإنجليزية فقط.
+- تم تعديل `StaffSeeder.php` ليستخدم لغة المصدر الديناميكية، ويعتمد على `slug` بدل بريد مولد، ولا ينشئ هاتفًا أو بريدًا افتراضيًا عند غياب البيانات.
+- تم تعديل `CourseSeeder.php`, `DepartmentSeeder.php`, و `ProgramSeeder.php` لاستخدام `sourceSeedLocale` بدلاً من `locale === 'en'`.
+- تم إزالة fallback الإنجليزي المباشر من `AcademicDepartmentDetailsSeeder.php` وشرط اللغة الزائد في `TechnologyFacultyContentSeeder.php`.
+
+## ربط إعادة تحقق Laravel Database Seed Locale Source 2026-07-29 بالبيانات
+
+- اللغات: جدول `locales`, API `GET /api/v1/locales`, وإدارة `/apanel/locales`.
+- الترجمات: `translation_keys`, `translation_values`, API `GET /api/v1/translations`, وإدارة `/apanel/translations`.
+- الكادر: `staff_profiles`, `staff_profile_translations`, API `GET /api/v1/staff`, وإدارة staff/admin resources من `/apanel`.
+- الكليات والأقسام والبرامج والمقررات: جداول academic structure وtranslations التابعة لها، API public تحت `/api/v1/faculties`, `/api/v1/departments`, `/api/v1/programs`, `/api/v1/courses`, وإدارة `/apanel` للموارد الأكاديمية.
+
+## المتبقي بعد إعادة تحقق Laravel Database Seed Locale Source 2026-07-29
+
+- تم ملء قيم seed الأولية داخل `programs.json` لحقول `studyMode`, `languageOfStudy`, `tuitionFee`, و`currency` لكل البرامج، وأصبح `ProgramSeeder.php` يقرأها من ملف البيانات بدلاً من تثبيتها داخل الكود.
+- بيانات الاتصال الحقيقية الموجودة داخل ملفات JSON أو seeders بقيت لأنها محتوى أولي قابل للإدارة وليست fallback مولد.
+
+## تحقق إعادة Laravel Database Seed Locale Source 2026-07-29
+
+- JSON validation لكل ملفات `apps\api\database\data\*.json`: نجح.
+- فحص `translations['en']`, قوائم اللغات الثابتة، و `locale === 'en'`: لا توجد نتائج داخل seeders/migrations باستثناء سجل `LocaleSeeder` الخاص بإنشاء اللغة الإنجليزية.
+- فحص روابط التطوير وfallback keys: لا توجد نتائج ذات صلة داخل `apps\api\database`.
+- `php-local.bat -l` نجح لكل ملفات PHP المعدلة داخل `apps\api\database`.
+- `php-local.bat artisan test` نجح: 4 tests passed, 7 assertions. ظهرت رسالة قفل ملف من بيئة Windows بعد النجاح، ولم تغير exit code.
+- `php-local.bat artisan route:list --path=api/v1` نجح وأظهر 170 route.
+- `npm.cmd run lint` نجح مع تحذيرين قديمين خارج نطاق هذه الجولة في student React files.
+- `npm.cmd run build` نجح.
+- `php-local.bat artisan optimize:clear` نجح.
+
+---
+
+## تثبيت قيم Program Seed غير الفارغة 2026-07-29
+
+تاريخ المراجعة: 2026-07-29
+
+## المسارات التي تمت مراجعتها
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\data\programs.json`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\seeders\ProgramSeeder.php`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\migrations\2026_07_12_132822_create_academic_structure_tables.php`
+
+## ما تم العثور عليه
+
+- جدول `programs` يحتوي حقولًا غير nullable: `study_mode`, `language_of_study`, `tuition_fee`, و`currency`.
+- كانت القيم الأولية لهذه الحقول موجودة داخل `ProgramSeeder.php` مباشرة، وهذا يجعلها تبدو كبيانات ثابتة داخل الكود بدلاً من بيانات seed قابلة للمراجعة.
+
+## التغييرات المنفذة
+
+- تم ملء `studyMode`, `languageOfStudy`, `tuitionFee`, و`currency` داخل `programs.json` لكل البرامج الـ58.
+- تم تعديل `ProgramSeeder.php` ليقرأ هذه القيم من `programs.json` ويترك البرنامج غير مبذور إذا غابت القيم المطلوبة، بدلاً من إنشاء fallback مخفي داخل الكود.
+- تم استخدام قيم أولية حسب الدرجة: Bachelor = `3500`, Master = `4500`, PhD = `5500`, والعملة `USD`.
+
+## التخزين وواجهة الإدارة
+
+- القيم تحفظ في جدول `programs`.
+- تعرض عبر `GET /api/v1/programs` و`GET /api/v1/programs/{slug}`.
+- تدار من `/apanel/programs` عبر موارد `/api/v1/apanel/{resource}`.
+
+## الفحوص المنفذة
+
+- تحقق JSON لـ `programs.json`: نجح، 58 برنامجًا ولا توجد قيم ناقصة.
+- فحص بقاء قيم الدراسة/اللغة/الرسوم/العملة داخل `ProgramSeeder.php`: نجح، لم تعد القيم مضمنة.
+- PHP syntax لـ `ProgramSeeder.php`: نجح.
+- إعادة مسح hardcoded language source/fallback وروابط التطوير داخل `apps\api\database`: نجح بلا نتائج.
+- `php-local.bat artisan test`: نجح، 4 tests passed و7 assertions.
+- `php-local.bat artisan route:list --path=api/v1`: نجح وأظهر 170 route.
+- `php-local.bat artisan optimize:clear`: نجح.
+- `npm.cmd run lint`: نجح مع تحذيرين قديمين خارج نطاق قاعدة البيانات في ملفات student React.
+- `npm.cmd run build`: نجح.

@@ -5,10 +5,12 @@ namespace Database\Seeders;
 use App\Models\Page;
 use App\Models\PageBlock;
 use App\Models\PageBlockTranslation;
+use Database\Seeders\Concerns\ResolvesSeedLocales;
 use Illuminate\Database\Seeder;
 
 class PageBlockSeeder extends Seeder
 {
+    use ResolvesSeedLocales;
     public function run(): void
     {
         $filePath = database_path('data/translations.json');
@@ -21,7 +23,7 @@ class PageBlockSeeder extends Seeder
 
         if ($homePage) {
             // 1. Hero Block
-            $heroBlock = PageBlock::updateOrCreate(
+            $heroBlock = PageBlock::firstOrCreate(
                 [
                     'page_id' => $homePage->id,
                     'block_key' => 'home_hero',
@@ -34,15 +36,19 @@ class PageBlockSeeder extends Seeder
                 ]
             );
 
-            foreach (['en', 'uz', 'ru', 'ar'] as $locale) {
+            foreach ($this->activeSeedLocales() as $locale) {
                 $t = $translations[$locale] ?? [];
 
-                $title = $t['home']['hero']['title'] ?? 'BSTU International';
-                $subtitle = $t['home']['hero']['subtitle'] ?? 'Building global technical leaders';
-                $content = $t['home']['hero']['badge'] ?? 'Admissions open for Fall 2026';
-                $buttonText = $t['common']['applyNow'] ?? 'Apply Now';
+                $title = $t['home']['hero']['title'] ?? null;
+                if ($title === null || $title === '') {
+                    continue;
+                }
 
-                PageBlockTranslation::updateOrCreate(
+                $subtitle = $t['home']['hero']['subtitle'] ?? null;
+                $content = $t['home']['hero']['badge'] ?? null;
+                $buttonText = $t['common']['applyNow'] ?? null;
+
+                PageBlockTranslation::firstOrCreate(
                     [
                         'page_block_id' => $heroBlock->id,
                         'locale' => $locale,

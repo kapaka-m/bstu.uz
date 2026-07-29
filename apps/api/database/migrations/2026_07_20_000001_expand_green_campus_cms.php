@@ -32,6 +32,11 @@ return new class extends Migration
             ->whereNull('green_campus_articles.category')
             ->update([
                 'green_campus_articles.category' => DB::raw("COALESCE(green_campus_article_translations.category, '')"),
+            ]);
+
+        DB::table('green_campus_articles')
+            ->whereNull('published_at')
+            ->update([
                 'green_campus_articles.published_at' => DB::raw('green_campus_articles.created_at'),
             ]);
 
@@ -76,16 +81,16 @@ return new class extends Migration
             $table->unique(['green_campus_setting_id', 'locale'], 'gc_setting_locale_unique');
         });
 
-        DB::table('green_campus_settings')->updateOrInsert(
-            ['key' => 'main'],
-            [
+        if (! DB::table('green_campus_settings')->where('key', 'main')->exists()) {
+            DB::table('green_campus_settings')->insert([
+                'key' => 'main',
                 'home_limit' => 3,
                 'recent_limit' => 4,
                 'is_active' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
-            ]
-        );
+            ]);
+        }
     }
 
     public function down(): void

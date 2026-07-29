@@ -10,26 +10,25 @@ use App\Models\Program;
 use App\Models\ProgramTranslation;
 use App\Models\StaffProfile;
 use App\Models\StaffProfileTranslation;
+use Database\Seeders\Concerns\ResolvesSeedLocales;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
 class CanonicalAcademicStructureSeeder extends Seeder
 {
-    private array $locales = ['en', 'uz', 'ru', 'ar'];
+    use ResolvesSeedLocales;
+    private array $locales = [];
 
     public function run(): void
     {
+        $this->locales = $this->activeSeedLocales();
         $faculties = $this->faculties();
         $departments = $this->departments();
         $programs = $this->programs();
 
-        Faculty::query()->update(['is_active' => false]);
-        Department::query()->update(['is_active' => false]);
-        Program::query()->update(['is_active' => false]);
-
         $facultyModels = [];
         foreach ($faculties as $index => $facultyData) {
-            $faculty = Faculty::updateOrCreate(
+            $faculty = Faculty::firstOrCreate(
                 ['slug' => $facultyData['slug']],
                 [
                     'code' => $facultyData['code'],
@@ -41,7 +40,7 @@ class CanonicalAcademicStructureSeeder extends Seeder
             );
 
             foreach ($this->locales as $locale) {
-                FacultyTranslation::updateOrCreate(
+                FacultyTranslation::firstOrCreate(
                     ['faculty_id' => $faculty->id, 'locale' => $locale],
                     [
                         'name' => $facultyData['name'][$locale],
@@ -65,7 +64,7 @@ class CanonicalAcademicStructureSeeder extends Seeder
                 continue;
             }
 
-            $department = Department::updateOrCreate(
+            $department = Department::firstOrCreate(
                 ['slug' => $departmentData['slug']],
                 [
                     'faculty_id' => $faculty->id,
@@ -83,7 +82,7 @@ class CanonicalAcademicStructureSeeder extends Seeder
             );
 
             foreach ($this->locales as $locale) {
-                DepartmentTranslation::updateOrCreate(
+                DepartmentTranslation::firstOrCreate(
                     ['department_id' => $department->id, 'locale' => $locale],
                     [
                         'name' => $departmentData['name'][$locale] ?? $departmentData['name']['en'],
@@ -107,7 +106,7 @@ class CanonicalAcademicStructureSeeder extends Seeder
                 continue;
             }
 
-            $program = Program::updateOrCreate(
+            $program = Program::firstOrCreate(
                 ['slug' => $programData['slug']],
                 [
                     'faculty_id' => $faculty->id,
@@ -129,7 +128,7 @@ class CanonicalAcademicStructureSeeder extends Seeder
 
             foreach ($this->locales as $locale) {
                 $name = $this->programName($programData, $locale);
-                ProgramTranslation::updateOrCreate(
+                ProgramTranslation::firstOrCreate(
                     ['program_id' => $program->id, 'locale' => $locale],
                     [
                         'name' => $name,
@@ -148,10 +147,8 @@ class CanonicalAcademicStructureSeeder extends Seeder
 
     private function seedFacultyLeadership(Faculty $faculty, array $leaders): void
     {
-        StaffProfile::where('faculty_id', $faculty->id)->whereNull('department_id')->update(['is_active' => false]);
-
         foreach ($leaders as $index => $leader) {
-            $staff = StaffProfile::updateOrCreate(
+            $staff = StaffProfile::firstOrCreate(
                 ['slug' => Str::slug($faculty->slug.'-'.$leader['name'])],
                 [
                     'faculty_id' => $faculty->id,
@@ -165,7 +162,7 @@ class CanonicalAcademicStructureSeeder extends Seeder
             );
 
             foreach ($this->locales as $locale) {
-                StaffProfileTranslation::updateOrCreate(
+                StaffProfileTranslation::firstOrCreate(
                     ['staff_profile_id' => $staff->id, 'locale' => $locale],
                     [
                         'full_name' => $leader['name'],
@@ -185,7 +182,7 @@ class CanonicalAcademicStructureSeeder extends Seeder
         }
 
         $head = $departmentData['head'];
-        $staff = StaffProfile::updateOrCreate(
+        $staff = StaffProfile::firstOrCreate(
             ['slug' => Str::slug($department->slug.'-'.$head['name'])],
             [
                 'faculty_id' => $department->faculty_id,
@@ -199,7 +196,7 @@ class CanonicalAcademicStructureSeeder extends Seeder
         );
 
         foreach ($this->locales as $locale) {
-            StaffProfileTranslation::updateOrCreate(
+            StaffProfileTranslation::firstOrCreate(
                 ['staff_profile_id' => $staff->id, 'locale' => $locale],
                 [
                     'full_name' => $head['name'],

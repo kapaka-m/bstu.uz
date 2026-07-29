@@ -41,7 +41,7 @@ class PermissionSeeder extends Seeder
         ];
 
         foreach ($permissions as $slug => $description) {
-            Permission::updateOrCreate(['slug' => $slug], [
+            Permission::firstOrCreate(['slug' => $slug], [
                 'name' => Str::title(str_replace('-', ' ', $slug)),
                 'slug' => $slug,
                 'description' => $description,

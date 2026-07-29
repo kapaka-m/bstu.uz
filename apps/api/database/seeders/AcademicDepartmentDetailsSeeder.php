@@ -6,15 +6,18 @@ use App\Models\Department;
 use App\Models\DepartmentTranslation;
 use App\Models\StaffProfile;
 use App\Models\StaffProfileTranslation;
+use Database\Seeders\Concerns\ResolvesSeedLocales;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
 class AcademicDepartmentDetailsSeeder extends Seeder
 {
-    private array $locales = ['en', 'uz', 'ru', 'ar'];
+    use ResolvesSeedLocales;
+    private array $locales = [];
 
     public function run(): void
     {
+        $this->locales = $this->activeSeedLocales();
         $path = database_path('data/academic_department_details.json');
         if (! is_file($path)) {
             return;
@@ -54,19 +57,24 @@ class AcademicDepartmentDetailsSeeder extends Seeder
                 $contact = $this->technologicalMachinesContact();
             }
             if (! empty($contact)) {
-                $department->update(array_filter([
+                $updates = $this->missingOnly($department, array_filter([
                     'head_name' => $contact['name'] ?? null,
                     'phone' => $contact['phone'] ?? null,
                     'email' => $contact['email'] ?? null,
                     'reception_time' => $contact['reception_time'] ?? null,
                 ], fn ($value) => $value !== null && $value !== ''));
+
+                if ($updates !== []) {
+                    $department->update($updates);
+                }
+
                 $this->seedDepartmentContact($department, $contact);
             }
 
             $description = $this->firstMeaningfulText($sections) ?: $department->translate('description', 'en');
 
             foreach ($this->locales as $locale) {
-                DepartmentTranslation::updateOrCreate(
+                DepartmentTranslation::firstOrCreate(
                     ['department_id' => $department->id, 'locale' => $locale],
                     [
                         'name' => $department->translate('name', $locale) ?: ($departmentData['name'] ?? $department->slug),
@@ -522,8 +530,8 @@ class AcademicDepartmentDetailsSeeder extends Seeder
     private function isInstructionalNoise(string $item): bool
     {
         return Str::contains($item, [
-            'http://localhost:5173/faculty/',
-            'http://localhost:5173/department/',
+            '/faculty/',
+            '/department/',
             'هاذه الاقسام خاصه',
             'هاذه البرامج خاصه',
             'الصفحات المسؤاله',
@@ -570,7 +578,7 @@ class AcademicDepartmentDetailsSeeder extends Seeder
                 continue;
             }
 
-            $staff = StaffProfile::updateOrCreate(
+            $staff = StaffProfile::firstOrCreate(
                 ['slug' => Str::slug($department->slug.'-'.$name)],
                 [
                     'faculty_id' => $department->faculty_id,
@@ -584,7 +592,7 @@ class AcademicDepartmentDetailsSeeder extends Seeder
             );
 
             foreach ($this->locales as $locale) {
-                StaffProfileTranslation::updateOrCreate(
+                StaffProfileTranslation::firstOrCreate(
                     ['staff_profile_id' => $staff->id, 'locale' => $locale],
                     [
                         'full_name' => $name,
@@ -616,40 +624,29 @@ class AcademicDepartmentDetailsSeeder extends Seeder
             $staff = new StaffProfile(['slug' => $slug]);
         }
 
-        $staff->fill(
-            [
-                'slug' => $slug,
-                'faculty_id' => $department->faculty_id,
-                'department_id' => $department->id,
-                'photo' => $this->headPhoto($name),
-                'email' => $contact['email'] ?? null,
-                'phone' => $contact['phone'] ?? null,
-                'sort_order' => 1,
-                'is_active' => true,
-            ]
-        );
-        $staff->save();
+        $profileValues = [
+            'slug' => $slug,
+            'faculty_id' => $department->faculty_id,
+            'department_id' => $department->id,
+            'photo' => $this->headPhoto($name),
+            'email' => $contact['email'] ?? null,
+            'phone' => $contact['phone'] ?? null,
+            'sort_order' => 1,
+            'is_active' => true,
+        ];
 
-        $duplicates = StaffProfile::where('department_id', $department->id)
-            ->where('id', '!=', $staff->id);
-
-        if (! empty($contact['email'])) {
-            $duplicates->where('email', $contact['email']);
+        if (! $staff->exists) {
+            $staff->fill($profileValues);
         } else {
-            $duplicates->where(function ($query) {
-                $query->where('sort_order', 1)
-                    ->orWhereHas('translations', function ($translationQuery) {
-                        $translationQuery
-                            ->where('locale', 'en')
-                            ->where('position', 'like', '%Head of Department%');
-                    });
-            });
+            $staff->fill($this->missingOnly($staff, $profileValues));
         }
 
-        $duplicates->update(['is_active' => false]);
+        if ($staff->isDirty()) {
+            $staff->save();
+        }
 
         foreach ($this->locales as $locale) {
-            StaffProfileTranslation::updateOrCreate(
+            StaffProfileTranslation::firstOrCreate(
                 ['staff_profile_id' => $staff->id, 'locale' => $locale],
                 [
                     'full_name' => $name,
@@ -663,81 +660,25 @@ class AcademicDepartmentDetailsSeeder extends Seeder
 
     private function deactivateInvalidStaff(Department $department): void
     {
-        $department->staffProfiles()
-            ->whereHas('translations', function ($query) {
-                $query->where('locale', 'en')
-                    ->whereIn('full_name', [
-                        'Head of',
-                        'Department Head',
-                        'Senior Lecturer',
-                        'Senior teacher',
-                    ]);
-            })
-            ->update(['is_active' => false]);
+        return;
     }
 
     private function applyDepartmentStaffCorrections(Department $department): void
     {
-        if ($department->slug !== 'architecture') {
-            return;
+        return;
+    }
+
+    private function missingOnly($model, array $values): array
+    {
+        $updates = [];
+
+        foreach ($values as $key => $value) {
+            if ($value !== null && ($model->{$key} === null || $model->{$key} === '')) {
+                $updates[$key] = $value;
+            }
         }
 
-        $invalidSlugs = [
-            'architecture-head-of',
-            'architecture-doctor-of-technical-sciences-vakhitov',
-            'architecture-mirzayev-shamsiddin-rajabovich',
-            'architecture-senior-lecturer',
-            'architecture-senior-teacher',
-        ];
-
-        StaffProfile::where('department_id', $department->id)
-            ->whereIn('slug', $invalidSlugs)
-            ->update(['is_active' => false]);
-
-        $roziyev = StaffProfile::where('department_id', $department->id)
-            ->where('slug', 'architecture-roziyev-hoshim-roziyevich')
-            ->first();
-
-        $brokenRoziyevQuery = StaffProfile::where('department_id', $department->id)
-            ->where(function ($query) {
-                $query->where('slug', 'architecture-of-the-technical-sciences-roziyev-hoshim-roziyevich')
-                    ->orWhereHas('translations', function ($translationQuery) {
-                        $translationQuery->where('full_name', 'like', "%of the technical sciences Roziyev%");
-                    });
-            });
-
-        if (! $roziyev) {
-            $roziyev = (clone $brokenRoziyevQuery)->first();
-        }
-
-        if (! $roziyev) {
-            return;
-        }
-
-        (clone $brokenRoziyevQuery)
-            ->where('id', '!=', $roziyev->id)
-            ->update(['is_active' => false]);
-
-        $roziyev->fill([
-            'slug' => 'architecture-roziyev-hoshim-roziyevich',
-            'faculty_id' => $department->faculty_id,
-            'department_id' => $department->id,
-            'sort_order' => 13,
-            'is_active' => true,
-        ]);
-        $roziyev->save();
-
-        foreach ($this->locales as $locale) {
-            StaffProfileTranslation::updateOrCreate(
-                ['staff_profile_id' => $roziyev->id, 'locale' => $locale],
-                [
-                    'full_name' => "Roziyev Hoshim Ro'ziyevich",
-                    'position' => $this->staffPosition('Candidate of Technical Sciences', $locale),
-                    'bio' => $this->staffPosition('Candidate of Technical Sciences', $locale),
-                    'office' => null,
-                ]
-            );
-        }
+        return $updates;
     }
 
     private function headPhoto(string $name): ?string
@@ -800,15 +741,11 @@ class AcademicDepartmentDetailsSeeder extends Seeder
             'head' => ['en' => 'Head of Department', 'uz' => 'Kafedra mudiri', 'ru' => 'Заведующий кафедрой', 'ar' => 'رئيس القسم'],
         ];
 
-        return $labels[$key][$locale] ?? $labels[$key]['en'] ?? Str::headline($key);
+        return $labels[$key][$locale] ?? reset($labels[$key]) ?: Str::headline($key);
     }
 
     private function staffPosition(string $position, string $locale): string
     {
-        if ($locale === 'en') {
-            return $position;
-        }
-
         return match (true) {
             Str::contains($position, 'Doctor of Technical Sciences', true) => match ($locale) {
                 'uz' => 'Texnika fanlari doktori, professor',

@@ -5,14 +5,17 @@ namespace Database\Seeders;
 use App\Models\TranslationKey;
 use App\Models\TranslationValue;
 use App\Models\Setting;
+use Database\Seeders\Concerns\ResolvesSeedLocales;
 use Illuminate\Database\Seeder;
 
 class StudentSystemTranslationSeeder extends Seeder
 {
-    private array $locales = ['en', 'uz', 'ru', 'ar'];
+    use ResolvesSeedLocales;
+    private array $locales = [];
 
     public function run(): void
     {
+        $this->locales = $this->activeSeedLocales();
         $keys = [
             'student.welcome' => ['en' => 'Welcome Back!', 'uz' => 'Xush kelibsiz!', 'ru' => 'С возвращением!', 'ar' => 'مرحبا بعودتك!'],
             'student.welcomeSubtitle' => ['en' => 'Complete your profile, submit documents, and track admission status.', 'uz' => 'Profilingizni to‘ldiring, hujjatlarni yuboring va qabul holatini kuzating.', 'ru' => 'Заполните профиль, отправьте документы и отслеживайте статус поступления.', 'ar' => 'أكمل ملفك الشخصي، وأرسل المستندات، وتابع حالة القبول.'],

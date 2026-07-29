@@ -1,13 +1,12 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Support\Facades\DB;
-
 return new class extends Migration
 {
     public function up(): void
     {
-        DB::table('translation_keys')->where('group', 'footer')->delete();
+        // Legacy footer keys are intentionally preserved so rerunning migrations
+        // cannot delete translations that may have been edited from /apanel/.
     }
 
     public function down(): void

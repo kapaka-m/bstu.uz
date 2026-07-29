@@ -210,7 +210,7 @@ class SettingSeeder extends Seeder
                 continue;
             }
 
-            Setting::updateOrCreate(
+            Setting::firstOrCreate(
                 ['key' => $setting['key']],
                 $setting
             );
@@ -233,7 +233,7 @@ class SettingSeeder extends Seeder
         ];
 
         foreach ($brandingAssets as $altKey => $asset) {
-            Media::updateOrCreate(
+            Media::firstOrCreate(
                 ['alt_key' => $altKey],
                 [
                     'disk' => 'public',

@@ -4,10 +4,12 @@ namespace Database\Seeders;
 
 use App\Models\Faculty;
 use App\Models\FacultyTranslation;
+use Database\Seeders\Concerns\ResolvesSeedLocales;
 use Illuminate\Database\Seeder;
 
 class FacultySeeder extends Seeder
 {
+    use ResolvesSeedLocales;
     public function run(): void
     {
         $filePath = database_path('data/translations.json');
@@ -49,7 +51,7 @@ class FacultySeeder extends Seeder
         ];
 
         foreach ($faculties as $key => $meta) {
-            $facModel = Faculty::updateOrCreate(
+            $facModel = Faculty::firstOrCreate(
                 ['slug' => $meta['slug']],
                 [
                     'code' => $meta['code'],
@@ -60,21 +62,24 @@ class FacultySeeder extends Seeder
                 ]
             );
 
-            foreach (['en', 'uz', 'ru', 'ar'] as $locale) {
+            foreach ($this->activeSeedLocales() as $locale) {
                 $fl = $translations[$locale]['about']['facultiesList'] ?? [];
 
-                // Get localized values, fallback to English if missing
-                $name = $fl[$key] ?? ($translations['en']['about']['facultiesList'][$key] ?? '');
-                $desc = $fl[$key.'Desc'] ?? ($translations['en']['about']['facultiesList'][$key.'Desc'] ?? '');
+                $name = $fl[$key] ?? null;
+                if ($name === null || $name === '') {
+                    continue;
+                }
 
-                FacultyTranslation::updateOrCreate(
+                $desc = $fl[$key.'Desc'] ?? '';
+
+                FacultyTranslation::firstOrCreate(
                     [
                         'faculty_id' => $facModel->id,
                         'locale' => $locale,
                     ],
                     [
                         'name' => $name,
-                        'short_name' => str_replace('Faculty of ', '', $name),
+                        'short_name' => $name,
                         'description' => $desc,
                         'meta_title' => $name.' - BSTU',
                         'meta_description' => $desc,

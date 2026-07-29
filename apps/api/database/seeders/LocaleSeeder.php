@@ -9,7 +9,7 @@ class LocaleSeeder extends Seeder
 {
     public function run(): void
     {
-        Locale::updateOrCreate(['code' => 'en'], [
+        Locale::firstOrCreate(['code' => 'en'], [
             'code' => 'en',
             'name' => 'English',
             'native_name' => 'English',
@@ -18,7 +18,7 @@ class LocaleSeeder extends Seeder
             'sort_order' => 1,
         ]);
 
-        Locale::updateOrCreate(['code' => 'uz'], [
+        Locale::firstOrCreate(['code' => 'uz'], [
             'code' => 'uz',
             'name' => 'Uzbek',
             'native_name' => 'O‘zbekcha',
@@ -27,7 +27,7 @@ class LocaleSeeder extends Seeder
             'sort_order' => 2,
         ]);
 
-        Locale::updateOrCreate(['code' => 'ru'], [
+        Locale::firstOrCreate(['code' => 'ru'], [
             'code' => 'ru',
             'name' => 'Russian',
             'native_name' => 'Русский',
@@ -36,7 +36,7 @@ class LocaleSeeder extends Seeder
             'sort_order' => 3,
         ]);
 
-        Locale::updateOrCreate(['code' => 'ar'], [
+        Locale::firstOrCreate(['code' => 'ar'], [
             'code' => 'ar',
             'name' => 'Arabic',
             'native_name' => 'العربية',

@@ -6,12 +6,14 @@ use App\Models\Menu;
 use App\Models\MenuItem;
 use App\Models\MenuItemTranslation;
 use App\Models\AdministrationProfile;
+use App\Models\Locale;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
 
 class MenuSeeder extends Seeder
 {
     private array $translations = [];
+    private array $locales = [];
 
     public function run(): void
     {
@@ -19,13 +21,16 @@ class MenuSeeder extends Seeder
         if (file_exists($filePath)) {
             $this->translations = json_decode(file_get_contents($filePath), true) ?: [];
         }
+        $this->locales = $this->localeCodes();
 
-        $headerMenu = Menu::updateOrCreate(
+        $headerMenu = Menu::firstOrCreate(
             ['key' => 'main_header'],
             ['location' => 'header', 'is_active' => true]
         );
 
-        $headerMenu->items()->delete();
+        if ($headerMenu->items()->exists()) {
+            return;
+        }
 
         foreach ($this->headerItems() as $index => $itemData) {
             $this->createItem($headerMenu, $itemData, null, $index + 1);
@@ -146,7 +151,7 @@ class MenuSeeder extends Seeder
                 $translations = $profile->translations->keyBy('locale');
                 $labels = [];
 
-                foreach (['en', 'uz', 'ru', 'ar'] as $locale) {
+                foreach ($this->locales as $locale) {
                     $translation = $translations->get($locale);
                     $labels[$locale] = $translation?->position ?: $translation?->name ?: $profile->slug;
                 }
@@ -188,39 +193,39 @@ class MenuSeeder extends Seeder
         ]);
     }
 
-    private function groupLink(string $url, ?string $translationPath, array $fallbackLabels, array $children): array
+    private function groupLink(string $url, ?string $translationPath, array $seedLabels, array $children): array
     {
         return [
             'route_name' => 'group',
             'url' => $url,
-            'labels' => $translationPath ? $this->pathLabels($translationPath, $fallbackLabels) : $this->completeLabels($fallbackLabels),
+            'labels' => $translationPath ? $this->pathLabels($translationPath, $seedLabels) : $this->completeLabels($seedLabels),
             'children' => $children,
         ];
     }
 
-    private function link(string $url, ?string $translationPath, array $fallbackLabels): array
+    private function link(string $url, ?string $translationPath, array $seedLabels): array
     {
         return [
             'route_name' => 'link',
             'url' => $url,
-            'labels' => $translationPath ? $this->pathLabels($translationPath, $fallbackLabels) : $this->completeLabels($fallbackLabels),
+            'labels' => $translationPath ? $this->pathLabels($translationPath, $seedLabels) : $this->completeLabels($seedLabels),
         ];
     }
 
-    private function action(string $url, string $icon, ?string $translationPath, array $fallbackLabels): array
+    private function action(string $url, string $icon, ?string $translationPath, array $seedLabels): array
     {
         return [
             'route_name' => 'action',
             'url' => $url,
             'icon' => $icon,
-            'labels' => $translationPath ? $this->pathLabels($translationPath, $fallbackLabels) : $this->completeLabels($fallbackLabels),
+            'labels' => $translationPath ? $this->pathLabels($translationPath, $seedLabels) : $this->completeLabels($seedLabels),
         ];
     }
 
-    private function pathLabels(string $path, array $fallbackLabels): array
+    private function pathLabels(string $path, array $seedLabels): array
     {
         $labels = [];
-        foreach (['en', 'uz', 'ru', 'ar'] as $locale) {
+        foreach ($this->locales as $locale) {
             $val = null;
 
             if ($locale === 'uz') {
@@ -252,7 +257,9 @@ class MenuSeeder extends Seeder
                 $val = $val['name'] ?? null;
             }
 
-            $labels[$locale] = $val ?: ($fallbackLabels[$locale] ?? $fallbackLabels['en'] ?? $path);
+            if ($val !== null || isset($seedLabels[$locale])) {
+                $labels[$locale] = $val ?: $seedLabels[$locale];
+            }
         }
 
         return $labels;
@@ -260,14 +267,26 @@ class MenuSeeder extends Seeder
 
     private function completeLabels(array $labels): array
     {
-        $fallback = $labels['en'] ?? reset($labels) ?: 'Menu Item';
+        return array_intersect_key($labels, array_flip($this->locales));
+    }
 
-        return [
-            'en' => $labels['en'] ?? $fallback,
-            'uz' => $labels['uz'] ?? $fallback,
-            'ru' => $labels['ru'] ?? $fallback,
-            'ar' => $labels['ar'] ?? $fallback,
-        ];
+    private function localeCodes(): array
+    {
+        $locales = Locale::query()
+            ->where('is_active', true)
+            ->orderBy('sort_order')
+            ->orderBy('id')
+            ->pluck('code')
+            ->all();
+
+        if ($locales !== []) {
+            return $locales;
+        }
+
+        return array_values(array_filter(
+            array_keys($this->translations),
+            fn (string $key) => is_array($this->translations[$key] ?? null)
+        ));
     }
 
     private function createItem(Menu $menu, array $itemData, ?int $parentId, int $sortOrder): MenuItem
@@ -284,7 +303,7 @@ class MenuSeeder extends Seeder
         ]);
 
         foreach ($this->completeLabels($itemData['labels'] ?? []) as $locale => $label) {
-            MenuItemTranslation::updateOrCreate(
+            MenuItemTranslation::firstOrCreate(
                 ['menu_item_id' => $item->id, 'locale' => $locale],
                 ['label' => $label]
             );

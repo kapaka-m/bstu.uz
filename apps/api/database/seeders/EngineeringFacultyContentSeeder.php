@@ -9,22 +9,25 @@ use App\Models\FacultyTranslation;
 use App\Models\Program;
 use App\Models\StaffProfile;
 use App\Models\StaffProfileTranslation;
+use Database\Seeders\Concerns\ResolvesSeedLocales;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
 class EngineeringFacultyContentSeeder extends Seeder
 {
-    private array $locales = ['en', 'uz', 'ru', 'ar'];
+    use ResolvesSeedLocales;
+    private array $locales = [];
 
     public function run(): void
     {
+        $this->locales = $this->activeSeedLocales();
         $faculty = Faculty::where('slug', 'faculty-of-engineering')->first();
         if (! $faculty) {
             return;
         }
 
         foreach ($this->locales as $locale) {
-            FacultyTranslation::updateOrCreate(
+            FacultyTranslation::firstOrCreate(
                 ['faculty_id' => $faculty->id, 'locale' => $locale],
                 [
                     'name' => $this->facultyName($locale),
@@ -44,23 +47,7 @@ class EngineeringFacultyContentSeeder extends Seeder
 
     private function syncCanonicalDepartmentsAndPrograms(Faculty $faculty): void
     {
-        $departmentSlugs = array_keys($this->departmentSummaries());
-        Department::where('faculty_id', $faculty->id)
-            ->whereNotIn('slug', $departmentSlugs)
-            ->update(['is_active' => false]);
-
-        Department::where('faculty_id', $faculty->id)
-            ->whereIn('slug', $departmentSlugs)
-            ->update(['is_active' => true]);
-
-        $programSlugs = $this->engineeringProgramSlugs();
-        Program::where('faculty_id', $faculty->id)
-            ->whereNotIn('slug', $programSlugs)
-            ->update(['is_active' => false]);
-
-        Program::where('faculty_id', $faculty->id)
-            ->whereIn('slug', $programSlugs)
-            ->update(['is_active' => true]);
+        return;
     }
 
     private function seedLeadership(Faculty $faculty): void
@@ -123,7 +110,7 @@ class EngineeringFacultyContentSeeder extends Seeder
         ];
 
         foreach ($leaders as $index => $leader) {
-            $staff = StaffProfile::updateOrCreate(
+            $staff = StaffProfile::firstOrCreate(
                 ['slug' => Str::slug('faculty-of-engineering-'.$leader['name'])],
                 [
                     'faculty_id' => $faculty->id,
@@ -137,7 +124,7 @@ class EngineeringFacultyContentSeeder extends Seeder
             );
 
             foreach ($this->locales as $locale) {
-                StaffProfileTranslation::updateOrCreate(
+                StaffProfileTranslation::firstOrCreate(
                     ['staff_profile_id' => $staff->id, 'locale' => $locale],
                     [
                         'full_name' => $leader['name'],
@@ -163,7 +150,7 @@ class EngineeringFacultyContentSeeder extends Seeder
                     ->where('locale', $locale)
                     ->first();
 
-                DepartmentTranslation::updateOrCreate(
+                DepartmentTranslation::firstOrCreate(
                     ['department_id' => $department->id, 'locale' => $locale],
                     [
                         'name' => $translation?->name ?: $this->departmentNames()[$slug][$locale],

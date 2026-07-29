@@ -9,41 +9,37 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::dropIfExists('about_page_content_entry_translations');
-        Schema::dropIfExists('about_page_content_entries');
+        if (! Schema::hasTable('about_page_content_entries')) {
+            Schema::create('about_page_content_entries', function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('about_page_id')->constrained()->cascadeOnDelete();
+                $table->string('path');
+                $table->string('value_type', 30)->default('text');
+                $table->unsignedInteger('sort_order')->default(0);
+                $table->boolean('is_active')->default(true);
+                $table->timestamps();
 
-        Schema::create('about_page_content_entries', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('about_page_id')->constrained()->cascadeOnDelete();
-            $table->string('path');
-            $table->string('value_type', 30)->default('text');
-            $table->unsignedInteger('sort_order')->default(0);
-            $table->boolean('is_active')->default(true);
-            $table->timestamps();
+                $table->unique(['about_page_id', 'path']);
+            });
+        }
 
-            $table->unique(['about_page_id', 'path']);
-        });
+        if (! Schema::hasTable('about_page_content_entry_translations')) {
+            Schema::create('about_page_content_entry_translations', function (Blueprint $table) {
+                $table->id();
+                $table->unsignedBigInteger('about_page_content_entry_id');
+                $table->string('locale', 5);
+                $table->longText('value')->nullable();
+                $table->timestamps();
 
-        Schema::create('about_page_content_entry_translations', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('about_page_content_entry_id');
-            $table->string('locale', 5);
-            $table->longText('value')->nullable();
-            $table->timestamps();
-
-            $table->foreign('about_page_content_entry_id', 'about_content_entry_fk')
-                ->references('id')
-                ->on('about_page_content_entries')
-                ->cascadeOnDelete();
-            $table->unique(['about_page_content_entry_id', 'locale'], 'about_content_entry_locale_unique');
-        });
+                $table->foreign('about_page_content_entry_id', 'about_content_entry_fk')
+                    ->references('id')
+                    ->on('about_page_content_entries')
+                    ->cascadeOnDelete();
+                $table->unique(['about_page_content_entry_id', 'locale'], 'about_content_entry_locale_unique');
+            });
+        }
 
         $this->migrateExistingJsonContent();
-
-        DB::table('about_page_translations')->update([
-            'content' => null,
-            'updated_at' => now(),
-        ]);
     }
 
     public function down(): void
@@ -55,6 +51,10 @@ return new class extends Migration
     private function migrateExistingJsonContent(): void
     {
         if (! Schema::hasTable('about_page_translations')) {
+            return;
+        }
+
+        if (Schema::hasTable('about_page_content_entries') && DB::table('about_page_content_entries')->exists()) {
             return;
         }
 

@@ -6,11 +6,13 @@ use App\Models\Department;
 use App\Models\Faculty;
 use App\Models\StaffProfile;
 use App\Models\StaffProfileTranslation;
+use Database\Seeders\Concerns\ResolvesSeedLocales;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
 class StaffSeeder extends Seeder
 {
+    use ResolvesSeedLocales;
     public function run(): void
     {
         $translationsPath = database_path('data/translations.json');
@@ -22,6 +24,11 @@ class StaffSeeder extends Seeder
 
         $translations = json_decode(file_get_contents($translationsPath), true);
         $deptsMetadata = json_decode(file_get_contents($departmentsPath), true);
+        $locales = $this->activeSeedLocales();
+        $sourceLocale = $this->sourceLocale($translations, $locales);
+        if ($sourceLocale === null) {
+            return;
+        }
 
         $sortOrder = 1;
 
@@ -34,36 +41,38 @@ class StaffSeeder extends Seeder
             $deanKey = $key.'Dean';
             $descKey = $key.'Desc';
 
-            // Find dean details in translations
-            $deanNameEn = $translations['en']['about']['facultiesList'][$deanKey] ?? null;
-            if (! $deanNameEn) {
+            $sourceDeanName = $translations[$sourceLocale]['about']['facultiesList'][$deanKey] ?? null;
+            if (! $sourceDeanName) {
                 continue;
             }
 
-            $email = $key.'.dean@bstu.uz';
-            $existingPhone = StaffProfile::where('email', $email)->value('phone');
+            $slug = Str::slug($key.'-dean');
 
-            $staff = StaffProfile::updateOrCreate(
-                ['email' => $email],
+            $staff = StaffProfile::firstOrCreate(
+                ['slug' => $slug],
                 [
-                    'slug' => Str::slug($key.'-dean'),
                     'department_id' => null,
                     'faculty_id' => $fac->id,
                     'photo' => 'staff/'.$key.'-dean.jpg',
-                    'phone' => $existingPhone ?? '+998 65 223 12 34',
+                    'email' => null,
+                    'phone' => null,
                     'sort_order' => $sortOrder++,
                     'is_active' => true,
                 ]
             );
 
-            foreach (['en', 'uz', 'ru', 'ar'] as $locale) {
+            foreach ($locales as $locale) {
                 $fl = $translations[$locale]['about']['facultiesList'] ?? [];
 
-                $name = $fl[$deanKey] ?? $translations['en']['about']['facultiesList'][$deanKey];
-                $bio = $fl[$descKey] ?? $translations['en']['about']['facultiesList'][$descKey];
-                $position = ($locale === 'en') ? 'Dean of Faculty' : (($locale === 'uz') ? 'Fakultet dekani' : (($locale === 'ru') ? 'Декан факультета' : 'عميد الكلية'));
+                $name = $fl[$deanKey] ?? null;
+                $bio = $fl[$descKey] ?? null;
+                $position = $fl[$deanKey.'Title'] ?? null;
 
-                StaffProfileTranslation::updateOrCreate(
+                if ($name === null || $name === '' || $position === null || $position === '') {
+                    continue;
+                }
+
+                StaffProfileTranslation::firstOrCreate(
                     [
                         'staff_profile_id' => $staff->id,
                         'locale' => $locale,
@@ -72,7 +81,7 @@ class StaffSeeder extends Seeder
                         'full_name' => $name,
                         'position' => $position,
                         'bio' => $bio,
-                        'office' => 'Dean Office, '.$fac->name,
+                        'office' => null,
                     ]
                 );
             }
@@ -87,36 +96,36 @@ class StaffSeeder extends Seeder
 
             $staffList = $meta['staff'] ?? [];
             foreach ($staffList as $index => $staffEn) {
-                $email = strtolower(str_replace(' ', '.', preg_replace('/[^A-Za-z ]/', '', $staffEn['name']))).'@bstu.uz';
-                $existingPhone = StaffProfile::where('email', $email)->value('phone');
+                $slug = Str::slug($deptSlug.'-'.$index.'-'.$staffEn['name']);
 
-                $staff = StaffProfile::updateOrCreate(
-                    ['email' => $email],
+                $staff = StaffProfile::firstOrCreate(
+                    ['slug' => $slug],
                     [
-                        'slug' => Str::slug($deptSlug.'-'.$index.'-'.$staffEn['name']),
                         'department_id' => $deptModel->id,
                         'faculty_id' => $deptModel->faculty_id,
                         'photo' => 'staff/'.$deptSlug.'-'.$index.'.jpg',
-                        'phone' => $existingPhone ?? '+998 90 '.rand(100, 999).' '.rand(10, 99).' '.rand(10, 99),
+                        'email' => null,
+                        'phone' => null,
                         'sort_order' => $sortOrder++,
                         'is_active' => true,
                     ]
                 );
 
-                foreach (['en', 'uz', 'ru', 'ar'] as $locale) {
+                foreach ($locales as $locale) {
                     $deptStaff = $translations[$locale]['departments'][$deptSlug]['staff'][$index] ?? [];
 
-                    $name = $deptStaff['name'] ?? ($staffEn['name'] ?? '');
-                    $position = $deptStaff['title'] ?? ($staffEn['title'] ?? 'Instructor');
-
-                    if (empty($name)) {
-                        $name = $translations['en']['departments'][$deptSlug]['staff'][$index]['name'] ?? ($staffEn['name'] ?? '');
-                    }
-                    if (empty($position)) {
-                        $position = $translations['en']['departments'][$deptSlug]['staff'][$index]['title'] ?? ($staffEn['title'] ?? 'Instructor');
+                    $name = $deptStaff['name'] ?? null;
+                    $position = $deptStaff['title'] ?? null;
+                    if ($locale === $sourceLocale) {
+                        $name = $name ?? ($staffEn['name'] ?? null);
+                        $position = $position ?? ($staffEn['title'] ?? null);
                     }
 
-                    StaffProfileTranslation::updateOrCreate(
+                    if ($name === null || $name === '' || $position === null || $position === '') {
+                        continue;
+                    }
+
+                    StaffProfileTranslation::firstOrCreate(
                         [
                             'staff_profile_id' => $staff->id,
                             'locale' => $locale,
@@ -124,12 +133,29 @@ class StaffSeeder extends Seeder
                         [
                             'full_name' => $name,
                             'position' => $position,
-                            'bio' => 'Faculty member at the Department of '.$deptModel->name,
-                            'office' => 'Department Office',
+                            'bio' => null,
+                            'office' => null,
                         ]
                     );
                 }
             }
         }
+    }
+
+    private function sourceLocale(array $translations, array $locales): ?string
+    {
+        foreach ($locales as $locale) {
+            if (isset($translations[$locale]) && is_array($translations[$locale])) {
+                return $locale;
+            }
+        }
+
+        foreach ($translations as $locale => $localeData) {
+            if (is_array($localeData)) {
+                return $locale;
+            }
+        }
+
+        return null;
     }
 }

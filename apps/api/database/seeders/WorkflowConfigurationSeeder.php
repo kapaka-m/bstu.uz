@@ -36,12 +36,12 @@ class WorkflowConfigurationSeeder extends Seeder
         ];
 
         foreach ($pairs as $index => [$country, $nationality]) {
-            ApplicationCountry::updateOrCreate(
+            ApplicationCountry::firstOrCreate(
                 ['name' => $country],
                 ['is_active' => true, 'sort_order' => $index + 1]
             );
 
-            ApplicationNationality::updateOrCreate(
+            ApplicationNationality::firstOrCreate(
                 ['name' => $nationality],
                 ['country_name' => $country, 'is_active' => true, 'sort_order' => $index + 1]
             );
@@ -74,7 +74,7 @@ class WorkflowConfigurationSeeder extends Seeder
         ];
 
         foreach ($requirements as [$type, $name, $description, $degree, $studentType, $required]) {
-            DocumentRequirement::updateOrCreate(
+            DocumentRequirement::firstOrCreate(
                 [
                     'application_id' => null,
                     'program_id' => null,

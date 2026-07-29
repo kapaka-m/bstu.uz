@@ -10,16 +10,19 @@ use App\Models\Program;
 use App\Models\ProgramTranslation;
 use App\Models\StaffProfile;
 use App\Models\StaffProfileTranslation;
+use Database\Seeders\Concerns\ResolvesSeedLocales;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
 class TechnologyFacultyContentSeeder extends Seeder
 {
-    private array $locales = ['en', 'uz', 'ru', 'ar'];
+    use ResolvesSeedLocales;
+    private array $locales = [];
 
     public function run(): void
     {
-        $faculty = Faculty::updateOrCreate(
+        $this->locales = $this->activeSeedLocales();
+        $faculty = Faculty::firstOrCreate(
             ['slug' => 'faculty-of-technology'],
             [
                 'code' => 'TECH',
@@ -83,7 +86,7 @@ class TechnologyFacultyContentSeeder extends Seeder
         ];
 
         foreach ($this->locales as $locale) {
-            FacultyTranslation::updateOrCreate(
+            FacultyTranslation::firstOrCreate(
                 ['faculty_id' => $faculty->id, 'locale' => $locale],
                 [
                     'name' => $texts[$locale]['name'],
@@ -190,7 +193,7 @@ class TechnologyFacultyContentSeeder extends Seeder
         $models = [];
         $sort = 1;
         foreach ($departments as $slug => $item) {
-            $department = Department::updateOrCreate(
+            $department = Department::firstOrCreate(
                 ['slug' => $slug],
                 [
                     'faculty_id' => $faculty->id,
@@ -208,7 +211,7 @@ class TechnologyFacultyContentSeeder extends Seeder
             );
 
             foreach ($this->locales as $locale) {
-                DepartmentTranslation::updateOrCreate(
+                DepartmentTranslation::firstOrCreate(
                     ['department_id' => $department->id, 'locale' => $locale],
                     [
                         'name' => $item['names'][$locale],
@@ -229,10 +232,6 @@ class TechnologyFacultyContentSeeder extends Seeder
 
     private function seedPrograms(Faculty $faculty, array $departments): void
     {
-        Program::where('faculty_id', $faculty->id)
-            ->orWhereIn('department_id', collect($departments)->pluck('id')->all())
-            ->update(['is_active' => false]);
-
         $programs = [
             ['chemical-engineering', '60710100', 'bachelor', 'chemical-technology', 'Chemical Engineering'],
             ['biotechnology', '60710200', 'bachelor', 'chemical-technology', 'Biotechnology'],
@@ -262,7 +261,7 @@ class TechnologyFacultyContentSeeder extends Seeder
                 continue;
             }
 
-            $program = Program::updateOrCreate(
+            $program = Program::firstOrCreate(
                 ['slug' => $slug],
                 [
                     'faculty_id' => $faculty->id,
@@ -284,7 +283,7 @@ class TechnologyFacultyContentSeeder extends Seeder
 
             foreach ($this->locales as $locale) {
                 $localizedName = $this->programName($name, $track, $locale);
-                ProgramTranslation::updateOrCreate(
+                ProgramTranslation::firstOrCreate(
                     ['program_id' => $program->id, 'locale' => $locale],
                     [
                         'name' => $localizedName,
@@ -303,10 +302,6 @@ class TechnologyFacultyContentSeeder extends Seeder
 
     private function seedLeadership(Faculty $faculty): void
     {
-        StaffProfile::where('faculty_id', $faculty->id)
-            ->whereNull('department_id')
-            ->update(['is_active' => false]);
-
         $leaders = [
             ['adizov-rashid-tokhtayevich', 'Adizov Rashid Tokhtayevich', 'Dean of the Faculty of Technology', '+998 93 479 77 65', 'adizov.rashid@mail.ru', 'Every day 14:00-16:00 except Monday and Saturday'],
             ['safarov-jasur-alijon-ogli', 'Safarov Jasur Alijon o‘g‘li', 'Deputy Dean for Academic Affairs', '+998 93 688 56 88', 'jasur.safarov1993@mail.ru', 'Every day 14:00-16:00'],
@@ -314,7 +309,7 @@ class TechnologyFacultyContentSeeder extends Seeder
         ];
 
         foreach ($leaders as $index => [$slug, $name, $position, $phone, $email, $office]) {
-            $staff = StaffProfile::updateOrCreate(
+            $staff = StaffProfile::firstOrCreate(
                 ['slug' => $slug],
                 [
                     'department_id' => null,
@@ -328,7 +323,7 @@ class TechnologyFacultyContentSeeder extends Seeder
             );
 
             foreach ($this->locales as $locale) {
-                StaffProfileTranslation::updateOrCreate(
+                StaffProfileTranslation::firstOrCreate(
                     ['staff_profile_id' => $staff->id, 'locale' => $locale],
                     [
                         'full_name' => $name,
@@ -391,8 +386,6 @@ class TechnologyFacultyContentSeeder extends Seeder
             ],
         ];
 
-        StaffProfile::whereIn('department_id', collect($departments)->pluck('id')->all())->update(['is_active' => false]);
-
         foreach ($staffByDepartment as $departmentSlug => $members) {
             $department = $departments[$departmentSlug] ?? null;
             if (! $department) {
@@ -401,7 +394,7 @@ class TechnologyFacultyContentSeeder extends Seeder
 
             foreach ($members as $index => $member) {
                 [$name, $position] = $member;
-                $staff = StaffProfile::updateOrCreate(
+                $staff = StaffProfile::firstOrCreate(
                     ['slug' => Str::slug($departmentSlug.'-'.$name)],
                     [
                         'department_id' => $department->id,
@@ -415,13 +408,13 @@ class TechnologyFacultyContentSeeder extends Seeder
                 );
 
                 foreach ($this->locales as $locale) {
-                    StaffProfileTranslation::updateOrCreate(
+                    StaffProfileTranslation::firstOrCreate(
                         ['staff_profile_id' => $staff->id, 'locale' => $locale],
                         [
                             'full_name' => $name,
                             'position' => $this->position($position, $locale),
                             'bio' => $this->position($position, $locale),
-                            'office' => 'Department Office',
+                            'office' => null,
                         ]
                     );
                 }
@@ -509,10 +502,6 @@ class TechnologyFacultyContentSeeder extends Seeder
 
     private function position(string $position, string $locale): string
     {
-        if ($locale === 'en') {
-            return $position;
-        }
-
         return $position;
     }
 }

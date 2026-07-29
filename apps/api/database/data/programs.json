@@ -35,7 +35,11 @@
             "Secondary school diploma",
             "High scores in Mathematics and Physics exams",
             "IELTS 5.5 or equivalent recommended"
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 3500,
+        "currency": "USD"
     },
     {
         "id": "cybersecurity",
@@ -72,7 +76,11 @@
             "Secondary school diploma",
             "High scores in national Mathematics and Informatics exams",
             "Analytical and logic test clearance"
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 3500,
+        "currency": "USD"
     },
     {
         "id": "power-engineering",
@@ -109,7 +117,11 @@
             "Successful completion of secondary education",
             "High scores in national Physics and Mathematics entrance exams",
             "Aptitude for electro-technical subjects"
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 3500,
+        "currency": "USD"
     },
     {
         "id": "mechanical-engineering",
@@ -146,7 +158,11 @@
             "Secondary school diploma",
             "High scores in Mathematics and Physics exams",
             "Spatial thinking capabilities"
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 3500,
+        "currency": "USD"
     },
     {
         "id": "oil-gas-engineering",
@@ -180,7 +196,11 @@
             "Secondary school diploma",
             "High scores in Chemistry and Mathematics exams",
             "Industrial safety compliance"
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 3500,
+        "currency": "USD"
     },
     {
         "id": "automotive-engineering",
@@ -217,7 +237,11 @@
             "Secondary school diploma",
             "High scores in Physics and Mathematics exams",
             "CAD modeling skills recommended"
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 3500,
+        "currency": "USD"
     },
     {
         "id": "architecture",
@@ -254,7 +278,11 @@
             "Successful completion of secondary education",
             "BSTU Architectural Drawing & Sketching Entrance Exam",
             "Basic understanding of structural physics"
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 3500,
+        "currency": "USD"
     },
     {
         "id": "economics",
@@ -291,7 +319,11 @@
             "Successful completion of secondary education",
             "High scores in Mathematics and Social Sciences/History exams",
             "Analytical thinking and problem-solving aptitude"
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 3500,
+        "currency": "USD"
     },
     {
         "id": "construction",
@@ -328,7 +360,11 @@
             "Successful completion of secondary education",
             "High scores in national Mathematics and Physics entrance exams",
             "Understanding of construction graphics and CAD tools"
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 3500,
+        "currency": "USD"
     },
     {
         "id": "metallurgy",
@@ -365,7 +401,11 @@
             "Successful completion of secondary education",
             "High scores in Chemistry, Physics, and Mathematics entrance exams",
             "Strong laboratory research aptitude"
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 3500,
+        "currency": "USD"
     },
     {
         "id": "food-technology",
@@ -399,7 +439,11 @@
             "Successful completion of secondary education",
             "High scores in national Chemistry and Biology exams",
             "Strict compliance with hygiene and lab guidelines"
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 3500,
+        "currency": "USD"
     },
     {
         "id": "textile-engineering",
@@ -436,7 +480,11 @@
             "Successful completion of secondary education",
             "High scores in Physics, Chemistry, and Mathematics entrance exams",
             "Creativity and industrial design interest"
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 3500,
+        "currency": "USD"
     },
     {
         "id": "chemical-engineering",
@@ -469,7 +517,11 @@
             "Admission is conducted under the applicable national higher education rules.",
             "Applicants should meet the entrance requirements for the selected technology field.",
             "Laboratory safety and practical training readiness are required after enrollment."
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 3500,
+        "currency": "USD"
     },
     {
         "id": "biotechnology",
@@ -502,7 +554,11 @@
             "Admission is conducted under the applicable national higher education rules.",
             "Applicants should meet the entrance requirements for the selected technology field.",
             "Laboratory safety and practical training readiness are required after enrollment."
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 3500,
+        "currency": "USD"
     },
     {
         "id": "printing-packaging-engineering",
@@ -535,7 +591,11 @@
             "Admission is conducted under the applicable national higher education rules.",
             "Applicants should meet the entrance requirements for the selected technology field.",
             "Laboratory safety and practical training readiness are required after enrollment."
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 3500,
+        "currency": "USD"
     },
     {
         "id": "metrology-standardization",
@@ -568,7 +628,11 @@
             "Admission is conducted under the applicable national higher education rules.",
             "Applicants should meet the entrance requirements for the selected technology field.",
             "Laboratory safety and practical training readiness are required after enrollment."
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 3500,
+        "currency": "USD"
     },
     {
         "id": "agricultural-products-storage-processing",
@@ -601,7 +665,11 @@
             "Admission is conducted under the applicable national higher education rules.",
             "Applicants should meet the entrance requirements for the selected technology field.",
             "Laboratory safety and practical training readiness are required after enrollment."
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 3500,
+        "currency": "USD"
     },
     {
         "id": "horticulture-viticulture",
@@ -634,7 +702,11 @@
             "Admission is conducted under the applicable national higher education rules.",
             "Applicants should meet the entrance requirements for the selected technology field.",
             "Laboratory safety and practical training readiness are required after enrollment."
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 3500,
+        "currency": "USD"
     },
     {
         "id": "gas-processing-technology",
@@ -667,7 +739,11 @@
             "Admission is conducted under the applicable national higher education rules.",
             "Applicants should meet the entrance requirements for the selected technology field.",
             "Laboratory safety and practical training readiness are required after enrollment."
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 3500,
+        "currency": "USD"
     },
     {
         "id": "oil-gas-processing-technology",
@@ -700,7 +776,11 @@
             "Admission is conducted under the applicable national higher education rules.",
             "Applicants should meet the entrance requirements for the selected technology field.",
             "Laboratory safety and practical training readiness are required after enrollment."
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 3500,
+        "currency": "USD"
     },
     {
         "id": "geology-exploration-mineral-deposits",
@@ -733,7 +813,11 @@
             "Admission is conducted under the applicable national higher education rules.",
             "Applicants should meet the entrance requirements for the selected technology field.",
             "Laboratory safety and practical training readiness are required after enrollment."
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 3500,
+        "currency": "USD"
     },
     {
         "id": "polymer-production-technology",
@@ -766,7 +850,11 @@
             "Admission is conducted under the applicable national higher education rules.",
             "Applicants should meet the entrance requirements for the selected technology field.",
             "Laboratory safety and practical training readiness are required after enrollment."
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 4500,
+        "currency": "USD"
     },
     {
         "id": "grain-storage-processing-technology",
@@ -799,7 +887,11 @@
             "Admission is conducted under the applicable national higher education rules.",
             "Applicants should meet the entrance requirements for the selected technology field.",
             "Laboratory safety and practical training readiness are required after enrollment."
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 4500,
+        "currency": "USD"
     },
     {
         "id": "oil-processing-technology",
@@ -832,7 +924,11 @@
             "Admission is conducted under the applicable national higher education rules.",
             "Applicants should meet the entrance requirements for the selected technology field.",
             "Laboratory safety and practical training readiness are required after enrollment."
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 4500,
+        "currency": "USD"
     },
     {
         "id": "inorganic-chemical-technology",
@@ -865,7 +961,11 @@
             "Admission is conducted under the applicable national higher education rules.",
             "Applicants should meet the entrance requirements for the selected technology field.",
             "Laboratory safety and practical training readiness are required after enrollment."
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 4500,
+        "currency": "USD"
     },
     {
         "id": "silicate-refractory-materials-technology",
@@ -898,7 +998,11 @@
             "Admission is conducted under the applicable national higher education rules.",
             "Applicants should meet the entrance requirements for the selected technology field.",
             "Laboratory safety and practical training readiness are required after enrollment."
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 4500,
+        "currency": "USD"
     },
     {
         "id": "organic-chemical-technology",
@@ -931,7 +1035,11 @@
             "Admission is conducted under the applicable national higher education rules.",
             "Applicants should meet the entrance requirements for the selected technology field.",
             "Laboratory safety and practical training readiness are required after enrollment."
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 4500,
+        "currency": "USD"
     },
     {
         "id": "oil-gas-refining-technology-program",
@@ -964,7 +1072,11 @@
             "Admission is conducted under the applicable national higher education rules.",
             "Applicants should meet the entrance requirements for the selected technology field.",
             "Laboratory safety and practical training readiness are required after enrollment."
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 3500,
+        "currency": "USD"
     },
     {
         "id": "deep-gas-processing-technology",
@@ -997,7 +1109,11 @@
             "Admission is conducted under the applicable national higher education rules.",
             "Applicants should meet the entrance requirements for the selected technology field.",
             "Laboratory safety and practical training readiness are required after enrollment."
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 3500,
+        "currency": "USD"
     },
     {
         "id": "oil-gas-processing-master",
@@ -1030,7 +1146,11 @@
             "Admission is conducted under the applicable national higher education rules.",
             "Applicants should meet the entrance requirements for the selected technology field.",
             "Laboratory safety and practical training readiness are required after enrollment."
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 4500,
+        "currency": "USD"
     },
     {
         "id": "metrology-quality-management",
@@ -1063,7 +1183,11 @@
             "Admission is conducted under the applicable national higher education rules.",
             "Applicants should meet the entrance requirements for the selected technology field.",
             "Laboratory safety and practical training readiness are required after enrollment."
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 3500,
+        "currency": "USD"
     },
     {
         "id": "metrology-standardization-quality-management-master",
@@ -1096,7 +1220,11 @@
             "Admission is conducted under the applicable national higher education rules.",
             "Applicants should meet the entrance requirements for the selected technology field.",
             "Laboratory safety and practical training readiness are required after enrollment."
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 4500,
+        "currency": "USD"
     },
     {
         "id": "oil-gas-field-development",
@@ -1129,7 +1257,11 @@
             "Admission is conducted under the applicable national higher education rules.",
             "Applicants should meet the entrance requirements for the selected technology field.",
             "Laboratory safety and practical training readiness are required after enrollment."
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 3500,
+        "currency": "USD"
     },
     {
         "id": "oil-gas-field-machinery-master",
@@ -1162,7 +1294,11 @@
             "Admission is conducted under the applicable national higher education rules.",
             "Applicants should meet the entrance requirements for the selected technology field.",
             "Laboratory safety and practical training readiness are required after enrollment."
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 4500,
+        "currency": "USD"
     },
     {
         "id": "wine-fermentation-soft-drinks-technology",
@@ -1195,7 +1331,11 @@
             "Admission is conducted under the applicable national higher education rules.",
             "Applicants should meet the entrance requirements for the selected technology field.",
             "Laboratory safety and practical training readiness are required after enrollment."
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 3500,
+        "currency": "USD"
     },
     {
         "id": "food-conservation-technology",
@@ -1228,7 +1368,11 @@
             "Admission is conducted under the applicable national higher education rules.",
             "Applicants should meet the entrance requirements for the selected technology field.",
             "Laboratory safety and practical training readiness are required after enrollment."
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 3500,
+        "currency": "USD"
     },
     {
         "id": "bakery-products-technology",
@@ -1261,7 +1405,11 @@
             "Admission is conducted under the applicable national higher education rules.",
             "Applicants should meet the entrance requirements for the selected technology field.",
             "Laboratory safety and practical training readiness are required after enrollment."
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 4500,
+        "currency": "USD"
     },
     {
         "id": "grain-products-technology",
@@ -1294,7 +1442,11 @@
             "Admission is conducted under the applicable national higher education rules.",
             "Applicants should meet the entrance requirements for the selected technology field.",
             "Laboratory safety and practical training readiness are required after enrollment."
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 4500,
+        "currency": "USD"
     },
     {
         "id": "inorganic-chemical-technology-bachelor",
@@ -1327,7 +1479,11 @@
             "Admission is conducted under the applicable national higher education rules.",
             "Applicants should meet the entrance requirements for the selected technology field.",
             "Laboratory safety and practical training readiness are required after enrollment."
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 3500,
+        "currency": "USD"
     },
     {
         "id": "silicate-hard-melting-materials-technology",
@@ -1360,7 +1516,11 @@
             "Admission is conducted under the applicable national higher education rules.",
             "Applicants should meet the entrance requirements for the selected technology field.",
             "Laboratory safety and practical training readiness are required after enrollment."
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 3500,
+        "currency": "USD"
     },
     {
         "id": "organic-substances-chemical-technology-bachelor",
@@ -1393,7 +1553,11 @@
             "Admission is conducted under the applicable national higher education rules.",
             "Applicants should meet the entrance requirements for the selected technology field.",
             "Laboratory safety and practical training readiness are required after enrollment."
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 3500,
+        "currency": "USD"
     },
     {
         "id": "high-molecular-compounds-technology-bachelor",
@@ -1426,7 +1590,11 @@
             "Admission is conducted under the applicable national higher education rules.",
             "Applicants should meet the entrance requirements for the selected technology field.",
             "Laboratory safety and practical training readiness are required after enrollment."
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 3500,
+        "currency": "USD"
     },
     {
         "id": "mineral-fertilizers-technology",
@@ -1459,7 +1627,11 @@
             "Admission is conducted under the applicable national higher education rules.",
             "Applicants should meet the entrance requirements for the selected technology field.",
             "Laboratory safety and practical training readiness are required after enrollment."
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 4500,
+        "currency": "USD"
     },
     {
         "id": "agricultural-products-storage-processing-60811300",
@@ -1492,7 +1664,11 @@
             "Admission is conducted under the applicable national higher education rules.",
             "Applicants should meet the entrance requirements for the selected technology field.",
             "Laboratory safety and practical training readiness are required after enrollment."
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 3500,
+        "currency": "USD"
     },
     {
         "id": "fruit-viticulture",
@@ -1525,7 +1701,11 @@
             "Admission is conducted under the applicable national higher education rules.",
             "Applicants should meet the entrance requirements for the selected technology field.",
             "Laboratory safety and practical training readiness are required after enrollment."
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 3500,
+        "currency": "USD"
     },
     {
         "id": "food-technology-oil-products",
@@ -1558,7 +1738,11 @@
             "Admission is conducted under the applicable national higher education rules.",
             "Applicants should meet the entrance requirements for the selected technology field.",
             "Laboratory safety and practical training readiness are required after enrollment."
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 3500,
+        "currency": "USD"
     },
     {
         "id": "fats-essential-oils-perfume-cosmetics-technology",
@@ -1591,7 +1775,11 @@
             "Admission is conducted under the applicable national higher education rules.",
             "Applicants should meet the entrance requirements for the selected technology field.",
             "Laboratory safety and practical training readiness are required after enrollment."
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 3500,
+        "currency": "USD"
     },
     {
         "id": "oil-fat-products-processing-technology",
@@ -1624,7 +1812,11 @@
             "Admission is conducted under the applicable national higher education rules.",
             "Applicants should meet the entrance requirements for the selected technology field.",
             "Laboratory safety and practical training readiness are required after enrollment."
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 4500,
+        "currency": "USD"
     },
     {
         "id": "agricultural-products-storage-processing-master",
@@ -1657,7 +1849,11 @@
             "Admission is conducted under the applicable national higher education rules.",
             "Applicants should meet the entrance requirements for the selected technology field.",
             "Laboratory safety and practical training readiness are required after enrollment."
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 4500,
+        "currency": "USD"
     },
     {
         "id": "oil-gas-chemistry-technology-doctoral",
@@ -1690,7 +1886,11 @@
             "Admission is conducted under the applicable national higher education rules.",
             "Applicants should meet the entrance requirements for the selected technology field.",
             "Laboratory safety and practical training readiness are required after enrollment."
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 5500,
+        "currency": "USD"
     },
     {
         "id": "oil-gas-field-development-5311900",
@@ -1723,7 +1923,11 @@
             "Admission is conducted under the applicable national higher education rules.",
             "Applicants should meet the entrance requirements for the selected technology field.",
             "Laboratory safety and practical training readiness are required after enrollment."
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 3500,
+        "currency": "USD"
     },
     {
         "id": "oil-gas-fields-exploitation",
@@ -1756,7 +1960,11 @@
             "Admission is conducted under the applicable national higher education rules.",
             "Applicants should meet the entrance requirements for the selected technology field.",
             "Laboratory safety and practical training readiness are required after enrollment."
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 3500,
+        "currency": "USD"
     },
     {
         "id": "oil-gas-field-equipment-5a311902",
@@ -1789,7 +1997,11 @@
             "Admission is conducted under the applicable national higher education rules.",
             "Applicants should meet the entrance requirements for the selected technology field.",
             "Laboratory safety and practical training readiness are required after enrollment."
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 4500,
+        "currency": "USD"
     },
     {
         "id": "colloids-membranes-chemistry-doctoral",
@@ -1822,7 +2034,11 @@
             "Admission is conducted under the applicable national higher education rules.",
             "Applicants should meet the entrance requirements for the selected technology field.",
             "Laboratory safety and practical training readiness are required after enrollment."
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 5500,
+        "currency": "USD"
     },
     {
         "id": "inorganic-substances-materials-doctoral",
@@ -1855,7 +2071,11 @@
             "Admission is conducted under the applicable national higher education rules.",
             "Applicants should meet the entrance requirements for the selected technology field.",
             "Laboratory safety and practical training readiness are required after enrollment."
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 5500,
+        "currency": "USD"
     },
     {
         "id": "organic-substances-materials-doctoral",
@@ -1888,7 +2108,11 @@
             "Admission is conducted under the applicable national higher education rules.",
             "Applicants should meet the entrance requirements for the selected technology field.",
             "Laboratory safety and practical training readiness are required after enrollment."
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 5500,
+        "currency": "USD"
     },
     {
         "id": "food-industry-chemical-technology-doctoral",
@@ -1921,7 +2145,11 @@
             "Admission is conducted under the applicable national higher education rules.",
             "Applicants should meet the entrance requirements for the selected technology field.",
             "Laboratory safety and practical training readiness are required after enrollment."
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 5500,
+        "currency": "USD"
     },
     {
         "id": "agricultural-food-products-biotechnology-doctoral",
@@ -1954,6 +2182,10 @@
             "Admission is conducted under the applicable national higher education rules.",
             "Applicants should meet the entrance requirements for the selected technology field.",
             "Laboratory safety and practical training readiness are required after enrollment."
-        ]
+        ],
+        "studyMode": "Full-time",
+        "languageOfStudy": "English",
+        "tuitionFee": 5500,
+        "currency": "USD"
     }
 ]

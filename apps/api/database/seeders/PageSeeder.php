@@ -4,10 +4,12 @@ namespace Database\Seeders;
 
 use App\Models\Page;
 use App\Models\PageTranslation;
+use Database\Seeders\Concerns\ResolvesSeedLocales;
 use Illuminate\Database\Seeder;
 
 class PageSeeder extends Seeder
 {
+    use ResolvesSeedLocales;
     public function run(): void
     {
         $filePath = database_path('data/translations.json');
@@ -18,7 +20,7 @@ class PageSeeder extends Seeder
         $translations = json_decode(file_get_contents($filePath), true);
 
         // 1. Home Page
-        $home = Page::updateOrCreate(
+        $home = Page::firstOrCreate(
             ['slug' => 'home'],
             [
                 'template' => 'home',
@@ -27,14 +29,18 @@ class PageSeeder extends Seeder
             ]
         );
 
-        foreach (['en', 'uz', 'ru', 'ar'] as $locale) {
+        foreach ($this->activeSeedLocales() as $locale) {
             $t = $translations[$locale] ?? [];
-            $title = $t['nav']['home'] ?? 'Home';
+            $title = $t['nav']['home'] ?? null;
+            if ($title === null || $title === '') {
+                continue;
+            }
+
             $content = '';
-            $metaTitle = $t['page']['home_title'] ?? ($t['home']['hero']['title'] ?? 'Bukhara State Technical University');
+            $metaTitle = $t['page']['home_title'] ?? ($t['home']['hero']['title'] ?? null);
             $metaDesc = $t['home']['hero']['subtitle'] ?? '';
 
-            PageTranslation::updateOrCreate(
+            PageTranslation::firstOrCreate(
                 [
                     'page_id' => $home->id,
                     'locale' => $locale,

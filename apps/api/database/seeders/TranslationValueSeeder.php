@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Locale;
 use App\Models\TranslationKey;
 use App\Models\TranslationValue;
 use Illuminate\Database\Seeder;
@@ -19,31 +20,20 @@ class TranslationValueSeeder extends Seeder
 
         $translations = json_decode(file_get_contents($filePath), true);
 
-        // Group mapping mapping
-        $groupMapping = [
-            'nav' => 'nav',
-            'common' => 'common',
-            'about' => 'about',
-            'home' => 'home',
-            'auth' => 'auth',
-            'validation' => 'validation',
-            'status' => 'status',
-            'student' => 'student',
-            'apanel' => 'apanel',
-            'application' => 'application',
-            'notification' => 'notification',
-            'menu' => 'menu',
-            'error' => 'error',
-            'success' => 'success',
-            'button' => 'button',
-            'form' => 'form',
-            'section' => 'section',
-            'breadcrumb' => 'breadcrumb',
-            'page' => 'page',
-        ];
+        $locales = Locale::query()
+            ->where('is_active', true)
+            ->orderBy('sort_order')
+            ->orderBy('id')
+            ->pluck('code')
+            ->all();
 
-        // Seed values from translations.json
-        $locales = ['en', 'uz', 'ru', 'ar'];
+        if ($locales === []) {
+            $locales = array_values(array_filter(
+                array_keys($translations),
+                fn (string $key) => is_array($translations[$key] ?? null)
+            ));
+        }
+
         $flatByLocale = [];
 
         foreach ($locales as $locale) {
@@ -82,23 +72,11 @@ class TranslationValueSeeder extends Seeder
                     }
                 }
 
-                // If not found in locale, check English version for fallback
-                if (is_null($value) && $locale !== 'en') {
-                    foreach ($possibleFlatKeys as $pfk) {
-                        if (isset($flatByLocale['en'][$pfk])) {
-                            $value = $flatByLocale['en'][$pfk];
-                            break;
-                        }
-                    }
-                }
-
-                // Default fallback to key if still null
                 if (is_null($value)) {
-                    // Check if it's one of the extra keys:
-                    $value = $k;
+                    continue;
                 }
 
-                TranslationValue::updateOrCreate([
+                TranslationValue::firstOrCreate([
                     'translation_key_id' => $keyModel->id,
                     'locale' => $locale,
                 ], [

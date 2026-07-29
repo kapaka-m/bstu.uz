@@ -105,8 +105,7 @@
                 },
                 {
                     "key": "plans",
-                    "title": "Prospective Plans",
-                    "items": []
+                    "title": "Prospective Plans"
                 }
             ],
             "staff": [
@@ -634,8 +633,7 @@
                 },
                 {
                     "key": "research",
-                    "title": "Research Work",
-                    "items": []
+                    "title": "Research Work"
                 },
                 {
                     "key": "publications",
@@ -771,13 +769,11 @@
                 },
                 {
                     "key": "staff",
-                    "title": "Professor-Teachers of the Department",
-                    "items": []
+                    "title": "Professor-Teachers of the Department"
                 },
                 {
                     "key": "prepared_specialists",
-                    "title": "Prepared Specialists",
-                    "items": []
+                    "title": "Prepared Specialists"
                 },
                 {
                     "key": "subjects",
@@ -788,16 +784,13 @@
                 },
                 {
                     "key": "activities",
-                    "title": "Activities of the Department",
-                    "items": []
+                    "title": "Activities of the Department"
                 },
                 {
                     "key": "publications",
-                    "title": "Textbooks and Articles",
-                    "items": []
+                    "title": "Textbooks and Articles"
                 }
-            ],
-            "staff": []
+            ]
         },
         {
             "slug": "technological-machines-equipment",
@@ -1128,8 +1121,7 @@
                 },
                 {
                     "key": "plans",
-                    "title": "Prospective Plans",
-                    "items": []
+                    "title": "Prospective Plans"
                 }
             ],
             "staff": [
@@ -1785,8 +1777,7 @@
                 },
                 {
                     "key": "plans",
-                    "title": "Prospective Plans",
-                    "items": []
+                    "title": "Prospective Plans"
                 }
             ],
             "staff": [
@@ -1889,18 +1880,15 @@
                 },
                 {
                     "key": "history",
-                    "title": "Department History",
-                    "items": []
+                    "title": "Department History"
                 },
                 {
                     "key": "staff",
-                    "title": "Professor-Teachers of the Department",
-                    "items": []
+                    "title": "Professor-Teachers of the Department"
                 },
                 {
                     "key": "prepared_specialists",
-                    "title": "Prepared Specialists",
-                    "items": []
+                    "title": "Prepared Specialists"
                 },
                 {
                     "key": "subjects",
@@ -1911,21 +1899,17 @@
                 },
                 {
                     "key": "research",
-                    "title": "Research Work",
-                    "items": []
+                    "title": "Research Work"
                 },
                 {
                     "key": "cooperation",
-                    "title": "Cooperation",
-                    "items": []
+                    "title": "Cooperation"
                 },
                 {
                     "key": "plans",
-                    "title": "Prospective Plans",
-                    "items": []
+                    "title": "Prospective Plans"
                 }
-            ],
-            "staff": []
+            ]
         },
         {
             "slug": "agricultural-water-resources-engineering-technologies",
@@ -3230,8 +3214,7 @@
                         "KAFEDRA PROFESSSOR-O‘QITUVCHILARI TOMONIDAN 2021-2022 O‘QUV YILDA CHOP ETILGAN O‘QUV QO‘LLANMALAR"
                     ]
                 }
-            ],
-            "staff": []
+            ]
         },
         {
             "slug": "exact-sciences",
@@ -3254,18 +3237,15 @@
                 },
                 {
                     "key": "staff",
-                    "title": "Professor-Teachers of the Department",
-                    "items": []
+                    "title": "Professor-Teachers of the Department"
                 },
                 {
                     "key": "prepared_specialists",
-                    "title": "Prepared Specialists",
-                    "items": []
+                    "title": "Prepared Specialists"
                 },
                 {
                     "key": "subjects",
-                    "title": "Taught Subjects",
-                    "items": []
+                    "title": "Taught Subjects"
                 },
                 {
                     "key": "activities",
@@ -3287,8 +3267,7 @@
                         "4. Spin – the natural structure of the natural structure of gravity and the scientific direction of the mаgnitöptic properties of the transition – f-m.f.d. M.Z.SH Scientific work is not going on in the Republic of Uzbekistan."
                     ]
                 }
-            ],
-            "staff": []
+            ]
         },
         {
             "slug": "uzbek-foreign-languages",
@@ -3374,14 +3353,7 @@
                         "وقم باضافه جميع المعلومات فيه كل المعلومات الخاصه بالكليات والاقسام والبرامج والدرجات والتخصصات وكل شي \nوكل شي يجب ان يكون مربوط بالكليه الخاصه بيه",
                         "كل شي قم باضافتها الي جدول البيانات في قاعدة البيانات",
                         "ثم بعد ذالك تقوم بعمل صفحه تحكم في الكنترول بانل هتكون هكاذا",
-                        "http://localhost:5173/apanel/Facultys\nhttp://localhost:5173/apanel/departments\nhttp://localhost:5173/apanel/programs\nhttp://localhost:5173/apanel/dr-staf\nhttp://localhost:5173/apanel/den-faculties\nhttp://localhost:5173/apanel/man-department",
                         "يتم التحكم في كل المحتوي الخاص بال",
-                        "http://localhost:5173/faculty/",
-                        "http://localhost:5173/faculty/faculty-of-engineering = Faculty of Engineering\nhttp://localhost:5173/faculty/faculty-of-technology = Faculty of Technology\nhttp://localhost:5173/faculty/faculty-of-natural-resources-management = Faculty of Natural Resources Management\nhttp://localhost:5173/faculty/faculty-of-service-and-digitalization = Faculty of Service and Digitalization",
-                        "هاذه الاقسام خاصه ب كلية Faculty of Engineering\nhttp://localhost:5173/department/electrical-power-engineering = Department of Electrical and Power Engineering \nhttp://localhost:5173/department/architecture = Department of Architecture \nhttp://localhost:5173/department/civil-engineering = Department of Civil Engineering\nhttp://localhost:5173/department/light-industry-engineering-and-design = Department of Light Industry Engineering and Design \nhttp://localhost:5173/department/mechanics-engineering-graphics = Department of Mechanics and Engineering Graphics\nhttp://localhost:5173/department/technological-machines-equipment = Department of Technological Machines and Equipment",
-                        "هاذه الاقسام خاصه ب كلية Faculty of Technology\nhttp://localhost:5173/department/oil-gas-refining-technology = Department of Oil and Gas Processing Technology\nhttp://localhost:5173/department/food-technology-service = Department of Food Technology and Service \nhttp://localhost:5173/department/chemical-technology = Department of Chemical Engineering \nhttp://localhost:5173/department/agricultural-products-storage-oil-fat-technology = Department of Storage, Processing, and Oil-Fat Technology of Agricultural Products \nhttp://localhost:5173/department/oil-gas-engineering-upstream-downstream = Department of Oil and Gas Engineering \nhttp://localhost:5173/department/metrology-standardization-quality-control = Department of Metrology and Standardization",
-                        "هاذه الاقسام خاصه ب كلية Faculty of Natural Resources Management\nhttp://localhost:5173/department/irrigation-melioration = Department of Irrigation and Land Reclamation\nhttp://localhost:5173/department/hydrotechnical-structures-pump-stations = Department of Hydraulic Structures and Pumping Stations\nhttp://localhost:5173/department/agricultural-water-resources-engineering-technologies = Department of Agricultural and Water Management Engineering Technologies \nhttp://localhost:5173/department/land-resources-management-state-land-cadastres = Department of Land Use and State Cadastre\nhttp://localhost:5173/department/industrial-ecology-hydrogeology = Department ofIndustrial Ecology and Hydrogeology\nhttp://localhost:5173/department/vehicle-engineering-automotive-transport-systems = Department of Vehicle Engineering",
-                        "هاذه الاقسام خاصه ب كلية Faculty of Service and Digitalization\nhttp://localhost:5173/department/technological-processes-production-automation = Department of Technological Processes and Production Automation\nhttp://localhost:5173/department/information-and-communication-technologies = Department of Information and Communication Technologies\nhttp://localhost:5173/department/economics-and-management = Department of Economics and Management \nhttp://localhost:5173/department/social-sciences-physical-culture = Department of Social Sciences and Physical Education\nhttp://localhost:5173/department/exact-sciences = Department of Exact Sciences\nhttp://localhost:5173/department/uzbek-foreign-languages = Department of Uzbek and Foreign Languages",
                         "واي برامج تحتهم",
                         "من هاذه الصفحات حتي يمكن الحذف والتعديل والاضافة والنشر ومنع النشر والترتيب هاذا  كله يجب ان يتم عمله باحترافيه كامله + اهم شي لا يتم تغير التصميم او الاستايل الذي هو موجود وبعد ذالك سيكون المحتوي مخزن في قاعدة البيانات في الجدول الخاصه بيها ويتم اظهارها عن طريق الapi والمفاتيح الخاصه بيه + بعد ذالك يجب ان يكون كل شي  في هاذه الاجزاء يعمل ب ال4 لغات اللغه الاوزبيكية اللغه العربية اللغه الانجليزيه اللغه الروسية حتي المحتوي الذي ليس لديه ترجمه قم بترجمته انا اريد احترافيه في العمل لا اريد اي اخطاء لا تقوم بتغير شكل التصميم",
                         "ادخال جميع المحتوي وكل شي في ويجب عمل الجداول الخاصه بيه يجب ان يعمل باحترافيه بدون اخطاء ويكون بال4لغات + ايضا كل شي يتم تخزينه في قاعدة البيانات في الجداول الخاصه بيهم ثم يتم عرضه عن طريق ال api ويعرض في اماكنه ويتم التحكم فيه من الكنترول بانل لا اريدك ان تنسي اي شي صفحة التحكم اعمل فيها تابات لتكون منظمه ايضا لا اريد اي اخطاء لا تفقد اي بيانات + كل شي يتم بكل احترافيه واهم شي لا تغير التصميم ابني البيانات علي التصميم الموجود"
@@ -3481,171 +3453,6 @@
         }
     ],
     "legacy_reviewed_sources": {
-        "mockData": {
-            "source_file": "migrated_from_deleted_scripts_import_react_content_mockData_js",
-            "faculties": [
-                {
-                    "id": "faculty-of-engineering",
-                    "name": "Faculty of Engineering",
-                    "slug": "faculty-of-engineering",
-                    "shortName": "Engineering",
-                    "image": "legacy_removed_web_asset:/assets/img/values-3.png",
-                    "about": "The Faculty of Engineering at Bukhara State Technical University stands at the forefront of technical education and industrial innovation in Uzbekistan. The faculty is committed to developing engineering talent capable of tackling complex design, construction, mechanical, and architectural challenges. By blending rigorous theoretical coursework with hands-on laboratory experiments and real-world industrial projects, we ensure our graduates are fully prepared to lead the engineering and manufacturing sectors.",
-                    "management": {
-                        "dean": "Dr. Jasur A. Nematov",
-                        "title": "Dean of the Faculty of Engineering, Associate Professor",
-                        "email": "engineering-dean@bstu.uz",
-                        "phone": "+998 65 224 64 35 (Ext. 101)",
-                        "officeHours": "Monday - Friday, 2:00 PM - 4:00 PM"
-                    },
-                    "departments": [
-                        "Department of Electrical & Power Engineering",
-                        "Department of Architecture",
-                        "Department of Civil Engineering",
-                        "Department of Light Industry Engineering and Design",
-                        "Department of Mechanics and Engineering Graphics",
-                        "Department of Technological Machines and Equipment",
-                        "Department of Textile Materials Science"
-                    ],
-                    "programs": [
-                        "Power Engineering (Electrical & Thermal Power) [B.Sc. / M.Sc. / PhD]",
-                        "Architecture & Urban Design [B.Sc. / M.Sc.]",
-                        "Civil & Infrastructure Engineering [B.Sc. / M.Sc.]",
-                        "Light Industry Technology & Fashion Design [B.Sc. / M.Sc.]",
-                        "Mechanical Engineering & Production Equipment [B.Sc. / M.Sc.]"
-                    ]
-                },
-                {
-                    "id": "faculty-of-technology",
-                    "name": "Faculty of Technology",
-                    "slug": "faculty-of-technology",
-                    "shortName": "Technology",
-                    "image": "legacy_removed_web_asset:/assets/img/faculties/dean_adizov.jpg",
-                    "about": "The Faculty of Technology maintains continuous cooperation between its specialized departments and industrial enterprises. Department branches operate inside partner enterprises, where students reinforce theoretical knowledge through practical experience. Industry specialists participate directly in the educational process, assess graduating students, sign internship contracts, and create conditions for employment of students with strong knowledge and potential. The faculty is headed by Associate Professor Rashid Tokhtayevich Adizov, PhD in Technical Sciences.",
-                    "management": {
-                        "dean": "Adizov Rashid Tokhtayevich",
-                        "title": "Dean of the Faculty of Technology, Associate Professor, PhD",
-                        "email": "adizov.rashid@mail.ru",
-                        "phone": "+998 93 479 77 65",
-                        "officeHours": "Every day 14:00-16:00 (except Monday and Saturday)"
-                    },
-                    "leadership": [
-                        {
-                            "name": "Adizov Rashid Tokhtayevich",
-                            "role": "Dean of the Faculty of Technology",
-                            "officeHours": "Every day 14:00-16:00 (except Monday and Saturday)",
-                            "phone": "+998 93 479 77 65",
-                            "email": "adizov.rashid@mail.ru",
-                            "image": "legacy_removed_web_asset:/assets/img/faculties/dean_adizov.jpg"
-                        },
-                        {
-                            "name": "Safarov Jasur Alijon o'g'li",
-                            "role": "Deputy Dean for Academic Affairs",
-                            "officeHours": "Every day 14:00-16:00",
-                            "phone": "+998 93 688 56 88",
-                            "email": "jasur.safarov1993@mail.ru",
-                            "image": "legacy_removed_web_asset:/assets/img/faculties/deputy_academic_safarov.jpg"
-                        },
-                        {
-                            "name": "Bozorov Dilmurod Xolmurodovich",
-                            "role": "Deputy Dean for Youth Affairs",
-                            "officeHours": "Every day 14:00-16:00",
-                            "phone": "+998 90 744 47 97",
-                            "email": "d.bozorov_78@mail.ru",
-                            "image": "legacy_removed_web_asset:/assets/img/faculties/deputy_youth_bozorov.jpg"
-                        }
-                    ],
-                    "departments": [
-                        "Department of Oil and Gas Refining Technology",
-                        "Department of Food Technology and Service",
-                        "Department of Chemical Technology",
-                        "Department of Agricultural Products Storage & Oil-Fat Technology",
-                        "Department of Oil and Gas Engineering (Upstream & Downstream)",
-                        "Department of Metrology, Standardization, and Quality Control"
-                    ],
-                    "programs": [
-                        "60710100 - Chemical Engineering",
-                        "60710200 - Biotechnology",
-                        "60710300 - Printing and Packaging Engineering",
-                        "60710800 - Metrology and Standardization",
-                        "60810700 - Storage and Processing Technology of Agricultural Products",
-                        "60811000 - Horticulture and Viticulture",
-                        "60720100 - Food Technology",
-                        "60720500 - Gas Processing Technology",
-                        "60720600 - Oil and Oil-Gas Processing Technology",
-                        "60720900 - Geology, Exploration and Prospecting of Mineral Deposits",
-                        "60721100 - Oil and Gas Engineering",
-                        "70710103 - Chemical Technology of High-Molecular Compounds (Polymer Production)",
-                        "70720101 - Technology of Food Production and Processing (Grain Storage and Processing Technology)",
-                        "70720101 - Technology of Food Production and Processing (Oil Processing Technology)",
-                        "70710101 - Chemical Technology (Inorganic Substances Chemical Technology)",
-                        "70710101 - Chemical Technology (Silicate and Refractory Nonmetallic Materials Technology)",
-                        "70710101 - Chemical Technology (Organic Substances Chemical Technology)"
-                    ]
-                },
-                {
-                    "id": "faculty-of-natural-resources-management",
-                    "name": "Faculty of Natural Resources Management",
-                    "slug": "faculty-of-natural-resources-management",
-                    "shortName": "Natural Resources",
-                    "image": "legacy_removed_web_asset:/assets/img/values-2.png",
-                    "about": "The Faculty of Natural Resources Management addresses the vital challenges of agricultural water management, irrigation, land cadastre, environmental conservation, and vehicle engineering. We aim to train specialists who balance technological development with environmental sustainability, particularly in Central Asia's arid climates.",
-                    "management": {
-                        "dean": "Dr. Alisher M. Kurbanov",
-                        "title": "Dean of Faculty of Natural Resources Management, Associate Professor",
-                        "email": "resources-dean@bstu.uz",
-                        "phone": "+998 65 224 64 35 (Ext. 103)",
-                        "officeHours": "Monday & Wednesday, 3:00 PM - 5:00 PM"
-                    },
-                    "departments": [
-                        "Department of Irrigation and Melioration",
-                        "Department of Hydrotechnical Structures and Pump Stations",
-                        "Department of Agricultural and Water Resources Engineering-Technologies",
-                        "Department of Land Resources Management and State Land Cadastres",
-                        "Department of Industrial Ecology and Hydrogeology",
-                        "Department of Vehicle Engineering (Automotive & Transport Systems)"
-                    ],
-                    "programs": [
-                        "Water Resource Management & Melioration [B.Sc. / M.Sc.]",
-                        "Hydrotechnical Engineering & Pump Stations [B.Sc. / M.Sc.]",
-                        "Land Surveying, Cadastre & GIS Mapping [B.Sc. / M.Sc.]",
-                        "Environmental Protection & Industrial Ecology [B.Sc. / M.Sc. / PhD]",
-                        "Automotive Engineering & Transportation Logistics [B.Sc. / M.Sc.]"
-                    ]
-                },
-                {
-                    "id": "faculty-of-service-and-digitalization",
-                    "name": "Faculty of Service and Digitalization",
-                    "slug": "faculty-of-service-and-digitalization",
-                    "shortName": "Service & Digitalization",
-                    "image": "legacy_removed_web_asset:/assets/img/alt-features.png",
-                    "about": "The Faculty of Service and Digitalization focuses on software engineering, industrial automation, artificial intelligence, and applied economics. In response to the global digital transformation, our courses are designed to prepare innovators who can automate industries, build AI-driven solutions, and manage digital enterprises in Uzbekistan's growing tech ecosystem.",
-                    "management": {
-                        "dean": "Dr. Sherbek N. Xayitov",
-                        "title": "Dean of Faculty of Service and Digitalization, PhD in Technical Sciences",
-                        "email": "digitalization-dean@bstu.uz",
-                        "phone": "+998 65 224 64 35 (Ext. 104)",
-                        "officeHours": "Wednesday & Friday, 2:00 PM - 4:00 PM"
-                    },
-                    "departments": [
-                        "Department of Technological Processes & Production Automation",
-                        "Department of Information and Communication Technologies",
-                        "Department of Economics and Management",
-                        "Department of Artificial Intelligence and Digitalization",
-                        "Department of Social Sciences and Physical Culture",
-                        "Department of Exact Sciences",
-                        "Department of Uzbek and Foreign Languages"
-                    ],
-                    "programs": [
-                        "Software Engineering & Computer Science [B.Sc. / M.Sc.]",
-                        "Industrial Automation & Robotics [B.Sc. / M.Sc.]",
-                        "Artificial Intelligence & Big Data Analytics [B.Sc. / M.Sc.]",
-                        "Economics, Business Administration & IT Management [B.Sc. / M.Sc.]",
-                        "Information Systems Security & Cybersecurity [B.Sc. / M.Sc.]"
-                    ]
-                }
-            ]
-        },
         "facultyTechnology": {
             "source_file": "migrated_from_deleted_scripts_import_react_content_facultyTechnology_js",
             "faculty_id": "faculty-of-technology",
@@ -3694,8 +3501,7 @@
                         "reception": "Every day 14:00-16:00 (except Monday and Saturday)",
                         "phone": "+998 93 479 77 65",
                         "email": "adizov.rashid@mail.ru",
-                        "image": "legacy_removed_web_asset:/assets/img/Dean/Adizov-Rashid-Tokhtayevich.jpg",
-                        "fallbackImage": "legacy_removed_web_asset:/assets/img/faculties/dean_adizov.jpg"
+                        "image": "legacy_removed_web_asset:/assets/img/Dean/Adizov-Rashid-Tokhtayevich.jpg"
                     },
                     {
                         "name": "Safarov Jasur Alijon o‘g‘li",
@@ -3704,8 +3510,7 @@
                         "reception": "Every day 14:00-16:00",
                         "phone": "+998 93 688 56 88",
                         "email": "jasur.safarov1993@mail.ru",
-                        "image": "legacy_removed_web_asset:/assets/img/Dean/Safarov-Jasur-Alijon-ogli.jpg",
-                        "fallbackImage": "legacy_removed_web_asset:/assets/img/faculties/deputy_academic_safarov.jpg"
+                        "image": "legacy_removed_web_asset:/assets/img/Dean/Safarov-Jasur-Alijon-ogli.jpg"
                     },
                     {
                         "name": "Bozorov Dilmurod Xolmurodovich",
@@ -3714,27 +3519,23 @@
                         "reception": "Every day 14:00-16:00",
                         "phone": "+998 90 744 47 97",
                         "email": "d.bozorov_78@mail.ru",
-                        "image": "legacy_removed_web_asset:/assets/img/Dean/Bozorov-Dilmurod-Xolmurodovich.jpg",
-                        "fallbackImage": "legacy_removed_web_asset:/assets/img/faculties/deputy_youth_bozorov.jpg"
+                        "image": "legacy_removed_web_asset:/assets/img/Dean/Bozorov-Dilmurod-Xolmurodovich.jpg"
                     }
                 ],
                 "imageAssets": [
                     {
                         "id": "dean-adizov",
                         "src": "legacy_removed_web_asset:/assets/img/Dean/Adizov-Rashid-Tokhtayevich.jpg",
-                        "fallback": "legacy_removed_web_asset:/assets/img/faculties/dean_adizov.jpg",
                         "alt": "Adizov Rashid Tokhtayevich"
                     },
                     {
                         "id": "deputy-safarov",
                         "src": "legacy_removed_web_asset:/assets/img/Dean/Safarov-Jasur-Alijon-ogli.jpg",
-                        "fallback": "legacy_removed_web_asset:/assets/img/faculties/deputy_academic_safarov.jpg",
                         "alt": "Safarov Jasur Alijon o‘g‘li"
                     },
                     {
                         "id": "deputy-bozorov",
                         "src": "legacy_removed_web_asset:/assets/img/Dean/Bozorov-Dilmurod-Xolmurodovich.jpg",
-                        "fallback": "legacy_removed_web_asset:/assets/img/faculties/deputy_youth_bozorov.jpg",
                         "alt": "Bozorov Dilmurod Xolmurodovich"
                     }
                 ],
@@ -3909,8 +3710,7 @@
                         "reception": "Dushanba-Juma (14:00-16:00 gacha)",
                         "phone": "+998 91 411 00 16",
                         "email": "ochilov82@gmail.ru",
-                        "image": "legacy_removed_web_asset:/assets/img/departments-Oil and Gas Refining Technology/Ochilov-Abduraxim-Abdurasulovich.jpg",
-                        "fallbackImage": "cms/staff/ochilov-abduraxim-abdurasulovich.jpg"
+                        "image": "legacy_removed_web_asset:/assets/img/departments-Oil and Gas Refining Technology/Ochilov-Abduraxim-Abdurasulovich.jpg"
                     },
                     "history": [
                         "Since 2001-2002 academic year on the basis of Bukhara Autonomous Okrug and Yesti, the Department of Technologies of Oil and Gas Processing has been organized. The purpose of the creation of the department in this region was to provide qualified personnel to the Bukhara oil refinery, the Mubarak gas refinery, the Gazlineftegaziburization department and other enterprises.",
@@ -4011,8 +3811,7 @@
                             "name": "Ochilov Abdurasulovich",
                             "role": "Head of the department",
                             "title": "Head of the department",
-                            "image": "legacy_removed_web_asset:/assets/img/departments-Oil and Gas Refining Technology/Ochilov-Abduraxim-Abdurasulovich.jpg",
-                            "fallbackImage": "cms/staff/ochilov-abduraxim-abdurasulovich.jpg"
+                            "image": "legacy_removed_web_asset:/assets/img/departments-Oil and Gas Refining Technology/Ochilov-Abduraxim-Abdurasulovich.jpg"
                         },
                         {
                             "name": "Maxmudov Muxtor Jamolovich",
@@ -4036,8 +3835,7 @@
                             "name": "Xo‘jaqulov Aziz Fayzullaevich",
                             "role": "PhD, dotsent",
                             "title": "PhD, dotsent",
-                            "image": "legacy_removed_web_asset:/assets/img/departments-Oil and Gas Refining Technology/Xo‘jaqulov Aziz Fayzullaevich.jpg",
-                            "fallbackImage": "cms/staff/xojakulov-aziz-fayzullaevich.jpg"
+                            "image": "legacy_removed_web_asset:/assets/img/departments-Oil and Gas Refining Technology/Xo‘jaqulov Aziz Fayzullaevich.jpg"
                         },
                         {
                             "name": "Murodov Malik Negmurodovich",
@@ -4504,8 +4302,7 @@
                     "jointPrograms": [
                         "Moscow State University of Food Production (MGUPP), Russian Federation.",
                         "Mogilyov State University of Food and Chemical Technologies, Republic of Belarus."
-                    ],
-                    "prospectivePlans": []
+                    ]
                 },
                 {
                     "facultyId": "faculty-of-technology",
@@ -4524,7 +4321,6 @@
                     },
                     "slug": "chemical-technology",
                     "route": "/department/chemical-technology",
-                    "aliases": [],
                     "sourceLink": "https://old.bstu.uz/kafedra/kimyo-texnologiyasi",
                     "contact": {
                         "name": "Axmedov Voxid Nizomovich",
@@ -4886,8 +4682,7 @@
                         "Volgograd Medical University.",
                         "Saratov State University.",
                         "Joint program with the University of South Kazakhstan named after M. Auezova opened service educational areas in 2019-2021."
-                    ],
-                    "news": []
+                    ]
                 },
                 {
                     "facultyId": "faculty-of-technology",
@@ -4906,7 +4701,6 @@
                     },
                     "slug": "agricultural-products-storage-oil-fat-technology",
                     "route": "/department/agricultural-products-storage-oil-fat-technology",
-                    "aliases": [],
                     "sourceLink": "https://old.bstu.uz/kafedra/qishloq-xo-jalik-maxsulotlarini-saqlash-qayta-ishlash-va-yog-moy-texnologiyasi",
                     "contact": {
                         "name": "Majidova Nargiza Kaxramonovna",
@@ -5425,9 +5219,7 @@
                                 "title": "Sharipov Qaxramon Qandiyorovich, Bozorov Jo‘rabek To‘ronovich. Key factors reducing energy consumption in gas supply. Earth and Environmental Science, 2021.",
                                 "category": "article"
                             }
-                        ],
-                        "textbooksManuals": [],
-                        "monographs": []
+                        ]
                     },
                     "research": [
                         "Create compositions to break up oil and oil emulsions and improve rheological properties.",

@@ -5,10 +5,12 @@ namespace Database\Seeders;
 use App\Models\Department;
 use App\Models\DepartmentTranslation;
 use App\Models\Faculty;
+use Database\Seeders\Concerns\ResolvesSeedLocales;
 use Illuminate\Database\Seeder;
 
 class DepartmentSeeder extends Seeder
 {
+    use ResolvesSeedLocales;
     public function run(): void
     {
         $translationsPath = database_path('data/translations.json');
@@ -20,11 +22,16 @@ class DepartmentSeeder extends Seeder
 
         $translations = json_decode(file_get_contents($translationsPath), true);
         $deptsMetadata = json_decode(file_get_contents($departmentsPath), true);
+        $locales = $this->activeSeedLocales();
+        $sourceLocale = $this->sourceSeedLocale($translations, $locales);
+        if ($sourceLocale === null) {
+            return;
+        }
 
         $sortOrder = 1;
         $usedCodes = [];
         foreach ($deptsMetadata as $slug => $meta) {
-            $facultySlug = $meta['facultyId'] ?? 'faculty-of-technology';
+            $facultySlug = $meta['facultyId'] ?? null;
 
             // Normalize mapping aliases
             $aliases = [
@@ -36,11 +43,6 @@ class DepartmentSeeder extends Seeder
             $facultySlug = $aliases[$facultySlug] ?? $facultySlug;
 
             $faculty = Faculty::where('slug', $facultySlug)->first();
-            if (! $faculty) {
-                // Fallback to first faculty if not found
-                $faculty = Faculty::first();
-            }
-
             if (! $faculty) {
                 continue;
             }
@@ -54,7 +56,7 @@ class DepartmentSeeder extends Seeder
             $usedCodes[] = $code;
 
             // Create department
-            $deptModel = Department::updateOrCreate(
+            $deptModel = Department::firstOrCreate(
                 ['slug' => $slug],
                 [
                     'faculty_id' => $faculty->id,
@@ -67,28 +69,28 @@ class DepartmentSeeder extends Seeder
             );
 
             // Populate translations
-            foreach (['en', 'uz', 'ru', 'ar'] as $locale) {
+            foreach ($locales as $locale) {
                 $deptTrans = $translations[$locale]['departments'][$slug] ?? [];
 
-                $name = $deptTrans['name'] ?? ($meta['name'] ?? '');
-                $desc = $deptTrans['about'] ?? ($meta['about'] ?? '');
-
-                // Fallbacks
-                if (empty($name)) {
-                    $name = $translations['en']['departments'][$slug]['name'] ?? ($meta['name'] ?? '');
-                }
-                if (empty($desc)) {
-                    $desc = $translations['en']['departments'][$slug]['about'] ?? ($meta['about'] ?? '');
+                $name = $deptTrans['name'] ?? null;
+                if (($name === null || $name === '') && $locale === $sourceLocale) {
+                    $name = $meta['name'] ?? null;
                 }
 
-                DepartmentTranslation::updateOrCreate(
+                if ($name === null || $name === '') {
+                    continue;
+                }
+
+                $desc = $deptTrans['about'] ?? (($locale === $sourceLocale) ? ($meta['about'] ?? '') : '');
+
+                DepartmentTranslation::firstOrCreate(
                     [
                         'department_id' => $deptModel->id,
                         'locale' => $locale,
                     ],
                     [
                         'name' => $name,
-                        'short_name' => $deptTrans['short_name'] ?? ($meta['short_name'] ?? str_replace('Department of ', '', $name)),
+                        'short_name' => $deptTrans['short_name'] ?? (($locale === $sourceLocale) ? ($meta['short_name'] ?? null) : null),
                         'description' => $desc,
                         'meta_title' => $name.' Dept',
                         'meta_description' => mb_substr($desc, 0, 200, 'UTF-8'),

@@ -6,10 +6,12 @@ use App\Models\Department;
 use App\Models\Faculty;
 use App\Models\Program;
 use App\Models\ProgramTranslation;
+use Database\Seeders\Concerns\ResolvesSeedLocales;
 use Illuminate\Database\Seeder;
 
 class ProgramSeeder extends Seeder
 {
+    use ResolvesSeedLocales;
     public function run(): void
     {
         $translationsPath = database_path('data/translations.json');
@@ -21,13 +23,18 @@ class ProgramSeeder extends Seeder
 
         $translations = json_decode(file_get_contents($translationsPath), true);
         $programsMetadata = json_decode(file_get_contents($programsPath), true);
+        $locales = $this->activeSeedLocales();
+        $sourceLocale = $this->sourceSeedLocale($translations, $locales);
+        if ($sourceLocale === null) {
+            return;
+        }
 
         $sortOrder = 1;
         $usedCodes = [];
         foreach ($programsMetadata as $meta) {
             $id = $meta['id'];
-            $facultySlug = $meta['facultyId'] ?? 'faculty-of-technology';
-            $deptSlug = $meta['departmentId'] ?? 'oil-gas-refining-technology';
+            $facultySlug = $meta['facultyId'] ?? null;
+            $deptSlug = $meta['departmentId'] ?? null;
 
             // Aliases normalize
             $aliases = [
@@ -41,19 +48,12 @@ class ProgramSeeder extends Seeder
             $faculty = Faculty::where('slug', $facultySlug)->first();
             $dept = Department::where('slug', $deptSlug)->first();
 
-            if (! $faculty) {
-                $faculty = Faculty::first();
-            }
-            if (! $dept) {
-                $dept = Department::first();
-            }
-
             if (! $faculty || ! $dept) {
                 continue;
             }
 
             // Duration parse
-            $durationStr = $meta['duration'] ?? '4 years';
+            $durationStr = $meta['duration'] ?? '';
             $duration = 4.0;
             if (str_contains($durationStr, '2')) {
                 $duration = 2.0;
@@ -69,47 +69,52 @@ class ProgramSeeder extends Seeder
             }
             $usedCodes[] = $code;
 
-            $progModel = Program::updateOrCreate(
+            $studyMode = $meta['studyMode'] ?? $meta['study_mode'] ?? null;
+            $languageOfStudy = $meta['languageOfStudy'] ?? $meta['language_of_study'] ?? null;
+            $tuitionFee = $meta['tuitionFee'] ?? $meta['tuition_fee'] ?? null;
+            $currency = $meta['currency'] ?? null;
+
+            if ($studyMode === null || $languageOfStudy === null || $tuitionFee === null || $currency === null) {
+                continue;
+            }
+
+            $progModel = Program::firstOrCreate(
                 ['slug' => $id],
                 [
                     'faculty_id' => $faculty->id,
                     'department_id' => $dept->id,
                     'code' => $code,
-                    'degree' => $meta['degree'] ?? 'Bachelor',
+                    'degree' => $meta['degree'] ?? null,
                     'duration_years' => $duration,
-                    'study_mode' => 'Full-time',
-                    'language_of_study' => 'English',
-                    'tuition_fee' => 3500.00,
-                    'currency' => 'USD',
+                    'study_mode' => $studyMode,
+                    'language_of_study' => $languageOfStudy,
+                    'tuition_fee' => $tuitionFee,
+                    'currency' => $currency,
                     'image' => 'programs/'.$id.'.jpg',
                     'is_active' => true,
                     'sort_order' => $sortOrder++,
                 ]
             );
 
-            // Populate translations for en, uz, ru, ar
-            foreach (['en', 'uz', 'ru', 'ar'] as $locale) {
+            foreach ($locales as $locale) {
                 $progTrans = $translations[$locale]['programs'][$id] ?? [];
 
-                $name = $progTrans['name'] ?? ($meta['name'] ?? '');
-                $desc = $progTrans['description'] ?? ($meta['description'] ?? '');
-                $detailedDesc = $progTrans['detailedDescription'] ?? ($meta['detailedDescription'] ?? $desc);
-
-                if (empty($name)) {
-                    $name = $translations['en']['programs'][$id]['name'] ?? ($meta['name'] ?? '');
-                }
-                if (empty($desc)) {
-                    $desc = $translations['en']['programs'][$id]['description'] ?? ($meta['description'] ?? '');
-                }
-                if (empty($detailedDesc)) {
-                    $detailedDesc = $translations['en']['programs'][$id]['detailedDescription'] ?? ($meta['detailedDescription'] ?? $desc);
+                $name = $progTrans['name'] ?? null;
+                if (($name === null || $name === '') && $locale === $sourceLocale) {
+                    $name = $meta['name'] ?? null;
                 }
 
-                // Requirements / Documents / Career Opportunities / Curriculum lists
-                $reqs = $progTrans['requirements'] ?? ($meta['requirements'] ?? ['Secondary school diploma.']);
-                $docs = $progTrans['documents'] ?? ($meta['documents'] ?? ['Passport, High school certificate.']);
-                $careers = $progTrans['careerOpportunities'] ?? ($meta['careerOpportunities'] ?? ['Specialist Engineer.']);
-                $curriculum = $progTrans['curriculum'] ?? ($meta['curriculum'] ?? ['Applied Sciences.']);
+                if ($name === null || $name === '') {
+                    continue;
+                }
+
+                $desc = $progTrans['description'] ?? (($locale === $sourceLocale) ? ($meta['description'] ?? '') : '');
+                $detailedDesc = $progTrans['detailedDescription'] ?? (($locale === $sourceLocale) ? ($meta['detailedDescription'] ?? $desc) : $desc);
+
+                $reqs = $progTrans['requirements'] ?? (($locale === $sourceLocale) ? ($meta['requirements'] ?? null) : null);
+                $docs = $progTrans['documents'] ?? (($locale === $sourceLocale) ? ($meta['documents'] ?? null) : null);
+                $careers = $progTrans['careerOpportunities'] ?? (($locale === $sourceLocale) ? ($meta['careerOpportunities'] ?? null) : null);
+                $curriculum = $progTrans['curriculum'] ?? (($locale === $sourceLocale) ? ($meta['curriculum'] ?? null) : null);
 
                 if (is_array($reqs)) {
                     $reqs = implode("\n", $reqs);
@@ -124,7 +129,7 @@ class ProgramSeeder extends Seeder
                     $curriculum = implode("\n", $curriculum);
                 }
 
-                ProgramTranslation::updateOrCreate(
+                ProgramTranslation::firstOrCreate(
                     [
                         'program_id' => $progModel->id,
                         'locale' => $locale,
@@ -136,7 +141,7 @@ class ProgramSeeder extends Seeder
                         'documents' => $docs,
                         'curriculum_summary' => $curriculum,
                         'career_opportunities' => $careers,
-                        'meta_title' => $name.' '.($meta['degree'] ?? 'Bachelor'),
+                        'meta_title' => trim($name.' '.($meta['degree'] ?? '')),
                         'meta_description' => mb_substr($detailedDesc, 0, 200, 'UTF-8'),
                     ]
                 );

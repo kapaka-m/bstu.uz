@@ -7,6 +7,7 @@ use App\Models\DepartmentTranslation;
 use App\Models\StaffProfile;
 use App\Models\StaffProfileTranslation;
 use Database\Seeders\Concerns\ResolvesSeedLocales;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
@@ -668,7 +669,7 @@ class AcademicDepartmentDetailsSeeder extends Seeder
         return;
     }
 
-    private function missingOnly($model, array $values): array
+    private function missingOnly(Model $model, array $values): array
     {
         $updates = [];
 
@@ -751,21 +752,25 @@ class AcademicDepartmentDetailsSeeder extends Seeder
                 'uz' => 'Texnika fanlari doktori, professor',
                 'ru' => 'Доктор технических наук, профессор',
                 'ar' => 'دكتور في العلوم التقنية، أستاذ',
+                default => $position,
             },
             Str::contains($position, ['Associate Professor', 'dotsent'], true) => match ($locale) {
                 'uz' => 'Dotsent',
                 'ru' => 'Доцент',
                 'ar' => 'أستاذ مشارك',
+                default => $position,
             },
             Str::contains($position, 'PhD', true) => match ($locale) {
                 'uz' => 'PhD, dotsent',
                 'ru' => 'PhD, доцент',
                 'ar' => 'دكتوراه، أستاذ مشارك',
+                default => $position,
             },
             default => match ($locale) {
                 'uz' => 'Kafedra professor-o‘qituvchisi',
                 'ru' => 'Преподаватель кафедры',
                 'ar' => 'عضو هيئة تدريس في القسم',
+                default => $position,
             },
         };
     }

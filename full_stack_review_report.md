@@ -2320,6 +2320,95 @@
 
 ---
 
+## إعادة تحقق Database Scope بدون تغييرات إضافية 2026-07-29
+
+تاريخ إعادة التحقق: 2026-07-29
+
+## المسارات التي تمت مراجعتها
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\data`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\migrations`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\seeders`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\seeders\Concerns`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\factories`
+
+## النتيجة
+
+- لم تظهر بقايا fallback نصي أو fallback صورة أو روابط تطوير أو `/admin` داخل نطاق `apps\api\database`.
+- لم تظهر `translations['en']`, قوائم لغات ثابتة، `locale === 'en'`, `updateOrCreate`, أو `truncate` داخل seeders/migrations/factories في النطاق المراجع.
+- تم تأكيد أن `programs.json` يحتوي قيم `studyMode`, `languageOfStudy`, `tuitionFee`, و`currency` لكل البرامج الـ58.
+- لم تكن هناك حاجة لتعديل إضافي بعد إدخال `تثبيت قيم Program Seed غير الفارغة 2026-07-29`.
+
+## الفحوص
+
+- JSON validation لملفات `apps\api\database\data\*.json`: نجح.
+- PHP syntax scan للملفات المعدلة في نطاق قاعدة البيانات: نجح.
+- `php-local.bat artisan test`: نجح، 4 tests passed و7 assertions.
+- `php-local.bat artisan optimize:clear`: نجح.
+- `php-local.bat artisan route:list --path=api/v1`: نجح وأظهر 170 route بعد إعادة تشغيله منفردًا.
+- `npm.cmd run lint`: نجح مع تحذيرين قديمين خارج نطاق قاعدة البيانات في ملفات student React.
+- `npm.cmd run build`: نجح.
+
+---
+
+## إدخال بيانات Database Seed إلى الجداول 2026-07-29
+
+تاريخ التنفيذ: 2026-07-29
+
+## المسارات التي تمت مراجعتها وتشغيلها
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\data`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\migrations`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\seeders`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\seeders\Concerns`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\factories`
+
+## ما تم تنفيذه
+
+- تم التأكد من أن migrations المطلوبة منفذة مسبقًا عبر `php-local.bat artisan migrate:status`.
+- تم تشغيل `php-local.bat artisan db:seed` لإدخال بيانات ملفات `database/data` والـ seeders إلى الجداول.
+- توقف التشغيل الأول داخل `AcademicDepartmentDetailsSeeder.php` بسبب عدم وجود حالة `en` في `staffPosition`.
+- تم إصلاح `staffPosition` بحيث تستخدم نص المنصب الأصلي من ملف البيانات عند اللغة الإنجليزية أو أي لغة غير معرفة داخل match، ثم أعيد تشغيل `db:seed` بنجاح.
+
+## الجداول التي استقبلت البيانات
+
+- `locales`: 4 سجلات.
+- `translation_keys`: 1875 سجلًا.
+- `translation_values`: 9115 سجلًا.
+- `faculties`: 4 سجلات، و`faculty_translations`: 16 سجلًا.
+- `departments`: 28 سجلًا، و`department_translations`: 112 سجلًا.
+- `programs`: 119 سجلًا، و`program_translations`: 476 سجلًا.
+- `courses`: 207 سجلات، و`course_translations`: 828 سجلًا.
+- `staff_profiles`: 581 سجلًا، و`staff_profile_translations`: 2297 سجلًا.
+- `settings`: 121 سجلًا.
+- `document_requirements`: 14 سجلًا.
+
+## API وواجهة الإدارة
+
+- اللغات: `GET /api/v1/locales`، وإدارة `/apanel/locales`.
+- الترجمات: `GET /api/v1/translations`، وإدارة `/apanel/translations`.
+- الأكاديميات: `GET /api/v1/faculties`, `/departments`, `/programs`, `/courses`، وإدارة الموارد عبر `/apanel/{resource}`.
+- الكادر: `GET /api/v1/staff`، وإدارة staff/admin resources من `/apanel`.
+- إعدادات سير الطالب: settings وdocument requirements، وتستخدمها مسارات `/api/v1/student/*` و`/api/v1/apanel/applications-workflow/*`.
+
+## الفحوص بعد الإدخال
+
+- JSON validation لملفات `apps\api\database\data\*.json`: نجح.
+- PHP syntax لـ `AcademicDepartmentDetailsSeeder.php`: نجح.
+- `php-local.bat artisan db:seed`: نجح بعد إصلاح حالة اللغة الإنجليزية.
+- فحص أعداد الجداول الأساسية بعد البذر: نجح وأكد وجود البيانات.
+- `php-local.bat artisan test`: نجح، 4 tests passed و7 assertions.
+- `php-local.bat artisan route:list --path=api/v1`: نجح وأظهر 170 route.
+- `php-local.bat artisan optimize:clear`: نجح.
+
+## المتبقي
+
+- Seeders مثل `NewsSeeder`, `BlogSeeder`, `VideoSeeder`, `WebFooterSeeder`, `AnnouncementSeeder`, `AdministrationSeeder`, و`GreenCampusSeeder` موجودة لكنها فارغة حاليًا، لذلك لم تضف بيانات جديدة عند التشغيل. بيانات هذه الأقسام تعتمد على migrations/settings أو تحتاج seeders مملوءة في جولة لاحقة إذا كان مطلوبًا إدخال محتوى أولي لها.
+
+---
+
 ## إعادة تحقق Laravel Database Seed Locale Source 2026-07-29
 
 تاريخ إعادة التحقق: 2026-07-29

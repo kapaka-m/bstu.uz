@@ -71,7 +71,7 @@
 
 تاريخ المراجعة: 2026-07-27
 
-## المسارات التي تمت مراجعتها
+## المسارات التي تمت مراجعتها لتحويل ملف SQL
 
 - `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\resources`
 - `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\public`
@@ -2299,7 +2299,7 @@
 - الترجمات مخزنة في `translation_keys` و`translation_values` وتدار من `/apanel/translations` وتعرض عبر `GET /api/v1/translations`.
 - المحتوى العام والأكاديمي والطالب يستخدم جداول CMS/academic/student الموجودة في migrations، ويعرض عبر مسارات `/api/v1/*` العامة ومسارات الطالب، ويدار عبر `/apanel/` resources وCMS settings.
 
-## المتبقي
+## المتبقي بعد تحويل ملف SQL
 
 - سجلات اللغات الأولية داخل `LocaleSeeder.php` بقيت كبيانات seed قابلة للإدارة وليست قائمة ثابتة في منطق runtime.
 - تم نقل قيم seed الأولية المطلوبة من schema للبرامج إلى `programs.json` حتى لا تبقى مضمنة داخل `ProgramSeeder.php`.
@@ -2324,7 +2324,7 @@
 
 تاريخ التنفيذ: 2026-07-29
 
-## المسارات التي تمت مراجعتها
+## المسارات التي تمت مراجعتها لإعادة تحقق Database Scope
 
 - `C:\Users\KAPAKA\Desktop\international.bstu.uz\bstu_international (1).sql`
 - `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\data`
@@ -2455,7 +2455,7 @@
 - `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\seeders\Concerns`
 - `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\factories`
 
-## ما تم تنفيذه
+## ما تم تنفيذه لإدخال بيانات Database Seed
 
 - تم التأكد من أن migrations المطلوبة منفذة مسبقًا عبر `php-local.bat artisan migrate:status`.
 - تم تشغيل `php-local.bat artisan db:seed` لإدخال بيانات ملفات `database/data` والـ seeders إلى الجداول.
@@ -2475,7 +2475,7 @@
 - `settings`: 121 سجلًا.
 - `document_requirements`: 14 سجلًا.
 
-## API وواجهة الإدارة
+## API وواجهة الإدارة بعد إدخال البيانات
 
 - اللغات: `GET /api/v1/locales`، وإدارة `/apanel/locales`.
 - الترجمات: `GET /api/v1/translations`، وإدارة `/apanel/translations`.
@@ -2493,7 +2493,7 @@
 - `php-local.bat artisan route:list --path=api/v1`: نجح وأظهر 170 route.
 - `php-local.bat artisan optimize:clear`: نجح.
 
-## المتبقي
+## المتبقي بعد إدخال بيانات Database Seed
 
 - Seeders مثل `NewsSeeder`, `BlogSeeder`, `VideoSeeder`, `WebFooterSeeder`, `AnnouncementSeeder`, `AdministrationSeeder`, و`GreenCampusSeeder` موجودة لكنها فارغة حاليًا، لذلك لم تضف بيانات جديدة عند التشغيل. بيانات هذه الأقسام تعتمد على migrations/settings أو تحتاج seeders مملوءة في جولة لاحقة إذا كان مطلوبًا إدخال محتوى أولي لها.
 
@@ -2555,18 +2555,18 @@
 
 تاريخ المراجعة: 2026-07-29
 
-## المسارات التي تمت مراجعتها
+## المسارات التي تمت مراجعتها لقيم Program Seed
 
 - `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\data\programs.json`
 - `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\seeders\ProgramSeeder.php`
 - `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\migrations\2026_07_12_132822_create_academic_structure_tables.php`
 
-## ما تم العثور عليه
+## ما تم العثور عليه في قيم Program Seed
 
 - جدول `programs` يحتوي حقولًا غير nullable: `study_mode`, `language_of_study`, `tuition_fee`, و`currency`.
 - كانت القيم الأولية لهذه الحقول موجودة داخل `ProgramSeeder.php` مباشرة، وهذا يجعلها تبدو كبيانات ثابتة داخل الكود بدلاً من بيانات seed قابلة للمراجعة.
 
-## التغييرات المنفذة
+## التغييرات المنفذة لقيم Program Seed
 
 - تم ملء `studyMode`, `languageOfStudy`, `tuitionFee`, و`currency` داخل `programs.json` لكل البرامج الـ58.
 - تم تعديل `ProgramSeeder.php` ليقرأ هذه القيم من `programs.json` ويترك البرنامج غير مبذور إذا غابت القيم المطلوبة، بدلاً من إنشاء fallback مخفي داخل الكود.
@@ -2578,7 +2578,7 @@
 - تعرض عبر `GET /api/v1/programs` و`GET /api/v1/programs/{slug}`.
 - تدار من `/apanel/programs` عبر موارد `/api/v1/apanel/{resource}`.
 
-## الفحوص المنفذة
+## الفحوص المنفذة لقيم Program Seed
 
 - تحقق JSON لـ `programs.json`: نجح، 58 برنامجًا ولا توجد قيم ناقصة.
 - فحص بقاء قيم الدراسة/اللغة/الرسوم/العملة داخل `ProgramSeeder.php`: نجح، لم تعد القيم مضمنة.

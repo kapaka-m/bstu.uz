@@ -3,3 +3,5 @@ C:\Users\KAPAKA\Desktop\international.bstu.uz\bstu_international (1).sql
 قم بنقلها الي ملفات السيدار التي تدخل الي قاعدة البيانات 
 لكن لا تدخل معلومات مكرره 
 @bstu_intermational (1).sql
+
+0

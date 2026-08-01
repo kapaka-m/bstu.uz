@@ -1,0 +1,22 @@
+{
+    "source_database": "bstu_rebuild_source_tmp",
+    "target_database": "bstu_rebuild_target_tmp",
+    "compared_tables": 109,
+    "schema": {
+        "tables_match": true,
+        "columns_match": true,
+        "indexes_match": true,
+        "foreign_keys_match": true,
+        "differences": []
+    },
+    "data": {
+        "row_counts_match": true,
+        "total_source_rows": 22211,
+        "total_target_rows": 22211,
+        "differences": []
+    },
+    "integrity": {
+        "orphan_foreign_keys": [],
+        "duplicate_unique_keys": []
+    }
+}

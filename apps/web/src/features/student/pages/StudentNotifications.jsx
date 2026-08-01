@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { studentService } from "../../../services/studentService";
 import { useLanguage } from "../../../context/LanguageContext";
+import { formatLocalizedDate } from "../../../utils/dateFormat";
 import { Loader2, Bell, Clock, CheckCheck, BellOff } from "lucide-react";
 
 export default function StudentNotifications() {
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -56,6 +57,11 @@ export default function StudentNotifications() {
     if (!value || !String(value).includes(".")) return value;
     return t(value);
   };
+  const formatDate = (value) =>
+    formatLocalizedDate(value, language, t, {
+      day: "numeric",
+      month: "short",
+    });
 
   if (loading) {
     return (
@@ -136,7 +142,7 @@ export default function StudentNotifications() {
                     <div className="flex items-center gap-2 shrink-0">
                       <span className="text-[9px] text-gray-400 font-bold flex items-center gap-1">
                         <Clock className="w-3 h-3" />
-                        {new Date(notif.created_at).toLocaleDateString()}
+                        {formatDate(notif.created_at)}
                       </span>
                       {!notif.is_read && (
                         <button

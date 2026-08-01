@@ -1,12 +1,12 @@
 import { api } from "../lib/api";
 
 export const authService = {
-  login(email, password) {
-    return api.post("/auth/login", { email, password }).then(res => res.data);
-  },
-
-  register(name, email, password, password_confirmation) {
-    return api.post("/auth/register", { name, email, password, password_confirmation }).then(res => res.data);
+  login(email, password, intendedRole = null) {
+    return api.post("/auth/login", {
+      email,
+      password,
+      ...(intendedRole ? { intended_role: intendedRole } : {}),
+    }).then(res => res.data);
   },
 
   logout() {

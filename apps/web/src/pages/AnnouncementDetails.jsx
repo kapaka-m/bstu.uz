@@ -14,9 +14,10 @@ import {
 import { motion } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
 import { announcementService } from "../services/announcementService";
+import { formatLocalizedDate } from "../utils/dateFormat";
 
 export default function AnnouncementDetails() {
-  const { language, isRtl } = useLanguage();
+  const { language, isRtl, t } = useLanguage();
   const navigate = useNavigate();
   const { id } = useParams();
   const [copied, setCopied] = useState(false);
@@ -53,14 +54,10 @@ export default function AnnouncementDetails() {
   }, [id, language]);
 
   const formatDate = (value) => {
-    if (!value) return "";
-    const date = new Date(value);
-    if (Number.isNaN(date.getTime())) return value;
-    return new Intl.DateTimeFormat(language || undefined, {
-      year: "numeric",
+    return formatLocalizedDate(value, language, t, {
       month: "short",
       day: "2-digit",
-    }).format(date);
+    });
   };
 
   const categories = useMemo(() => {
@@ -89,13 +86,7 @@ export default function AnnouncementDetails() {
   };
 
   if (loading) {
-    return (
-      <div className="pt-24 min-h-screen bg-slate-50/50">
-        <div className="container mx-auto px-4 md:px-8 max-w-7xl py-16 text-center text-gray-500 font-semibold">
-          {settings?.loading_label || ""}
-        </div>
-      </div>
-    );
+    return null;
   }
 
   if (!announcement) {

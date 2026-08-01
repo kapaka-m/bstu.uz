@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
   Bell,
@@ -103,7 +103,7 @@ export default function StudentPortalPhaseTwo() {
     return "dashboard";
   }, [location.pathname]);
 
-  const load = async () => {
+  const load = useCallback(async () => {
     try {
       setLoading(true);
       setError("");
@@ -120,11 +120,11 @@ export default function StudentPortalPhaseTwo() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [t]);
 
   useEffect(() => {
     load();
-  }, []);
+  }, [load]);
 
   if (loading) return <LoadingState message={t("student.portal.loading")} />;
   if (error) return <FormError message={error} />;

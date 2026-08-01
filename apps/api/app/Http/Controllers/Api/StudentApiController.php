@@ -103,11 +103,12 @@ class StudentApiController extends Controller
             $profile = StudentProfile::updateOrCreate(
                 ['user_id' => $userId],
                 [
+                    'full_name_english' => $validated['full_name_english'],
                     'phone' => $validated['phone'],
                     'gender' => $validated['gender'],
                     'birth_date' => $validated['birth_date'],
                     'passport_number' => $validated['passport_number'],
-                    'passport_expiry_date' => $validated['passport_expiry_date'] ?? null,
+                    'passport_expiry_date' => $validated['passport_expiry_date'],
                     'nationality' => $validated['nationality'],
                     'address' => $validated['address'],
                 ]

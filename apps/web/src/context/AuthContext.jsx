@@ -27,8 +27,8 @@ export function AuthProvider({ children }) {
     };
   }, []);
 
-  const login = async (email, password) => {
-    const data = await authService.login(email, password);
+  const login = async (email, password, intendedRole = null) => {
+    const data = await authService.login(email, password, intendedRole);
     const normalizedUser = normalizeUser(data.user);
     authStorage.setToken(data.access_token);
     authStorage.setUser(normalizedUser);
@@ -40,20 +40,6 @@ export function AuthProvider({ children }) {
     authStorage.clear();
     setUser(null);
   }, []);
-
-  const register = async (name, email, password, passwordConfirmation) => {
-    const data = await authService.register(
-      name,
-      email,
-      password,
-      passwordConfirmation,
-    );
-    authStorage.setToken(data.access_token);
-    const normalizedUser = normalizeUser(data.user);
-    authStorage.setUser(normalizedUser);
-    setUser(normalizedUser);
-    return normalizedUser;
-  };
 
   const logout = async () => {
     try {
@@ -107,7 +93,6 @@ export function AuthProvider({ children }) {
         isAuthenticated: !!user,
         loading,
         login,
-        register,
         logout,
         clearSession,
         checkAdminRole,

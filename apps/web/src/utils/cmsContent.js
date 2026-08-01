@@ -1,4 +1,5 @@
 import { publicAssetUrl } from "../lib/api";
+import { formatLocalizedDate } from "./dateFormat";
 
 export function asArray(value) {
   if (Array.isArray(value)) return value;
@@ -96,17 +97,11 @@ export function cmsDate(item) {
   );
 }
 
-export function formatCmsDate(value, locale) {
-  if (!value) return "";
-  if (/^\d{4}$/.test(String(value).trim())) return String(value);
-  const parsed = new Date(value);
-  if (Number.isNaN(parsed.getTime())) return String(value);
-
-  return new Intl.DateTimeFormat(locale, {
+export function formatCmsDate(value, locale, translate) {
+  return formatLocalizedDate(value, locale, translate, {
     day: "2-digit",
     month: "long",
-    year: "numeric",
-  }).format(parsed);
+  });
 }
 
 export function cmsParagraphs(item) {

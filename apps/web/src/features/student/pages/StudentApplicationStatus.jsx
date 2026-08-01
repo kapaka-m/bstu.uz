@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { applicationService } from "../../../services/applicationService";
 import { useLanguage } from "../../../context/LanguageContext";
+import { formatLocalizedDate } from "../../../utils/dateFormat";
 import { Loader2, CheckCircle2, Clock, FileText } from "lucide-react";
 
 export default function StudentApplicationStatus() {
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
   const [activeApp, setActiveApp] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -78,6 +79,12 @@ export default function StudentApplicationStatus() {
   const currentStageIndex = timelineStages.findIndex(
     (s) => s.key === activeApp.status,
   );
+
+  const formatDate = (value) =>
+    formatLocalizedDate(value, language, t, {
+      day: "numeric",
+      month: "short",
+    });
 
   return (
     <div className="max-w-4xl mx-auto space-y-6 animate-in fade-in duration-200">
@@ -164,7 +171,7 @@ export default function StudentApplicationStatus() {
                     <div className="flex justify-between items-center text-[10px] font-extrabold text-gray-400 uppercase">
                       <span>{hist.status.replace("_", " ")}</span>
                       <span>
-                        {new Date(hist.created_at).toLocaleDateString()}
+                        {formatDate(hist.created_at)}
                       </span>
                     </div>
                     <p className="text-[11px] text-gray-600 font-bold leading-relaxed">

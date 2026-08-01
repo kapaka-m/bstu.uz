@@ -17,6 +17,7 @@ import {
 import FormError from "../../../components/common/FormError";
 import { apanelService } from "../../../services/apanelService";
 import { publicAssetUrl } from "../../../lib/api";
+import { formatLocalizedDate } from "../../../utils/dateFormat";
 import ConfirmDialog from "../components/ConfirmDialog";
 import { useApanelLocaleCodes } from "../utils/locales";
 import { useLanguage } from "../../../context/LanguageContext";
@@ -147,13 +148,11 @@ function toPayload(form, primaryLocale, localeCodes) {
   };
 }
 
-function formatDate(value, locale) {
-  if (!value) return "";
-  return new Intl.DateTimeFormat(locale, {
-    year: "numeric",
-    month: "short",
+function formatDate(value, locale, translate) {
+  return formatLocalizedDate(value, locale, translate, {
     day: "2-digit",
-  }).format(new Date(value));
+    month: "short",
+  });
 }
 
 function imagePreviewSrc(image) {
@@ -985,7 +984,7 @@ export default function ApanelNewsEvents() {
                           {item.category}
                         </td>
                         <td className="px-5 py-4 text-xs font-semibold text-gray-500">
-                          {formatDate(item.published_at, activeLocale || primaryLocale)}
+                          {formatDate(item.published_at, activeLocale || primaryLocale, t)}
                         </td>
                         <td className="px-5 py-4">
                           <span

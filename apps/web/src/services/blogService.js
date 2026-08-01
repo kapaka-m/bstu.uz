@@ -19,26 +19,6 @@ const cached = (key, fetcher) => {
   });
 };
 
-const formatDisplayDate = (value) => {
-  if (!value) return "";
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return value;
-  const locale = localeStorage.getLocale();
-
-  const formatLocale = {
-    en: "en-US",
-    ru: "ru-RU",
-    uz: "uz-Latn-UZ",
-    ar: "ar",
-  }[locale] || locale || undefined;
-
-  return new Intl.DateTimeFormat(formatLocale, {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  }).format(date);
-};
-
 const normalizeBlogItem = (item = {}) => ({
   ...item,
   id: item.slug || item.id,
@@ -47,7 +27,7 @@ const normalizeBlogItem = (item = {}) => ({
   categoryLabel: item.category_label || item.category || "",
   authorImage: item.author_image_url || item.author_image || null,
   excerpt: item.summary || item.excerpt || "",
-  date: formatDisplayDate(item.published_at || item.date),
+  date: item.published_at || item.date || "",
   comments: item.comments_count ?? item.comments ?? 0,
   views: item.views_count ?? item.views ?? 0,
   paragraphs:

@@ -18,11 +18,12 @@ import {
 import StatusBadge from "../components/StatusBadge";
 import FormError from "../../../components/common/FormError";
 import { publicAssetUrl } from "../../../lib/api";
+import { formatLocalizedDate } from "../../../utils/dateFormat";
 
 export default function ApanelApplicationDetail() {
   const { id } = useParams();
   const { user: adminUser } = useAuth();
-  const { t, settings = {} } = useLanguage();
+  const { language, t, settings = {} } = useLanguage();
 
   const [application, setApplication] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -264,6 +265,12 @@ export default function ApanelApplicationDetail() {
     "active_student",
     "graduated",
   ];
+
+  const formatDate = (value) =>
+    formatLocalizedDate(value, language, t, {
+      day: "numeric",
+      month: "short",
+    });
 
   if (loading) {
     return (
@@ -731,7 +738,7 @@ export default function ApanelApplicationDetail() {
                     <div className="flex justify-between items-center">
                       <StatusBadge status={hist.new_status || hist.status} />
                       <span className="text-[10px] text-gray-400 font-bold">
-                        {new Date(hist.created_at).toLocaleDateString()}
+                        {formatDate(hist.created_at)}
                       </span>
                     </div>
                     {(hist.note || hist.comment) && (

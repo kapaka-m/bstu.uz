@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { studentService } from "../../../services/studentService";
 import { applicationService } from "../../../services/applicationService";
 import { useLanguage } from "../../../context/LanguageContext";
+import { formatLocalizedDate } from "../../../utils/dateFormat";
 import {
   ClipboardList,
   FileCheck,
@@ -17,7 +18,7 @@ import StatusBadge from "../../apanel/components/StatusBadge";
 import LoadingState from "../../../components/common/LoadingState";
 
 export default function StudentDashboard() {
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
   const [profile, setProfile] = useState(null);
   const [applications, setApplications] = useState([]);
   const [contracts, setContracts] = useState([]);
@@ -82,6 +83,11 @@ export default function StudentDashboard() {
     if (!value || !String(value).includes(".")) return value;
     return t(value);
   };
+  const formatDate = (value) =>
+    formatLocalizedDate(value, language, t, {
+      day: "numeric",
+      month: "short",
+    });
 
   return (
     <div className="space-y-8 animate-in fade-in duration-200">
@@ -253,7 +259,7 @@ export default function StudentDashboard() {
                         {translateMaybe(notif.message)}
                       </p>
                       <span className="block text-[9px] text-gray-450 font-bold">
-                        {new Date(notif.created_at).toLocaleDateString()}
+                        {formatDate(notif.created_at)}
                       </span>
                     </div>
                   </div>

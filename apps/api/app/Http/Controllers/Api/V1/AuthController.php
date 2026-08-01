@@ -14,27 +14,9 @@ class AuthController extends Controller
 {
     use ApiResponse;
 
-    public function register(Request $request)
+    public function register()
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-        ]);
-
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
-
-        $token = $user->createToken('auth_token')->plainTextToken;
-
-        return $this->successResponse([
-            'user' => $this->userPayload($user),
-            'access_token' => $token,
-            'token_type' => 'Bearer',
-        ], 'User registered successfully', 201);
+        return $this->errorResponse('Direct account registration is disabled. Use the application form.', 410);
     }
 
     public function login(Request $request)
@@ -42,6 +24,7 @@ class AuthController extends Controller
         $request->validate([
             'email' => 'required|string|email',
             'password' => 'required|string',
+            'intended_role' => 'nullable|string|in:student,apanel',
         ]);
 
         $user = User::where('email', $request->email)->first();
@@ -50,6 +33,18 @@ class AuthController extends Controller
             return $this->errorResponse('Invalid login credentials.', 401, [
                 'email' => ['Invalid credentials.'],
             ]);
+        }
+
+        $intendedRole = $request->string('intended_role')->toString();
+        if ($intendedRole !== '') {
+            $roles = $user->roles()->pluck('slug');
+            $isWrongStudentPortal = $intendedRole === 'student'
+                && (! $roles->contains('student') || $roles->contains('apanel'));
+            $isWrongApanelPortal = $intendedRole === 'apanel' && ! $roles->contains('apanel');
+
+            if ($isWrongStudentPortal || $isWrongApanelPortal) {
+                return $this->errorResponse('This account is not allowed to use this login portal.', 403);
+            }
         }
 
         $token = $user->createToken('auth_token')->plainTextToken;
@@ -83,8 +78,14 @@ class AuthController extends Controller
     public function forgotPassword(Request $request)
     {
         $validated = $request->validate([
-            'email' => 'required|email|exists:users,email',
+            'email' => 'required|email',
         ]);
+
+        if (! User::where('email', $validated['email'])->exists()) {
+            return $this->errorResponse('auth.emailMustApplyFirst', 404, [
+                'email' => ['auth.emailMustApplyFirst'],
+            ]);
+        }
 
         Password::sendResetLink($validated);
 

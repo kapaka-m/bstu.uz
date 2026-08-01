@@ -15,6 +15,7 @@ import {
 import { useLanguage } from "../context/LanguageContext";
 import { useAuth } from "../context/AuthContext";
 import { blogService } from "../services/blogService";
+import { formatLocalizedDate } from "../utils/dateFormat";
 
 const asText = (value, fallback = "") => {
   if (typeof value === "string" || typeof value === "number") {
@@ -34,7 +35,7 @@ const labelText = (value, fallback) => asText(value, asText(fallback));
 export default function BlogDetails() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { language, isRtl } = useLanguage();
+  const { language, isRtl, t } = useLanguage();
   const { user, isAuthenticated, loading: authLoading } = useAuth();
   const [post, setPost] = useState(null);
   const [settings, setSettings] = useState({});
@@ -126,6 +127,12 @@ export default function BlogDetails() {
           .filter((tag) => tag.value && tag.label)
       : categories.map((cat) => ({ value: cat.value, label: cat.name }));
 
+  const formatPostDate = (value) =>
+    formatLocalizedDate(value, language, t, {
+      day: "numeric",
+      month: "short",
+    });
+
   const handleCommentChange = (e) => {
     setCommentForm((prev) => ({
       ...prev,
@@ -167,17 +174,7 @@ export default function BlogDetails() {
   };
 
   if (loading) {
-    return (
-      <div className="pt-24 bg-white">
-        <div className="container mx-auto px-4 md:px-8 max-w-7xl py-20">
-          <div className="text-center py-20 bg-gray-50 rounded-3xl border border-gray-100">
-            <p className="text-gray-500 font-semibold">
-              {settings.loading_label || ""}
-            </p>
-          </div>
-        </div>
-      </div>
-    );
+    return null;
   }
 
   if (!post) {
@@ -253,7 +250,7 @@ export default function BlogDetails() {
                 </span>
                 <span className="flex items-center gap-1">
                   <Calendar className="w-4 h-4 text-primary" />
-                  <span>{post.date}</span>
+                  <span>{formatPostDate(post.date)}</span>
                 </span>
                 <span className="flex items-center gap-1">
                   <MessageSquare className="w-4 h-4 text-primary" />
@@ -393,11 +390,7 @@ export default function BlogDetails() {
                               {comment.author}
                             </h5>
                             <span className="text-xs text-gray-400 font-semibold">
-                              {comment.date
-                                ? new Date(comment.date).toLocaleDateString(
-                                    language || undefined,
-                                  )
-                                : ""}
+                              {formatPostDate(comment.date)}
                             </span>
                           </div>
                           <button
@@ -441,7 +434,7 @@ export default function BlogDetails() {
                     {commentAuthCopy.text}
                   </p>
                   <Link
-                    to="/student/login"
+                    to="/login"
                     state={{ from: `/blog/${post.slug}` }}
                     className="inline-flex items-center justify-center bg-primary hover:bg-primary-hover text-white px-5 py-3 rounded-xl text-sm font-semibold transition-all duration-300 shadow-md shadow-primary/20 hover:shadow-primary/30"
                   >
@@ -592,7 +585,7 @@ export default function BlogDetails() {
                         <Link to={`/blog/${item.slug}`}>{item.title}</Link>
                       </h5>
                       <span className="text-xs text-gray-400 mt-1 font-semibold">
-                        {item.date}
+                        {formatPostDate(item.date)}
                       </span>
                     </div>
                   </div>

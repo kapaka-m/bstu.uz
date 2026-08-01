@@ -11,14 +11,24 @@ class StudentProfileRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation(): void
+    {
+        if ($this->has('full_name_english')) {
+            $this->merge([
+                'full_name_english' => strtoupper(trim((string) $this->input('full_name_english'))),
+            ]);
+        }
+    }
+
     public function rules(): array
     {
         return [
+            'full_name_english' => ['required', 'string', 'max:255', "regex:/^[A-Z][A-Z\\s\\-']*$/"],
             'phone' => 'required|string|max:30',
             'gender' => 'required|string|max:10',
             'birth_date' => 'required|date',
             'passport_number' => 'required|string|max:50',
-            'passport_expiry_date' => 'nullable|date|after:today',
+            'passport_expiry_date' => 'required|date|after:today',
             'nationality' => 'required|string|max:100',
             'address' => 'required|string',
 

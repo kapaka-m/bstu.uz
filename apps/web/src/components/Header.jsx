@@ -76,6 +76,11 @@ export default function Header() {
   const currentLang = languages.find((l) => l.code === language) ||
     languages[0] ||
     null;
+  const hasHeaderContent = Boolean(logoSrc) || navItems.length > 0;
+
+  if (!hasHeaderContent) {
+    return null;
+  }
 
   const handleLinkClick = () => {
     setIsMobileMenuOpen(false);
@@ -265,13 +270,15 @@ export default function Header() {
     >
       <div className="container mx-auto flex max-w-7xl items-center justify-between px-4 md:px-8">
         <Link to="/" className="group flex shrink-0 items-center gap-3">
-          <img
-            src={logoSrc}
-            alt={t("common.logoAlt")}
-            className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105 md:h-12"
-            width="108"
-            height="48"
-          />
+          {logoSrc && (
+            <img
+              src={logoSrc}
+              alt={t("common.logoAlt")}
+              className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105 md:h-12"
+              width="108"
+              height="48"
+            />
+          )}
         </Link>
 
         <nav className="hidden items-center gap-8 text-sm font-semibold xl:flex">

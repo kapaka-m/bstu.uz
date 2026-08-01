@@ -189,6 +189,7 @@ export default function Contact() {
                     onChange={handleChange}
                     className="w-full bg-white border border-gray-100 rounded-xl px-4 py-3 text-sm focus:border-primary focus:outline-none transition-colors shadow-sm"
                     placeholder={form.namePlaceholder || ""}
+                    autoComplete="name"
                     required
                   />
                 </div>
@@ -202,6 +203,7 @@ export default function Contact() {
                     onChange={handleChange}
                     className="w-full bg-white border border-gray-100 rounded-xl px-4 py-3 text-sm focus:border-primary focus:outline-none transition-colors shadow-sm"
                     placeholder={form.emailPlaceholder || ""}
+                    autoComplete="email"
                     required
                   />
                 </div>

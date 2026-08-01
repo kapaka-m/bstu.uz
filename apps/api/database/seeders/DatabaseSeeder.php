@@ -12,25 +12,9 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            LocaleSeeder::class,
-            PermissionSeeder::class,
-            RoleSeeder::class,
-            ApanelUserSeeder::class,
-            TranslationKeySeeder::class,
-            TranslationValueSeeder::class,
+            FullDatabaseSnapshotSeeder::class,
+            WebFooterSeeder::class,
             StudentSystemTranslationSeeder::class,
-            FacultySeeder::class,
-            DepartmentSeeder::class,
-            ProgramSeeder::class,
-            CourseSeeder::class,
-            StaffSeeder::class,
-            TechnologyFacultyContentSeeder::class,
-            CanonicalAcademicStructureSeeder::class,
-            AcademicDepartmentDetailsSeeder::class,
-            EngineeringFacultyContentSeeder::class,
-            SettingSeeder::class,
-            WorkflowConfigurationSeeder::class,
-            SqlCmsSnapshotSeeder::class,
         ]);
     }
 }

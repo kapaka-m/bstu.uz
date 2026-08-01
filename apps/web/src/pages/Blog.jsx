@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Search, Calendar, User, ArrowRight } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
 import { blogService } from "../services/blogService";
+import { formatLocalizedDate } from "../utils/dateFormat";
 
 const asText = (value, fallback = "") => {
   if (typeof value === "string" || typeof value === "number") {
@@ -21,7 +22,7 @@ const labelText = (value, fallback) => asText(value, asText(fallback));
 
 export default function Blog() {
   const location = useLocation();
-  const { language, isRtl } = useLanguage();
+  const { language, isRtl, t } = useLanguage();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [posts, setPosts] = useState([]);
@@ -126,6 +127,11 @@ export default function Blog() {
       value: cat,
     }));
   }, [posts, settings.all_blog_label]);
+  const formatPostDate = (value) =>
+    formatLocalizedDate(value, language, t, {
+      day: "numeric",
+      month: "short",
+    });
 
   const recentPosts = posts.slice(0, Number(settings.recent_limit || 3));
   const tags =
@@ -145,6 +151,10 @@ export default function Blog() {
       : categories
           .filter((cat) => cat.value !== "all")
           .map((cat) => ({ value: cat.value, label: cat.name }));
+
+  if (loading) {
+    return null;
+  }
 
   return (
     <div className="pt-20 bg-white">
@@ -178,13 +188,7 @@ export default function Blog() {
 
           {/* Left: Blog Posts List */}
           <div className="order-2 lg:order-1 lg:col-span-8 flex flex-col gap-10">
-            {loading ? (
-              <div className="text-center py-20 bg-gray-50 rounded-3xl border border-gray-100">
-                <p className="text-gray-500 font-semibold">
-                  {labelText(settings.loading_label, "")}
-                </p>
-              </div>
-            ) : filteredPosts.length > 0 ? (
+            {filteredPosts.length > 0 ? (
               filteredPosts.map((post) => (
                 <article
                   key={post.slug || post.id}
@@ -206,7 +210,7 @@ export default function Blog() {
                       <div className="flex items-center gap-4 text-xs font-semibold text-gray-400 mb-3">
                         <span className="flex items-center gap-1">
                           <Calendar className="w-3.5 h-3.5" />
-                          {post.date}
+                          {formatPostDate(post.date)}
                         </span>
                         <span className="flex items-center gap-1">
                           <User className="w-3.5 h-3.5" />
@@ -348,7 +352,7 @@ export default function Blog() {
                         </Link>
                       </h5>
                       <span className="text-xs text-gray-400 mt-1 font-semibold">
-                        {post.date}
+                        {formatPostDate(post.date)}
                       </span>
                     </div>
                   </div>

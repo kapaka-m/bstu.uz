@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { studentService } from "../../../services/studentService";
 import { useLanguage } from "../../../context/LanguageContext";
+import { useAuth } from "../../../context/AuthContext";
 import { Loader2, Save, User, FileText, Compass } from "lucide-react";
 import FormError from "../../../components/common/FormError";
 
 export default function StudentProfile() {
   const { t } = useLanguage();
+  const { user } = useAuth();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
   const [form, setForm] = useState({
+    full_name_english: user?.name ? String(user.name).toUpperCase() : "",
     phone: "",
-    gender: "male",
+    gender: "",
     birth_date: "",
     passport_number: "",
     passport_expiry_date: "",
@@ -28,7 +31,7 @@ export default function StudentProfile() {
     education_institution_name: "",
     education_degree_obtained: "",
     education_gpa: "",
-    education_graduation_year: new Date().getFullYear(),
+    education_graduation_year: "",
   });
 
   useEffect(() => {
@@ -38,8 +41,10 @@ export default function StudentProfile() {
         const data = await studentService.getProfile();
         if (data) {
           setForm({
+            full_name_english:
+              data.full_name_english || (user?.name ? String(user.name).toUpperCase() : ""),
             phone: data.phone || "",
-            gender: data.gender || "male",
+            gender: data.gender || "",
             birth_date: data.birth_date
               ? String(data.birth_date).slice(0, 10)
               : "",
@@ -61,8 +66,7 @@ export default function StudentProfile() {
               data.education_backgrounds?.[0]?.degree_obtained || "",
             education_gpa: data.education_backgrounds?.[0]?.gpa || "",
             education_graduation_year:
-              data.education_backgrounds?.[0]?.graduation_year ||
-              new Date().getFullYear(),
+              data.education_backgrounds?.[0]?.graduation_year || "",
           });
         }
       } catch (err) {
@@ -72,11 +76,15 @@ export default function StudentProfile() {
       }
     };
     fetchProfile();
-  }, []);
+  }, [user?.name]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
+    const nextValue =
+      name === "full_name_english"
+        ? value.toUpperCase().replace(/[^A-Z\s'-]/g, "")
+        : value;
+    setForm((prev) => ({ ...prev, [name]: nextValue }));
   };
 
   const handleSubmit = async (e) => {
@@ -126,6 +134,20 @@ export default function StudentProfile() {
             <span>{t("student.profile.section.personal")}</span>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-1 md:col-span-2">
+              <label className="text-[10px] font-extrabold text-navy uppercase tracking-wider">
+                {t("form.fullName")} *
+              </label>
+              <input
+                type="text"
+                name="full_name_english"
+                value={form.full_name_english}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold text-navy bg-white"
+              />
+            </div>
+
             <div className="space-y-1">
               <label className="text-[10px] font-extrabold text-navy uppercase tracking-wider">
                 {t("student.profile.phone")} *
@@ -135,7 +157,7 @@ export default function StudentProfile() {
                 name="phone"
                 value={form.phone}
                 onChange={handleChange}
-                placeholder="+998 90 123-45-67"
+                placeholder={t("student.profile.primaryPhone")}
                 required
                 className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold text-navy bg-white"
               />
@@ -152,6 +174,7 @@ export default function StudentProfile() {
                 required
                 className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold text-navy bg-white"
               >
+                <option value="" disabled />
                 <option value="male">{t("gender.male")}</option>
                 <option value="female">{t("gender.female")}</option>
               </select>
@@ -188,13 +211,14 @@ export default function StudentProfile() {
 
             <div className="space-y-1">
               <label className="text-[10px] font-extrabold text-navy uppercase tracking-wider">
-                {t("student.profile.passport_expiry_date")}
+                {t("student.profile.passport_expiry_date")} *
               </label>
               <input
                 type="date"
                 name="passport_expiry_date"
                 value={form.passport_expiry_date}
                 onChange={handleChange}
+                required
                 className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold text-navy bg-white"
               />
             </div>
@@ -289,7 +313,6 @@ export default function StudentProfile() {
                 name="guardian_email"
                 value={form.guardian_email}
                 onChange={handleChange}
-                placeholder="guardian@example.com"
                 className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold text-navy bg-white"
               />
             </div>

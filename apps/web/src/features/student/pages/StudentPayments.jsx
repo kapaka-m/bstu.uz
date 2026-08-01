@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { studentService } from "../../../services/studentService";
 import { useLanguage } from "../../../context/LanguageContext";
+import { formatLocalizedDate } from "../../../utils/dateFormat";
 import { Loader2, CreditCard } from "lucide-react";
 
 export default function StudentPayments() {
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
   const [payments, setPayments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -29,6 +30,12 @@ export default function StudentPayments() {
   if (loading) {
     return <LoadingState message={t("payment.loading")} />;
   }
+
+  const formatDate = (value) =>
+    formatLocalizedDate(value, language, t, {
+      day: "numeric",
+      month: "short",
+    });
 
   return (
     <div className="max-w-4xl mx-auto space-y-6 animate-in fade-in duration-200">
@@ -90,7 +97,7 @@ export default function StudentPayments() {
                       </p>
                       <p className="font-semibold text-gray-500">
                         {p.payment_date
-                          ? new Date(p.payment_date).toLocaleDateString()
+                          ? formatDate(p.payment_date)
                           : t("status.pendingReview")}
                       </p>
                     </div>

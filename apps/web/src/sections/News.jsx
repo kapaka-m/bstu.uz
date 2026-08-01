@@ -6,6 +6,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import { useLanguage } from "../context/LanguageContext";
 import { newsService } from "../services/newsService";
+import { formatLocalizedDate } from "../utils/dateFormat";
 import "swiper/css";
 
 const HOME_ICON_MAP = {
@@ -15,7 +16,7 @@ const HOME_ICON_MAP = {
 };
 
 export default function News() {
-  const { language, isRtl } = useLanguage();
+  const { language, isRtl, t } = useLanguage();
   const [homeNews, setHomeNews] = useState([]);
   const [settings, setSettings] = useState(null);
 
@@ -44,15 +45,10 @@ export default function News() {
   }, [language]);
 
   const formatNewsDate = (dateValue) => {
-    if (!dateValue) return "";
-    const parsed = new Date(dateValue);
-    if (Number.isNaN(parsed.getTime())) return dateValue;
-
-    return new Intl.DateTimeFormat(language, {
+    return formatLocalizedDate(dateValue, language, t, {
       day: "2-digit",
       month: "long",
-      year: "numeric",
-    }).format(parsed);
+    });
   };
 
   const categoryLabel = (category) =>

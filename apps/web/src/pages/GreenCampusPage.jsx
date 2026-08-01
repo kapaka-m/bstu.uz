@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
 import { greenCampusService } from "../services/greenCampusService";
+import { formatLocalizedDate } from "../utils/dateFormat";
 
 const ICON_MAP = {
   award: Award,
@@ -25,7 +26,7 @@ const ICON_MAP = {
 };
 
 export default function GreenCampusPage() {
-  const { language } = useLanguage();
+  const { language, t } = useLanguage();
   const location = useLocation();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -35,14 +36,10 @@ export default function GreenCampusPage() {
   const [loading, setLoading] = useState(true);
 
   const formatArticleDate = (dateValue) => {
-    const parsed = new Date(dateValue);
-    if (Number.isNaN(parsed.getTime())) return dateValue;
-
-    return new Intl.DateTimeFormat(language || undefined, {
+    return formatLocalizedDate(dateValue, language, t, {
       day: "numeric",
       month: "short",
-      year: "numeric",
-    }).format(parsed);
+    });
   };
 
   useEffect(() => {
@@ -117,11 +114,7 @@ export default function GreenCampusPage() {
   const recentArticles = articles.slice(0, Number(settings.recent_limit || 4));
 
   if (loading) {
-    return (
-      <div className="pt-24 bg-white min-h-screen flex items-center justify-center">
-        <Leaf className="w-8 h-8 text-emerald-600 animate-pulse" />
-      </div>
-    );
+    return null;
   }
 
   return (

@@ -37,6 +37,516 @@
 
 هذه الأشياء لا يجب نقلها لقاعدة البيانات لأنها تتحكم في تشغيل النظام وليست محتوى قابل للإدارة.
 
+---
+
+## فصل بوابات تسجيل الدخول حسب الدور 2026-07-30
+
+تاريخ التنفيذ: 2026-07-30
+
+## المسارات التي تمت مراجعتها
+
+- `apps/web/src/pages/LoginPage.jsx`
+- `apps/web/src/features/apanel/pages/ApanelLogin.jsx`
+- `apps/web/src/context/AuthContext.jsx`
+- `apps/web/src/services/authService.js`
+- `apps/api/app/Http/Controllers/Api/V1/AuthController.php`
+- `apps/api/routes/api.php`
+
+## ما تم العثور عليه
+
+- صفحة `/login` كانت تسمح لحساب `apanel` بتسجيل الدخول ثم توجهه إلى `/apanel/dashboard`.
+- صفحة `/apanel/login` كانت تتحقق من الدور بعد تسجيل الدخول، لكن كان يمكن إنشاء token قبل رفض الطالب.
+- Route تسجيل الدخول المستخدم هو `POST /api/v1/auth/login`.
+
+## التغييرات المنفذة
+
+- تم تمرير `intended_role: student` عند تسجيل الدخول من `/login`.
+- تم تمرير `intended_role: apanel` عند تسجيل الدخول من `/apanel/login`.
+- تم تعديل Laravel API لرفض الحساب قبل إنشاء token إذا كان يحاول استخدام بوابة غير مناسبة.
+- تم تنظيف الجلسة محليًا عند رفض الدور في واجهة الطالب أو apanel.
+
+## قاعدة البيانات وواجهة الإدارة
+
+- التحقق يعتمد على علاقة `users` مع `roles` عبر جدول `role_user`.
+- أدوار الدخول المستخدمة: `student` و`apanel`.
+- لا توجد جداول جديدة، ولا توجد صفحات جديدة.
+
+## الفحوص
+
+- `php-local.bat -l app/Http/Controllers/Api/V1/AuthController.php`: نجح.
+- `npm.cmd run lint`: نجح مع تحذير قديم واحد في `StudentSupport.jsx`.
+- `npm.cmd run build`: نجح.
+- `php-local.bat artisan test`: نجح، 4 tests passed و7 assertions.
+- `php-local.bat artisan route:list --path=api/v1/auth/login`: نجح.
+- فحص API عملي:
+  - حساب apanel مع `intended_role=student`: رجع `403`.
+  - حساب apanel مع `intended_role=apanel`: رجع `200`.
+  - حساب student مؤقت مع `intended_role=apanel`: رجع `403`.
+  - حساب student مؤقت مع `intended_role=student`: رجع `200`.
+- `cache:clear`, `config:clear`, `route:clear`, و`view:clear`: نجحت.
+
+## المتبقي
+
+- لا يوجد متبقي في فصل بوابات الدخول حسب الدور.
+
+---
+
+## إخفاء صفحات الموقع العامة حتى اكتمال محتوى CMS 2026-07-30
+
+تاريخ التنفيذ: 2026-07-30
+
+## المسارات التي تمت مراجعتها
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\App.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\context\LocaleContext.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\components\Header.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\components\ScrollToTop.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\pages`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\sections`
+
+## ما تم العثور عليه
+
+- صفحات الموقع العامة كانت تعرض مفاتيح ترجمة أو هياكل مرئية فارغة عندما لم تكن ترجمات وقيم CMS قد وصلت من Laravel API.
+- بعض صفحات المحتوى العامة كانت تعرض مؤشرات تحميل أو أيقونات أو بطاقات فارغة قبل تحميل البيانات.
+- صفحات `login`, `register`, و`forgot-password` كانت تستطيع رسم النموذج والشعار حتى لو كانت مفاتيح الترجمة أو الشعار غير جاهزة.
+
+## التغييرات المنفذة
+
+- تم منع رسم صفحات الموقع العامة من `App.jsx` أثناء تحميل نظام اللغة أو قبل جاهزية الترجمات.
+- تم جعل `Suspense` في الموقع العام بلا fallback مرئي حتى لا تظهر أي عناصر قبل تحميل الصفحة.
+- تم تعديل صفحات المحتوى العامة مثل news, about, services, programs, blog, announcements, green-campus, faculty, department, CMS list/detail، وapply حتى ترجع `null` في حالة التحميل الأولي.
+- تم تعديل صفحات auth العامة حتى لا ترسم النموذج إلا عند توفر مفاتيح الترجمة المطلوبة من قاعدة البيانات، ولا ترسم شعارًا مكسورًا إذا غاب `logoSrc`.
+- لم تتم إضافة أي نصوص ثابتة أو صور بديلة أو محتوى وهمي.
+
+## التخزين وواجهة الإدارة
+
+- الترجمات تعتمد على `translation_keys` و`translation_values`.
+- إعدادات الشعار والصور تعتمد على `settings` و/أو media حسب النظام الحالي.
+- المحتوى العام يعتمد على جداول CMS الموجودة لكل نوع محتوى مثل الأخبار، المقالات، الإعلانات، البرامج، الكليات، الأقسام، الخدمات، وإعدادات الصفحات.
+- الإدارة تكون من `/apanel/` عبر صفحات إدارة الترجمات، الهيدر/الشعار، والموارد المقابلة لكل نوع محتوى.
+
+## الفحوص
+
+- إعادة مسح `apps/web/src/pages`, `apps/web/src/sections`, `apps/web/src/components`, و`apps/web/src/context` للتأكد من عدم وجود `t(key, "fallback")`: لا توجد نتائج.
+- إعادة مسح روابط `localhost`, `127.0.0.1`, و`/storage/`: لا توجد روابط متكررة داخل الصفحات؛ منطق التخزين المتبقي موجود فقط في `apps/web/src/lib/api.js` كمساعد مركزي.
+- `npm.cmd run lint`: نجح مع تحذيرين قديمين في ملفات student خارج نطاق هذا الإصلاح.
+- `npm.cmd run build`: نجح.
+
+---
+
+## إصلاح صورة About Identity ومسار التخزين 2026-07-31
+
+تاريخ المراجعة: 2026-07-31
+
+## المسارات التي تمت مراجعتها
+
+- `apps/web/src/pages/AboutPage.jsx`
+- `apps/web/src/features/apanel/pages/ApanelAboutPage.jsx`
+- `apps/api/app/Http/Controllers/Api/PublicApiController.php`
+- `apps/api/app/Http/Controllers/Api/AdminCrudController.php`
+- `apps/api/routes/api.php`
+- `apps/api/database/data/full_database_snapshot/data.sql`
+- `apps/api/database/seeders/FullDatabaseSnapshotSeeder.php`
+- `apps/api/database/migrations/2026_07_31_000001_fix_about_identity_image_storage_path.php`
+
+## ما تم العثور عليه
+
+- صفحة `/about` تستخدم `GET /api/v1/about-page` وتعرض صورة `identity_image_url` في قسم Our Identity.
+- لوحة `/apanel/cms/about-page` تدير نفس الحقل عبر `identity_image`.
+- الجداول الأربعة الخاصة بصفحة About مستخدمة فعليًا وليست زائدة: `about_pages`, `about_page_translations`, `about_page_content_entries`, `about_page_content_entry_translations`.
+- سبب عدم ظهور الصورة كان أن `about_pages.identity_image` في قاعدة البيانات وملف snapshot كان يشير إلى `about-page/bstu-about-identity.jpg`، بينما الملف موجود فعليًا في storage تحت `cms/about-page/bstu-about-identity.jpg`.
+
+## التغييرات المنفذة
+
+- تم تصحيح قيمة `identity_image` في قاعدة البيانات الحالية إلى `cms/about-page/bstu-about-identity.jpg`.
+- تم تصحيح قيمة `identity_image` في `full_database_snapshot/data.sql` حتى يعمل `migrate:fresh --seed` أو seed جديد بنفس المسار الصحيح.
+- تم حذف صفوف cache القديمة الخاصة بـ `about-page` من snapshot لأنها مشتقة وتحمل URL قديمًا.
+- تم إضافة migration آمنة لتصحيح السجل القديم فقط إذا كان ما زال يحمل المسار القديم.
+- تم إضافة حارس عرض في `AboutPage.jsx` حتى لا يتم رسم `<img>` عند غياب مسار الصورة من API.
+
+## قاعدة البيانات وواجهة الإدارة
+
+- بيانات إعداد صفحة About: جدول `about_pages`.
+- ترجمات الصفحة: جدول `about_page_translations`.
+- محتوى sections المتكرر والمنظم: `about_page_content_entries` و`about_page_content_entry_translations`.
+- الصورة نفسها مسجلة كوسائط في جدول `media` بالمسار `cms/about-page/bstu-about-identity.jpg`.
+- API العام: `GET /api/v1/about-page`.
+- إدارة `/apanel/`: `/apanel/cms/about-page`.
+- API الإدارة: `GET/PUT /api/v1/apanel/cms/about-page`, `PUT /api/v1/apanel/cms/about-page/settings`, وعمليات entries تحت `/api/v1/apanel/cms/about-page/entries`.
+
+## الفحوص المنفذة
+
+- `php -l` لملفي PHP المعدلين: نجح.
+- `php-local.bat artisan migrate --force`: نجح وطبق migration التصحيح.
+- `php-local.bat artisan optimize:clear`: نجح.
+- `GET /api/v1/about-page?locale=en`: نجح ويرجع `identity_image_url` = `http://127.0.0.1:8000/storage/cms/about-page/bstu-about-identity.jpg`.
+- `HEAD /storage/cms/about-page/bstu-about-identity.jpg`: نجح `200 image/jpeg`.
+- اختبار متصفح حقيقي لـ `http://localhost:5173/about`: نجح، صورة Our Identity ظهرت من `http://127.0.0.1:8000/storage/cms/about-page/bstu-about-identity.jpg` بقيمة `naturalWidth=8192` ولا توجد failed requests في الاختبار.
+- `php-local.bat artisan route:list --path=api/v1/about-page`: نجح وأظهر route العام.
+- `php-local.bat artisan route:list --path=api/v1/apanel/cms/about-page`: نجح وأظهر 7 routes للإدارة.
+- `php-local.bat artisan test`: نجح، 4 tests passed و7 assertions.
+- `npm.cmd run lint`: نجح مع تحذير قديم واحد في `StudentSupport.jsx` خارج نطاق هذا التعديل.
+- `npm.cmd run build`: نجح.
+
+## المتبقي
+
+- لم يتم حذف أي جدول About لأن كل الجداول الأربعة مستخدمة من API/لوحة الإدارة/الواجهة.
+- `full_stack_review_report.md` يحتوي ملاحظة قديمة عن المسار الخاطئ قبل هذا الإصلاح، وتمت معالجتها في هذه الجولة.
+
+---
+
+## مزامنة مرآة ترجمات About Page 2026-07-30
+
+تاريخ المراجعة: 2026-07-30
+
+## ما تم العثور عليه
+
+- جدول `about_page_translations` كان يظهر في snapshot بقيم `[]` داخل حقل `content`.
+- مصدر المحتوى الحقيقي لصفحة About هو `about_page_content_entries` و`about_page_content_entry_translations`.
+- `about_page_translations` ليس مصدر العرض العام المباشر، لكنه مستخدم كمرآة CMS عبر `AboutPage::syncTranslationsMirror()` و`AboutPage::cmsTranslationsPayload()`، لذلك لم يتم حذفه.
+- كانت دوال About تستخدم قائمة لغات افتراضية ثابتة، وتم تصحيحها لتقرأ اللغات النشطة من جدول `locales`.
+
+## التغييرات المنفذة
+
+- تم تعديل `AboutPage::cmsTranslationsPayload()` و`AboutPage::syncTranslationsMirror()` لاستخدام اللغات النشطة من جدول `locales`.
+- تم تعديل `AdminCrudController::aboutSupportedTranslations()` و`sameAboutValueForAllLocales()` حتى تدعم أي لغة نشطة مضافة من `/apanel/`.
+- تم تحديث `FullDatabaseSnapshotSeeder` ليملأ `about_page_translations` بعد تحميل snapshot من محتوى `about_page_content_entries`.
+- تم إضافة migration آمنة `2026_07_31_000002_sync_about_page_translations_mirror.php` لمزامنة الجداول الحالية.
+
+## نتيجة قاعدة البيانات
+
+- `about_page_translations`: أصبح لكل من `ar`, `en`, `ru`, `uz` قيمة `JSON_LENGTH(content)=8`.
+- `about_page_content_entries`: 184 سجلًا.
+- `about_page_content_entry_translations`: 736 سجلًا.
+
+## الفحوص
+
+- PHP syntax للملفات المعدلة: نجح.
+- `php-local.bat artisan migrate --force`: نجح.
+- `GET /api/v1/about-page?locale=en`: نجح ويرجع محتوى `Our Identity` والصورة الصحيحة.
+- `php-local.bat artisan test`: نجح، 4 tests passed و7 assertions.
+- `npm.cmd run lint`: نجح مع تحذير قديم واحد في `StudentSupport.jsx`.
+- `npm.cmd run build`: نجح.
+- `php-local.bat artisan route:list` لمسارات About العامة والإدارية: نجح.
+- `php-local.bat artisan optimize:clear` فشل مرة عند `cache` برسالة `could not find driver` بعد مسح config، ثم نجح مسح الكاش العملي عبر `cache:clear`, `config:clear`, `route:clear`, و`view:clear`.
+
+## المتبقي
+
+- إذا كانت بعض صفحات الموقع العام تبقى فارغة، فهذا يعني أن ترجماتها أو بيانات CMS المطلوبة غير موجودة أو لم تصل من Laravel API، وهذا مقصود حتى لا تظهر مفاتيح أو هياكل ناقصة للمستخدم.
+
+---
+
+## تثبيت بيانات About داخل Snapshot بعد Fresh Seed 2026-07-30
+
+تاريخ التنفيذ: 2026-07-30
+
+## المسارات التي تمت مراجعتها
+
+- `apps/api/database/data/full_database_snapshot/data.sql`
+- `apps/api/database/seeders/FullDatabaseSnapshotSeeder.php`
+- `apps/api/app/Models/AboutPage.php`
+- `apps/api/app/Http/Controllers/Api/AdminCrudController.php`
+- `apps/api/database/migrations/2026_07_31_000002_sync_about_page_translations_mirror.php`
+
+## ما تم العثور عليه
+
+- بعد تشغيل `php artisan migrate:fresh --seed --force` رجعت صفوف `about_page_translations.content` إلى `[]` لأن ملف `full_database_snapshot/data.sql` نفسه كان يحتوي القيم الفارغة.
+- قاعدة البيانات الحالية أمكن إصلاحها بالمزامنة، لكن ذلك وحده لا يكفي لأن fresh seed يعيد تحميل بيانات snapshot.
+
+## التغييرات المنفذة
+
+- تم تشغيل مزامنة آمنة للقاعدة الحالية من `about_page_content_entries` و`about_page_content_entry_translations` إلى `about_page_translations`.
+- تم تحديث block الخاص بـ `about_page_translations` داخل `full_database_snapshot/data.sql` ليحتوي JSON كاملًا لكل لغة بدل `[]`.
+- بقي `FullDatabaseSnapshotSeeder` ينفذ `AboutPage::syncTranslationsMirror()` بعد تحميل snapshot كحماية إضافية إذا تغيرت entries مستقبلًا.
+- لم يتم تشغيل `migrate:fresh` من هذه الجولة حتى لا يتم حذف أي بيانات محلية غير مطلوبة.
+
+## قاعدة البيانات وواجهة الإدارة
+
+- مصدر محتوى صفحة About المنظم: `about_page_content_entries` و`about_page_content_entry_translations`.
+- مرآة CMS لصفحة About: `about_page_translations`.
+- إعدادات صفحة About والصورة: `about_pages`.
+- API العام: `GET /api/v1/about-page`.
+- API الإدارة: routes تحت `GET/PUT /api/v1/apanel/cms/about-page`.
+- إدارة `/apanel/`: `/apanel/cms/about-page`.
+
+## الفحوص
+
+- مزامنة القاعدة الحالية: نجحت، و`JSON_LENGTH(content)=8` لكل من `ar`, `en`, `ru`, و`uz`.
+- فحص `full_database_snapshot/data.sql`: نجح، ولم تعد صفوف `about_page_translations` تحتوي `[]`.
+- فحص JSON داخل snapshot: نجح، وكل لغة تحتوي 8 مفاتيح رئيسية.
+- `php-local.bat -l` للملفات PHP ذات الصلة: نجح.
+- `php-local.bat artisan migrate --force`: نجح، ولا توجد migrations معلقة.
+- `php-local.bat artisan route:list --path=api/v1/about-page`: نجح.
+- `php-local.bat artisan route:list --path=api/v1/apanel/cms/about-page`: نجح وأظهر 7 routes.
+- `php-local.bat artisan test`: نجح، 4 tests passed و7 assertions.
+- `cache:clear`, `config:clear`, `route:clear`, و`view:clear`: نجحت.
+
+## المتبقي
+
+- أي تعديل جديد تقوم به يدويًا داخل قاعدة البيانات بعد seed لن يصبح دائمًا بعد `migrate:fresh --seed --force` إلا إذا تم نقله أيضًا إلى ملفات seed/snapshot أو seeder آمن داخل `apps/api/database`.
+
+---
+
+## إصلاح فشل Fresh Seed بسبب Cache Snapshot 2026-07-31
+
+تاريخ التنفيذ: 2026-07-31
+
+## المسارات التي تمت مراجعتها
+
+- `apps/api/database/data/full_database_snapshot/data.sql`
+- `apps/api/database/seeders/FullDatabaseSnapshotSeeder.php`
+- `apps/api/database/seeders/DatabaseSeeder.php`
+
+## ما تم العثور عليه
+
+- أمر `php artisan migrate:fresh --seed` كان يفشل أثناء تشغيل `FullDatabaseSnapshotSeeder`.
+- سبب الخطأ كان داخل block زرع جدول `cache` في `full_database_snapshot/data.sql`.
+- بيانات `cache` كانت serialized ومشتقة من API responses، وبداخلها محتوى كبير ومتداخل تسبب في التصاق `INSERT INTO cache` مع statement لاحقة عند التنفيذ.
+- جدول `cache` لا يمثل محتوى CMS قابل للإدارة، ولا يجب زرع صفوفه من snapshot لأنه مشتق وقابل لإعادة البناء.
+
+## التغييرات المنفذة
+
+- تم حذف كل صفوف `INSERT INTO cache` من `full_database_snapshot/data.sql`.
+- لم يتم حذف جدول `cache` من schema أو migrations.
+- بقي `FullDatabaseSnapshotSeeder` يصفر جدول `cache` ويتركه فارغًا بعد fresh seed، وهذا هو السلوك الصحيح للكاش.
+- لم يتم تعديل أي frontend أو API endpoint.
+
+## نتيجة قاعدة البيانات بعد fresh seed
+
+- `cache_rows = 0`.
+- `about_page_translations`: بقيت القيم موجودة بعد fresh seed، و`JSON_LENGTH(content)=8` لكل من `ar`, `en`, `ru`, و`uz`.
+- `about_pages.identity_image = cms/about-page/bstu-about-identity.jpg`.
+- عناصر الهيدر الجذرية النشطة في `menu_items` بقيت موجودة بعد seed.
+
+## الفحوص
+
+- فحص parser لملف `data.sql`: نجح، 411 SQL statements، ولا توجد statements تحتوي أكثر من `INSERT INTO` واحد.
+- فحص عدم وجود `INSERT INTO cache` داخل `data.sql`: نجح.
+- PHP syntax لـ `FullDatabaseSnapshotSeeder.php`, `routes/web.php`, و`bootstrap/app.php`: نجح.
+- `php-local.bat artisan migrate:fresh --seed --force`: نجح.
+- فحص قاعدة البيانات بعد fresh seed: نجح.
+- `php-local.bat artisan route:list --path=/`: نجح.
+- `php-local.bat artisan route:list --path=api/v1/about-page`: نجح.
+- `php-local.bat artisan test`: نجح، 4 tests passed و7 assertions.
+
+## المتبقي
+
+- ظهرت رسالة Windows بعد PHPUnit: `The process cannot access the file because it is being used by another process.` لكنها ظهرت بعد نتيجة نجاح الاختبارات ولم تغير exit code. تبدو مرتبطة بملف runtime مؤقت في `php-local.bat` وليست خطأ migration أو seeding.
+
+---
+
+## تثبيت روابط Footer داخل Database Seed 2026-07-31
+
+تاريخ التنفيذ: 2026-07-31
+
+## المسارات التي تمت مراجعتها
+
+- `apps/api/database/seeders/WebFooterSeeder.php`
+- `apps/api/database/seeders/DatabaseSeeder.php`
+- `apps/api/database/data/full_database_snapshot/data.sql`
+- `apps/api/app/Models/WebFooter.php`
+- `apps/api/app/Models/WebFooterTranslation.php`
+- `apps/api/app/Http/Controllers/Api/PublicApiController.php`
+- `apps/api/app/Http/Controllers/Api/AdminCrudController.php`
+- `apps/api/routes/api.php`
+
+## ما تم العثور عليه
+
+- جدول `web_footers` يدعم `useful_links`, `faculty_links`, و`social_links` كحقول JSON.
+- بعد `migrate:fresh --seed` كانت القيم في snapshot ترجع كـ `[]`.
+- `WebFooterSeeder.php` كان موجودًا لكنه فارغ، لذلك لم يكن يعوض نقص الروابط بعد snapshot.
+- `web_footer_translations` يحتوي عناوين وأسماء الروابط متعددة اللغات.
+
+## التغييرات المنفذة
+
+- تم إضافة `WebFooterSeeder` آمن يملأ ويثبت:
+  - `useful_links`: home, about, programs, services, contact.
+  - `faculty_links`: engineering, technology, service, natural.
+  - `social_links`: website, telegram, instagram, youtube, facebook.
+- تم استبعاد `announcements`, `news`, و`blog` من روابط الفوتر السريعة حسب قرار التنظيف الحالي، مع تنظيف أي نسخة قديمة موجودة في JSON قبل الدمج.
+- تم جعل `DatabaseSeeder` يشغل `WebFooterSeeder` بعد `FullDatabaseSnapshotSeeder`.
+- تم تحديث `full_database_snapshot/data.sql` بنفس القيم حتى تكون الروابط موجودة داخل snapshot نفسه.
+- تم دمج labels حسب اللغات النشطة من جدول `locales`، مع تنظيف labels التي لا يقابلها رابط فعلي.
+- لم يتم تعديل React أو تغيير تصميم الفوتر.
+
+## قاعدة البيانات وواجهة الإدارة
+
+- جدول الروابط: `web_footers`.
+- جدول عناوين وتسميات الروابط: `web_footer_translations`.
+- API العام: `GET /api/v1/footer-web`.
+- API الإدارة: `GET/PUT /api/v1/apanel/cms/footer-web`.
+- إدارة `/apanel/`: `/apanel/cms/footer-web`.
+
+## الفحوص
+
+- `php-local.bat -l database/seeders/WebFooterSeeder.php`: نجح.
+- `php-local.bat -l database/seeders/DatabaseSeeder.php`: نجح.
+- فحص snapshot: نجح، وتم العثور على مفاتيح `programs` و`telegram`، ولم تعد مفاتيح `announcements`, `news`, أو `blog` موجودة داخل بلوكات `web_footers` و`web_footer_translations`.
+- `php-local.bat artisan migrate:fresh --seed --force`: نجح، واشتغل `FullDatabaseSnapshotSeeder` ثم `WebFooterSeeder`.
+- بعد fresh seed:
+  - `useful_links = 5`: `home, about, programs, services, contact`.
+  - `faculty_links = 4`: `engineering, technology, service, natural`.
+  - `social_links = 5`: `website, telegram, instagram, youtube, facebook`.
+  - كل من `ar`, `en`, `ru`, و`uz` لديه 5 labels للروابط السريعة و4 labels للكليات.
+- `GET /api/v1/footer-web?locale=en`: نجح ويرجع `useful_links`, `faculty_links`, و`social_links`، والروابط السريعة لا تحتوي `announcements`, `news`, أو `blog`.
+- `php-local.bat artisan route:list --path=api/v1/footer-web`: نجح.
+- `php-local.bat artisan test`: نجح، 4 tests passed و7 assertions.
+- `cache:clear`, `config:clear`, `route:clear`, و`view:clear`: نجحت.
+
+## المتبقي
+
+- الروابط أصبحت seedable ومدارة من `/apanel/cms/footer-web`.
+- أي روابط جديدة يضيفها الأدمن من `/apanel/` ستبقى في قاعدة البيانات الحالية، لكن إذا تم تشغيل `migrate:fresh --seed --force` فهذا يمسح القاعدة ويعيد القيم الموجودة في ملفات seed/snapshot فقط.
+
+---
+
+## إخفاء صفحات دخول وتسجيل الطالب حتى اكتمال الترجمات 2026-07-30
+
+تاريخ التنفيذ: 2026-07-30
+
+## المسارات التي تمت مراجعتها
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\student\pages\StudentLogin.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\student\pages\StudentRegister.jsx`
+
+## ما تم العثور عليه
+
+- صفحتا `/student/login` و`/student/register` كانتا تعرضان هيكل النموذج وأيقونات قبل التأكد من وصول مفاتيح الترجمة من Laravel API.
+- كان placeholder كلمة المرور مكتوبًا كنص مرئي ثابت داخل React.
+
+## التغييرات المنفذة
+
+- تم إضافة قوائم مفاتيح ترجمة مطلوبة لكل صفحة.
+- تم منع رسم الصفحة بالكامل إذا لم تكن الترجمات جاهزة أو إذا كان أي مفتاح مطلوب مفقودًا.
+- تم استبدال placeholder كلمة المرور الثابت بمفتاح `form.passwordPlaceholder` القادم من قاعدة البيانات.
+- لم تتم إضافة أي نصوص ثابتة أو بيانات وهمية.
+
+## التخزين وواجهة الإدارة
+
+- مفاتيح صفحات الطالب تعتمد على `translation_keys` و`translation_values`.
+- الإدارة من `/apanel/translations`.
+- الجلب عبر نظام الترجمة المركزي من Laravel API.
+
+## الفحوص
+
+- إعادة مسح صفحتي الطالب للتأكد من عدم وجود placeholder ثابت أو `t(key, "fallback")`: لا توجد نتائج.
+- `npm.cmd run lint`: نجح مع تحذيرين قديمين في ملفات student أخرى.
+- `npm.cmd run build`: نجح.
+
+---
+
+## توحيد واجهة تسجيل الطالب مع صفحات الموقع العامة 2026-07-30
+
+تاريخ التنفيذ: 2026-07-30
+
+## المسارات التي تمت مراجعتها
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\App.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\pages\LoginPage.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\pages\RegisterPage.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\pages\ForgotPassword.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\student\layouts\StudentLayout.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\pages\BlogDetails.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\student\pages\StudentLogin.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\features\student\pages\StudentRegister.jsx`
+
+## ما تم العثور عليه
+
+- كانت صفحات `/login`, `/register`, و`/forgot-password` تعرض التصميم المطلوب لكنها تستخدم منطقًا مؤقتًا عبر `setTimeout` و`alert`.
+- كانت صفحات `/student/login` و`/student/register` تستخدم أوامر الطالب الحقيقية لكنها بواجهة مختلفة، مما يكرر واجهة المصادقة.
+
+## التغييرات المنفذة
+
+- تم ربط `/login` بدالة `login` الحقيقية من `AuthContext`، وبعد الدخول يتم توجيه الطالب إلى `/student/dashboard`، أو apanel إلى `/apanel/dashboard` حسب الدور.
+- تم ربط `/register` بدالة `register` الحقيقية من `AuthContext`، ثم التوجيه إلى `/student/dashboard`.
+- تم ربط `/forgot-password` بـ`authService.forgotPassword` بدل محاكاة `setTimeout`.
+- تم تحويل `/student/login` إلى `/login` و`/student/register` إلى `/register`.
+- تم تحديث روابط الرجوع وتسجيل الدخول داخل student layout وتعليقات المدونة إلى `/login`.
+- تم حذف واجهتي الطالب القديمتين غير المستخدمتين بعد التأكد أنه لا توجد imports لهما.
+
+## التخزين وواجهة الإدارة
+
+- نصوص الواجهات تعتمد على `translation_keys` و`translation_values`.
+- الإدارة من `/apanel/translations`.
+- عمليات المصادقة تستخدم Laravel API عبر `authService` و`AuthContext`.
+
+## الفحوص
+
+- إعادة مسح `StudentLogin`, `StudentRegister`, `/student/login`, `/student/register`, و`setTimeout` الخاص بصفحات auth القديمة: لم تبق إلا تحويلات route المقصودة إلى `/login` و`/register`.
+- `npm.cmd run lint`: نجح مع تحذيرين قديمين في ملفات student أخرى.
+- `npm.cmd run build`: نجح.
+
+---
+
+## إزالة Routes عامة مكررة وغير مستخدمة 2026-07-30
+
+تاريخ التنفيذ: 2026-07-30
+
+## المسارات التي تمت مراجعتها
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\App.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\pages\AdministrationDetails.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\pages\ProfileDetails.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\pages\ProgramDetails.jsx`
+
+## ما تم العثور عليه
+
+- Route `/program/:id` كان alias لنفس صفحة `/programs/:id` ولا توجد روابط داخلية تستخدمه.
+- Route `/administration/:id` كان يفتح `AdministrationDetails.jsx`، لكن كل روابط الأشخاص داخل الموقع تستخدم `/profile/:id`.
+- `AdministrationDetails.jsx` كان يكرر جزءًا من منطق عرض البروفايل، بينما `ProfileDetails.jsx` يدعم الإدارة والموظفين من مصدر واحد.
+
+## التغييرات المنفذة
+
+- تم حذف Route `/program/:id` والإبقاء على `/programs/:id`.
+- تم حذف Route `/administration/:id` والإبقاء على `/profile/:id` كمسار عام موحد للبروفايلات.
+- تم حذف ملف `AdministrationDetails.jsx` لأنه لم يعد له import أو Route بعد الإزالة.
+- لم يتم حذف API endpoints التي تحتوي `/administration/...` لأنها لازمة لجلب بيانات الإدارة داخل الخدمات.
+
+## الفحوص
+
+- إعادة مسح `AdministrationDetails`, `/administration/:id`, و`/program/:id` داخل `apps/web/src`: لا توجد نتائج.
+- إعادة مسح `/program/` و`/administration/`: المتبقي فقط endpoints API داخل services، وليس صفحات عامة.
+- `npm.cmd run lint`: نجح مع تحذيرين قديمين في ملفات student أخرى.
+- `npm.cmd run build`: نجح.
+
+---
+
+## حذف صفحات Web غير مربوطة بأي Route 2026-07-30
+
+تاريخ التنفيذ: 2026-07-30
+
+## المسارات التي تمت مراجعتها
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\pages\FacultiesPage.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\pages\DepartmentsPage.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\pages\CmsListPage.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\pages\CmsDetailPage.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\App.jsx`
+
+## ما تم العثور عليه
+
+- الملفات الأربعة كانت موجودة في `apps/web/src/pages` لكنها غير مستوردة في `App.jsx` أو أي ملف runtime داخل `apps/web/src`.
+- لا توجد Routes عامة نشطة باسم `/faculties`, `/departments`, أو صفحات CMS generic تعتمد على `CmsListPage.jsx` و`CmsDetailPage.jsx`.
+- صفحات التفاصيل الفعلية المستخدمة حاليا هي `/faculty/:id`, `/department/:id`, `/programs/:id`, وغيرها من routes المربوطة مباشرة بملفاتها.
+
+## التغييرات المنفذة
+
+- تم حذف `FacultiesPage.jsx`.
+- تم حذف `DepartmentsPage.jsx`.
+- تم حذف `CmsListPage.jsx`.
+- تم حذف `CmsDetailPage.jsx`.
+- لم يتم تعديل أي route لأن هذه الملفات لم تكن مربوطة أصلا.
+
+## الفحوص
+
+- إعادة مسح `FacultiesPage`, `DepartmentsPage`, `CmsListPage`, و`CmsDetailPage` داخل `apps/web` بعد الحذف: لا توجد نتائج.
+- `npm.cmd run lint`: نجح مع تحذيرين قديمين في ملفات student أخرى.
+- `npm.cmd run build`: نجح.
+
+## المتبقي
+
+- توجد إشارات توثيقية قديمة خارج runtime إلى `/faculties` و`/departments` في بعض ملفات docs؛ لم يتم تعديلها في هذه الخطوة لأنها ليست جزءا من تشغيل `apps/web`.
+
 ## المسارات التي تمت مراجعتها والتأكد منها
 
 - `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\app`
@@ -2320,6 +2830,56 @@
 
 ---
 
+## تنظيف تكرار Header Menu Snapshot 2026-07-30
+
+تاريخ التنفيذ: 2026-07-30
+
+## المسارات التي تمت مراجعتها
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\data\full_database_snapshot\data.sql`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\seeders\MenuSeeder.php`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\seeders\FullDatabaseSnapshotSeeder.php`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\app\Http\Controllers\Api\PublicApiController.php`
+
+## ما تم العثور عليه
+
+- بعد `migrate:fresh --seed` ظهر أن snapshot الكامل كان يدخل 199 صفًا في `menu_items`، منها ثلاث نسخ نشطة من عناصر الهيدر الرئيسية مثل `Home`, `About`, `Media Center`, `Faculties`, `Structure`, `Services`, و`Contact`.
+- الصفوف المكررة كانت ضمن مجموعتي IDs `146-211` و`350-415`.
+- `Media Center` في snapshot كان يحمل رابطًا غير مناسب `/structure` رغم أنه عنصر dropdown.
+
+## التغييرات المنفذة
+
+- تم حذف صفوف `menu_items` المكررة من `data.sql`: عددها 132 صفًا.
+- تم حذف ترجمات `menu_item_translations` المرتبطة بالصفوف المكررة: عددها 528 صفًا.
+- بقيت نسخة الهيدر الأساسية IDs `1-66`، وبقي زر `Apply Online` رقم `212`.
+- تم ضبط `Media Center` في `data.sql` و`MenuSeeder.php` ليكون dropdown بدون URL.
+- تم تنفيذ `migrate:fresh --seed --force` بعد تنظيف snapshot لإعادة إدخال قاعدة البيانات من المصدر النظيف.
+
+## التخزين وواجهة الإدارة
+
+- بيانات الهيدر محفوظة في `menus`, `menu_items`, و`menu_item_translations`.
+- الهيدر العام يجلب من `GET /api/v1/menus/header?locale={locale}`.
+- الإدارة من `/apanel/cms/header-navbar`.
+
+## الفحوص المنفذة
+
+- بعد fresh seed: `menu_items = 67`, و`menu_item_translations = 268`, و`inactive menu_items = 0`.
+- جذور الهيدر الفعالة بالإنجليزية أصبحت: `Home`, `About`, `Media Center`, `Faculties`, `Structure`, `Services`, `Contact`, `Login`, و`Apply Online` بدون تكرار.
+- `GET /api/v1/menus/header?locale=en`: نجح وأرجع عناصر الهيدر مرة واحدة.
+- اختبار متصفح لـ `http://localhost:5173/`: نجح، و`nav` عرض `Home`, `About`, `Media Center`, `Faculties`, `Structure`, `Services`, و`Contact` مرة واحدة.
+- `php-local.bat -l database/seeders/MenuSeeder.php`: نجح.
+- `php-local.bat -l database/seeders/FullDatabaseSnapshotSeeder.php`: نجح.
+- `php-local.bat artisan migrate:fresh --seed --force`: نجح.
+- `php-local.bat artisan optimize:clear`: نجح.
+- `php-local.bat artisan route:list --path=api/v1/menus`: نجح وأظهر `GET /api/v1/menus` و`GET /api/v1/menus/{location}`.
+- `php-local.bat artisan test --filter=Menu`: لم يجد اختبارات مطابقة، لذلك لم يتم تنفيذ assertions.
+
+## المتبقي
+
+- اختبار المتصفح سجل طلب صورة storage محجوبًا بـ `ERR_BLOCKED_BY_ORB` لمسار `storage/about-page/bstu-about-identity.jpg`. هذا ليس من عناصر الهيدر ويحتاج مراجعة منفصلة في ملفات media/storage.
+
+---
+
 ## تحويل ملف SQL إلى CMS Snapshot Seeder 2026-07-29
 
 تاريخ التنفيذ: 2026-07-29
@@ -2499,6 +3059,81 @@
 
 ---
 
+## منع ظهور مفاتيح الترجمة قبل تحميل CMS 2026-07-30
+
+تاريخ التنفيذ: 2026-07-30
+
+## المسارات التي تمت مراجعتها
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\context\LocaleContext.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\sections\Hero.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\components\Header.jsx`
+
+## ما تم العثور عليه
+
+- دالة `t()` كانت تعرض مفتاح الترجمة نفسه عند غياب القيمة من Laravel API، لذلك ظهرت مفاتيح مثل `home.hero.title`, `common.applyNow`, و`common.logoAlt` في الصفحة.
+- مفاتيح Hero الظاهرة في الصفحة غير موجودة حاليًا في جدول `translation_keys` بعد فحص قاعدة البيانات، لذلك يجب أن تبقى المشكلة قابلة للكشف تقنيًا لا أن تظهر للمستخدم كنص.
+- صورة الشعار كانت ترسم حتى عندما لا يصل مسار شعار صالح من إعدادات CMS، مما قد يعرض alt مفقودًا أو صورة مكسورة.
+
+## التغييرات المنفذة
+
+- تم تعديل `LocaleContext.jsx` بحيث لا تعيد `t()` المفتاح كنص مرئي عند غياب الترجمة، وتكتب تحذيرًا تقنيًا في console باسم المفتاح المفقود.
+- تمت إضافة `hasTranslation`, `translationsLoading`, و`translationsReady` كحالة تقنية لاستخدامها في منع عرض محتوى غير جاهز.
+- تم تعديل `Hero.jsx` حتى لا يعرض عناصر Hero الأساسية إلا عند توفر مفاتيحه المطلوبة من قاعدة البيانات.
+- تم تعديل `Header.jsx` حتى لا يرسم صورة الشعار إذا لم يصل `logoSrc` من إعدادات CMS.
+
+## التخزين وواجهة الإدارة
+
+- مفاتيح وقيم الترجمة يجب أن تكون في `translation_keys` و`translation_values`.
+- تدار من `/apanel/translations`.
+- تعرض عبر `GET /api/v1/translations?locale={locale}`.
+- الشعار يجب أن يكون في إعدادات branding ضمن `settings`، ويدار من صفحة إعدادات الهيدر/الهوية في `/apanel/`.
+
+## الفحوص
+
+- فحص قاعدة البيانات للمفاتيح `home.hero.title`, `home.hero.subtitle`, `common.applyNow`, `home.hero.accredited`, `home.hero.statePrograms`, و`common.logoAlt`: غير موجودة حاليًا.
+- `npm.cmd run lint`: نجح مع تحذيرين قديمين خارج هذه الملفات في student React.
+- `npm.cmd run build`: نجح.
+
+## المتبقي
+
+- يجب إدخال قيم مفاتيح Hero و`common.logoAlt` في `/apanel/translations` أو عبر seeder آمن لاحقًا إذا أردت ظهور محتوى Hero. الواجهة الآن لن تعرض المفاتيح كبديل مرئي.
+
+---
+
+## إخفاء هياكل الصفحة الرئيسية عند غياب المحتوى 2026-07-30
+
+تاريخ التنفيذ: 2026-07-30
+
+## المسارات التي تمت مراجعتها
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\pages\Home.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\components\Header.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\components\ScrollToTop.jsx`
+
+## ما تم العثور عليه
+
+- كانت أقسام الصفحة الرئيسية ترسم حاويات وأيقونات وأزرارًا حتى عندما تكون ترجمات ومحتوى CMS الأساسي غير جاهزة.
+- كان زر الصعود للأعلى يظهر كأيقونة فقط إذا غابت ترجمة `common.scrollToTop`.
+- كان الهيدر يستطيع الظهور كشريط فارغ إذا لم يصل الشعار أو عناصر القائمة.
+
+## التغييرات المنفذة
+
+- تم تعديل `Home.jsx` ليمنع رسم كل أقسام الصفحة الرئيسية إلى أن تكون الترجمات الأساسية للصفحة متوفرة من Laravel API.
+- تم تعديل `ScrollToTop.jsx` ليظهر فقط عند وجود ترجمة `common.scrollToTop`.
+- تم تعديل `Header.jsx` ليظهر فقط عند توفر شعار أو عناصر قائمة من CMS.
+
+## الفحوص
+
+- `npm.cmd run lint`: نجح مع تحذيرين قديمين خارج هذه الملفات في student React.
+- `npm.cmd run build`: نجح.
+
+## المتبقي
+
+- إدخال مفاتيح الصفحة الرئيسية الفعلية وقيمها في `translation_keys` و`translation_values` ما زال مطلوبًا حتى تظهر الصفحة بدل أن تبقى فارغة.
+
+---
+
 ## إعادة تحقق Laravel Database Seed Locale Source 2026-07-29
 
 تاريخ إعادة التحقق: 2026-07-29
@@ -2589,3 +3224,281 @@
 - `php-local.bat artisan optimize:clear`: نجح.
 - `npm.cmd run lint`: نجح مع تحذيرين قديمين خارج نطاق قاعدة البيانات في ملفات student React.
 - `npm.cmd run build`: نجح.
+
+---
+
+## إلغاء التسجيل المباشر واستعادة Footer CMS 2026-07-31
+
+تاريخ المراجعة: 2026-07-31
+
+## المسارات التي تمت مراجعتها
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\App.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\pages\LoginPage.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\pages\RegisterPage.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\pages\ResetPassword.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\services\authService.js`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\app\Http\Controllers\Api\V1\AuthController.php`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\app\Providers\AppServiceProvider.php`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\config\app.php`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\seeders\WebFooterSeeder.php`
+
+## ما تم العثور عليه
+
+- كان `/register` يعرض صفحة تسجيل حساب مباشرة، بينما المسار المعتمد لتقديم الطلاب هو `/apply`.
+- كان `authService.register` ما زال يسمح باستدعاء تسجيل مباشر من الواجهة.
+- كان `POST /api/v1/auth/register` ما زال يسمح بتسجيل مستخدم مباشر.
+- صفحة `forgot-password` كانت ترسل طلب reset، لكن Laravel كان يحتاج ضبط رابط الواجهة حتى يفتح الرابط في React.
+- بيانات footer الخاصة بـ admissions banner وnewsletter كانت موجودة في المخطط وواجهة API والإدارة، لكنها كانت ترجع `null` بعد seed لأن seeder لم يملأ الحقول الفارغة بعد snapshot.
+
+## التغييرات المنفذة
+
+- تم حذف صفحة التسجيل المباشر `RegisterPage.jsx`.
+- تم تحويل `/register` و`/student/register` إلى `/apply`.
+- تم تغيير رابط إنشاء الحساب في `/login` إلى `/apply`.
+- تم حذف `authService.register` من React.
+- تم إغلاق `POST /api/v1/auth/register` بإرجاع `410 Gone` حتى لا يتم إنشاء حسابات مباشرة خارج مسار التقديم.
+- تمت إضافة صفحة `/reset-password` لاستقبال `token` و`email` من رابط البريد واستدعاء `POST /api/v1/auth/reset-password`.
+- تم ضبط `frontend_url` في Laravel وربط إشعار reset password بـ `/reset-password`.
+- تم تحديث `WebFooterSeeder.php` لملء `admissions_*` و`newsletter_*` والروابط المفيدة/الكليات/السوشيال بشكل idempotent بعد snapshot.
+
+## التخزين وواجهة الإدارة
+
+- التسجيل المباشر: لم يعد مصدرا معتمدا؛ الطالب يبدأ من `/apply` وتدخل بياناته عبر جداول application/student workflow الموجودة.
+- رابط إعادة تعيين كلمة المرور: يتم توليده من Laravel عبر `Password::sendResetLink` ويستخدم `FRONTEND_URL`.
+- بيانات footer: جدول `web_footers` للروابط وبيانات الاتصال، وجدول `web_footer_translations` للبنر والنشرة والعناوين حسب اللغة.
+- API المستخدم للفوتر: `GET /api/v1/footer-web`.
+- إدارة الفوتر: `/apanel/cms/footer-web` عبر `GET/PUT /api/v1/apanel/cms/footer-web`.
+- إدارة الترجمات العامة: `/apanel/translations`، واللغات من جدول `locales` وAPI `GET /api/v1/locales`.
+
+## الفحوص المنفذة
+
+- `php-local.bat -l` للملفات PHP المعدلة: نجح.
+- `php-local.bat artisan migrate:fresh --seed --force`: نجح، ثم `WebFooterSeeder` أعاد بيانات البنر والنشرة.
+- `php-local.bat artisan optimize:clear`: نجح.
+- `GET /api/v1/footer-web?locale=en`: نجح وأرجع `admissions_heading`, `newsletter_title`, وخمسة useful links بدون `announcements/news/blog`.
+- `POST /api/v1/auth/register`: رجع `410 Gone` كما هو مطلوب.
+- `POST /api/v1/auth/forgot-password`: نجح، وتم التحقق من log أن الرابط الناتج هو `http://localhost:5173/reset-password?...`.
+- `php-local.bat artisan route:list --path=api/v1/auth`: نجح وأظهر مسارات auth الستة.
+- `php-local.bat artisan test`: نجح، 4 tests passed و7 assertions.
+- `npm.cmd run lint`: نجح بلا أخطاء، مع تحذير قديم واحد في `StudentSupport.jsx`.
+- `npm.cmd run build`: نجح.
+
+## المتبقي
+
+- يوجد تسجيل مباشر قديم في تطبيق Flutter mobile يستدعي `/auth/register`، لكنه الآن سيحصل على `410 Gone`. يحتاج قرار لاحق هل يتم تحويله إلى application flow مثل الويب.
+
+---
+
+## تعديل Login وForgot Password 2026-07-31
+
+تاريخ المراجعة: 2026-07-31
+
+## المسارات التي تمت مراجعتها
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\pages\LoginPage.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\pages\ForgotPassword.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\app\Http\Controllers\Api\V1\AuthController.php`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\seeders\StudentSystemTranslationSeeder.php`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\seeders\DatabaseSeeder.php`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\data\translations.json`
+
+## التغييرات المنفذة
+
+- تم تغيير رابط `/login` من `Sign Up` إلى مفتاح ترجمة ديناميكي `auth.apply` مع بقاء الوجهة `/apply`.
+- تم تعديل `forgot-password` بحيث لا يعرض رسالة validation عامة عند بريد غير مسجل، بل يعرض ترجمة `auth.emailMustApplyFirst`.
+- تم تعديل `POST /api/v1/auth/forgot-password` ليرجع المفتاح `auth.emailMustApplyFirst` بحالة `404` عندما لا يوجد المستخدم، بدل قاعدة `exists` العامة.
+- تمت إضافة مفاتيح `auth.apply` و`auth.emailMustApplyFirst` للغات الإنجليزية، الأوزبكية، الروسية، والعربية.
+- تمت إضافة `StudentSystemTranslationSeeder` إلى `DatabaseSeeder` بعد snapshot حتى تبقى المفاتيح موجودة بعد `migrate:fresh --seed`.
+
+## التخزين وواجهة الإدارة
+
+- مفاتيح الواجهة تخزن في جداول `translation_keys` و`translation_values`.
+- ملفات seed المستخدمة: `StudentSystemTranslationSeeder.php` و`translations.json`.
+- API المستخدم للواجهة: `GET /api/v1/translations?locale={locale}`.
+- API نسيان كلمة المرور: `POST /api/v1/auth/forgot-password`.
+- إدارة الترجمات من `/apanel/translations`.
+- الطالب الذي لا يملك حسابا يجب أن يبدأ من `/apply`.
+
+## الفحوص المنفذة
+
+- فحص JSON لـ `translations.json`: نجح.
+- PHP syntax للملفات PHP المعدلة: نجح.
+- `php-local.bat artisan db:seed --class=StudentSystemTranslationSeeder --force`: نجح.
+- `php-local.bat artisan migrate:fresh --seed --force`: نجح وأعاد مفاتيح الترجمة.
+- `php-local.bat artisan optimize:clear`: نجح.
+- اختبار Laravel kernel لـ `POST /api/v1/auth/forgot-password` ببريد غير مسجل: رجع `404` ورسالة `auth.emailMustApplyFirst`.
+- اختبار Laravel kernel لـ `POST /api/v1/auth/forgot-password` ببريد مسجل: رجع `200`.
+- `php-local.bat artisan route:list --path=api/v1/auth`: نجح وأظهر مسار `forgot-password`.
+- `php-local.bat artisan test`: نجح، 4 tests passed و7 assertions.
+- `npm.cmd run lint`: نجح مع تحذير قديم واحد في `StudentSupport.jsx`.
+- `npm.cmd run build`: نجح.
+
+## المتبقي
+
+- إرسال البريد الحقيقي غير مفعل حاليا لأن إعداد Laravel هو `MAIL_MAILER=log`، لذلك روابط إعادة التعيين تكتب في `storage/logs/laravel.log` ولا تصل إلى inbox. يلزم ضبط SMTP فعلي في `.env` ثم إعادة تشغيل Laravel.
+- عملية Laravel dev server الجارية على `127.0.0.1:8000` قد تحتاج إعادة تشغيل حتى تقرأ تعديل `AuthController.php` الجديد.
+
+---
+
+## إضافة Placeholders لصفحة Apply 2026-07-31
+
+تاريخ المراجعة: 2026-07-31
+
+## المسارات التي تمت مراجعتها
+
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\web\src\pages\ApplyPage.jsx`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\apps\api\database\seeders\StudentSystemTranslationSeeder.php`
+- `C:\Users\KAPAKA\Desktop\international.bstu.uz\full_stack_review_report.md`
+
+## ما تم العثور عليه
+
+- حقول `ApplyPage.jsx` في الخطوات الثلاث كانت تعرض labels فقط بدون placeholders لمعظم الحقول.
+- حقول الاختيار كانت تستخدم قيمة ثابتة `--` داخل أول option.
+- بعض أمثلة الهاتف كانت مكتوبة مباشرة داخل React كـ placeholder ثابت.
+
+## التغييرات المنفذة
+
+- تمت إضافة prop `placeholder` لمكون `Select` في صفحة `/apply`.
+- تم ربط حقول الخطوة الأولى بترجمات placeholders للبيانات الشخصية، جواز السفر، الهاتف، وTelegram.
+- تم ربط حقول الخطوة الثانية بترجمات placeholders للمستوى الدراسي، نوع الطالب، الكلية، البرنامج، نوع الدراسة، لغة الدراسة، وفترة القبول.
+- تم ربط حقول الخطوة الثالثة بترجمات placeholders للبريد الإلكتروني، كلمة المرور، وتأكيد كلمة المرور.
+- تمت إضافة مفاتيح الترجمة في `StudentSystemTranslationSeeder.php` للغات الإنجليزية، الأوزبكية، الروسية، والعربية.
+
+## التخزين وواجهة الإدارة
+
+- مفاتيح placeholders تحفظ في `translation_keys` ضمن group `initialApplication`.
+- قيم اللغات تحفظ في `translation_values`.
+- API المستخدم: `GET /api/v1/translations?locale={locale}`.
+- إدارة القيم من `/apanel/translations`.
+
+## الفحوص المنفذة
+
+- PHP syntax لـ `StudentSystemTranslationSeeder.php`: نجح.
+- `php-local.bat artisan db:seed --class=StudentSystemTranslationSeeder --force`: نجح.
+- `GET /api/v1/translations?locale=en` عبر Laravel kernel: نجح وأرجع `initialApplication.fullNamePlaceholder`, `initialApplication.degreePlaceholder`, و`initialApplication.emailPlaceholder`.
+- `php-local.bat artisan route:list --path=api/v1/applications/initial`: نجح وأظهر metadata وsubmit endpoints.
+- `php-local.bat artisan test`: نجح، 4 tests passed و7 assertions.
+- `npm.cmd run lint`: نجح مع تحذير قديم واحد في `StudentSupport.jsx`.
+- `npm.cmd run build`: نجح.
+
+## المتبقي
+
+- حقول `type="date"` تعتمد في ظهور placeholder على سلوك المتصفح نفسه، لكن قيمها الآن مربوطة بمفاتيح ترجمة وليست نصوصا ثابتة.
+
+---
+
+## حذف كروت الخدمات الأكاديمية غير الصحيحة 2026-08-01
+
+تاريخ التنفيذ: 2026-08-01
+
+## المسارات التي تمت مراجعتها
+
+- `apps/api/database/data/full_database_snapshot/data.sql`
+- جداول قاعدة البيانات الحالية: `services`, `service_translations`
+- مسارات API ذات الصلة: `GET /api/v1/services`, `GET /api/v1/services/settings`
+
+## ما تم العثور عليه
+
+- صفحة `/services` كانت تعرض 7 كروت داخل جدول `services` ليست خدمات تفاعلية فعلية، بل محتوى أكاديمي أو سكني:
+  - `International Student Dormitory`
+  - `Chemical & Food Technologies`
+  - `Oil & Gas Technology`
+  - `Engineering & Construction`
+  - `Power Engineering & ICT`
+  - `Textile & Light Industry`
+  - `Natural Resources Management`
+- السجلات كانت موجودة في قاعدة البيانات الحالية كـ `services.id` من `18` إلى `24`.
+- ملف `full_database_snapshot/data.sql` كان يعيد إدخال نفس السجلات وترجماتها بعد `migrate:fresh --seed`.
+
+## التغييرات المنفذة
+
+- تم حذف سجلات الخدمات الحالية IDs `18-24` من جدول `services`.
+- تم حذف ترجمات هذه الخدمات من جدول `service_translations`.
+- تم حذف نفس السجلات وترجماتها من `full_database_snapshot/data.sql` حتى لا ترجع بعد `migrate:fresh --seed`.
+- تم ترك الخدمات الرقمية الصحيحة IDs `1-17` كما هي، مثل HEMIS, Registrar, Moodle, Payment, Library, Webmail.
+
+## قاعدة البيانات وواجهة الإدارة
+
+- جدول البيانات المستخدم للخدمات: `services`.
+- جدول الترجمات: `service_translations`.
+- API العام: `GET /api/v1/services?locale={locale}`.
+- إعدادات صفحة الخدمات: `interactive_service_settings` و`interactive_service_setting_translations`.
+- إدارة الخدمات من `/apanel/cms/interactive-services`.
+
+## ملاحظات مهمة
+
+- بقيت بعض الأسماء مثل `Natural Resources Management` داخل جداول أكاديمية أو footer faculty links لأنها تمثل كلية أو محتوى أكاديمي، وليست كروت خدمات.
+- بقيت بعض الإشارات داخل `audit_logs` كسجل تاريخي غير معروض للجمهور.
+- لم يتم حذف صور `services/*.jpg` لأن بعضها ما زال مرتبطا بخدمات رقمية موجودة، وحذفها قد يكسر صور الخدمات المتبقية.
+
+## الفحوص المنفذة
+
+- فحص قاعدة البيانات الحالية: لم تعد توجد أي ترجمة خدمة بالعناوين المحذوفة.
+- فحص block `services` و`service_translations` داخل `full_database_snapshot/data.sql`: نجح، ولم تعد IDs `18-24` موجودة ضمن block الخدمات.
+- فحص Laravel kernel لـ `GET /api/v1/services?locale=en`: رجع `200` ولم يحتوي على أي عنوان من العناوين المحذوفة.
+- `php-local.bat artisan route:list --path=api/v1/services`: نجح وأظهر `GET /api/v1/services` و`GET /api/v1/services/settings`.
+- `php-local.bat artisan test`: نجح، 4 tests passed و7 assertions.
+- `php-local.bat artisan optimize:clear`: مسح config/cache/routes/views، لكنه أظهر رسالة Windows بعد المسح: `The process cannot access the file because it is being used by another process.`
+- اختبار HTTP مباشر لـ `http://127.0.0.1:8000/api/v1/services?locale=en`: تعذر لأن Laravel dev server غير شغال على `127.0.0.1:8000` وقت الفحص.
+- إعادة تحقق لاحقة باستخدام `php-local.bat artisan migrate:fresh --seed --force`: نجحت، ولم ترجع الخدمات المحذوفة.
+- بعد `fresh seed`: `services = 17` و`service_translations = 68`، و`removed_titles_matches = []`.
+- اختبار HTTP مباشر بعد تشغيل Laravel على `http://127.0.0.1:8000/api/v1/services?locale=en`: رجع `200`، و`RemovedTitlesFound = none`.
+- `php-local.bat artisan test` بعد `fresh seed`: نجح، 4 tests passed و7 assertions. ظهرت رسالة Windows بعد انتهاء PHPUnit: `The process cannot access the file because it is being used by another process.`
+- `php-local.bat artisan cache:clear`: نجح.
+
+## المتبقي
+
+- لا يوجد متبقي داخل جدول الخدمات أو مصدر seed الخاص بها.
+- إذا أردت إزالة نفس الكلمات من المحتوى الأكاديمي أو سجلات التدقيق أيضا، فهذا يحتاج قرار منفصل لأنه سيؤثر على صفحات الكليات/الأقسام أو تاريخ العمليات.
+
+---
+
+## إصلاح أسماء الشهور الأوزبكية 2026-08-01
+
+تاريخ التنفيذ: 2026-08-01
+
+## المسارات التي تمت مراجعتها
+
+- `apps/api/database/seeders/StudentSystemTranslationSeeder.php`
+- `apps/web/src/utils/dateFormat.js`
+- `apps/web/src/utils/cmsContent.js`
+- صفحات الأخبار، الإعلانات، المدونة، Green Campus، Video BDTU، وصفحات الطالب والإدارة التي تعرض تواريخ داخل `apps/web/src`.
+
+## ما تم العثور عليه
+
+- بعض صفحات React كانت تعتمد على `Intl.DateTimeFormat` أو `toLocaleDateString()` لتنسيق التاريخ.
+- في اللغة الأوزبكية قد يظهر الشهر من المتصفح بصيغة تقنية مثل `M05` بدلا من اسم الشهر الطبيعي.
+- هذا السلوك ليس مناسبا لأن أسماء الشهور يجب أن تأتي من نظام الترجمة الديناميكي وقاعدة البيانات.
+
+## التغييرات المنفذة
+
+- تمت إضافة مفاتيح الشهور الطويلة والمختصرة إلى `StudentSystemTranslationSeeder.php` للغات الإنجليزية، الأوزبكية، الروسية، والعربية.
+- تمت إضافة helper مركزي `formatLocalizedDate()` في `apps/web/src/utils/dateFormat.js`.
+- تم تحويل تنسيق التواريخ في الصفحات العامة وصفحات الطالب وصفحات `/apanel/` المتأثرة لاستخدام مفاتيح الترجمة `date.months.long.*` و`date.months.short.*`.
+- تم ترك القيم ناقصة الترجمة تظهر بصيغة تقنية واضحة `YYYY-MM-DD` بدلا من fallback نصي مخفي.
+- تم تشغيل `php artisan migrate:fresh --seed --force` بعد إضافة مفاتيح الشهور، وتم التأكد أن القيم ترجع بعد إعادة بناء قاعدة البيانات.
+
+## قاعدة البيانات وواجهة الإدارة
+
+- مفاتيح الشهور تحفظ في جدول `translation_keys`.
+- قيم الشهور تحفظ في جدول `translation_values`.
+- API المستخدم: `GET /api/v1/translations?locale={locale}`.
+- إدارة القيم من `/apanel/translations`.
+
+## الفحوص المنفذة
+
+- `php-local.bat -l database/seeders/StudentSystemTranslationSeeder.php`: نجح.
+- `php-local.bat artisan migrate:fresh --seed --force`: نجح بعد إضافة مفاتيح الشهور.
+- `php-local.bat artisan cache:clear`: نجح.
+- `php-local.bat artisan test`: نجح، 4 tests passed و7 assertions.
+- `npm.cmd run lint`: نجح.
+- `npm.cmd run build`: نجح.
+- فحص `rg` داخل `apps/web/src`: لم يعد يوجد `new Intl.DateTimeFormat` أو `toLocaleDateString()` في ملفات الواجهة.
+- اختبار helper: `2026-05-05` مع اللغة الأوزبكية رجع `05 may 2026` و`5 may 2026`.
+- اختبار HTTP لـ `GET /api/v1/translations?locale=uz`: رجع `200` واحتوى على مفاتيح `date/months` وقيمة `may`.
+
+## المتبقي
+
+- لا يوجد متبقي معروف لمشكلة ظهور `M05` داخل `apps/web/src`.
+- ما زالت صياغة التواريخ نفسها تقنية داخل الكود، لكن أسماء الشهور وقيمها قابلة للإدارة من `/apanel/translations` وتعود بعد `migrate:fresh --seed`.

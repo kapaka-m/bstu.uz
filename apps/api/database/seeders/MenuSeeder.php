@@ -44,6 +44,7 @@ class MenuSeeder extends Seeder
             $this->link('/about', 'nav.aboutUs', ['en' => 'About', 'uz' => 'Biz haqimizda', 'ru' => 'О нас', 'ar' => 'عن الجامعة']),
             [
                 'route_name' => 'media',
+                'url' => null,
                 'labels' => ['en' => 'Media Center', 'uz' => 'Media markazi', 'ru' => 'Медиацентр', 'ar' => 'المركز الإعلامي'],
                 'children' => [
                     $this->link('/announcements', 'nav.announcements', ['en' => 'Announcements', 'uz' => 'E’lonlar', 'ru' => 'Объявления', 'ar' => 'الإعلانات']),

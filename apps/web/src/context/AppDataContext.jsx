@@ -1,5 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useCallback, useContext, useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { useLocale } from "./LocaleContext";
 import { facultyService } from "../services/facultyService";
 import { departmentService } from "../services/departmentService";
@@ -12,6 +13,7 @@ const AppDataContext = createContext();
 
 export function AppDataProvider({ children }) {
   const { locale } = useLocale();
+  const location = useLocation();
   const [faculties, setFaculties] = useState([]);
   const [departments, setDepartments] = useState([]);
   const [programs, setPrograms] = useState([]);
@@ -21,8 +23,17 @@ export function AppDataProvider({ children }) {
   const [greenCampusArticles, setGreenCampusArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const isPublicSite =
+    !location.pathname.startsWith("/student") &&
+    !location.pathname.startsWith("/apanel");
 
-  const fetchGlobalData = async () => {
+  const fetchGlobalData = useCallback(async () => {
+    if (!isPublicSite) {
+      setLoading(false);
+      setError(null);
+      return;
+    }
+
     try {
       setLoading(true);
       setError(null);
@@ -51,11 +62,11 @@ export function AppDataProvider({ children }) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [isPublicSite]);
 
   useEffect(() => {
     fetchGlobalData();
-  }, [locale]);
+  }, [fetchGlobalData, locale]);
 
   return (
     <AppDataContext.Provider

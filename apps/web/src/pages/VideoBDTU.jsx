@@ -4,14 +4,16 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
 import { useAuth } from "../context/AuthContext";
 import { videoService } from "../services/videoService";
+import { formatLocalizedDate } from "../utils/dateFormat";
 
 const ALL_CATEGORY = "__all";
 
 export default function VideoBDTU() {
-  const { t, language, logoSrc } = useLanguage();
+  const { t, hasTranslation, language, logoSrc } = useLanguage();
   const { user, isAuthenticated, loading: authLoading } = useAuth();
   const [videos, setVideos] = useState([]);
   const [settings, setSettings] = useState({});
+  const [loading, setLoading] = useState(true);
   const [activeVideo, setActiveVideo] = useState(null);
   const [likedVideos, setLikedVideos] = useState({});
   const [isSubscribed, setIsSubscribed] = useState(false);
@@ -58,6 +60,11 @@ export default function VideoBDTU() {
       numeric: "auto",
     }).format(value, unit);
   };
+  const formatCommentDate = (dateText) =>
+    formatLocalizedDate(dateText, language, t, {
+      day: "numeric",
+      month: "short",
+    });
 
   // Scroll to top on page load
   useEffect(() => {
@@ -66,6 +73,7 @@ export default function VideoBDTU() {
 
   useEffect(() => {
     let active = true;
+    setLoading(true);
 
     Promise.all([videoService.getSettings(), videoService.getVideos()])
       .then(([settingsData, videoItems]) => {
@@ -84,6 +92,9 @@ export default function VideoBDTU() {
         setSettings({});
         setVideos([]);
         setActiveVideo(null);
+      })
+      .finally(() => {
+        if (active) setLoading(false);
       });
 
     return () => {
@@ -223,8 +234,8 @@ export default function VideoBDTU() {
     ),
   ];
 
-  if (!activeVideo) {
-    return <div className="pt-20 bg-white min-h-screen" />;
+  if (loading || !activeVideo) {
+    return null;
   }
 
   return (
@@ -314,16 +325,18 @@ export default function VideoBDTU() {
               {/* Channel Profile Row */}
               <div className="flex items-center justify-between gap-4 bg-primary-light/30 border border-primary-light p-5 rounded-2xl">
                 <div className="flex items-center gap-3.5">
-                  <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-primary bg-white flex items-center justify-center shadow-sm shrink-0">
-                    <img
-                      src={logoSrc}
-                      alt={t("common.logoAlt")}
-                      className="w-9 h-9 object-contain"
-                      onError={(e) => {
-                        e.currentTarget.style.display = "none";
-                      }}
-                    />
-                  </div>
+                  {logoSrc && hasTranslation("common.logoAlt") && (
+                    <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-primary bg-white flex items-center justify-center shadow-sm shrink-0">
+                      <img
+                        src={logoSrc}
+                        alt={t("common.logoAlt")}
+                        className="w-9 h-9 object-contain"
+                        onError={(e) => {
+                          e.currentTarget.style.display = "none";
+                        }}
+                      />
+                    </div>
+                  )}
                   <div className="flex flex-col">
                     <div className="flex items-center gap-1.5">
                       <span className="font-extrabold text-sm md:text-base text-navy leading-tight">
@@ -459,11 +472,7 @@ export default function VideoBDTU() {
                                 {comment.author}
                               </h5>
                               <span className="text-xs text-gray-400 font-semibold">
-                                {comment.date
-                                  ? new Date(comment.date).toLocaleDateString(
-                                      language || undefined,
-                                    )
-                                  : ""}
+                                {formatCommentDate(comment.date)}
                               </span>
                             </div>
                             <button

@@ -11,6 +11,7 @@ import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
 
 import { LocaleProvider } from "./context/LocaleContext";
+import { useLanguage } from "./context/LanguageContext";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import { AppDataProvider } from "./context/AppDataContext";
 import LoadingState from "./components/common/LoadingState";
@@ -23,13 +24,10 @@ const AboutPage = React.lazy(() => import("./pages/AboutPage"));
 const ServicesPage = React.lazy(() => import("./pages/ServicesPage"));
 const ContactPage = React.lazy(() => import("./pages/ContactPage"));
 const LoginPage = React.lazy(() => import("./pages/LoginPage"));
-const RegisterPage = React.lazy(() => import("./pages/RegisterPage"));
 const FacultyDetails = React.lazy(() => import("./pages/FacultyDetails"));
 const DepartmentPage = React.lazy(() => import("./pages/DepartmentPage"));
 const ForgotPassword = React.lazy(() => import("./pages/ForgotPassword"));
-const AdministrationDetails = React.lazy(
-  () => import("./pages/AdministrationDetails"),
-);
+const ResetPassword = React.lazy(() => import("./pages/ResetPassword"));
 const CenterDetails = React.lazy(() => import("./pages/CenterDetails"));
 const ProgramsPage = React.lazy(() => import("./pages/ProgramsPage"));
 const ProgramDetails = React.lazy(() => import("./pages/ProgramDetails"));
@@ -51,17 +49,11 @@ const ProfileDetails = React.lazy(() => import("./pages/ProfileDetails"));
 const StudentLayout = React.lazy(
   () => import("./features/student/layouts/StudentLayout"),
 );
-const StudentLogin = React.lazy(
-  () => import("./features/student/pages/StudentLogin"),
-);
-const StudentRegister = React.lazy(
-  () => import("./features/student/pages/StudentRegister"),
-);
 const StudentDashboard = React.lazy(
   () => import("./features/student/pages/StudentPortalPhaseTwo"),
 );
 const StudentProfile = React.lazy(
-  () => import("./features/student/pages/StudentPortalPhaseTwo"),
+  () => import("./features/student/pages/StudentProfile"),
 );
 const StudentApplication = React.lazy(
   () => import("./features/student/pages/StudentPortalPhaseTwo"),
@@ -180,16 +172,17 @@ const ApanelLayout = React.lazy(
   () => import("./features/apanel/layouts/ApanelLayout"),
 );
 
-// Student Protected Route wrapper — redirects to /student/login if not authenticated
+// Student Protected Route wrapper — redirects to /login if not authenticated
 function StudentRoute({ children }) {
   const { isAuthenticated, loading, user } = useAuth();
+  const location = useLocation();
 
   if (loading) {
     return <LoadingState height="h-screen" />;
   }
 
   if (!isAuthenticated) {
-    return <Navigate to="/student/login" replace />;
+    return <Navigate to="/login" replace state={{ from: location.pathname }} />;
   }
 
   const roles = user?.roles || [];
@@ -198,7 +191,7 @@ function StudentRoute({ children }) {
   }
 
   if (roles.length > 0 && !roles.includes("student")) {
-    return <Navigate to="/student/login" replace />;
+    return <Navigate to="/login" replace state={{ from: location.pathname }} />;
   }
 
   return children;
@@ -247,8 +240,14 @@ function AdminRoute({ children }) {
 // Separate component to consume React Router hooks (useLocation) safely
 function AppContent() {
   const location = useLocation();
+  const { loading: localeLoading, translationsReady } = useLanguage();
   const isApanel = location.pathname.startsWith("/apanel");
   const isStudent = location.pathname.startsWith("/student");
+  const isPublicSite = !isApanel && !isStudent;
+
+  if (isPublicSite && (localeLoading || !translationsReady)) {
+    return null;
+  }
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -256,7 +255,7 @@ function AppContent() {
       <main className="grow">
         <Suspense
           fallback={
-            <LoadingState height="h-screen" />
+            isPublicSite ? null : <LoadingState height="h-screen" />
           }
         >
           <Routes>
@@ -267,18 +266,14 @@ function AppContent() {
             <Route path="/services" element={<ServicesPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/register" element={<Navigate to="/apply" replace />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/faculty/:id" element={<FacultyDetails />} />
             <Route path="/department/:id" element={<DepartmentPage />} />
-            <Route
-              path="/administration/:id"
-              element={<AdministrationDetails />}
-            />
             <Route path="/center/:id" element={<CenterDetails />} />
             <Route path="/programs" element={<ProgramsPage />} />
             <Route path="/programs/:id" element={<ProgramDetails />} />
-            <Route path="/program/:id" element={<ProgramDetails />} />
             <Route path="/announcements" element={<AnnouncementsPage />} />
             <Route
               path="/announcements/:id"
@@ -295,12 +290,10 @@ function AppContent() {
 
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:id" element={<BlogDetails />} />
-            <Route path="/blog-details" element={<BlogDetails />} />
-            <Route path="/blog-details.html" element={<BlogDetails />} />
 
             {/* ── Student Portal Routes ── */}
-            <Route path="/student/login" element={<StudentLogin />} />
-            <Route path="/student/register" element={<StudentRegister />} />
+            <Route path="/student/login" element={<Navigate to="/login" replace />} />
+            <Route path="/student/register" element={<Navigate to="/apply" replace />} />
             <Route
               path="/student"
               element={
@@ -565,54 +558,6 @@ function AppContent() {
               }
             />
             <Route
-              path="/apanel/news"
-              element={<Navigate to="/apanel/cms/news-events" replace />}
-            />
-            <Route
-              path="/apanel/menus"
-              element={<Navigate to="/apanel/cms/header-navbar" replace />}
-            />
-            <Route
-              path="/apanel/menu-items"
-              element={<Navigate to="/apanel/cms/header-navbar" replace />}
-            />
-            <Route
-              path="/apanel/pages"
-              element={<Navigate to="/apanel/dashboard" replace />}
-            />
-            <Route
-              path="/apanel/page-blocks"
-              element={<Navigate to="/apanel/dashboard" replace />}
-            />
-            <Route
-              path="/apanel/services"
-              element={<Navigate to="/apanel/cms/interactive-services" replace />}
-            />
-            <Route
-              path="/apanel/videos"
-              element={<Navigate to="/apanel/cms/video-bdtu" replace />}
-            />
-            <Route
-              path="/apanel/announcements"
-              element={<Navigate to="/apanel/cms/announcements" replace />}
-            />
-            <Route
-              path="/apanel/Facultys"
-              element={<Navigate to="/apanel/faculties" replace />}
-            />
-            <Route
-              path="/apanel/dr-staf"
-              element={<Navigate to="/apanel/staff" replace />}
-            />
-            <Route
-              path="/apanel/den-faculties"
-              element={<Navigate to="/apanel/staff" replace />}
-            />
-            <Route
-              path="/apanel/man-department"
-              element={<Navigate to="/apanel/staff" replace />}
-            />
-            <Route
               path="/apanel/cms/footer-web"
               element={
                 <AdminRoute>
@@ -731,10 +676,6 @@ function AppContent() {
                   </ApanelLayout>
                 </AdminRoute>
               }
-            />
-            <Route
-              path="/apanel/inquiries"
-              element={<Navigate to="/apanel/management/contact" replace />}
             />
             <Route
               path="/apanel/management/contact"
@@ -868,11 +809,11 @@ export default function App() {
   return (
     <LocaleProvider>
       <AuthProvider>
-        <AppDataProvider>
-          <Router>
+        <Router>
+          <AppDataProvider>
             <AppContent />
-          </Router>
-        </AppDataProvider>
+          </AppDataProvider>
+        </Router>
       </AuthProvider>
     </LocaleProvider>
   );

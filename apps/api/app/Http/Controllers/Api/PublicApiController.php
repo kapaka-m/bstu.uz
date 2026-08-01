@@ -659,7 +659,7 @@ class PublicApiController extends Controller
             return [
                 'locale' => $locale,
                 'direction' => $this->directionForLocale($locale),
-                'data' => $items->map(fn (MenuItem $item) => $this->formatMenuItem($item, $locale))->values()->all(),
+                'data' => $this->formatMenuItems($items, $locale),
             ];
         });
 
@@ -695,7 +695,7 @@ class PublicApiController extends Controller
                     'id' => $menu->id,
                     'key' => $menu->key,
                     'location' => $menu->location,
-                    'items' => $items->map(fn (MenuItem $item) => $this->formatMenuItem($item, $locale))->values()->all(),
+                    'items' => $this->formatMenuItems($items, $locale),
                 ];
             }
 
@@ -703,6 +703,19 @@ class PublicApiController extends Controller
         });
 
         return $this->successResponse($data, 'Menus retrieved successfully');
+    }
+
+    protected function formatMenuItems($items, string $locale): array
+    {
+        return $items
+            ->map(fn (MenuItem $item) => $this->formatMenuItem($item, $locale))
+            ->unique(fn (array $item) => implode('|', [
+                $item['sort_order'] ?? '',
+                $item['route_name'] ?? '',
+                $item['label'] ?? '',
+            ]))
+            ->values()
+            ->all();
     }
 
     protected function formatMenuItem(MenuItem $item, string $locale): array

@@ -1,29 +1,16 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Public comments can be anonymous, so user_id must allow null values.
-     */
     public function up(): void
     {
-        Schema::table('comments', function (Blueprint $table) {
-            $table->dropForeign(['user_id']);
-            $table->foreignId('user_id')->nullable()->change();
-            $table->foreign('user_id')->references('id')->on('users')->nullOnDelete();
-        });
+        // Replaced by 0000_01_01_000000_create_full_database_snapshot_schema.php.
     }
 
     public function down(): void
     {
-        Schema::table('comments', function (Blueprint $table) {
-            $table->dropForeign(['user_id']);
-            $table->foreignId('user_id')->nullable(false)->change();
-            $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
-        });
+        // Replaced by 0000_01_01_000000_create_full_database_snapshot_schema.php.
     }
 };

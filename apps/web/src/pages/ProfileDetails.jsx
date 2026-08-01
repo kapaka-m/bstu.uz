@@ -74,7 +74,7 @@ export default function ProfileDetails() {
   }
 
   if (!person && adminLoading) {
-    return <div className="pt-24 min-h-[70vh] bg-white" />;
+    return null;
   }
 
   if (!person) {

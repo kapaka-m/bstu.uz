@@ -18,7 +18,6 @@ import {
   Send,
   AlertTriangle,
   Mail,
-  Loader2,
 } from "lucide-react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
@@ -125,6 +124,10 @@ export default function Services({ limit }) {
 
   const displayServices = useMemo(() => services, [services]);
 
+  if (loading) {
+    return null;
+  }
+
   const renderServiceCard = (service, index) => {
     const Icon = iconMap[service.icon] || Contact;
     const colors = colorConfig[service.color] || colorConfig.cyan;
@@ -179,21 +182,14 @@ export default function Services({ limit }) {
           </p>
         </div>
 
-        {loading && (
-          <div className="flex items-center justify-center py-12 text-primary">
-            <Loader2 className="h-6 w-6 animate-spin" />
-            <span className="ms-3 text-sm font-bold">{settings.loading_label || ""}</span>
-          </div>
-        )}
-
-        {!loading && displayServices.length === 0 && (
+        {displayServices.length === 0 && (
           <div className="rounded-3xl border border-gray-100 bg-white p-10 text-center text-sm font-bold text-gray-500">
             {settings.no_results_label || ""}
           </div>
         )}
 
         {/* Services Grid */}
-        {!loading && displayServices.length > 0 && (
+        {displayServices.length > 0 && (
           limit ? (
             <Swiper
               key={language}

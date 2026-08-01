@@ -10,19 +10,19 @@ import {
 } from "lucide-react";
 import FormError from "../../../components/common/FormError";
 import { apanelService } from "../../../services/apanelService";
+import { formatLocalizedDate } from "../../../utils/dateFormat";
 import ConfirmDialog from "../components/ConfirmDialog";
 import { useApanelLocaleCodes } from "../utils/locales";
 import { useLanguage } from "../../../context/LanguageContext";
 
-function formatDate(value, locale) {
+function formatDate(value, locale, translate) {
   if (!value) return "—";
-  return new Intl.DateTimeFormat(locale, {
-    year: "numeric",
-    month: "short",
+  return formatLocalizedDate(value, locale, translate, {
     day: "2-digit",
+    month: "short",
     hour: "2-digit",
     minute: "2-digit",
-  }).format(new Date(value));
+  });
 }
 
 export default function ApanelNewsletterSubscriptions() {
@@ -116,7 +116,7 @@ export default function ApanelNewsletterSubscriptions() {
           { label: t("apanel.newsletter.activeOnPage"), value: activeCount, icon: Mail },
           {
             label: t("apanel.newsletter.latestSubscription"),
-            value: latestDate ? formatDate(latestDate, primaryLocale) : "—",
+            value: latestDate ? formatDate(latestDate, primaryLocale, t) : "—",
             icon: CalendarClock,
           },
         ].map((stat) => {
@@ -212,7 +212,7 @@ export default function ApanelNewsletterSubscriptions() {
                       </span>
                     </td>
                     <td className="px-5 py-4 text-xs font-semibold text-gray-500">
-                      {formatDate(item.subscribed_at || item.created_at, primaryLocale)}
+                      {formatDate(item.subscribed_at || item.created_at, primaryLocale, t)}
                     </td>
                     <td className="px-5 py-4 text-xs font-semibold text-gray-500">
                       {item.ip_address || "—"}

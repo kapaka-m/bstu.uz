@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { studentService } from "../../../services/studentService";
 import { useLanguage } from "../../../context/LanguageContext";
+import { formatLocalizedDate } from "../../../utils/dateFormat";
 import { Loader2, MessageSquare, Send, HelpCircle, Plus } from "lucide-react";
 import FormError from "../../../components/common/FormError";
 
 export default function StudentSupport() {
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
   const [tickets, setTickets] = useState([]);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
@@ -27,11 +28,17 @@ export default function StudentSupport() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [t]);
 
   useEffect(() => {
     fetchTickets();
   }, [fetchTickets]);
+
+  const formatDate = (value) =>
+    formatLocalizedDate(value, language, t, {
+      day: "numeric",
+      month: "short",
+    });
 
   const handleSubmitTicket = async (e) => {
     e.preventDefault();
@@ -168,7 +175,7 @@ export default function StudentSupport() {
                   >
                     <div className="flex justify-between items-center text-[10px] font-extrabold text-gray-400 uppercase">
                       <span>{ticket.priority ? ticket.priority.toUpperCase() : t("support.priority.normalValue")}</span>
-                      <span>{new Date(ticket.created_at).toLocaleDateString()}</span>
+                      <span>{formatDate(ticket.created_at)}</span>
                     </div>
                     <h4 className="text-xs font-black text-navy leading-snug">
                       {ticket.subject}

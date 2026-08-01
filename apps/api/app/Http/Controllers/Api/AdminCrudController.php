@@ -1001,7 +1001,19 @@ class AdminCrudController extends Controller
 
     protected function aboutSupportedTranslations(array $values, bool $allowScalarValues = false): array
     {
-        $supported = ['en', 'uz', 'ru', 'ar'];
+        $supported = Locale::query()
+            ->where('is_active', true)
+            ->orderBy('sort_order')
+            ->orderBy('id')
+            ->pluck('code')
+            ->filter()
+            ->values()
+            ->all();
+
+        if ($supported === []) {
+            $supported = array_keys($values);
+        }
+
         $normalized = [];
 
         foreach ($supported as $locale) {
@@ -1019,12 +1031,16 @@ class AdminCrudController extends Controller
 
     protected function sameAboutValueForAllLocales(mixed $value): array
     {
-        return [
-            'en' => $value,
-            'uz' => $value,
-            'ru' => $value,
-            'ar' => $value,
-        ];
+        return collect(Locale::query()
+            ->where('is_active', true)
+            ->orderBy('sort_order')
+            ->orderBy('id')
+            ->pluck('code')
+            ->filter()
+            ->values()
+            ->all())
+            ->mapWithKeys(fn (string $locale) => [$locale => $value])
+            ->all();
     }
 
     protected function aboutRepeatedSharedFields(string $section): array

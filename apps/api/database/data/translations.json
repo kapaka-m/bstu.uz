@@ -2309,6 +2309,8 @@
         "auth": {
             "dontHaveAccount": "Don't have an account?",
             "signUp": "Sign Up",
+            "apply": "Apply",
+            "emailMustApplyFirst": "This email is not registered. Please apply first.",
             "passwordsNotMatch": "Passwords do not match!",
             "successRegister": "Registration completed successfully!",
             "createAccount": "Create Account",
@@ -3789,6 +3791,8 @@
             "passwordPlaceholder": "Parol",
             "dontHaveAccount": "Hisobingiz yo'qmi?",
             "signUp": "Ro'yxatdan o'tish",
+            "apply": "Ariza topshirish",
+            "emailMustApplyFirst": "Bu email ro'yxatdan o'tmagan. Avval ariza topshiring.",
             "passwordsNotMatch": "Parollar mos kelmadi!",
             "successRegister": "Ro'yxatdan o'tish muvaffaqiyatli yakunlandi!",
             "createAccount": "Hisob yaratish",
@@ -4777,6 +4781,8 @@
     "auth": {
         "dontHaveAccount": "Hisobingiz yo'qmi?",
         "signUp": "Ro'yxatdan o'tish",
+        "apply": "Ariza topshirish",
+        "emailMustApplyFirst": "Bu email ro'yxatdan o'tmagan. Avval ariza topshiring.",
         "passwordsNotMatch": "Parollar mos kelmadi!",
         "successRegister": "Ro'yxatdan o'tish muvaffaqiyatli yakunlandi!",
         "createAccount": "Hisob yaratish",
@@ -7040,6 +7046,8 @@
         "auth": {
             "dontHaveAccount": "Нет учетной записи?",
             "signUp": "Зарегистрироваться",
+            "apply": "Подать заявку",
+            "emailMustApplyFirst": "Этот email не зарегистрирован. Сначала подайте заявку.",
             "passwordsNotMatch": "Пароли не совпадают!",
             "successRegister": "Регистрация успешно завершена!",
             "createAccount": "Создать учетную запись",
@@ -9302,6 +9310,8 @@
         "auth": {
             "dontHaveAccount": "ليس لديك حساب؟",
             "signUp": "إنشاء حساب",
+            "apply": "تقديم",
+            "emailMustApplyFirst": "هذا البريد الإلكتروني غير مسجل. يجب التقديم أولا.",
             "passwordsNotMatch": "كلمات المرور غير متطابقة!",
             "successRegister": "تم التسجيل بنجاح!",
             "createAccount": "إنشاء حساب",

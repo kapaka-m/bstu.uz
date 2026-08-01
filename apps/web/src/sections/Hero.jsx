@@ -9,10 +9,17 @@ import { publicAssetUrl } from "../lib/api";
 export default function Hero() {
   const [isVideoOpen, setIsVideoOpen] = useState(false);
   const [heroVideo, setHeroVideo] = useState(null);
-  const { t, language, settings, isRtl } = useLanguage();
+  const { t, hasTranslation, translationsReady, language, settings, isRtl } = useLanguage();
   const heroBackgroundImage = publicAssetUrl(settings?.home_hero_background_image);
   const heroMainImage = publicAssetUrl(settings?.home_hero_main_image);
   const heroStudentCount = settings?.home_hero_student_count;
+  const hasHeroContent =
+    translationsReady &&
+    hasTranslation("home.hero.title") &&
+    hasTranslation("home.hero.subtitle") &&
+    hasTranslation("common.applyNow") &&
+    hasTranslation("home.hero.accredited") &&
+    hasTranslation("home.hero.statePrograms");
 
   useEffect(() => {
     let alive = true;
@@ -30,6 +37,10 @@ export default function Hero() {
       alive = false;
     };
   }, [language]);
+
+  if (!hasHeroContent) {
+    return null;
+  }
 
   return (
     <section

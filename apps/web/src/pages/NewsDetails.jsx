@@ -3,11 +3,12 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { Calendar, Eye, Search, Folder, Tag } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
 import { newsService } from "../services/newsService";
+import { formatLocalizedDate } from "../utils/dateFormat";
 
 export default function NewsDetails() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { language } = useLanguage();
+  const { language, t } = useLanguage();
   const [news, setNews] = useState(null);
   const [newsItems, setNewsItems] = useState([]);
   const [settings, setSettings] = useState(null);
@@ -48,15 +49,10 @@ export default function NewsDetails() {
   }, [id, language]);
 
   const formatNewsDate = (dateValue) => {
-    if (/^\d{4}$/.test(String(dateValue).trim())) return dateValue;
-    const parsed = new Date(dateValue);
-    if (Number.isNaN(parsed.getTime())) return dateValue;
-
-    return new Intl.DateTimeFormat(language, {
+    return formatLocalizedDate(dateValue, language, t, {
       day: "2-digit",
       month: "long",
-      year: "numeric",
-    }).format(parsed);
+    });
   };
 
   const uniqueCategories = [...new Set(newsItems.map((p) => p.category))];
@@ -83,15 +79,7 @@ export default function NewsDetails() {
       : settings?.news_label || category;
 
   if (loading) {
-    return (
-      <div className="pt-24 bg-white">
-        <div className="container mx-auto px-4 md:px-8 max-w-7xl py-20 text-center">
-          <p className="text-gray-500 font-semibold">
-            {settings?.loading_label || ""}
-          </p>
-        </div>
-      </div>
-    );
+    return null;
   }
 
   if (!news) {

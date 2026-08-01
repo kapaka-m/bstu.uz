@@ -87,7 +87,7 @@ function Input({ id, label, error, hint, icon: Icon, ...props }) {
   );
 }
 
-function Select({ id, label, error, options, ...props }) {
+function Select({ id, label, error, options, placeholder, ...props }) {
   return (
     <Field id={id} label={label} error={error}>
       <select
@@ -96,7 +96,7 @@ function Select({ id, label, error, options, ...props }) {
         className={`w-full px-4 py-3 rounded-xl border text-sm font-semibold outline-none focus:ring-2 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-400 ${error ? "border-red-300 focus:ring-red-100" : "border-gray-200 bg-white focus:border-primary focus:ring-primary/15"}`}
         {...props}
       >
-        <option value="">--</option>
+        <option value="">{placeholder}</option>
         {options.map((option) => (
           <option key={option.value} value={option.value}>{option.label}</option>
         ))}
@@ -316,7 +316,7 @@ export default function ApplyPage() {
   };
 
   if (loading) {
-    return <div className="min-h-screen pt-24 flex items-center justify-center"><Loader2 className="w-8 h-8 animate-spin text-primary" /></div>;
+    return null;
   }
 
   if (success) {
@@ -382,31 +382,31 @@ export default function ApplyPage() {
             {step === 0 && (
               <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
                 <div className="md:col-span-2 rounded-2xl bg-primary/5 p-4 text-sm font-semibold text-primary">{t.passportHint}</div>
-                <Input id="full_name_english" label={t.fullName} value={form.full_name_english} onChange={(e) => setValue("full_name_english", e.target.value)} error={errors.full_name_english} icon={User} />
-                <Input id="birth_date" label={t.birthDate} type="date" max={new Date().toISOString().slice(0, 10)} value={form.birth_date} onChange={(e) => setValue("birth_date", e.target.value)} error={errors.birth_date} icon={Calendar} />
-                <Select id="country_of_birth" label={t.countryBirth} value={form.country_of_birth} onChange={(e) => setValue("country_of_birth", e.target.value)} error={errors.country_of_birth} options={(metadata?.countries || []).map((x) => ({ value: x, label: x }))} />
-                <Input id="place_of_birth" label={t.placeBirth} value={form.place_of_birth} onChange={(e) => setValue("place_of_birth", e.target.value)} error={errors.place_of_birth} />
-                <Select id="nationality" label={t.nationality} value={form.nationality} onChange={(e) => setValue("nationality", e.target.value)} error={errors.nationality} options={(metadata?.nationalities || []).map((x) => ({ value: x, label: x }))} />
-                <Select id="gender" label={t.gender} value={form.gender} onChange={(e) => setValue("gender", e.target.value)} error={errors.gender} options={(metadata?.genders || []).map((x) => ({ value: x, label: optionLabel("gender", x) }))} />
-                <Input id="passport_number" label={t.passportNumber} value={form.passport_number} onChange={(e) => setValue("passport_number", e.target.value)} error={errors.passport_number} />
-                <Select id="passport_type" label={t.passportType} value={form.passport_type} onChange={(e) => setValue("passport_type", e.target.value)} error={errors.passport_type} options={(metadata?.passport_types || []).map((x) => ({ value: x, label: optionLabel("passport_type", x) }))} />
-                <Input id="passport_issue_date" label={t.issueDate} type="date" max={new Date().toISOString().slice(0, 10)} value={form.passport_issue_date} onChange={(e) => setValue("passport_issue_date", e.target.value)} error={errors.passport_issue_date} />
-                <Input id="passport_expiry_date" label={t.expiryDate} type="date" value={form.passport_expiry_date} onChange={(e) => setValue("passport_expiry_date", e.target.value)} error={errors.passport_expiry_date} />
-                <Select id="passport_issuing_country" label={t.issuingCountry} value={form.passport_issuing_country} onChange={(e) => setValue("passport_issuing_country", e.target.value)} error={errors.passport_issuing_country} options={(metadata?.countries || []).map((x) => ({ value: x, label: x }))} />
-                <Input id="passport_place_of_issue" label={t.placeIssue} value={form.passport_place_of_issue} onChange={(e) => setValue("passport_place_of_issue", e.target.value)} error={errors.passport_place_of_issue} />
-                <Input id="primary_phone" label={t.primaryPhone} value={form.primary_phone} onChange={(e) => setValue("primary_phone", e.target.value)} error={errors.primary_phone} icon={Phone} placeholder="+998901234567" />
-                <Select id="preferred_messenger" label={t.messenger} value={form.preferred_messenger} onChange={(e) => setValue("preferred_messenger", e.target.value)} error={errors.preferred_messenger} options={(metadata?.messengers || []).map((x) => ({ value: x, label: optionLabel("messenger", x) }))} />
-                {(form.preferred_messenger === "telegram" || form.preferred_messenger === "both") && <Input id="telegram_username" label={t.telegram} value={form.telegram_username} onChange={(e) => setValue("telegram_username", e.target.value)} error={errors.telegram_username} />}
-                <Input id="alternative_phone" label={t.alternativePhone} value={form.alternative_phone} onChange={(e) => setValue("alternative_phone", e.target.value)} error={errors.alternative_phone} icon={Phone} placeholder="+998901234568" />
+                <Input id="full_name_english" label={t.fullName} value={form.full_name_english} onChange={(e) => setValue("full_name_english", e.target.value)} error={errors.full_name_english} icon={User} placeholder={t.fullNamePlaceholder} />
+                <Input id="birth_date" label={t.birthDate} type="date" max={new Date().toISOString().slice(0, 10)} value={form.birth_date} onChange={(e) => setValue("birth_date", e.target.value)} error={errors.birth_date} icon={Calendar} placeholder={t.birthDatePlaceholder} />
+                <Select id="country_of_birth" label={t.countryBirth} value={form.country_of_birth} onChange={(e) => setValue("country_of_birth", e.target.value)} error={errors.country_of_birth} placeholder={t.countryBirthPlaceholder} options={(metadata?.countries || []).map((x) => ({ value: x, label: x }))} />
+                <Input id="place_of_birth" label={t.placeBirth} value={form.place_of_birth} onChange={(e) => setValue("place_of_birth", e.target.value)} error={errors.place_of_birth} placeholder={t.placeBirthPlaceholder} />
+                <Select id="nationality" label={t.nationality} value={form.nationality} onChange={(e) => setValue("nationality", e.target.value)} error={errors.nationality} placeholder={t.nationalityPlaceholder} options={(metadata?.nationalities || []).map((x) => ({ value: x, label: x }))} />
+                <Select id="gender" label={t.gender} value={form.gender} onChange={(e) => setValue("gender", e.target.value)} error={errors.gender} placeholder={t.genderPlaceholder} options={(metadata?.genders || []).map((x) => ({ value: x, label: optionLabel("gender", x) }))} />
+                <Input id="passport_number" label={t.passportNumber} value={form.passport_number} onChange={(e) => setValue("passport_number", e.target.value)} error={errors.passport_number} placeholder={t.passportNumberPlaceholder} />
+                <Select id="passport_type" label={t.passportType} value={form.passport_type} onChange={(e) => setValue("passport_type", e.target.value)} error={errors.passport_type} placeholder={t.passportTypePlaceholder} options={(metadata?.passport_types || []).map((x) => ({ value: x, label: optionLabel("passport_type", x) }))} />
+                <Input id="passport_issue_date" label={t.issueDate} type="date" max={new Date().toISOString().slice(0, 10)} value={form.passport_issue_date} onChange={(e) => setValue("passport_issue_date", e.target.value)} error={errors.passport_issue_date} placeholder={t.issueDatePlaceholder} />
+                <Input id="passport_expiry_date" label={t.expiryDate} type="date" value={form.passport_expiry_date} onChange={(e) => setValue("passport_expiry_date", e.target.value)} error={errors.passport_expiry_date} placeholder={t.expiryDatePlaceholder} />
+                <Select id="passport_issuing_country" label={t.issuingCountry} value={form.passport_issuing_country} onChange={(e) => setValue("passport_issuing_country", e.target.value)} error={errors.passport_issuing_country} placeholder={t.issuingCountryPlaceholder} options={(metadata?.countries || []).map((x) => ({ value: x, label: x }))} />
+                <Input id="passport_place_of_issue" label={t.placeIssue} value={form.passport_place_of_issue} onChange={(e) => setValue("passport_place_of_issue", e.target.value)} error={errors.passport_place_of_issue} placeholder={t.placeIssuePlaceholder} />
+                <Input id="primary_phone" label={t.primaryPhone} value={form.primary_phone} onChange={(e) => setValue("primary_phone", e.target.value)} error={errors.primary_phone} icon={Phone} placeholder={t.primaryPhonePlaceholder} />
+                <Select id="preferred_messenger" label={t.messenger} value={form.preferred_messenger} onChange={(e) => setValue("preferred_messenger", e.target.value)} error={errors.preferred_messenger} placeholder={t.messengerPlaceholder} options={(metadata?.messengers || []).map((x) => ({ value: x, label: optionLabel("messenger", x) }))} />
+                {(form.preferred_messenger === "telegram" || form.preferred_messenger === "both") && <Input id="telegram_username" label={t.telegram} value={form.telegram_username} onChange={(e) => setValue("telegram_username", e.target.value)} error={errors.telegram_username} placeholder={t.telegramPlaceholder} />}
+                <Input id="alternative_phone" label={t.alternativePhone} value={form.alternative_phone} onChange={(e) => setValue("alternative_phone", e.target.value)} error={errors.alternative_phone} icon={Phone} placeholder={t.alternativePhonePlaceholder} />
               </div>
             )}
 
             {step === 1 && (
               <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-                <Select id="degree_level" label={t.degree} value={form.degree_level} onChange={(e) => setValue("degree_level", e.target.value)} error={errors.degree_level} options={(metadata?.degrees || []).map((x) => ({ value: x, label: optionLabel("degree_level", x) }))} />
-                <Select id="student_type" label={t.studentType} value={form.student_type} onChange={(e) => setValue("student_type", e.target.value)} error={errors.student_type} options={(metadata?.student_types || []).map((x) => ({ value: x, label: optionLabel("student_type", x) }))} />
-                <Select id="faculty_id" label={t.faculty} value={form.faculty_id} onChange={(e) => setValue("faculty_id", e.target.value)} error={errors.faculty_id} disabled={!form.degree_level} options={filteredFaculties.map((x) => ({ value: x.id, label: x.name }))} />
-                <Select id="program_id" label={t.program} value={form.program_id} onChange={(e) => setValue("program_id", e.target.value)} error={errors.program_id} disabled={!form.faculty_id} options={availablePrograms.map((x) => ({ value: x.id, label: `${x.code} - ${x.name}` }))} />
+                <Select id="degree_level" label={t.degree} value={form.degree_level} onChange={(e) => setValue("degree_level", e.target.value)} error={errors.degree_level} placeholder={t.degreePlaceholder} options={(metadata?.degrees || []).map((x) => ({ value: x, label: optionLabel("degree_level", x) }))} />
+                <Select id="student_type" label={t.studentType} value={form.student_type} onChange={(e) => setValue("student_type", e.target.value)} error={errors.student_type} placeholder={t.studentTypePlaceholder} options={(metadata?.student_types || []).map((x) => ({ value: x, label: optionLabel("student_type", x) }))} />
+                <Select id="faculty_id" label={t.faculty} value={form.faculty_id} onChange={(e) => setValue("faculty_id", e.target.value)} error={errors.faculty_id} disabled={!form.degree_level} placeholder={t.facultyPlaceholder} options={filteredFaculties.map((x) => ({ value: x.id, label: x.name }))} />
+                <Select id="program_id" label={t.program} value={form.program_id} onChange={(e) => setValue("program_id", e.target.value)} error={errors.program_id} disabled={!form.faculty_id} placeholder={t.programPlaceholder} options={availablePrograms.map((x) => ({ value: x.id, label: `${x.code} - ${x.name}` }))} />
                 <Select
                   id="education_type"
                   label={t.educationType}
@@ -414,6 +414,7 @@ export default function ApplyPage() {
                   onChange={(e) => setValue("education_type", e.target.value)}
                   error={errors.education_type}
                   disabled={!selectedProgram}
+                  placeholder={t.educationTypePlaceholder}
                   options={selectedProgramEducationTypes.map((x) => ({ value: x, label: optionLabel("education_type", x) }))}
                 />
                 <Select
@@ -423,9 +424,10 @@ export default function ApplyPage() {
                   onChange={(e) => setValue("study_language", e.target.value)}
                   error={errors.study_language}
                   disabled={!selectedProgram}
+                  placeholder={t.languagePlaceholder}
                   options={selectedProgramLanguages.map((x) => ({ value: x, label: optionLabel("study_language", x) }))}
                 />
-                <Select id="intended_intake" label={t.intake} value={form.intended_intake} onChange={(e) => setValue("intended_intake", e.target.value)} error={errors.intended_intake} options={(metadata?.intakes || []).map((x) => ({ value: x, label: x }))} />
+                <Select id="intended_intake" label={t.intake} value={form.intended_intake} onChange={(e) => setValue("intended_intake", e.target.value)} error={errors.intended_intake} placeholder={t.intakePlaceholder} options={(metadata?.intakes || []).map((x) => ({ value: x, label: x }))} />
                 <div className="rounded-2xl border border-gray-100 bg-gray-50 p-4">
                   <p className="text-[11px] font-extrabold uppercase tracking-wider text-gray-400">{t.duration}</p>
                   <p className="mt-1 text-sm font-extrabold text-navy">{selectedProgram?.duration_years ? `${selectedProgram.duration_years} ${t.yearsLabel}` : "--"}</p>
@@ -437,16 +439,16 @@ export default function ApplyPage() {
             {step === 2 && (
               <div className="space-y-6">
                 <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-                  <Input id="email" label={t.email} type="email" value={form.email} onChange={(e) => setValue("email", e.target.value)} error={errors.email} icon={Mail} />
+                  <Input id="email" label={t.email} type="email" value={form.email} onChange={(e) => setValue("email", e.target.value)} error={errors.email} icon={Mail} placeholder={t.emailPlaceholder} />
                   <Field id="password" label={t.password} error={errors.password}>
                     <div className="relative">
                       <Lock className="absolute left-3 top-3.5 h-4 w-4 text-gray-400" />
-                      <input id="password" type={showPassword ? "text" : "password"} aria-invalid={Boolean(errors.password)} value={form.password} onChange={(e) => setValue("password", e.target.value)} className={`w-full rounded-xl border bg-white py-3 pl-10 pr-11 text-sm font-semibold outline-none focus:ring-2 ${errors.password ? "border-red-300 focus:ring-red-100" : "border-gray-200 focus:border-primary focus:ring-primary/15"}`} />
+                      <input id="password" type={showPassword ? "text" : "password"} aria-invalid={Boolean(errors.password)} value={form.password} onChange={(e) => setValue("password", e.target.value)} placeholder={t.passwordPlaceholder} className={`w-full rounded-xl border bg-white py-3 pl-10 pr-11 text-sm font-semibold outline-none focus:ring-2 ${errors.password ? "border-red-300 focus:ring-red-100" : "border-gray-200 focus:border-primary focus:ring-primary/15"}`} />
                       <button type="button" onClick={() => setShowPassword((x) => !x)} className="absolute right-3 top-3 text-gray-400">{showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}</button>
                     </div>
                     <div className="mt-2 flex gap-1">{[1, 2, 3, 4].map((x) => <span key={x} className={`h-1.5 flex-1 rounded-full ${passwordScore >= x ? "bg-primary" : "bg-gray-100"}`} />)}</div>
                   </Field>
-                  <Input id="password_confirmation" label={t.confirmPassword} type={showPassword ? "text" : "password"} value={form.password_confirmation} onChange={(e) => setValue("password_confirmation", e.target.value)} error={errors.password_confirmation} icon={Lock} />
+                  <Input id="password_confirmation" label={t.confirmPassword} type={showPassword ? "text" : "password"} value={form.password_confirmation} onChange={(e) => setValue("password_confirmation", e.target.value)} error={errors.password_confirmation} icon={Lock} placeholder={t.confirmPasswordPlaceholder} />
                 </div>
 
                 <ReviewBox title={t.personalInfo} action={{ label: t.editPersonal, onClick: () => setStep(0) }}>

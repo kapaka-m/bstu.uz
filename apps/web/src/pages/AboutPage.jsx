@@ -17,7 +17,6 @@ import {
   ArrowRight,
   Compass,
   Sparkles,
-  Loader2,
   AlertCircle,
 } from "lucide-react";
 import { motion } from "framer-motion";
@@ -100,11 +99,7 @@ export default function AboutPage() {
 
 
   if (loading) {
-    return (
-      <div className="bg-white min-h-screen flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-primary" />
-      </div>
-    );
+    return null;
   }
 
   if (!aboutPage || error) {
@@ -270,13 +265,17 @@ export default function AboutPage() {
               </div>
               <div className="lg:col-span-5 relative">
                 <div className="aspect-4/3 rounded-3xl overflow-hidden shadow-lg bg-gray-50 border border-gray-100">
-                  <img
-                    src={identityImageSrc}
-                    alt={text("identity.title")}
-                    width="1200"
-                    height="800"
-                    className="w-full h-full object-cover"
-                  />
+                  {identityImageSrc ? (
+                    <img
+                      src={identityImageSrc}
+                      alt={text("identity.title")}
+                      width="1200"
+                      height="800"
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full" />
+                  )}
                 </div>
               </div>
             </div>

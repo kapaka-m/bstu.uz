@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
 import { greenCampusService } from "../services/greenCampusService";
+import { formatLocalizedDate } from "../utils/dateFormat";
 
 function GalleryLightbox({ images, startIndex, onClose, labels }) {
   const [current, setCurrent] = useState(startIndex);
@@ -81,12 +82,13 @@ function GalleryLightbox({ images, startIndex, onClose, labels }) {
 }
 
 export default function GreenCampusDetails() {
-  const { language } = useLanguage();
+  const { language, t } = useLanguage();
   const { id } = useParams();
   const [lightboxIndex, setLightboxIndex] = useState(null);
   const [article, setArticle] = useState(null);
   const [articles, setArticles] = useState([]);
   const [settings, setSettings] = useState({});
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -94,6 +96,7 @@ export default function GreenCampusDetails() {
 
   useEffect(() => {
     let active = true;
+    setLoading(true);
 
     Promise.all([
       greenCampusService.getSettings(),
@@ -114,6 +117,9 @@ export default function GreenCampusDetails() {
         setSettings({});
         setArticle(null);
         setArticles([]);
+      })
+      .finally(() => {
+        if (active) setLoading(false);
       });
 
     return () => {
@@ -147,18 +153,18 @@ export default function GreenCampusDetails() {
   const galleryThumbnails = galleryImages.slice(1);
 
   const formatArticleDate = (dateValue) => {
-    const parsed = new Date(dateValue);
-    if (Number.isNaN(parsed.getTime())) return dateValue;
-
-    return new Intl.DateTimeFormat(language || undefined, {
+    return formatLocalizedDate(dateValue, language, t, {
       day: "numeric",
       month: "short",
-      year: "numeric",
-    }).format(parsed);
+    });
   };
 
+  if (loading) {
+    return null;
+  }
+
   if (!article) {
-    return <div className="pt-24 bg-white min-h-screen" />;
+    return null;
   }
 
   return (

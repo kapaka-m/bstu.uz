@@ -6,12 +6,13 @@ import { Autoplay } from "swiper/modules";
 import { useLanguage } from "../context/LanguageContext";
 import { motion } from "framer-motion";
 import { announcementService } from "../services/announcementService";
+import { formatLocalizedDate } from "../utils/dateFormat";
 
 // Import Swiper styles
 import "swiper/css";
 
 export default function Announcements() {
-  const { language, isRtl } = useLanguage();
+  const { language, isRtl, t } = useLanguage();
   const [announcements, setAnnouncements] = useState([]);
   const [settings, setSettings] = useState(null);
 
@@ -39,14 +40,10 @@ export default function Announcements() {
   );
 
   const formatDate = (value) => {
-    if (!value) return "";
-    const date = new Date(value);
-    if (Number.isNaN(date.getTime())) return value;
-    return new Intl.DateTimeFormat(language || undefined, {
-      year: "numeric",
+    return formatLocalizedDate(value, language, t, {
       month: "short",
       day: "2-digit",
-    }).format(date);
+    });
   };
 
   if (!latestAnnouncements.length) {

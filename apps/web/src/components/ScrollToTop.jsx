@@ -5,7 +5,7 @@ import { useLanguage } from "../context/LanguageContext";
 
 export default function ScrollToTop() {
   const [isVisible, setIsVisible] = useState(false);
-  const { t } = useLanguage();
+  const { t, hasTranslation } = useLanguage();
 
   useEffect(() => {
     const toggleVisibility = () => {
@@ -25,7 +25,7 @@ export default function ScrollToTop() {
 
   return (
     <AnimatePresence>
-      {isVisible && (
+      {isVisible && hasTranslation("common.scrollToTop") && (
         <motion.button
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}

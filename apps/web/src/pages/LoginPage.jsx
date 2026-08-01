@@ -1,23 +1,67 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Mail, Lock, LogIn, ArrowRight, Eye, EyeOff } from "lucide-react";
 import { motion } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
+import { useAuth } from "../context/AuthContext";
+import FormError from "../components/common/FormError";
+
+const REQUIRED_LOGIN_TRANSLATIONS = [
+  "auth.welcomeBack",
+  "auth.loginPrompt",
+  "auth.emailLabel",
+  "auth.emailPlaceholder",
+  "auth.passwordLabel",
+  "auth.passwordPlaceholder",
+  "auth.forgotPassword",
+  "auth.logIn",
+  "auth.dontHaveAccount",
+  "auth.apply",
+  "auth.showPassword",
+  "auth.hidePassword",
+  "auth.loginFailed",
+];
 
 export default function LoginPage() {
-  const { t, logoSrc, isRtl } = useLanguage();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { login, clearSession } = useAuth();
+  const { t, hasTranslation, translationsReady, logoSrc, isRtl } = useLanguage();
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    setTimeout(() => {
+    if (!formData.email || !formData.password) return;
+
+    try {
+      setLoading(true);
+      setError("");
+      const user = await login(formData.email, formData.password, "student");
+      const roles = user?.roles || [];
+      if (!roles.includes("student") || roles.includes("apanel")) {
+        clearSession();
+        setError(t("auth.loginFailed"));
+        return;
+      }
+      navigate(location.state?.from || "/student/dashboard");
+    } catch (err) {
+      console.error("Student login error", err);
+      setError(err?.message || t("auth.loginFailed"));
+    } finally {
       setLoading(false);
-      alert(t("auth.successLogin"));
-    }, 1500);
+    }
   };
+
+  const hasRequiredContent =
+    translationsReady &&
+    REQUIRED_LOGIN_TRANSLATIONS.every((key) => hasTranslation(key));
+
+  if (!hasRequiredContent) {
+    return null;
+  }
 
   return (
     <div className="min-h-screen pt-28 pb-20 flex items-center justify-center bg-linear-to-br from-primary-light via-white to-[#eef4ff] relative overflow-hidden">
@@ -33,14 +77,18 @@ export default function LoginPage() {
       >
         {/* Brand logo header */}
         <div className="text-center mb-8">
-          <Link to="/" className="inline-flex items-center gap-2 mb-3">
-            <img src={logoSrc} alt={t("common.logoAlt")} className="h-10" />
-          </Link>
+          {logoSrc && hasTranslation("common.logoAlt") && (
+            <Link to="/" className="inline-flex items-center gap-2 mb-3">
+              <img src={logoSrc} alt={t("common.logoAlt")} className="h-10" />
+            </Link>
+          )}
           <h2 className="text-2xl font-extrabold text-navy">{t("auth.welcomeBack")}</h2>
           <p className="text-gray-400 text-xs md:text-sm font-semibold mt-1">
             {t("auth.loginPrompt")}
           </p>
         </div>
+
+        {error && <FormError message={error} />}
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-5 text-start">
           {/* Email */}
@@ -108,8 +156,8 @@ export default function LoginPage() {
         {/* Separator / Redirect */}
         <div className="text-center mt-8 pt-6 border-t border-gray-50 text-sm font-semibold text-gray-500">
           <span>{t("auth.dontHaveAccount")} </span>
-          <Link to="/register" className="text-primary hover:underline inline-flex items-center gap-0.5 font-bold">
-            {t("auth.signUp")} 
+          <Link to="/apply" className="text-primary hover:underline inline-flex items-center gap-0.5 font-bold">
+            {t("auth.apply")} 
             <ArrowRight className={`w-3.5 h-3.5 transition-transform ${isRtl ? 'rotate-180' : ''}`} />
           </Link>
         </div>

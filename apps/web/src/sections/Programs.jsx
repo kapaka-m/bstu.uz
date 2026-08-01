@@ -153,6 +153,10 @@ export default function Programs({ limit, showRemaining }) {
     })),
   ], [faculties, t]);
 
+  if (loading) {
+    return null;
+  }
+
   return (
     <section id="programs" className="py-24 bg-primary-light/50 border-t border-gray-100">
       <div className="container mx-auto px-4 md:px-8 max-w-7xl">
@@ -243,12 +247,7 @@ export default function Programs({ limit, showRemaining }) {
         )}
 
         {/* Programs Grid */}
-        {loading ? (
-          <div className="text-center py-16 bg-white rounded-3xl border border-gray-100 shadow-xs max-w-lg mx-auto">
-            <GraduationCap className="w-12 h-12 text-gray-300 mx-auto mb-4 animate-pulse" />
-            <p className="text-sm text-gray-500">{t("common.loading")}</p>
-          </div>
-        ) : displayPrograms.length === 0 ? (
+        {displayPrograms.length === 0 ? (
           <div className="text-center py-16 bg-white rounded-3xl border border-gray-100 shadow-xs max-w-lg mx-auto">
             <GraduationCap className="w-12 h-12 text-gray-300 mx-auto mb-4 animate-bounce" />
             <p className="text-lg font-extrabold text-navy mb-1">{t("programs.noResults.title")}</p>

@@ -3,11 +3,12 @@ import { useLocation, Link, useNavigate } from "react-router-dom";
 import { Search, Calendar, ArrowRight } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
 import { newsService } from "../services/newsService";
+import { formatLocalizedDate } from "../utils/dateFormat";
 
 export default function NewsPage() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { language, isRtl } = useLanguage();
+  const { language, isRtl, t } = useLanguage();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [newsItems, setNewsItems] = useState([]);
@@ -55,15 +56,10 @@ export default function NewsPage() {
   }, [language]);
 
   const formatNewsDate = (dateValue) => {
-    if (/^\d{4}$/.test(String(dateValue).trim())) return dateValue;
-    const parsed = new Date(dateValue);
-    if (Number.isNaN(parsed.getTime())) return dateValue;
-
-    return new Intl.DateTimeFormat(language, {
+    return formatLocalizedDate(dateValue, language, t, {
       day: "2-digit",
       month: "long",
-      year: "numeric",
-    }).format(parsed);
+    });
   };
 
   const filteredNews = newsItems.filter((item) => {
@@ -103,6 +99,10 @@ export default function NewsPage() {
 
   const recentNews = newsItems.slice(0, settings?.recent_limit || 5);
 
+  if (loading) {
+    return null;
+  }
+
   return (
     <div className="pt-20 bg-white">
       <div className="container mx-auto px-4 md:px-8 max-w-7xl py-16 md:py-24">
@@ -136,13 +136,7 @@ export default function NewsPage() {
           </div>
 
           <div className="order-2 lg:order-1 lg:col-span-8 flex flex-col gap-8">
-            {loading ? (
-              <div className="text-center py-20 bg-gray-50 rounded-3xl border border-gray-100">
-                <p className="text-gray-500 font-semibold">
-                  {settings?.loading_label || ""}
-                </p>
-              </div>
-            ) : filteredNews.length > 0 ? (
+            {filteredNews.length > 0 ? (
               filteredNews.map((item) => (
                 <article
                   key={item.id}

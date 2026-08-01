@@ -25,11 +25,12 @@ export default function ApanelLogin() {
       clearSession();
 
       // 1. Call normal login
-      await login(email, password);
+      await login(email, password, "apanel");
 
       // 2. Perform verification of role in backend user response
       const hasAccess = await checkAdminRole();
       if (!hasAccess) {
+        clearSession();
         setError(t("apanel.login.accessDenied"));
         setSubmitting(false);
         return;

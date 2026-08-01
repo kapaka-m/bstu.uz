@@ -57,22 +57,54 @@ class AboutPage extends Model
         return self::normalizeContentArrays($content);
     }
 
-    public function cmsTranslationsPayload(array $locales = ['en', 'uz', 'ru', 'ar']): array
+    public function cmsTranslationsPayload(?array $locales = null): array
     {
+        $locales = $locales ?: self::resolveLocaleCodes();
+
         return collect($locales)->map(fn (string $locale) => [
             'locale' => $locale,
             'content' => $this->contentForLocale($locale),
         ])->all();
     }
 
-    public function syncTranslationsMirror(array $locales = ['en', 'uz', 'ru', 'ar']): void
+    public function syncTranslationsMirror(?array $locales = null): void
     {
+        $locales = $locales ?: self::resolveLocaleCodes($this);
+
         foreach ($this->cmsTranslationsPayload($locales) as $translation) {
             $this->translations()->updateOrCreate(
                 ['locale' => $translation['locale']],
                 ['content' => $translation['content']]
             );
         }
+    }
+
+    protected static function resolveLocaleCodes(?self $page = null): array
+    {
+        $localeCodes = Locale::query()
+            ->where('is_active', true)
+            ->orderBy('sort_order')
+            ->orderBy('id')
+            ->pluck('code')
+            ->filter()
+            ->values()
+            ->all();
+
+        if ($localeCodes !== []) {
+            return $localeCodes;
+        }
+
+        if ($page) {
+            return $page->contentEntries()
+                ->join('about_page_content_entry_translations', 'about_page_content_entries.id', '=', 'about_page_content_entry_translations.about_page_content_entry_id')
+                ->distinct()
+                ->pluck('about_page_content_entry_translations.locale')
+                ->filter()
+                ->values()
+                ->all();
+        }
+
+        return [];
     }
 
     public function replaceContentTranslations(array $translations): void

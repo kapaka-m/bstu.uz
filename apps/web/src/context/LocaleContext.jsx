@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, useRef } from "react";
 import { localeStorage } from "../lib/locale";
 import { publicAssetUrl } from "../lib/api";
 import { translationService } from "../services/translationService";
@@ -35,6 +35,8 @@ export function LocaleProvider({ children }) {
   const [settings, setSettings] = useState({});
   const [headerMenu, setHeaderMenu] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [translationsLoading, setTranslationsLoading] = useState(true);
+  const missingTranslationKeys = useRef(new Set());
 
   // Helper to resolve nested dot-notation paths (e.g. "nav.home")
   const resolvePath = (source, keyPath) => {
@@ -51,12 +53,32 @@ export function LocaleProvider({ children }) {
     return result;
   };
 
+  const hasTranslation = (key) => {
+    const val = resolvePath(translations, key);
+    return val !== undefined && val !== null && val !== "";
+  };
+
   const t = (key) => {
     const val = resolvePath(translations, key);
     if (val !== undefined && val !== null) {
+      if (typeof val === "object") {
+        if (key && !missingTranslationKeys.current.has(key)) {
+          missingTranslationKeys.current.add(key);
+          console.warn(`CMS translation key is not renderable text: ${key}`);
+        }
+
+        return "";
+      }
+
       return val;
     }
-    return key;
+
+    if (key && !missingTranslationKeys.current.has(key)) {
+      missingTranslationKeys.current.add(key);
+      console.warn(`Missing CMS translation: ${key}`);
+    }
+
+    return "";
   };
 
   const changeLocale = async (newLocale) => {
@@ -107,6 +129,7 @@ export function LocaleProvider({ children }) {
 
     const loadLocaleData = async () => {
       try {
+        setTranslationsLoading(true);
         const currentLocale = locales.find((item) => item.code === locale);
         const dir = currentLocale?.direction || "ltr";
         document.documentElement.dir = dir;
@@ -132,6 +155,8 @@ export function LocaleProvider({ children }) {
       } catch (e) {
         console.error(`Failed to load data for locale: ${locale}`, e);
         setTranslations({});
+      } finally {
+        setTranslationsLoading(false);
       }
     };
     loadLocaleData();
@@ -197,8 +222,11 @@ export function LocaleProvider({ children }) {
     changeLocale,
     changeLanguage: changeLocale, // alias for backward-compatibility
     setLanguage: changeLocale, // alias for older layouts
+    hasTranslation,
     t,
-    loading,
+    loading: loading || translationsLoading,
+    translationsLoading,
+    translationsReady: !translationsLoading && Object.keys(translations).length > 0,
   };
 
   return (

@@ -52,7 +52,7 @@ export default function StudentLayout({ children }) {
   const handleLogout = async () => {
     try {
       await logout();
-      navigate("/student/login");
+      navigate("/login");
     } catch (err) {
       console.error("Logout failed", err);
     }
@@ -219,7 +219,7 @@ export default function StudentLayout({ children }) {
             <div className="flex items-center gap-1 border border-gray-250 rounded-xl px-2.5 py-1.5 bg-white shadow-2xs">
               <Globe className="w-3.5 h-3.5 text-gray-400 shrink-0" />
               <select
-                value={language}
+                value={language || ""}
                 onChange={(e) => changeLanguage(e.target.value)}
                 className="text-xs font-bold text-navy outline-none bg-transparent cursor-pointer"
               >

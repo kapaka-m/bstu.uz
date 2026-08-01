@@ -703,11 +703,7 @@ export default function DepartmentPage() {
   }, [id, language, t]);
 
   if (loading) {
-    return (
-      <div className="pt-20 min-h-screen bg-white flex items-center justify-center">
-        <div className="w-8 h-8 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
-      </div>
-    );
+    return null;
   }
 
   if (!department || error) {

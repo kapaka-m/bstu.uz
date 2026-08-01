@@ -16,8 +16,8 @@ use App\Models\ApplicationNationality;
 use App\Models\ApplicationStatusHistory;
 use App\Models\AuditLog;
 use App\Models\Blog;
+use App\Models\BlogComment;
 use App\Models\BlogSetting;
-use App\Models\Comment;
 use App\Models\ContactPage;
 use App\Models\Contract;
 use App\Models\Course;
@@ -117,7 +117,7 @@ class AdminCrudController extends Controller
         'payments' => Payment::class,
         'inquiries' => Inquiry::class,
         'support-tickets' => SupportTicket::class,
-        'comments' => Comment::class,
+        'comments' => BlogComment::class,
         'notifications' => Notification::class,
         'audit-logs' => AuditLog::class,
         'green-campus-stats' => GreenCampusStat::class,
@@ -222,7 +222,26 @@ class AdminCrudController extends Controller
             $query->with('translations');
         }
 
+        if ($resource === 'comments') {
+            $query->with('blog.translations');
+        }
+
         $results = $query->paginate($perPage);
+
+        if ($resource === 'comments') {
+            $results->getCollection()->transform(function (BlogComment $comment) {
+                $blog = $comment->blog;
+                $englishTranslation = $blog?->translations
+                    ?->firstWhere('locale', 'en');
+
+                $comment->blog_title_en = $englishTranslation?->title
+                    ?: $blog?->translations?->first()?->title
+                    ?: 'Blog #'.$comment->blog_id;
+                $comment->blog_url = $blog?->slug ? '/blog/'.$blog->slug : '';
+
+                return $comment;
+            });
+        }
 
         return $this->successResponse($results, "{$resource} list retrieved successfully");
     }
@@ -248,7 +267,11 @@ class AdminCrudController extends Controller
                 'contracts.payments',
             ])->find($id);
         } else {
-            $record = $modelClass::with(method_exists($modelClass, 'translations') ? 'translations' : [])->find($id);
+            if ($resource === 'comments') {
+                $record = $modelClass::with('blog.translations')->find($id);
+            } else {
+                $record = $modelClass::with(method_exists($modelClass, 'translations') ? 'translations' : [])->find($id);
+            }
         }
 
         if (! $record) {
@@ -322,6 +345,10 @@ class AdminCrudController extends Controller
                 }
             }
 
+            if ($resource === 'comments') {
+                $this->syncBlogCommentsCount((int) $record->blog_id);
+            }
+
             // Log Action
             $this->logAction('create', $modelClass, $record->id, null, $record->toArray());
 
@@ -372,6 +399,11 @@ class AdminCrudController extends Controller
             $validated = $this->prepareValidatedData($resource, $validated, $record);
             $record->update($validated);
             $this->handleWorkflowSideEffects($resource, $record, $oldValues, $validated, $request);
+
+            if ($resource === 'comments') {
+                $this->syncBlogCommentsCount((int) ($oldValues['blog_id'] ?? $record->blog_id));
+                $this->syncBlogCommentsCount((int) $record->blog_id);
+            }
 
             // Update translations
             if (method_exists($record, 'translations') && ! empty($translations)) {
@@ -476,6 +508,19 @@ class AdminCrudController extends Controller
                 $this->notifyBillingStatus($resource, $record, $newStatus);
             }
         }
+    }
+
+    protected function syncBlogCommentsCount(int $blogId): void
+    {
+        if ($blogId <= 0) {
+            return;
+        }
+
+        Blog::whereKey($blogId)->update([
+            'comments_count' => BlogComment::where('blog_id', $blogId)
+                ->where('is_approved', true)
+                ->count(),
+        ]);
     }
 
     protected function validateUniqueVideoContent(array $translations, ?int $ignoreVideoId = null): array
@@ -621,6 +666,10 @@ class AdminCrudController extends Controller
             }
 
             $record->delete();
+
+            if ($resource === 'comments') {
+                $this->syncBlogCommentsCount((int) ($oldValues['blog_id'] ?? 0));
+            }
 
             // Log Action
             $this->logAction('delete', $modelClass, $id, $oldValues, null);
@@ -2459,10 +2508,12 @@ class AdminCrudController extends Controller
                 ];
             case 'comments':
                 return [
-                    'user_id' => 'nullable|integer|exists:users,id',
-                    'commentable_type' => 'required|string',
-                    'commentable_id' => 'required|integer',
+                    'blog_id' => 'required|integer|exists:blogs,id',
+                    'parent_id' => 'nullable|integer|exists:blog_comments,id',
+                    'author_name' => 'required|string|max:255',
+                    'email' => 'nullable|email|max:255',
                     'content' => 'required|string',
+                    'is_approved' => 'boolean',
                 ];
             case 'notifications':
                 return [

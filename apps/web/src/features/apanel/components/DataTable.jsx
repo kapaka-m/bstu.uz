@@ -41,9 +41,9 @@ export default function DataTable({
   };
 
   return (
-    <div className="w-full bg-white border border-gray-150 rounded-3xl overflow-hidden shadow-xs">
-      <div className="overflow-x-auto w-full">
-        <table className="w-full text-start border-collapse">
+    <div className="w-full max-w-full min-w-0 bg-white border border-gray-150 rounded-3xl overflow-hidden shadow-xs">
+      <div className="w-full max-w-full overflow-x-auto">
+        <table className="min-w-full text-start border-collapse">
           <thead>
             <tr className="bg-gray-50 border-b border-gray-100 text-[10px] font-extrabold uppercase tracking-wider text-gray-400 text-start">
               {columns.map((col) => (

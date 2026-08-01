@@ -366,9 +366,9 @@ export default function ApanelLayout({ children }) {
       )}
 
       {/* 3. Main Workspace Container */}
-      <div className="grow flex flex-col md:pl-64 min-h-screen">
+      <div className="grow min-w-0 flex flex-col md:pl-64 min-h-screen overflow-x-hidden">
         {/* Top Navbar */}
-        <header className="sticky top-0 bg-white/80 backdrop-blur-md border-b border-gray-100 z-30 px-6 py-4 flex items-center justify-between">
+        <header className="sticky top-0 bg-white/80 backdrop-blur-md border-b border-gray-100 z-30 px-6 py-4 flex min-w-0 items-center justify-between">
           <div className="flex items-center gap-3">
             {/* Hamburger for mobile */}
             <button
@@ -454,7 +454,7 @@ export default function ApanelLayout({ children }) {
         </header>
 
         {/* Content body wrapper */}
-        <main className="grow p-6 md:p-8 space-y-6">{children}</main>
+        <main className="grow min-w-0 max-w-full overflow-x-hidden p-6 md:p-8 space-y-6">{children}</main>
       </div>
     </div>
   );

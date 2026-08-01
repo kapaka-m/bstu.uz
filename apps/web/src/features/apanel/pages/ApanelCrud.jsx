@@ -918,31 +918,49 @@ const RESOURCE_SCHEMAS = {
     ],
   },
   comments: {
-    title: "apanel.crud.ui.title.newsComments",
+    title: "Blog Comments",
     columns: [
-      { key: "user_id", label: "apanel.crud.ui.label.userId", sortable: true },
-      { key: "commentable_type", label: "apanel.crud.ui.label.targetContext" },
-      { key: "content", label: "apanel.crud.ui.label.commentContent" },
+      { key: "blog_id", label: "Blog ID", sortable: true },
+      { key: "blog_title_en", label: "Blog Title (EN)" },
+      { key: "blog_url", label: "Blog URL" },
+      { key: "author_name", label: "Author", sortable: true },
+      { key: "email", label: "Email" },
+      { key: "content", label: "Comment" },
+      { key: "is_approved", label: "Approved", type: "boolean" },
     ],
     fields: [
-      { name: "user_id", label: "apanel.crud.ui.label.authorUserId", type: "number" },
       {
-        name: "commentable_type",
-        label: "apanel.crud.ui.label.contextTypeModel",
-        type: "text",
-        required: true,
-      },
-      {
-        name: "commentable_id",
-        label: "apanel.crud.ui.label.contextObjectId",
+        name: "blog_id",
+        label: "Blog ID",
         type: "number",
         required: true,
       },
       {
+        name: "parent_id",
+        label: "Parent Comment ID",
+        type: "number",
+      },
+      {
+        name: "author_name",
+        label: "Author Name",
+        type: "text",
+        required: true,
+      },
+      {
+        name: "email",
+        label: "Email",
+        type: "email",
+      },
+      {
         name: "content",
-        label: "apanel.crud.ui.label.commentContentBodyText",
+        label: "Comment Content",
         type: "textarea",
         required: true,
+      },
+      {
+        name: "is_approved",
+        label: "Approved",
+        type: "boolean",
       },
     ],
   },
@@ -1104,6 +1122,12 @@ export default function ApanelCrud() {
       setToast(null);
     }, 4000);
   };
+
+  useEffect(() => {
+    setPage(1);
+    setSearch("");
+    setActiveFilters({});
+  }, [resource]);
 
   const fetchRecords = React.useCallback(async () => {
     if (!RESOURCE_SCHEMAS[resource]) return;

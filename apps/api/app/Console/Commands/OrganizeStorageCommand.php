@@ -100,6 +100,7 @@ class OrganizeStorageCommand extends Command
             ['services', 'image'],
             ['staff_profiles', 'photo'],
             ['university_centers', 'image'],
+            ['videos', 'url'],
             ['videos', 'thumbnail'],
         ];
 

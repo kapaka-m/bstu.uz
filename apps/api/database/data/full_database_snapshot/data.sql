@@ -20540,7 +20540,7 @@ INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `re
 (2, 'MOHAMED HASSANIN', 'mhassanen114@gmail.com', NULL, '$2y$12$6/INEfAsfw5vsbPS/YMa4.C.1YG.DBIh5JtppfaCERzD9ajZYDu8q', NULL, '2026-07-26 00:32:58', '2026-07-26 00:32:58');
 
 INSERT INTO `videos` (`id`, `slug`, `url`, `thumbnail`, `video_type`, `youtube_id`, `duration`, `views_count`, `likes_count`, `published_at`, `is_active`, `sort_order`, `created_at`, `updated_at`) VALUES
-(1, 'graduation-2026', 'media/graduation-2026.mp4', 'cms/videos/thumbnails/graduation-2026-thumbnail.jpg', 'local', NULL, '4:15', 1204, 5, '2026-07-10 14:00:00', 1, 1, '2026-07-15 19:26:09', '2026-07-23 02:42:16'),
+(1, 'graduation-2026', 'cms/videos/files/graduation-2026.mp4', 'cms/videos/thumbnails/graduation-2026-thumbnail.jpg', 'local', NULL, '4:15', 1204, 5, '2026-07-10 14:00:00', 1, 1, '2026-07-15 19:26:09', '2026-07-23 02:42:16'),
 (2, 'a4mTYkutUgQ', 'https://www.youtube.com/watch?v=a4mTYkutUgQ', 'https://img.youtube.com/vi/a4mTYkutUgQ/hqdefault.jpg', 'youtube', 'a4mTYkutUgQ', '0:48', 16, 0, '2026-05-18 06:20:01', 1, 2, '2026-07-15 19:26:09', '2026-07-18 06:20:01'),
 (3, 'yDFgDyXhSAM', 'https://www.youtube.com/watch?v=yDFgDyXhSAM', 'https://img.youtube.com/vi/yDFgDyXhSAM/hqdefault.jpg', 'youtube', 'yDFgDyXhSAM', '0:48', 5, 0, '2026-04-18 06:20:01', 1, 3, '2026-07-15 19:26:09', '2026-07-18 06:20:01'),
 (4, 'fVeRnsg7i2E', 'https://www.youtube.com/watch?v=fVeRnsg7i2E', 'https://img.youtube.com/vi/fVeRnsg7i2E/hqdefault.jpg', 'youtube', 'fVeRnsg7i2E', '0:48', 13, 0, '2026-04-18 06:20:01', 1, 4, '2026-07-15 19:26:09', '2026-07-18 06:20:01'),

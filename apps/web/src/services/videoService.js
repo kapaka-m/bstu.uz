@@ -1,4 +1,4 @@
-import { api } from "../lib/api";
+import { api, publicAssetUrl } from "../lib/api";
 import { localeStorage } from "../lib/locale";
 
 const CACHE_TTL_MS = 30000;
@@ -30,9 +30,9 @@ const normalizeVideo = (item = {}) => ({
   id: item.slug || item.id,
   slug: item.slug || item.id,
   isLocal: item.isLocal || item.video_type === "local",
-  videoUrl: item.video_url || item.url || "",
+  videoUrl: publicAssetUrl(item.video_url || item.url || ""),
   youtubeId: item.youtubeId || item.youtube_id || "",
-  poster: item.poster || item.thumbnail || "",
+  poster: publicAssetUrl(item.poster || item.thumbnail || ""),
   title: item.title || "",
   category: item.category || "",
   duration: item.duration || "",

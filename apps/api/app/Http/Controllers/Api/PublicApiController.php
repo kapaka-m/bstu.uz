@@ -1670,10 +1670,10 @@ class PublicApiController extends Controller
         $url = $video->url;
 
         if (is_string($thumbnail) && $thumbnail !== '' && ! str_starts_with($thumbnail, 'http') && ! str_starts_with($thumbnail, '/')) {
-            $thumbnail = asset('storage/'.preg_replace('/^public\//', '', $thumbnail));
+            $thumbnail = $this->normalizePublicFilePath($thumbnail);
         }
         if (is_string($url) && $url !== '' && ! str_starts_with($url, 'http') && ! str_starts_with($url, '/')) {
-            $url = asset('storage/'.preg_replace('/^public\//', '', $url));
+            $url = $this->normalizePublicFilePath($url);
         }
 
         return array_merge($data, [
@@ -2107,6 +2107,14 @@ class PublicApiController extends Controller
 
         if (str_starts_with($normalized, 'media/green-campus/')) {
             return 'cms/green-campus/'.substr($normalized, strlen('media/green-campus/'));
+        }
+
+        if ($normalized === 'media/graduation-2026.mp4') {
+            return 'cms/videos/files/graduation-2026.mp4';
+        }
+
+        if ($normalized === 'media/graduation-2026-thumbnail.jpg') {
+            return 'cms/videos/thumbnails/graduation-2026-thumbnail.jpg';
         }
 
         return $path;

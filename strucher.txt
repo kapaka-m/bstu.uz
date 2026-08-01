@@ -1,0 +1,5 @@
+# خريطة الموقع
+
+| صفحة العرض | الجداول المرتبطة بها | صفحات التحكم التي تديرها |
+| `/contact` | `contact_pages``contact_page_translations``inquiries` | `/apanel/cms/contact-page``/apanel/management/contact` |
+

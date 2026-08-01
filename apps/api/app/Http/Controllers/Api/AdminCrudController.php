@@ -54,6 +54,7 @@ use App\Models\UniversityCenter;
 use App\Models\UniversityCenterSetting;
 use App\Models\User;
 use App\Models\Video;
+use App\Models\VideoComment;
 use App\Models\VideoGallerySetting;
 use App\Models\VideoTranslation;
 use App\Models\WebFooter;
@@ -103,6 +104,7 @@ class AdminCrudController extends Controller
         'staff' => StaffProfile::class,
         'services' => Service::class,
         'videos' => Video::class,
+        'video-comments' => VideoComment::class,
         'media' => Media::class,
         'users' => User::class,
         'roles' => Role::class,
@@ -226,6 +228,10 @@ class AdminCrudController extends Controller
             $query->with('blog.translations');
         }
 
+        if ($resource === 'video-comments') {
+            $query->with('video.translations');
+        }
+
         $results = $query->paginate($perPage);
 
         if ($resource === 'comments') {
@@ -238,6 +244,21 @@ class AdminCrudController extends Controller
                     ?: $blog?->translations?->first()?->title
                     ?: 'Blog #'.$comment->blog_id;
                 $comment->blog_url = $blog?->slug ? '/blog/'.$blog->slug : '';
+
+                return $comment;
+            });
+        }
+
+        if ($resource === 'video-comments') {
+            $results->getCollection()->transform(function (VideoComment $comment) {
+                $video = $comment->video;
+                $englishTranslation = $video?->translations
+                    ?->firstWhere('locale', 'en');
+
+                $comment->video_title_en = $englishTranslation?->title
+                    ?: $video?->translations?->first()?->title
+                    ?: 'Video #'.$comment->video_id;
+                $comment->video_url = $video?->slug ? '/video-bdtu?video='.$video->slug : '';
 
                 return $comment;
             });
@@ -269,6 +290,8 @@ class AdminCrudController extends Controller
         } else {
             if ($resource === 'comments') {
                 $record = $modelClass::with('blog.translations')->find($id);
+            } elseif ($resource === 'video-comments') {
+                $record = $modelClass::with('video.translations')->find($id);
             } else {
                 $record = $modelClass::with(method_exists($modelClass, 'translations') ? 'translations' : [])->find($id);
             }
@@ -2510,6 +2533,15 @@ class AdminCrudController extends Controller
                 return [
                     'blog_id' => 'required|integer|exists:blogs,id',
                     'parent_id' => 'nullable|integer|exists:blog_comments,id',
+                    'author_name' => 'required|string|max:255',
+                    'email' => 'nullable|email|max:255',
+                    'content' => 'required|string',
+                    'is_approved' => 'boolean',
+                ];
+            case 'video-comments':
+                return [
+                    'video_id' => 'required|integer|exists:videos,id',
+                    'parent_id' => 'nullable|integer|exists:video_comments,id',
                     'author_name' => 'required|string|max:255',
                     'email' => 'nullable|email|max:255',
                     'content' => 'required|string',

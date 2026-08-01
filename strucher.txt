@@ -7,3 +7,4 @@
 | `/announcements` | `announcement_settings``announcement_setting_translations``announcements``announcement_translations` | `/apanel/cms/announcements` |
 | `/news` | `news_event_settings``news_event_setting_translations``news``news_translations` | `/apanel/cms/news-events` |
 | `/blog` | `blog_settings``blog_setting_translations``blogs``blog_translations``blog_comments` | `/apanel/cms/blog``/apanel/comments` |
+| `/video-bdtu` | `video_gallery_settings``video_gallery_setting_translations``videos``video_translations``video_comments` | `/apanel/cms/video-bdtu``/apanel/video-comments` |

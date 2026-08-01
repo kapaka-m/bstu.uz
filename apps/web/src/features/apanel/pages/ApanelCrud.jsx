@@ -964,6 +964,53 @@ const RESOURCE_SCHEMAS = {
       },
     ],
   },
+  "video-comments": {
+    title: "Video Comments",
+    columns: [
+      { key: "video_id", label: "Video ID", sortable: true },
+      { key: "video_title_en", label: "Video Title (EN)" },
+      { key: "video_url", label: "Video URL" },
+      { key: "author_name", label: "Author", sortable: true },
+      { key: "email", label: "Email" },
+      { key: "content", label: "Comment" },
+      { key: "is_approved", label: "Approved", type: "boolean" },
+    ],
+    fields: [
+      {
+        name: "video_id",
+        label: "Video ID",
+        type: "number",
+        required: true,
+      },
+      {
+        name: "parent_id",
+        label: "Parent Comment ID",
+        type: "number",
+      },
+      {
+        name: "author_name",
+        label: "Author Name",
+        type: "text",
+        required: true,
+      },
+      {
+        name: "email",
+        label: "Email",
+        type: "email",
+      },
+      {
+        name: "content",
+        label: "Comment Content",
+        type: "textarea",
+        required: true,
+      },
+      {
+        name: "is_approved",
+        label: "Approved",
+        type: "boolean",
+      },
+    ],
+  },
   notifications: {
     title: "apanel.crud.ui.title.studentAlertNotifications",
     columns: [

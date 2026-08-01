@@ -239,13 +239,19 @@ export default function ApanelLayout({ children }) {
           label: t("apanel.nav.supportTickets"),
           icon: MessageSquare,
         },
-        { path: "/apanel/comments", label: t("apanel.nav.comments"), icon: MessageCircle },
         { path: "/apanel/notifications", label: t("apanel.nav.notifications"), icon: Bell },
         {
           path: "/apanel/application-status-histories",
           label: t("apanel.nav.statusHistory"),
           icon: History,
         },
+      ],
+    },
+    {
+      title: t("apanel.nav.commentModeration"),
+      links: [
+        { path: "/apanel/comments", label: t("apanel.nav.blogComments"), icon: MessageCircle },
+        { path: "/apanel/video-comments", label: t("apanel.nav.videoComments"), icon: MessageCircle },
       ],
     },
     {

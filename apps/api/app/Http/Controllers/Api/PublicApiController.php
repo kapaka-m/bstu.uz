@@ -50,6 +50,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 
 class PublicApiController extends Controller
 {
@@ -2028,10 +2029,14 @@ class PublicApiController extends Controller
     {
         $translation = $center->translations->where('locale', $locale)->first()
             ?: $center->translations->where('locale', $this->fallbackLocale())->first();
+        $englishTranslation = $center->translations->where('locale', 'en')->first();
+        $headProfileSlug = Str::slug($englishTranslation?->head ?: $translation?->head ?: '');
 
         return [
             'id' => $center->id,
             'slug' => $center->slug,
+            'headProfileSlug' => $headProfileSlug,
+            'head_profile_slug' => $headProfileSlug,
             'image' => $this->publicFileUrl($center->image),
             'email' => $center->email,
             'phone' => $center->phone,

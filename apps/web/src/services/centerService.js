@@ -21,19 +21,37 @@ const cached = (key, fetcher) => {
 
 const unwrap = (response) => response?.data ?? response;
 
+export const profileSlugFromName = (name = "") =>
+  String(name)
+    .trim()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+const profileSlugFromImage = (image = "") => {
+  const filename = String(image).split(/[/?#]/).filter(Boolean).pop() || "";
+  const basename = filename.replace(/\.[a-z0-9]+$/i, "");
+  return profileSlugFromName(basename.replace(/[_]+/g, " "));
+};
+
 const normalizeCenter = (item = {}) => {
   const defaultTrans = item.translations?.find((t) => t.locale === "en") || item.translations?.[0] || {};
+  const head = item.head || defaultTrans.head || "";
+  const image = item.image || "";
   return {
     id: item.slug || item.id,
     numeric_id: item.id,
     slug: item.slug || item.id,
     name: item.name || defaultTrans.name || "",
-    head: item.head || defaultTrans.head || "",
+    head,
+    headProfileSlug: item.headProfileSlug || item.head_profile_slug || profileSlugFromName(head) || profileSlugFromImage(image),
     headTitle: item.headTitle || defaultTrans.head_title || defaultTrans.headTitle || "",
     officeHours: item.officeHours || defaultTrans.office_hours || defaultTrans.officeHours || "",
     about: item.about || defaultTrans.about || "",
     functions: Array.isArray(item.functions) ? item.functions : (Array.isArray(defaultTrans.functions) ? defaultTrans.functions : []),
-    image: item.image || "",
+    image,
     email: item.email || "",
     phone: item.phone || "",
     sort_order: Number(item.sort_order ?? 0),

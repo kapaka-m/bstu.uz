@@ -749,7 +749,7 @@
     "ru": "Identity Image URL or storage path",
     "ar": "Identity Image URL or storage path"
   },
-  "apanel.administration.title.deleteProfile": {
+  "apanel.administration.deleteProfileTitle": {
     "en": "Delete profile?",
     "uz": "Delete profile?",
     "ru": "Delete profile?",

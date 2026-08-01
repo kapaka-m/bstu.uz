@@ -4,6 +4,20 @@ import { useLanguage } from "../context/LanguageContext";
 import { Mail, Phone, Clock, Award, Briefcase, FileText, CheckCircle, GraduationCap } from "lucide-react";
 import { administrationService } from "../services/administrationService";
 import { staffService } from "../services/staffService";
+import { centerService, profileSlugFromName } from "../services/centerService";
+
+const mailHref = (email) => `mailto:${String(email || "").trim()}`;
+const splitPhone = (phone = "") => {
+  const value = String(phone).trim();
+  const match = value.match(/^([^()]+?)\s*(\(.+\))\s*$/);
+  const main = (match?.[1] || value).trim();
+
+  return {
+    main,
+    extension: (match?.[2] || "").trim(),
+    href: `tel:${main.replace(/[^\d+]/g, "")}`,
+  };
+};
 
 export default function ProfileDetails() {
   const { id } = useParams();
@@ -26,7 +40,39 @@ export default function ProfileDetails() {
       administrationService
         .getProfile(id, language)
         .then((profile) => ({ profile, source: "administration" }))
-        .catch(() => staffService.getStaffProfile(id).then((profile) => ({ profile, source: "staff" }))),
+        .catch(() => staffService.getStaffProfile(id).then((profile) => ({ profile, source: "staff" })))
+        .catch(() =>
+          centerService.getCenters().then((centers) => {
+            const matchedCenter = centers.find((item) => (item.headProfileSlug || profileSlugFromName(item.head)) === id);
+
+            if (!matchedCenter) {
+              throw new Error(`Profile '${id}' not found`);
+            }
+
+            return Promise.all([
+              centerService.getCenter(matchedCenter.slug).catch(() => matchedCenter),
+              centerService.getSettings().catch(() => null),
+            ]).then(([center, centerSettings]) => ({
+              source: "center",
+              profile: {
+                name: center.head,
+                full_name: center.head,
+                position: center.headTitle,
+                title: center.headTitle,
+                degree: center.name,
+                image: center.image,
+                photo: center.image,
+                email: center.email,
+                phone: center.phone,
+                officeHours: center.officeHours,
+                about: center.headDescription || centerSettings?.default_head_desc || "",
+                details: "",
+                achievements: [],
+                slug: id,
+              },
+            }));
+          })
+        ),
       administrationService.getSettings(language).catch(() => null),
     ])
       .then(([profileResult, settings]) => {
@@ -113,6 +159,10 @@ export default function ProfileDetails() {
     achievements: t("common.keyAchievements"),
   };
 
+  const email = String(person.email || "").trim();
+  const phone = String(person.phone || "").trim();
+  const phoneParts = splitPhone(phone);
+
   return (
     <div className="pt-24 bg-white min-h-screen text-start">
       <div className="container mx-auto px-4 md:px-8 max-w-6xl py-12">
@@ -152,20 +202,37 @@ export default function ProfileDetails() {
 
             {/* Quick Contact Info */}
             <div className="w-full border-t border-gray-200/65 pt-6 flex flex-col gap-4 text-xs font-semibold text-gray-600 text-start">
-              <div className="flex items-center gap-3">
-                <Mail className="w-5 h-5 text-primary shrink-0" />
-                <div>
-                  <p className="text-[10px] text-gray-400 font-extrabold uppercase tracking-wider">{labels.email}</p>
-                  <p className="text-navy break-all font-bold">{person.email}</p>
+              {email && (
+                <div className="flex items-center gap-3">
+                  <Mail className="w-5 h-5 text-primary shrink-0" />
+                  <div className="min-w-0">
+                    <p className="text-[10px] text-gray-400 font-extrabold uppercase tracking-wider">{labels.email}</p>
+                    <a
+                      href={mailHref(email)}
+                      className="text-navy break-all font-bold hover:text-primary transition-colors"
+                    >
+                      {email}
+                    </a>
+                  </div>
                 </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <Phone className="w-5 h-5 text-primary shrink-0" />
-                <div>
-                  <p className="text-[10px] text-gray-400 font-extrabold uppercase tracking-wider">{labels.phone}</p>
-                  <p className="text-navy font-bold text-left [unicode-bidi:isolate]" dir="ltr">{person.phone}</p>
+              )}
+              {phone && (
+                <div className="flex items-center gap-3">
+                  <Phone className="w-5 h-5 text-primary shrink-0" />
+                  <div className="min-w-0">
+                    <p className="text-[10px] text-gray-400 font-extrabold uppercase tracking-wider">{labels.phone}</p>
+                    <span
+                      className="text-navy font-bold text-left [unicode-bidi:isolate] inline-flex flex-wrap gap-x-1"
+                      dir="ltr"
+                    >
+                      <a href={phoneParts.href} className="hover:text-primary transition-colors">
+                        {phoneParts.main}
+                      </a>
+                      {phoneParts.extension && <span>{phoneParts.extension}</span>}
+                    </span>
+                  </div>
                 </div>
-              </div>
+              )}
               <div className="flex items-center gap-3">
                 <Clock className="w-5 h-5 text-primary shrink-0" />
                 <div>

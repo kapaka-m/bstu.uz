@@ -340,7 +340,7 @@ export default function ApanelAdministration() {
       )}
       <ConfirmDialog
         isOpen={Boolean(pendingDelete)}
-        title={t("apanel.administration.title.deleteProfile")}
+        title={t("apanel.administration.deleteProfileTitle")}
         message={`This will permanently delete ${pendingDelete?.slug || "this profile"}. This action cannot be undone.`}
         onConfirm={confirmDelete}
         onCancel={() => setPendingDelete(null)}
@@ -350,7 +350,8 @@ export default function ApanelAdministration() {
 }
 
 function ProfileForm({ activeLocale, form, saving, setActiveLocale, setForm, onCancel, onSave, onUpload, localeOptions }) {
-  const t = form.translations[activeLocale] || {};
+  const { t } = useLanguage();
+  const translation = form.translations[activeLocale] || {};
   const setTranslation = (field, value) => {
     setForm((prev) => ({
       ...prev,
@@ -408,16 +409,16 @@ function ProfileForm({ activeLocale, form, saving, setActiveLocale, setForm, onC
 
       <LocaleTabs active={activeLocale} onChange={setActiveLocale} localeOptions={localeOptions} />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <TextField label={t("apanel.administration.label.fullName")} value={t.full_name || ""} onChange={(value) => setTranslation("full_name", value)} required />
-        <TextField label={t("apanel.administration.label.position")} value={t.position || ""} onChange={(value) => setTranslation("position", value)} required />
-        <TextField label={t("apanel.administration.label.degree")} value={t.degree || ""} onChange={(value) => setTranslation("degree", value)} />
-        <TextField label={t("apanel.administration.label.officeHours")} value={t.office_hours || ""} onChange={(value) => setTranslation("office_hours", value)} />
+        <TextField label={t("apanel.administration.label.fullName")} value={translation.full_name || ""} onChange={(value) => setTranslation("full_name", value)} required />
+        <TextField label={t("apanel.administration.label.position")} value={translation.position || ""} onChange={(value) => setTranslation("position", value)} required />
+        <TextField label={t("apanel.administration.label.degree")} value={translation.degree || ""} onChange={(value) => setTranslation("degree", value)} />
+        <TextField label={t("apanel.administration.label.officeHours")} value={translation.office_hours || ""} onChange={(value) => setTranslation("office_hours", value)} />
       </div>
-      <TextArea label={t("apanel.administration.label.about")} value={t.about || ""} onChange={(value) => setTranslation("about", value)} />
-      <TextArea label={t("apanel.administration.label.details")} value={t.details || ""} onChange={(value) => setTranslation("details", value)} />
+      <TextArea label={t("apanel.administration.label.about")} value={translation.about || ""} onChange={(value) => setTranslation("about", value)} />
+      <TextArea label={t("apanel.administration.label.details")} value={translation.details || ""} onChange={(value) => setTranslation("details", value)} />
       <TextArea
         label={t("apanel.administration.label.achievements")}
-        value={(t.achievements || []).join("\n")}
+        value={(translation.achievements || []).join("\n")}
         onChange={(value) => setTranslation("achievements", value.split("\n").map((line) => line.trim()).filter(Boolean))}
       />
 

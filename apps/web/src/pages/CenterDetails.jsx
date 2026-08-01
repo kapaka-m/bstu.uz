@@ -10,7 +10,20 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
-import { centerService } from "../services/centerService";
+import { centerService, profileSlugFromName } from "../services/centerService";
+
+const mailHref = (email) => `mailto:${String(email || "").trim()}`;
+const splitPhone = (phone = "") => {
+  const value = String(phone).trim();
+  const match = value.match(/^([^()]+?)\s*(\(.+\))\s*$/);
+  const main = (match?.[1] || value).trim();
+
+  return {
+    main,
+    extension: (match?.[2] || "").trim(),
+    href: `tel:${main.replace(/[^\d+]/g, "")}`,
+  };
+};
 
 export default function CenterDetails() {
   const { id } = useParams();
@@ -75,6 +88,10 @@ export default function CenterDetails() {
     id: c.slug,
     name: c.name,
   }));
+  const email = String(center.email || "").trim();
+  const phone = String(center.phone || "").trim();
+  const phoneParts = splitPhone(phone);
+  const headProfileSlug = center.headProfileSlug || profileSlugFromName(center.head);
 
   return (
     <div className="pt-24 bg-white">
@@ -120,16 +137,24 @@ export default function CenterDetails() {
               </p>
 
               <div className="flex flex-col gap-3 font-bold text-xs mb-6 text-white/95 items-center w-full break-all">
-                {center.email && (
-                  <span className="flex items-center gap-2">
+                {email && (
+                  <a
+                    href={mailHref(email)}
+                    className="flex items-center gap-2 hover:text-white transition-colors"
+                  >
                     <Mail className="w-4 h-4 text-white/80 shrink-0" />
-                    {center.email}
-                  </span>
+                    {email}
+                  </a>
                 )}
-                {center.phone && (
+                {phone && (
                   <span className="flex items-center gap-2">
                     <Phone className="w-4 h-4 text-white/80 shrink-0" />
-                    <span dir="ltr">{center.phone}</span>
+                    <span dir="ltr" className="inline-flex flex-wrap justify-center gap-x-1">
+                      <a href={phoneParts.href} className="hover:text-white transition-colors">
+                        {phoneParts.main}
+                      </a>
+                      {phoneParts.extension && <span>{phoneParts.extension}</span>}
+                    </span>
                   </span>
                 )}
                 {center.officeHours && (
@@ -218,7 +243,16 @@ export default function CenterDetails() {
                     </div>
                   )}
                   <div className="grow text-center md:text-start flex flex-col gap-2">
-                    <h4 className="text-lg font-bold text-navy">{center.head}</h4>
+                    {headProfileSlug ? (
+                      <Link
+                        to={`/profile/${headProfileSlug}`}
+                        className="text-lg font-bold text-navy hover:text-primary transition-colors"
+                      >
+                        {center.head}
+                      </Link>
+                    ) : (
+                      <h4 className="text-lg font-bold text-navy">{center.head}</h4>
+                    )}
                     {center.headTitle && (
                       <p className="text-primary text-xs font-bold uppercase tracking-wider">
                         {center.headTitle}
@@ -228,16 +262,24 @@ export default function CenterDetails() {
                       {center.headDescription || settings?.default_head_desc || t("common.headDesc")}
                     </p>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4 text-xs font-semibold text-gray-500 border-t border-gray-200/50 pt-4">
-                      {center.email && (
-                        <span className="flex items-center justify-center md:justify-start gap-2">
+                      {email && (
+                        <a
+                          href={mailHref(email)}
+                          className="flex items-center justify-center md:justify-start gap-2 hover:text-primary transition-colors min-w-0"
+                        >
                           <Mail className="w-4 h-4 text-primary shrink-0" />
-                          {center.email}
-                        </span>
+                          <span className="break-all">{email}</span>
+                        </a>
                       )}
-                      {center.phone && (
-                        <span className="flex items-center justify-center md:justify-start gap-2">
+                      {phone && (
+                        <span className="flex items-center justify-center md:justify-start gap-2 min-w-0">
                           <Phone className="w-4 h-4 text-primary shrink-0" />
-                          <span dir="ltr">{center.phone}</span>
+                          <span dir="ltr" className="inline-flex flex-wrap justify-center md:justify-start gap-x-1">
+                            <a href={phoneParts.href} className="hover:text-primary transition-colors">
+                              {phoneParts.main}
+                            </a>
+                            {phoneParts.extension && <span>{phoneParts.extension}</span>}
+                          </span>
                         </span>
                       )}
                     </div>

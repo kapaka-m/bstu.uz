@@ -1967,8 +1967,12 @@ class PublicApiController extends Controller
             'slug' => $article->slug,
             'category' => $article->category,
             'category_label' => $translation?->category ?: $article->category,
-            'image' => $article->image,
-            'gallery' => $article->gallery ?: [],
+            'image' => $this->normalizePublicFilePath($article->image),
+            'gallery' => collect($article->gallery ?: [])
+                ->map(fn ($path) => $this->normalizePublicFilePath($path))
+                ->filter()
+                ->values()
+                ->all(),
             'views' => $article->views,
             'published_at' => $article->published_at?->toISOString(),
             'is_published' => $article->is_published,
@@ -2091,5 +2095,20 @@ class PublicApiController extends Controller
         }
 
         return asset('storage/'.ltrim($path, '/'));
+    }
+
+    protected function normalizePublicFilePath(?string $path): ?string
+    {
+        if (! is_string($path) || trim($path) === '') {
+            return $path;
+        }
+
+        $normalized = ltrim(str_replace('\\', '/', trim($path)), '/');
+
+        if (str_starts_with($normalized, 'media/green-campus/')) {
+            return 'cms/green-campus/'.substr($normalized, strlen('media/green-campus/'));
+        }
+
+        return $path;
     }
 }

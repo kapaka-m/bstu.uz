@@ -42,6 +42,7 @@ class OrganizeStorageCommand extends Command
             $this->organizePublicFiles($publicMappings);
             $this->organizePrivateFiles();
             $this->updatePublicDatabasePaths($publicMappings);
+            $this->updateGreenCampusGalleryPaths($publicMappings);
             $this->updatePrivateDatabasePaths();
             $this->removeEmptyDirectories(storage_path('app/public'));
             $this->removeEmptyDirectories(storage_path('app/private'));
@@ -163,6 +164,41 @@ class OrganizeStorageCommand extends Command
                     }
                 });
         }
+    }
+
+    private function updateGreenCampusGalleryPaths(array $mappings): void
+    {
+        if (! $this->tableHasColumn('green_campus_articles', 'gallery')) {
+            return;
+        }
+
+        DB::table('green_campus_articles')
+            ->whereNotNull('gallery')
+            ->orderBy('id')
+            ->select('id', 'gallery')
+            ->chunkById(200, function ($rows) use ($mappings): void {
+                foreach ($rows as $row) {
+                    $gallery = is_string($row->gallery) ? json_decode($row->gallery, true) : null;
+
+                    if (! is_array($gallery)) {
+                        continue;
+                    }
+
+                    $mapped = array_map(function ($value) use ($mappings) {
+                        if (! is_string($value) || $value === '' || str_starts_with($value, 'http') || str_starts_with($value, '/')) {
+                            return $value;
+                        }
+
+                        return $this->mapPublicPath($value, $mappings);
+                    }, $gallery);
+
+                    if ($mapped !== $gallery) {
+                        DB::table('green_campus_articles')
+                            ->where('id', $row->id)
+                            ->update(['gallery' => json_encode($mapped, JSON_UNESCAPED_SLASHES)]);
+                    }
+                }
+            });
     }
 
     private function mapPublicPath(string $path, array $mappings): string

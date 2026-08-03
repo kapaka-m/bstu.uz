@@ -6,6 +6,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import { useLanguage } from "../context/LanguageContext";
 import { blogService } from "../services/blogService";
+import { formatLocalizedDate } from "../utils/dateFormat";
 import "swiper/css";
 
 const HOME_ICON_MAP = {
@@ -15,7 +16,7 @@ const HOME_ICON_MAP = {
 };
 
 export default function RecentBlog() {
-  const { language, isRtl } = useLanguage();
+  const { language, isRtl, t } = useLanguage();
   const [settings, setSettings] = useState({});
   const [recentPosts, setRecentPosts] = useState([]);
 
@@ -53,6 +54,12 @@ export default function RecentBlog() {
   }
 
   const HomeIcon = HOME_ICON_MAP[settings.home_icon] || BookOpen;
+  const formatPostDate = (value) =>
+    formatLocalizedDate(value, language, t, {
+      day: "numeric",
+      month: "short",
+    });
+
   const renderBlogCard = (post, index) => (
     <motion.div
       key={post.slug || post.id}
@@ -77,7 +84,7 @@ export default function RecentBlog() {
         <div className="flex flex-wrap items-center gap-4 text-xs font-semibold text-gray-400 mb-4">
           <span className="flex items-center gap-1">
             <Calendar className="w-3.5 h-3.5" />
-            {post.date}
+            {formatPostDate(post.date)}
           </span>
           <span className="flex items-center gap-1">
             <User className="w-3.5 h-3.5" />

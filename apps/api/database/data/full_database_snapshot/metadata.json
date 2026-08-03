@@ -1,7 +1,7 @@
 {
-    "source_dump": "C:/Users/KAPAKA/Desktop/international.bstu.uz/apps/api/database/Mer/bstu_international_complete_merged.sql",
-    "source_sha256": "b013e2a67b1f0c84bb1a4b75cebf8af0498a0ef4136f5902fb63ac15085115c9",
-    "generated_at": "2026-07-30T01:19:08+00:00",
+    "source_dump": "bstu_international current database export",
+    "source_sha256": "b79d8c16707518d82b8ec39e6e83d9f918b08a61e0f9e122632a75a0915208c1",
+    "generated_at": "2026-08-01T22:34:36+00:00",
     "table_count_in_dump": 110,
     "tables_in_dump": [
         "about_page_content_entries",
@@ -135,7 +135,6 @@
         "application_nationalities",
         "application_status_histories",
         "applications",
-        "audit_logs",
         "blog_comments",
         "blog_setting_translations",
         "blog_settings",
@@ -214,8 +213,9 @@
         "web_footers"
     ],
     "skipped_tables": {
-        "migrations": "Laravel owns the migration repository table during artisan migrate."
+        "migrations": "Laravel owns the migration repository table during artisan migrate.",
+        "audit_logs": "Runtime audit history is not required for content seed data and can contain very large JSON payloads."
     },
     "schema_statement_count": 386,
-    "data_statement_count": 471
+    "data_statement_count": 869
 }

@@ -2,6 +2,7 @@
 
 | صفحة العرض | الجداول المرتبطة بها | صفحات التحكم التي تديرها |
 | `/contact` | `contact_pages``contact_page_translations``inquiries` | `/apanel/cms/contact-page``/apanel/management/contact` |
+| `/` | `home_sections``home_section_translations``home_section_items``home_section_item_translations` | `/apanel/cms/home` |
 | `/services` | `interactive_service_settings``interactive_service_setting_translations``services``service_translations` | `/apanel/cms/interactive-services` |
 | `/about` | `about_pages``about_page_translations``about_page_content_entries``about_page_content_entry_translations` | `/apanel/cms/about-page` |
 | `/announcements` | `announcement_settings``announcement_setting_translations``announcements``announcement_translations` | `/apanel/cms/announcements` |

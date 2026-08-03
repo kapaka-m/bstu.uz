@@ -1,42 +1,17 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React from "react";
 import { ExternalLink, CheckCircle2, Landmark } from "lucide-react";
 import { motion } from "framer-motion";
-import { useLanguage } from "../context/LanguageContext";
-import { serviceService } from "../services/serviceService";
+import { useHomeSection } from "../hooks/useHomeSection";
+import { publicAssetUrl } from "../lib/api";
 
 export default function RegistrarOffice() {
-  const { language } = useLanguage();
-  const [services, setServices] = useState([]);
+  const { section } = useHomeSection("registrar_office");
 
-  useEffect(() => {
-    let alive = true;
-
-    serviceService
-      .getServices()
-      .then((items) => {
-        if (alive) setServices(items || []);
-      })
-      .catch(() => {
-        if (alive) setServices([]);
-      });
-
-    return () => {
-      alive = false;
-    };
-  }, [language]);
-
-  const registrar = useMemo(
-    () => services.find((service) => service.slug === "office-of-the-registrar") || null,
-    [services],
-  );
-  const relatedServices = useMemo(
-    () => services.filter((service) => service.slug !== "office-of-the-registrar").slice(0, 4),
-    [services],
-  );
-
-  if (!registrar) {
+  if (!section) {
     return null;
   }
+
+  const imageSrc = publicAssetUrl(section.settings?.image || "");
 
   return (
     <section id="registrar-office" className="py-20 bg-white overflow-hidden">
@@ -52,10 +27,20 @@ export default function RegistrarOffice() {
           >
             <div className="relative group p-4 bg-linear-to-br from-primary-light to-white rounded-[2.5rem] shadow-xl border border-gray-100/50">
               <div className="overflow-hidden rounded-4xl shadow-lg relative aspect-16/10 bg-white flex items-center justify-center">
-                <div className="absolute inset-0 bg-[radial-gradient(#0d6efd12_1px,transparent_1px)] bg-size-[18px_18px]" />
-                <div className="relative w-28 h-28 rounded-3xl bg-primary/10 text-primary flex items-center justify-center shadow-sm border border-primary/10">
-                  <Landmark className="w-12 h-12" />
-                </div>
+                {imageSrc ? (
+                  <img
+                    src={imageSrc}
+                    alt={section.image_alt || section.title || ""}
+                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                ) : (
+                  <>
+                    <div className="absolute inset-0 bg-[radial-gradient(#0d6efd12_1px,transparent_1px)] bg-size-[18px_18px]" />
+                    <div className="relative w-28 h-28 rounded-3xl bg-primary/10 text-primary flex items-center justify-center shadow-sm border border-primary/10">
+                      <Landmark className="w-12 h-12" />
+                    </div>
+                  </>
+                )}
               </div>
               {/* Decorative accent */}
               <div className="absolute -top-3 -left-3 w-16 h-16 bg-primary/5 rounded-full blur-xl" />
@@ -72,18 +57,18 @@ export default function RegistrarOffice() {
             className="flex flex-col text-start order-1 lg:order-2"
           >
             <span className="self-start inline-flex items-center gap-1 bg-primary/10 text-primary text-[11px] font-extrabold uppercase tracking-widest px-3.5 py-1.5 rounded-full mb-4">
-              {registrar.action_label || ""}
+              {section.eyebrow || ""}
             </span>
             <h2 className="text-3xl md:text-4xl font-extrabold text-navy leading-tight mb-4">
-              {registrar.title || ""}
+              {section.title || ""}
             </h2>
             <p className="text-gray-500 text-base md:text-lg leading-relaxed mb-6">
-              {registrar.description || ""}
+              {section.description || ""}
             </p>
 
             {/* List of Services */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-              {relatedServices.map((service, index) => (
+              {(section.items || []).map((service, index) => (
                 <div key={index} className="flex items-start gap-3">
                   <CheckCircle2 className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                   <span className="text-navy font-bold text-sm leading-snug text-start">
@@ -96,12 +81,12 @@ export default function RegistrarOffice() {
             {/* CTA Button */}
             <div>
               <a
-                href={registrar.url}
-                target={registrar.opens_new_tab ? "_blank" : undefined}
-                rel={registrar.opens_new_tab ? "noopener noreferrer" : undefined}
+                href={section.cta_url || "#"}
+                target={/^https?:\/\//i.test(section.cta_url || "") ? "_blank" : undefined}
+                rel={/^https?:\/\//i.test(section.cta_url || "") ? "noopener noreferrer" : undefined}
                 className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-white px-8 py-4 rounded-xl font-extrabold shadow-md shadow-primary/20 hover:shadow-primary/30 transition-all hover:-translate-y-0.5 cursor-pointer"
               >
-                {registrar.action_label || ""}
+                {section.cta_label || ""}
                 <ExternalLink className="w-4 h-4" />
               </a>
             </div>

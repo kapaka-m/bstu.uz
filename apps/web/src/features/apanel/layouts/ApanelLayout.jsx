@@ -33,6 +33,7 @@ import {
   PanelBottom,
   Mail,
   MailPlus,
+  Home,
   X,
   ChevronDown,
   LogOut,
@@ -86,6 +87,11 @@ export default function ApanelLayout({ children }) {
     {
       title: t("apanel.nav.cms"),
       links: [
+        {
+          path: "/apanel/cms/home",
+          label: "Home Page",
+          icon: Home,
+        },
         {
           path: "/apanel/cms/about-page",
           label: t("apanel.nav.aboutPage"),

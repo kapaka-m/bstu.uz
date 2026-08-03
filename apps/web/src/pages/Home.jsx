@@ -17,16 +17,8 @@ import VideoGallery from "../sections/VideoGallery";
 import News from "../sections/News";
 import { useLanguage } from "../context/LanguageContext";
 
-const REQUIRED_HOME_TRANSLATIONS = [
-  "home.hero.title",
-  "home.hero.subtitle",
-  "common.applyNow",
-  "home.hero.accredited",
-  "home.hero.statePrograms",
-];
-
 export default function Home() {
-  const { loading, translationsReady, hasTranslation } = useLanguage();
+  const { loading, translationsReady } = useLanguage();
   // Scroll to top on page render or hash matching
   useEffect(() => {
     const hash = window.location.hash;
@@ -42,12 +34,7 @@ export default function Home() {
     }
   }, []);
 
-  const hasRequiredHomeContent =
-    !loading &&
-    translationsReady &&
-    REQUIRED_HOME_TRANSLATIONS.every((key) => hasTranslation(key));
-
-  if (!hasRequiredHomeContent) {
+  if (loading || !translationsReady) {
     return null;
   }
 

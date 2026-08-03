@@ -1,60 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Award, ClipboardList, Dribbble, Filter, Zap, ShieldCheck } from "lucide-react";
 import { motion } from "framer-motion";
-import { useLanguage } from "../context/LanguageContext";
-import { aboutService } from "../services/aboutService";
+import { useHomeSection } from "../hooks/useHomeSection";
+import { publicAssetUrl } from "../lib/api";
 
 export default function AltFeatures() {
-  const { language } = useLanguage();
-  const [aboutPage, setAboutPage] = useState(null);
+  const { section } = useHomeSection("alt_features");
 
-  useEffect(() => {
-    let alive = true;
+  const iconList = [ShieldCheck, ClipboardList, Award, Zap, Dribbble, Filter];
+  const features = (section?.items || [])
+    .map((item, index) => ({
+      icon: iconList[index] || Zap,
+      title: item.title || item.label,
+      description: item.description,
+    }))
+    .filter((item) => item.title || item.description);
 
-    aboutService
-      .getPage(language)
-      .then((page) => {
-        if (alive) setAboutPage(page || null);
-      })
-      .catch(() => {
-        if (alive) setAboutPage(null);
-      });
-
-    return () => {
-      alive = false;
-    };
-  }, [language]);
-
-  const content = aboutPage?.content || {};
-  const values = content.values || {};
-  const stats = content.stats?.items || [];
-
-  const features = [
-    {
-      icon: ShieldCheck,
-      title: values.integrityTitle,
-      description: values.integrityDesc,
-    },
-    {
-      icon: ClipboardList,
-      title: values.innovationTitle,
-      description: values.innovationDesc,
-    },
-    {
-      icon: Award,
-      title: values.inclusivityTitle,
-      description: values.inclusivityDesc,
-    },
-    ...stats.slice(0, 3).map((item, index) => ({
-      icon: [Zap, Dribbble, Filter][index] || Zap,
-      title: item.label,
-      description: item.desc,
-    })),
-  ].filter((item) => item.title || item.description);
-
-  if (!aboutPage || features.length === 0) {
+  if (!section || features.length === 0) {
     return null;
   }
+
+  const imageSrc = publicAssetUrl(section.settings?.image || "");
 
   return (
     <section id="alt-features" className="py-24 bg-white border-t border-gray-50 overflow-hidden">
@@ -106,10 +72,20 @@ export default function AltFeatures() {
             className="lg:col-span-5 order-1 lg:order-2 flex justify-center"
           >
             <div className="relative rounded-3xl overflow-hidden shadow-lg border border-gray-100/80 aspect-4/3 w-full max-w-112.5 lg:max-w-none shrink-0 bg-white flex items-center justify-center">
-              <div className="absolute inset-0 bg-[radial-gradient(#0d6efd12_1px,transparent_1px)] bg-size-[18px_18px]" />
-              <div className="relative w-32 h-32 rounded-3xl bg-primary/10 text-primary flex items-center justify-center shadow-sm border border-primary/10">
-                <Award className="w-14 h-14" />
-              </div>
+              {imageSrc ? (
+                <img
+                  src={imageSrc}
+                  alt={section.image_alt || section.title || ""}
+                  className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
+                />
+              ) : (
+                <>
+                  <div className="absolute inset-0 bg-[radial-gradient(#0d6efd12_1px,transparent_1px)] bg-size-[18px_18px]" />
+                  <div className="relative w-32 h-32 rounded-3xl bg-primary/10 text-primary flex items-center justify-center shadow-sm border border-primary/10">
+                    <Award className="w-14 h-14" />
+                  </div>
+                </>
+              )}
             </div>
           </motion.div>
         </div>

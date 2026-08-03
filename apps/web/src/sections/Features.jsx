@@ -5,10 +5,12 @@ import { Link } from "react-router-dom";
 import { useLanguage } from "../context/LanguageContext";
 import { aboutService } from "../services/aboutService";
 import { publicAssetUrl } from "../lib/api";
+import { useHomeSection } from "../hooks/useHomeSection";
 
 export default function Features() {
   const { language, isRtl } = useLanguage();
   const [aboutPage, setAboutPage] = useState(null);
+  const { section } = useHomeSection("strategic_goals");
 
   useEffect(() => {
     let alive = true;
@@ -27,19 +29,15 @@ export default function Features() {
     };
   }, [language]);
 
-  const content = aboutPage?.content || {};
-  const goals = content.goals || {};
-  const values = content.values || {};
-  const identity = content.identity || {};
-  const imageSrc = publicAssetUrl(aboutPage?.identity_image_url || aboutPage?.identity_image || "");
-  const bstuBullets = [
-    { text: goals.missionTitle, icon: Cpu },
-    { text: goals.visionTitle, icon: Globe },
-    { text: values.innovationTitle, icon: Briefcase },
-    { text: values.inclusivityTitle, icon: Zap },
-  ].filter((item) => item.text);
+  const imageSrc = publicAssetUrl(
+    section?.settings?.image || aboutPage?.identity_image_url || aboutPage?.identity_image || "",
+  );
+  const icons = [Cpu, Globe, Briefcase, Zap];
+  const bstuBullets = (section?.items || [])
+    .map((item, index) => ({ text: item.title || item.label, icon: icons[index] || Cpu }))
+    .filter((item) => item.text);
 
-  if (!aboutPage) {
+  if (!section) {
     return null;
   }
 
@@ -50,10 +48,10 @@ export default function Features() {
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-20">
           <h2 className="text-sm font-extrabold uppercase tracking-widest text-primary mb-3">
-            {goals.badge || ""}
+            {section.eyebrow || ""}
           </h2>
           <p className="text-3xl md:text-4xl font-extrabold text-navy">
-            {goals.title || ""}
+            {section.title || ""}
           </p>
           <div className="w-16 h-1 bg-primary mx-auto mt-4 rounded-full" />
         </div>
@@ -67,13 +65,13 @@ export default function Features() {
             className="lg:col-span-6 flex flex-col gap-6 text-start"
           >
             <span className="self-start inline-flex items-center bg-primary/10 text-primary text-[10px] font-extrabold uppercase tracking-widest px-3.5 py-1.5 rounded-full">
-              {identity.badge || ""}
+              {section.subtitle || ""}
             </span>
             <h3 className="text-2xl md:text-3xl font-extrabold text-navy leading-tight">
-              {identity.title || ""}
+              {section.secondary_title || ""}
             </h3>
             <p className="text-gray-500 text-sm md:text-base leading-relaxed">
-              {identity.desc2 || identity.desc1 || ""}
+              {section.description || section.secondary_description || ""}
             </p>
 
             {/* Bullet Points */}
@@ -96,10 +94,10 @@ export default function Features() {
             {/* Read More Button */}
             <div className="pt-2">
               <Link
-                to="/about"
+                to={section.cta_url || "/about"}
                 className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-white px-7 py-3 rounded-xl font-extrabold text-xs transition-all shadow-md shadow-primary/20 hover:shadow-primary/30 hover:-translate-y-0.5"
               >
-                {content.hero?.campusBtn || ""}
+                {section.cta_label || ""}
                 <ArrowRight className={`w-3.5 h-3.5 transition-transform duration-300 ${isRtl ? 'rotate-180' : ''}`} />
               </Link>
             </div>
@@ -116,7 +114,7 @@ export default function Features() {
             <div className="relative group rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100">
               <img
                 src={imageSrc}
-                alt={identity.title || ""}
+                alt={section.image_alt || section.secondary_title || section.title || ""}
                 className="w-full max-w-150 object-cover transition-transform duration-750 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-linear-to-t from-navy/20 via-transparent to-transparent" />

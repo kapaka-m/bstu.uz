@@ -177,6 +177,14 @@ export const apanelService = {
     return api.put("/apanel/cms/contact-page", payload).then(unwrapPayload);
   },
 
+  getHomeCms() {
+    return api.get("/apanel/cms/home").then(unwrapPayload);
+  },
+
+  updateHomeCms(payload) {
+    return api.put("/apanel/cms/home", payload).then(unwrapPayload);
+  },
+
   getHeaderNavbar() {
     return api.get("/apanel/cms/header-navbar").then(unwrapPayload);
   },

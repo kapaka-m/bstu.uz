@@ -5,14 +5,52 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
 import { videoService } from "../services/videoService";
 import { publicAssetUrl } from "../lib/api";
+import { useHomeSection } from "../hooks/useHomeSection";
+
+const getYoutubeId = (value) => {
+  const url = String(value || "").trim();
+  if (!url) return "";
+
+  const patterns = [
+    /youtu\.be\/([^?&/]+)/i,
+    /youtube\.com\/watch\?[^#]*v=([^?&#]+)/i,
+    /youtube\.com\/embed\/([^?&#/]+)/i,
+  ];
+
+  for (const pattern of patterns) {
+    const match = url.match(pattern);
+    if (match?.[1]) return match[1];
+  }
+
+  return /^[a-zA-Z0-9_-]{8,}$/.test(url) && !url.includes(".") && !url.includes("/")
+    ? url
+    : "";
+};
 
 export default function Hero() {
   const [isVideoOpen, setIsVideoOpen] = useState(false);
   const [heroVideo, setHeroVideo] = useState(null);
   const { t, hasTranslation, translationsReady, language, settings, isRtl } = useLanguage();
+  const { section } = useHomeSection("hero");
   const heroBackgroundImage = publicAssetUrl(settings?.home_hero_background_image);
-  const heroMainImage = publicAssetUrl(settings?.home_hero_main_image);
-  const heroStudentCount = settings?.home_hero_student_count;
+  const heroMainImage = publicAssetUrl(section?.settings?.image || settings?.home_hero_main_image);
+  const heroStudentCard = section?.items?.find((item) => item.item_key === "student_count");
+  const heroAccreditationCard = section?.items?.find((item) => item.item_key === "accreditation");
+  const heroStudentCount = heroStudentCard
+    ? `${heroStudentCard.value || ""}${heroStudentCard.suffix || ""}`
+    : settings?.home_hero_student_count;
+  const heroStudentLabel = heroStudentCard?.label || t("home.hero.activeStudents");
+  const heroAccreditedTitle = heroAccreditationCard?.title || t("home.hero.accredited");
+  const heroAccreditedLabel = heroAccreditationCard?.label || t("home.hero.statePrograms");
+  const configuredVideoUrl = String(section?.settings?.video_url || "").trim();
+  const configuredYoutubeId = getYoutubeId(configuredVideoUrl);
+  const activeHeroVideo = configuredVideoUrl
+    ? {
+        title: section?.secondary_title || "",
+        youtubeId: configuredYoutubeId,
+        videoUrl: configuredYoutubeId ? "" : configuredVideoUrl,
+      }
+    : heroVideo;
   const hasHeroContent =
     translationsReady &&
     hasTranslation("home.hero.title") &&
@@ -38,7 +76,7 @@ export default function Hero() {
     };
   }, [language]);
 
-  if (!hasHeroContent) {
+  if (!section && !hasHeroContent) {
     return null;
   }
 
@@ -58,20 +96,20 @@ export default function Hero() {
             className="flex flex-col justify-center text-center lg:text-left"
           >
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-navy leading-tight mb-4">
-              {t("home.hero.title")}
+              {section?.title || t("home.hero.title")}
             </h1>
             <p className="text-navy-light text-lg md:text-xl font-medium mb-8 max-w-xl mx-auto lg:mx-0">
-              {t("home.hero.subtitle")}
+              {section?.subtitle || t("home.hero.subtitle")}
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
               <Link
-                to="/apply"
+                to={section?.settings?.cta_url || section?.cta_url || "/apply"}
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary-hover text-white px-8 py-4 rounded-xl font-bold shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all duration-300 hover:-translate-y-0.5 group cursor-pointer"
               >
-                {t("common.applyNow")}
+                {section?.cta_label || t("common.applyNow")}
                 <ArrowRight className={`w-4 h-4 transition-transform duration-300 ${isRtl ? "rotate-180 group-hover:-translate-x-1" : "group-hover:translate-x-1"}`} />
               </Link>
-              {heroVideo && (
+              {activeHeroVideo && (
                 <button
                   onClick={() => setIsVideoOpen(true)}
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 text-navy hover:text-primary transition-colors py-3 px-6 rounded-xl font-bold group cursor-pointer"
@@ -79,7 +117,7 @@ export default function Hero() {
                   <span className="w-12 h-12 rounded-full border-2 border-primary/20 flex items-center justify-center bg-white transition-all duration-300 group-hover:bg-primary group-hover:text-white group-hover:border-primary shadow-md">
                     <Play className="w-4 h-4 fill-current ml-0.5" />
                   </span>
-                  {t("home.hero.watchVideo")}
+                  {section?.secondary_title || t("home.hero.watchVideo")}
                 </button>
               )}
             </div>
@@ -98,7 +136,7 @@ export default function Hero() {
                 {heroMainImage && (
                   <img
                     src={heroMainImage}
-                    alt={t("home.hero.imageAlt")}
+                    alt={section?.image_alt || t("home.hero.imageAlt")}
                     className="w-full h-auto aspect-4/3 object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                 )}
@@ -115,7 +153,7 @@ export default function Hero() {
                   </div>
                   <div>
                     <div className="text-navy font-extrabold text-sm leading-none">{heroStudentCount}</div>
-                    <div className="text-gray-500 text-[10px] font-bold mt-1 uppercase tracking-wider">{t("home.hero.activeStudents")}</div>
+                    <div className="text-gray-500 text-[10px] font-bold mt-1 uppercase tracking-wider">{heroStudentLabel}</div>
                   </div>
                 </div>
               )}
@@ -128,8 +166,8 @@ export default function Hero() {
                   </svg>
                 </div>
                 <div>
-                  <div className="text-navy font-extrabold text-sm leading-none">{t("home.hero.accredited")}</div>
-                  <div className="text-gray-500 text-[10px] font-bold mt-1 uppercase tracking-wider">{t("home.hero.statePrograms")}</div>
+                  <div className="text-navy font-extrabold text-sm leading-none">{heroAccreditedTitle}</div>
+                  <div className="text-gray-500 text-[10px] font-bold mt-1 uppercase tracking-wider">{heroAccreditedLabel}</div>
                 </div>
               </div>
             </div>
@@ -139,7 +177,7 @@ export default function Hero() {
 
       {/* Video Modal */}
       <AnimatePresence>
-        {isVideoOpen && heroVideo && (
+        {isVideoOpen && activeHeroVideo && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -154,17 +192,17 @@ export default function Hero() {
               >
                 <X className="w-5 h-5" />
               </button>
-              {heroVideo.youtubeId ? (
+              {activeHeroVideo.youtubeId ? (
                 <iframe
-                  src={`https://www.youtube.com/embed/${heroVideo.youtubeId}?autoplay=1`}
-                  title={heroVideo.title || ""}
+                  src={`https://www.youtube.com/embed/${activeHeroVideo.youtubeId}?autoplay=1`}
+                  title={activeHeroVideo.title || ""}
                   className="w-full h-full"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                 />
               ) : (
                 <video
-                  src={publicAssetUrl(heroVideo.videoUrl)}
+                  src={publicAssetUrl(activeHeroVideo.videoUrl)}
                   className="w-full h-full object-cover"
                   controls
                   autoPlay

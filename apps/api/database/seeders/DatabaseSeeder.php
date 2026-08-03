@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             FullDatabaseSnapshotSeeder::class,
+            HomeCmsTranslationSeeder::class,
             WebFooterSeeder::class,
             StudentSystemTranslationSeeder::class,
         ]);

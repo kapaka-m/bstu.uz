@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AdminCrudController;
 use App\Http\Controllers\Api\ApanelApplicationWorkflowController;
+use App\Http\Controllers\Api\HomeCmsController;
 use App\Http\Controllers\Api\InitialApplicationController;
 use App\Http\Controllers\Api\PublicApiController;
 use App\Http\Controllers\Api\StudentApplicationPortalController;
@@ -43,6 +44,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/menus', [PublicApiController::class, 'menus']);
         Route::get('/menus/{location}', [PublicApiController::class, 'menu']);
         Route::get('/home', [PublicApiController::class, 'home']);
+        Route::get('/home-sections', [HomeCmsController::class, 'publicIndex']);
         Route::get('/pages', [PublicApiController::class, 'pages']);
         Route::get('/pages/{slug}', [PublicApiController::class, 'page']);
         Route::get('/page-blocks/{pageSlug}', [PublicApiController::class, 'pageBlocks']);
@@ -197,6 +199,8 @@ Route::prefix('v1')->group(function () {
         Route::post('cms/about-page/entries/reorder', [AdminCrudController::class, 'reorderAboutPageEntries']);
         Route::get('cms/contact-page', [AdminCrudController::class, 'showContactPage']);
         Route::put('cms/contact-page', [AdminCrudController::class, 'updateContactPage']);
+        Route::get('cms/home', [HomeCmsController::class, 'adminShow']);
+        Route::put('cms/home', [HomeCmsController::class, 'adminUpdate']);
         Route::get('cms/header-navbar', [AdminCrudController::class, 'showHeaderNavbar']);
         Route::put('cms/header-navbar', [AdminCrudController::class, 'updateHeaderNavbar']);
         Route::get('cms/news-events/settings', [AdminCrudController::class, 'showNewsEventSettings']);

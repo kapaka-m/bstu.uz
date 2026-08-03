@@ -93,12 +93,12 @@ export default function Hero() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="flex flex-col justify-center text-center lg:text-left"
+            className={`flex flex-col justify-center text-center ${isRtl ? "lg:text-right" : "lg:text-left"}`}
           >
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-navy leading-tight mb-4">
               {section?.title || t("home.hero.title")}
             </h1>
-            <p className="text-navy-light text-lg md:text-xl font-medium mb-8 max-w-xl mx-auto lg:mx-0">
+            <p className={`text-navy-light text-lg md:text-xl font-medium mb-8 max-w-xl mx-auto ${isRtl ? "lg:mr-0 lg:ml-auto" : "lg:mx-0"}`}>
               {section?.subtitle || t("home.hero.subtitle")}
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">

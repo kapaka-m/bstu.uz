@@ -129,9 +129,9 @@ class HomeCmsTranslationSeeder extends Seeder
                 'settings' => ['image' => 'cms/university-centers/registrar_office.jpg'],
                 'translations' => $this->tr(
                     ['eyebrow' => 'Access Registrar Office', 'title' => 'Office of the Registrar', 'description' => 'Manage your academic records, requests, official transcripts, and enrollment certificates.', 'cta_label' => 'Access Registrar Office', 'cta_url' => 'https://student.bstu.uz/dashboard/login', 'image_alt' => 'Office of the Registrar'],
-                    ['eyebrow' => 'Registrar ofisiga kirish', 'title' => 'Registrar ofisi', 'description' => 'Akademik yozuvlaringiz, soʻrovlaringiz, rasmiy transkriptlaringiz va oʻqishga qabul sertifikatlaringizni boshqaring.', 'cta_label' => 'Registrar ofisiga kirish', 'cta_url' => 'https://student.bstu.uz/dashboard/login', 'image_alt' => 'Office of the Registrar'],
-                    ['eyebrow' => 'Вход в офис регистратора', 'title' => 'Офис регистратора', 'description' => 'Управляйте академическими записями, запросами, официальными транскриптами и справками о зачислении.', 'cta_label' => 'Перейти в офис регистратора', 'cta_url' => 'https://student.bstu.uz/dashboard/login', 'image_alt' => 'Office of the Registrar'],
-                    ['eyebrow' => 'الدخول إلى مكتب المسجل', 'title' => 'مكتب المسجل', 'description' => 'إدارة سجلاتك الأكاديمية وطلباتك وكشوف الدرجات الرسمية وشهادات القيد.', 'cta_label' => 'الدخول إلى مكتب المسجل', 'cta_url' => 'https://student.bstu.uz/dashboard/login', 'image_alt' => 'Office of the Registrar'],
+                    ['eyebrow' => 'Registrar ofisiga kirish', 'title' => 'Registrar ofisi', 'description' => 'Akademik yozuvlaringiz, soʻrovlaringiz, rasmiy transkriptlaringiz va oʻqishga qabul sertifikatlaringizni boshqaring.', 'cta_label' => 'Registrar ofisiga kirish', 'cta_url' => 'https://student.bstu.uz/dashboard/login', 'image_alt' => 'Registrar ofisi'],
+                    ['eyebrow' => 'Вход в офис регистратора', 'title' => 'Офис регистратора', 'description' => 'Управляйте академическими записями, запросами, официальными транскриптами и справками о зачислении.', 'cta_label' => 'Перейти в офис регистратора', 'cta_url' => 'https://student.bstu.uz/dashboard/login', 'image_alt' => 'Офис регистратора'],
+                    ['eyebrow' => 'الدخول إلى مكتب المسجل', 'title' => 'مكتب المسجل', 'description' => 'إدارة سجلاتك الأكاديمية وطلباتك وكشوف الدرجات الرسمية وشهادات القيد.', 'cta_label' => 'الدخول إلى مكتب المسجل', 'cta_url' => 'https://student.bstu.uz/dashboard/login', 'image_alt' => 'مكتب المسجل'],
                 ),
                 'items' => [
                     $this->item('hemis', 1, ['en' => 'HEMIS Student Portal', 'uz' => 'HEMIS talabalar portali', 'ru' => 'Студенческий портал HEMIS', 'ar' => 'بوابة الطلاب HEMIS']),
@@ -148,9 +148,9 @@ class HomeCmsTranslationSeeder extends Seeder
                 'settings' => ['image' => 'cms/about-page/bstu-about-identity.jpg'],
                 'translations' => $this->tr(
                     ['eyebrow' => 'Strategic Goals', 'title' => 'Mission & Vision', 'subtitle' => 'Institutional Merge', 'secondary_title' => 'Our Identity', 'description' => $goalDesc['en'], 'cta_label' => 'Explore Campus Life', 'cta_url' => '/video-bdtu', 'image_alt' => 'Mission & Vision BSTU'],
-                    ['eyebrow' => 'Strategik maqsadlar', 'title' => 'Missiya va qarash', 'subtitle' => 'Institutsional birlashuv', 'secondary_title' => 'Bizning identitetimiz', 'description' => $goalDesc['uz'], 'cta_label' => 'Kampus hayotini ko‘rish', 'cta_url' => '/video-bdtu', 'image_alt' => 'Mission & Vision BSTU'],
-                    ['eyebrow' => 'Стратегические цели', 'title' => 'Миссия и видение', 'subtitle' => 'Институциональное объединение', 'secondary_title' => 'Наша идентичность', 'description' => $goalDesc['ru'], 'cta_label' => 'Изучить жизнь кампуса', 'cta_url' => '/video-bdtu', 'image_alt' => 'Mission & Vision BSTU'],
-                    ['eyebrow' => 'الأهداف الاستراتيجية', 'title' => 'الرسالة والرؤية', 'subtitle' => 'الاندماج المؤسسي', 'secondary_title' => 'هويتنا', 'description' => $goalDesc['ar'], 'cta_label' => 'استكشف حياة الحرم الجامعي', 'cta_url' => '/video-bdtu', 'image_alt' => 'Mission & Vision BSTU'],
+                    ['eyebrow' => 'Strategik maqsadlar', 'title' => 'Missiya va qarash', 'subtitle' => 'Institutsional birlashuv', 'secondary_title' => 'Bizning identitetimiz', 'description' => $goalDesc['uz'], 'cta_label' => 'Kampus hayotini ko‘rish', 'cta_url' => '/video-bdtu', 'image_alt' => 'BSTU missiyasi va qarashi'],
+                    ['eyebrow' => 'Стратегические цели', 'title' => 'Миссия и видение', 'subtitle' => 'Институциональное объединение', 'secondary_title' => 'Наша идентичность', 'description' => $goalDesc['ru'], 'cta_label' => 'Изучить жизнь кампуса', 'cta_url' => '/video-bdtu', 'image_alt' => 'Миссия и видение БГТУ'],
+                    ['eyebrow' => 'الأهداف الاستراتيجية', 'title' => 'الرسالة والرؤية', 'subtitle' => 'الاندماج المؤسسي', 'secondary_title' => 'هويتنا', 'description' => $goalDesc['ar'], 'cta_label' => 'استكشف حياة الحرم الجامعي', 'cta_url' => '/video-bdtu', 'image_alt' => 'رسالة ورؤية BSTU'],
                 ),
                 'items' => [
                     $this->item('mission', 1, ['en' => 'Our Mission', 'uz' => 'Missiyamiz', 'ru' => 'Наша миссия', 'ar' => 'رسالتنا']),
@@ -167,9 +167,9 @@ class HomeCmsTranslationSeeder extends Seeder
                 'settings' => ['image' => 'cms/about-page/bstu-about-identity.jpg'],
                 'translations' => $this->tr(
                     ['eyebrow' => 'Institutional Merge', 'title' => 'Our Identity', 'description' => 'Formed through the integration of the Bukhara Engineering-Technological Institute and the Bukhara Institute of Natural Resources Management (Presidential Resolution No. PP-22), BSTU brings together the region\'s elite scholars, researchers, and campus facilities.', 'secondary_description' => $goalDesc['en'], 'cta_label' => 'About Us', 'cta_url' => '/about', 'image_alt' => 'Our university aims to become a major technological base in Uzbekistan'],
-                    ['eyebrow' => 'Institutsional birlashuv', 'title' => 'Bizning identitetimiz', 'description' => 'Buxoro muhandislik-texnologiya instituti va Buxoro tabiiy resurslarni boshqarish instituti integratsiyasi asosida tashkil etilgan BSTU (Prezident qarori No. PP-22) hududning yetakchi olimlari, tadqiqotchilari va kampus imkoniyatlarini birlashtiradi.', 'secondary_description' => $goalDesc['uz'], 'cta_label' => 'About Us', 'cta_url' => '/about', 'image_alt' => 'Our university aims to become a major technological base in Uzbekistan'],
-                    ['eyebrow' => 'Институциональное объединение', 'title' => 'Наша идентичность', 'description' => 'Созданный путем интеграции Бухарского инженерно-технологического института и Бухарского института управления природными ресурсами (Постановление Президента No. PP-22), БГТУ объединяет ведущих ученых, исследователей и инфраструктуру кампусов региона.', 'secondary_description' => $goalDesc['ru'], 'cta_label' => 'About Us', 'cta_url' => '/about', 'image_alt' => 'Our university aims to become a major technological base in Uzbekistan'],
-                    ['eyebrow' => 'الاندماج المؤسسي', 'title' => 'هويتنا', 'description' => 'تأسست BSTU من خلال دمج معهد بخارى للهندسة والتكنولوجيا ومعهد بخارى لإدارة الموارد الطبيعية (قرار الرئيس رقم PP-22)، لتجمع نخبة العلماء والباحثين ومرافق الحرم الجامعي في المنطقة.', 'secondary_description' => $goalDesc['ar'], 'cta_label' => 'About Us', 'cta_url' => '/about', 'image_alt' => 'Our university aims to become a major technological base in Uzbekistan'],
+                    ['eyebrow' => 'Institutsional birlashuv', 'title' => 'Bizning identitetimiz', 'description' => 'Buxoro muhandislik-texnologiya instituti va Buxoro tabiiy resurslarni boshqarish instituti integratsiyasi asosida tashkil etilgan BSTU (Prezident qarori No. PP-22) hududning yetakchi olimlari, tadqiqotchilari va kampus imkoniyatlarini birlashtiradi.', 'secondary_description' => $goalDesc['uz'], 'cta_label' => 'Biz haqimizda', 'cta_url' => '/about', 'image_alt' => 'Universitetimiz O‘zbekistonda yirik texnologik bazaga aylanishni maqsad qilgan'],
+                    ['eyebrow' => 'Институциональное объединение', 'title' => 'Наша идентичность', 'description' => 'Созданный путем интеграции Бухарского инженерно-технологического института и Бухарского института управления природными ресурсами (Постановление Президента No. PP-22), БГТУ объединяет ведущих ученых, исследователей и инфраструктуру кампусов региона.', 'secondary_description' => $goalDesc['ru'], 'cta_label' => 'О нас', 'cta_url' => '/about', 'image_alt' => 'Наш университет стремится стать крупной технологической базой Узбекистана'],
+                    ['eyebrow' => 'الاندماج المؤسسي', 'title' => 'هويتنا', 'description' => 'تأسست BSTU من خلال دمج معهد بخارى للهندسة والتكنولوجيا ومعهد بخارى لإدارة الموارد الطبيعية (قرار الرئيس رقم PP-22)، لتجمع نخبة العلماء والباحثين ومرافق الحرم الجامعي في المنطقة.', 'secondary_description' => $goalDesc['ar'], 'cta_label' => 'من نحن', 'cta_url' => '/about', 'image_alt' => 'تهدف جامعتنا إلى أن تصبح قاعدة تكنولوجية كبرى في أوزبكستان'],
                 ),
             ],
             [
@@ -205,9 +205,9 @@ class HomeCmsTranslationSeeder extends Seeder
             'translations' => $key === 'alt_features'
                 ? $this->tr(
                     ['image_alt' => 'Academic Integrity'],
-                    ['image_alt' => 'Academic Integrity'],
-                    ['image_alt' => 'Academic Integrity'],
-                    ['image_alt' => 'Academic Integrity'],
+                    ['image_alt' => 'Akademik halollik'],
+                    ['image_alt' => 'Академическая честность'],
+                    ['image_alt' => 'النزاهة الأكاديمية'],
                 )
                 : ($withHeader
                 ? $this->tr(

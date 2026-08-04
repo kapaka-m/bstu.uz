@@ -50,6 +50,7 @@ use App\Traits\ApiResponse;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
@@ -709,7 +710,7 @@ class PublicApiController extends Controller
         return $this->successResponse($data, 'Menus retrieved successfully');
     }
 
-    protected function formatMenuItems($items, string $locale): array
+    protected function formatMenuItems(Collection $items, string $locale): array
     {
         return $items
             ->map(fn (MenuItem $item) => $this->formatMenuItem($item, $locale))

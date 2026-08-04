@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Collection;
 
 class AuthCmsController extends Controller
 {
@@ -213,7 +214,7 @@ class AuthCmsController extends Controller
         ];
     }
 
-    protected function translation($translations, string $locale, string $fallback)
+    protected function translation(Collection $translations, string $locale, string $fallback): ?object
     {
         return $translations->firstWhere('locale', $locale)
             ?: $translations->firstWhere('locale', $fallback)

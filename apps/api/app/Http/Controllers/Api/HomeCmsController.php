@@ -8,6 +8,7 @@ use App\Models\HomeSectionItem;
 use App\Models\Locale;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -201,7 +202,7 @@ class HomeCmsController extends Controller
         ];
     }
 
-    protected function translation($translations, string $locale, string $fallback)
+    protected function translation(Collection $translations, string $locale, string $fallback): ?object
     {
         return $translations->firstWhere('locale', $locale)
             ?: $translations->firstWhere('locale', $fallback)

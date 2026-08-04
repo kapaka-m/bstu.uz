@@ -1,7 +1,7 @@
 {
     "source_dump": "bstu_international current database export from live server via PDO, excluding metadata skipped tables and inactive fr home rows",
-    "source_sha256": "82b85f290a6f9c885bc9b7171fb1dceb161ccf7b3e5fdae35cb0940f1d75c877",
-    "generated_at": "2026-08-04T19:55:28+00:00",
+    "source_sha256": "e53110201cb2f3ba2ded63176f1c122f7b95a7ec9b1d05748b748f8c36a87615",
+    "generated_at": "2026-08-04T20:39:42+00:00",
     "table_count_in_dump": 110,
     "tables_in_dump": [
         "about_page_content_entries",
@@ -222,8 +222,8 @@
         "failed_jobs": "Runtime failed jobs are not content seed data."
     },
     "schema_statement_count": 386,
-    "data_statement_count": 876,
-    "seeded_row_count": 20246,
+    "data_statement_count": 860,
+    "seeded_row_count": 20164,
     "filters": {
         "home_section_translations": "locale IN ('en','uz','ru','ar') after deleting inactive fr rows from server",
         "home_section_item_translations": "locale IN ('en','uz','ru','ar') after deleting inactive fr rows from server"

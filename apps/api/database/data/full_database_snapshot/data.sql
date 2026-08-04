@@ -1068,9 +1068,6 @@ INSERT INTO `administration_setting_translations` (`id`, `administration_setting
 INSERT INTO `administration_settings` (`id`, `key`, `home_limit`, `is_active`, `created_at`, `updated_at`) VALUES
 ('1', 'main', '6', '1', '2026-07-25 23:34:01', '2026-08-03 10:07:14');
 
-INSERT INTO `admissions` (`id`, `application_id`, `student_profile_id`, `faculty_id`, `program_id`, `admission_number`, `issue_date`, `status`, `student_type`, `education_type`, `study_language`, `estimated_study_duration`, `document_path`, `issued_by`, `issued_at`, `cancelled_at`, `cancellation_reason`, `created_at`, `updated_at`) VALUES
-('1', '1', '1', '2', '93', 'ADM-2026-Q4X9QX', '2026-07-26', 'ISSUED', 'new', 'full_time', 'uzbek', '4 years', 'generated/admissions/admission-1-adm-2026-q4x9qx.pdf', '1', '2026-07-26 00:43:50', NULL, NULL, '2026-07-26 00:43:50', '2026-07-26 01:06:35');
-
 INSERT INTO `announcement_setting_translations` (`id`, `announcement_setting_id`, `locale`, `home_tag`, `home_title`, `view_all_label`, `read_details_label`, `search_title`, `search_placeholder`, `categories_title`, `recent_title`, `all_label`, `views_label`, `important_label`, `loading_label`, `no_results_label`, `clear_filters_label`, `share_label`, `copy_link_label`, `copied_label`, `published_by_label`, `publisher_name`, `created_at`, `updated_at`) VALUES
 ('1', '1', 'en', 'Announcements', 'Latest Announcements', 'All Announcements', 'Read Details', 'Search Announcements', 'Search announcements...', 'Categories', 'Recent Announcements', 'All', 'views', 'Important', 'Loading announcements...', 'No announcements found', 'Clear search filters', 'Share', 'Copy Link', 'Copied!', 'Published By', 'BSTU Administration', '2026-07-20 02:23:10', '2026-07-20 02:23:10'),
 ('2', '1', 'uz', 'Eʼlonlar', 'So‘nggi eʼlonlar', 'Barcha eʼlonlar', 'Batafsil o‘qish', 'Eʼlonlarni qidirish', 'Eʼlonlarni qidirish...', 'Toifalar', 'So‘nggi eʼlonlar', 'Barchasi', 'ko‘rish', 'Muhim', 'Eʼlonlar yuklanmoqda...', 'Eʼlonlar topilmadi', 'Qidiruv filtrlarini tozalash', 'Ulashish', 'Havolani nusxalash', 'Nusxalandi!', 'Nashr etdi', 'BuxDTU maʼmuriyati', '2026-07-20 02:23:10', '2026-07-20 02:23:10'),
@@ -1260,16 +1257,6 @@ INSERT INTO `application_countries` (`id`, `name`, `code`, `is_active`, `sort_or
 ('45', 'United States', NULL, '1', '45', '2026-07-26 00:16:30', '2026-07-26 00:16:30'),
 ('46', 'Uzbekistan', NULL, '1', '46', '2026-07-26 00:16:30', '2026-07-26 00:16:30');
 
-INSERT INTO `application_documents` (`id`, `application_id`, `student_profile_id`, `document_name`, `document_type`, `file_path`, `storage_disk`, `stored_filename`, `original_name`, `mime_type`, `size`, `current_version`, `status`, `review_status`, `note`, `student_notes`, `created_at`, `updated_at`, `reviewer_id`, `reviewed_at`, `rejection_reason`, `internal_admin_notes`, `previous_document_id`, `is_required`) VALUES
-('1', '1', '1', 'Passport Copy', 'passport', 'applications/1/documents/7e4b5570-d244-4cb2-8006-9763e2fb2457.jpg', 'local', '7e4b5570-d244-4cb2-8006-9763e2fb2457.jpg', 'photo_5418366849436557704_y.jpg', 'image/jpeg', '142007', '1', 'approved', 'APPROVED', NULL, NULL, '2026-07-26 00:34:01', '2026-07-26 01:14:05', '1', '2026-07-26 01:14:05', NULL, NULL, NULL, '1'),
-('2', '1', '1', 'Personal Photo', 'photo', 'applications/1/documents/6804af52-cf63-4cbc-99b7-4811644108ce.jpg', 'local', '6804af52-cf63-4cbc-99b7-4811644108ce.jpg', 'photo_5418366849436557706_x.jpg', 'image/jpeg', '21916', '1', 'approved', 'APPROVED', NULL, NULL, '2026-07-26 00:34:09', '2026-07-26 01:14:04', '1', '2026-07-26 01:14:04', NULL, NULL, NULL, '1'),
-('3', '1', '1', 'Secondary School Certificate', 'secondary_certificate', 'applications/1/documents/c4c8df83-932e-43a2-ade0-5aeeaa2e48ed.jpg', 'local', 'c4c8df83-932e-43a2-ade0-5aeeaa2e48ed.jpg', 'photo_5418366849436557707_y.jpg', 'image/jpeg', '106394', '1', 'approved', 'APPROVED', NULL, NULL, '2026-07-26 00:34:17', '2026-07-26 00:37:53', '1', '2026-07-26 00:37:53', NULL, NULL, NULL, '1'),
-('4', '1', '1', 'Secondary School Transcript', 'secondary_transcript', 'applications/1/documents/bb512adc-ef02-4f8e-861f-a2190edfc10b.jpg', 'local', 'bb512adc-ef02-4f8e-861f-a2190edfc10b.jpg', 'photo_5418366849436557705_w.jpg', 'image/jpeg', '205830', '1', 'approved', 'APPROVED', NULL, NULL, '2026-07-26 00:34:24', '2026-07-26 00:38:01', '1', '2026-07-26 00:38:01', NULL, NULL, NULL, '1'),
-('5', '1', '1', 'me', 'me', 'applications/1/documents/215fe58a-1429-4c7c-951f-12c5858f53bf.jpg', 'local', '215fe58a-1429-4c7c-951f-12c5858f53bf.jpg', 'blog-recent-1.jpg', 'image/jpeg', '123599', '1', 'approved', 'APPROVED', NULL, NULL, '2026-07-26 00:45:36', '2026-07-26 01:14:08', '1', '2026-07-26 01:14:08', NULL, NULL, NULL, '1');
-
-INSERT INTO `application_fee_payments` (`id`, `application_id`, `payment_number`, `amount`, `currency`, `status`, `receipt_path`, `receipt_original_name`, `receipt_mime_type`, `receipt_size`, `paid_at`, `reviewer_id`, `reviewed_at`, `rejection_reason`, `internal_admin_notes`, `created_at`, `updated_at`) VALUES
-('1', '1', 'FEE-2026-MYHT9E', '50.00', 'USD', 'APPROVED', 'applications/1/receipts/application-fees/4bd22d01-4cb7-4c02-ba28-6638dbd8bd9e.jpg', 'blog-author.jpg', 'image/png', '620520', '2026-07-26 00:39:04', '1', '2026-07-26 00:46:06', NULL, NULL, '2026-07-26 00:39:04', '2026-07-26 00:46:06');
-
 INSERT INTO `application_nationalities` (`id`, `name`, `country_name`, `code`, `is_active`, `sort_order`, `created_at`, `updated_at`) VALUES
 ('1', 'Afghan', 'Afghanistan', NULL, '1', '1', '2026-07-26 00:16:30', '2026-07-26 00:16:30'),
 ('2', 'Albanian', 'Albania', NULL, '1', '2', '2026-07-26 00:16:30', '2026-07-26 00:16:30'),
@@ -1320,29 +1307,9 @@ INSERT INTO `application_nationalities` (`id`, `name`, `country_name`, `code`, `
 ('45', 'American', 'United States', NULL, '1', '45', '2026-07-26 00:16:30', '2026-07-26 00:16:30'),
 ('46', 'Uzbek', 'Uzbekistan', NULL, '1', '46', '2026-07-26 00:16:30', '2026-07-26 00:16:30');
 
-INSERT INTO `application_status_histories` (`id`, `application_id`, `old_status`, `new_status`, `status`, `comment`, `note`, `changed_by`, `created_at`, `updated_at`) VALUES
-('1', '1', NULL, 'profile_created', 'profile_created', 'Initial public application created', 'Initial public application created', '2', '2026-07-26 00:32:58', '2026-07-26 00:32:58'),
-('2', '1', 'profile_created', 'documents_required', 'documents_required', 'Student portal opened', 'Student portal opened', '2', '2026-07-26 00:33:21', '2026-07-26 00:33:21'),
-('3', '1', 'documents_required', 'documents_under_review', 'documents_under_review', 'Student uploaded passport', 'Student uploaded passport', '2', '2026-07-26 00:34:01', '2026-07-26 00:34:01'),
-('4', '1', 'documents_under_review', 'application_fee_required', 'application_fee_required', 'Document secondary_transcript reviewed as APPROVED', 'Document secondary_transcript reviewed as APPROVED', '1', '2026-07-26 00:38:01', '2026-07-26 00:38:01'),
-('5', '1', 'application_fee_required', 'application_payment_under_review', 'application_payment_under_review', 'Student portal opened', 'Student portal opened', '2', '2026-07-26 00:39:04', '2026-07-26 00:39:04'),
-('6', '1', 'application_payment_under_review', 'final_review', 'final_review', 'Application fee payment reviewed as APPROVED', 'Application fee payment reviewed as APPROVED', '1', '2026-07-26 00:41:13', '2026-07-26 00:41:13'),
-('7', '1', 'final_review', 'application_approved', 'application_approved', 'Final review approved', 'Final review approved', '1', '2026-07-26 00:42:39', '2026-07-26 00:42:39'),
-('8', '1', 'application_approved', 'admission_issued', 'admission_issued', 'Final admission issued.', 'Final admission issued.', '1', '2026-07-26 00:43:50', '2026-07-26 00:43:50'),
-('9', '1', 'admission_issued', 'documents_required', 'documents_required', 'Additional document requested: me', 'Additional document requested: me', '1', '2026-07-26 00:45:16', '2026-07-26 00:45:16'),
-('10', '1', 'documents_required', 'documents_under_review', 'documents_under_review', 'Student uploaded me', 'Student uploaded me', '2', '2026-07-26 00:45:36', '2026-07-26 00:45:36'),
-('11', '1', 'documents_under_review', 'admission_issued', 'admission_issued', 'Document me reviewed as APPROVED', 'Document me reviewed as APPROVED', '1', '2026-07-26 00:45:59', '2026-07-26 00:45:59'),
-('12', '1', 'admission_issued', 'application_approved', 'application_approved', 'Final review approved', 'Final review approved', '1', '2026-07-26 00:46:11', '2026-07-26 00:46:11'),
-('13', '1', 'application_approved', 'admission_issued', 'admission_issued', 'Student portal opened', 'Student portal opened', '2', '2026-07-26 00:46:32', '2026-07-26 00:46:32');
-
-INSERT INTO `applications` (`id`, `application_number`, `student_profile_id`, `program_id`, `faculty_id`, `department_id`, `degree_level`, `student_type`, `language_of_study`, `study_mode`, `intended_intake`, `status`, `terms_agreed_at`, `information_confirmed_at`, `created_at`, `updated_at`, `documents_status`, `equivalency_status`, `application_fee_status`, `final_review_status`, `admission_status`, `current_step`, `next_action`, `final_reviewed_by`, `final_reviewed_at`, `rejection_reason`, `correction_reason`) VALUES
-('1', 'APP-2026-PWY856', '1', '93', '2', '20', 'bachelor', 'new', 'uzbek', 'full_time', 'fall-2026', 'admission_issued', '2026-07-26 00:32:58', '2026-07-26 00:32:58', '2026-07-26 00:32:58', '2026-07-26 01:18:03', 'APPROVED', NULL, 'APPROVED', 'APPROVED', 'ISSUED', 'ADMISSION_ISSUED', NULL, '1', '2026-07-26 00:46:11', NULL, NULL);
-
 INSERT INTO `blog_comments` (`id`, `blog_id`, `parent_id`, `author_name`, `email`, `content`, `is_approved`, `created_at`, `updated_at`) VALUES
 ('1', '1', NULL, 'Admin Panel User', 'apanel@bstu.uz', 'NASA', '1', '2026-07-17 04:01:48', '2026-07-17 04:01:48'),
-('2', '1', '1', 'Admin Panel User', 'apanel@bstu.uz', 'very nice', '1', '2026-07-17 04:02:09', '2026-07-17 04:02:09'),
-('3', '7', NULL, 'MOHAMED HASSANIN', 'mhassanen114@gmail.com', 'Prefict', '1', '2026-08-04 14:06:04', '2026-08-04 14:06:04'),
-('4', '7', '3', 'Admin Panel User', 'apanel@bstu.uz', 'I know', '1', '2026-08-04 14:06:52', '2026-08-04 14:06:52');
+('2', '1', '1', 'Admin Panel User', 'apanel@bstu.uz', 'very nice', '1', '2026-07-17 04:02:09', '2026-07-17 04:02:09');
 
 INSERT INTO `blog_setting_translations` (`id`, `blog_setting_id`, `locale`, `home_tag`, `home_title`, `view_all_label`, `read_more_label`, `search_title`, `search_placeholder`, `categories_title`, `recent_title`, `tags_title`, `all_blog_label`, `loading_label`, `no_results_label`, `clear_filters_label`, `back_to_blog_label`, `comments_label`, `reply_label`, `form_title`, `form_name_label`, `form_email_label`, `form_comment_label`, `form_submit_label`, `signed_in_as_label`, `comment_login_action`, `comment_login_text`, `comment_login_title`, `created_at`, `updated_at`) VALUES
 ('1', '1', 'en', 'Blog', 'Insights, Stories & Academic Perspectives', 'View All Blog', 'Read More', 'Search', 'Search...', 'Categories', 'Recent Posts', 'Tags', 'All', 'Loading blog posts...', 'No articles found', 'Clear filters', 'Back to Blog', 'Comments', 'Reply', 'Leave a Reply', 'Name', 'Email', 'Comment', 'Post Comment', 'Signed in as', 'Sign In', 'Comments are visible to everyone. Please sign in before adding a comment or reply.', 'Sign in to comment', '2026-07-17 01:48:10', '2026-07-17 01:48:10'),
@@ -1402,9 +1369,6 @@ INSERT INTO `contact_page_translations` (`id`, `contact_page_id`, `locale`, `con
 
 INSERT INTO `contact_pages` (`id`, `key`, `map_embed_url`, `is_published`, `created_at`, `updated_at`) VALUES
 ('1', 'main', 'https://maps.google.com/maps?q=Buxoro%20muhandislik-texnologiya%20instituti&t=&z=16&ie=UTF8&iwloc=&output=embed', '1', '2026-07-26 00:20:18', '2026-07-26 00:20:18');
-
-INSERT INTO `contracts` (`id`, `application_id`, `contract_number`, `amount`, `currency`, `advance_percentage`, `advance_amount`, `status`, `document_path`, `issued_by`, `issued_at`, `created_at`, `updated_at`) VALUES
-('2', '1', 'CTR-2026-86RXD6', '0.00', 'UZS', '30', NULL, 'issued', 'generated/contracts/contract-2-ctr-2026-86rxd6.pdf', NULL, '2026-07-26 01:40:27', '2026-07-26 01:20:56', '2026-07-26 01:40:27');
 
 INSERT INTO `course_translations` (`id`, `course_id`, `locale`, `name`, `description`, `created_at`, `updated_at`) VALUES
 ('1', '1', 'en', 'Introduction to specialization', 'Standard course covering topics in Introduction to specialization.', '2026-07-26 00:16:45', '2026-07-26 00:16:45'),
@@ -2682,7 +2646,6 @@ INSERT INTO `departments` (`id`, `faculty_id`, `slug`, `code`, `image`, `icon`, 
 ('28', '4', 'textile-materials-science', 'TEXT', 'departments/textile-materials-science.jpg', 'droplet', NULL, NULL, NULL, NULL, NULL, '7', '0', '2026-07-27 06:31:33', '2026-08-04 18:25:28');
 
 INSERT INTO `document_requirements` (`id`, `application_id`, `program_id`, `requested_by`, `degree_level`, `student_type`, `document_type`, `name`, `description`, `is_required`, `is_active`, `deadline`, `request_reason`, `created_at`, `updated_at`) VALUES
-('1', '1', NULL, '1', NULL, NULL, 'me', 'me', NULL, '1', '1', NULL, 'Requested by administration', '2026-07-26 00:45:16', '2026-07-26 00:45:16'),
 ('2', NULL, NULL, NULL, NULL, NULL, 'passport', 'Passport Copy', 'Main passport information page.', '1', '1', NULL, NULL, '2026-07-27 07:13:12', '2026-07-27 07:13:12'),
 ('3', NULL, NULL, NULL, NULL, NULL, 'photo', 'Personal Photo', 'Recent personal photo.', '1', '1', NULL, NULL, '2026-07-27 07:13:12', '2026-07-27 07:13:12'),
 ('4', NULL, NULL, NULL, NULL, NULL, 'secondary_certificate', 'Secondary School Certificate', 'Completed secondary education certificate.', '1', '1', NULL, NULL, '2026-07-27 07:13:12', '2026-07-27 07:13:12'),
@@ -2696,12 +2659,6 @@ INSERT INTO `document_requirements` (`id`, `application_id`, `program_id`, `requ
 ('12', NULL, NULL, NULL, NULL, 'transfer', 'university_transcript', 'University Transcript', 'Transcript from previous university.', '1', '1', NULL, NULL, '2026-07-27 07:13:12', '2026-07-27 07:13:12'),
 ('13', NULL, NULL, NULL, NULL, 'transfer', 'proof_of_enrollment', 'Proof of Enrollment', 'Student status certificate from previous university.', '1', '1', NULL, NULL, '2026-07-27 07:13:12', '2026-07-27 07:13:12'),
 ('14', NULL, NULL, NULL, NULL, 'transfer', 'course_descriptions', 'Course Descriptions / Syllabus', 'Course descriptions for academic equivalency.', '0', '1', NULL, NULL, '2026-07-27 07:13:12', '2026-07-27 07:13:12');
-
-INSERT INTO `education_backgrounds` (`id`, `student_profile_id`, `institution_name`, `degree_obtained`, `gpa`, `graduation_year`, `created_at`, `updated_at`) VALUES
-('1', '1', 'To be completed in student dashboard', 'bachelor', 'To be completed', '2026', '2026-07-26 00:32:58', '2026-07-26 00:32:58');
-
-INSERT INTO `enrollments` (`id`, `application_id`, `admission_id`, `student_profile_id`, `program_id`, `student_number`, `academic_year`, `issue_date`, `status`, `document_path`, `issued_by`, `issued_at`, `created_at`, `updated_at`) VALUES
-('2', '1', '1', '1', '93', 'ENR-2026-3MH9UZ', '2026–2027', '2026-07-26', 'active', 'generated/enrollments/enrollment-2-enr-2026-3mh9uz.pdf', '1', '2026-07-26 01:23:28', '2026-07-26 01:23:28', '2026-07-26 01:23:29');
 
 INSERT INTO `faculties` (`id`, `slug`, `code`, `image`, `icon`, `sort_order`, `is_active`, `created_at`, `updated_at`) VALUES
 ('1', 'faculty-of-technology', 'TECH', 'faculties/technology.jpg', 'flask-conical', '2', '1', '2026-07-26 00:16:43', '2026-07-27 06:31:33'),
@@ -2811,11 +2768,7 @@ INSERT INTO `green_campus_stats` (`id`, `icon`, `sort_order`, `created_at`, `upd
 ('3', 'leaf', '3', '2026-07-15 19:26:10', '2026-07-15 19:26:10'),
 ('4', 'globe', '4', '2026-07-15 19:26:10', '2026-07-15 19:26:10');
 
-INSERT INTO `housing_requests` (`id`, `application_id`, `student_profile_id`, `requested`, `status`, `preferred_room_type`, `notes`, `admin_notes`, `reviewer_id`, `reviewed_at`, `created_at`, `updated_at`) VALUES
-('1', '1', '1', '1', 'APPROVED', '2', '2', '2', '1', '2026-07-26 01:45:58', '2026-07-26 01:45:36', '2026-07-26 01:45:58');
-
 INSERT INTO `inquiries` (`id`, `name`, `email`, `subject`, `message`, `status`, `read_at`, `reply_message`, `replied_at`, `admin_notes`, `created_at`, `updated_at`) VALUES
-('1', 'MOHAMED HASSANIN', 'kap0aka200@gmail.com', 'hi i', 'MESTML', 'replied', '2026-07-22 23:44:40', 'because I am not sure', '2026-07-22 23:45:52', 'Because', '2026-07-22 09:45:12', '2026-07-22 23:45:53'),
 ('3', 'Raga', 'raga@mn.nm', 'Hi i wont to study her', 'Hiaminnk,', 'pending', NULL, NULL, NULL, NULL, '2026-08-04 14:15:05', '2026-08-04 14:15:05');
 
 INSERT INTO `interactive_service_setting_translations` (`id`, `interactive_service_setting_id`, `locale`, `home_tag`, `home_title`, `view_all_label`, `loading_label`, `no_results_label`, `created_at`, `updated_at`) VALUES
@@ -3555,7 +3508,6 @@ INSERT INTO `news_translations` (`id`, `news_id`, `locale`, `title`, `summary`, 
 ('240', '60', 'ar', 'بطولة الريشة الطائرة بين الكليات ضمن كأس الرئيس', 'أقيمت في جامعة بخارى التقنية بطولة بين الكليات في الريشة الطائرة وحددت الفرق الفائزة.', 'عزّزت البطولة روح المنافسة الصحية والنشاط الرياضي بين الطلاب.', 'بطولة الريشة الطائرة بين الكليات ضمن كأس الرئيس', 'أقيمت في جامعة بخارى التقنية بطولة بين الكليات في الريشة الطائرة وحددت الفرق الفائزة.', '2026-07-15 19:25:56', '2026-07-16 07:42:26');
 
 INSERT INTO `newsletter_subscriptions` (`id`, `email`, `locale`, `status`, `subscribed_at`, `unsubscribed_at`, `ip_address`, `user_agent`, `created_at`, `updated_at`) VALUES
-('1', 'mhassanen114@gmail.com', 'en', 'active', '2026-08-04 13:36:44', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36', '2026-07-16 04:13:00', '2026-08-04 13:36:44'),
 ('2', 'kap0aka200@gmail.com', 'en', 'active', '2026-08-04 13:36:39', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36', '2026-07-22 02:59:32', '2026-08-04 13:36:39'),
 ('3', 'test@example.com', 'en', 'active', '2026-07-23 03:42:21', NULL, '127.0.0.1', 'curl/8.13.0', '2026-07-23 03:42:21', '2026-07-23 03:42:21'),
 ('4', 'ahmed@2.no', 'en', 'active', '2026-08-03 20:50:02', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36', '2026-08-03 20:50:02', '2026-08-03 20:50:02'),
@@ -3566,51 +3518,7 @@ INSERT INTO `newsletter_subscriptions` (`id`, `email`, `locale`, `status`, `subs
 
 INSERT INTO `notifications` (`id`, `user_id`, `title`, `message`, `type`, `is_read`, `created_at`, `updated_at`, `related_application_id`, `related_entity_type`, `related_entity_id`, `read_at`, `action_url`) VALUES
 ('1', '1', 'test', 'test\nhttp://localhost:3000/announcements/test', NULL, '0', '2026-07-20 04:39:22', '2026-07-20 04:39:22', NULL, NULL, NULL, NULL, NULL),
-('2', '1', 'add-announcement', 'add-announcement\nhttp://localhost:3000/announcements/add-announcement', NULL, '0', '2026-07-24 03:38:01', '2026-07-24 03:38:01', NULL, NULL, NULL, NULL, NULL),
-('3', '2', 'Application status updated', 'Your application moved to DOCUMENTS REQUIRED.', 'status', '0', '2026-07-26 00:33:21', '2026-07-26 00:33:21', '1', NULL, NULL, NULL, '/student/application'),
-('4', '2', 'Document uploaded', 'Passport Copy was uploaded and is waiting for review.', 'document', '0', '2026-07-26 00:34:01', '2026-07-26 00:34:01', '1', NULL, NULL, NULL, '/student/documents'),
-('5', '2', 'Application status updated', 'Your application moved to DOCUMENTS UNDER REVIEW.', 'status', '0', '2026-07-26 00:34:01', '2026-07-26 00:34:01', '1', NULL, NULL, NULL, '/student/application'),
-('6', '2', 'Document uploaded', 'Personal Photo was uploaded and is waiting for review.', 'document', '0', '2026-07-26 00:34:09', '2026-07-26 00:34:09', '1', NULL, NULL, NULL, '/student/documents'),
-('7', '2', 'Document uploaded', 'Secondary School Certificate was uploaded and is waiting for review.', 'document', '0', '2026-07-26 00:34:17', '2026-07-26 00:34:17', '1', NULL, NULL, NULL, '/student/documents'),
-('8', '2', 'Document uploaded', 'Secondary School Transcript was uploaded and is waiting for review.', 'document', '0', '2026-07-26 00:34:24', '2026-07-26 00:34:24', '1', NULL, NULL, NULL, '/student/documents'),
-('9', '2', 'Document reviewed', 'Passport Copy is now APPROVED.', 'document', '0', '2026-07-26 00:37:41', '2026-07-26 00:37:41', '1', NULL, NULL, NULL, '/student/documents'),
-('10', '2', 'Document reviewed', 'Personal Photo is now APPROVED.', 'document', '0', '2026-07-26 00:37:47', '2026-07-26 00:37:47', '1', NULL, NULL, NULL, '/student/documents'),
-('11', '2', 'Document reviewed', 'Secondary School Certificate is now APPROVED.', 'document', '0', '2026-07-26 00:37:53', '2026-07-26 00:37:53', '1', NULL, NULL, NULL, '/student/documents'),
-('12', '2', 'Document reviewed', 'Secondary School Transcript is now APPROVED.', 'document', '0', '2026-07-26 00:38:01', '2026-07-26 00:38:01', '1', NULL, NULL, NULL, '/student/documents'),
-('13', '2', 'Application status updated', 'Your application moved to APPLICATION FEE REQUIRED.', 'status', '0', '2026-07-26 00:38:01', '2026-07-26 00:38:01', '1', NULL, NULL, NULL, '/student/application'),
-('14', '2', 'Application status updated', 'Your application moved to APPLICATION PAYMENT UNDER REVIEW.', 'status', '0', '2026-07-26 00:39:04', '2026-07-26 00:39:04', '1', NULL, NULL, NULL, '/student/application'),
-('15', '2', 'Payment reviewed', 'Your 50 USD fee receipt is APPROVED.', 'payment', '0', '2026-07-26 00:41:13', '2026-07-26 00:41:13', '1', NULL, NULL, NULL, '/student/payments'),
-('16', '2', 'Application status updated', 'Your application moved to FINAL REVIEW.', 'status', '0', '2026-07-26 00:41:13', '2026-07-26 00:41:13', '1', NULL, NULL, NULL, '/student/application'),
-('17', '2', 'Application status updated', 'Your application moved to APPLICATION APPROVED.', 'status', '0', '2026-07-26 00:42:39', '2026-07-26 00:42:39', '1', NULL, NULL, NULL, '/student/application'),
-('18', '2', 'Application status updated', 'Your application moved to ADMISSION ISSUED.', 'status', '0', '2026-07-26 00:43:50', '2026-07-26 00:43:50', '1', NULL, NULL, NULL, '/student/application'),
-('19', '2', 'Admission issued', 'Your final admission has been issued.', 'admission', '0', '2026-07-26 00:43:50', '2026-07-26 00:43:50', '1', NULL, NULL, NULL, '/student/admission'),
-('20', '2', 'Additional document requested', 'me is requested by the university.', 'document', '0', '2026-07-26 00:45:16', '2026-07-26 00:45:16', '1', NULL, NULL, NULL, '/student/documents'),
-('21', '2', 'Application status updated', 'Your application moved to DOCUMENTS REQUIRED.', 'status', '0', '2026-07-26 00:45:16', '2026-07-26 00:45:16', '1', NULL, NULL, NULL, '/student/application'),
-('22', '2', 'Document uploaded', 'me was uploaded and is waiting for review.', 'document', '0', '2026-07-26 00:45:36', '2026-07-26 00:45:36', '1', NULL, NULL, NULL, '/student/documents'),
-('23', '2', 'Application status updated', 'Your application moved to DOCUMENTS UNDER REVIEW.', 'status', '0', '2026-07-26 00:45:36', '2026-07-26 00:45:36', '1', NULL, NULL, NULL, '/student/application'),
-('24', '2', 'Document reviewed', 'me is now APPROVED.', 'document', '0', '2026-07-26 00:45:59', '2026-07-26 00:45:59', '1', NULL, NULL, NULL, '/student/documents'),
-('25', '2', 'Application status updated', 'Your application moved to ADMISSION ISSUED.', 'status', '0', '2026-07-26 00:45:59', '2026-07-26 00:45:59', '1', NULL, NULL, NULL, '/student/application');
-
-INSERT INTO `notifications` (`id`, `user_id`, `title`, `message`, `type`, `is_read`, `created_at`, `updated_at`, `related_application_id`, `related_entity_type`, `related_entity_id`, `read_at`, `action_url`) VALUES
-('26', '2', 'Payment reviewed', 'Your 50 USD fee receipt is APPROVED.', 'payment', '0', '2026-07-26 00:46:06', '2026-07-26 00:46:06', '1', NULL, NULL, NULL, '/student/payments'),
-('27', '2', 'Application status updated', 'Your application moved to APPLICATION APPROVED.', 'status', '0', '2026-07-26 00:46:11', '2026-07-26 00:46:11', '1', NULL, NULL, NULL, '/student/application'),
-('28', '2', 'Application status updated', 'Your application moved to ADMISSION ISSUED.', 'status', '0', '2026-07-26 00:46:32', '2026-07-26 00:46:32', '1', NULL, NULL, NULL, '/student/application'),
-('30', '2', 'Document reviewed', 'Personal Photo is now APPROVED.', 'document', '0', '2026-07-26 01:14:04', '2026-07-26 01:14:04', '1', NULL, NULL, NULL, '/student/documents'),
-('31', '2', 'Document reviewed', 'Passport Copy is now APPROVED.', 'document', '0', '2026-07-26 01:14:05', '2026-07-26 01:14:05', '1', NULL, NULL, NULL, '/student/documents'),
-('32', '2', 'Document reviewed', 'me is now APPROVED.', 'document', '0', '2026-07-26 01:14:08', '2026-07-26 01:14:08', '1', NULL, NULL, NULL, '/student/documents'),
-('33', '2', '30% contract receipt uploaded', 'Your 30% contract payment receipt is waiting for review.', 'payment', '0', '2026-07-26 01:22:00', '2026-07-26 01:22:00', '1', NULL, NULL, NULL, '/student/payments'),
-('34', '2', '30% contract payment reviewed', 'Your 30% contract payment receipt is APPROVED.', 'payment', '0', '2026-07-26 01:22:32', '2026-07-26 01:22:32', '1', NULL, NULL, NULL, '/student/payments'),
-('35', '2', 'Enrollment certificate issued', 'Your student enrollment certificate is ready.', 'enrollment', '0', '2026-07-26 01:23:29', '2026-07-26 01:23:29', '1', NULL, NULL, NULL, '/student/enrollment'),
-('37', '2', 'Prikaz issued', 'Your university enrollment order is ready.', 'prikaz', '0', '2026-07-26 01:43:57', '2026-07-26 01:43:57', '1', NULL, NULL, NULL, '/student/prikaz'),
-('38', '2', 'Service fee receipt uploaded', 'Your 300 USD service fee receipt is waiting for review.', 'payment', '0', '2026-07-26 01:44:43', '2026-07-26 01:44:43', '1', NULL, NULL, NULL, '/student/service-fee'),
-('39', '2', 'Service fee reviewed', 'Your 300 USD service fee receipt is APPROVED.', 'payment', '0', '2026-07-26 01:45:02', '2026-07-26 01:45:02', '1', NULL, NULL, NULL, '/student/service-fee'),
-('40', '2', 'Housing request submitted', 'Your housing request is waiting for review.', 'housing', '0', '2026-07-26 01:45:36', '2026-07-26 01:45:36', '1', NULL, NULL, NULL, '/student/housing'),
-('41', '2', 'Housing request updated', 'Your housing request is APPROVED.', 'housing', '0', '2026-07-26 01:45:58', '2026-07-26 01:45:58', '1', NULL, NULL, NULL, '/student/housing'),
-('42', '2', 'Visa and telex updated', 'Your telex and visa process has been updated.', 'visa', '0', '2026-07-26 01:47:03', '2026-07-26 01:47:03', '1', NULL, NULL, NULL, '/student/visa'),
-('43', '2', 'Visa and telex updated', 'Your telex and visa process has been updated.', 'visa', '0', '2026-07-26 01:47:27', '2026-07-26 01:47:27', '1', NULL, NULL, NULL, '/student/visa'),
-('44', '2', 'Visa and telex updated', 'Your telex and visa process has been updated.', 'visa', '0', '2026-07-26 01:48:08', '2026-07-26 01:48:08', '1', NULL, NULL, NULL, '/student/visa'),
-('45', '2', 'Residence permit updated', 'Your residence permit process is IN_PROGRESS.', 'residence', '0', '2026-07-26 01:48:19', '2026-07-26 01:48:19', '1', NULL, NULL, NULL, '/student/residence'),
-('46', '2', 'Residence permit updated', 'Your residence permit process is ISSUED.', 'residence', '0', '2026-07-26 01:48:39', '2026-07-26 01:48:39', '1', NULL, NULL, NULL, '/student/residence');
+('2', '1', 'add-announcement', 'add-announcement\nhttp://localhost:3000/announcements/add-announcement', NULL, '0', '2026-07-24 03:38:01', '2026-07-24 03:38:01', NULL, NULL, NULL, NULL, NULL);
 
 INSERT INTO `page_block_translations` (`id`, `page_block_id`, `locale`, `title`, `subtitle`, `content`, `button_text`, `created_at`, `updated_at`) VALUES
 ('1', '1', 'en', 'Shape Your Future with Bukhara State Technical University', 'Fostering academic excellence, scientific research, and technological innovation in engineering and natural resources management.', 'Admissions open for Fall 2026', 'Apply Now', '2026-07-15 19:25:34', '2026-07-15 19:25:34'),
@@ -3644,9 +3552,6 @@ INSERT INTO `page_translations` (`id`, `page_id`, `locale`, `title`, `content`, 
 INSERT INTO `pages` (`id`, `slug`, `template`, `is_published`, `sort_order`, `created_at`, `updated_at`) VALUES
 ('1', 'home', 'home', '1', '1', '2026-07-15 19:25:34', '2026-07-27 06:31:56'),
 ('2', 'about', 'about', '1', '2', '2026-07-15 19:25:34', '2026-07-15 19:25:34');
-
-INSERT INTO `payments` (`id`, `contract_id`, `payment_number`, `payment_type`, `amount`, `currency`, `payment_date`, `status`, `receipt_path`, `receipt_original_name`, `receipt_mime_type`, `receipt_size`, `reviewer_id`, `reviewed_at`, `rejection_reason`, `created_at`, `updated_at`) VALUES
-('2', '2', 'ADV-FEE-2026-IQTHD1', 'contract_advance', '0.00', 'UZS', '2026-07-27 13:27:55', 'APPROVED', 'applications/1/receipts/contract-payments/688d842c-0309-4d91-a231-b1917012a768.jpg', 'values-global.jpg', 'image/jpeg', '317817', '1', '2026-07-26 01:22:32', NULL, '2026-07-26 01:22:00', '2026-07-26 01:22:32');
 
 INSERT INTO `permission_role` (`permission_id`, `role_id`) VALUES
 ('1', '1'),
@@ -3712,7 +3617,6 @@ INSERT INTO `permissions` (`id`, `name`, `slug`, `description`, `created_at`, `u
 
 INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `name`, `token`, `abilities`, `last_used_at`, `expires_at`, `created_at`, `updated_at`) VALUES
 ('1', 'App\\Models\\User', '1', 'auth_token', '09bda1a7bd08b4a9bd0a05b7bc8cbaf3ef2be57de678821ea7fb19ae22258334', '[\"*\"]', '2026-07-26 00:30:24', NULL, '2026-07-26 00:20:09', '2026-07-26 00:30:24'),
-('2', 'App\\Models\\User', '2', 'auth_token', 'e47d6ebbd511c2c1e24305ac77e99192b33b52742c94d568f289065f7a8282ce', '[\"*\"]', '2026-07-26 01:49:03', NULL, '2026-07-26 00:32:58', '2026-07-26 01:49:03'),
 ('3', 'App\\Models\\User', '1', 'auth_token', '1a432a5ba5682344439e1ef1eb1ed9e1e0e82a16e35f90d71b1bc2255a447ad3', '[\"*\"]', '2026-07-26 01:48:39', NULL, '2026-07-26 00:35:33', '2026-07-26 01:48:39'),
 ('4', 'App\\Models\\User', '1', 'auth_token', 'b829db466925a7b7d0431ffcc53c8572fe079f84cd93b150938732b73fb30752', '[\"*\"]', '2026-07-16 00:29:45', NULL, '2026-07-16 00:29:02', '2026-07-16 00:29:45'),
 ('5', 'App\\Models\\User', '1', 'auth_token', '7ea5f76048c2c5337a3226864dc5d295a28c2ef0af8561f1106fb54f87270fba', '[\"*\"]', '2026-07-16 07:43:42', NULL, '2026-07-16 07:18:12', '2026-07-16 07:43:42'),
@@ -3735,10 +3639,10 @@ INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `n
 ('22', 'App\\Models\\User', '1', 'auth_token', '82a19d8a7dbfe7232bc22b3ab952913e76733c5623c90371d9dd9c07ad72170a', '[\"*\"]', '2026-07-17 07:06:03', NULL, '2026-07-17 06:57:06', '2026-07-17 07:06:03'),
 ('23', 'App\\Models\\User', '1', 'auth_token', 'a579c4ec3bf93a00cff1d0dc2c844fcae7f48211a2547b8446e5918b03989b1b', '[\"*\"]', '2026-07-17 08:59:56', NULL, '2026-07-17 07:30:02', '2026-07-17 08:59:56'),
 ('24', 'App\\Models\\User', '1', 'auth_token', '8c8af2287a5b636f36a7b1d9dfaed8cc450ba430adf062c31941d6f53fd6dea5', '[\"*\"]', '2026-07-17 09:02:09', NULL, '2026-07-17 09:01:32', '2026-07-17 09:02:09'),
-('25', 'App\\Models\\User', '1', 'auth_token', 'f7f69b15c3acead704cc5e077467cf3b86c6a670ed49cdade95ee189ea98dc5d', '[\"*\"]', '2026-07-17 12:15:22', NULL, '2026-07-17 11:49:01', '2026-07-17 12:15:22');
+('25', 'App\\Models\\User', '1', 'auth_token', 'f7f69b15c3acead704cc5e077467cf3b86c6a670ed49cdade95ee189ea98dc5d', '[\"*\"]', '2026-07-17 12:15:22', NULL, '2026-07-17 11:49:01', '2026-07-17 12:15:22'),
+('26', 'App\\Models\\User', '1', 'auth_token', '76f6d1f8de8be31b54bb3d6b8db7b66a8d8ca19e512dcaf042f389f78b925f2a', '[\"*\"]', '2026-07-17 13:26:50', NULL, '2026-07-17 12:33:53', '2026-07-17 13:26:50');
 
 INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `name`, `token`, `abilities`, `last_used_at`, `expires_at`, `created_at`, `updated_at`) VALUES
-('26', 'App\\Models\\User', '1', 'auth_token', '76f6d1f8de8be31b54bb3d6b8db7b66a8d8ca19e512dcaf042f389f78b925f2a', '[\"*\"]', '2026-07-17 13:26:50', NULL, '2026-07-17 12:33:53', '2026-07-17 13:26:50'),
 ('27', 'App\\Models\\User', '1', 'auth_token', '1c290f090a6f836d07ee8c32351ec887a914c901395f3d12688f35face2a7af8', '[\"*\"]', '2026-07-17 13:30:28', NULL, '2026-07-17 13:29:30', '2026-07-17 13:30:28'),
 ('28', 'App\\Models\\User', '1', 'auth_token', '9100c61999a71613c1661c85fec77614f829d58e50dfdc279004618d65c0cbcb', '[\"*\"]', '2026-07-17 13:44:09', NULL, '2026-07-17 13:32:22', '2026-07-17 13:44:09'),
 ('29', 'App\\Models\\User', '1', 'auth_token', '1127b362c1d979e6ea014519a93fb36ec60141cb05499de3d05e67cd06832584', '[\"*\"]', '2026-07-17 13:47:33', NULL, '2026-07-17 13:47:13', '2026-07-17 13:47:33'),
@@ -3762,10 +3666,10 @@ INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `n
 ('47', 'App\\Models\\User', '1', 'auth_token', '4661f38b0e7b387b99587dcc24b663cfa5c58d20bfa7128e4b0126c851543cf1', '[\"*\"]', '2026-07-20 09:12:24', NULL, '2026-07-20 08:14:22', '2026-07-20 09:12:24'),
 ('48', 'App\\Models\\User', '1', 'auth_token', '67a392ff3b9a972b081eff15e2f49165206ca15089a27900210eaa6518f91d95', '[\"*\"]', '2026-07-20 09:45:56', NULL, '2026-07-20 09:36:12', '2026-07-20 09:45:56'),
 ('49', 'App\\Models\\User', '1', 'auth_token', '8ce5e33f073eb5d3f9cb7fcabda009209fcba2595fe66704ad718e74c26b854a', '[\"*\"]', '2026-07-20 10:22:58', NULL, '2026-07-20 09:47:45', '2026-07-20 10:22:58'),
-('50', 'App\\Models\\User', '1', 'auth_token', 'd2c50b66c5bfd1a3bce0ed10619c1083930800c407efb478cbde313cb8dd4b5b', '[\"*\"]', '2026-07-20 11:16:34', NULL, '2026-07-20 11:02:56', '2026-07-20 11:16:34');
+('50', 'App\\Models\\User', '1', 'auth_token', 'd2c50b66c5bfd1a3bce0ed10619c1083930800c407efb478cbde313cb8dd4b5b', '[\"*\"]', '2026-07-20 11:16:34', NULL, '2026-07-20 11:02:56', '2026-07-20 11:16:34'),
+('51', 'App\\Models\\User', '1', 'auth_token', '9e92a81283655e94e109cd932bbb781e01171cf7247afc532c7f3c93493f6452', '[\"*\"]', '2026-07-20 11:48:32', NULL, '2026-07-20 11:20:56', '2026-07-20 11:48:32');
 
 INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `name`, `token`, `abilities`, `last_used_at`, `expires_at`, `created_at`, `updated_at`) VALUES
-('51', 'App\\Models\\User', '1', 'auth_token', '9e92a81283655e94e109cd932bbb781e01171cf7247afc532c7f3c93493f6452', '[\"*\"]', '2026-07-20 11:48:32', NULL, '2026-07-20 11:20:56', '2026-07-20 11:48:32'),
 ('52', 'App\\Models\\User', '1', 'auth_token', '740d2b16f3dcf36af13214657073be6d7039496a7036aafb7818dd9df7d47b20', '[\"*\"]', '2026-07-20 12:14:56', NULL, '2026-07-20 12:04:39', '2026-07-20 12:14:56'),
 ('53', 'App\\Models\\User', '1', 'auth_token', '9a5cc621fa0d6b7bbe96792fb23d03205477e277d62909c159e24c5374692248', '[\"*\"]', '2026-07-20 13:20:33', NULL, '2026-07-20 12:53:29', '2026-07-20 13:20:33'),
 ('54', 'App\\Models\\User', '1', 'auth_token', '261b7e39b6ecef2d9c6aa4db25247af2e4414e0c6bd6154e1baf974813d5937a', '[\"*\"]', '2026-07-21 15:33:52', NULL, '2026-07-20 13:30:42', '2026-07-21 15:33:52'),
@@ -3789,10 +3693,10 @@ INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `n
 ('72', 'App\\Models\\User', '1', 'auth_token', 'e1e82cfdd31170a1dbe5bce9792c583ba5714af177e32f6e746a4d8dd446702d', '[\"*\"]', '2026-07-23 09:07:27', NULL, '2026-07-23 08:59:13', '2026-07-23 09:07:27'),
 ('73', 'App\\Models\\User', '1', 'auth_token', 'aab051ff8764366ee70d25bfa68011e3e30d43e7729461168f25c9ae1fbdfdda', '[\"*\"]', '2026-07-23 08:41:58', NULL, '2026-07-23 09:08:15', '2026-07-23 08:41:58'),
 ('74', 'App\\Models\\User', '1', 'auth_token', 'b1f32d7bd0e42b994e63c9202cbf613f536590fd5113db39582812c6195436df', '[\"*\"]', '2026-07-23 08:48:14', NULL, '2026-07-23 08:42:56', '2026-07-23 08:48:14'),
-('75', 'App\\Models\\User', '1', 'auth_token', '1ca64aac9ec5f25972094503b0c0787769d1ef7e0064e13524de5503b7ba68f6', '[\"*\"]', '2026-07-24 04:25:41', NULL, '2026-07-24 04:08:01', '2026-07-24 04:25:41');
+('75', 'App\\Models\\User', '1', 'auth_token', '1ca64aac9ec5f25972094503b0c0787769d1ef7e0064e13524de5503b7ba68f6', '[\"*\"]', '2026-07-24 04:25:41', NULL, '2026-07-24 04:08:01', '2026-07-24 04:25:41'),
+('76', 'App\\Models\\User', '1', 'auth_token', 'bd884871505f9d8d1ee20768185815ee09c6c828a63f43e8b86eca987e2e918d', '[\"*\"]', '2026-07-24 08:21:38', NULL, '2026-07-24 04:26:05', '2026-07-24 08:21:38');
 
 INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `name`, `token`, `abilities`, `last_used_at`, `expires_at`, `created_at`, `updated_at`) VALUES
-('76', 'App\\Models\\User', '1', 'auth_token', 'bd884871505f9d8d1ee20768185815ee09c6c828a63f43e8b86eca987e2e918d', '[\"*\"]', '2026-07-24 08:21:38', NULL, '2026-07-24 04:26:05', '2026-07-24 08:21:38'),
 ('77', 'App\\Models\\User', '1', 'auth_token', 'c2d7bff136a4ba42c41e5f5e801034135186789c392360f671228acff62a9936', '[\"*\"]', '2026-07-24 16:12:44', NULL, '2026-07-24 08:21:42', '2026-07-24 16:12:44'),
 ('78', 'App\\Models\\User', '1', 'auth_token', 'ce5fa6adf37789b8ed07d5ecd5e9103e8be4412e92753d77857c883e7288b6b0', '[\"*\"]', '2026-07-25 10:56:13', NULL, '2026-07-25 08:32:37', '2026-07-25 10:56:13'),
 ('79', 'App\\Models\\User', '1', 'auth_token', '032760695e3d8742129e5a896d5ee4f603433b88d14744689f1309d4d9676782', '[\"*\"]', '2026-08-01 03:56:21', NULL, '2026-08-01 03:31:09', '2026-08-01 03:56:21'),
@@ -3800,11 +3704,7 @@ INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `n
 ('81', 'App\\Models\\User', '1', 'auth_token', 'a5d4a69373189b9b89fa0f3f8183946d27ebbce325652aa45c32f15219f1c9e1', '[\"*\"]', '2026-08-01 22:55:33', NULL, '2026-08-01 21:37:19', '2026-08-01 22:55:33'),
 ('89', 'App\\Models\\User', '1', 'auth_token', 'b9b7f640368e1e0f2b624d1cc750b8bfa9f75de214d567fc3fa11049491e901a', '[\"*\"]', '2026-08-03 20:47:57', NULL, '2026-08-01 22:55:44', '2026-08-03 20:47:57'),
 ('90', 'App\\Models\\User', '1', 'auth_token', '05cd05ed7b0fe6508da40b2b983f96a7528856477003f97808a5d86bfd35741d', '[\"*\"]', '2026-08-03 21:48:38', NULL, '2026-08-03 20:50:10', '2026-08-03 21:48:38'),
-('92', 'App\\Models\\User', '1', 'auth_token', '1b33f63f2ad3ff9680184d158e893fe9ff618db1891bb7072c4b1e50eda869fb', '[\"*\"]', '2026-08-04 19:46:49', NULL, '2026-08-03 21:50:50', '2026-08-04 19:46:49'),
-('93', 'App\\Models\\User', '2', 'auth_token', '63d9c2792c7e23fc62a0aaabc9b3f4192a9e5641fb65c8919d043c22c79449ac', '[\"*\"]', '2026-08-04 14:07:06', NULL, '2026-08-04 14:04:43', '2026-08-04 14:07:06');
-
-INSERT INTO `prikazes` (`id`, `application_id`, `enrollment_id`, `student_profile_id`, `program_id`, `prikaz_number`, `issue_date`, `academic_year`, `status`, `document_path`, `issued_by`, `issued_at`, `created_at`, `updated_at`) VALUES
-('2', '1', '2', '1', '93', 'PRK-2026-XLBWXJ', '2026-07-26', '2026–2027', 'ISSUED', 'generated/prikazes/prikaz-2-prk-2026-xlbwxj.pdf', '1', '2026-07-26 01:43:57', '2026-07-26 01:43:57', '2026-07-26 01:43:57');
+('92', 'App\\Models\\User', '1', 'auth_token', '1b33f63f2ad3ff9680184d158e893fe9ff618db1891bb7072c4b1e50eda869fb', '[\"*\"]', '2026-08-04 20:34:51', NULL, '2026-08-03 21:50:50', '2026-08-04 20:34:51');
 
 INSERT INTO `program_courses` (`id`, `program_id`, `course_id`, `year`, `semester`, `is_required`, `created_at`, `updated_at`) VALUES
 ('1', '13', '1', '2', '2', '1', '2026-07-26 00:16:45', '2026-07-26 00:16:45'),
@@ -5204,12 +5104,8 @@ INSERT INTO `programs` (`id`, `faculty_id`, `department_id`, `slug`, `code`, `of
 ('118', '4', '23', 'urban-planning-and-design-60730900', 'urban-planning-and-design-60730900', '60730900', NULL, 'bachelor', '4', 'full_time', 'uzbek', '0.00', 'UZS', 'programs/urban-planning-and-design-60730900.jpg', '1', '17', '2026-07-29 05:28:26', '2026-07-29 05:28:26'),
 ('119', '4', '24', 'production-of-construction-materials-products-and-structures-60731100', 'production-of-construction-materials-products-and-structures-60731100', '60731100', NULL, 'bachelor', '4', 'full_time', 'uzbek', '0.00', 'UZS', 'programs/production-of-construction-materials-products-and-structures-60731100.jpg', '1', '18', '2026-07-29 05:28:26', '2026-07-29 05:28:26');
 
-INSERT INTO `residence_permit_processes` (`id`, `application_id`, `student_profile_id`, `status`, `notes`, `admin_notes`, `reviewer_id`, `issued_at`, `expires_at`, `created_at`, `updated_at`) VALUES
-('1', '1', '1', 'ISSUED', NULL, 'Residence permit issued.', '1', '2026-07-26 01:48:39', '2026-08-10', '2026-07-26 01:48:19', '2026-07-26 01:48:39');
-
 INSERT INTO `role_user` (`user_id`, `role_id`) VALUES
-('1', '1'),
-('2', '12');
+('1', '1');
 
 INSERT INTO `roles` (`id`, `name`, `slug`, `description`, `created_at`, `updated_at`) VALUES
 ('1', 'Admin Panel Full Control', 'apanel', 'Role for Admin Panel Full Control', '2026-07-26 00:16:31', '2026-07-26 00:16:31'),
@@ -5226,9 +5122,6 @@ INSERT INTO `roles` (`id`, `name`, `slug`, `description`, `created_at`, `updated
 ('12', 'University Student', 'student', 'Role for University Student', '2026-07-26 00:16:31', '2026-07-26 00:16:31'),
 ('13', 'Finance Staff', 'finance_staff', 'Role for Finance Staff', '2026-07-26 00:16:31', '2026-07-26 00:16:31'),
 ('14', 'Document Officer', 'document_officer', 'Role for Document Officer', '2026-07-26 00:16:31', '2026-07-26 00:16:31');
-
-INSERT INTO `service_fee_payments` (`id`, `application_id`, `payment_number`, `amount`, `currency`, `status`, `receipt_path`, `receipt_original_name`, `receipt_mime_type`, `receipt_size`, `reviewer_id`, `reviewed_at`, `rejection_reason`, `paid_at`, `created_at`, `updated_at`) VALUES
-('1', '1', 'SRV-2026-AZLWWJ', '300.00', 'USD', 'APPROVED', 'applications/1/receipts/service-fees/c4e8bc11-84d0-4c81-b122-f5a385ece275.jpg', 'values-scientific.jpg', 'image/jpeg', '289337', '1', '2026-07-26 01:45:02', NULL, '2026-07-26 01:44:43', '2026-07-26 01:44:43', '2026-07-26 01:45:02');
 
 INSERT INTO `service_translations` (`id`, `service_id`, `locale`, `title`, `description`, `content`, `action_label`, `created_at`, `updated_at`) VALUES
 ('1', '1', 'en', 'HEMIS Student Portal', 'Access your academic schedule, grades, course registration, and attendance records.', 'The dormitory is located just a 5-minute walk from academic buildings. Rooms are shared by 2 students. Security guards are active 24/7. Fees are paid per semester.', 'Login to HEMIS', '2026-07-21 05:44:39', '2026-07-21 06:27:37'),
@@ -8673,12 +8566,6 @@ INSERT INTO `staff_profiles` (`id`, `slug`, `department_id`, `faculty_id`, `phot
 
 INSERT INTO `staff_profiles` (`id`, `slug`, `department_id`, `faculty_id`, `photo`, `email`, `phone`, `sort_order`, `is_active`, `created_at`, `updated_at`) VALUES
 ('601', 'faculty-of-service-and-digitalization-youth-fayzullayev-asqar-rajabboevich', NULL, '2', NULL, 'ayzullayev_asqar_2023@mail.ru', '+998 93 194 75 20', '30', '1', '2026-08-04 19:26:09', '2026-08-04 19:26:09');
-
-INSERT INTO `student_profiles` (`id`, `user_id`, `full_name_english`, `phone`, `alternative_phone`, `preferred_messenger`, `telegram_username`, `gender`, `birth_date`, `country_of_birth`, `place_of_birth`, `passport_number`, `passport_type`, `passport_issue_date`, `passport_expiry_date`, `passport_issuing_country`, `passport_place_of_issue`, `nationality`, `address`, `created_at`, `updated_at`) VALUES
-('1', '2', 'MOHAMED HASSANIN', '+201017344763', '+201017344765', 'whatsapp', NULL, 'male', '2000-02-10', 'Egypt', 'dakhlya', 'A25665582', 'ordinary', '2022-02-10', '2029-02-10', 'Egypt', '35', 'Egyptian', 'dakhlya, Egypt', '2026-07-26 00:32:58', '2026-07-26 00:32:58');
-
-INSERT INTO `student_visa_processes` (`id`, `application_id`, `student_profile_id`, `telex_number`, `telex_status`, `visa_status`, `visa_notes`, `reviewer_id`, `telex_issued_at`, `visa_updated_at`, `created_at`, `updated_at`) VALUES
-('1', '1', '1', '25', 'ISSUED', 'ISSUED', 'Visa is ready.', '1', '2026-07-26 01:48:08', '2026-07-26 01:48:08', '2026-07-26 01:47:03', '2026-07-26 01:48:08');
 
 INSERT INTO `translation_keys` (`id`, `group`, `key`, `description`, `is_system`, `created_at`, `updated_at`) VALUES
 ('1', 'nav', 'home', 'Student system UI: nav.home', '1', '2026-07-26 00:16:31', '2026-07-27 20:23:55'),
@@ -21803,8 +21690,7 @@ INSERT INTO `university_centers` (`id`, `slug`, `image`, `email`, `phone`, `sort
 ('17', 'information-resource-center', 'cms/university-centers/registrar_office.jpg', 'irc@bstu.uz', '+998 65 224 64 35 (Ext. 404)', '17', '1', '2026-07-24 10:30:43', '2026-07-24 10:30:43');
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-('1', 'Admin Panel User', 'apanel@bstu.uz', NULL, '$2y$12$jelJD./sr31Je/kB7gKH5OEaeDYkCQpxZmz5czjr3ze.Gg4xWVc5a', NULL, '2026-07-26 00:16:31', '2026-07-26 00:16:31'),
-('2', 'MOHAMED HASSANIN', 'mhassanen114@gmail.com', NULL, '$2y$12$6/INEfAsfw5vsbPS/YMa4.C.1YG.DBIh5JtppfaCERzD9ajZYDu8q', NULL, '2026-07-26 00:32:58', '2026-07-26 00:32:58');
+('1', 'Admin Panel User', 'apanel@bstu.uz', NULL, '$2y$12$jelJD./sr31Je/kB7gKH5OEaeDYkCQpxZmz5czjr3ze.Gg4xWVc5a', NULL, '2026-07-26 00:16:31', '2026-07-26 00:16:31');
 
 INSERT INTO `video_comments` (`id`, `video_id`, `parent_id`, `author_name`, `email`, `content`, `is_approved`, `created_at`, `updated_at`) VALUES
 ('1', '1', NULL, 'Admin Panel User', 'apanel@bstu.uz', 'Very Naturally', '1', '2026-07-18 05:15:18', '2026-07-18 05:15:18');

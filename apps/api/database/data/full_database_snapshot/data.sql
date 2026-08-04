@@ -2812,10 +2812,7 @@ INSERT INTO `locales` (`id`, `code`, `name`, `native_name`, `direction`, `is_act
 ('4', 'ar', 'Arabic', 'العربية', 'rtl', '1', '4', '2026-07-26 00:16:31', '2026-07-27 06:31:25');
 
 INSERT INTO `media` (`id`, `disk`, `path`, `filename`, `title`, `alt_text`, `type`, `mime_type`, `size`, `is_public`, `alt_key`, `created_at`, `updated_at`) VALUES
-('1', 'public', 'cms/media-library/zv7qyS561ZUNmCEVM5MkrwjcVgLPu6QfIZybNFXI.jpg', 'values-academic.jpg', 'values-academic.jpg', 'values-academic.jpg', 'image', 'image/jpeg', '294789', '1', NULL, '2026-07-16 15:06:34', '2026-07-16 15:06:34'),
-('2', 'public', 'cms/media-library/u8bVr9FbrU0pGvAUvqZZ9mlM6xkZyWraCR6Wjw81.jpg', 'values-academic.jpg', 'values-academic.jpg', 'values-academic.jpg', 'image', 'image/jpeg', '294789', '1', NULL, '2026-07-17 11:55:32', '2026-07-17 11:55:32'),
 ('5', 'public', 'cms/media-library/Ck3ecCAPE1Nqig0k4r1yI4rGrG9iEzuQC1Zjb8Ey.jpg', 'values-academic.jpg', 'values-academic.jpg', 'values-academic.jpg', 'image', 'image/jpeg', '294789', '1', NULL, '2026-07-19 07:40:10', '2026-07-19 07:40:10'),
-('6', 'public', 'cms/media-library/QTlzyPldTse0plq9waFL5rbZle24kn0x1qMbYnw9.jpg', 'dean_adizov.jpg', NULL, NULL, 'image', 'image/jpeg', '106636', '1', 'administration.test.photo', '2026-07-20 13:56:34', '2026-07-20 13:56:34'),
 ('7', 'public', 'cms/about-page/bstu-about-identity.jpg', 'bstu-about-identity.jpg', 'BSTU About identity image', 'BSTU About identity image', 'image', 'image/jpeg', '10980800', '1', 'about.identity.image', '2026-07-22 11:00:37', '2026-07-22 11:00:37'),
 ('14', 'public', 'cms/media-library/JZR9QOKfN62sXgUr46gJKYlAjeqGjFPZP20EhxVv.jpg', 'bb30a27931a9.jpg', NULL, NULL, 'image', 'image/jpeg', '10980800', '1', 'centers.monitoring-internal-control.image', '2026-07-25 04:02:06', '2026-07-25 04:02:06'),
 ('15', 'public', 'cms/media-library/l7RWNTEVZycIEXF8bMu1BoecZgrv6ZXnJiyul8lj.jpg', 'bb30a27931a9.jpg', NULL, NULL, 'image', 'image/jpeg', '10980800', '1', 'centers.youth-spirituality-enlightenment.image', '2026-07-25 04:02:37', '2026-07-25 04:02:37'),
@@ -2832,8 +2829,7 @@ INSERT INTO `media` (`id`, `disk`, `path`, `filename`, `title`, `alt_text`, `typ
 ('26', 'public', 'cms/branding/android-chrome-192x192.png', 'android-chrome-192x192.png', 'Branding: android-chrome-192x192.png', 'BSTU branding asset', 'image', 'image/png', '29601', '1', 'branding.android_chrome.192', '2026-07-27 09:58:19', '2026-07-27 09:58:19'),
 ('27', 'public', 'cms/home/hero/hero-bg.png', 'hero-bg.png', 'Branding: hero-bg.png', 'BSTU branding asset', 'image', 'image/png', '7253', '1', 'home.hero.background', '2026-07-27 10:07:49', '2026-07-27 10:07:49'),
 ('28', 'public', 'cms/home/hero/hero-university.jpg', 'hero-university.jpg', 'Branding: hero-university.jpg', 'BSTU branding asset', 'image', 'image/jpeg', '144553', '1', 'home.hero.main', '2026-07-27 10:07:49', '2026-07-27 10:07:49'),
-('29', 'public', 'cms/media-library/2026/08/01/hsiiNOJ6TNxhVZVgUvcIoZaZnfXx0yTXT2cHM3fX.jpg', 'leader-and-youth.jpg', 'leader-and-youth.jpg', 'Eco-plogging: Cleanliness, Healthy Lifestyle, and Responsibility', 'image', 'image/jpeg', '126036', '1', NULL, '2026-08-01 03:38:19', '2026-08-01 03:38:19'),
-('30', 'public', 'cms/media-library/2026/08/01/tfzSbXVPOhWnIMMPttDPyKzaPFfC64hykW877xfT.png', 'logo.png', 'logo.png', 'BSTU Ranked 858th in Global GreenMetric University Rankings', 'image', 'image/png', '1057720', '1', NULL, '2026-08-01 20:23:33', '2026-08-01 20:23:33');
+('29', 'public', 'cms/media-library/2026/08/01/hsiiNOJ6TNxhVZVgUvcIoZaZnfXx0yTXT2cHM3fX.jpg', 'leader-and-youth.jpg', 'leader-and-youth.jpg', 'Eco-plogging: Cleanliness, Healthy Lifestyle, and Responsibility', 'image', 'image/jpeg', '126036', '1', NULL, '2026-08-01 03:38:19', '2026-08-01 03:38:19');
 
 INSERT INTO `menu_item_translations` (`id`, `menu_item_id`, `locale`, `label`, `created_at`, `updated_at`) VALUES
 ('1', '1', 'en', 'Home', '2026-07-23 23:20:43', '2026-07-23 23:28:26'),
@@ -3782,7 +3778,7 @@ INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `n
 ('81', 'App\\Models\\User', '1', 'auth_token', 'a5d4a69373189b9b89fa0f3f8183946d27ebbce325652aa45c32f15219f1c9e1', '[\"*\"]', '2026-08-01 22:55:33', NULL, '2026-08-01 21:37:19', '2026-08-01 22:55:33'),
 ('89', 'App\\Models\\User', '1', 'auth_token', 'b9b7f640368e1e0f2b624d1cc750b8bfa9f75de214d567fc3fa11049491e901a', '[\"*\"]', '2026-08-03 20:47:57', NULL, '2026-08-01 22:55:44', '2026-08-03 20:47:57'),
 ('90', 'App\\Models\\User', '1', 'auth_token', '05cd05ed7b0fe6508da40b2b983f96a7528856477003f97808a5d86bfd35741d', '[\"*\"]', '2026-08-03 21:48:38', NULL, '2026-08-03 20:50:10', '2026-08-03 21:48:38'),
-('92', 'App\\Models\\User', '1', 'auth_token', '1b33f63f2ad3ff9680184d158e893fe9ff618db1891bb7072c4b1e50eda869fb', '[\"*\"]', '2026-08-04 15:08:41', NULL, '2026-08-03 21:50:50', '2026-08-04 15:08:41'),
+('92', 'App\\Models\\User', '1', 'auth_token', '1b33f63f2ad3ff9680184d158e893fe9ff618db1891bb7072c4b1e50eda869fb', '[\"*\"]', '2026-08-04 18:07:02', NULL, '2026-08-03 21:50:50', '2026-08-04 18:07:02'),
 ('93', 'App\\Models\\User', '2', 'auth_token', '63d9c2792c7e23fc62a0aaabc9b3f4192a9e5641fb65c8919d043c22c79449ac', '[\"*\"]', '2026-08-04 14:07:06', NULL, '2026-08-04 14:04:43', '2026-08-04 14:07:06');
 
 INSERT INTO `prikazes` (`id`, `application_id`, `enrollment_id`, `student_profile_id`, `program_id`, `prikaz_number`, `issue_date`, `academic_year`, `status`, `document_path`, `issued_by`, `issued_at`, `created_at`, `updated_at`) VALUES

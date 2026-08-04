@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { GripVertical, Plus, Save, Trash2 } from "lucide-react";
+import { CheckCircle2, GripVertical, Languages, Layers3, Navigation, Plus, Save, Trash2 } from "lucide-react";
 import FormError from "../../../components/common/FormError";
 import { apanelService } from "../../../services/apanelService";
 import ConfirmDialog from "../components/ConfirmDialog";
+import ApanelStatsCards from "../components/ApanelStatsCards";
 import { useApanelLocaleOptions } from "../utils/locales";
 import { useLanguage } from "../../../context/LanguageContext";
 
@@ -136,6 +137,10 @@ function errorMessage(err, fallback) {
   return err?.message || fallback;
 }
 
+function flattenNavbarItems(list = []) {
+  return list.flatMap((item) => [item, ...flattenNavbarItems(item.children || [])]);
+}
+
 export default function ApanelHeaderNavbar() {
   const { t } = useLanguage();
   const localeOptions = useApanelLocaleOptions();
@@ -154,6 +159,40 @@ export default function ApanelHeaderNavbar() {
   const [pendingDelete, setPendingDelete] = useState(null);
 
   const sortedItems = items;
+  const flatItems = useMemo(() => flattenNavbarItems(sortedItems), [sortedItems]);
+  const pageStats = useMemo(
+    () => [
+      {
+        label: "Top menu",
+        value: sortedItems.length,
+        hint: "Main navbar entries",
+        icon: Navigation,
+        tone: "text-blue-600 bg-blue-50 border-blue-100",
+      },
+      {
+        label: "Child links",
+        value: Math.max(flatItems.length - sortedItems.length, 0),
+        hint: "Dropdown links",
+        icon: Layers3,
+        tone: "text-violet-600 bg-violet-50 border-violet-100",
+      },
+      {
+        label: "Active items",
+        value: flatItems.filter((item) => item.is_active).length,
+        hint: isActive ? "Header enabled" : "Header disabled",
+        icon: CheckCircle2,
+        tone: "text-emerald-600 bg-emerald-50 border-emerald-100",
+      },
+      {
+        label: "Locales",
+        value: localeOptions.length,
+        hint: "Navbar translations",
+        icon: Languages,
+        tone: "text-amber-600 bg-amber-50 border-amber-100",
+      },
+    ],
+    [flatItems, isActive, localeOptions.length, sortedItems.length],
+  );
 
   const loadNavbar = useCallback(async () => {
     if (!primaryLocale) return;
@@ -404,6 +443,8 @@ export default function ApanelHeaderNavbar() {
           {success}
         </div>
       )}
+
+      <ApanelStatsCards items={pageStats} />
 
       <div className="rounded-3xl border border-gray-100 bg-white p-5 shadow-sm">
         <div className="mb-5 flex flex-col gap-4 border-b border-gray-100 pb-5 lg:flex-row lg:items-center lg:justify-between">

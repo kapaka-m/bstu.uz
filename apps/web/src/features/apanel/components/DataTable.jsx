@@ -41,39 +41,41 @@ export default function DataTable({
   };
 
   return (
-    <div className="w-full max-w-full min-w-0 bg-white border border-gray-150 rounded-3xl overflow-hidden shadow-xs">
+    <div className="w-full max-w-full min-w-0 overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm">
       <div className="w-full max-w-full overflow-x-auto">
-        <table className="min-w-full text-start border-collapse">
+        <table className="min-w-full border-collapse text-start">
           <thead>
-            <tr className="bg-gray-50 border-b border-gray-100 text-[10px] font-extrabold uppercase tracking-wider text-gray-400 text-start">
+            <tr className="border-b border-gray-100 bg-gray-50/80 text-start text-[10px] font-black uppercase tracking-widest text-gray-500">
               {columns.map((col) => (
                 <th
                   key={col.key}
                   onClick={() => col.sortable && handleSort(col.key)}
-                  className={`px-6 py-4.5 text-start select-none ${col.sortable ? "cursor-pointer hover:text-navy transition-all" : ""}`}
+                  className={`whitespace-nowrap px-5 py-4 text-start select-none ${col.sortable ? "cursor-pointer hover:text-navy transition-all" : ""}`}
                 >
-                  <div className="flex items-center gap-1">
+                  <div className="flex items-center gap-1.5">
                     <span>{col.label}</span>
                     {col.sortable && (
-                      <ArrowUpDown className="w-3 h-3 shrink-0" />
+                      <ArrowUpDown className="h-3 w-3 shrink-0 text-gray-300" />
                     )}
                   </div>
                 </th>
               ))}
-              <th className="px-6 py-4.5 text-end">{t("apanel.dataTable.actions")}</th>
+              <th className="whitespace-nowrap px-5 py-4 text-end">{t("apanel.dataTable.actions")}</th>
             </tr>
           </thead>
 
-          <tbody className="divide-y divide-gray-50 text-xs font-semibold text-navy">
+          <tbody className="divide-y divide-gray-50 text-xs font-bold text-navy">
             {data.length === 0 ? (
               <tr>
                 <td
                   colSpan={columns.length + 1}
-                  className="px-6 py-12 text-center text-gray-400 font-medium"
+                  className="px-6 py-16 text-center font-medium text-gray-400"
                 >
-                  <div className="flex flex-col items-center justify-center gap-2">
-                    <ShieldAlert className="w-8 h-8 stroke-1 text-gray-300" />
-                    <span>{t("apanel.dataTable.noRecords")}</span>
+                  <div className="flex flex-col items-center justify-center gap-3">
+                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-gray-100 bg-gray-50">
+                      <ShieldAlert className="h-7 w-7 stroke-1 text-gray-300" />
+                    </div>
+                    <span className="text-sm font-extrabold">{t("apanel.dataTable.noRecords")}</span>
                   </div>
                 </td>
               </tr>
@@ -81,7 +83,7 @@ export default function DataTable({
               data.map((row, index) => (
                 <tr
                   key={row.id || index}
-                  className="hover:bg-gray-50/50 transition-all"
+                  className="transition-all hover:bg-primary-light/30"
                 >
                   {columns.map((col) => {
                     // Support nested dot-notation keys (e.g. "studentProfile.user.name")
@@ -92,7 +94,7 @@ export default function DataTable({
                     return (
                       <td
                         key={col.key}
-                        className="px-6 py-4.5 max-w-xs truncate"
+                        className="max-w-72 px-5 py-4 align-middle"
                       >
                         {col.type === "boolean" ||
                         col.key === "is_active" ||
@@ -125,11 +127,11 @@ export default function DataTable({
                         ) : col.key === "created_at" ||
                           col.key === "updated_at" ||
                           col.key === "published_at" ? (
-                          <span className="text-[10px] text-gray-400">
+                          <span className="whitespace-nowrap text-[10px] font-extrabold text-gray-400">
                             {value ? new Date(value).toLocaleString() : "—"}
                           </span>
                         ) : (
-                          <span>
+                          <span className="block max-w-72 truncate" title={value !== null && value !== undefined ? String(value) : ""}>
                             {value !== null && value !== undefined
                               ? String(value)
                               : "—"}
@@ -139,7 +141,7 @@ export default function DataTable({
                     );
                   })}
 
-                  <td className="px-6 py-4.5 text-end shrink-0">
+                  <td className="shrink-0 px-5 py-4 text-end align-middle">
                     <div className="flex justify-end gap-1.5">
                       {onViewClick && (
                         <button

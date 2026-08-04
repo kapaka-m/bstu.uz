@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Camera, Edit3, Plus, Save, Trash2, UploadCloud, X, Settings as SettingsIcon } from "lucide-react";
+import { Building2, Camera, CheckCircle2, Edit3, Plus, Save, Settings as SettingsIcon, SlidersHorizontal, Trash2, UploadCloud, UserRound, X } from "lucide-react";
 import { centerService } from "../../../services/centerService";
 import { apanelService } from "../../../services/apanelService";
 import { publicAssetUrl } from "../../../lib/api";
 import ConfirmDialog from "../components/ConfirmDialog";
+import ApanelStatsCards from "../components/ApanelStatsCards";
 import { useApanelLocaleOptions } from "../utils/locales";
 import { useLanguage } from "../../../context/LanguageContext";
 
@@ -99,6 +100,41 @@ export default function ApanelCenters() {
   const sortedItems = useMemo(
     () => [...items].sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0)),
     [items],
+  );
+  const pageStats = useMemo(
+    () => [
+      {
+        label: "Total centers",
+        value: items.length,
+        hint: "Centers and departments",
+        icon: Building2,
+        tone: "text-blue-600 bg-blue-50 border-blue-100",
+      },
+      {
+        label: "Active",
+        value: items.filter((item) => item.is_active).length,
+        hint: "Published center pages",
+        icon: CheckCircle2,
+        tone: "text-emerald-600 bg-emerald-50 border-emerald-100",
+      },
+      {
+        label: "With director",
+        value: items.filter((item) =>
+          Object.values(item.translations || {}).some((translation) => translation?.head),
+        ).length,
+        hint: "Profiles linked to staff cards",
+        icon: UserRound,
+        tone: "text-violet-600 bg-violet-50 border-violet-100",
+      },
+      {
+        label: "Settings",
+        value: settingsForm.is_active ? "Active" : "Hidden",
+        hint: `${localeCodes.length} locales configured`,
+        icon: SlidersHorizontal,
+        tone: "text-amber-600 bg-amber-50 border-amber-100",
+      },
+    ],
+    [items, localeCodes.length, settingsForm.is_active],
   );
 
   const showToast = (message) => {
@@ -264,6 +300,8 @@ export default function ApanelCenters() {
           )}
         </div>
       </div>
+
+      <ApanelStatsCards items={pageStats} />
 
       {loading && tab === "list" ? (
         <div className="flex h-64 items-center justify-center rounded-3xl border border-gray-100 bg-white shadow-sm">

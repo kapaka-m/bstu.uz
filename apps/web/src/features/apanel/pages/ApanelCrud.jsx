@@ -3,10 +3,11 @@ import { useParams, useNavigate } from "react-router-dom";
 import { apanelService } from "../../../services/apanelService";
 import SearchFilterBar from "../components/SearchFilterBar";
 import DataTable from "../components/DataTable";
+import ApanelStatsCards from "../components/ApanelStatsCards";
 import Pagination from "../components/Pagination";
 import FormBuilder from "../components/FormBuilder";
 import ConfirmDialog from "../components/ConfirmDialog";
-import { Loader2, Plus } from "lucide-react";
+import { CheckCircle2, Loader2, MessageCircle, Plus, Reply, ShieldAlert } from "lucide-react";
 import FormError from "../../../components/common/FormError";
 import { useLanguage } from "../../../context/LanguageContext";
 
@@ -1206,6 +1207,44 @@ export default function ApanelCrud() {
     fetchRecords();
   }, [fetchRecords]);
 
+  const resourceStats = React.useMemo(() => {
+    if (!["comments", "video-comments"].includes(resource)) return [];
+    const approved = dataList.filter((item) => item.is_approved).length;
+    const pending = dataList.filter((item) => !item.is_approved).length;
+    const replies = dataList.filter((item) => item.parent_id).length;
+
+    return [
+      {
+        label: "Total comments",
+        value: total,
+        hint: "All matching records",
+        icon: MessageCircle,
+        tone: "text-blue-600 bg-blue-50 border-blue-100",
+      },
+      {
+        label: "Approved on page",
+        value: approved,
+        hint: "Visible approved comments",
+        icon: CheckCircle2,
+        tone: "text-emerald-600 bg-emerald-50 border-emerald-100",
+      },
+      {
+        label: "Pending on page",
+        value: pending,
+        hint: "Need moderation",
+        icon: ShieldAlert,
+        tone: "text-amber-600 bg-amber-50 border-amber-100",
+      },
+      {
+        label: "Replies on page",
+        value: replies,
+        hint: "Threaded comments",
+        icon: Reply,
+        tone: "text-violet-600 bg-violet-50 border-violet-100",
+      },
+    ];
+  }, [dataList, resource, total]);
+
   const rawSchema = RESOURCE_SCHEMAS[resource];
   if (!rawSchema) {
     return (
@@ -1377,6 +1416,8 @@ export default function ApanelCrud() {
       </div>
 
       {error && <FormError message={error} />}
+
+      <ApanelStatsCards items={resourceStats} />
 
       {/* Toolbar Search Bar */}
       <SearchFilterBar

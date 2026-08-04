@@ -1,19 +1,24 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
+  CheckCircle2,
   Edit3,
   Eye,
   EyeOff,
+  Home,
   Loader2,
+  MousePointerClick,
   Plus,
   RefreshCw,
   Save,
   Search,
+  Settings2,
   Trash2,
   X,
 } from "lucide-react";
 import FormError from "../../../components/common/FormError";
 import { apanelService } from "../../../services/apanelService";
 import ConfirmDialog from "../components/ConfirmDialog";
+import ApanelStatsCards from "../components/ApanelStatsCards";
 import { useApanelLocaleCodes } from "../utils/locales";
 import { useLanguage } from "../../../context/LanguageContext";
 
@@ -318,6 +323,39 @@ export default function ApanelInteractiveServices() {
 
   const currentTranslation = form.translations[activeLocale] || emptyTranslation;
   const currentSettingsTranslation = settingsForm.translations[activeLocale] || emptySettingsTranslation;
+  const pageStats = useMemo(
+    () => [
+      {
+        label: "Total services",
+        value: items.length,
+        hint: "Digital service cards",
+        icon: MousePointerClick,
+        tone: "text-cyan-700 bg-cyan-50 border-cyan-100",
+      },
+      {
+        label: "Published",
+        value: items.filter((item) => item.is_active).length,
+        hint: "Available to visitors",
+        icon: CheckCircle2,
+        tone: "text-emerald-600 bg-emerald-50 border-emerald-100",
+      },
+      {
+        label: "Home visible",
+        value: items.filter((item) => item.home_visible).length,
+        hint: `${settingsForm.home_limit || 0} homepage limit`,
+        icon: Home,
+        tone: "text-blue-600 bg-blue-50 border-blue-100",
+      },
+      {
+        label: "Section status",
+        value: settingsForm.is_active ? "Active" : "Hidden",
+        hint: "Homepage services block",
+        icon: Settings2,
+        tone: "text-violet-600 bg-violet-50 border-violet-100",
+      },
+    ],
+    [items, settingsForm.home_limit, settingsForm.is_active],
+  );
 
   return (
     <div className="space-y-6">
@@ -354,6 +392,8 @@ export default function ApanelInteractiveServices() {
       </div>
 
       <FormError message={error} />
+
+      <ApanelStatsCards items={pageStats} />
 
       {activeTab === "items" ? (
         <div className="grid gap-6">

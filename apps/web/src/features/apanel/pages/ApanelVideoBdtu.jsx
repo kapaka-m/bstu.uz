@@ -1,10 +1,14 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
+  CheckCircle2,
   Edit3,
   Eye,
   EyeOff,
+  Film,
+  Home,
   Image as ImageIcon,
   Loader2,
+  PlayCircle,
   Plus,
   RefreshCw,
   Save,
@@ -15,6 +19,7 @@ import FormError from "../../../components/common/FormError";
 import { apanelService } from "../../../services/apanelService";
 import { publicAssetUrl } from "../../../lib/api";
 import ConfirmDialog from "../components/ConfirmDialog";
+import ApanelStatsCards from "../components/ApanelStatsCards";
 import { useApanelLocaleOptions } from "../utils/locales";
 import { useLanguage } from "../../../context/LanguageContext";
 
@@ -431,6 +436,40 @@ export default function ApanelVideoBdtu() {
     }
   };
 
+  const pageStats = useMemo(
+    () => [
+      {
+        label: "Videos",
+        value: items.length,
+        hint: "Gallery records",
+        icon: Film,
+        tone: "text-red-600 bg-red-50 border-red-100",
+      },
+      {
+        label: "Published",
+        value: items.filter((item) => item.is_active).length,
+        hint: "Visible videos",
+        icon: CheckCircle2,
+        tone: "text-emerald-600 bg-emerald-50 border-emerald-100",
+      },
+      {
+        label: "Local files",
+        value: items.filter((item) => item.video_type === "local").length,
+        hint: "Uploaded MP4 videos",
+        icon: PlayCircle,
+        tone: "text-blue-600 bg-blue-50 border-blue-100",
+      },
+      {
+        label: "Home limit",
+        value: settingsForm.home_limit || 0,
+        hint: settingsForm.is_active ? "Homepage block active" : "Homepage block hidden",
+        icon: Home,
+        tone: "text-violet-600 bg-violet-50 border-violet-100",
+      },
+    ],
+    [items, settingsForm.home_limit, settingsForm.is_active],
+  );
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
@@ -464,6 +503,8 @@ export default function ApanelVideoBdtu() {
       </div>
 
       {error && <FormError message={error} />}
+
+      <ApanelStatsCards items={pageStats} />
 
       <div className="flex flex-wrap gap-2">
         {[

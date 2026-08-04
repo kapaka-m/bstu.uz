@@ -1,8 +1,9 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Camera, Edit3, Plus, Save, Trash2, UploadCloud, X } from "lucide-react";
+import { Camera, CheckCircle2, Crown, Edit3, Plus, Save, Trash2, UploadCloud, UsersRound, X } from "lucide-react";
 import { apanelService } from "../../../services/apanelService";
 import { publicAssetUrl } from "../../../lib/api";
 import ConfirmDialog from "../components/ConfirmDialog";
+import ApanelStatsCards from "../components/ApanelStatsCards";
 import { buildLocaleMap, useApanelLocaleOptions } from "../utils/locales";
 import { useLanguage } from "../../../context/LanguageContext";
 
@@ -78,6 +79,39 @@ export default function ApanelAdministration() {
   const sortedItems = useMemo(
     () => [...items].sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0)),
     [items],
+  );
+  const pageStats = useMemo(
+    () => [
+      {
+        label: "Profiles",
+        value: items.length,
+        hint: "Leadership profile pages",
+        icon: UsersRound,
+        tone: "text-blue-600 bg-blue-50 border-blue-100",
+      },
+      {
+        label: "Published",
+        value: items.filter((item) => item.is_published).length,
+        hint: "Visible profiles",
+        icon: CheckCircle2,
+        tone: "text-emerald-600 bg-emerald-50 border-emerald-100",
+      },
+      {
+        label: "Rector",
+        value: items.filter((item) => item.is_rector).length,
+        hint: "Rector profile marker",
+        icon: Crown,
+        tone: "text-amber-600 bg-amber-50 border-amber-100",
+      },
+      {
+        label: "Home limit",
+        value: settings.home_limit || 0,
+        hint: settings.is_active ? "Homepage block active" : "Homepage block hidden",
+        icon: Save,
+        tone: "text-violet-600 bg-violet-50 border-violet-100",
+      },
+    ],
+    [items, settings.home_limit, settings.is_active],
   );
 
   useEffect(() => {
@@ -187,6 +221,8 @@ export default function ApanelAdministration() {
           Add Profile
         </button>
       </div>
+
+      <ApanelStatsCards items={pageStats} />
 
       <div className="flex flex-wrap gap-2">
         {[

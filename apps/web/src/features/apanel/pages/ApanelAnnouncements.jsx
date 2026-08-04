@@ -1,11 +1,14 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   Calendar,
+  CheckCircle2,
   Edit3,
   Eye,
   EyeOff,
+  Home,
   Image as ImageIcon,
   Loader2,
+  Megaphone,
   Plus,
   RefreshCw,
   Save,
@@ -19,6 +22,7 @@ import FormError from "../../../components/common/FormError";
 import { apanelService } from "../../../services/apanelService";
 import { publicAssetUrl } from "../../../lib/api";
 import ConfirmDialog from "../components/ConfirmDialog";
+import ApanelStatsCards from "../components/ApanelStatsCards";
 import { useApanelLocaleCodes } from "../utils/locales";
 import { useLanguage } from "../../../context/LanguageContext";
 
@@ -342,6 +346,40 @@ export default function ApanelAnnouncements() {
     }
   };
 
+  const pageStats = useMemo(
+    () => [
+      {
+        label: "Announcements",
+        value: items.length,
+        hint: "Public records",
+        icon: Megaphone,
+        tone: "text-amber-600 bg-amber-50 border-amber-100",
+      },
+      {
+        label: "Published",
+        value: items.filter((item) => item.is_published).length,
+        hint: "Visible announcements",
+        icon: CheckCircle2,
+        tone: "text-emerald-600 bg-emerald-50 border-emerald-100",
+      },
+      {
+        label: "Important",
+        value: items.filter((item) => item.priority === "important" || item.priority === "high").length,
+        hint: `${settingsForm.important_limit || 0} important limit`,
+        icon: Sparkles,
+        tone: "text-violet-600 bg-violet-50 border-violet-100",
+      },
+      {
+        label: "Home limit",
+        value: settingsForm.home_limit || 0,
+        hint: settingsForm.is_active ? "Homepage block active" : "Homepage block hidden",
+        icon: Home,
+        tone: "text-blue-600 bg-blue-50 border-blue-100",
+      },
+    ],
+    [items, settingsForm.home_limit, settingsForm.important_limit, settingsForm.is_active],
+  );
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
@@ -378,6 +416,8 @@ export default function ApanelAnnouncements() {
       </div>
 
       <FormError message={error} />
+
+      <ApanelStatsCards items={pageStats} />
 
       {activeTab === "items" && (
         <div className="bg-white border border-gray-100 rounded-2xl shadow-xs overflow-hidden">

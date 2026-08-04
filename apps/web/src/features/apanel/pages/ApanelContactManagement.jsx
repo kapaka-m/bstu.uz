@@ -14,6 +14,7 @@ import FormError from "../../../components/common/FormError";
 import { apanelService } from "../../../services/apanelService";
 import { formatLocalizedDate } from "../../../utils/dateFormat";
 import ConfirmDialog from "../components/ConfirmDialog";
+import ApanelStatsCards from "../components/ApanelStatsCards";
 import { useApanelLocaleCodes } from "../utils/locales";
 import { useLanguage } from "../../../context/LanguageContext";
 
@@ -103,6 +104,7 @@ export default function ApanelContactManagement() {
     () => ({
       unread: items.filter((item) => item.status === "pending" || !item.read_at).length,
       replied: items.filter((item) => item.status === "replied").length,
+      resolved: items.filter((item) => item.status === "resolved").length,
       latest: items[0]?.created_at,
     }),
     [items],
@@ -167,24 +169,26 @@ export default function ApanelContactManagement() {
 
   return (
     <div className="space-y-6 animate-in fade-in duration-200">
-      <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-        <div>
-          <h1 className="mt-1 text-2xl font-black uppercase tracking-wider text-navy">
-            Contact Messages
-          </h1>
-          <p className="mt-1 text-xs font-semibold text-gray-400">
-            Read, classify, and reply to inquiries submitted from the public
-            Contact page.
-          </p>
+      <div className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div>
+            <h1 className="mt-1 text-2xl font-black uppercase tracking-wider text-navy">
+              Contact Messages
+            </h1>
+            <p className="mt-1 text-xs font-semibold text-gray-400">
+              Read, classify, and reply to inquiries submitted from the public
+              Contact page.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={fetchMessages}
+            className="inline-flex items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-xs font-extrabold text-navy hover:bg-gray-50"
+          >
+            <RefreshCw className="h-4 w-4" />
+            Refresh
+          </button>
         </div>
-        <button
-          type="button"
-          onClick={fetchMessages}
-          className="inline-flex items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-xs font-extrabold text-navy hover:bg-gray-50"
-        >
-          <RefreshCw className="h-4 w-4" />
-          Refresh
-        </button>
       </div>
 
       {error && <FormError message={error} />}
@@ -194,33 +198,14 @@ export default function ApanelContactManagement() {
         </div>
       )}
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-        {[
-          { label: "Total messages", value: total, icon: Mail },
-          { label: "Unread on this page", value: stats.unread, icon: MailOpen },
-          {
-            label: "Latest message",
-            value: stats.latest ? formatDate(stats.latest, primaryLocale, t) : "-",
-            icon: Clock3,
-          },
-        ].map((stat) => {
-          const Icon = stat.icon;
-          return (
-            <div
-              key={stat.label}
-              className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm"
-            >
-              <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                <Icon className="h-5 w-5" />
-              </div>
-              <p className="text-xs font-extrabold uppercase tracking-widest text-gray-400">
-                {stat.label}
-              </p>
-              <p className="mt-1 text-2xl font-black text-navy">{stat.value}</p>
-            </div>
-          );
-        })}
-      </div>
+      <ApanelStatsCards
+        items={[
+          { label: "Total messages", value: total, hint: "All inquiries", icon: Mail, tone: "text-blue-600 bg-blue-50 border-blue-100" },
+          { label: "Unread on page", value: stats.unread, hint: "Pending or unread", icon: MailOpen, tone: "text-amber-600 bg-amber-50 border-amber-100" },
+          { label: "Replied on page", value: stats.replied, hint: "Responses sent", icon: Reply, tone: "text-emerald-600 bg-emerald-50 border-emerald-100" },
+          { label: "Latest message", value: stats.latest ? formatDate(stats.latest, primaryLocale, t) : "-", hint: `${stats.resolved} resolved on page`, icon: Clock3, tone: "text-violet-600 bg-violet-50 border-violet-100" },
+        ]}
+      />
 
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-[420px_1fr]">
         <div className="rounded-3xl border border-gray-100 bg-white shadow-sm">

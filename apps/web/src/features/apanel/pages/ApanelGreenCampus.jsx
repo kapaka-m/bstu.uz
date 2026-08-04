@@ -1,10 +1,13 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   BarChart3,
+  CheckCircle2,
   Edit3,
   Eye,
   EyeOff,
+  Home,
   Image as ImageIcon,
+  Leaf,
   Loader2,
   Plus,
   RefreshCw,
@@ -17,6 +20,7 @@ import FormError from "../../../components/common/FormError";
 import { apanelService } from "../../../services/apanelService";
 import { publicAssetUrl } from "../../../lib/api";
 import ConfirmDialog from "../components/ConfirmDialog";
+import ApanelStatsCards from "../components/ApanelStatsCards";
 import { useApanelLocaleCodes } from "../utils/locales";
 import { useLanguage } from "../../../context/LanguageContext";
 
@@ -503,6 +507,39 @@ export default function ApanelGreenCampus() {
 
   const articleEditorOpen = editingArticle !== null || articleForm.slug || articleForm.published_at;
   const statEditorOpen = editingStat !== null || statForm.sort_order || statForm.translations[primaryLocale]?.value;
+  const pageStats = useMemo(
+    () => [
+      {
+        label: "Initiatives",
+        value: articles.length,
+        hint: "Green campus articles",
+        icon: Leaf,
+        tone: "text-emerald-700 bg-emerald-50 border-emerald-100",
+      },
+      {
+        label: "Published",
+        value: articles.filter((article) => article.is_published).length,
+        hint: "Visible initiatives",
+        icon: CheckCircle2,
+        tone: "text-blue-600 bg-blue-50 border-blue-100",
+      },
+      {
+        label: "Stats",
+        value: stats.length,
+        hint: "Sustainability counters",
+        icon: BarChart3,
+        tone: "text-violet-600 bg-violet-50 border-violet-100",
+      },
+      {
+        label: "Home limit",
+        value: settingsForm.home_limit || 0,
+        hint: settingsForm.is_active ? "Homepage block active" : "Homepage block hidden",
+        icon: Home,
+        tone: "text-amber-600 bg-amber-50 border-amber-100",
+      },
+    ],
+    [articles, settingsForm.home_limit, settingsForm.is_active, stats.length],
+  );
 
   return (
     <>
@@ -549,6 +586,8 @@ export default function ApanelGreenCampus() {
       </div>
 
       {error && <FormError message={error} />}
+
+      <ApanelStatsCards items={pageStats} />
 
       <div className="inline-flex rounded-2xl border border-gray-200 bg-white p-1 shadow-xs">
         {[

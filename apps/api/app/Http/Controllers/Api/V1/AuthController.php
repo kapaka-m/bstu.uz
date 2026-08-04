@@ -77,6 +77,8 @@ class AuthController extends Controller
 
     public function forgotPassword(Request $request)
     {
+        $this->setRequestLocale($request);
+
         $validated = $request->validate([
             'email' => 'required|email',
         ]);
@@ -94,6 +96,8 @@ class AuthController extends Controller
 
     public function resetPassword(Request $request)
     {
+        $this->setRequestLocale($request);
+
         $validated = $request->validate([
             'email' => 'required|email|exists:users,email',
             'password' => 'required|string|min:8|confirmed',
@@ -114,5 +118,19 @@ class AuthController extends Controller
         }
 
         return $this->successResponse(null, 'Password reset successfully.');
+    }
+
+    protected function setRequestLocale(Request $request): void
+    {
+        $locale = $request->query('locale') ?: $request->header('Accept-Language');
+
+        if ($locale) {
+            $locale = strtolower(trim(explode(',', $locale)[0]));
+            if (strlen($locale) > 2 && $locale[2] === '-') {
+                $locale = substr($locale, 0, 2);
+            }
+
+            app()->setLocale($locale);
+        }
     }
 }

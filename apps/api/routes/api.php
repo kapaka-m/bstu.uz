@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AdminCrudController;
 use App\Http\Controllers\Api\ApanelApplicationWorkflowController;
+use App\Http\Controllers\Api\AuthCmsController;
 use App\Http\Controllers\Api\HomeCmsController;
 use App\Http\Controllers\Api\InitialApplicationController;
 use App\Http\Controllers\Api\PublicApiController;
@@ -32,6 +33,7 @@ Route::prefix('v1')->group(function () {
     Route::middleware('throttle:public-api')->group(function () {
         Route::get('/locales', [PublicApiController::class, 'locales']);
         Route::get('/translations', [PublicApiController::class, 'translations']);
+        Route::get('/auth-cms', [AuthCmsController::class, 'publicIndex']);
         Route::get('/settings', [PublicApiController::class, 'settings']);
         Route::get('/settings/public', [PublicApiController::class, 'settings']);
         Route::get('/footer-web', [PublicApiController::class, 'footerWeb']);
@@ -201,6 +203,8 @@ Route::prefix('v1')->group(function () {
         Route::put('cms/contact-page', [AdminCrudController::class, 'updateContactPage']);
         Route::get('cms/home', [HomeCmsController::class, 'adminShow']);
         Route::put('cms/home', [HomeCmsController::class, 'adminUpdate']);
+        Route::get('cms/cms-auth', [AuthCmsController::class, 'adminShow']);
+        Route::put('cms/cms-auth', [AuthCmsController::class, 'adminUpdate']);
         Route::get('cms/header-navbar', [AdminCrudController::class, 'showHeaderNavbar']);
         Route::put('cms/header-navbar', [AdminCrudController::class, 'updateHeaderNavbar']);
         Route::get('cms/news-events/settings', [AdminCrudController::class, 'showNewsEventSettings']);

@@ -1,40 +1,73 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Mail, Lock, LogIn, ArrowRight, Eye, EyeOff } from "lucide-react";
 import { motion } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
 import { useAuth } from "../context/AuthContext";
 import FormError from "../components/common/FormError";
-
-const REQUIRED_LOGIN_TRANSLATIONS = [
-  "auth.welcomeBack",
-  "auth.loginPrompt",
-  "auth.emailLabel",
-  "auth.emailPlaceholder",
-  "auth.passwordLabel",
-  "auth.passwordPlaceholder",
-  "auth.forgotPassword",
-  "auth.logIn",
-  "auth.dontHaveAccount",
-  "auth.apply",
-  "auth.showPassword",
-  "auth.hidePassword",
-  "auth.loginFailed",
-];
+import { authCmsService } from "../services/authCmsService";
 
 export default function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const { login, clearSession } = useAuth();
-  const { t, hasTranslation, translationsReady, logoSrc, isRtl } = useLanguage();
+  const { t, hasTranslation, logoSrc, isRtl, language } = useLanguage();
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [content, setContent] = useState();
+
+  useEffect(() => {
+    let alive = true;
+    authCmsService
+      .get(language)
+      .then((payload) => {
+        if (alive) setContent(payload?.pages?.login || null);
+      })
+      .catch((err) => {
+        console.error("Login CMS load error", err);
+        if (alive) setContent(null);
+      });
+
+    return () => {
+      alive = false;
+    };
+  }, [language]);
+
+  const c = useMemo(
+    () => ({
+      title: content?.title || t("auth.welcomeBack"),
+      subtitle: content?.subtitle || t("auth.loginPrompt"),
+      emailLabel: content?.email_label || t("auth.emailLabel"),
+      emailPlaceholder: content?.email_placeholder || t("auth.emailPlaceholder"),
+      passwordLabel: content?.password_label || t("auth.passwordLabel"),
+      passwordPlaceholder: content?.password_placeholder || t("auth.passwordPlaceholder"),
+      forgotPassword: content?.forgot_password_label || t("auth.forgotPassword"),
+      submitLabel: content?.submit_label || t("auth.logIn"),
+      loadingLabel: content?.loading_label || t("auth.loggingIn"),
+      secondaryText: content?.secondary_text || t("auth.dontHaveAccount"),
+      secondaryActionLabel: content?.secondary_action_label || t("auth.apply"),
+      secondaryActionUrl: content?.secondary_action_url || content?.settings?.secondary_action_url || "/apply",
+      showPassword: content?.show_password_label || t("auth.showPassword"),
+      hidePassword: content?.hide_password_label || t("auth.hidePassword"),
+      requiredMessage: content?.validation_required_message || "",
+      errorMessage: content?.error_message || t("auth.loginFailed"),
+      logoAlt: content?.logo_alt || (hasTranslation("common.logoAlt") ? t("common.logoAlt") : "BSTU logo"),
+    }),
+    [content, hasTranslation, t],
+  );
+
+  if (content === undefined) {
+    return null;
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.email || !formData.password) return;
+    if (!formData.email || !formData.password) {
+      setError(c.requiredMessage);
+      return;
+    }
 
     try {
       setLoading(true);
@@ -43,25 +76,17 @@ export default function LoginPage() {
       const roles = user?.roles || [];
       if (!roles.includes("student") || roles.includes("apanel")) {
         clearSession();
-        setError(t("auth.loginFailed"));
+        setError(c.errorMessage);
         return;
       }
       navigate(location.state?.from || "/student/dashboard");
     } catch (err) {
       console.error("Student login error", err);
-      setError(err?.message || t("auth.loginFailed"));
+      setError(err?.message || c.errorMessage);
     } finally {
       setLoading(false);
     }
   };
-
-  const hasRequiredContent =
-    translationsReady &&
-    REQUIRED_LOGIN_TRANSLATIONS.every((key) => hasTranslation(key));
-
-  if (!hasRequiredContent) {
-    return null;
-  }
 
   return (
     <div className="min-h-screen pt-28 pb-20 flex items-center justify-center bg-linear-to-br from-primary-light via-white to-[#eef4ff] relative overflow-hidden">
@@ -77,14 +102,14 @@ export default function LoginPage() {
       >
         {/* Brand logo header */}
         <div className="text-center mb-8">
-          {logoSrc && hasTranslation("common.logoAlt") && (
+          {logoSrc && (
             <Link to="/" className="inline-flex items-center gap-2 mb-3">
-              <img src={logoSrc} alt={t("common.logoAlt")} className="h-10" />
+              <img src={logoSrc} alt={c.logoAlt} className="h-10" />
             </Link>
           )}
-          <h2 className="text-2xl font-extrabold text-navy">{t("auth.welcomeBack")}</h2>
+          <h2 className="text-2xl font-extrabold text-navy">{c.title}</h2>
           <p className="text-gray-400 text-xs md:text-sm font-semibold mt-1">
-            {t("auth.loginPrompt")}
+            {c.subtitle}
           </p>
         </div>
 
@@ -94,14 +119,14 @@ export default function LoginPage() {
           {/* Email */}
           <div className="flex flex-col gap-2">
             <label htmlFor="email" className="text-xs font-bold text-navy uppercase tracking-wider">
-              {t("auth.emailLabel")}
+              {c.emailLabel}
             </label>
             <div className="relative flex items-center">
               <Mail className="absolute left-4 rtl:left-auto rtl:right-4 w-4 h-4 text-gray-400" />
               <input
                 type="email"
                 id="email"
-                placeholder={t("auth.emailPlaceholder")}
+                placeholder={c.emailPlaceholder}
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 className="w-full bg-white border border-gray-100 hover:border-gray-200 focus:border-primary pl-11 pr-4 rtl:pl-4 rtl:pr-11 py-3.5 rounded-xl text-sm focus:outline-none transition-all shadow-sm"
@@ -114,10 +139,10 @@ export default function LoginPage() {
           <div className="flex flex-col gap-2">
             <div className="flex justify-between items-center">
               <label htmlFor="password" className="text-xs font-bold text-navy uppercase tracking-wider">
-                {t("auth.passwordLabel")}
+                {c.passwordLabel}
               </label>
               <Link to="/forgot-password" className="text-xs font-semibold text-primary hover:underline">
-                {t("auth.forgotPassword")}
+                {c.forgotPassword}
               </Link>
             </div>
             <div className="relative flex items-center">
@@ -125,7 +150,7 @@ export default function LoginPage() {
               <input
                 type={showPassword ? "text" : "password"}
                 id="password"
-                placeholder={t("auth.passwordPlaceholder")}
+                placeholder={c.passwordPlaceholder}
                 value={formData.password}
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                 className="w-full bg-white border border-gray-100 hover:border-gray-200 focus:border-primary pl-11 pr-12 rtl:pl-12 rtl:pr-11 py-3.5 rounded-xl text-sm focus:outline-none transition-all shadow-sm"
@@ -134,7 +159,7 @@ export default function LoginPage() {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                aria-label={showPassword ? t("auth.hidePassword") : t("auth.showPassword")}
+                aria-label={showPassword ? c.hidePassword : c.showPassword}
                 className="absolute right-4 rtl:right-auto rtl:left-4 text-gray-400 hover:text-gray-600 focus:outline-none cursor-pointer"
               >
                 {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -148,16 +173,16 @@ export default function LoginPage() {
             disabled={loading}
             className="w-full mt-2 inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary-hover disabled:bg-primary/50 text-white py-3.5 rounded-xl text-sm font-semibold transition-all duration-300 shadow-md shadow-primary/20 hover:shadow-primary/30 cursor-pointer"
           >
-            {loading ? t("auth.loggingIn") : t("auth.logIn")}
+            {loading ? c.loadingLabel : c.submitLabel}
             {!loading && <LogIn className="w-4 h-4" />}
           </button>
         </form>
 
         {/* Separator / Redirect */}
         <div className="text-center mt-8 pt-6 border-t border-gray-50 text-sm font-semibold text-gray-500">
-          <span>{t("auth.dontHaveAccount")} </span>
-          <Link to="/apply" className="text-primary hover:underline inline-flex items-center gap-0.5 font-bold">
-            {t("auth.apply")} 
+          <span>{c.secondaryText} </span>
+          <Link to={c.secondaryActionUrl} className="text-primary hover:underline inline-flex items-center gap-0.5 font-bold">
+            {c.secondaryActionLabel} 
             <ArrowRight className={`w-3.5 h-3.5 transition-transform ${isRtl ? 'rotate-180' : ''}`} />
           </Link>
         </div>

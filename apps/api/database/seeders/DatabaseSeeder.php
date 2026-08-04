@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             FullDatabaseSnapshotSeeder::class,
             HomeCmsTranslationSeeder::class,
+            AuthCmsSeeder::class,
             WebFooterSeeder::class,
             StudentSystemTranslationSeeder::class,
         ]);

@@ -32,6 +32,7 @@ import {
   UsersRound,
   PanelBottom,
   Mail,
+  KeyRound,
   MailPlus,
   Home,
   X,
@@ -101,6 +102,11 @@ export default function ApanelLayout({ children }) {
           path: "/apanel/cms/contact-page",
           label: t("apanel.nav.contactPage"),
           icon: Mail,
+        },
+        {
+          path: "/apanel/cms/cms-auth",
+          label: "CMS Auth",
+          icon: KeyRound,
         },
         {
           path: "/apanel/cms/header-navbar",

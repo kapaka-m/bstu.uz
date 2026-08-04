@@ -138,6 +138,9 @@ const ApanelContactPage = React.lazy(
 const ApanelHomeCms = React.lazy(
   () => import("./features/apanel/pages/ApanelHomeCms"),
 );
+const ApanelAuthCms = React.lazy(
+  () => import("./features/apanel/pages/ApanelAuthCms"),
+);
 const ApanelHeaderNavbar = React.lazy(
   () => import("./features/apanel/pages/ApanelHeaderNavbar"),
 );
@@ -676,6 +679,16 @@ function AppContent() {
                 <AdminRoute>
                   <ApanelLayout>
                     <ApanelHomeCms />
+                  </ApanelLayout>
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/apanel/cms/cms-auth"
+              element={
+                <AdminRoute>
+                  <ApanelLayout>
+                    <ApanelAuthCms />
                   </ApanelLayout>
                 </AdminRoute>
               }

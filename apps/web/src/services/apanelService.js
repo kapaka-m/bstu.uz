@@ -185,6 +185,14 @@ export const apanelService = {
     return api.put("/apanel/cms/home", payload).then(unwrapPayload);
   },
 
+  getAuthCms() {
+    return api.get("/apanel/cms/cms-auth").then(unwrapPayload);
+  },
+
+  updateAuthCms(payload) {
+    return api.put("/apanel/cms/cms-auth", payload).then(unwrapPayload);
+  },
+
   getHeaderNavbar() {
     return api.get("/apanel/cms/header-navbar").then(unwrapPayload);
   },

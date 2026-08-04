@@ -1,33 +1,90 @@
-# خريطة الموقع
+# خريطة الموقع وقاعدة البيانات
 
-تم الفحص من:
+هذا الملف يوضح صفحات العرض، صفحات التحكم، الـ API، والجداول المرتبطة بالمحتوى في قاعدة البيانات.
+
+تمت المراجعة من:
 - `apps/api/routes/api.php`
 - `PublicApiController`
 - `HomeCmsController`
+- `AuthCmsController`
 - `AdminCrudController`
 - خدمات React داخل `apps/web/src/services`
-- صفحات العرض داخل `apps/web/src/pages` و `apps/web/src/sections`
-- قاعدة البيانات الحالية عبر Laravel bootstrap read-only
+- صفحات العرض داخل `apps/web/src/pages`
+- صفحات لوحة التحكم داخل `apps/web/src/features/apanel/pages`
 
-## الصفحات والجداول
+## ملخص المسارات المطلوبة
 
-| صفحة العرض / الجزء | الجداول المرتبطة بها | API العام الذي يعرض البيانات | صفحات التحكم التي تديرها |
+### صفحات العرض
+
+| المسار / الجزء | الحالة |
+|---|---|
+| `/` | موجود |
+| `/about` | موجود |
+| `/announcements` | موجود |
+| `/announcements/:slug` | موجود |
+| `/news` | موجود |
+| `/news/:slug` | موجود |
+| `/blog` | موجود |
+| `/blog/:slug` | موجود |
+| `/video-bdtu` | موجود |
+| `/green-campus` | موجود |
+| `/green-campus/:slug` | موجود |
+| `/profile/:slug` | موجود |
+| `/center/:slug` | موجود |
+| `/services` | موجود |
+| `/contact` | موجود |
+| `/login` | موجود |
+| `/forgot-password` | موجود |
+| `/reset-password` | موجود |
+| Footer Web | موجود |
+| Newsletter | موجود |
+| Header Web | موجود |
+| Locales | موجود |
+
+### صفحات التحكم
+
+| صفحة التحكم | الحالة |
+|---|---|
+| `/apanel/video-comments` | موجود |
+| `/apanel/comments` | موجود |
+| `/apanel/management/contact` | موجود |
+| `/apanel/newsletter/subscriptions` | موجود |
+| `/apanel/cms/interactive-services` | موجود |
+| `/apanel/centres-and-departments` | موجود |
+| `/apanel/cms/administration` | موجود |
+| `/apanel/cms/green-campus` | موجود |
+| `/apanel/cms/video-bdtu` | موجود |
+| `/apanel/cms/blog` | موجود |
+| `/apanel/cms/announcements` | موجود |
+| `/apanel/cms/news-events` | موجود |
+| `/apanel/cms/locales` | موجود |
+| `/apanel/cms/footer-web` | موجود |
+| `/apanel/cms/header-navbar` | موجود |
+| `/apanel/cms/contact-page` | موجود |
+| `/apanel/cms/about-page` | موجود |
+| `/apanel/cms/home` | موجود |
+| `/apanel/cms/cms-auth` | موجود |
+
+## صفحات العرض والجداول المرتبطة بها
+
+| صفحة العرض / الجزء | الجداول المرتبطة بها | API العام | صفحات التحكم |
 |---|---|---|---|
 | `/` الصفحة الرئيسية | `home_sections`<br>`home_section_translations`<br>`home_section_items`<br>`home_section_item_translations`<br>`interactive_service_settings`<br>`interactive_service_setting_translations`<br>`services`<br>`service_translations`<br>`news_event_settings`<br>`news_event_setting_translations`<br>`news`<br>`news_translations`<br>`blog_settings`<br>`blog_setting_translations`<br>`blogs`<br>`blog_translations`<br>`video_gallery_settings`<br>`video_gallery_setting_translations`<br>`videos`<br>`video_translations`<br>`green_campus_settings`<br>`green_campus_setting_translations`<br>`green_campus_stats`<br>`green_campus_stat_translations`<br>`green_campus_articles`<br>`green_campus_article_translations`<br>`announcement_settings`<br>`announcement_setting_translations`<br>`announcements`<br>`announcement_translations`<br>`administration_settings`<br>`administration_setting_translations`<br>`administration_profiles`<br>`administration_profile_translations`<br>`programs`<br>`program_translations`<br>`faculties`<br>`faculty_translations` | `/api/v1/home-sections`<br>`/api/v1/services`<br>`/api/v1/services/settings`<br>`/api/v1/news`<br>`/api/v1/news-events/settings`<br>`/api/v1/blog`<br>`/api/v1/blog/settings`<br>`/api/v1/videos`<br>`/api/v1/videos/settings`<br>`/api/v1/green-campus/articles`<br>`/api/v1/green-campus/stats`<br>`/api/v1/green-campus/settings`<br>`/api/v1/announcements`<br>`/api/v1/announcements/settings`<br>`/api/v1/administration`<br>`/api/v1/administration/settings`<br>`/api/v1/programs`<br>`/api/v1/faculties` | `/apanel/cms/home`<br>`/apanel/cms/interactive-services`<br>`/apanel/cms/news-events`<br>`/apanel/cms/blog`<br>`/apanel/cms/video-bdtu`<br>`/apanel/cms/green-campus`<br>`/apanel/cms/announcements`<br>`/apanel/cms/administration` |
 | `/about` | `about_pages`<br>`about_page_translations`<br>`about_page_content_entries`<br>`about_page_content_entry_translations` | `/api/v1/about-page` | `/apanel/cms/about-page` |
 | `/announcements` و `/announcements/:slug` | `announcement_settings`<br>`announcement_setting_translations`<br>`announcements`<br>`announcement_translations` | `/api/v1/announcements/settings`<br>`/api/v1/announcements`<br>`/api/v1/announcements/{slug}` | `/apanel/cms/announcements` |
 | `/news` و `/news/:slug` | `news_event_settings`<br>`news_event_setting_translations`<br>`news`<br>`news_translations` | `/api/v1/news-events/settings`<br>`/api/v1/news`<br>`/api/v1/news/{slug}` | `/apanel/cms/news-events` |
-| `/blog` و `/blog/:slug` | `blog_settings`<br>`blog_setting_translations`<br>`blogs`<br>`blog_translations`<br>`blog_comments` | `/api/v1/blog/settings`<br>`/api/v1/blog`<br>`/api/v1/blog/{slug}`<br>`/api/v1/blog/{slug}/comments` | `/apanel/cms/blog`<br>`/apanel/comments` |
+| `/blog` و `/blog/:slug` | `blog_settings`<br>`blog_setting_translations`<br>`blogs`<br>`blog_translations`<br>`blog_comments`<br>`auth_email_templates`<br>`auth_email_template_translations` | `/api/v1/blog/settings`<br>`/api/v1/blog`<br>`/api/v1/blog/{slug}`<br>`/api/v1/blog/{slug}/comments` | `/apanel/cms/blog`<br>`/apanel/comments`<br>`/apanel/cms/cms-auth` لقالب إيميل الرد على التعليق |
 | `/video-bdtu` | `video_gallery_settings`<br>`video_gallery_setting_translations`<br>`videos`<br>`video_translations`<br>`video_comments` | `/api/v1/videos/settings`<br>`/api/v1/videos`<br>`/api/v1/videos/{slug}/comments` | `/apanel/cms/video-bdtu`<br>`/apanel/video-comments` |
 | `/green-campus` و `/green-campus/:slug` | `green_campus_settings`<br>`green_campus_setting_translations`<br>`green_campus_stats`<br>`green_campus_stat_translations`<br>`green_campus_articles`<br>`green_campus_article_translations` | `/api/v1/green-campus/settings`<br>`/api/v1/green-campus/stats`<br>`/api/v1/green-campus/articles`<br>`/api/v1/green-campus/articles/{slug}` | `/apanel/cms/green-campus` |
 | `/profile/:slug` | `administration_settings`<br>`administration_setting_translations`<br>`administration_profiles`<br>`administration_profile_translations`<br>`staff_profiles`<br>`staff_profile_translations`<br>`university_centers`<br>`university_center_translations`<br>`university_center_settings`<br>`university_center_setting_translations` | `/api/v1/administration/settings`<br>`/api/v1/administration/{slug}`<br>`/api/v1/staff/{slug}`<br>`/api/v1/university-centers`<br>`/api/v1/university-centers/{slug}`<br>`/api/v1/university-centers/settings` | `/apanel/cms/administration`<br>`/apanel/centres-and-departments` |
-| `/center/:slug` | `university_center_settings`<br>`university_center_setting_translations`<br>`university_centers`<br>`university_center_translations` | `/api/v1/university-centers/settings`<br>`/api/v1/university-centers`<br>`/api/v1/university-centers/{slug}` | `/apanel/centres-and-departments` |
+| `/center/:slug` | `university_center_settings`<br>`university_center_setting_translations`<br>`university_centers`<br>`university_center_translations`<br>`staff_profiles`<br>`staff_profile_translations` | `/api/v1/university-centers/settings`<br>`/api/v1/university-centers`<br>`/api/v1/university-centers/{slug}`<br>`/api/v1/staff/{slug}` | `/apanel/centres-and-departments` |
 | `/services` | `interactive_service_settings`<br>`interactive_service_setting_translations`<br>`services`<br>`service_translations` | `/api/v1/services/settings`<br>`/api/v1/services` | `/apanel/cms/interactive-services` |
-| `/contact` | `contact_pages`<br>`contact_page_translations`<br>`inquiries` | `/api/v1/contact-page`<br>`/api/v1/inquiries` | `/apanel/cms/contact-page`<br>`/apanel/management/contact` |
-| `/login` | `users`<br>`roles`<br>`role_user`<br>`personal_access_tokens`<br>`translation_keys`<br>`translation_values`<br>`locales` | `/api/v1/auth/login`<br>`/api/v1/translations`<br>`/api/v1/locales` | لا توجد صفحة CMS خاصة بمحتوى صفحة الدخول؛ النصوص من قاموس الترجمات العام، والصلاحيات من المستخدمين والأدوار. |
-| `/forgot-password` | `users`<br>`password_reset_tokens`<br>`translation_keys`<br>`translation_values`<br>`locales` | `/api/v1/auth/forgot-password`<br>`/api/v1/auth/reset-password`<br>`/api/v1/translations`<br>`/api/v1/locales` | لا توجد صفحة CMS خاصة بمحتوى استعادة كلمة المرور؛ النصوص من قاموس الترجمات العام. |
-| Footer Web | `web_footers`<br>`web_footer_translations`<br>`newsletter_subscriptions` | `/api/v1/footer-web`<br>`/api/v1/newsletter-subscriptions` | `/apanel/cms/footer-web`<br>`/apanel/newsletter/subscriptions` |
-| Newsletter | `newsletter_subscriptions`<br>`web_footers`<br>`web_footer_translations` | `/api/v1/newsletter-subscriptions`<br>`/api/v1/footer-web` | `/apanel/newsletter/subscriptions`<br>`/apanel/cms/footer-web` |
+| `/contact` | `contact_pages`<br>`contact_page_translations`<br>`inquiries`<br>`auth_email_templates`<br>`auth_email_template_translations` | `/api/v1/contact-page`<br>`POST /api/v1/inquiries` | `/apanel/cms/contact-page`<br>`/apanel/management/contact`<br>`/apanel/cms/cms-auth` لقالب إيميل استلام الاستفسار |
+| `/login` | `auth_pages`<br>`auth_page_translations`<br>`users`<br>`roles`<br>`role_user`<br>`personal_access_tokens`<br>`locales` | `/api/v1/auth-cms`<br>`POST /api/v1/auth/login`<br>`/api/v1/locales` | `/apanel/cms/cms-auth`<br>إدارة المستخدمين والأدوار من موارد apanel |
+| `/forgot-password` | `auth_pages`<br>`auth_page_translations`<br>`auth_email_templates`<br>`auth_email_template_translations`<br>`users`<br>`password_reset_tokens`<br>`locales` | `/api/v1/auth-cms`<br>`POST /api/v1/auth/forgot-password`<br>`/api/v1/locales` | `/apanel/cms/cms-auth` |
+| `/reset-password` | `auth_pages`<br>`auth_page_translations`<br>`auth_email_templates`<br>`auth_email_template_translations`<br>`users`<br>`password_reset_tokens`<br>`locales` | `/api/v1/auth-cms`<br>`POST /api/v1/auth/reset-password`<br>`/api/v1/locales` | `/apanel/cms/cms-auth` |
+| Footer Web | `web_footers`<br>`web_footer_translations`<br>`newsletter_subscriptions`<br>`auth_email_templates`<br>`auth_email_template_translations` | `/api/v1/footer-web`<br>`POST /api/v1/newsletter-subscriptions` | `/apanel/cms/footer-web`<br>`/apanel/newsletter/subscriptions`<br>`/apanel/cms/cms-auth` لقالب إيميل الاشتراك |
+| Newsletter | `newsletter_subscriptions`<br>`newsletter_campaigns`<br>`web_footers`<br>`web_footer_translations`<br>`auth_email_templates`<br>`auth_email_template_translations` | `POST /api/v1/newsletter-subscriptions`<br>`/api/v1/footer-web` | `/apanel/newsletter/subscriptions`<br>`/apanel/cms/footer-web`<br>`/apanel/cms/cms-auth` لقوالب النشرة |
 | Header Web | `menus`<br>`menu_items`<br>`menu_item_translations` | `/api/v1/menus/header` | `/apanel/cms/header-navbar` |
 | Locales | `locales`<br>`translation_keys`<br>`translation_values` | `/api/v1/locales`<br>`/api/v1/translations` | `/apanel/cms/locales` |
 
@@ -38,9 +95,9 @@
 | `/apanel/video-comments` | `video_comments` مع علاقة `videos` و `video_translations` لعرض اسم الفيديو ورابطه |
 | `/apanel/comments` | `blog_comments` مع علاقة `blogs` و `blog_translations` لعرض اسم المقال ورابطه |
 | `/apanel/management/contact` | `inquiries` |
-| `/apanel/newsletter/subscriptions` | `newsletter_subscriptions` |
+| `/apanel/newsletter/subscriptions` | `newsletter_subscriptions`<br>`newsletter_campaigns` عند إرسال حملة للمشتركين |
 | `/apanel/cms/interactive-services` | `interactive_service_settings`<br>`interactive_service_setting_translations`<br>`services`<br>`service_translations` |
-| `/apanel/centres-and-departments` | `university_center_settings`<br>`university_center_setting_translations`<br>`university_centers`<br>`university_center_translations` |
+| `/apanel/centres-and-departments` | `university_center_settings`<br>`university_center_setting_translations`<br>`university_centers`<br>`university_center_translations`<br>`staff_profiles`<br>`staff_profile_translations` |
 | `/apanel/cms/administration` | `administration_settings`<br>`administration_setting_translations`<br>`administration_profiles`<br>`administration_profile_translations` |
 | `/apanel/cms/green-campus` | `green_campus_settings`<br>`green_campus_setting_translations`<br>`green_campus_stats`<br>`green_campus_stat_translations`<br>`green_campus_articles`<br>`green_campus_article_translations` |
 | `/apanel/cms/video-bdtu` | `video_gallery_settings`<br>`video_gallery_setting_translations`<br>`videos`<br>`video_translations` |
@@ -53,10 +110,36 @@
 | `/apanel/cms/contact-page` | `contact_pages`<br>`contact_page_translations` |
 | `/apanel/cms/about-page` | `about_pages`<br>`about_page_translations`<br>`about_page_content_entries`<br>`about_page_content_entry_translations` |
 | `/apanel/cms/home` | `home_sections`<br>`home_section_translations`<br>`home_section_items`<br>`home_section_item_translations` |
+| `/apanel/cms/cms-auth` | `auth_pages`<br>`auth_page_translations`<br>`auth_email_templates`<br>`auth_email_template_translations` |
 
-## نتيجة فحص قاعدة البيانات الحالية
+## جداول CMS Auth وقوالب البريد
 
-اللغات النشطة في جدول `locales`:
+| المفتاح / القالب | الجداول | الاستخدام |
+|---|---|---|
+| `login` | `auth_pages`<br>`auth_page_translations` | محتوى صفحة `/login` |
+| `forgot_password` | `auth_pages`<br>`auth_page_translations` | محتوى صفحة `/forgot-password` |
+| `reset_password` | `auth_pages`<br>`auth_page_translations` | محتوى صفحة `/reset-password` |
+| `password_reset` | `auth_email_templates`<br>`auth_email_template_translations` | قالب إيميل إعادة تعيين كلمة المرور ومدة صلاحية التوكن من `settings.expire_minutes` |
+| `newsletter_welcome` | `auth_email_templates`<br>`auth_email_template_translations` | إيميل شكر الاشتراك في النشرة |
+| `inquiry_received` | `auth_email_templates`<br>`auth_email_template_translations` | إيميل تأكيد استلام الاستفسار |
+| `blog_comment_reply` | `auth_email_templates`<br>`auth_email_template_translations` | إيميل عند الرد على تعليق في المدونة |
+| `newsletter_campaign` | `auth_email_templates`<br>`auth_email_template_translations`<br>`newsletter_campaigns` | قالب ورسائل حملات النشرة للمشتركين |
+
+## APIs المهمة
+
+| الوظيفة | API |
+|---|---|
+| محتوى صفحات login/forgot/reset | `GET /api/v1/auth-cms` |
+| تسجيل الدخول | `POST /api/v1/auth/login` |
+| طلب رابط reset password | `POST /api/v1/auth/forgot-password` |
+| تنفيذ reset password | `POST /api/v1/auth/reset-password` |
+| الاشتراك في النشرة | `POST /api/v1/newsletter-subscriptions` |
+| إرسال حملة للمشتركين من اللوحة | `POST /api/v1/apanel/newsletter/subscriptions/send` |
+| إدارة CMS Auth | `GET /api/v1/apanel/cms/cms-auth`<br>`PUT /api/v1/apanel/cms/cms-auth` |
+
+## اللغات والترجمات
+
+اللغات النشطة الحالية:
 
 | اللغة | الحالة |
 |---|---|
@@ -65,99 +148,18 @@
 | `ru` | نشطة |
 | `ar` | نشطة |
 
-الأعداد الحالية للجداول الأساسية:
+جداول الترجمة المستخدمة في الصفحات المطلوبة تعتمد على عمود `locale`، ولذلك النظام جاهز لإضافة لغات جديدة بشرط:
 
-| الجدول | العدد |
-|---|---:|
-| `locales` | 4 |
-| `translation_keys` | 2533 |
-| `translation_values` | 9516 |
-| `home_sections` | 7 |
-| `home_section_items` | 27 |
-| `about_pages` | 1 |
-| `about_page_content_entries` | 184 |
-| `announcement_settings` | 1 |
-| `announcements` | 24 |
-| `news_event_settings` | 1 |
-| `news` | 60 |
-| `blog_settings` | 1 |
-| `blogs` | 7 |
-| `blog_comments` | 2 |
-| `video_gallery_settings` | 1 |
-| `videos` | 31 |
-| `video_comments` | 1 |
-| `green_campus_settings` | 1 |
-| `green_campus_stats` | 4 |
-| `green_campus_articles` | 9 |
-| `administration_settings` | 1 |
-| `administration_profiles` | 6 |
-| `university_center_settings` | 1 |
-| `university_centers` | 17 |
-| `interactive_service_settings` | 1 |
-| `services` | 17 |
-| `contact_pages` | 1 |
-| `inquiries` | 1 |
-| `web_footers` | 1 |
-| `newsletter_subscriptions` | 4 |
-| `menus` | 1 |
-| `menu_items` | 67 |
-| `users` | 2 |
-| `roles` | 14 |
-| `role_user` | 2 |
-| `password_reset_tokens` | 0 |
-| `personal_access_tokens` | 84 |
+1. إضافة اللغة في جدول `locales` وتفعيلها.
+2. إدخال ترجمات اللغة الجديدة في جداول الترجمة المرتبطة بالمحتوى.
+3. إدخال ترجمات قوالب البريد في `auth_email_template_translations`.
+4. إدخال ترجمات صفحات auth في `auth_page_translations`.
 
-## نتيجة فحص الترجمات
+## ملاحظات مهمة
 
-تم فحص جداول الترجمات الخاصة بالصفحات المطلوبة، وكلها تحتوي على ترجمة للغات النشطة الأربع `en`, `uz`, `ru`, `ar` بدون نقص:
-
-| جدول الترجمة | نتيجة الفحص |
-|---|---|
-| `home_section_translations` | مكتمل للغات الأربع |
-| `home_section_item_translations` | مكتمل للغات الأربع |
-| `about_page_translations` | مكتمل للغات الأربع |
-| `about_page_content_entry_translations` | مكتمل للغات الأربع |
-| `announcement_setting_translations` | مكتمل للغات الأربع |
-| `announcement_translations` | مكتمل للغات الأربع |
-| `news_event_setting_translations` | مكتمل للغات الأربع |
-| `news_translations` | مكتمل للغات الأربع |
-| `blog_setting_translations` | مكتمل للغات الأربع |
-| `blog_translations` | مكتمل للغات الأربع |
-| `video_gallery_setting_translations` | مكتمل للغات الأربع |
-| `video_translations` | مكتمل للغات الأربع |
-| `green_campus_setting_translations` | مكتمل للغات الأربع |
-| `green_campus_stat_translations` | مكتمل للغات الأربع |
-| `green_campus_article_translations` | مكتمل للغات الأربع |
-| `administration_setting_translations` | مكتمل للغات الأربع |
-| `administration_profile_translations` | مكتمل للغات الأربع |
-| `university_center_setting_translations` | مكتمل للغات الأربع |
-| `university_center_translations` | مكتمل للغات الأربع |
-| `interactive_service_setting_translations` | مكتمل للغات الأربع |
-| `service_translations` | مكتمل للغات الأربع |
-| `contact_page_translations` | مكتمل للغات الأربع |
-| `web_footer_translations` | مكتمل للغات الأربع |
-| `menu_item_translations` | مكتمل للغات الأربع |
-
-ملاحظة: جدول `home_section_translations` و `home_section_item_translations` يحتويان أيضا على صفوف للغة `fr`، لكنها ليست لغة نشطة حاليا لأن جدول `locales` لا يحتوي على `fr` كلغة نشطة.
-
-## نتيجة فحص الديناميكية وعدم وجود محتوى static
-
-- الصفحات المذكورة تعرض محتوى التشغيل من API والجداول المرتبطة بها.
-- الصفحة الرئيسية تستخدم `homeCmsService` و hook `useHomeSection` لأقسام Hero وRegistrar وStats وIdentity وCore Values وغيرها.
-- أقسام الصفحة الرئيسية الأخرى مثل News وBlog وVideo وGreen Campus وAnnouncements وLeadership وInteractive Services تستخدم خدمات API الخاصة بها.
-- Header Web يستخدم `/api/v1/menus/header` من جداول `menus`, `menu_items`, `menu_item_translations`.
-- Footer Web يستخدم `/api/v1/footer-web` من جداول `web_footers`, `web_footer_translations`.
-- Locales والترجمات العامة تستخدم `/api/v1/locales` و `/api/v1/translations` من جداول `locales`, `translation_keys`, `translation_values`.
-- صفحات `/login` و `/forgot-password` لا تملك CMS مخصص، لكن النصوص الظاهرة فيها تأتي من قاموس الترجمات العام، وعمليات الدخول/استعادة كلمة المرور من API وجداول المستخدمين والتوكنات.
-- لا يوجد اعتماد تشغيل على ملفات static data لهذه الصفحات كمصدر محتوى. الموجود داخل React هو بنية العرض ومفاتيح الترجمة وبعض fallback UI labels فقط، وليس بيانات محتوى الصفحات.
-
-## قابلية إضافة لغات جديدة
-
-النظام جاهز لاستقبال أي عدد من اللغات لأن أغلب جداول المحتوى تعتمد على جدول ترجمة منفصل يحتوي عمود `locale`.
-
-عند إضافة لغة جديدة:
-
-1. تضاف اللغة في جدول `locales` وتكون `is_active = true`.
-2. يجب إضافة صفوف ترجمة للغة الجديدة في جداول الترجمة المرتبطة بالمحتوى المطلوب.
-3. الـ API يقرأ اللغة من `locale` أو `Accept-Language` ويستخدم fallback عند الحاجة.
-4. صفحات apanel الخاصة بالمحتوى تستخدم أكواد اللغات من النظام، لذلك يمكنها التعامل مع لغات إضافية بعد إضافتها وتوفير ترجماتها.
+- صفحات `/login` و `/forgot-password` و `/reset-password` أصبحت تدار من `/apanel/cms/cms-auth` وتقرأ المحتوى من `/api/v1/auth-cms`.
+- قالب إيميل reset password يدار من `/apanel/cms/cms-auth`، ومدة صلاحية التوكن الفعلية تقرأ من `auth_email_templates.settings.expire_minutes`.
+- فتح رابط `/reset-password` في المتصفح لا يعني أن التوكن صالح؛ الصلاحية يتم التحقق منها عند إرسال كلمة المرور الجديدة إلى `POST /api/v1/auth/reset-password`.
+- Footer Newsletter يستخدم `web_footers` و `web_footer_translations` للنصوص الظاهرة، ويستخدم `newsletter_subscriptions` للتسجيل، ويستخدم `auth_email_templates` لقالب رسالة الشكر.
+- إرسال حملة للمشتركين يتم من `/apanel/newsletter/subscriptions` ويسجل في `newsletter_campaigns`.
+- لا يوجد اعتماد تشغيل على ملفات static data كمصدر محتوى لهذه الصفحات. ملفات React تحتوي بنية العرض و fallback labels فقط، بينما المحتوى التشغيلي يأتي من API والجداول.

@@ -1,22 +1,76 @@
 {
-    "source_database": "bstu_rebuild_source_tmp",
-    "target_database": "bstu_rebuild_target_tmp",
-    "compared_tables": 109,
-    "schema": {
-        "tables_match": true,
-        "columns_match": true,
-        "indexes_match": true,
-        "foreign_keys_match": true,
-        "differences": []
+    "verified_at": "2026-08-04T11:59:33+00:00",
+    "server_database": "bstu_international",
+    "project_seed_database": "bstu_project_compare",
+    "status": "passed",
+    "checks": {
+        "migrate_seed_project_snapshot": "passed",
+        "specified_content_tables_match": "passed",
+        "home_cms_active_locales_match": "passed",
+        "french_home_cms_rows_excluded_from_project_snapshot": "passed",
+        "runtime_cache_session_job_data_excluded_from_snapshot": "passed"
     },
-    "data": {
-        "row_counts_match": true,
-        "total_source_rows": 22211,
-        "total_target_rows": 22211,
-        "differences": []
+    "content_counts": {
+        "announcements": {
+            "server": 24,
+            "project": 24
+        },
+        "news": {
+            "server": 60,
+            "project": 60
+        },
+        "blogs": {
+            "server": 7,
+            "project": 7
+        },
+        "green_campus_articles": {
+            "server": 9,
+            "project": 9
+        },
+        "inquiries": {
+            "server": 1,
+            "project": 1
+        },
+        "newsletter_subscriptions": {
+            "server": 4,
+            "project": 4
+        }
     },
-    "integrity": {
-        "orphan_foreign_keys": [],
-        "duplicate_unique_keys": []
-    }
+    "home_translation_locale_counts": {
+        "home_section_translations": {
+            "server": {
+                "ar": 7,
+                "en": 7,
+                "fr": 7,
+                "ru": 7,
+                "uz": 7
+            },
+            "project_seed": {
+                "ar": 7,
+                "en": 7,
+                "ru": 7,
+                "uz": 7
+            }
+        },
+        "home_section_item_translations": {
+            "server": {
+                "ar": 27,
+                "en": 27,
+                "fr": 27,
+                "ru": 27,
+                "uz": 27
+            },
+            "project_seed": {
+                "ar": 27,
+                "en": 27,
+                "ru": 27,
+                "uz": 27
+            }
+        }
+    },
+    "notes": [
+        "The project snapshot was refreshed from bstu_international current data.",
+        "Rows with locale fr in home_section_translations and home_section_item_translations were intentionally not exported because fr is not an active/required locale.",
+        "Runtime tables cache, cache_locks, sessions, jobs, job_batches, failed_jobs, and audit_logs are not seeded as content data."
+    ]
 }

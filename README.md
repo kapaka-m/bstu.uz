@@ -1,6 +1,6 @@
 # Bukhara State Technical University (BSTU) International Website Monorepo
 
-This repository is structured as a unified monorepo containing the web frontend, backend API, and mobile application.
+This repository is structured as a unified monorepo containing the web frontend and backend API.
 
 ---
 
@@ -8,7 +8,6 @@ This repository is structured as a unified monorepo containing the web frontend,
 
 - **`apps/web`**: React 19 + Vite + Tailwind CSS 4 web application (includes student dashboard and `apanel` admin management).
 - **`apps/api`**: Laravel + PHP REST API backend.
-- **`apps/mobile`**: Flutter mobile application.
 
 ---
 
@@ -18,9 +17,8 @@ This repository is structured as a unified monorepo containing the web frontend,
 - **CSS Engine**: Tailwind CSS 4 (via PostCSS)
 - **Backend Service**: Laravel REST API (PHP 8.3+)
 - **Database Engine**: MySQL (InnoDB)
-- **Mobile Platform**: Flutter SDK (Dart)
 - **Authentication**: Laravel Sanctum (Token-based)
-- **State Management**: React Context (Web), ChangeNotifier / InheritedWidget (Mobile)
+- **State Management**: React Context
 
 ---
 
@@ -110,34 +108,6 @@ To configure the local database connection:
    npm run build
    ```
 
-### 3. Flutter Mobile App (`apps/mobile`)
-
-1. **Navigate to mobile**:
-
-   ```bash
-   cd apps/mobile
-   ```
-
-2. **Install dependencies**:
-
-   ```bash
-   flutter pub get
-   ```
-
-3. **Analyze Code Integrity**:
-
-   ```bash
-   flutter analyze
-   ```
-
-4. **Run on Target Device / Emulator**:
-
-   ```bash
-   flutter run
-   ```
-
----
-
 ## 🔒 Admin Panel (`apanel`) Credentials
 
 The admin panel resides in the React SPA at `/apanel`. Use the default seeded credentials to log in:
@@ -153,7 +123,7 @@ The admin panel resides in the React SPA at `/apanel`. Use the default seeded cr
 
 - **Seeded defaults**: English (`en`), Uzbek (`uz`), Russian (`ru`), and Arabic (`ar`).
 - **Source of truth**: Active languages, names, and text directions come from the `locales` table and are managed from `/apanel/locales`.
-- **Dynamic localized loading**: Visible website, student, mobile, and apanel text is resolved from database translation records through `GET /api/v1/translations?locale=...`.
+- **Dynamic localized loading**: Visible website, student, and apanel text is resolved from database translation records through `GET /api/v1/translations?locale=...`.
 - **RTL/LTR support**: Arabic is seeded as RTL; other active locales use their database `direction` value.
 
 ---

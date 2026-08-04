@@ -1,12 +1,11 @@
 # BSTU International Website — Coding Agent Guide
 
-This repository is an existing monorepo for the BSTU International system. Do not restart it, recreate Laravel, move `apps/web`, create a new React app, or recreate Flutter.
+This repository is an existing monorepo for the BSTU International system. Do not restart it, recreate Laravel, move `apps/web`, or create a new React app.
 
 ## Project Layout
 
 - `apps/web` — React 19 + Vite + Tailwind CSS 4 public website, student portal, and `apanel`.
 - `apps/api` — Laravel 13 REST API using MySQL and Laravel Sanctum.
-- `apps/mobile` — Flutter mobile app using the same `/api/v1` backend.
 
 ## Common Commands
 
@@ -30,22 +29,10 @@ composer install
 .\php-local.bat artisan db:seed
 ```
 
-Mobile:
-
-```bash
-cd apps/mobile
-flutter pub get
-flutter analyze
-flutter run
-```
-
-If `flutter` is not available on PATH, report that clearly rather than claiming mobile analysis passed.
-
 ## Architecture Rules
 
 - Keep the React frontend in `apps/web`.
 - Keep Laravel API code in `apps/api`.
-- Keep Flutter code in `apps/mobile`.
 - Use the existing REST API and MySQL-backed content system where possible.
 - Preserve public website, apanel, student system, and Laravel API routes.
 - Do not add absolute Windows paths to frontend source or bundles.

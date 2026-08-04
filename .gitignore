@@ -13,10 +13,6 @@ dist/
 build/
 **/dist/
 **/build/
-apps/mobile/.dart_tool/
-apps/mobile/.flutter-plugins
-apps/mobile/.flutter-plugins-dependencies
-
 # =========================
 # Environment and secrets
 # =========================
@@ -29,7 +25,6 @@ apps/mobile/.flutter-plugins-dependencies
 !**/.env.example
 !apps/api/.env.example
 !apps/web/.env.example
-!apps/mobile/.env.example
 
 # =========================
 # Laravel runtime/generated files

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CommentRequest;
 use App\Http\Requests\InquiryRequest;
+use App\Mail\CmsTemplateMail;
 use App\Http\Resources\LocalizedCollection;
 use App\Http\Resources\LocalizedResource;
 use App\Models\AboutPage;
@@ -50,7 +51,9 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Throwable;
 
 class PublicApiController extends Controller
 {
@@ -1250,6 +1253,7 @@ class PublicApiController extends Controller
         ]));
 
         $post->update(['comments_count' => $post->comments()->where('is_approved', true)->count()]);
+        $this->sendBlogReplyEmail($post, $comment);
 
         return $this->successResponse([
             'id' => $comment->id,
@@ -1779,6 +1783,7 @@ class PublicApiController extends Controller
     public function storeInquiry(InquiryRequest $request)
     {
         $inquiry = Inquiry::create($request->validated());
+        $this->sendInquiryReceivedEmail($inquiry, $request);
 
         return $this->successResponse($inquiry, 'Inquiry submitted successfully', 201);
     }
@@ -1812,8 +1817,78 @@ class PublicApiController extends Controller
                 'user_agent' => $request->userAgent(),
             ]
         );
+        $this->sendNewsletterWelcomeEmail($subscription);
 
         return $this->successResponse($subscription, 'Newsletter subscription saved successfully', 201);
+    }
+
+    protected function sendNewsletterWelcomeEmail(NewsletterSubscription $subscription): void
+    {
+        try {
+            Mail::to($subscription->email)->send(new CmsTemplateMail(
+                'newsletter_welcome',
+                [
+                    'email' => $subscription->email,
+                    'cta_url' => rtrim((string) config('app.frontend_url'), '/'),
+                ],
+                $subscription->locale ?: $this->fallbackLocale(),
+            ));
+        } catch (Throwable $e) {
+            report($e);
+        }
+    }
+
+    protected function sendInquiryReceivedEmail(Inquiry $inquiry, Request $request): void
+    {
+        try {
+            Mail::to($inquiry->email)->send(new CmsTemplateMail(
+                'inquiry_received',
+                [
+                    'name' => $inquiry->name,
+                    'subject' => $inquiry->subject,
+                    'email' => $inquiry->email,
+                    'cta_url' => rtrim((string) config('app.frontend_url'), '/').'/contact',
+                ],
+                $this->getRequestLocale($request),
+            ));
+        } catch (Throwable $e) {
+            report($e);
+        }
+    }
+
+    protected function sendBlogReplyEmail(Blog $post, BlogComment $comment): void
+    {
+        if (! $comment->parent_id) {
+            return;
+        }
+
+        $parent = BlogComment::find($comment->parent_id);
+        $recipient = trim((string) ($parent?->email ?? ''));
+
+        if ($recipient === '' || $recipient === $comment->email) {
+            return;
+        }
+
+        $post->loadMissing('translations');
+        $translation = $post->translations->firstWhere('locale', $this->fallbackLocale())
+            ?: $post->translations->first();
+        $title = $translation?->title ?: $post->slug;
+
+        try {
+            Mail::to($recipient)->send(new CmsTemplateMail(
+                'blog_comment_reply',
+                [
+                    'name' => $parent->author_name ?: 'Reader',
+                    'blog_title' => $title,
+                    'reply_author' => $comment->author_name,
+                    'reply_excerpt' => Str::limit($comment->content, 160),
+                    'cta_url' => rtrim((string) config('app.frontend_url'), '/').'/blog/'.$post->slug,
+                ],
+                $this->fallbackLocale(),
+            ));
+        } catch (Throwable $e) {
+            report($e);
+        }
     }
 
     public function greenCampusStats(Request $request)

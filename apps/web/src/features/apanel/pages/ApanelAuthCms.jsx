@@ -11,6 +11,14 @@ const pageLabels = {
   reset_password: "Reset Password",
 };
 
+const emailTemplateLabels = {
+  password_reset: "Password Reset Email",
+  newsletter_welcome: "Newsletter Welcome Email",
+  inquiry_received: "Inquiry Received Email",
+  blog_comment_reply: "Blog Reply Email",
+  newsletter_campaign: "Newsletter Campaign Email",
+};
+
 const emptyPageTranslation = {
   title: "",
   subtitle: "",
@@ -120,12 +128,19 @@ const emailFields = [
   ["footer", "Footer"],
 ];
 
-const emailSettingFields = [
+const baseEmailSettingFields = [
   ["brand_url", "Brand URL"],
   ["button_color", "Button Color"],
-  ["frontend_reset_path", "Reset Page Path"],
-  ["expire_minutes", "Expire Minutes"],
+  ["accent_color", "Accent Color"],
 ];
+
+const emailSettingFieldsByTemplate = {
+  password_reset: [
+    ...baseEmailSettingFields,
+    ["frontend_reset_path", "Reset Page Path"],
+    ["expire_minutes", "Expire Minutes"],
+  ],
+};
 
 const inputClass =
   "mt-1 w-full rounded-xl border border-gray-200 bg-white px-3 py-2.5 text-sm font-semibold text-navy focus:border-primary focus:outline-none";
@@ -199,7 +214,15 @@ export default function ApanelAuthCms() {
     [pages, activeTab],
   );
 
-  const emailTemplate = emailTemplates.find((template) => template.template_key === "password_reset");
+  const activeEmailTemplateKey = activeTab.startsWith("email:")
+    ? activeTab.replace("email:", "")
+    : "";
+  const visibleEmailSettingFields =
+    emailSettingFieldsByTemplate[activeEmailTemplateKey] || baseEmailSettingFields;
+  const visibleEmailFields =
+    activeEmailTemplateKey === "newsletter_campaign"
+      ? emailFields.filter(([key]) => key !== "expiry_notice")
+      : emailFields;
 
   const updatePageTranslation = (key, value) => {
     setPages((current) =>
@@ -223,7 +246,7 @@ export default function ApanelAuthCms() {
   const updateEmailTranslation = (key, value) => {
     setEmailTemplates((current) =>
       current.map((template) =>
-        template.template_key === "password_reset"
+        template.template_key === activeEmailTemplateKey
           ? {
               ...template,
               translations: {
@@ -242,7 +265,7 @@ export default function ApanelAuthCms() {
   const updateEmailSetting = (key, value) => {
     setEmailTemplates((current) =>
       current.map((template) =>
-        template.template_key === "password_reset"
+        template.template_key === activeEmailTemplateKey
           ? {
               ...template,
               settings: {
@@ -309,30 +332,33 @@ export default function ApanelAuthCms() {
             {pageLabels[page.page_key] || page.page_key}
           </button>
         ))}
-        <button
-          type="button"
-          onClick={() => setActiveTab("password_reset_email")}
-          className={`rounded-xl px-4 py-2 text-xs font-extrabold ${
-            activeTab === "password_reset_email"
-              ? "bg-primary text-white"
-              : "bg-gray-50 text-gray-600 hover:bg-primary/10 hover:text-primary"
-          }`}
-        >
-          Reset Email Template
-        </button>
+        {emailTemplates.map((template) => (
+          <button
+            type="button"
+            key={template.template_key}
+            onClick={() => setActiveTab(`email:${template.template_key}`)}
+            className={`rounded-xl px-4 py-2 text-xs font-extrabold ${
+              activeTab === `email:${template.template_key}`
+                ? "bg-primary text-white"
+                : "bg-gray-50 text-gray-600 hover:bg-primary/10 hover:text-primary"
+            }`}
+          >
+            {emailTemplateLabels[template.template_key] || template.template_key}
+          </button>
+        ))}
       </div>
 
       <div className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm">
         <div className="mb-6 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div>
             <h2 className="text-xl font-black text-navy">
-              {activeTab === "password_reset_email"
-                ? "Reset Email Template"
+              {activeTab.startsWith("email:")
+                ? emailTemplateLabels[activeTab.replace("email:", "")] || activeTab.replace("email:", "")
                 : pageLabels[activeTab] || activeTab}
             </h2>
             <p className="mt-1 text-xs font-bold text-gray-400">
-              {activeTab === "password_reset_email"
-                ? "Template key: password_reset"
+              {activeTab.startsWith("email:")
+                ? `Template key: ${activeTab.replace("email:", "")}`
                 : `Page key: ${activeTab}`}
             </p>
           </div>
@@ -354,7 +380,7 @@ export default function ApanelAuthCms() {
           </div>
         </div>
 
-        {activeTab !== "password_reset_email" && activePage && (
+        {!activeTab.startsWith("email:") && activePage && (
           <div className="grid gap-4 md:grid-cols-2">
             {(fieldsByPage[activeTab] || []).map(([key, label, type]) => (
               <label key={key} className="text-xs font-bold text-gray-500">
@@ -378,38 +404,47 @@ export default function ApanelAuthCms() {
           </div>
         )}
 
-        {activeTab === "password_reset_email" && emailTemplate && (
+        {activeTab.startsWith("email:") && (
           <div className="space-y-6">
             <div className="grid gap-4 md:grid-cols-2">
-              {emailSettingFields.map(([key, label]) => (
+              {visibleEmailSettingFields.map(([key, label]) => (
                 <label key={key} className="text-xs font-bold text-gray-500">
                   {label}
                   <input
                     type={key === "expire_minutes" ? "number" : "text"}
                     min={key === "expire_minutes" ? "1" : undefined}
                     className={inputClass}
-                    value={emailTemplate.settings?.[key] ?? ""}
-                    onChange={(event) => updateEmailSetting(key, event.target.value)}
-                  />
-                </label>
+                  value={
+                    emailTemplates.find((template) => `email:${template.template_key}` === activeTab)
+                      ?.settings?.[key] ?? ""
+                  }
+                  onChange={(event) => updateEmailSetting(key, event.target.value)}
+                />
+              </label>
               ))}
             </div>
 
             <div className="grid gap-4 md:grid-cols-2">
-              {emailFields.map(([key, label, type]) => (
+              {visibleEmailFields.map(([key, label, type]) => (
                 <label key={key} className="text-xs font-bold text-gray-500">
                   {label}
                   {type === "textarea" ? (
                     <textarea
                       rows={4}
                       className={`${inputClass} resize-y`}
-                      value={emailTemplate.translations[activeLocale]?.[key] || ""}
+                      value={
+                        emailTemplates.find((template) => `email:${template.template_key}` === activeTab)
+                          ?.translations?.[activeLocale]?.[key] || ""
+                      }
                       onChange={(event) => updateEmailTranslation(key, event.target.value)}
                     />
                   ) : (
                     <input
                       className={inputClass}
-                      value={emailTemplate.translations[activeLocale]?.[key] || ""}
+                      value={
+                        emailTemplates.find((template) => `email:${template.template_key}` === activeTab)
+                          ?.translations?.[activeLocale]?.[key] || ""
+                      }
                       onChange={(event) => updateEmailTranslation(key, event.target.value)}
                     />
                   )}
@@ -418,7 +453,7 @@ export default function ApanelAuthCms() {
             </div>
 
             <div className="rounded-2xl border border-primary/10 bg-primary/5 p-4 text-xs font-bold text-navy">
-              Available placeholders: {"{minutes}"}, {"{year}"}, {"{action_label}"}
+              Available placeholders: {"{year}"}, {"{email}"}, {"{name}"}, {"{subject}"}, {"{blog_title}"}, {"{reply_author}"}, {"{reply_excerpt}"}, {"{campaign_subject}"}, {"{campaign_title}"}, {"{campaign_message}"}, {"{campaign_cta_label}"}
             </div>
           </div>
         )}

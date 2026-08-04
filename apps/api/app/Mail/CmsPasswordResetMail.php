@@ -15,13 +15,13 @@ class CmsPasswordResetMail extends Mailable
     public function __construct(
         public User $user,
         public string $token,
-        public ?string $locale = null,
+        public ?string $mailLocale = null,
     ) {
     }
 
     public function build(): self
     {
-        $locale = $this->locale ?: app()->getLocale();
+        $locale = $this->mailLocale ?: app()->getLocale();
         $template = AuthCmsController::localizedEmailTemplate('password_reset', $locale)
             ?: $this->fallbackTemplate();
 

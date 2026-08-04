@@ -3,6 +3,7 @@ import {
   CalendarClock,
   Loader2,
   Mail,
+  Send,
   RefreshCw,
   Search,
   Trash2,
@@ -38,6 +39,17 @@ export default function ApanelNewsletterSubscriptions() {
   const [error, setError] = useState("");
   const [deletingId, setDeletingId] = useState(null);
   const [pendingDelete, setPendingDelete] = useState(null);
+  const [activeTab, setActiveTab] = useState("subscribers");
+  const [sending, setSending] = useState(false);
+  const [success, setSuccess] = useState("");
+  const [campaign, setCampaign] = useState({
+    subject: "",
+    title: "",
+    message: "",
+    cta_label: "",
+    cta_url: "",
+    locale: "",
+  });
 
   const fetchSubscriptions = useCallback(async () => {
     try {
@@ -87,6 +99,33 @@ export default function ApanelNewsletterSubscriptions() {
     }
   };
 
+  const sendCampaign = async (event) => {
+    event.preventDefault();
+    try {
+      setSending(true);
+      setError("");
+      setSuccess("");
+      const response = await apanelService.sendNewsletterCampaign(campaign);
+      setSuccess(`Newsletter campaign sent to ${response?.sent_count ?? 0} subscribers.`);
+      setCampaign({
+        subject: "",
+        title: "",
+        message: "",
+        cta_label: "",
+        cta_url: "",
+        locale: "",
+      });
+    } catch (err) {
+      setError(err?.message || "Failed to send newsletter campaign.");
+    } finally {
+      setSending(false);
+    }
+  };
+
+  const updateCampaign = (key, value) => {
+    setCampaign((current) => ({ ...current, [key]: value }));
+  };
+
   return (
     <div className="space-y-6 animate-in fade-in duration-200">
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
@@ -109,6 +148,11 @@ export default function ApanelNewsletterSubscriptions() {
       </div>
 
       {error && <FormError message={error} />}
+      {success && (
+        <div className="rounded-2xl border border-emerald-100 bg-emerald-50 px-4 py-3 text-sm font-bold text-emerald-700">
+          {success}
+        </div>
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {[
@@ -142,6 +186,109 @@ export default function ApanelNewsletterSubscriptions() {
         })}
       </div>
 
+      <div className="flex flex-wrap gap-2 rounded-3xl border border-gray-100 bg-white p-4 shadow-xs">
+        {[
+          ["subscribers", "Subscribers"],
+          ["send", "Send Campaign"],
+        ].map(([key, label]) => (
+          <button
+            type="button"
+            key={key}
+            onClick={() => setActiveTab(key)}
+            className={`rounded-xl px-4 py-2 text-xs font-extrabold ${
+              activeTab === key
+                ? "bg-primary text-white"
+                : "bg-gray-50 text-gray-600 hover:bg-primary/10 hover:text-primary"
+            }`}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+
+      {activeTab === "send" && (
+        <form onSubmit={sendCampaign} className="rounded-3xl border border-gray-100 bg-white p-6 shadow-xs">
+          <div className="mb-6">
+            <h2 className="text-xl font-black text-navy">Send Newsletter Campaign</h2>
+            <p className="mt-1 text-xs font-bold text-gray-400">
+              Sends a professional email template to active newsletter subscribers.
+            </p>
+          </div>
+          <div className="grid gap-4 md:grid-cols-2">
+            <label className="text-xs font-bold text-gray-500">
+              Subject
+              <input
+                required
+                value={campaign.subject}
+                onChange={(event) => updateCampaign("subject", event.target.value)}
+                className="mt-1 w-full rounded-xl border border-gray-200 bg-white px-3 py-2.5 text-sm font-semibold text-navy focus:border-primary focus:outline-none"
+              />
+            </label>
+            <label className="text-xs font-bold text-gray-500">
+              Title
+              <input
+                required
+                value={campaign.title}
+                onChange={(event) => updateCampaign("title", event.target.value)}
+                className="mt-1 w-full rounded-xl border border-gray-200 bg-white px-3 py-2.5 text-sm font-semibold text-navy focus:border-primary focus:outline-none"
+              />
+            </label>
+            <label className="text-xs font-bold text-gray-500 md:col-span-2">
+              Message
+              <textarea
+                required
+                rows={6}
+                value={campaign.message}
+                onChange={(event) => updateCampaign("message", event.target.value)}
+                className="mt-1 w-full resize-y rounded-xl border border-gray-200 bg-white px-3 py-2.5 text-sm font-semibold text-navy focus:border-primary focus:outline-none"
+              />
+            </label>
+            <label className="text-xs font-bold text-gray-500">
+              CTA Label
+              <input
+                value={campaign.cta_label}
+                onChange={(event) => updateCampaign("cta_label", event.target.value)}
+                className="mt-1 w-full rounded-xl border border-gray-200 bg-white px-3 py-2.5 text-sm font-semibold text-navy focus:border-primary focus:outline-none"
+              />
+            </label>
+            <label className="text-xs font-bold text-gray-500">
+              CTA URL
+              <input
+                value={campaign.cta_url}
+                onChange={(event) => updateCampaign("cta_url", event.target.value)}
+                className="mt-1 w-full rounded-xl border border-gray-200 bg-white px-3 py-2.5 text-sm font-semibold text-navy focus:border-primary focus:outline-none"
+              />
+            </label>
+            <label className="text-xs font-bold text-gray-500">
+              Locale Filter
+              <select
+                value={campaign.locale}
+                onChange={(event) => updateCampaign("locale", event.target.value)}
+                className="mt-1 w-full rounded-xl border border-gray-200 bg-white px-3 py-2.5 text-sm font-semibold text-navy focus:border-primary focus:outline-none"
+              >
+                <option value="">All active subscribers</option>
+                {localeCodes.map((locale) => (
+                  <option key={locale} value={locale}>
+                    {locale.toUpperCase()}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+          <div className="mt-6 flex justify-end">
+            <button
+              type="submit"
+              disabled={sending}
+              className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-extrabold text-white shadow-lg shadow-primary/20 disabled:opacity-60"
+            >
+              {sending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
+              {sending ? "Sending..." : "Send Campaign"}
+            </button>
+          </div>
+        </form>
+      )}
+
+      {activeTab === "subscribers" && (
       <section className="bg-white border border-gray-100 rounded-3xl shadow-xs overflow-hidden">
         <div className="p-5 border-b border-gray-100 flex flex-col md:flex-row md:items-center gap-3 justify-between">
           <div className="relative w-full md:max-w-sm">
@@ -260,6 +407,7 @@ export default function ApanelNewsletterSubscriptions() {
           </button>
         </div>
       </section>
+      )}
       <ConfirmDialog
         isOpen={Boolean(pendingDelete)}
         title={t("apanel.newsletter.deleteTitle")}

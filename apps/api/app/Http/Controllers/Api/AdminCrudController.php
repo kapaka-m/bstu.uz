@@ -36,6 +36,7 @@ use App\Models\MenuItem;
 use App\Models\News;
 use App\Models\NewsEventSetting;
 use App\Models\NewsletterSubscription;
+use App\Models\NewsletterCampaign;
 use App\Models\Notification;
 use App\Models\Page;
 use App\Models\PageBlock;
@@ -58,6 +59,7 @@ use App\Models\VideoComment;
 use App\Models\VideoGallerySetting;
 use App\Models\VideoTranslation;
 use App\Models\WebFooter;
+use App\Mail\CmsTemplateMail;
 use App\Traits\ApiResponse;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -370,6 +372,7 @@ class AdminCrudController extends Controller
 
             if ($resource === 'comments') {
                 $this->syncBlogCommentsCount((int) $record->blog_id);
+                $this->sendBlogReplyEmail($record);
             }
 
             // Log Action
@@ -657,14 +660,114 @@ class AdminCrudController extends Controller
             ->chunkById(100, function ($subscriptions) use ($title, $summary, $url) {
                 foreach ($subscriptions as $subscription) {
                     try {
-                        Mail::raw(trim($summary."\n\n".$url), function ($message) use ($subscription, $title) {
-                            $message->to($subscription->email)->subject($title);
-                        });
+                        Mail::to($subscription->email)->send(new CmsTemplateMail(
+                            'newsletter_campaign',
+                            [
+                                'campaign_subject' => $title,
+                                'campaign_title' => $title,
+                                'campaign_message' => $summary,
+                                'campaign_cta_label' => 'Read Announcement',
+                                'cta_url' => $url,
+                            ],
+                            $subscription->locale ?: null,
+                            $title,
+                        ));
                     } catch (Throwable $e) {
                         report($e);
                     }
                 }
             });
+    }
+
+    public function sendNewsletterCampaign(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'subject' => 'required|string|max:255',
+            'title' => 'required|string|max:255',
+            'message' => 'required|string',
+            'cta_label' => 'nullable|string|max:255',
+            'cta_url' => 'nullable|string|max:255',
+            'locale' => 'nullable|string|max:10',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->errorResponse('Validation failed', 422, $validator->errors()->toArray());
+        }
+
+        $validated = $validator->validated();
+        $sentCount = 0;
+
+        NewsletterSubscription::query()
+            ->where('status', 'active')
+            ->select('id', 'email', 'locale')
+            ->chunkById(100, function ($subscriptions) use ($validated, &$sentCount) {
+                foreach ($subscriptions as $subscription) {
+                    if (! empty($validated['locale']) && $subscription->locale !== $validated['locale']) {
+                        continue;
+                    }
+
+                    try {
+                        Mail::to($subscription->email)->send(new CmsTemplateMail(
+                            'newsletter_campaign',
+                            [
+                                'campaign_subject' => $validated['subject'],
+                                'campaign_title' => $validated['title'],
+                                'campaign_message' => $validated['message'],
+                                'campaign_cta_label' => $validated['cta_label'] ?? '',
+                                'cta_url' => $validated['cta_url'] ?? null,
+                            ],
+                            $subscription->locale ?: ($validated['locale'] ?? null),
+                            $validated['subject'],
+                        ));
+                        $sentCount++;
+                    } catch (Throwable $e) {
+                        report($e);
+                    }
+                }
+            });
+
+        $campaign = NewsletterCampaign::create([
+            ...$validated,
+            'sent_count' => $sentCount,
+            'sent_at' => now(),
+            'created_by' => $this->currentUserId(),
+        ]);
+
+        return $this->successResponse($campaign, 'Newsletter campaign sent successfully', 201);
+    }
+
+    protected function sendBlogReplyEmail(BlogComment $comment): void
+    {
+        if (! $comment->parent_id) {
+            return;
+        }
+
+        $parent = BlogComment::find($comment->parent_id);
+        $recipient = trim((string) ($parent?->email ?? ''));
+
+        if ($recipient === '' || $recipient === $comment->email) {
+            return;
+        }
+
+        $blog = Blog::with('translations')->find($comment->blog_id);
+        $translation = $blog?->translations?->first() ?: null;
+        $title = $translation?->title ?: ($blog?->slug ?: 'Blog post');
+
+        try {
+            Mail::to($recipient)->send(new CmsTemplateMail(
+                'blog_comment_reply',
+                [
+                    'name' => $parent->author_name ?: 'Reader',
+                    'blog_title' => $title,
+                    'reply_author' => $comment->author_name,
+                    'reply_excerpt' => str($comment->content)->limit(160)->toString(),
+                    'cta_url' => rtrim((string) config('app.frontend_url'), '/').'/blog/'.$blog?->slug,
+                ],
+                null,
+            ));
+        } catch (Throwable $e) {
+            report($e);
+        }
     }
 
     /**

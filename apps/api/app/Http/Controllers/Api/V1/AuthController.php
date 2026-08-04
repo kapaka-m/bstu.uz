@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Api\AuthCmsController;
 use App\Models\User;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
@@ -78,6 +79,7 @@ class AuthController extends Controller
     public function forgotPassword(Request $request)
     {
         $this->setRequestLocale($request);
+        $this->setPasswordResetExpiryFromCms();
 
         $validated = $request->validate([
             'email' => 'required|email',
@@ -97,6 +99,7 @@ class AuthController extends Controller
     public function resetPassword(Request $request)
     {
         $this->setRequestLocale($request);
+        $this->setPasswordResetExpiryFromCms();
 
         $validated = $request->validate([
             'email' => 'required|email|exists:users,email',
@@ -131,6 +134,22 @@ class AuthController extends Controller
             }
 
             app()->setLocale($locale);
+        }
+    }
+
+    protected function setPasswordResetExpiryFromCms(): void
+    {
+        $template = AuthCmsController::localizedEmailTemplate('password_reset', app()->getLocale());
+        $minutes = (int) ($template['settings']['expire_minutes'] ?? 0);
+
+        if ($minutes <= 0) {
+            return;
+        }
+
+        config(['auth.passwords.users.expire' => $minutes]);
+
+        if (method_exists(app('auth.password'), 'forgetDrivers')) {
+            app('auth.password')->forgetDrivers();
         }
     }
 }

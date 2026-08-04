@@ -193,6 +193,10 @@ export const apanelService = {
     return api.put("/apanel/cms/cms-auth", payload).then(unwrapPayload);
   },
 
+  sendNewsletterCampaign(payload) {
+    return api.post("/apanel/newsletter/subscriptions/send", payload).then(unwrapPayload);
+  },
+
   getHeaderNavbar() {
     return api.get("/apanel/cms/header-navbar").then(unwrapPayload);
   },

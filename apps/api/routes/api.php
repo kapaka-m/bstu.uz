@@ -190,6 +190,7 @@ Route::prefix('v1')->group(function () {
         Route::put('applications-workflow/{application}/residence', [ApanelApplicationWorkflowController::class, 'updateResidence']);
 
         Route::get('application-documents/{id}/download', [AdminCrudController::class, 'downloadApplicationDocument']);
+        Route::post('newsletter/subscriptions/send', [AdminCrudController::class, 'sendNewsletterCampaign']);
         Route::get('cms/footer-web', [AdminCrudController::class, 'showFooterWeb']);
         Route::put('cms/footer-web', [AdminCrudController::class, 'updateFooterWeb']);
         Route::get('cms/about-page', [AdminCrudController::class, 'showAboutPage']);

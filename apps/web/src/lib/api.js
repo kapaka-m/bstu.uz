@@ -1,4 +1,5 @@
 import { authStorage } from "./auth";
+import { translateApiMessageKey } from "./apiMessageDictionary";
 import { localeStorage } from "./locale";
 
 const BASE_URL = String(import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "");
@@ -6,107 +7,31 @@ const API_ORIGIN = BASE_URL.replace(/\/api\/v1\/?$/, "");
 
 export const apiBaseUrl = BASE_URL;
 
-const API_MESSAGE_TRANSLATIONS = {
-  "This account is not allowed to use this login portal.": {
-    en: "This account is not allowed to use this login portal.",
-    uz: "Bu hisob ushbu kirish portalidan foydalanishga ruxsat etilmagan.",
-    ru: "Этой учетной записи не разрешено использовать этот портал входа.",
-    ar: "هذا الحساب غير مسموح له باستخدام بوابة تسجيل الدخول هذه.",
-  },
-  "Invalid login credentials.": {
-    en: "Invalid login credentials.",
-    uz: "Kirish maʼlumotlari noto‘g‘ri.",
-    ru: "Неверные данные для входа.",
-    ar: "بيانات تسجيل الدخول غير صحيحة.",
-  },
-  "Invalid credentials.": {
-    en: "Invalid credentials.",
-    uz: "Maʼlumotlar noto‘g‘ri.",
-    ru: "Неверные данные.",
-    ar: "البيانات غير صحيحة.",
-  },
-  "Login successful": {
-    en: "Login successful.",
-    uz: "Tizimga muvaffaqiyatli kirdingiz.",
-    ru: "Вход выполнен успешно.",
-    ar: "تم تسجيل الدخول بنجاح.",
-  },
-  "Logged out successfully": {
-    en: "Logged out successfully.",
-    uz: "Tizimdan muvaffaqiyatli chiqdingiz.",
-    ru: "Вы успешно вышли из системы.",
-    ar: "تم تسجيل الخروج بنجاح.",
-  },
-  "User details fetched successfully": {
-    en: "User details fetched successfully.",
-    uz: "Foydalanuvchi maʼlumotlari muvaffaqiyatli olindi.",
-    ru: "Данные пользователя успешно получены.",
-    ar: "تم جلب بيانات المستخدم بنجاح.",
-  },
-  "Password reset link sent to your email address.": {
-    en: "Password reset link sent to your email address.",
-    uz: "Parolni tiklash havolasi email manzilingizga yuborildi.",
-    ru: "Ссылка для сброса пароля отправлена на ваш email.",
-    ar: "تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني.",
-  },
-  "Invalid or expired password reset token.": {
-    en: "Invalid or expired password reset token.",
-    uz: "Parolni tiklash tokeni noto‘g‘ri yoki muddati tugagan.",
-    ru: "Токен сброса пароля недействителен или истек.",
-    ar: "رمز إعادة تعيين كلمة المرور غير صالح أو منتهي الصلاحية.",
-  },
-  "Password reset successfully.": {
-    en: "Password reset successfully.",
-    uz: "Parol muvaffaqiyatli tiklandi.",
-    ru: "Пароль успешно сброшен.",
-    ar: "تمت إعادة تعيين كلمة المرور بنجاح.",
-  },
-  "Direct account registration is disabled. Use the application form.": {
-    en: "Direct account registration is disabled. Use the application form.",
-    uz: "To‘g‘ridan-to‘g‘ri hisob ro‘yxatdan o‘tkazish o‘chirilgan. Ariza formasidan foydalaning.",
-    ru: "Прямая регистрация аккаунта отключена. Используйте форму заявки.",
-    ar: "تم تعطيل التسجيل المباشر للحساب. استخدم نموذج التقديم.",
-  },
-  "Unauthenticated.": {
-    en: "Unauthenticated.",
-    uz: "Tizimga kirmagansiz.",
-    ru: "Вы не авторизованы.",
-    ar: "غير مصرح لك.",
-  },
-  "Unauthorized. Missing required role.": {
-    en: "Unauthorized. Missing required role.",
-    uz: "Ruxsat yo‘q. Kerakli rol mavjud emas.",
-    ru: "Нет доступа. Отсутствует требуемая роль.",
-    ar: "غير مصرح. الدور المطلوب غير موجود.",
-  },
-  "Unauthorized. Missing required permission.": {
-    en: "Unauthorized. Missing required permission.",
-    uz: "Ruxsat yo‘q. Kerakli huquq mavjud emas.",
-    ru: "Нет доступа. Отсутствует требуемое разрешение.",
-    ar: "غير مصرح. الصلاحية المطلوبة غير موجودة.",
-  },
-  "Validation failed": {
-    en: "Validation failed.",
-    uz: "Tekshiruvdan o‘tmadi.",
-    ru: "Проверка данных не пройдена.",
-    ar: "فشل التحقق من البيانات.",
-  },
-  "auth.emailMustApplyFirst": {
-    en: "This email is not registered. Please apply first.",
-    uz: "Bu email ro‘yxatdan o‘tmagan. Avval ariza topshiring.",
-    ru: "Этот email не зарегистрирован. Сначала подайте заявку.",
-    ar: "هذا البريد الإلكتروني غير مسجل. يجب التقديم أولا.",
-  },
+const API_MESSAGE_KEYS = {
+  "This account is not allowed to use this login portal.": "api.messages.loginPortalNotAllowed",
+  "Invalid login credentials.": "api.messages.invalidLoginCredentials",
+  "Invalid credentials.": "api.messages.invalidCredentials",
+  "Login successful": "api.messages.loginSuccessful",
+  "Logged out successfully": "api.messages.loggedOutSuccessfully",
+  "User details fetched successfully": "api.messages.userDetailsFetched",
+  "Password reset link sent to your email address.": "api.messages.passwordResetLinkSent",
+  "Invalid or expired password reset token.": "api.messages.invalidOrExpiredPasswordResetToken",
+  "Password reset successfully.": "api.messages.passwordResetSuccessfully",
+  "Direct account registration is disabled. Use the application form.": "api.messages.directRegistrationDisabled",
+  "Unauthenticated.": "api.messages.unauthenticated",
+  "Unauthorized. Missing required role.": "api.messages.missingRequiredRole",
+  "Unauthorized. Missing required permission.": "api.messages.missingRequiredPermission",
+  "Validation failed": "api.messages.validationFailed",
+  "auth.emailMustApplyFirst": "api.messages.emailMustApplyFirst",
 };
 
 const translateApiMessage = (message) => {
   const value = String(message || "").trim();
   if (!value) return message;
 
-  const locale = localeStorage.getLocale() || "en";
-  const translations = API_MESSAGE_TRANSLATIONS[value];
+  const key = API_MESSAGE_KEYS[value] || (value.startsWith("api.messages.") ? value : "");
 
-  return translations?.[locale] || translations?.en || message;
+  return key ? translateApiMessageKey(key, message) : message;
 };
 
 export const publicAssetUrl = (path) => {

@@ -2,6 +2,7 @@
 import React, { createContext, useContext, useState, useEffect, useRef } from "react";
 import { localeStorage } from "../lib/locale";
 import { publicAssetUrl } from "../lib/api";
+import { setApiMessageDictionary } from "../lib/apiMessageDictionary";
 import { translationService } from "../services/translationService";
 import { menuService } from "../services/menuService";
 
@@ -142,9 +143,12 @@ export function LocaleProvider({ children }) {
         ]);
 
         if (translationsResult.status === "fulfilled") {
-          setTranslations(translationsResult.value || {});
+          const nextTranslations = translationsResult.value || {};
+          setTranslations(nextTranslations);
+          setApiMessageDictionary(locale, nextTranslations);
         } else {
           setTranslations({});
+          setApiMessageDictionary(locale, {});
         }
 
         if (headerResult.status === "fulfilled") {
@@ -155,6 +159,7 @@ export function LocaleProvider({ children }) {
       } catch (e) {
         console.error(`Failed to load data for locale: ${locale}`, e);
         setTranslations({});
+        setApiMessageDictionary(locale, {});
       } finally {
         setTranslationsLoading(false);
       }

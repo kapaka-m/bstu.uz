@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
             FullDatabaseSnapshotSeeder::class,
             HomeCmsTranslationSeeder::class,
             AuthCmsSeeder::class,
+            NewsletterCampaignSeeder::class,
             WebFooterSeeder::class,
             StudentSystemTranslationSeeder::class,
         ]);

@@ -1,6 +1,6 @@
 # Bukhara State Technical University (BSTU) International Website Monorepo
 
-This repository is structured as a unified monorepo containing the web frontend, backend API, mobile application, and related documentation.
+This repository is structured as a unified monorepo containing the web frontend, backend API, and mobile application.
 
 ---
 
@@ -9,9 +9,6 @@ This repository is structured as a unified monorepo containing the web frontend,
 - **`apps/web`**: React 19 + Vite + Tailwind CSS 4 web application (includes student dashboard and `apanel` admin management).
 - **`apps/api`**: Laravel + PHP REST API backend.
 - **`apps/mobile`**: Flutter mobile application.
-- **`docs`**: System architecture, API definitions, student system guides, and mobile guides.
-- **`database-docs`**: Database schemas, entity-relationship diagrams, and migrations info.
-- **`storage-docs`**: File storage configurations and guides.
 
 ---
 
@@ -24,26 +21,6 @@ This repository is structured as a unified monorepo containing the web frontend,
 - **Mobile Platform**: Flutter SDK (Dart)
 - **Authentication**: Laravel Sanctum (Token-based)
 - **State Management**: React Context (Web), ChangeNotifier / InheritedWidget (Mobile)
-
----
-
-## 📚 Documentation Index
-
-- **[Architecture](docs/system_architecture.md)** — high-level web, API, mobile, and MySQL architecture.
-- **[API](docs/api_endpoints_specification.md)** — public, student, and apanel REST API endpoints.
-- **[API Backend Notes](docs/api_backend_development.md)** — Laravel API conventions, checks, production notes, and maintenance commands.
-- **[Backend Setup](docs/backend_setup_guide.md)** — Laravel setup, PHP extension notes, and local API checks.
-- **[Web Frontend Notes](docs/web_frontend_development.md)** — React/Vite commands, environment, routing, assets, and production notes.
-- **[Frontend/API Integration](docs/frontend_api_integration.md)** — React service and localization integration.
-- **[Apanel](docs/admin_panel_guide.md)** — `/apanel/` routes, resources, permissions, and workflows.
-- **[Student System](docs/student_system_guide.md)** — `/student/` admissions, documents, contracts, payments, and support.
-- **[Mobile App](docs/mobile_app_guide.md)** — Flutter app structure and API integration.
-- **[Database Schema](database-docs/database_schema.md)** — MySQL schema reference.
-- **[Data Migration](database-docs/database_migration_guide.md)** — static content extraction and Laravel seeding process.
-- **[Storage](storage-docs/laravel_storage_guide.md)** — Laravel storage, public symlink, and file URL resolution.
-- **[Laravel Release Notes](docs/laravel_release_notes.md)** — upstream Laravel application release notes retained for reference.
-
-Historical source captures used during cleanup have been merged into durable data files, seed JSON, and active documentation.
 
 ---
 
@@ -183,4 +160,4 @@ The admin panel resides in the React SPA at `/apanel`. Use the default seeded cr
 
 ## 🧹 Temporary Files
 
-Agent scratch folders such as `.agents/` and `.kilo/` are ignored by Git. Long-lived setup, architecture, API, database, storage, and mobile notes belong in `docs/`, `database-docs/`, or `storage-docs/` rather than root task logs.
+Agent scratch folders such as `.agents/` and `.kilo/` are ignored by Git. Long-lived project notes should be kept in active source files or seed data instead of root task logs.

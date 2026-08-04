@@ -7,9 +7,6 @@ This repository is an existing monorepo for the BSTU International system. Do no
 - `apps/web` — React 19 + Vite + Tailwind CSS 4 public website, student portal, and `apanel`.
 - `apps/api` — Laravel 13 REST API using MySQL and Laravel Sanctum.
 - `apps/mobile` — Flutter mobile app using the same `/api/v1` backend.
-- `docs` — architecture, API, backend, frontend integration, apanel, student system, and mobile documentation.
-- `database-docs` — schema and data migration documentation.
-- `storage-docs` — Laravel storage and file URL guidance.
 
 ## Common Commands
 
@@ -74,7 +71,7 @@ If `flutter` is not available on PATH, report that clearly rather than claiming 
 - Database content is seeded from `apps/api/database/data/` and seeder classes.
 - Public content should be treated as MySQL/API source-of-truth. Static React/Dart data files are migration references only and must not be used as runtime fallbacks.
 - Legacy React import scripts were removed after their reviewed content was merged into `apps/api/database/data/`. Do not use `apps/web/src/data` for production content or translation fallbacks.
-- Keep file uploads on Laravel's public disk and document URL handling in `storage-docs`.
+- Keep file uploads on Laravel's public disk and use the shared storage/media helpers for URL handling.
 - Preserve `apps/api/public/storage`; it is a Laravel public link/junction to `storage/app/public`, not a duplicate upload folder.
 - Database changes in `apps/api` should use additive migrations. Do not run `migrate:fresh` against shared or real data, and keep seeders idempotent using stable keys such as slugs, codes, locales, and emails. `migrate:fresh --seed` is only for disposable local databases.
 - Keep API production settings explicit: `APP_DEBUG=false`, narrow `CORS_ALLOWED_ORIGINS`, configured Sanctum domains/token expiration, rotating logs, and a real cache/queue store for production.
@@ -83,11 +80,4 @@ If `flutter` is not available on PATH, report that clearly rather than claiming 
 
 ## Documentation
 
-Keep durable documentation in:
-
-- `README.md`
-- `docs/`
-- `database-docs/`
-- `storage-docs/`
-
-Temporary agent/task folders such as `.agents/` and `.kilo/` are ignored and should not be used as project source. Historical source captures should be merged into durable data files, seed JSON, or active documentation rather than kept as runtime dependencies.
+Keep durable project guidance in `README.md`, `AGENTS.md`, active source comments where needed, or seed/data files. Temporary agent/task folders such as `.agents/` and `.kilo/` are ignored and should not be used as project source. Historical source captures should be merged into durable data files or seed JSON rather than kept as runtime dependencies.

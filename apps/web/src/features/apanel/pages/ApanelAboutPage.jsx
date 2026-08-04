@@ -656,6 +656,7 @@ export default function ApanelAboutPage() {
           id: draft.id,
           count: draft.count,
           link: draft.link,
+          deanProfile: draft.deanProfile,
           color: draft.color,
         },
         translations: Object.fromEntries(
@@ -849,6 +850,13 @@ export default function ApanelAboutPage() {
                 updateSharedArrayItem("facultiesList.items", index, "link", value)
               }
             />
+            <Field
+              label={t("apanel.aboutPage.label.deanProfile")}
+              value={item.deanProfile}
+              onChange={(value) =>
+                updateSharedArrayItem("facultiesList.items", index, "deanProfile", value)
+              }
+            />
             <SelectField
               label={t("apanel.aboutPage.label.color")}
               value={item.color}
@@ -878,6 +886,7 @@ export default function ApanelAboutPage() {
             count: "",
             desc: "",
             link: "",
+            deanProfile: "",
             color: facultyColors[0],
           })
         }
@@ -1437,6 +1446,14 @@ export default function ApanelAboutPage() {
                 value={facultyDraft.link}
                 onChange={(value) =>
                   setFacultyDraft((current) => ({ ...current, link: value }))
+                }
+              />
+              <Field
+                label={t("apanel.aboutPage.label.deanProfile")}
+                name="deanProfile"
+                value={facultyDraft.deanProfile}
+                onChange={(value) =>
+                  setFacultyDraft((current) => ({ ...current, deanProfile: value }))
                 }
               />
               <SelectField

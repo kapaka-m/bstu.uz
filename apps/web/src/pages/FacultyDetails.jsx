@@ -35,6 +35,12 @@ const shortText = (text, max = 170) => {
   return text.length > max ? `${text.slice(0, max).trim()}...` : text;
 };
 
+const displayText = (...values) => values.find((value) => {
+  if (typeof value !== "string") return false;
+  const trimmed = value.trim();
+  return trimmed && !/^[\w.-]+(\.[\w.-]+)+$/.test(trimmed);
+})?.trim() || "";
+
 const normalizeDegree = (degree) => String(degree || "").toLowerCase();
 
 function ImageWithFallback({
@@ -221,12 +227,13 @@ export default function FacultyDetails() {
   }
 
   const title = faculty.name || "";
+  const heroDescription = faculty.meta_description || faculty.description || "";
   const overview = faculty.description || "";
   const overviewParagraphs = overview.split(/(?<=\.)\s+/).filter(Boolean);
 
   const facultyDepartmentsList = (faculty.departments || []).map((dept) => ({
     slug: dept.slug,
-    name: dept.name,
+    name: displayText(dept.name, dept.short_name, dept.slug),
     route: `/department/${dept.slug}`,
     about: dept.description || "",
     contact: dept.head_name
@@ -297,7 +304,7 @@ export default function FacultyDetails() {
                 {title}
               </h1>
               <p className="text-gray-500 text-sm md:text-lg leading-relaxed max-w-3xl">
-                {shortText(overview, 330)}
+                {shortText(heroDescription, 330)}
               </p>
 
               <div className="flex flex-wrap gap-3 mt-8">
@@ -465,27 +472,26 @@ export default function FacultyDetails() {
                   className="group bg-white border border-gray-100 rounded-3xl p-6 shadow-sm hover:shadow-xl hover:border-primary/20 transition-all flex flex-col gap-5 text-start w-full"
                 >
                   <div className="flex items-start justify-between gap-4">
-                    <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
-                      <Building2 className="w-6 h-6" />
+                    <div className="flex items-start gap-4 min-w-0">
+                      <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                        <Building2 className="w-6 h-6" />
+                      </div>
+                      <h3 className="text-base font-extrabold text-navy leading-snug min-w-0 pt-1">
+                        <Link
+                          to={department.route}
+                          className="hover:text-primary transition-colors"
+                        >
+                          {department.name}
+                        </Link>
+                      </h3>
                     </div>
                     <span className="text-[11px] font-extrabold text-gray-300">
                       {String(index + 1).padStart(2, "0")}
                     </span>
                   </div>
                   <div>
-                    <h3 className="text-base font-extrabold text-navy leading-snug">
-                      <Link
-                        to={department.route}
-                        className="hover:text-primary transition-colors"
-                      >
-                        {t(
-                          `departments.${department.slug}.name`,
-                          department.name,
-                        )}
-                      </Link>
-                    </h3>
                     {summary && (
-                      <p className="text-xs md:text-sm text-gray-500 font-medium leading-relaxed mt-3">
+                      <p className="text-xs md:text-sm text-gray-500 font-medium leading-relaxed">
                         {summary}
                       </p>
                     )}
@@ -666,11 +672,8 @@ export default function FacultyDetails() {
                     to={department.route}
                     className="flex items-center justify-between gap-3 border border-gray-100 rounded-2xl px-4 py-3 text-sm font-bold text-gray-500 hover:text-primary hover:border-primary/20 transition-colors"
                   >
-                    <span>
-                      {t(
-                        `departments.${department.slug}.name`,
-                        department.name,
-                      )}
+                    <span className="min-w-0">
+                      {department.name}
                     </span>
                     <ArrowRight
                       className={`w-4 h-4 shrink-0 ${isRtl ? "rotate-180" : ""}`}

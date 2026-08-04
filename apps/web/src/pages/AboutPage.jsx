@@ -501,9 +501,18 @@ export default function AboutPage() {
                     <span className="text-xs text-gray-400 font-semibold block mb-0.5">
                       {text("facultiesList.deanLabel")}
                     </span>
-                    <span className="text-sm font-extrabold text-navy font-heading">
-                      {f.dean}
-                    </span>
+                    {f.deanProfile ? (
+                      <Link
+                        to={f.deanProfile}
+                        className="text-sm font-extrabold text-navy hover:text-primary transition-colors font-heading"
+                      >
+                        {f.dean}
+                      </Link>
+                    ) : (
+                      <span className="text-sm font-extrabold text-navy font-heading">
+                        {f.dean}
+                      </span>
+                    )}
                   </div>
                 </div>
 

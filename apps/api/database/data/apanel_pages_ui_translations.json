@@ -701,6 +701,12 @@
     "ru": "Dean",
     "ar": "Dean"
   },
+  "apanel.aboutPage.label.deanProfile": {
+    "en": "Dean Profile URL",
+    "uz": "Dekan profili URL",
+    "ru": "URL профиля декана",
+    "ar": "رابط بروفايل العميد"
+  },
   "apanel.aboutPage.label.count": {
     "en": "Count",
     "uz": "Count",

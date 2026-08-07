@@ -1,0 +1,11 @@
+{
+    "source_db": "bstu_international",
+    "target_db": "bstu_layout_compare",
+    "source_tables_without_migrations": 118,
+    "target_tables": 118,
+    "missing_tables": [],
+    "extra_tables": [],
+    "source_rows": 20744,
+    "target_rows": 20744,
+    "row_count_differences": []
+}

@@ -1,0 +1,17 @@
+{
+    "source_database": "bstu_international",
+    "target_database": "bstu_laravel_layout_compare",
+    "source_table_count_including_migrations": 119,
+    "target_table_count_including_migrations": 119,
+    "source_application_table_count": 118,
+    "target_application_table_count": 118,
+    "missing_application_tables": [],
+    "extra_application_tables": [],
+    "source_application_rows": 20744,
+    "target_application_rows": 20744,
+    "row_count_differences": [],
+    "columns_match": true,
+    "foreign_keys_match": true,
+    "source_migrations_rows": 66,
+    "target_migrations_rows": 7
+}

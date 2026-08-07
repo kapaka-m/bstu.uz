@@ -1,0 +1,1528 @@
+{
+    "database": "bstu_international",
+    "table_count": 119,
+    "total_rows": 20810,
+    "tables": [
+        {
+            "table": "about_pages",
+            "rows": 1,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "about_page_content_entries",
+            "rows": 188,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "about_page_content_entry_translations",
+            "rows": 752,
+            "data_length": 131072,
+            "index_length": 49152
+        },
+        {
+            "table": "about_page_translations",
+            "rows": 4,
+            "data_length": 114688,
+            "index_length": 16384
+        },
+        {
+            "table": "administration_profiles",
+            "rows": 6,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "administration_profile_translations",
+            "rows": 24,
+            "data_length": 147456,
+            "index_length": 16384
+        },
+        {
+            "table": "administration_settings",
+            "rows": 1,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "administration_setting_translations",
+            "rows": 4,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "admissions",
+            "rows": 0,
+            "data_length": 16384,
+            "index_length": 98304
+        },
+        {
+            "table": "announcements",
+            "rows": 24,
+            "data_length": 16384,
+            "index_length": 49152
+        },
+        {
+            "table": "announcement_settings",
+            "rows": 1,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "announcement_setting_translations",
+            "rows": 4,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "announcement_translations",
+            "rows": 96,
+            "data_length": 163840,
+            "index_length": 16384
+        },
+        {
+            "table": "applications",
+            "rows": 0,
+            "data_length": 16384,
+            "index_length": 98304
+        },
+        {
+            "table": "application_countries",
+            "rows": 46,
+            "data_length": 16384,
+            "index_length": 32768
+        },
+        {
+            "table": "application_documents",
+            "rows": 0,
+            "data_length": 16384,
+            "index_length": 65536
+        },
+        {
+            "table": "application_equivalencies",
+            "rows": 0,
+            "data_length": 16384,
+            "index_length": 32768
+        },
+        {
+            "table": "application_fee_payments",
+            "rows": 0,
+            "data_length": 16384,
+            "index_length": 49152
+        },
+        {
+            "table": "application_nationalities",
+            "rows": 46,
+            "data_length": 16384,
+            "index_length": 32768
+        },
+        {
+            "table": "application_status_histories",
+            "rows": 0,
+            "data_length": 16384,
+            "index_length": 32768
+        },
+        {
+            "table": "audit_logs",
+            "rows": 294,
+            "data_length": 16269312,
+            "index_length": 32768
+        },
+        {
+            "table": "auth_email_templates",
+            "rows": 5,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "auth_email_template_translations",
+            "rows": 20,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "auth_pages",
+            "rows": 3,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "auth_page_translations",
+            "rows": 12,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "blogs",
+            "rows": 7,
+            "data_length": 16384,
+            "index_length": 65536
+        },
+        {
+            "table": "blog_comments",
+            "rows": 2,
+            "data_length": 16384,
+            "index_length": 49152
+        },
+        {
+            "table": "blog_settings",
+            "rows": 1,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "blog_setting_translations",
+            "rows": 4,
+            "data_length": 16384,
+            "index_length": 32768
+        },
+        {
+            "table": "blog_translations",
+            "rows": 28,
+            "data_length": 65536,
+            "index_length": 32768
+        },
+        {
+            "table": "cache",
+            "rows": 0,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "cache_locks",
+            "rows": 0,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "comments",
+            "rows": 0,
+            "data_length": 16384,
+            "index_length": 32768
+        },
+        {
+            "table": "contact_pages",
+            "rows": 1,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "contact_page_translations",
+            "rows": 4,
+            "data_length": 32768,
+            "index_length": 16384
+        },
+        {
+            "table": "contracts",
+            "rows": 0,
+            "data_length": 16384,
+            "index_length": 49152
+        },
+        {
+            "table": "courses",
+            "rows": 207,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "course_translations",
+            "rows": 828,
+            "data_length": 180224,
+            "index_length": 49152
+        },
+        {
+            "table": "departments",
+            "rows": 28,
+            "data_length": 16384,
+            "index_length": 65536
+        },
+        {
+            "table": "department_translations",
+            "rows": 112,
+            "data_length": 2637824,
+            "index_length": 16384
+        },
+        {
+            "table": "document_requests",
+            "rows": 0,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "document_requirements",
+            "rows": 13,
+            "data_length": 16384,
+            "index_length": 49152
+        },
+        {
+            "table": "education_backgrounds",
+            "rows": 0,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "enrollments",
+            "rows": 0,
+            "data_length": 16384,
+            "index_length": 98304
+        },
+        {
+            "table": "equivalency_courses",
+            "rows": 0,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "faculties",
+            "rows": 4,
+            "data_length": 16384,
+            "index_length": 49152
+        },
+        {
+            "table": "faculty_translations",
+            "rows": 16,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "failed_jobs",
+            "rows": 0,
+            "data_length": 16384,
+            "index_length": 32768
+        },
+        {
+            "table": "green_campus_articles",
+            "rows": 9,
+            "data_length": 16384,
+            "index_length": 32768
+        },
+        {
+            "table": "green_campus_article_translations",
+            "rows": 36,
+            "data_length": 81920,
+            "index_length": 16384
+        },
+        {
+            "table": "green_campus_settings",
+            "rows": 1,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "green_campus_setting_translations",
+            "rows": 4,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "green_campus_stats",
+            "rows": 4,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "green_campus_stat_translations",
+            "rows": 16,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "guardians",
+            "rows": 0,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "home_sections",
+            "rows": 7,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "home_section_items",
+            "rows": 27,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "home_section_item_translations",
+            "rows": 108,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "home_section_translations",
+            "rows": 28,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "housing_requests",
+            "rows": 0,
+            "data_length": 16384,
+            "index_length": 49152
+        },
+        {
+            "table": "inquiries",
+            "rows": 1,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "interactive_service_settings",
+            "rows": 1,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "interactive_service_setting_translations",
+            "rows": 4,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "jobs",
+            "rows": 0,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "job_batches",
+            "rows": 0,
+            "data_length": 16384,
+            "index_length": 0
+        },
+        {
+            "table": "locales",
+            "rows": 4,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "media",
+            "rows": 18,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "menus",
+            "rows": 1,
+            "data_length": 16384,
+            "index_length": 32768
+        },
+        {
+            "table": "menu_items",
+            "rows": 67,
+            "data_length": 16384,
+            "index_length": 32768
+        },
+        {
+            "table": "menu_item_translations",
+            "rows": 268,
+            "data_length": 65536,
+            "index_length": 16384
+        },
+        {
+            "table": "migrations",
+            "rows": 66,
+            "data_length": 16384,
+            "index_length": 0
+        },
+        {
+            "table": "news",
+            "rows": 60,
+            "data_length": 16384,
+            "index_length": 49152
+        },
+        {
+            "table": "newsletter_campaigns",
+            "rows": 1,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "newsletter_subscriptions",
+            "rows": 7,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "news_event_settings",
+            "rows": 1,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "news_event_setting_translations",
+            "rows": 4,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "news_translations",
+            "rows": 240,
+            "data_length": 294912,
+            "index_length": 16384
+        },
+        {
+            "table": "notifications",
+            "rows": 2,
+            "data_length": 16384,
+            "index_length": 32768
+        },
+        {
+            "table": "pages",
+            "rows": 2,
+            "data_length": 16384,
+            "index_length": 32768
+        },
+        {
+            "table": "page_blocks",
+            "rows": 3,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "page_block_translations",
+            "rows": 12,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "page_translations",
+            "rows": 8,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "password_reset_tokens",
+            "rows": 0,
+            "data_length": 16384,
+            "index_length": 0
+        },
+        {
+            "table": "payments",
+            "rows": 0,
+            "data_length": 16384,
+            "index_length": 49152
+        },
+        {
+            "table": "permissions",
+            "rows": 27,
+            "data_length": 16384,
+            "index_length": 32768
+        },
+        {
+            "table": "permission_role",
+            "rows": 27,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "personal_access_tokens",
+            "rows": 83,
+            "data_length": 16384,
+            "index_length": 49152
+        },
+        {
+            "table": "prikazes",
+            "rows": 0,
+            "data_length": 16384,
+            "index_length": 98304
+        },
+        {
+            "table": "programs",
+            "rows": 119,
+            "data_length": 65536,
+            "index_length": 81920
+        },
+        {
+            "table": "program_courses",
+            "rows": 697,
+            "data_length": 81920,
+            "index_length": 32768
+        },
+        {
+            "table": "program_translations",
+            "rows": 476,
+            "data_length": 1589248,
+            "index_length": 16384
+        },
+        {
+            "table": "residence_permit_processes",
+            "rows": 0,
+            "data_length": 16384,
+            "index_length": 49152
+        },
+        {
+            "table": "roles",
+            "rows": 14,
+            "data_length": 16384,
+            "index_length": 32768
+        },
+        {
+            "table": "role_user",
+            "rows": 1,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "services",
+            "rows": 17,
+            "data_length": 16384,
+            "index_length": 32768
+        },
+        {
+            "table": "service_fee_payments",
+            "rows": 0,
+            "data_length": 16384,
+            "index_length": 49152
+        },
+        {
+            "table": "service_translations",
+            "rows": 68,
+            "data_length": 49152,
+            "index_length": 16384
+        },
+        {
+            "table": "sessions",
+            "rows": 0,
+            "data_length": 16384,
+            "index_length": 32768
+        },
+        {
+            "table": "settings",
+            "rows": 121,
+            "data_length": 16384,
+            "index_length": 32768
+        },
+        {
+            "table": "staff_profiles",
+            "rows": 601,
+            "data_length": 131072,
+            "index_length": 131072
+        },
+        {
+            "table": "staff_profile_translations",
+            "rows": 2377,
+            "data_length": 409600,
+            "index_length": 114688
+        },
+        {
+            "table": "student_profiles",
+            "rows": 0,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "student_visa_processes",
+            "rows": 0,
+            "data_length": 16384,
+            "index_length": 49152
+        },
+        {
+            "table": "support_tickets",
+            "rows": 0,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "support_ticket_messages",
+            "rows": 0,
+            "data_length": 16384,
+            "index_length": 32768
+        },
+        {
+            "table": "translation_keys",
+            "rows": 2549,
+            "data_length": 360448,
+            "index_length": 196608
+        },
+        {
+            "table": "translation_values",
+            "rows": 9580,
+            "data_length": 1589248,
+            "index_length": 475136
+        },
+        {
+            "table": "university_centers",
+            "rows": 17,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "university_center_settings",
+            "rows": 1,
+            "data_length": 16384,
+            "index_length": 0
+        },
+        {
+            "table": "university_center_setting_translations",
+            "rows": 4,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "university_center_translations",
+            "rows": 68,
+            "data_length": 294912,
+            "index_length": 16384
+        },
+        {
+            "table": "users",
+            "rows": 1,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "videos",
+            "rows": 31,
+            "data_length": 16384,
+            "index_length": 32768
+        },
+        {
+            "table": "video_comments",
+            "rows": 1,
+            "data_length": 16384,
+            "index_length": 32768
+        },
+        {
+            "table": "video_gallery_settings",
+            "rows": 1,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "video_gallery_setting_translations",
+            "rows": 4,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "video_translations",
+            "rows": 124,
+            "data_length": 65536,
+            "index_length": 16384
+        },
+        {
+            "table": "web_footers",
+            "rows": 1,
+            "data_length": 16384,
+            "index_length": 16384
+        },
+        {
+            "table": "web_footer_translations",
+            "rows": 4,
+            "data_length": 16384,
+            "index_length": 16384
+        }
+    ],
+    "foreign_keys": [
+        {
+            "TABLE_NAME": "about_page_content_entries",
+            "COLUMN_NAME": "about_page_id",
+            "REFERENCED_TABLE_NAME": "about_pages",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "about_page_content_entries_about_page_id_foreign"
+        },
+        {
+            "TABLE_NAME": "about_page_content_entry_translations",
+            "COLUMN_NAME": "about_page_content_entry_id",
+            "REFERENCED_TABLE_NAME": "about_page_content_entries",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "about_content_entry_fk"
+        },
+        {
+            "TABLE_NAME": "about_page_translations",
+            "COLUMN_NAME": "about_page_id",
+            "REFERENCED_TABLE_NAME": "about_pages",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "about_page_translations_about_page_id_foreign"
+        },
+        {
+            "TABLE_NAME": "administration_profile_translations",
+            "COLUMN_NAME": "administration_profile_id",
+            "REFERENCED_TABLE_NAME": "administration_profiles",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "admin_profile_translation_fk"
+        },
+        {
+            "TABLE_NAME": "administration_setting_translations",
+            "COLUMN_NAME": "administration_setting_id",
+            "REFERENCED_TABLE_NAME": "administration_settings",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "admin_setting_translation_fk"
+        },
+        {
+            "TABLE_NAME": "admissions",
+            "COLUMN_NAME": "application_id",
+            "REFERENCED_TABLE_NAME": "applications",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "admissions_application_id_foreign"
+        },
+        {
+            "TABLE_NAME": "admissions",
+            "COLUMN_NAME": "faculty_id",
+            "REFERENCED_TABLE_NAME": "faculties",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "admissions_faculty_id_foreign"
+        },
+        {
+            "TABLE_NAME": "admissions",
+            "COLUMN_NAME": "issued_by",
+            "REFERENCED_TABLE_NAME": "users",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "admissions_issued_by_foreign"
+        },
+        {
+            "TABLE_NAME": "admissions",
+            "COLUMN_NAME": "program_id",
+            "REFERENCED_TABLE_NAME": "programs",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "admissions_program_id_foreign"
+        },
+        {
+            "TABLE_NAME": "admissions",
+            "COLUMN_NAME": "student_profile_id",
+            "REFERENCED_TABLE_NAME": "student_profiles",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "admissions_student_profile_id_foreign"
+        },
+        {
+            "TABLE_NAME": "announcement_setting_translations",
+            "COLUMN_NAME": "announcement_setting_id",
+            "REFERENCED_TABLE_NAME": "announcement_settings",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "ann_setting_trans_setting_fk"
+        },
+        {
+            "TABLE_NAME": "announcement_translations",
+            "COLUMN_NAME": "announcement_id",
+            "REFERENCED_TABLE_NAME": "announcements",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "announcement_translations_announcement_id_foreign"
+        },
+        {
+            "TABLE_NAME": "applications",
+            "COLUMN_NAME": "department_id",
+            "REFERENCED_TABLE_NAME": "departments",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "applications_department_id_foreign"
+        },
+        {
+            "TABLE_NAME": "applications",
+            "COLUMN_NAME": "faculty_id",
+            "REFERENCED_TABLE_NAME": "faculties",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "applications_faculty_id_foreign"
+        },
+        {
+            "TABLE_NAME": "applications",
+            "COLUMN_NAME": "final_reviewed_by",
+            "REFERENCED_TABLE_NAME": "users",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "applications_final_reviewed_by_foreign"
+        },
+        {
+            "TABLE_NAME": "applications",
+            "COLUMN_NAME": "program_id",
+            "REFERENCED_TABLE_NAME": "programs",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "applications_program_id_foreign"
+        },
+        {
+            "TABLE_NAME": "applications",
+            "COLUMN_NAME": "student_profile_id",
+            "REFERENCED_TABLE_NAME": "student_profiles",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "applications_student_profile_id_foreign"
+        },
+        {
+            "TABLE_NAME": "application_documents",
+            "COLUMN_NAME": "application_id",
+            "REFERENCED_TABLE_NAME": "applications",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "application_documents_application_id_foreign"
+        },
+        {
+            "TABLE_NAME": "application_documents",
+            "COLUMN_NAME": "previous_document_id",
+            "REFERENCED_TABLE_NAME": "application_documents",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "application_documents_previous_document_id_foreign"
+        },
+        {
+            "TABLE_NAME": "application_documents",
+            "COLUMN_NAME": "reviewer_id",
+            "REFERENCED_TABLE_NAME": "users",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "application_documents_reviewer_id_foreign"
+        },
+        {
+            "TABLE_NAME": "application_documents",
+            "COLUMN_NAME": "student_profile_id",
+            "REFERENCED_TABLE_NAME": "student_profiles",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "application_documents_student_profile_id_foreign"
+        },
+        {
+            "TABLE_NAME": "application_equivalencies",
+            "COLUMN_NAME": "application_id",
+            "REFERENCED_TABLE_NAME": "applications",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "application_equivalencies_application_id_foreign"
+        },
+        {
+            "TABLE_NAME": "application_equivalencies",
+            "COLUMN_NAME": "reviewer_id",
+            "REFERENCED_TABLE_NAME": "users",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "application_equivalencies_reviewer_id_foreign"
+        },
+        {
+            "TABLE_NAME": "application_fee_payments",
+            "COLUMN_NAME": "application_id",
+            "REFERENCED_TABLE_NAME": "applications",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "application_fee_payments_application_id_foreign"
+        },
+        {
+            "TABLE_NAME": "application_fee_payments",
+            "COLUMN_NAME": "reviewer_id",
+            "REFERENCED_TABLE_NAME": "users",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "application_fee_payments_reviewer_id_foreign"
+        },
+        {
+            "TABLE_NAME": "application_status_histories",
+            "COLUMN_NAME": "application_id",
+            "REFERENCED_TABLE_NAME": "applications",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "application_status_histories_application_id_foreign"
+        },
+        {
+            "TABLE_NAME": "application_status_histories",
+            "COLUMN_NAME": "changed_by",
+            "REFERENCED_TABLE_NAME": "users",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "application_status_histories_changed_by_foreign"
+        },
+        {
+            "TABLE_NAME": "audit_logs",
+            "COLUMN_NAME": "user_id",
+            "REFERENCED_TABLE_NAME": "users",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "audit_logs_user_id_foreign"
+        },
+        {
+            "TABLE_NAME": "auth_email_template_translations",
+            "COLUMN_NAME": "auth_email_template_id",
+            "REFERENCED_TABLE_NAME": "auth_email_templates",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "auth_email_template_translations_auth_email_template_id_foreign"
+        },
+        {
+            "TABLE_NAME": "auth_page_translations",
+            "COLUMN_NAME": "auth_page_id",
+            "REFERENCED_TABLE_NAME": "auth_pages",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "auth_page_translations_auth_page_id_foreign"
+        },
+        {
+            "TABLE_NAME": "blog_comments",
+            "COLUMN_NAME": "blog_id",
+            "REFERENCED_TABLE_NAME": "blogs",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "blog_comments_blog_id_foreign"
+        },
+        {
+            "TABLE_NAME": "blog_comments",
+            "COLUMN_NAME": "parent_id",
+            "REFERENCED_TABLE_NAME": "blog_comments",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "blog_comments_parent_id_foreign"
+        },
+        {
+            "TABLE_NAME": "blog_setting_translations",
+            "COLUMN_NAME": "blog_setting_id",
+            "REFERENCED_TABLE_NAME": "blog_settings",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "blog_setting_translations_blog_setting_id_foreign"
+        },
+        {
+            "TABLE_NAME": "blog_translations",
+            "COLUMN_NAME": "blog_id",
+            "REFERENCED_TABLE_NAME": "blogs",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "blog_translations_blog_id_foreign"
+        },
+        {
+            "TABLE_NAME": "comments",
+            "COLUMN_NAME": "user_id",
+            "REFERENCED_TABLE_NAME": "users",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "comments_user_id_foreign"
+        },
+        {
+            "TABLE_NAME": "contact_page_translations",
+            "COLUMN_NAME": "contact_page_id",
+            "REFERENCED_TABLE_NAME": "contact_pages",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "contact_page_translations_contact_page_id_foreign"
+        },
+        {
+            "TABLE_NAME": "contracts",
+            "COLUMN_NAME": "application_id",
+            "REFERENCED_TABLE_NAME": "applications",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "contracts_application_id_foreign"
+        },
+        {
+            "TABLE_NAME": "contracts",
+            "COLUMN_NAME": "issued_by",
+            "REFERENCED_TABLE_NAME": "users",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "contracts_issued_by_foreign"
+        },
+        {
+            "TABLE_NAME": "course_translations",
+            "COLUMN_NAME": "course_id",
+            "REFERENCED_TABLE_NAME": "courses",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "course_translations_course_id_foreign"
+        },
+        {
+            "TABLE_NAME": "departments",
+            "COLUMN_NAME": "faculty_id",
+            "REFERENCED_TABLE_NAME": "faculties",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "departments_faculty_id_foreign"
+        },
+        {
+            "TABLE_NAME": "department_translations",
+            "COLUMN_NAME": "department_id",
+            "REFERENCED_TABLE_NAME": "departments",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "department_translations_department_id_foreign"
+        },
+        {
+            "TABLE_NAME": "document_requests",
+            "COLUMN_NAME": "student_profile_id",
+            "REFERENCED_TABLE_NAME": "student_profiles",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "document_requests_student_profile_id_foreign"
+        },
+        {
+            "TABLE_NAME": "document_requirements",
+            "COLUMN_NAME": "application_id",
+            "REFERENCED_TABLE_NAME": "applications",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "document_requirements_application_id_foreign"
+        },
+        {
+            "TABLE_NAME": "document_requirements",
+            "COLUMN_NAME": "program_id",
+            "REFERENCED_TABLE_NAME": "programs",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "document_requirements_program_id_foreign"
+        },
+        {
+            "TABLE_NAME": "document_requirements",
+            "COLUMN_NAME": "requested_by",
+            "REFERENCED_TABLE_NAME": "users",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "document_requirements_requested_by_foreign"
+        },
+        {
+            "TABLE_NAME": "education_backgrounds",
+            "COLUMN_NAME": "student_profile_id",
+            "REFERENCED_TABLE_NAME": "student_profiles",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "education_backgrounds_student_profile_id_foreign"
+        },
+        {
+            "TABLE_NAME": "enrollments",
+            "COLUMN_NAME": "admission_id",
+            "REFERENCED_TABLE_NAME": "admissions",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "enrollments_admission_id_foreign"
+        },
+        {
+            "TABLE_NAME": "enrollments",
+            "COLUMN_NAME": "application_id",
+            "REFERENCED_TABLE_NAME": "applications",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "enrollments_application_id_foreign"
+        },
+        {
+            "TABLE_NAME": "enrollments",
+            "COLUMN_NAME": "issued_by",
+            "REFERENCED_TABLE_NAME": "users",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "enrollments_issued_by_foreign"
+        },
+        {
+            "TABLE_NAME": "enrollments",
+            "COLUMN_NAME": "program_id",
+            "REFERENCED_TABLE_NAME": "programs",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "enrollments_program_id_foreign"
+        },
+        {
+            "TABLE_NAME": "enrollments",
+            "COLUMN_NAME": "student_profile_id",
+            "REFERENCED_TABLE_NAME": "student_profiles",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "enrollments_student_profile_id_foreign"
+        },
+        {
+            "TABLE_NAME": "equivalency_courses",
+            "COLUMN_NAME": "application_equivalency_id",
+            "REFERENCED_TABLE_NAME": "application_equivalencies",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "equivalency_courses_application_equivalency_id_foreign"
+        },
+        {
+            "TABLE_NAME": "faculty_translations",
+            "COLUMN_NAME": "faculty_id",
+            "REFERENCED_TABLE_NAME": "faculties",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "faculty_translations_faculty_id_foreign"
+        },
+        {
+            "TABLE_NAME": "green_campus_article_translations",
+            "COLUMN_NAME": "green_campus_article_id",
+            "REFERENCED_TABLE_NAME": "green_campus_articles",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "gc_art_foreign"
+        },
+        {
+            "TABLE_NAME": "green_campus_setting_translations",
+            "COLUMN_NAME": "green_campus_setting_id",
+            "REFERENCED_TABLE_NAME": "green_campus_settings",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "gc_setting_foreign"
+        },
+        {
+            "TABLE_NAME": "green_campus_stat_translations",
+            "COLUMN_NAME": "green_campus_stat_id",
+            "REFERENCED_TABLE_NAME": "green_campus_stats",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "gc_stat_foreign"
+        },
+        {
+            "TABLE_NAME": "guardians",
+            "COLUMN_NAME": "student_profile_id",
+            "REFERENCED_TABLE_NAME": "student_profiles",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "guardians_student_profile_id_foreign"
+        },
+        {
+            "TABLE_NAME": "home_section_items",
+            "COLUMN_NAME": "home_section_id",
+            "REFERENCED_TABLE_NAME": "home_sections",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "home_section_items_home_section_id_foreign"
+        },
+        {
+            "TABLE_NAME": "home_section_item_translations",
+            "COLUMN_NAME": "home_section_item_id",
+            "REFERENCED_TABLE_NAME": "home_section_items",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "home_section_item_translations_home_section_item_id_foreign"
+        },
+        {
+            "TABLE_NAME": "home_section_translations",
+            "COLUMN_NAME": "home_section_id",
+            "REFERENCED_TABLE_NAME": "home_sections",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "home_section_translations_home_section_id_foreign"
+        },
+        {
+            "TABLE_NAME": "housing_requests",
+            "COLUMN_NAME": "application_id",
+            "REFERENCED_TABLE_NAME": "applications",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "housing_requests_application_id_foreign"
+        },
+        {
+            "TABLE_NAME": "housing_requests",
+            "COLUMN_NAME": "reviewer_id",
+            "REFERENCED_TABLE_NAME": "users",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "housing_requests_reviewer_id_foreign"
+        },
+        {
+            "TABLE_NAME": "housing_requests",
+            "COLUMN_NAME": "student_profile_id",
+            "REFERENCED_TABLE_NAME": "student_profiles",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "housing_requests_student_profile_id_foreign"
+        },
+        {
+            "TABLE_NAME": "interactive_service_setting_translations",
+            "COLUMN_NAME": "interactive_service_setting_id",
+            "REFERENCED_TABLE_NAME": "interactive_service_settings",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "int_service_setting_tr_setting_fk"
+        },
+        {
+            "TABLE_NAME": "menu_items",
+            "COLUMN_NAME": "menu_id",
+            "REFERENCED_TABLE_NAME": "menus",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "menu_items_menu_id_foreign"
+        },
+        {
+            "TABLE_NAME": "menu_items",
+            "COLUMN_NAME": "parent_id",
+            "REFERENCED_TABLE_NAME": "menu_items",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "menu_items_parent_id_foreign"
+        },
+        {
+            "TABLE_NAME": "menu_item_translations",
+            "COLUMN_NAME": "menu_item_id",
+            "REFERENCED_TABLE_NAME": "menu_items",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "menu_item_translations_menu_item_id_foreign"
+        },
+        {
+            "TABLE_NAME": "newsletter_campaigns",
+            "COLUMN_NAME": "created_by",
+            "REFERENCED_TABLE_NAME": "users",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "newsletter_campaigns_created_by_foreign"
+        },
+        {
+            "TABLE_NAME": "news_event_setting_translations",
+            "COLUMN_NAME": "news_event_setting_id",
+            "REFERENCED_TABLE_NAME": "news_event_settings",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "news_event_setting_translations_news_event_setting_id_foreign"
+        },
+        {
+            "TABLE_NAME": "news_translations",
+            "COLUMN_NAME": "news_id",
+            "REFERENCED_TABLE_NAME": "news",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "news_translations_news_id_foreign"
+        },
+        {
+            "TABLE_NAME": "notifications",
+            "COLUMN_NAME": "related_application_id",
+            "REFERENCED_TABLE_NAME": "applications",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "notifications_related_application_id_foreign"
+        },
+        {
+            "TABLE_NAME": "notifications",
+            "COLUMN_NAME": "user_id",
+            "REFERENCED_TABLE_NAME": "users",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "notifications_user_id_foreign"
+        },
+        {
+            "TABLE_NAME": "page_blocks",
+            "COLUMN_NAME": "page_id",
+            "REFERENCED_TABLE_NAME": "pages",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "page_blocks_page_id_foreign"
+        },
+        {
+            "TABLE_NAME": "page_block_translations",
+            "COLUMN_NAME": "page_block_id",
+            "REFERENCED_TABLE_NAME": "page_blocks",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "page_block_translations_page_block_id_foreign"
+        },
+        {
+            "TABLE_NAME": "page_translations",
+            "COLUMN_NAME": "page_id",
+            "REFERENCED_TABLE_NAME": "pages",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "page_translations_page_id_foreign"
+        },
+        {
+            "TABLE_NAME": "payments",
+            "COLUMN_NAME": "contract_id",
+            "REFERENCED_TABLE_NAME": "contracts",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "payments_contract_id_foreign"
+        },
+        {
+            "TABLE_NAME": "payments",
+            "COLUMN_NAME": "reviewer_id",
+            "REFERENCED_TABLE_NAME": "users",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "payments_reviewer_id_foreign"
+        },
+        {
+            "TABLE_NAME": "permission_role",
+            "COLUMN_NAME": "permission_id",
+            "REFERENCED_TABLE_NAME": "permissions",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "permission_role_permission_id_foreign"
+        },
+        {
+            "TABLE_NAME": "permission_role",
+            "COLUMN_NAME": "role_id",
+            "REFERENCED_TABLE_NAME": "roles",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "permission_role_role_id_foreign"
+        },
+        {
+            "TABLE_NAME": "prikazes",
+            "COLUMN_NAME": "application_id",
+            "REFERENCED_TABLE_NAME": "applications",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "prikazes_application_id_foreign"
+        },
+        {
+            "TABLE_NAME": "prikazes",
+            "COLUMN_NAME": "enrollment_id",
+            "REFERENCED_TABLE_NAME": "enrollments",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "prikazes_enrollment_id_foreign"
+        },
+        {
+            "TABLE_NAME": "prikazes",
+            "COLUMN_NAME": "issued_by",
+            "REFERENCED_TABLE_NAME": "users",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "prikazes_issued_by_foreign"
+        },
+        {
+            "TABLE_NAME": "prikazes",
+            "COLUMN_NAME": "program_id",
+            "REFERENCED_TABLE_NAME": "programs",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "prikazes_program_id_foreign"
+        },
+        {
+            "TABLE_NAME": "prikazes",
+            "COLUMN_NAME": "student_profile_id",
+            "REFERENCED_TABLE_NAME": "student_profiles",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "prikazes_student_profile_id_foreign"
+        },
+        {
+            "TABLE_NAME": "programs",
+            "COLUMN_NAME": "department_id",
+            "REFERENCED_TABLE_NAME": "departments",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "programs_department_id_foreign"
+        },
+        {
+            "TABLE_NAME": "programs",
+            "COLUMN_NAME": "faculty_id",
+            "REFERENCED_TABLE_NAME": "faculties",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "programs_faculty_id_foreign"
+        },
+        {
+            "TABLE_NAME": "program_courses",
+            "COLUMN_NAME": "course_id",
+            "REFERENCED_TABLE_NAME": "courses",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "program_courses_course_id_foreign"
+        },
+        {
+            "TABLE_NAME": "program_courses",
+            "COLUMN_NAME": "program_id",
+            "REFERENCED_TABLE_NAME": "programs",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "program_courses_program_id_foreign"
+        },
+        {
+            "TABLE_NAME": "program_translations",
+            "COLUMN_NAME": "program_id",
+            "REFERENCED_TABLE_NAME": "programs",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "program_translations_program_id_foreign"
+        },
+        {
+            "TABLE_NAME": "residence_permit_processes",
+            "COLUMN_NAME": "application_id",
+            "REFERENCED_TABLE_NAME": "applications",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "residence_permit_processes_application_id_foreign"
+        },
+        {
+            "TABLE_NAME": "residence_permit_processes",
+            "COLUMN_NAME": "reviewer_id",
+            "REFERENCED_TABLE_NAME": "users",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "residence_permit_processes_reviewer_id_foreign"
+        },
+        {
+            "TABLE_NAME": "residence_permit_processes",
+            "COLUMN_NAME": "student_profile_id",
+            "REFERENCED_TABLE_NAME": "student_profiles",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "residence_permit_processes_student_profile_id_foreign"
+        },
+        {
+            "TABLE_NAME": "role_user",
+            "COLUMN_NAME": "role_id",
+            "REFERENCED_TABLE_NAME": "roles",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "role_user_role_id_foreign"
+        },
+        {
+            "TABLE_NAME": "role_user",
+            "COLUMN_NAME": "user_id",
+            "REFERENCED_TABLE_NAME": "users",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "role_user_user_id_foreign"
+        },
+        {
+            "TABLE_NAME": "service_fee_payments",
+            "COLUMN_NAME": "application_id",
+            "REFERENCED_TABLE_NAME": "applications",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "service_fee_payments_application_id_foreign"
+        },
+        {
+            "TABLE_NAME": "service_fee_payments",
+            "COLUMN_NAME": "reviewer_id",
+            "REFERENCED_TABLE_NAME": "users",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "service_fee_payments_reviewer_id_foreign"
+        },
+        {
+            "TABLE_NAME": "service_translations",
+            "COLUMN_NAME": "service_id",
+            "REFERENCED_TABLE_NAME": "services",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "service_translations_service_id_foreign"
+        },
+        {
+            "TABLE_NAME": "staff_profiles",
+            "COLUMN_NAME": "department_id",
+            "REFERENCED_TABLE_NAME": "departments",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "staff_profiles_department_id_foreign"
+        },
+        {
+            "TABLE_NAME": "staff_profiles",
+            "COLUMN_NAME": "faculty_id",
+            "REFERENCED_TABLE_NAME": "faculties",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "staff_profiles_faculty_id_foreign"
+        },
+        {
+            "TABLE_NAME": "staff_profile_translations",
+            "COLUMN_NAME": "staff_profile_id",
+            "REFERENCED_TABLE_NAME": "staff_profiles",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "staff_profile_translations_staff_profile_id_foreign"
+        },
+        {
+            "TABLE_NAME": "student_profiles",
+            "COLUMN_NAME": "user_id",
+            "REFERENCED_TABLE_NAME": "users",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "student_profiles_user_id_foreign"
+        },
+        {
+            "TABLE_NAME": "student_visa_processes",
+            "COLUMN_NAME": "application_id",
+            "REFERENCED_TABLE_NAME": "applications",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "student_visa_processes_application_id_foreign"
+        },
+        {
+            "TABLE_NAME": "student_visa_processes",
+            "COLUMN_NAME": "reviewer_id",
+            "REFERENCED_TABLE_NAME": "users",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "student_visa_processes_reviewer_id_foreign"
+        },
+        {
+            "TABLE_NAME": "student_visa_processes",
+            "COLUMN_NAME": "student_profile_id",
+            "REFERENCED_TABLE_NAME": "student_profiles",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "student_visa_processes_student_profile_id_foreign"
+        },
+        {
+            "TABLE_NAME": "support_tickets",
+            "COLUMN_NAME": "user_id",
+            "REFERENCED_TABLE_NAME": "users",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "support_tickets_user_id_foreign"
+        },
+        {
+            "TABLE_NAME": "support_ticket_messages",
+            "COLUMN_NAME": "support_ticket_id",
+            "REFERENCED_TABLE_NAME": "support_tickets",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "support_ticket_messages_support_ticket_id_foreign"
+        },
+        {
+            "TABLE_NAME": "support_ticket_messages",
+            "COLUMN_NAME": "user_id",
+            "REFERENCED_TABLE_NAME": "users",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "support_ticket_messages_user_id_foreign"
+        },
+        {
+            "TABLE_NAME": "translation_values",
+            "COLUMN_NAME": "translation_key_id",
+            "REFERENCED_TABLE_NAME": "translation_keys",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "translation_values_translation_key_id_foreign"
+        },
+        {
+            "TABLE_NAME": "university_center_setting_translations",
+            "COLUMN_NAME": "center_setting_id",
+            "REFERENCED_TABLE_NAME": "university_center_settings",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "university_center_setting_translations_center_setting_id_foreign"
+        },
+        {
+            "TABLE_NAME": "university_center_translations",
+            "COLUMN_NAME": "university_center_id",
+            "REFERENCED_TABLE_NAME": "university_centers",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "university_center_translations_university_center_id_foreign"
+        },
+        {
+            "TABLE_NAME": "video_comments",
+            "COLUMN_NAME": "parent_id",
+            "REFERENCED_TABLE_NAME": "video_comments",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "video_comments_parent_id_foreign"
+        },
+        {
+            "TABLE_NAME": "video_comments",
+            "COLUMN_NAME": "video_id",
+            "REFERENCED_TABLE_NAME": "videos",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "video_comments_video_id_foreign"
+        },
+        {
+            "TABLE_NAME": "video_gallery_setting_translations",
+            "COLUMN_NAME": "video_gallery_setting_id",
+            "REFERENCED_TABLE_NAME": "video_gallery_settings",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "vgs_trans_setting_fk"
+        },
+        {
+            "TABLE_NAME": "video_translations",
+            "COLUMN_NAME": "video_id",
+            "REFERENCED_TABLE_NAME": "videos",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "video_translations_video_id_foreign"
+        },
+        {
+            "TABLE_NAME": "web_footer_translations",
+            "COLUMN_NAME": "web_footer_id",
+            "REFERENCED_TABLE_NAME": "web_footers",
+            "REFERENCED_COLUMN_NAME": "id",
+            "CONSTRAINT_NAME": "web_footer_translations_web_footer_id_foreign"
+        }
+    ]
+}

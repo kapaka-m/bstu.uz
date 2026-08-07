@@ -1,0 +1,36 @@
+SET FOREIGN_KEY_CHECKS=0;
+-- Communications data generated from bstu_international
+DELETE FROM `blog_comments`;
+ALTER TABLE `blog_comments` AUTO_INCREMENT = 1;
+INSERT INTO `blog_comments` (`id`, `blog_id`, `parent_id`, `author_name`, `email`, `content`, `is_approved`, `created_at`, `updated_at`) VALUES ('1', '1', NULL, 'Admin Panel User', 'apanel@bstu.uz', 'NASA', '1', '2026-07-17 04:01:48', '2026-07-17 04:01:48');
+INSERT INTO `blog_comments` (`id`, `blog_id`, `parent_id`, `author_name`, `email`, `content`, `is_approved`, `created_at`, `updated_at`) VALUES ('2', '1', '1', 'Admin Panel User', 'apanel@bstu.uz', 'very nice', '1', '2026-07-17 04:02:09', '2026-07-17 04:02:09');
+DELETE FROM `comments`;
+ALTER TABLE `comments` AUTO_INCREMENT = 1;
+DELETE FROM `inquiries`;
+ALTER TABLE `inquiries` AUTO_INCREMENT = 1;
+INSERT INTO `inquiries` (`id`, `name`, `email`, `subject`, `message`, `status`, `read_at`, `reply_message`, `replied_at`, `admin_notes`, `created_at`, `updated_at`) VALUES ('3', 'Raga', 'raga@mn.nm', 'Hi i wont to study her', 'Hiaminnk,', 'pending', NULL, NULL, NULL, NULL, '2026-08-04 14:15:05', '2026-08-04 14:15:05');
+DELETE FROM `newsletter_campaigns`;
+ALTER TABLE `newsletter_campaigns` AUTO_INCREMENT = 1;
+INSERT INTO `newsletter_campaigns` (`id`, `subject`, `title`, `message`, `cta_label`, `cta_url`, `locale`, `sent_count`, `sent_at`, `created_by`, `created_at`, `updated_at`) VALUES ('1', 'Hi', 'Hi', 'Hi mr mohamed yahea', 'Apply', '/apply', NULL, '8', '2026-08-04 13:59:39', '1', '2026-08-04 13:59:39', '2026-08-04 13:59:39');
+DELETE FROM `newsletter_subscriptions`;
+ALTER TABLE `newsletter_subscriptions` AUTO_INCREMENT = 1;
+INSERT INTO `newsletter_subscriptions` (`id`, `email`, `locale`, `status`, `subscribed_at`, `unsubscribed_at`, `ip_address`, `user_agent`, `created_at`, `updated_at`) VALUES ('2', 'kap0aka200@gmail.com', 'en', 'active', '2026-08-04 13:36:39', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36', '2026-07-22 02:59:32', '2026-08-04 13:36:39');
+INSERT INTO `newsletter_subscriptions` (`id`, `email`, `locale`, `status`, `subscribed_at`, `unsubscribed_at`, `ip_address`, `user_agent`, `created_at`, `updated_at`) VALUES ('3', 'test@example.com', 'en', 'active', '2026-07-23 03:42:21', NULL, '127.0.0.1', 'curl/8.13.0', '2026-07-23 03:42:21', '2026-07-23 03:42:21');
+INSERT INTO `newsletter_subscriptions` (`id`, `email`, `locale`, `status`, `subscribed_at`, `unsubscribed_at`, `ip_address`, `user_agent`, `created_at`, `updated_at`) VALUES ('4', 'ahmed@2.no', 'en', 'active', '2026-08-03 20:50:02', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36', '2026-08-03 20:50:02', '2026-08-03 20:50:02');
+INSERT INTO `newsletter_subscriptions` (`id`, `email`, `locale`, `status`, `subscribed_at`, `unsubscribed_at`, `ip_address`, `user_agent`, `created_at`, `updated_at`) VALUES ('5', 'mo@gmail.com', 'en', 'active', '2026-08-04 13:37:19', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36', '2026-08-04 13:37:19', '2026-08-04 13:37:19');
+INSERT INTO `newsletter_subscriptions` (`id`, `email`, `locale`, `status`, `subscribed_at`, `unsubscribed_at`, `ip_address`, `user_agent`, `created_at`, `updated_at`) VALUES ('6', 'ka@gmail.com', 'en', 'active', '2026-08-04 13:40:08', NULL, '127.0.0.1', 'Mozilla/5.0 (Linux; Android 15; Pixel 9) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Mobile Safari/537.36', '2026-08-04 13:40:08', '2026-08-04 13:40:08');
+INSERT INTO `newsletter_subscriptions` (`id`, `email`, `locale`, `status`, `subscribed_at`, `unsubscribed_at`, `ip_address`, `user_agent`, `created_at`, `updated_at`) VALUES ('7', 'codex-test-1785850872@example.com', 'en', 'active', '2026-08-04 13:41:13', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Microsoft Windows 10.0.19045; en-US) PowerShell/7.6.4', '2026-08-04 13:41:13', '2026-08-04 13:41:13');
+INSERT INTO `newsletter_subscriptions` (`id`, `email`, `locale`, `status`, `subscribed_at`, `unsubscribed_at`, `ip_address`, `user_agent`, `created_at`, `updated_at`) VALUES ('8', 'kapaka@gm.com', 'en', 'active', '2026-08-04 13:50:42', NULL, '127.0.0.1', 'Mozilla/5.0 (Linux; Android 15; Pixel 9) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Mobile Safari/537.36', '2026-08-04 13:50:42', '2026-08-04 13:50:42');
+DELETE FROM `notifications`;
+ALTER TABLE `notifications` AUTO_INCREMENT = 1;
+INSERT INTO `notifications` (`id`, `user_id`, `title`, `message`, `type`, `is_read`, `created_at`, `updated_at`, `related_application_id`, `related_entity_type`, `related_entity_id`, `read_at`, `action_url`) VALUES ('1', '1', 'test', 'test\nhttp://localhost:3000/announcements/test', NULL, '0', '2026-07-20 04:39:22', '2026-07-20 04:39:22', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `notifications` (`id`, `user_id`, `title`, `message`, `type`, `is_read`, `created_at`, `updated_at`, `related_application_id`, `related_entity_type`, `related_entity_id`, `read_at`, `action_url`) VALUES ('2', '1', 'add-announcement', 'add-announcement\nhttp://localhost:3000/announcements/add-announcement', NULL, '0', '2026-07-24 03:38:01', '2026-07-24 03:38:01', NULL, NULL, NULL, NULL, NULL);
+DELETE FROM `support_tickets`;
+ALTER TABLE `support_tickets` AUTO_INCREMENT = 1;
+DELETE FROM `support_ticket_messages`;
+ALTER TABLE `support_ticket_messages` AUTO_INCREMENT = 1;
+DELETE FROM `video_comments`;
+ALTER TABLE `video_comments` AUTO_INCREMENT = 1;
+INSERT INTO `video_comments` (`id`, `video_id`, `parent_id`, `author_name`, `email`, `content`, `is_approved`, `created_at`, `updated_at`) VALUES ('1', '1', NULL, 'Admin Panel User', 'apanel@bstu.uz', 'Very Naturally', '1', '2026-07-18 05:15:18', '2026-07-18 05:15:18');
+
+SET FOREIGN_KEY_CHECKS=1;

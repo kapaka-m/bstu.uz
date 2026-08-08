@@ -60,60 +60,74 @@ export default function RecentBlog() {
       month: "short",
     });
 
-  const renderBlogCard = (post, index) => (
-    <motion.div
-      key={post.slug || post.id}
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="bg-white border border-gray-100/50 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 flex flex-col group h-full"
-    >
-      <div className="aspect-16/10 overflow-hidden bg-gray-50 relative">
-        <img
-          src={post.image}
-          alt={post.title}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-        />
-        <span className="absolute top-4 left-4 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm">
-          {post.categoryLabel || post.category}
-        </span>
-      </div>
+  const renderBlogCard = (post, index) => {
+    const publisher = post.department || null;
+    const publisherName = publisher?.name || post.author || "";
+    const publisherRoute = publisher?.slug ? `/publishers/${publisher.slug}` : "";
 
-      <div className="p-6 md:p-8 flex flex-col grow">
-        <div className="flex flex-wrap items-center gap-4 text-xs font-semibold text-gray-400 mb-4">
-          <span className="flex items-center gap-1">
-            <Calendar className="w-3.5 h-3.5" />
-            {formatPostDate(post.date)}
-          </span>
-          <span className="flex items-center gap-1">
-            <User className="w-3.5 h-3.5" />
-            {post.author}
+    return (
+      <motion.div
+        key={post.slug || post.id}
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, delay: index * 0.1 }}
+        className="bg-white border border-gray-100/50 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 flex flex-col group h-full"
+      >
+        <div className="aspect-16/10 overflow-hidden bg-gray-50 relative">
+          <img
+            src={post.image}
+            alt={post.title}
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+          <span className="absolute top-4 left-4 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm">
+            {post.categoryLabel || post.category}
           </span>
         </div>
 
-        <h3 className="text-lg md:text-xl font-bold text-navy group-hover:text-primary transition-colors duration-300 line-clamp-2 mb-3 leading-snug">
-          <Link to={`/blog/${post.slug}`}>{post.title}</Link>
-        </h3>
+        <div className="p-6 md:p-8 flex flex-col grow">
+          <div className="flex flex-wrap items-center gap-4 text-xs font-semibold text-gray-400 mb-4">
+            <span className="flex items-center gap-1">
+              <Calendar className="w-3.5 h-3.5" />
+              {formatPostDate(post.date)}
+            </span>
+            {publisherName && (
+              <span className="flex items-center gap-1">
+                <User className="w-3.5 h-3.5" />
+                {publisherRoute ? (
+                  <Link to={publisherRoute} className="hover:text-primary transition-colors">
+                    {publisherName}
+                  </Link>
+                ) : (
+                  publisherName
+                )}
+              </span>
+            )}
+          </div>
 
-        <p className="text-gray-500 text-sm leading-relaxed mb-6 line-clamp-3">
-          {post.excerpt}
-        </p>
+          <h3 className="text-lg md:text-xl font-bold text-navy group-hover:text-primary transition-colors duration-300 line-clamp-2 mb-3 leading-snug">
+            <Link to={`/blog/${post.slug}`}>{post.title}</Link>
+          </h3>
 
-        <div className="mt-auto">
-          <Link
-            to={`/blog/${post.slug}`}
-            className="inline-flex items-center gap-1.5 text-sm font-bold text-navy hover:text-primary transition-colors"
-          >
-            {settings.read_more_label || ""}
-            <ArrowRight
-              className={`w-4 h-4 transition-transform duration-300 ${isRtl ? "rotate-180 group-hover:-translate-x-1" : "group-hover:translate-x-1"}`}
-            />
-          </Link>
+          <p className="text-gray-500 text-sm leading-relaxed mb-6 line-clamp-3">
+            {post.excerpt}
+          </p>
+
+          <div className="mt-auto">
+            <Link
+              to={`/blog/${post.slug}`}
+              className="inline-flex items-center gap-1.5 text-sm font-bold text-navy hover:text-primary transition-colors"
+            >
+              {settings.read_more_label || ""}
+              <ArrowRight
+                className={`w-4 h-4 transition-transform duration-300 ${isRtl ? "rotate-180 group-hover:-translate-x-1" : "group-hover:translate-x-1"}`}
+              />
+            </Link>
+          </div>
         </div>
-      </div>
-    </motion.div>
-  );
+      </motion.div>
+    );
+  };
 
   return (
     <section

@@ -1027,7 +1027,7 @@ class PublicApiController extends Controller
         $perPage = max(1, min((int) $request->query('per_page', 15), 100));
         $query = News::where('is_published', true)
             ->where('category', '!=', 'blog')
-            ->with('translations');
+            ->with(['translations', 'publisher.translations']);
 
         if ($request->filled('category') && strtolower($request->query('category')) !== 'all') {
             $query->where('category', $request->query('category'));
@@ -1068,7 +1068,7 @@ class PublicApiController extends Controller
         $item = News::where('slug', $slug)
             ->where('category', '!=', 'blog')
             ->where('is_published', true)
-            ->with('translations')
+            ->with(['translations', 'publisher.translations'])
             ->first();
 
         if (! $item) {
@@ -1083,7 +1083,7 @@ class PublicApiController extends Controller
         return response()->json([
             'locale' => $locale,
             'direction' => $this->directionForLocale($locale),
-            'data' => $this->formatNewsItem($request, $item->fresh('translations'), $locale),
+            'data' => $this->formatNewsItem($request, $item->fresh(['translations', 'publisher.translations']), $locale),
         ]);
     }
 
@@ -1092,6 +1092,9 @@ class PublicApiController extends Controller
         $data = $this->localizedData($request, $item, $locale);
         $data['slug'] = $item->slug;
         $data['image_url'] = $this->newsImageUrl($item->image);
+        $data['publisher'] = $item->publisher
+            ? $this->formatBlogDepartment($request, $item->publisher, $locale)
+            : null;
 
         return $data;
     }
@@ -1182,8 +1185,18 @@ class PublicApiController extends Controller
 
     public function blogDepartments(Request $request)
     {
+        return $this->publishers($request);
+    }
+
+    public function blogDepartment(Request $request, string $slug)
+    {
+        return $this->publisher($request, $slug);
+    }
+
+    public function publishers(Request $request)
+    {
         $locale = $this->getRequestLocale($request);
-        $departments = BlogDepartment::where('is_active', true)
+        $publishers = BlogDepartment::where('is_active', true)
             ->with('translations')
             ->orderBy('sort_order')
             ->orderBy('id')
@@ -1191,10 +1204,10 @@ class PublicApiController extends Controller
             ->map(fn (BlogDepartment $department) => $this->formatBlogDepartment($request, $department, $locale))
             ->values();
 
-        return $this->successResponse($departments, 'Blog departments retrieved successfully');
+        return $this->successResponse($publishers, 'Publishers retrieved successfully');
     }
 
-    public function blogDepartment(Request $request, string $slug)
+    public function publisher(Request $request, string $slug)
     {
         $locale = $this->getRequestLocale($request);
         $department = BlogDepartment::where('slug', $slug)
@@ -1203,7 +1216,7 @@ class PublicApiController extends Controller
             ->first();
 
         if (! $department) {
-            return $this->errorResponse("Blog department '{$slug}' not found", 404);
+            return $this->errorResponse("Publisher '{$slug}' not found", 404);
         }
 
         $blogs = Blog::where('is_published', true)
@@ -1216,8 +1229,36 @@ class PublicApiController extends Controller
 
         $data = $this->formatBlogDepartment($request, $department, $locale);
         $data['blogs'] = $blogs;
+        $data['news'] = News::where('is_published', true)
+            ->where('publisher_id', $department->id)
+            ->with(['translations', 'publisher.translations'])
+            ->orderBy('published_at', 'desc')
+            ->get()
+            ->map(fn (News $item) => $this->formatNewsItem($request, $item, $locale))
+            ->values();
+        $data['announcements'] = Announcement::where('is_published', true)
+            ->where('publisher_id', $department->id)
+            ->with(['translations', 'publisher.translations'])
+            ->orderBy('starts_at', 'desc')
+            ->get()
+            ->map(fn (Announcement $item) => $this->formatAnnouncementItem($request, $item, $locale))
+            ->values();
+        $data['green_campus_articles'] = GreenCampusArticle::where('is_published', true)
+            ->where('publisher_id', $department->id)
+            ->with(['translations', 'publisher.translations'])
+            ->orderByDesc('published_at')
+            ->get()
+            ->map(fn (GreenCampusArticle $item) => $this->formatGreenCampusArticle($item, $locale))
+            ->values();
+        $data['videos'] = Video::where('is_active', true)
+            ->where('publisher_id', $department->id)
+            ->with(['translations', 'publisher.translations'])
+            ->orderBy('sort_order')
+            ->get()
+            ->map(fn (Video $item) => $this->formatVideoItem($request, $item, $locale))
+            ->values();
 
-        return $this->successResponse($data, 'Blog department retrieved successfully');
+        return $this->successResponse($data, 'Publisher retrieved successfully');
     }
 
     protected function formatBlogItem(Request $request, Blog $item, string $locale): array
@@ -1390,7 +1431,7 @@ class PublicApiController extends Controller
         $locale = $this->getRequestLocale($request);
         $perPage = max(1, min((int) $request->query('per_page', 15), 100));
 
-        $query = Announcement::where('is_published', true)->with('translations');
+        $query = Announcement::where('is_published', true)->with(['translations', 'publisher.translations']);
 
         if ($request->boolean('active_only')) {
             $query->where(function ($q) {
@@ -1439,7 +1480,7 @@ class PublicApiController extends Controller
     public function announcement(Request $request, string $slug)
     {
         $locale = $this->getRequestLocale($request);
-        $ann = Announcement::where('slug', $slug)->where('is_published', true)->with('translations')->first();
+        $ann = Announcement::where('slug', $slug)->where('is_published', true)->with(['translations', 'publisher.translations'])->first();
 
         if (! $ann) {
             return $this->errorResponse("Announcement '{$slug}' not found", 404);
@@ -1451,7 +1492,7 @@ class PublicApiController extends Controller
         return response()->json([
             'locale' => $locale,
             'direction' => $this->directionForLocale($locale),
-            'data' => $this->formatAnnouncementItem($request, $ann->fresh('translations'), $locale),
+            'data' => $this->formatAnnouncementItem($request, $ann->fresh(['translations', 'publisher.translations']), $locale),
         ]);
     }
 
@@ -1476,6 +1517,9 @@ class PublicApiController extends Controller
         $data['important'] = $item->priority === 'high';
         $data['views_count'] = $item->views_count;
         $data['views'] = $item->views_count;
+        $data['publisher'] = $item->publisher
+            ? $this->formatBlogDepartment($request, $item->publisher, $locale)
+            : null;
 
         return $data;
     }
@@ -1559,7 +1603,7 @@ class PublicApiController extends Controller
     {
         $locale = $this->getRequestLocale($request);
         $payload = $this->publicCache($request, 'videos', [$locale], function () use ($request, $locale) {
-            $videos = Video::where('is_active', true)->with('translations')->orderBy('sort_order')->get();
+            $videos = Video::where('is_active', true)->with(['translations', 'publisher.translations'])->orderBy('sort_order')->get();
 
             return $videos->map(fn (Video $video) => $this->formatVideoItem($request, $video, $locale))->values()->all();
         });
@@ -1765,6 +1809,9 @@ class PublicApiController extends Controller
             'likes_count' => $video->likes_count,
             'published_at' => $video->published_at?->toISOString(),
             'category' => $translation?->category,
+            'publisher' => $video->publisher
+                ? $this->formatBlogDepartment($request, $video->publisher, $locale)
+                : null,
         ]);
     }
 
@@ -2062,7 +2109,7 @@ class PublicApiController extends Controller
     {
         $locale = $this->getRequestLocale($request);
         $payload = $this->publicCache($request, 'green-campus-articles', [$locale], function () use ($locale) {
-            $articles = GreenCampusArticle::with('translations')
+            $articles = GreenCampusArticle::with(['translations', 'publisher.translations'])
                 ->where('is_published', true)
                 ->orderBy('sort_order')
                 ->orderByDesc('published_at')
@@ -2087,6 +2134,7 @@ class PublicApiController extends Controller
         $article = GreenCampusArticle::where('slug', $slug)
             ->where('is_published', true)
             ->with('translations')
+            ->with('publisher.translations')
             ->first();
 
         if (! $article) {
@@ -2096,7 +2144,7 @@ class PublicApiController extends Controller
         $article->increment('views');
 
         return $this->successResponse(
-            $this->formatGreenCampusArticle($article->fresh('translations'), $locale),
+            $this->formatGreenCampusArticle($article->fresh(['translations', 'publisher.translations']), $locale),
             'Green campus article retrieved successfully'
         );
     }
@@ -2127,6 +2175,9 @@ class PublicApiController extends Controller
             'excerpt' => $translation?->excerpt ?: '',
             'content' => $translation?->content ?: '',
             'author' => $translation?->author ?: '',
+            'publisher' => $article->publisher
+                ? $this->formatBlogDepartment(request(), $article->publisher, $locale)
+                : null,
         ];
     }
 

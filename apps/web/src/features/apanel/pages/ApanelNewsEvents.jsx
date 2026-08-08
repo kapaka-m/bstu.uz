@@ -34,6 +34,7 @@ const emptyForm = (localeCodes) => ({
   slug: "",
   image: "",
   category: "",
+  publisher_id: "",
   published_at: "",
   is_published: true,
   views_count: 0,
@@ -111,6 +112,7 @@ function fromRecord(record, localeCodes) {
     slug: record.slug || "",
     image: record.image || "",
     category: record.category || "",
+    publisher_id: record.publisher_id || record.publisher?.id || "",
     published_at: toDateInput(record.published_at),
     is_published: Boolean(record.is_published),
     views_count: Number(record.views_count || 0),
@@ -141,6 +143,7 @@ function toPayload(form, primaryLocale, localeCodes) {
     slug: form.slug,
     image: form.image || null,
     category: form.category,
+    publisher_id: form.publisher_id ? Number(form.publisher_id) : null,
     published_at: form.published_at || null,
     is_published: Boolean(form.is_published),
     views_count: Number(form.views_count || 0),
@@ -165,6 +168,7 @@ export default function ApanelNewsEvents() {
   const primaryLocale = localeCodes[0] || "";
   const [activeTab, setActiveTab] = useState("items");
   const [items, setItems] = useState([]);
+  const [publishers, setPublishers] = useState([]);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
@@ -225,6 +229,23 @@ export default function ApanelNewsEvents() {
   useEffect(() => {
     fetchNews();
   }, [fetchNews]);
+
+  const fetchPublishers = useCallback(async () => {
+    try {
+      const pageData = await apanelService.listPage("blog-departments", {
+        per_page: 100,
+        sort_by: "sort_order",
+        sort_dir: "asc",
+      });
+      setPublishers(pageData.items || []);
+    } catch (err) {
+      setError(err?.message || "Failed to load content publishers.");
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchPublishers();
+  }, [fetchPublishers]);
 
   const fetchSettings = useCallback(async () => {
     try {
@@ -695,7 +716,7 @@ export default function ApanelNewsEvents() {
           </div>
 
           <form onSubmit={saveRecord} className="p-5 space-y-5">
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
               <label className="space-y-1.5">
                 <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">
                   Slug
@@ -722,6 +743,23 @@ export default function ApanelNewsEvents() {
                   <option value=""></option>
                   <option value="News">{t("apanel.newsEvents.news")}</option>
                   <option value="Events">{t("apanel.newsEvents.events")}</option>
+                </select>
+              </label>
+              <label className="space-y-1.5">
+                <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">
+                  Publisher
+                </span>
+                <select
+                  value={form.publisher_id}
+                  onChange={(event) => setField("publisher_id", event.target.value)}
+                  className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm font-semibold text-navy focus:outline-none focus:border-primary bg-white"
+                >
+                  <option value="">Default publisher</option>
+                  {publishers.map((publisher) => (
+                    <option key={publisher.id} value={publisher.id}>
+                      {publisher.name || publisher.slug}
+                    </option>
+                  ))}
                 </select>
               </label>
               <label className="space-y-1.5">

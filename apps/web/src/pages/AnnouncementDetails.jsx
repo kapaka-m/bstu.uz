@@ -99,6 +99,10 @@ export default function AnnouncementDetails() {
     );
   }
 
+  const publisher = announcement.publisher || null;
+  const publisherName = publisher?.name || settings?.publisher_name || "";
+  const publisherRoute = publisher?.slug ? `/publishers/${publisher.slug}` : "";
+
   return (
     <div className="pt-24 min-h-screen bg-slate-50/50">
       <div className="container mx-auto px-4 md:px-8 max-w-7xl py-12 md:py-16 text-start">
@@ -142,7 +146,13 @@ export default function AnnouncementDetails() {
                   <User className="w-4 h-4 text-primary" />
                   <span>
                     {settings?.published_by_label || ""}:{" "}
-                    {settings?.publisher_name || ""}
+                    {publisherRoute ? (
+                      <Link to={publisherRoute} className="text-navy hover:text-primary transition-colors">
+                        {publisherName}
+                      </Link>
+                    ) : (
+                      publisherName
+                    )}
                   </span>
                 </span>
               </div>

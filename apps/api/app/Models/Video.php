@@ -13,6 +13,7 @@ class Video extends Model
         'slug',
         'url',
         'thumbnail',
+        'publisher_id',
         'video_type',
         'youtube_id',
         'duration',
@@ -31,5 +32,10 @@ class Video extends Model
     public function comments()
     {
         return $this->hasMany(VideoComment::class);
+    }
+
+    public function publisher()
+    {
+        return $this->belongsTo(BlogDepartment::class, 'publisher_id');
     }
 }

@@ -167,6 +167,10 @@ export default function GreenCampusDetails() {
     return null;
   }
 
+  const publisher = article.publisher || null;
+  const publisherName = publisher?.name || article.author || "";
+  const publisherRoute = publisher?.slug ? `/publishers/${publisher.slug}` : "";
+
   return (
     <div className="pt-24 bg-white text-start">
       {lightboxIndex !== null && (
@@ -212,7 +216,13 @@ export default function GreenCampusDetails() {
               </span>
               <span className="flex items-center gap-1.5">
                 <User className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                {article.author}
+                {publisherRoute ? (
+                  <Link to={publisherRoute} className="hover:text-emerald-600 transition-colors">
+                    {publisherName}
+                  </Link>
+                ) : (
+                  publisherName
+                )}
               </span>
               {article.views && (
                 <span className="flex items-center gap-1.5">

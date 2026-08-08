@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import { ThumbsUp, Share2, Award, Check, Eye, Calendar, ChevronUp, Bell, MessageSquare, CornerDownRight, User } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
@@ -26,6 +27,8 @@ export default function VideoBDTU() {
   const [replyTarget, setReplyTarget] = useState(null);
   const [now] = useState(() => Date.now());
   const playerRef = useRef(null);
+  const activePublisher = activeVideo?.publisher || null;
+  const activePublisherRoute = activePublisher?.slug ? `/publishers/${activePublisher.slug}` : "";
   const activeVideoSlug = activeVideo?.slug || activeVideo?.id;
 
   const formatViews = (viewsCount) => {
@@ -340,7 +343,13 @@ export default function VideoBDTU() {
                   <div className="flex flex-col">
                     <div className="flex items-center gap-1.5">
                       <span className="font-extrabold text-sm md:text-base text-navy leading-tight">
-                        {settings.channel_name || ""}
+                        {activePublisherRoute ? (
+                          <Link to={activePublisherRoute} className="hover:text-primary transition-colors">
+                            {activePublisher?.name || settings.channel_name || ""}
+                          </Link>
+                        ) : (
+                          activePublisher?.name || settings.channel_name || ""
+                        )}
                       </span>
                       <span
                         className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-blue-500 text-white shrink-0"

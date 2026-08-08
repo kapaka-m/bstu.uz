@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Search, Calendar, Eye, ArrowRight, Sparkles } from "lucide-react";
+import { Search, Calendar, Eye, ArrowRight, Sparkles, User } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
 import { announcementService } from "../services/announcementService";
@@ -186,6 +186,18 @@ export default function AnnouncementsPage() {
                               <Eye className="w-3.5 h-3.5" />
                           {item.views} {settings?.views_label || ""}
                             </span>
+                            {item.publisher?.name && (
+                              <span className="flex items-center gap-1">
+                                <User className="w-3.5 h-3.5 text-primary" />
+                                {item.publisher.slug ? (
+                                  <Link to={`/publishers/${item.publisher.slug}`} className="hover:text-primary transition-colors">
+                                    {item.publisher.name}
+                                  </Link>
+                                ) : (
+                                  item.publisher.name
+                                )}
+                              </span>
+                            )}
                           </div>
 
                           <h2 className="text-lg md:text-xl font-extrabold text-navy group-hover:text-primary transition-colors duration-300 leading-snug mb-3">

@@ -26,6 +26,12 @@ const normalizeNewsItem = (item = {}) => ({
   description: item.summary || item.description || "",
   date: item.published_at || item.date || "",
   views: item.views_count ?? item.views ?? 0,
+  publisher: item.publisher
+    ? {
+        ...item.publisher,
+        image: item.publisher.image_url || item.publisher.image || "",
+      }
+    : null,
   paragraphs:
     typeof item.content === "string"
       ? item.content.split(/\n{2,}/).filter(Boolean)

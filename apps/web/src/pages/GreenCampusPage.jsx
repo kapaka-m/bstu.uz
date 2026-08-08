@@ -205,7 +205,13 @@ export default function GreenCampusPage() {
                         </span>
                         <span className="flex items-center gap-1.5">
                           <User className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                          {article.author}
+                          {article.publisher?.slug ? (
+                            <Link to={`/publishers/${article.publisher.slug}`} className="hover:text-emerald-600 transition-colors">
+                              {article.publisher.name || article.author}
+                            </Link>
+                          ) : (
+                            article.author
+                          )}
                         </span>
                         {article.views && (
                           <span className="flex items-center gap-1.5">

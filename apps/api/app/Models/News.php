@@ -13,6 +13,7 @@ class News extends Model
         'slug',
         'image',
         'category',
+        'publisher_id',
         'published_at',
         'is_published',
         'views_count',
@@ -21,4 +22,9 @@ class News extends Model
     protected $casts = [
         'published_at' => 'datetime',
     ];
+
+    public function publisher()
+    {
+        return $this->belongsTo(BlogDepartment::class, 'publisher_id');
+    }
 }

@@ -214,7 +214,13 @@ export default function Blog() {
                         </span>
                         <span className="flex items-center gap-1">
                           <User className="w-3.5 h-3.5" />
-                          {asText(post.author)}
+                          {post.department?.slug ? (
+                            <Link to={`/publishers/${post.department.slug}`} className="hover:text-primary transition-colors">
+                              {asText(post.department.name, asText(post.author))}
+                            </Link>
+                          ) : (
+                            asText(post.author)
+                          )}
                         </span>
                       </div>
 

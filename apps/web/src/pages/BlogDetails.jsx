@@ -195,7 +195,7 @@ export default function BlogDetails() {
   const publisher = post.department || null;
   const publisherName = asText(publisher?.name, asText(post.author));
   const publisherImage = publisher?.image || post.authorImage;
-  const publisherRoute = publisher?.slug ? `/blog/departments/${publisher.slug}` : "";
+  const publisherRoute = publisher?.slug ? `/publishers/${publisher.slug}` : "";
   const handleNativeShare = async () => {
     if (!currentUrl) return;
 

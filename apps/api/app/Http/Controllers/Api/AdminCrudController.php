@@ -232,6 +232,10 @@ class AdminCrudController extends Controller
             $query->with('blogDepartment.translations');
         }
 
+        if (in_array($resource, ['news', 'announcements', 'green-campus-articles', 'videos'], true)) {
+            $query->with('publisher.translations');
+        }
+
         if ($resource === 'comments') {
             $query->with('blog.translations');
         }
@@ -304,6 +308,9 @@ class AdminCrudController extends Controller
                 $relations = method_exists($modelClass, 'translations') ? ['translations'] : [];
                 if ($resource === 'blogs') {
                     $relations[] = 'blogDepartment.translations';
+                }
+                if (in_array($resource, ['news', 'announcements', 'green-campus-articles', 'videos'], true)) {
+                    $relations[] = 'publisher.translations';
                 }
                 $record = $modelClass::with($relations)->find($id);
             }
@@ -2416,6 +2423,7 @@ class AdminCrudController extends Controller
                 return [
                     'slug' => 'required|string|unique:news,slug,'.$id,
                     'image' => 'nullable|string',
+                    'publisher_id' => 'nullable|integer|exists:blog_departments,id',
                     'category' => 'required|string',
                     'published_at' => 'nullable|date',
                     'is_published' => 'boolean',
@@ -2458,6 +2466,7 @@ class AdminCrudController extends Controller
                     'type' => 'required|string|max:255',
                     'priority' => 'string|in:normal,high',
                     'image' => 'nullable|string',
+                    'publisher_id' => 'nullable|integer|exists:blog_departments,id',
                     'starts_at' => 'nullable|date',
                     'ends_at' => 'nullable|date',
                     'is_published' => 'boolean',
@@ -2519,6 +2528,7 @@ class AdminCrudController extends Controller
                     'slug' => 'required|string|unique:videos,slug,'.$id,
                     'url' => 'required|string',
                     'thumbnail' => 'nullable|string',
+                    'publisher_id' => 'nullable|integer|exists:blog_departments,id',
                     'video_type' => 'nullable|string|in:youtube,local',
                     'youtube_id' => 'nullable|string|max:255',
                     'duration' => 'nullable|string|max:50',
@@ -2705,6 +2715,7 @@ class AdminCrudController extends Controller
                     'slug' => 'required|string|unique:green_campus_articles,slug,'.$id,
                     'category' => 'required|string|max:255',
                     'image' => 'nullable|string',
+                    'publisher_id' => 'nullable|integer|exists:blog_departments,id',
                     'gallery' => 'nullable|array',
                     'views' => 'integer',
                     'published_at' => 'nullable|date',

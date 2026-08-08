@@ -139,8 +139,8 @@ export default function ApanelLayout({ children }) {
           icon: BookOpen,
         },
         {
-          path: "/apanel/cms/blog-departments",
-          label: "Blog Departments",
+          path: "/apanel/cms/content-publishers",
+          label: "Content Publishers",
           icon: Building2,
         },
         {

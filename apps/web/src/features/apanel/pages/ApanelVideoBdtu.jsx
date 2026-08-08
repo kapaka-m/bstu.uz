@@ -33,6 +33,7 @@ const emptyForm = (localeCodes) => ({
   slug: "",
   url: "",
   thumbnail: "",
+  publisher_id: "",
   video_type: "youtube",
   youtube_id: "",
   duration: "",
@@ -149,6 +150,7 @@ function fromRecord(record, localeCodes) {
     slug: record.slug || "",
     url: record.url || "",
     thumbnail: record.thumbnail || "",
+    publisher_id: record.publisher_id || record.publisher?.id || "",
     video_type: record.video_type || "youtube",
     youtube_id: record.youtube_id || "",
     duration: record.duration || "",
@@ -181,6 +183,7 @@ function toPayload(form, primaryLocale, localeCodes) {
     slug: form.slug,
     url: form.url,
     thumbnail: form.thumbnail || null,
+    publisher_id: form.publisher_id ? Number(form.publisher_id) : null,
     video_type: form.video_type,
     youtube_id: form.video_type === "youtube" ? form.youtube_id || youtubeIdFromUrl(form.url) : null,
     duration: form.duration || null,
@@ -203,6 +206,7 @@ export default function ApanelVideoBdtu() {
   );
   const primaryLocale = localeCodes[0] || "";
   const [items, setItems] = useState([]);
+  const [publishers, setPublishers] = useState([]);
   const [settingsForm, setSettingsForm] = useState(() => emptySettings([]));
   const [form, setForm] = useState(() => emptyForm([]));
   const [editingRecord, setEditingRecord] = useState(null);
@@ -235,8 +239,16 @@ export default function ApanelVideoBdtu() {
   const fetchVideos = useCallback(async () => {
     setLoading(true);
     try {
-      const pageData = await apanelService.listPage("videos", { per_page: 100 });
+      const [pageData, publishersPage] = await Promise.all([
+        apanelService.listPage("videos", { per_page: 100 }),
+        apanelService.listPage("blog-departments", {
+          per_page: 100,
+          sort_by: "sort_order",
+          sort_dir: "asc",
+        }),
+      ]);
       setItems(pageData.items || []);
+      setPublishers(publishersPage.items || []);
     } catch (err) {
       setError(err?.message || "Failed to load videos.");
     } finally {
@@ -647,6 +659,17 @@ export default function ApanelVideoBdtu() {
               <label className="space-y-1.5">
                 <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">{t("apanel.videoBdtu.slug")}</span>
                 <input value={form.slug} onChange={(e) => setField("slug", slugify(e.target.value))} className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm font-semibold text-navy" required />
+              </label>
+              <label className="space-y-1.5">
+                <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">Publisher</span>
+                <select value={form.publisher_id} onChange={(e) => setField("publisher_id", e.target.value)} className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm font-semibold text-navy bg-white">
+                  <option value="">Default publisher</option>
+                  {publishers.map((publisher) => (
+                    <option key={publisher.id} value={publisher.id}>
+                      {publisher.name || publisher.slug}
+                    </option>
+                  ))}
+                </select>
               </label>
               <label className="space-y-1.5">
                 <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">{t("apanel.videoBdtu.videoType")}</span>

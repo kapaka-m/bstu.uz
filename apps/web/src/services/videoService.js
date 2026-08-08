@@ -40,6 +40,12 @@ const normalizeVideo = (item = {}) => ({
   likesCount: Number(item.likes_count || 0),
   publishedAt: item.published_at || "",
   description: item.description || "",
+  publisher: item.publisher
+    ? {
+        ...item.publisher,
+        image: publicAssetUrl(item.publisher.image_url || item.publisher.image || ""),
+      }
+    : null,
 });
 
 const normalizeList = (response) => {

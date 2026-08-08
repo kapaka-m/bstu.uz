@@ -14,6 +14,7 @@ class GreenCampusArticle extends Model
         'category',
         'image',
         'gallery',
+        'publisher_id',
         'views',
         'published_at',
         'is_published',
@@ -25,4 +26,9 @@ class GreenCampusArticle extends Model
         'published_at' => 'datetime',
         'is_published' => 'boolean',
     ];
+
+    public function publisher()
+    {
+        return $this->belongsTo(BlogDepartment::class, 'publisher_id');
+    }
 }

@@ -36,6 +36,12 @@ const normalizeArticle = (item) => {
     date: normalizeDate(item.published_at || item.created_at),
     category: item.category || "",
     categoryLabel: item.category_label || item.category || "",
+    publisher: item.publisher
+      ? {
+          ...item.publisher,
+          image: publicAssetUrl(item.publisher.image_url || item.publisher.image || ""),
+        }
+      : null,
     paragraphs: item.content
       ? String(item.content)
           .split(/\n{2,}/)

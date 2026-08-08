@@ -1,4 +1,4 @@
-import { api } from "../lib/api";
+import { api, publicAssetUrl } from "../lib/api";
 import { localeStorage } from "../lib/locale";
 
 const CACHE_TTL_MS = 30000;
@@ -19,17 +19,19 @@ const cached = (key, fetcher) => {
   });
 };
 
+const unwrap = (response) => response?.data ?? response;
+
 const normalizeBlogItem = (item = {}) => ({
   ...item,
   id: item.slug || item.id,
   slug: item.slug || item.id,
-  image: item.image_url || item.image || "",
+  image: publicAssetUrl(item.image_url || item.image || ""),
   categoryLabel: item.category_label || item.category || "",
-  authorImage: item.author_image_url || item.author_image || null,
+  authorImage: publicAssetUrl(item.author_image_url || item.author_image || ""),
   department: item.department
     ? {
         ...item.department,
-        image: item.department.image_url || item.department.image || "",
+        image: publicAssetUrl(item.department.image_url || item.department.image || ""),
       }
     : null,
   excerpt: item.summary || item.excerpt || "",
@@ -52,6 +54,22 @@ const normalizeBlogList = (response) => {
       per_page: items.length,
       total: items.length,
     },
+  };
+};
+
+const normalizePublisherContentItem = (item = {}) => {
+  const image = publicAssetUrl(item.image_url || item.image || item.thumbnail_url || item.thumbnail || "");
+
+  return {
+    ...item,
+    id: item.slug || item.id,
+    slug: item.slug || item.id,
+    image,
+    thumbnail: image,
+    poster: image,
+    excerpt: item.summary || item.excerpt || item.description || "",
+    summary: item.summary || item.excerpt || item.description || "",
+    date: item.published_at || item.starts_at || item.date || item.created_at || "",
   };
 };
 
@@ -82,17 +100,21 @@ export const blogService = {
 
   getDepartments() {
     return cached("blog/departments", () =>
-      api.get("/blog/departments").then((res) => res.data || []),
+      api.get("/blog/departments").then((res) => unwrap(res) || []),
     );
   },
 
   getDepartment(slug) {
     return api.get(`/blog/departments/${slug}`).then((res) => {
-      const department = res.data || {};
+      const department = unwrap(res) || {};
       return {
         ...department,
-        image: department.image_url || department.image || "",
+        image: publicAssetUrl(department.image_url || department.image || ""),
         blogs: (department.blogs || []).map(normalizeBlogItem),
+        news: (department.news || []).map(normalizePublisherContentItem),
+        announcements: (department.announcements || []).map(normalizePublisherContentItem),
+        green_campus_articles: (department.green_campus_articles || []).map(normalizePublisherContentItem),
+        videos: (department.videos || []).map(normalizePublisherContentItem),
       };
     });
   },

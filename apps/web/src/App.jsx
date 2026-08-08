@@ -299,6 +299,7 @@ function AppContent() {
             <Route path="/profile/:id" element={<ProfileDetails />} />
 
             <Route path="/blog" element={<Blog />} />
+            <Route path="/publishers/:id" element={<BlogDepartmentPage />} />
             <Route path="/blog/departments/:id" element={<BlogDepartmentPage />} />
             <Route path="/blog/:id" element={<BlogDetails />} />
 
@@ -680,6 +681,16 @@ function AppContent() {
             />
             <Route
               path="/apanel/cms/blog-departments"
+              element={
+                <AdminRoute>
+                  <ApanelLayout>
+                    <ApanelBlogDepartments />
+                  </ApanelLayout>
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/apanel/cms/content-publishers"
               element={
                 <AdminRoute>
                   <ApanelLayout>

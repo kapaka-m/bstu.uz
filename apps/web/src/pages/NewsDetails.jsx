@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { Calendar, Eye, Search, Folder, Tag } from "lucide-react";
+import { Calendar, Eye, Search, Folder, Tag, User } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
 import { newsService } from "../services/newsService";
 import { formatLocalizedDate } from "../utils/dateFormat";
@@ -94,6 +94,9 @@ export default function NewsDetails() {
     );
   }
 
+  const publisher = news.publisher || null;
+  const publisherRoute = publisher?.slug ? `/publishers/${publisher.slug}` : "";
+
   return (
     <div className="pt-24 bg-white">
       <div className="container mx-auto px-4 md:px-8 max-w-7xl py-12 md:py-16">
@@ -127,6 +130,18 @@ export default function NewsDetails() {
                     {news.views} {settings?.views_label || ""}
                   </span>
                 </span>
+                {publisher?.name && (
+                  <span className="flex items-center gap-1">
+                    <User className="w-4 h-4 text-primary" />
+                    {publisherRoute ? (
+                      <Link to={publisherRoute} className="hover:text-primary transition-colors">
+                        {publisher.name}
+                      </Link>
+                    ) : (
+                      <span>{publisher.name}</span>
+                    )}
+                  </span>
+                )}
               </div>
 
               <div className="text-gray-500 text-sm md:text-base leading-relaxed flex flex-col gap-6">

@@ -60,6 +60,12 @@ const normalizeAnnouncement = (item = {}) => ({
   important: Boolean(item.important || item.priority === "high"),
   priority: item.priority || "normal",
   is_published: Boolean(item.is_published ?? true),
+  publisher: item.publisher
+    ? {
+        ...item.publisher,
+        image: item.publisher.image_url || item.publisher.image || "",
+      }
+    : null,
 });
 
 export const announcementService = {

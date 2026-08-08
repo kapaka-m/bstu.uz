@@ -54,6 +54,8 @@ Route::prefix('v1')->group(function () {
         Route::get('/faculties/{slug}', [PublicApiController::class, 'faculty']);
         Route::get('/departments', [PublicApiController::class, 'departments']);
         Route::get('/departments/{slug}', [PublicApiController::class, 'department']);
+        Route::get('/publishers', [PublicApiController::class, 'publishers']);
+        Route::get('/publishers/{slug}', [PublicApiController::class, 'publisher']);
         Route::get('/programs', [PublicApiController::class, 'programs']);
         Route::get('/programs/{slug}', [PublicApiController::class, 'program']);
         Route::get('/courses', [PublicApiController::class, 'courses']);

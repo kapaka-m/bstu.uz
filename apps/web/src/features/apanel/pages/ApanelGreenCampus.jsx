@@ -35,6 +35,7 @@ const emptyArticleTranslation = {
 const createEmptyArticleForm = (localeCodes) => ({
   slug: "",
   category: "",
+  publisher_id: "",
   image: "",
   gallery: [],
   views: 0,
@@ -129,6 +130,7 @@ function articleFromRecord(record, localeCodes) {
   return {
     slug: record.slug || "",
     category: record.category || "",
+    publisher_id: record.publisher_id || record.publisher?.id || "",
     image: record.image || "",
     gallery: Array.isArray(record.gallery) ? record.gallery : [],
     views: Number(record.views || 0),
@@ -152,6 +154,7 @@ function articlePayload(form, localeCodes, primaryLocale) {
   return {
     slug: form.slug,
     category: form.category,
+    publisher_id: form.publisher_id ? Number(form.publisher_id) : null,
     image: form.image || null,
     gallery: form.gallery.filter(Boolean),
     views: Number(form.views || 0),
@@ -203,6 +206,7 @@ export default function ApanelGreenCampus() {
   const [activeTab, setActiveTab] = useState("articles");
   const [activeLocale, setActiveLocale] = useState("");
   const [articles, setArticles] = useState([]);
+  const [publishers, setPublishers] = useState([]);
   const [stats, setStats] = useState([]);
   const [articleForm, setArticleForm] = useState(() => createEmptyArticleForm([]));
   const [statForm, setStatForm] = useState(() => createEmptyStatForm([]));
@@ -221,7 +225,7 @@ export default function ApanelGreenCampus() {
     try {
       setLoading(true);
       setError("");
-      const [articlesPage, statsPage, settings] = await Promise.all([
+      const [articlesPage, statsPage, publishersPage, settings] = await Promise.all([
         apanelService.listPage("green-campus-articles", {
           per_page: 100,
           sort_by: "sort_order",
@@ -232,11 +236,17 @@ export default function ApanelGreenCampus() {
           sort_by: "sort_order",
           sort_dir: "asc",
         }),
+        apanelService.listPage("blog-departments", {
+          per_page: 100,
+          sort_by: "sort_order",
+          sort_dir: "asc",
+        }),
         apanelService.getGreenCampusSettings(),
       ]);
 
       const setting = settings.data || settings;
       setArticles(articlesPage.items);
+      setPublishers(publishersPage.items || []);
       setStats(statsPage.items);
       setSettingsForm({
         home_limit: setting.home_limit || 3,
@@ -675,6 +685,21 @@ export default function ApanelGreenCampus() {
                 <LocaleTabs activeLocale={activeLocale} locales={localeCodes} onChange={setActiveLocale} />
                 <Input label={t("apanel.greenCampus.label.slug")} value={articleForm.slug} onChange={(value) => setArticleField("slug", value)} />
                 <Input label={t("apanel.greenCampus.label.categoryKey")} value={articleForm.category} onChange={(value) => setArticleField("category", slugify(value))} />
+                <label className="space-y-1.5 block">
+                  <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">Publisher</span>
+                  <select
+                    value={articleForm.publisher_id}
+                    onChange={(event) => setArticleField("publisher_id", event.target.value)}
+                    className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm font-semibold text-navy bg-white focus:outline-none focus:border-emerald-600"
+                  >
+                    <option value="">Default publisher</option>
+                    {publishers.map((publisher) => (
+                      <option key={publisher.id} value={publisher.id}>
+                        {publisher.name || publisher.slug}
+                      </option>
+                    ))}
+                  </select>
+                </label>
                 <Input label={t("apanel.greenCampus.label.publishedDate")} type="date" value={articleForm.published_at} onChange={(value) => setArticleField("published_at", value)} />
                 <Input label={t("apanel.greenCampus.label.sortOrder")} type="number" value={articleForm.sort_order} onChange={(value) => setArticleField("sort_order", value)} />
                 <Input label={t("apanel.greenCampus.label.views")} type="number" value={articleForm.views} onChange={(value) => setArticleField("views", value)} />

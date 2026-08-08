@@ -114,7 +114,7 @@ export default function ApanelBlogDepartments() {
       });
       setItems(page.items);
     } catch (err) {
-      setError(err?.message || "Failed to load blog departments.");
+      setError(err?.message || "Failed to load content publishers.");
     } finally {
       setLoading(false);
     }
@@ -197,7 +197,7 @@ export default function ApanelBlogDepartments() {
       closeEditor();
       fetchItems();
     } catch (err) {
-      setError(err?.message || "Failed to save blog department.");
+      setError(err?.message || "Failed to save content publisher.");
     } finally {
       setSaving(false);
     }
@@ -211,7 +211,7 @@ export default function ApanelBlogDepartments() {
       setPendingDelete(null);
       fetchItems();
     } catch (err) {
-      setError(err?.message || "Failed to delete blog department.");
+      setError(err?.message || "Failed to delete content publisher.");
     }
   };
 
@@ -228,10 +228,10 @@ export default function ApanelBlogDepartments() {
       <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-extrabold text-navy uppercase tracking-wider">
-            Blog Departments
+            Content Publishers
           </h1>
           <p className="text-gray-400 text-xs font-semibold mt-1">
-            Manage blog publishing departments and their public profile pages.
+            Manage publishers used by blog posts, news, announcements, green campus articles, and videos.
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -241,7 +241,7 @@ export default function ApanelBlogDepartments() {
           </button>
           <button type="button" onClick={startCreate} className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-xs font-extrabold text-white">
             <Plus className="h-4 w-4" />
-            Add Department
+            Add Publisher
           </button>
         </div>
       </div>
@@ -250,8 +250,8 @@ export default function ApanelBlogDepartments() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {[
-          ["Total Departments", stats.total],
-          ["Active Departments", stats.active],
+          ["Total Publishers", stats.total],
+          ["Active Publishers", stats.active],
         ].map(([label, value]) => (
           <div key={label} className="rounded-3xl border border-gray-100 bg-white p-5 shadow-xs">
             <p className="text-[10px] uppercase tracking-wider font-black text-gray-400">{label}</p>
@@ -264,7 +264,7 @@ export default function ApanelBlogDepartments() {
         <section className="rounded-3xl border border-gray-100 bg-white shadow-xs overflow-hidden">
           <div className="flex items-center justify-between gap-4 border-b border-gray-100 p-5">
             <h2 className="text-lg font-extrabold text-navy">
-              {editingRecord ? "Edit Department" : "Create Department"}
+              {editingRecord ? "Edit Publisher" : "Create Publisher"}
             </h2>
             <button type="button" onClick={closeEditor} className="flex h-9 w-9 items-center justify-center rounded-xl border border-gray-200 text-gray-500">
               <X className="h-4 w-4" />
@@ -361,7 +361,7 @@ export default function ApanelBlogDepartments() {
             <div className="flex justify-end">
               <button disabled={saving} className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-3 text-xs font-extrabold text-white disabled:opacity-60">
                 {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
-                Save Department
+                Save Publisher
               </button>
             </div>
           </form>
@@ -378,7 +378,7 @@ export default function ApanelBlogDepartments() {
             <table className="min-w-full text-start text-sm">
               <thead className="bg-gray-50 text-[10px] uppercase tracking-wider text-gray-400">
                 <tr>
-                  <th className="px-5 py-3 text-start">Department</th>
+                  <th className="px-5 py-3 text-start">Publisher</th>
                   <th className="px-5 py-3 text-start">Slug</th>
                   <th className="px-5 py-3 text-start">Status</th>
                   <th className="px-5 py-3 text-end">Actions</th>
@@ -418,8 +418,8 @@ export default function ApanelBlogDepartments() {
 
       <ConfirmDialog
         open={Boolean(pendingDelete)}
-        title="Delete Blog Department"
-        message="This department will be removed. Linked blog posts will keep their article content but lose this department profile link."
+        title="Delete Content Publisher"
+        message="This publisher will be removed. Linked content will keep its main content but lose this publisher profile link."
         confirmLabel="Delete"
         loading={false}
         onConfirm={confirmDelete}

@@ -32,6 +32,7 @@ const emptyForm = (localeCodes) => ({
   type: "announcements",
   priority: "normal",
   image: "",
+  publisher_id: "",
   starts_at: "",
   ends_at: "",
   is_published: true,
@@ -107,6 +108,7 @@ function fromRecord(record, localeCodes) {
     type: record.type || "announcements",
     priority: record.priority || "normal",
     image: record.image || "",
+    publisher_id: record.publisher_id || record.publisher?.id || "",
     starts_at: toDateInput(record.starts_at),
     ends_at: toDateInput(record.ends_at),
     is_published: Boolean(record.is_published ?? true),
@@ -122,6 +124,7 @@ function toPayload(form, primaryLocale, localeCodes) {
     type: form.type,
     priority: form.priority,
     image: form.image || null,
+    publisher_id: form.publisher_id ? Number(form.publisher_id) : null,
     starts_at: form.starts_at || null,
     ends_at: form.ends_at || null,
     is_published: Boolean(form.is_published),
@@ -150,6 +153,7 @@ export default function ApanelAnnouncements() {
   const [activeTab, setActiveTab] = useState("items");
   const [activeLocale, setActiveLocale] = useState("");
   const [items, setItems] = useState([]);
+  const [publishers, setPublishers] = useState([]);
   const [settingsForm, setSettingsForm] = useState(() => emptySettings([]));
   const [form, setForm] = useState(() => emptyForm([]));
   const [editingRecord, setEditingRecord] = useState(null);
@@ -223,6 +227,23 @@ export default function ApanelAnnouncements() {
   useEffect(() => {
     fetchItems();
   }, [fetchItems]);
+
+  const fetchPublishers = useCallback(async () => {
+    try {
+      const page = await apanelService.listPage("blog-departments", {
+        per_page: 100,
+        sort_by: "sort_order",
+        sort_dir: "asc",
+      });
+      setPublishers(page.items || []);
+    } catch (err) {
+      setError(err?.message || "Failed to load content publishers.");
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchPublishers();
+  }, [fetchPublishers]);
 
   useEffect(() => {
     fetchSettings();
@@ -597,6 +618,28 @@ export default function ApanelAnnouncements() {
               >
                 <option value="normal">{t("apanel.announcements.normal")}</option>
                 <option value="high">{t("apanel.announcements.important")}</option>
+              </select>
+            </label>
+            <label className="space-y-1">
+              <span className="text-xs font-extrabold text-gray-500">
+                Publisher
+              </span>
+              <select
+                value={form.publisher_id}
+                onChange={(e) =>
+                  setForm((current) => ({
+                    ...current,
+                    publisher_id: e.target.value,
+                  }))
+                }
+                className="w-full border border-gray-100 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-primary bg-white"
+              >
+                <option value="">Default publisher</option>
+                {publishers.map((publisher) => (
+                  <option key={publisher.id} value={publisher.id}>
+                    {publisher.name || publisher.slug}
+                  </option>
+                ))}
               </select>
             </label>
             <label className="space-y-1">

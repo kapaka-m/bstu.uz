@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, Link, useNavigate } from "react-router-dom";
-import { Search, Calendar, ArrowRight } from "lucide-react";
+import { Search, Calendar, ArrowRight, User } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
 import { newsService } from "../services/newsService";
 import { formatLocalizedDate } from "../utils/dateFormat";
@@ -166,6 +166,18 @@ export default function NewsPage() {
                           <Calendar className="w-3.5 h-3.5 text-primary" />
                           {formatNewsDate(item.date)}
                         </span>
+                        {item.publisher?.name && (
+                          <span className="flex items-center gap-1">
+                            <User className="w-3.5 h-3.5 text-primary" />
+                            {item.publisher.slug ? (
+                              <Link to={`/publishers/${item.publisher.slug}`} className="hover:text-primary transition-colors">
+                                {item.publisher.name}
+                              </Link>
+                            ) : (
+                              item.publisher.name
+                            )}
+                          </span>
+                        )}
                       </div>
 
                       <h2 className="text-xl font-extrabold text-navy group-hover:text-primary transition-colors duration-300 leading-snug mb-3">

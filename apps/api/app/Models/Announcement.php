@@ -9,7 +9,7 @@ class Announcement extends Model
 {
     use HasTranslations;
 
-    protected $fillable = ['slug', 'type', 'priority', 'image', 'starts_at', 'ends_at', 'is_published', 'views_count'];
+    protected $fillable = ['slug', 'type', 'priority', 'image', 'publisher_id', 'starts_at', 'ends_at', 'is_published', 'views_count'];
 
     protected $casts = [
         'starts_at' => 'datetime',
@@ -17,4 +17,9 @@ class Announcement extends Model
         'is_published' => 'boolean',
         'views_count' => 'integer',
     ];
+
+    public function publisher()
+    {
+        return $this->belongsTo(BlogDepartment::class, 'publisher_id');
+    }
 }

@@ -67,6 +67,7 @@ lerna-debug.log*
 .agents/
 .kilo/
 .vscode/
+DEL/
 .idea/
 .DS_Store
 Thumbs.db

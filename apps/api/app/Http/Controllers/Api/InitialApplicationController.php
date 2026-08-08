@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Application;
 use App\Models\ApplicationCountry;
 use App\Models\ApplicationNationality;
-use App\Models\Application;
 use App\Models\ApplicationStatusHistory;
 use App\Models\EducationBackground;
 use App\Models\Locale;

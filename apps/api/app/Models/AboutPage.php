@@ -162,6 +162,7 @@ class AboutPage extends Model
 
             if (is_array($value) && $value !== []) {
                 $flat += self::flattenContent($value, $path);
+
                 continue;
             }
 
@@ -178,7 +179,7 @@ class AboutPage extends Model
     protected static function setContentPath(array &$content, string $path, mixed $value): void
     {
         $segments = explode('.', $path);
-        $target =& $content;
+        $target = &$content;
 
         foreach ($segments as $index => $segment) {
             $isLast = $index === count($segments) - 1;
@@ -193,7 +194,7 @@ class AboutPage extends Model
                 $target[$key] = [];
             }
 
-            $target =& $target[$key];
+            $target = &$target[$key];
         }
     }
 

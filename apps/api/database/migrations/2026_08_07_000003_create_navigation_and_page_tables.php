@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
+
 return new class extends Migration
 {
     protected string $schemaFile = 'data/schema_groups/003_navigation_pages.sql';
@@ -23,7 +24,7 @@ return new class extends Migration
 
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
         foreach ($tables as $table) {
-            DB::statement('DROP TABLE IF EXISTS `' . str_replace('`', '``', $table) . '`');
+            DB::statement('DROP TABLE IF EXISTS `'.str_replace('`', '``', $table).'`');
         }
         DB::statement('SET FOREIGN_KEY_CHECKS=1');
     }
@@ -61,6 +62,7 @@ return new class extends Migration
                     if ($char === "\n") {
                         $lineComment = false;
                     }
+
                     continue;
                 }
 
@@ -69,6 +71,7 @@ return new class extends Migration
                         $i++;
                         $blockComment = false;
                     }
+
                     continue;
                 }
 
@@ -76,32 +79,38 @@ return new class extends Migration
                     $buffer .= $char;
                     if ($escaped) {
                         $escaped = false;
+
                         continue;
                     }
                     if ($char === '\\') {
                         $escaped = true;
+
                         continue;
                     }
                     if ($char === $quote) {
                         $quote = null;
                     }
+
                     continue;
                 }
 
                 if (($char === '-' && $next === '-') || $char === '#') {
                     $lineComment = true;
+
                     continue;
                 }
 
                 if ($char === '/' && $next === '*') {
                     $blockComment = true;
                     $i++;
+
                     continue;
                 }
 
                 if ($char === "'" || $char === '"' || $char === '`') {
                     $quote = $char;
                     $buffer .= $char;
+
                     continue;
                 }
 
@@ -111,6 +120,7 @@ return new class extends Migration
                         DB::unprepared($statement);
                     }
                     $buffer = '';
+
                     continue;
                 }
 

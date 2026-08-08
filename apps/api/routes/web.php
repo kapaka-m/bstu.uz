@@ -28,7 +28,7 @@ Route::get('/', function () {
     $statusClass = $databaseConnected ? 'is-up' : 'is-down';
     $dotTitle = $databaseConnected ? 'Database is connected' : 'Database is not connected';
     $localEndpoint = trim((string) config('app.url'), '/') ?: request()->getSchemeAndHttpHost();
-    $localTarget = $databaseHost . ($databasePort ? ':' . $databasePort : '');
+    $localTarget = $databaseHost.($databasePort ? ':'.$databasePort : '');
 
     $connectionName = e($connectionName);
     $driver = e($driver);

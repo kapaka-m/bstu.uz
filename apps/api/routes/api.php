@@ -6,8 +6,8 @@ use App\Http\Controllers\Api\AuthCmsController;
 use App\Http\Controllers\Api\HomeCmsController;
 use App\Http\Controllers\Api\InitialApplicationController;
 use App\Http\Controllers\Api\PublicApiController;
-use App\Http\Controllers\Api\StudentApplicationPortalController;
 use App\Http\Controllers\Api\StudentApiController;
+use App\Http\Controllers\Api\StudentApplicationPortalController;
 use App\Http\Controllers\Api\V1\AuthController;
 use Illuminate\Support\Facades\Route;
 

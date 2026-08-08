@@ -8,8 +8,8 @@ use App\Models\ApplicationDocument;
 use App\Models\ApplicationEquivalency;
 use App\Models\ApplicationFeePayment;
 use App\Models\DocumentRequirement;
-use App\Models\ServiceFeePayment;
 use App\Models\Payment;
+use App\Models\ServiceFeePayment;
 use App\Services\AdmissionPdfService;
 use App\Services\ApplicationWorkflowService;
 use App\Services\CmsSettingService;
@@ -68,12 +68,14 @@ class ApanelApplicationWorkflowController extends Controller
     public function show(Request $request, int $application)
     {
         $app = $this->findApplication($application);
+
         return $this->successResponse($this->workflow->applicationSnapshot($app), 'Application workflow retrieved');
     }
 
     public function documents(Request $request, int $application)
     {
         $app = $this->findApplication($application);
+
         return $this->successResponse($this->workflow->applicationSnapshot($app), 'Application documents retrieved');
     }
 
@@ -232,6 +234,7 @@ class ApanelApplicationWorkflowController extends Controller
     public function payment(Request $request, int $application)
     {
         $app = $this->findApplication($application);
+
         return $this->successResponse($app->load('applicationFeePayments'), 'Application fee payments retrieved');
     }
 
@@ -282,6 +285,7 @@ class ApanelApplicationWorkflowController extends Controller
     public function finalReview(Request $request, int $application)
     {
         $app = $this->findApplication($application);
+
         return $this->successResponse($this->workflow->applicationSnapshot($app), 'Final review checklist retrieved');
     }
 
@@ -325,6 +329,7 @@ class ApanelApplicationWorkflowController extends Controller
     public function admission(Request $request, int $application)
     {
         $app = $this->findApplication($application);
+
         return $this->successResponse($this->workflow->applicationSnapshot($app), 'Admission data retrieved');
     }
 

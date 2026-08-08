@@ -206,15 +206,18 @@ HTML;
     {
         if (preg_match('/(fall|autumn)[-_ ]?(20\d{2})/i', (string) $intake, $match)) {
             $year = (int) $match[2];
+
             return $year.'–'.($year + 1);
         }
 
         if (preg_match('/spring[-_ ]?(20\d{2})/i', (string) $intake, $match)) {
             $year = (int) $match[1] - 1;
+
             return $year.'–'.($year + 1);
         }
 
         $year = $fallbackYear ?: (int) now()->format('Y');
+
         return $year.'–'.($year + 1);
     }
 

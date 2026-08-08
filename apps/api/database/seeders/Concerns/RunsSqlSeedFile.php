@@ -49,6 +49,7 @@ trait RunsSqlSeedFile
                     if ($char === "\n") {
                         $lineComment = false;
                     }
+
                     continue;
                 }
 
@@ -57,6 +58,7 @@ trait RunsSqlSeedFile
                         $i++;
                         $blockComment = false;
                     }
+
                     continue;
                 }
 
@@ -64,32 +66,38 @@ trait RunsSqlSeedFile
                     $buffer .= $char;
                     if ($escaped) {
                         $escaped = false;
+
                         continue;
                     }
                     if ($char === '\\') {
                         $escaped = true;
+
                         continue;
                     }
                     if ($char === $quote) {
                         $quote = null;
                     }
+
                     continue;
                 }
 
                 if (($char === '-' && $next === '-') || $char === '#') {
                     $lineComment = true;
+
                     continue;
                 }
 
                 if ($char === '/' && $next === '*') {
                     $blockComment = true;
                     $i++;
+
                     continue;
                 }
 
                 if ($char === "'" || $char === '"' || $char === '`') {
                     $quote = $char;
                     $buffer .= $char;
+
                     continue;
                 }
 
@@ -99,6 +107,7 @@ trait RunsSqlSeedFile
                         $callback($statement);
                     }
                     $buffer = '';
+
                     continue;
                 }
 

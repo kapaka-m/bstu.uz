@@ -5,14 +5,14 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CommentRequest;
 use App\Http\Requests\InquiryRequest;
-use App\Mail\CmsTemplateMail;
 use App\Http\Resources\LocalizedCollection;
 use App\Http\Resources\LocalizedResource;
+use App\Mail\CmsTemplateMail;
 use App\Models\AboutPage;
-use App\Models\Announcement;
-use App\Models\AnnouncementSetting;
 use App\Models\AdministrationProfile;
 use App\Models\AdministrationSetting;
+use App\Models\Announcement;
+use App\Models\AnnouncementSetting;
 use App\Models\Blog;
 use App\Models\BlogComment;
 use App\Models\BlogSetting;
@@ -24,8 +24,8 @@ use App\Models\Faculty;
 use App\Models\GreenCampusArticle;
 use App\Models\GreenCampusSetting;
 use App\Models\GreenCampusStat;
-use App\Models\InteractiveServiceSetting;
 use App\Models\Inquiry;
+use App\Models\InteractiveServiceSetting;
 use App\Models\Locale;
 use App\Models\Media;
 use App\Models\Menu;
@@ -39,9 +39,9 @@ use App\Models\Program;
 use App\Models\Service;
 use App\Models\Setting;
 use App\Models\StaffProfile;
+use App\Models\TranslationKey;
 use App\Models\UniversityCenter;
 use App\Models\UniversityCenterSetting;
-use App\Models\TranslationKey;
 use App\Models\Video;
 use App\Models\VideoComment;
 use App\Models\VideoGallerySetting;
@@ -61,6 +61,7 @@ class PublicApiController extends Controller
     use ApiResponse;
 
     protected ?string $fallbackLocaleCode = null;
+
     protected array $activeLocaleCodes = [];
 
     /**
@@ -291,7 +292,7 @@ class PublicApiController extends Controller
     {
         $locale = $this->getRequestLocale($request);
 
-        $payload = $this->publicCache($request, 'about-page', [$locale], function () use ($request, $locale) {
+        $payload = $this->publicCache($request, 'about-page', [$locale], function () use ($locale) {
             $page = AboutPage::where('key', 'main')
                 ->where('is_published', true)
                 ->with('contentEntries.translations')
@@ -2061,7 +2062,7 @@ class PublicApiController extends Controller
             'content' => $translation?->content ?: '',
             'author' => $translation?->author ?: '',
         ];
-     }
+    }
 
     public function universityCenters(Request $request)
     {

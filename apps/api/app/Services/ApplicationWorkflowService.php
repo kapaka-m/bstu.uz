@@ -483,6 +483,7 @@ class ApplicationWorkflowService
     private function profileComplete(Application $application): bool
     {
         $profile = $application->studentProfile;
+
         return filled($profile?->full_name_english)
             && filled($profile?->birth_date)
             && filled($profile?->passport_number)
@@ -580,6 +581,7 @@ class ApplicationWorkflowService
         if (! $checks['residence_completed']) {
             return $this->settings()->text('workflow.next.wait_residence', '');
         }
+
         return $this->settings()->text('workflow.next.completed', '');
     }
 

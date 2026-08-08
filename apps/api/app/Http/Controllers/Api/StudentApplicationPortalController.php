@@ -8,7 +8,6 @@ use App\Models\ApplicationDocument;
 use App\Models\ApplicationFeePayment;
 use App\Models\Payment;
 use App\Models\ServiceFeePayment;
-use App\Models\Notification;
 use App\Models\StudentProfile;
 use App\Services\AdmissionPdfService;
 use App\Services\ApplicationWorkflowService;
@@ -19,10 +18,8 @@ use App\Services\StudyContractPdfService;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Illuminate\Validation\Rule;
 
 class StudentApplicationPortalController extends Controller
 {
@@ -57,6 +54,7 @@ class StudentApplicationPortalController extends Controller
         }
 
         $profile->load('user', 'educationBackgrounds');
+
         return $this->successResponse($profile, 'Student profile retrieved');
     }
 
@@ -162,6 +160,7 @@ class StudentApplicationPortalController extends Controller
         }
 
         $application->load('equivalency.courses');
+
         return $this->successResponse($application->equivalency, 'Equivalency retrieved');
     }
 
@@ -260,6 +259,7 @@ class StudentApplicationPortalController extends Controller
         }
 
         $snapshot = $this->workflow->applicationSnapshot($application);
+
         return $this->successResponse([
             'admission' => $application->admission,
             'checks' => $snapshot['checks'],
@@ -514,6 +514,7 @@ class StudentApplicationPortalController extends Controller
     private function canUploadFeeReceipt(Application $application): bool
     {
         $snapshot = $this->workflow->applicationSnapshot($application);
+
         return $snapshot['checks']['documents_approved']
             && $snapshot['checks']['equivalency_complete']
             && ! $snapshot['checks']['payment_approved'];

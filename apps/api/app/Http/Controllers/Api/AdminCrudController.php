@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Mail\CmsTemplateMail;
 use App\Models\AboutPage;
 use App\Models\AboutPageContentEntry;
 use App\Models\AdministrationProfile;
@@ -35,8 +36,8 @@ use App\Models\Menu;
 use App\Models\MenuItem;
 use App\Models\News;
 use App\Models\NewsEventSetting;
-use App\Models\NewsletterSubscription;
 use App\Models\NewsletterCampaign;
+use App\Models\NewsletterSubscription;
 use App\Models\Notification;
 use App\Models\Page;
 use App\Models\PageBlock;
@@ -59,7 +60,6 @@ use App\Models\VideoComment;
 use App\Models\VideoGallerySetting;
 use App\Models\VideoTranslation;
 use App\Models\WebFooter;
-use App\Mail\CmsTemplateMail;
 use App\Traits\ApiResponse;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;

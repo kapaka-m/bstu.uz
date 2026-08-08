@@ -16,8 +16,7 @@ class CmsTemplateMail extends Mailable
         public array $tokens = [],
         public ?string $mailLocale = null,
         public ?string $subjectOverride = null,
-    ) {
-    }
+    ) {}
 
     public function build(): self
     {

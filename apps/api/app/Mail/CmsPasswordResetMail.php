@@ -16,8 +16,7 @@ class CmsPasswordResetMail extends Mailable
         public User $user,
         public string $token,
         public ?string $mailLocale = null,
-    ) {
-    }
+    ) {}
 
     public function build(): self
     {

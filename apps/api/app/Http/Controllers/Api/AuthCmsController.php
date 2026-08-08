@@ -8,10 +8,10 @@ use App\Models\AuthPage;
 use App\Models\Locale;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Collection;
 
 class AuthCmsController extends Controller
 {

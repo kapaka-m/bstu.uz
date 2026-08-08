@@ -26,6 +26,12 @@ const normalizeBlogItem = (item = {}) => ({
   image: item.image_url || item.image || "",
   categoryLabel: item.category_label || item.category || "",
   authorImage: item.author_image_url || item.author_image || null,
+  department: item.department
+    ? {
+        ...item.department,
+        image: item.department.image_url || item.department.image || "",
+      }
+    : null,
   excerpt: item.summary || item.excerpt || "",
   date: item.published_at || item.date || "",
   comments: item.comments_count ?? item.comments ?? 0,
@@ -72,5 +78,22 @@ export const blogService = {
 
   postComment(slug, payload) {
     return api.post(`/blog/${slug}/comments`, payload).then((res) => res.data);
+  },
+
+  getDepartments() {
+    return cached("blog/departments", () =>
+      api.get("/blog/departments").then((res) => res.data || []),
+    );
+  },
+
+  getDepartment(slug) {
+    return api.get(`/blog/departments/${slug}`).then((res) => {
+      const department = res.data || {};
+      return {
+        ...department,
+        image: department.image_url || department.image || "",
+        blogs: (department.blogs || []).map(normalizeBlogItem),
+      };
+    });
   },
 };

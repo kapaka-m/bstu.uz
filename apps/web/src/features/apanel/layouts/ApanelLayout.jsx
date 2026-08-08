@@ -139,6 +139,11 @@ export default function ApanelLayout({ children }) {
           icon: BookOpen,
         },
         {
+          path: "/apanel/cms/blog-departments",
+          label: "Blog Departments",
+          icon: Building2,
+        },
+        {
           path: "/apanel/cms/video-bdtu",
           label: t("apanel.nav.videoGallery"),
           icon: Video,

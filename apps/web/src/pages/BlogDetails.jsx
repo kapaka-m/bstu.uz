@@ -192,6 +192,10 @@ export default function BlogDetails() {
   const commentsLabel = labelText(settings.comments_label, "");
   const currentUrl = typeof window !== "undefined" ? window.location.href : "";
   const categoryLabel = asText(post.categoryLabel, asText(post.category));
+  const publisher = post.department || null;
+  const publisherName = asText(publisher?.name, asText(post.author));
+  const publisherImage = publisher?.image || post.authorImage;
+  const publisherRoute = publisher?.slug ? `/blog/departments/${publisher.slug}` : "";
   const handleNativeShare = async () => {
     if (!currentUrl) return;
 
@@ -246,7 +250,13 @@ export default function BlogDetails() {
               <div className="flex items-center gap-4 text-xs md:text-sm font-semibold text-gray-400 border-b border-gray-200/50 pb-4">
                 <span className="flex items-center gap-1">
                   <User className="w-4 h-4 text-primary" />
-                  <span>{post.author}</span>
+                  {publisherRoute ? (
+                    <Link to={publisherRoute} className="hover:text-primary transition-colors">
+                      {publisherName}
+                    </Link>
+                  ) : (
+                    <span>{publisherName}</span>
+                  )}
                 </span>
                 <span className="flex items-center gap-1">
                   <Calendar className="w-4 h-4 text-primary" />
@@ -299,16 +309,24 @@ export default function BlogDetails() {
               dir={isRtl ? "ltr" : undefined}
               className={`bg-primary-light border border-gray-100 p-8 rounded-3xl flex gap-6 ${isRtl ? "flex-row items-center justify-end text-right" : "flex-col sm:flex-row items-center sm:items-start"}`}
             >
-              {post.authorImage ? (
+              {publisherImage && publisherRoute ? (
+                <Link to={publisherRoute} className="shrink-0" aria-label={publisherName}>
+                  <img
+                    src={publisherImage}
+                    alt={publisherName}
+                    className={`w-20 h-20 rounded-full object-cover border-2 border-white shadow-md shrink-0 ${isRtl ? "order-2" : ""}`}
+                  />
+                </Link>
+              ) : publisherImage ? (
                 <img
-                  src={post.authorImage}
-                  alt={post.author}
+                  src={publisherImage}
+                  alt={publisherName}
                   className={`w-20 h-20 rounded-full object-cover border-2 border-white shadow-md shrink-0 ${isRtl ? "order-2" : ""}`}
                 />
               ) : (
                 <div
                   className={`w-20 h-20 rounded-full border-2 border-white shadow-md shrink-0 bg-white text-primary flex items-center justify-center ${isRtl ? "order-2" : ""}`}
-                  aria-label={post.author}
+                  aria-label={publisherName}
                 >
                   <User className="w-8 h-8" />
                 </div>
@@ -318,8 +336,19 @@ export default function BlogDetails() {
                 className={`${isRtl ? "order-1 text-right items-end shrink-0" : "text-center sm:text-left items-center sm:items-start grow w-full"} flex flex-col`}
               >
                 <h4 className="text-lg font-extrabold text-navy mb-1">
-                  {post.author}
+                  {publisherRoute ? (
+                    <Link to={publisherRoute} className="hover:text-primary transition-colors">
+                      {publisherName}
+                    </Link>
+                  ) : (
+                    publisherName
+                  )}
                 </h4>
+                {publisher?.description && (
+                  <p className="text-sm text-gray-500 leading-relaxed max-w-2xl mb-3">
+                    {publisher.description}
+                  </p>
+                )}
                 <div
                   className={`flex items-center ${isRtl ? "justify-end" : "justify-center sm:justify-start"} gap-2.5 mb-3`}
                 >

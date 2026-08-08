@@ -20,6 +20,8 @@ class DatabaseSeeder extends Seeder
                 PublicCmsSnapshotSeeder::class,
                 AdmissionsWorkflowSnapshotSeeder::class,
                 CommunicationSnapshotSeeder::class,
+                BlogDepartmentSeeder::class,
+                RemoveDuplicatedHomepageTranslationKeysSeeder::class,
             ]);
         } finally {
             DB::statement('SET FOREIGN_KEY_CHECKS=1');

@@ -37,6 +37,7 @@ const emptyForm = (localeCodes) => ({
   image: "",
   author: "",
   author_image: "",
+  blog_department_id: "",
   category: "",
   published_at: "",
   is_published: true,
@@ -128,6 +129,7 @@ function fromRecord(record, localeCodes) {
     image: record.image || "",
     author: record.author || "",
     author_image: record.author_image || "",
+    blog_department_id: record.blog_department_id || record.blog_department?.id || "",
     category: record.category || "",
     published_at: toDateInput(record.published_at),
     is_published: Boolean(record.is_published),
@@ -163,6 +165,7 @@ function toPayload(form, primaryLocale, localeCodes) {
     image: form.image || null,
     author: form.author || translations[primaryLocale]?.author || null,
     author_image: form.author_image || null,
+    blog_department_id: form.blog_department_id ? Number(form.blog_department_id) : null,
     category: form.category,
     published_at: form.published_at || null,
     is_published: Boolean(form.is_published),
@@ -200,6 +203,7 @@ export default function ApanelBlog() {
   const [editingRecord, setEditingRecord] = useState(null);
   const [form, setForm] = useState(() => emptyForm([]));
   const [settingsForm, setSettingsForm] = useState(() => emptySettings([]));
+  const [departments, setDepartments] = useState([]);
   const [savingSettings, setSavingSettings] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
   const [uploadingAuthorImage, setUploadingAuthorImage] = useState(false);
@@ -246,9 +250,23 @@ export default function ApanelBlog() {
     }
   }, [page, search]);
 
+  const fetchDepartments = useCallback(async () => {
+    try {
+      const pageData = await apanelService.listPage("blog-departments", {
+        per_page: 100,
+        sort_by: "sort_order",
+        sort_dir: "asc",
+      });
+      setDepartments(pageData.items);
+    } catch {
+      setDepartments([]);
+    }
+  }, []);
+
   useEffect(() => {
     fetchBlog();
-  }, [fetchBlog]);
+    fetchDepartments();
+  }, [fetchBlog, fetchDepartments]);
 
   const fetchSettings = useCallback(async () => {
     try {
@@ -800,6 +818,29 @@ export default function ApanelBlog() {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <label className="space-y-1.5">
+                <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">
+                  Publishing Department
+                </span>
+                <select
+                  value={form.blog_department_id || ""}
+                  onChange={(event) => setField("blog_department_id", event.target.value)}
+                  className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm font-semibold text-navy focus:outline-none focus:border-primary bg-white"
+                >
+                  <option value="">Unassigned</option>
+                  {departments.map((department) => {
+                    const translation =
+                      department.translations?.find((item) => item.locale === primaryLocale) ||
+                      department.translations?.[0] ||
+                      {};
+                    return (
+                      <option key={department.id} value={department.id}>
+                        {translation.name || department.slug}
+                      </option>
+                    );
+                  })}
+                </select>
+              </label>
               <label className="space-y-1.5">
                 <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">
                   Default Author

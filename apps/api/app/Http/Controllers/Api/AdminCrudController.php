@@ -18,6 +18,7 @@ use App\Models\ApplicationStatusHistory;
 use App\Models\AuditLog;
 use App\Models\Blog;
 use App\Models\BlogComment;
+use App\Models\BlogDepartment;
 use App\Models\BlogSetting;
 use App\Models\ContactPage;
 use App\Models\Contract;
@@ -100,6 +101,7 @@ class AdminCrudController extends Controller
         'courses' => Course::class,
         'news' => News::class,
         'blogs' => Blog::class,
+        'blog-departments' => BlogDepartment::class,
         'newsletter-subscriptions' => NewsletterSubscription::class,
         'announcements' => Announcement::class,
         'administration-profiles' => AdministrationProfile::class,
@@ -222,8 +224,12 @@ class AdminCrudController extends Controller
             $query->with(['studentProfile.user', 'program.translations', 'faculty.translations', 'department.translations']);
         }
 
-        if (in_array($resource, ['faculties', 'departments', 'programs', 'courses', 'staff', 'news', 'blogs', 'videos', 'announcements', 'administration-profiles', 'green-campus-stats', 'green-campus-articles', 'services', 'university-centers'], true)) {
+        if (in_array($resource, ['faculties', 'departments', 'programs', 'courses', 'staff', 'news', 'blogs', 'blog-departments', 'videos', 'announcements', 'administration-profiles', 'green-campus-stats', 'green-campus-articles', 'services', 'university-centers'], true)) {
             $query->with('translations');
+        }
+
+        if ($resource === 'blogs') {
+            $query->with('blogDepartment.translations');
         }
 
         if ($resource === 'comments') {
@@ -295,7 +301,11 @@ class AdminCrudController extends Controller
             } elseif ($resource === 'video-comments') {
                 $record = $modelClass::with('video.translations')->find($id);
             } else {
-                $record = $modelClass::with(method_exists($modelClass, 'translations') ? 'translations' : [])->find($id);
+                $relations = method_exists($modelClass, 'translations') ? ['translations'] : [];
+                if ($resource === 'blogs') {
+                    $relations[] = 'blogDepartment.translations';
+                }
+                $record = $modelClass::with($relations)->find($id);
             }
         }
 
@@ -2192,6 +2202,7 @@ class AdminCrudController extends Controller
             'courses',
             'news',
             'blogs',
+            'blog-departments',
             'announcements',
             'administration-profiles',
             'administration-settings',
@@ -2359,6 +2370,21 @@ class AdminCrudController extends Controller
                     'is_active' => 'boolean',
                     'translations' => 'required|array',
                 ];
+            case 'blog-departments':
+                return [
+                    'slug' => 'required|string|unique:blog_departments,slug,'.$id,
+                    'image' => 'nullable|string',
+                    'email' => 'nullable|email',
+                    'phone' => 'nullable|string|max:255',
+                    'website_url' => 'nullable|string|max:255',
+                    'sort_order' => 'integer',
+                    'is_active' => 'boolean',
+                    'translations' => 'required|array',
+                    'translations.*.name' => 'required|string|max:255',
+                    'translations.*.description' => 'nullable|string',
+                    'translations.*.meta_title' => 'nullable|string|max:255',
+                    'translations.*.meta_description' => 'nullable|string',
+                ];
             case 'programs':
                 return [
                     'faculty_id' => 'required|integer|exists:faculties,id',
@@ -2402,6 +2428,7 @@ class AdminCrudController extends Controller
                     'image' => 'nullable|string',
                     'author' => 'nullable|string|max:255',
                     'author_image' => 'nullable|string',
+                    'blog_department_id' => 'nullable|integer|exists:blog_departments,id',
                     'category' => 'required|string|max:255',
                     'published_at' => 'nullable|date',
                     'is_published' => 'boolean',

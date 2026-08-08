@@ -15,6 +15,7 @@ use App\Models\Announcement;
 use App\Models\AnnouncementSetting;
 use App\Models\Blog;
 use App\Models\BlogComment;
+use App\Models\BlogDepartment;
 use App\Models\BlogSetting;
 use App\Models\Comment;
 use App\Models\ContactPage;
@@ -1112,7 +1113,7 @@ class PublicApiController extends Controller
     {
         $locale = $this->getRequestLocale($request);
         $perPage = max(1, min((int) $request->query('per_page', 15), 100));
-        $query = Blog::where('is_published', true)->with('translations');
+        $query = Blog::where('is_published', true)->with(['translations', 'blogDepartment.translations']);
 
         if ($request->filled('category') && strtolower($request->query('category')) !== 'all') {
             $query->where('category', $request->query('category'));
@@ -1120,12 +1121,16 @@ class PublicApiController extends Controller
 
         if ($request->filled('search')) {
             $search = $request->query('search');
-            $query->whereHas('translations', function ($translationQuery) use ($search) {
-                $translationQuery
-                    ->where('title', 'LIKE', "%{$search}%")
-                    ->orWhere('summary', 'LIKE', "%{$search}%")
-                    ->orWhere('content', 'LIKE', "%{$search}%")
-                    ->orWhere('author', 'LIKE', "%{$search}%");
+            $query->where(function ($searchQuery) use ($search) {
+                $searchQuery->whereHas('translations', function ($translationQuery) use ($search) {
+                    $translationQuery
+                        ->where('title', 'LIKE', "%{$search}%")
+                        ->orWhere('summary', 'LIKE', "%{$search}%")
+                        ->orWhere('content', 'LIKE', "%{$search}%")
+                        ->orWhere('author', 'LIKE', "%{$search}%");
+                })->orWhereHas('blogDepartment.translations', function ($translationQuery) use ($search) {
+                    $translationQuery->where('name', 'LIKE', "%{$search}%");
+                });
             });
         }
 
@@ -1158,7 +1163,7 @@ class PublicApiController extends Controller
             }
         })
             ->where('is_published', true)
-            ->with('translations')
+            ->with(['translations', 'blogDepartment.translations'])
             ->first();
 
         if (! $post) {
@@ -1171,8 +1176,48 @@ class PublicApiController extends Controller
         return response()->json([
             'locale' => $locale,
             'direction' => $this->directionForLocale($locale),
-            'data' => $this->formatBlogItem($request, $post->fresh('translations'), $locale),
+            'data' => $this->formatBlogItem($request, $post->fresh(['translations', 'blogDepartment.translations']), $locale),
         ]);
+    }
+
+    public function blogDepartments(Request $request)
+    {
+        $locale = $this->getRequestLocale($request);
+        $departments = BlogDepartment::where('is_active', true)
+            ->with('translations')
+            ->orderBy('sort_order')
+            ->orderBy('id')
+            ->get()
+            ->map(fn (BlogDepartment $department) => $this->formatBlogDepartment($request, $department, $locale))
+            ->values();
+
+        return $this->successResponse($departments, 'Blog departments retrieved successfully');
+    }
+
+    public function blogDepartment(Request $request, string $slug)
+    {
+        $locale = $this->getRequestLocale($request);
+        $department = BlogDepartment::where('slug', $slug)
+            ->where('is_active', true)
+            ->with('translations')
+            ->first();
+
+        if (! $department) {
+            return $this->errorResponse("Blog department '{$slug}' not found", 404);
+        }
+
+        $blogs = Blog::where('is_published', true)
+            ->where('blog_department_id', $department->id)
+            ->with(['translations', 'blogDepartment.translations'])
+            ->orderBy('published_at', 'desc')
+            ->get()
+            ->map(fn (Blog $item) => $this->formatBlogItem($request, $item, $locale))
+            ->values();
+
+        $data = $this->formatBlogDepartment($request, $department, $locale);
+        $data['blogs'] = $blogs;
+
+        return $this->successResponse($data, 'Blog department retrieved successfully');
     }
 
     protected function formatBlogItem(Request $request, Blog $item, string $locale): array
@@ -1187,8 +1232,29 @@ class PublicApiController extends Controller
         $data['category_label'] = $translation?->category_label ?: $item->category;
         $data['image_url'] = $this->newsImageUrl($item->image);
         $data['author_image_url'] = $this->newsImageUrl($item->author_image);
+        $data['department'] = $item->blogDepartment
+            ? $this->formatBlogDepartment($request, $item->blogDepartment, $locale)
+            : null;
         $data['views_count'] = $item->views_count;
         $data['comments_count'] = $item->comments()->where('is_approved', true)->count();
+
+        return $data;
+    }
+
+    protected function formatBlogDepartment(Request $request, BlogDepartment $department, string $locale): array
+    {
+        $data = $this->localizedData($request, $department, $locale);
+        $translation = $department->translations->firstWhere('locale', $locale)
+            ?: $department->translations->firstWhere('locale', $this->fallbackLocale())
+            ?: $department->translations->first();
+
+        $data['slug'] = $department->slug;
+        $data['name'] = $translation?->name ?: $department->slug;
+        $data['description'] = $translation?->description ?: '';
+        $data['image_url'] = $this->newsImageUrl($department->image);
+        $data['blogs_count'] = Blog::where('is_published', true)
+            ->where('blog_department_id', $department->id)
+            ->count();
 
         return $data;
     }

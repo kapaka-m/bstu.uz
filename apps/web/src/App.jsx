@@ -20,6 +20,7 @@ import LoadingState from "./components/common/LoadingState";
 const Home = React.lazy(() => import("./pages/Home"));
 const Blog = React.lazy(() => import("./pages/Blog"));
 const BlogDetails = React.lazy(() => import("./pages/BlogDetails"));
+const BlogDepartmentPage = React.lazy(() => import("./pages/BlogDepartmentPage"));
 const AboutPage = React.lazy(() => import("./pages/AboutPage"));
 const ServicesPage = React.lazy(() => import("./pages/ServicesPage"));
 const ContactPage = React.lazy(() => import("./pages/ContactPage"));
@@ -152,6 +153,9 @@ const ApanelAnnouncements = React.lazy(
 );
 const ApanelBlog = React.lazy(
   () => import("./features/apanel/pages/ApanelBlog"),
+);
+const ApanelBlogDepartments = React.lazy(
+  () => import("./features/apanel/pages/ApanelBlogDepartments"),
 );
 const ApanelVideoBdtu = React.lazy(
   () => import("./features/apanel/pages/ApanelVideoBdtu"),
@@ -295,6 +299,7 @@ function AppContent() {
             <Route path="/profile/:id" element={<ProfileDetails />} />
 
             <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/departments/:id" element={<BlogDepartmentPage />} />
             <Route path="/blog/:id" element={<BlogDetails />} />
 
             {/* ── Student Portal Routes ── */}
@@ -669,6 +674,16 @@ function AppContent() {
                 <AdminRoute>
                   <ApanelLayout>
                     <ApanelInteractiveServices />
+                  </ApanelLayout>
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/apanel/cms/blog-departments"
+              element={
+                <AdminRoute>
+                  <ApanelLayout>
+                    <ApanelBlogDepartments />
                   </ApanelLayout>
                 </AdminRoute>
               }

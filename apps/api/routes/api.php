@@ -60,6 +60,8 @@ Route::prefix('v1')->group(function () {
         Route::get('/news', [PublicApiController::class, 'news']);
         Route::get('/news/{slug}', [PublicApiController::class, 'newsItem']);
         Route::get('/blog/settings', [PublicApiController::class, 'blogSettings']);
+        Route::get('/blog/departments', [PublicApiController::class, 'blogDepartments']);
+        Route::get('/blog/departments/{slug}', [PublicApiController::class, 'blogDepartment']);
         Route::get('/blog', [PublicApiController::class, 'blog']);
         Route::get('/blog/{slug}', [PublicApiController::class, 'blogItem']);
         Route::get('/blog/{slug}/comments', [PublicApiController::class, 'blogComments']);

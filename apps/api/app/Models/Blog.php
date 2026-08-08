@@ -14,6 +14,7 @@ class Blog extends Model
         'image',
         'author',
         'author_image',
+        'blog_department_id',
         'category',
         'published_at',
         'is_published',
@@ -29,5 +30,10 @@ class Blog extends Model
     public function comments()
     {
         return $this->hasMany(BlogComment::class);
+    }
+
+    public function blogDepartment()
+    {
+        return $this->belongsTo(BlogDepartment::class);
     }
 }

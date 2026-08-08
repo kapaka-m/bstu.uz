@@ -30,7 +30,7 @@ const getYoutubeId = (value) => {
 export default function Hero() {
   const [isVideoOpen, setIsVideoOpen] = useState(false);
   const [heroVideo, setHeroVideo] = useState(null);
-  const { t, hasTranslation, translationsReady, language, settings, isRtl } = useLanguage();
+  const { t, language, settings, isRtl } = useLanguage();
   const { section } = useHomeSection("hero");
   const heroBackgroundImage = publicAssetUrl(settings?.home_hero_background_image);
   const heroMainImage = publicAssetUrl(section?.settings?.image || settings?.home_hero_main_image);
@@ -39,9 +39,9 @@ export default function Hero() {
   const heroStudentCount = heroStudentCard
     ? `${heroStudentCard.value || ""}${heroStudentCard.suffix || ""}`
     : settings?.home_hero_student_count;
-  const heroStudentLabel = heroStudentCard?.label || t("home.hero.activeStudents");
-  const heroAccreditedTitle = heroAccreditationCard?.title || t("home.hero.accredited");
-  const heroAccreditedLabel = heroAccreditationCard?.label || t("home.hero.statePrograms");
+  const heroStudentLabel = heroStudentCard?.label || "";
+  const heroAccreditedTitle = heroAccreditationCard?.title || "";
+  const heroAccreditedLabel = heroAccreditationCard?.label || "";
   const configuredVideoUrl = String(section?.settings?.video_url || "").trim();
   const configuredYoutubeId = getYoutubeId(configuredVideoUrl);
   const activeHeroVideo = configuredVideoUrl
@@ -51,13 +51,6 @@ export default function Hero() {
         videoUrl: configuredYoutubeId ? "" : configuredVideoUrl,
       }
     : heroVideo;
-  const hasHeroContent =
-    translationsReady &&
-    hasTranslation("home.hero.title") &&
-    hasTranslation("home.hero.subtitle") &&
-    hasTranslation("common.applyNow") &&
-    hasTranslation("home.hero.accredited") &&
-    hasTranslation("home.hero.statePrograms");
 
   useEffect(() => {
     let alive = true;
@@ -76,7 +69,7 @@ export default function Hero() {
     };
   }, [language]);
 
-  if (!section && !hasHeroContent) {
+  if (!section) {
     return null;
   }
 
@@ -96,17 +89,17 @@ export default function Hero() {
             className={`flex flex-col justify-center text-center ${isRtl ? "lg:text-right" : "lg:text-left"}`}
           >
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-navy leading-tight mb-4">
-              {section?.title || t("home.hero.title")}
+              {section.title || ""}
             </h1>
             <p className={`text-navy-light text-lg md:text-xl font-medium mb-8 max-w-xl mx-auto ${isRtl ? "lg:mr-0 lg:ml-auto" : "lg:mx-0"}`}>
-              {section?.subtitle || t("home.hero.subtitle")}
+              {section.subtitle || ""}
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
               <Link
                 to={section?.settings?.cta_url || section?.cta_url || "/apply"}
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary-hover text-white px-8 py-4 rounded-xl font-bold shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all duration-300 hover:-translate-y-0.5 group cursor-pointer"
               >
-                {section?.cta_label || t("common.applyNow")}
+                {section.cta_label || ""}
                 <ArrowRight className={`w-4 h-4 transition-transform duration-300 ${isRtl ? "rotate-180 group-hover:-translate-x-1" : "group-hover:translate-x-1"}`} />
               </Link>
               {activeHeroVideo && (
@@ -117,7 +110,7 @@ export default function Hero() {
                   <span className="w-12 h-12 rounded-full border-2 border-primary/20 flex items-center justify-center bg-white transition-all duration-300 group-hover:bg-primary group-hover:text-white group-hover:border-primary shadow-md">
                     <Play className="w-4 h-4 fill-current ml-0.5" />
                   </span>
-                  {section?.secondary_title || t("home.hero.watchVideo")}
+                  {section.secondary_title || ""}
                 </button>
               )}
             </div>
@@ -136,7 +129,7 @@ export default function Hero() {
                 {heroMainImage && (
                   <img
                     src={heroMainImage}
-                    alt={section?.image_alt || t("home.hero.imageAlt")}
+                    alt={section.image_alt || section.title || ""}
                     className="w-full h-auto aspect-4/3 object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                 )}
@@ -159,17 +152,19 @@ export default function Hero() {
               )}
 
               {/* Floating Card 2: Programs */}
-              <div className="absolute -top-6 -right-6 bg-white/90 backdrop-blur-md border border-gray-100 p-4 rounded-2xl shadow-xl flex items-center gap-3 animate-float-slow" style={{ animationDelay: "2s" }}>
-                <div className="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center text-green-600">
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138z" />
-                  </svg>
+              {(heroAccreditedTitle || heroAccreditedLabel) && (
+                <div className="absolute -top-6 -right-6 bg-white/90 backdrop-blur-md border border-gray-100 p-4 rounded-2xl shadow-xl flex items-center gap-3 animate-float-slow" style={{ animationDelay: "2s" }}>
+                  <div className="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center text-green-600">
+                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <div className="text-navy font-extrabold text-sm leading-none">{heroAccreditedTitle}</div>
+                    <div className="text-gray-500 text-[10px] font-bold mt-1 uppercase tracking-wider">{heroAccreditedLabel}</div>
+                  </div>
                 </div>
-                <div>
-                  <div className="text-navy font-extrabold text-sm leading-none">{heroAccreditedTitle}</div>
-                  <div className="text-gray-500 text-[10px] font-bold mt-1 uppercase tracking-wider">{heroAccreditedLabel}</div>
-                </div>
-              </div>
+              )}
             </div>
           </motion.div>
         </div>

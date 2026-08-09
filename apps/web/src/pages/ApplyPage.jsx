@@ -349,10 +349,10 @@ export default function ApplyPage() {
       <header className="bg-navy px-4 py-12 text-center text-white">
         <div className="mx-auto max-w-4xl">
           <GraduationCap className="mx-auto mb-3 h-10 w-10 text-primary" />
-          <h1 className="text-2xl text-white font-extrabold md:text-4xl">
+          <h1 className="text-2xl !text-white font-extrabold md:text-4xl">
             {t.title}
           </h1>
-          <p className="mt-3 text-sm font-semibold text-white/70">
+          <p className="mt-3 text-sm font-semibold text-white">
             {t.subtitle}
           </p>
         </div>

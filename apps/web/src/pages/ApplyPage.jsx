@@ -342,21 +342,39 @@ export default function ApplyPage() {
   }
 
   return (
-    <div className="min-h-screen bg-primary-light/35 pt-20" dir={isRtl ? "rtl" : "ltr"}>
+    <div
+      className="min-h-screen bg-primary-light/35 pt-20"
+      dir={isRtl ? "rtl" : "ltr"}
+    >
       <header className="bg-navy px-4 py-12 text-center text-white">
         <div className="mx-auto max-w-4xl">
           <GraduationCap className="mx-auto mb-3 h-10 w-10 text-primary" />
-          <h1 className="text-2xl font-extrabold md:text-4xl">{t.title}</h1>
-          <p className="mt-3 text-sm font-semibold text-white/70">{t.subtitle}</p>
+          <h1 className="text-2xl text-white font-extrabold md:text-4xl">
+            {t.title}
+          </h1>
+          <p className="mt-3 text-sm font-semibold text-white/70">
+            {t.subtitle}
+          </p>
         </div>
       </header>
 
       <main className="mx-auto max-w-5xl px-4 py-10">
         <div className="mb-8 grid grid-cols-3 gap-2">
           {steps.map((item, index) => (
-            <button key={item} type="button" onClick={() => index < step && setStep(index)} className={`rounded-2xl border p-3 text-center text-xs font-extrabold ${index <= step ? "border-primary/20 bg-white text-primary" : "border-gray-100 bg-white/70 text-gray-400"}`}>
-              <span className={`mx-auto mb-2 flex h-8 w-8 items-center justify-center rounded-full ${index < step ? "bg-emerald-500 text-white" : index === step ? "bg-primary text-white" : "bg-gray-100 text-gray-400"}`}>
-                {index < step ? <CheckCircle2 className="h-4 w-4" /> : index + 1}
+            <button
+              key={item}
+              type="button"
+              onClick={() => index < step && setStep(index)}
+              className={`rounded-2xl border p-3 text-center text-xs font-extrabold ${index <= step ? "border-primary/20 bg-white text-primary" : "border-gray-100 bg-white/70 text-gray-400"}`}
+            >
+              <span
+                className={`mx-auto mb-2 flex h-8 w-8 items-center justify-center rounded-full ${index < step ? "bg-emerald-500 text-white" : index === step ? "bg-primary text-white" : "bg-gray-100 text-gray-400"}`}
+              >
+                {index < step ? (
+                  <CheckCircle2 className="h-4 w-4" />
+                ) : (
+                  index + 1
+                )}
               </span>
               {t[item]}
             </button>
@@ -364,7 +382,10 @@ export default function ApplyPage() {
         </div>
 
         {errors.form && (
-          <div ref={firstErrorRef} className="mb-5 flex gap-2 rounded-2xl border border-red-100 bg-red-50 p-4 text-sm font-bold text-red-600">
+          <div
+            ref={firstErrorRef}
+            className="mb-5 flex gap-2 rounded-2xl border border-red-100 bg-red-50 p-4 text-sm font-bold text-red-600"
+          >
             <AlertCircle className="h-5 w-5 shrink-0" /> {errors.form}
           </div>
         )}
@@ -381,32 +402,244 @@ export default function ApplyPage() {
           >
             {step === 0 && (
               <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-                <div className="md:col-span-2 rounded-2xl bg-primary/5 p-4 text-sm font-semibold text-primary">{t.passportHint}</div>
-                <Input id="full_name_english" label={t.fullName} value={form.full_name_english} onChange={(e) => setValue("full_name_english", e.target.value)} error={errors.full_name_english} icon={User} placeholder={t.fullNamePlaceholder} />
-                <Input id="birth_date" label={t.birthDate} type="date" max={new Date().toISOString().slice(0, 10)} value={form.birth_date} onChange={(e) => setValue("birth_date", e.target.value)} error={errors.birth_date} icon={Calendar} placeholder={t.birthDatePlaceholder} />
-                <Select id="country_of_birth" label={t.countryBirth} value={form.country_of_birth} onChange={(e) => setValue("country_of_birth", e.target.value)} error={errors.country_of_birth} placeholder={t.countryBirthPlaceholder} options={(metadata?.countries || []).map((x) => ({ value: x, label: x }))} />
-                <Input id="place_of_birth" label={t.placeBirth} value={form.place_of_birth} onChange={(e) => setValue("place_of_birth", e.target.value)} error={errors.place_of_birth} placeholder={t.placeBirthPlaceholder} />
-                <Select id="nationality" label={t.nationality} value={form.nationality} onChange={(e) => setValue("nationality", e.target.value)} error={errors.nationality} placeholder={t.nationalityPlaceholder} options={(metadata?.nationalities || []).map((x) => ({ value: x, label: x }))} />
-                <Select id="gender" label={t.gender} value={form.gender} onChange={(e) => setValue("gender", e.target.value)} error={errors.gender} placeholder={t.genderPlaceholder} options={(metadata?.genders || []).map((x) => ({ value: x, label: optionLabel("gender", x) }))} />
-                <Input id="passport_number" label={t.passportNumber} value={form.passport_number} onChange={(e) => setValue("passport_number", e.target.value)} error={errors.passport_number} placeholder={t.passportNumberPlaceholder} />
-                <Select id="passport_type" label={t.passportType} value={form.passport_type} onChange={(e) => setValue("passport_type", e.target.value)} error={errors.passport_type} placeholder={t.passportTypePlaceholder} options={(metadata?.passport_types || []).map((x) => ({ value: x, label: optionLabel("passport_type", x) }))} />
-                <Input id="passport_issue_date" label={t.issueDate} type="date" max={new Date().toISOString().slice(0, 10)} value={form.passport_issue_date} onChange={(e) => setValue("passport_issue_date", e.target.value)} error={errors.passport_issue_date} placeholder={t.issueDatePlaceholder} />
-                <Input id="passport_expiry_date" label={t.expiryDate} type="date" value={form.passport_expiry_date} onChange={(e) => setValue("passport_expiry_date", e.target.value)} error={errors.passport_expiry_date} placeholder={t.expiryDatePlaceholder} />
-                <Select id="passport_issuing_country" label={t.issuingCountry} value={form.passport_issuing_country} onChange={(e) => setValue("passport_issuing_country", e.target.value)} error={errors.passport_issuing_country} placeholder={t.issuingCountryPlaceholder} options={(metadata?.countries || []).map((x) => ({ value: x, label: x }))} />
-                <Input id="passport_place_of_issue" label={t.placeIssue} value={form.passport_place_of_issue} onChange={(e) => setValue("passport_place_of_issue", e.target.value)} error={errors.passport_place_of_issue} placeholder={t.placeIssuePlaceholder} />
-                <Input id="primary_phone" label={t.primaryPhone} value={form.primary_phone} onChange={(e) => setValue("primary_phone", e.target.value)} error={errors.primary_phone} icon={Phone} placeholder={t.primaryPhonePlaceholder} />
-                <Select id="preferred_messenger" label={t.messenger} value={form.preferred_messenger} onChange={(e) => setValue("preferred_messenger", e.target.value)} error={errors.preferred_messenger} placeholder={t.messengerPlaceholder} options={(metadata?.messengers || []).map((x) => ({ value: x, label: optionLabel("messenger", x) }))} />
-                {(form.preferred_messenger === "telegram" || form.preferred_messenger === "both") && <Input id="telegram_username" label={t.telegram} value={form.telegram_username} onChange={(e) => setValue("telegram_username", e.target.value)} error={errors.telegram_username} placeholder={t.telegramPlaceholder} />}
-                <Input id="alternative_phone" label={t.alternativePhone} value={form.alternative_phone} onChange={(e) => setValue("alternative_phone", e.target.value)} error={errors.alternative_phone} icon={Phone} placeholder={t.alternativePhonePlaceholder} />
+                <div className="md:col-span-2 rounded-2xl bg-primary/5 p-4 text-sm font-semibold text-primary">
+                  {t.passportHint}
+                </div>
+                <Input
+                  id="full_name_english"
+                  label={t.fullName}
+                  value={form.full_name_english}
+                  onChange={(e) =>
+                    setValue("full_name_english", e.target.value)
+                  }
+                  error={errors.full_name_english}
+                  icon={User}
+                  placeholder={t.fullNamePlaceholder}
+                />
+                <Input
+                  id="birth_date"
+                  label={t.birthDate}
+                  type="date"
+                  max={new Date().toISOString().slice(0, 10)}
+                  value={form.birth_date}
+                  onChange={(e) => setValue("birth_date", e.target.value)}
+                  error={errors.birth_date}
+                  icon={Calendar}
+                  placeholder={t.birthDatePlaceholder}
+                />
+                <Select
+                  id="country_of_birth"
+                  label={t.countryBirth}
+                  value={form.country_of_birth}
+                  onChange={(e) => setValue("country_of_birth", e.target.value)}
+                  error={errors.country_of_birth}
+                  placeholder={t.countryBirthPlaceholder}
+                  options={(metadata?.countries || []).map((x) => ({
+                    value: x,
+                    label: x,
+                  }))}
+                />
+                <Input
+                  id="place_of_birth"
+                  label={t.placeBirth}
+                  value={form.place_of_birth}
+                  onChange={(e) => setValue("place_of_birth", e.target.value)}
+                  error={errors.place_of_birth}
+                  placeholder={t.placeBirthPlaceholder}
+                />
+                <Select
+                  id="nationality"
+                  label={t.nationality}
+                  value={form.nationality}
+                  onChange={(e) => setValue("nationality", e.target.value)}
+                  error={errors.nationality}
+                  placeholder={t.nationalityPlaceholder}
+                  options={(metadata?.nationalities || []).map((x) => ({
+                    value: x,
+                    label: x,
+                  }))}
+                />
+                <Select
+                  id="gender"
+                  label={t.gender}
+                  value={form.gender}
+                  onChange={(e) => setValue("gender", e.target.value)}
+                  error={errors.gender}
+                  placeholder={t.genderPlaceholder}
+                  options={(metadata?.genders || []).map((x) => ({
+                    value: x,
+                    label: optionLabel("gender", x),
+                  }))}
+                />
+                <Input
+                  id="passport_number"
+                  label={t.passportNumber}
+                  value={form.passport_number}
+                  onChange={(e) => setValue("passport_number", e.target.value)}
+                  error={errors.passport_number}
+                  placeholder={t.passportNumberPlaceholder}
+                />
+                <Select
+                  id="passport_type"
+                  label={t.passportType}
+                  value={form.passport_type}
+                  onChange={(e) => setValue("passport_type", e.target.value)}
+                  error={errors.passport_type}
+                  placeholder={t.passportTypePlaceholder}
+                  options={(metadata?.passport_types || []).map((x) => ({
+                    value: x,
+                    label: optionLabel("passport_type", x),
+                  }))}
+                />
+                <Input
+                  id="passport_issue_date"
+                  label={t.issueDate}
+                  type="date"
+                  max={new Date().toISOString().slice(0, 10)}
+                  value={form.passport_issue_date}
+                  onChange={(e) =>
+                    setValue("passport_issue_date", e.target.value)
+                  }
+                  error={errors.passport_issue_date}
+                  placeholder={t.issueDatePlaceholder}
+                />
+                <Input
+                  id="passport_expiry_date"
+                  label={t.expiryDate}
+                  type="date"
+                  value={form.passport_expiry_date}
+                  onChange={(e) =>
+                    setValue("passport_expiry_date", e.target.value)
+                  }
+                  error={errors.passport_expiry_date}
+                  placeholder={t.expiryDatePlaceholder}
+                />
+                <Select
+                  id="passport_issuing_country"
+                  label={t.issuingCountry}
+                  value={form.passport_issuing_country}
+                  onChange={(e) =>
+                    setValue("passport_issuing_country", e.target.value)
+                  }
+                  error={errors.passport_issuing_country}
+                  placeholder={t.issuingCountryPlaceholder}
+                  options={(metadata?.countries || []).map((x) => ({
+                    value: x,
+                    label: x,
+                  }))}
+                />
+                <Input
+                  id="passport_place_of_issue"
+                  label={t.placeIssue}
+                  value={form.passport_place_of_issue}
+                  onChange={(e) =>
+                    setValue("passport_place_of_issue", e.target.value)
+                  }
+                  error={errors.passport_place_of_issue}
+                  placeholder={t.placeIssuePlaceholder}
+                />
+                <Input
+                  id="primary_phone"
+                  label={t.primaryPhone}
+                  value={form.primary_phone}
+                  onChange={(e) => setValue("primary_phone", e.target.value)}
+                  error={errors.primary_phone}
+                  icon={Phone}
+                  placeholder={t.primaryPhonePlaceholder}
+                />
+                <Select
+                  id="preferred_messenger"
+                  label={t.messenger}
+                  value={form.preferred_messenger}
+                  onChange={(e) =>
+                    setValue("preferred_messenger", e.target.value)
+                  }
+                  error={errors.preferred_messenger}
+                  placeholder={t.messengerPlaceholder}
+                  options={(metadata?.messengers || []).map((x) => ({
+                    value: x,
+                    label: optionLabel("messenger", x),
+                  }))}
+                />
+                {(form.preferred_messenger === "telegram" ||
+                  form.preferred_messenger === "both") && (
+                  <Input
+                    id="telegram_username"
+                    label={t.telegram}
+                    value={form.telegram_username}
+                    onChange={(e) =>
+                      setValue("telegram_username", e.target.value)
+                    }
+                    error={errors.telegram_username}
+                    placeholder={t.telegramPlaceholder}
+                  />
+                )}
+                <Input
+                  id="alternative_phone"
+                  label={t.alternativePhone}
+                  value={form.alternative_phone}
+                  onChange={(e) =>
+                    setValue("alternative_phone", e.target.value)
+                  }
+                  error={errors.alternative_phone}
+                  icon={Phone}
+                  placeholder={t.alternativePhonePlaceholder}
+                />
               </div>
             )}
 
             {step === 1 && (
               <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-                <Select id="degree_level" label={t.degree} value={form.degree_level} onChange={(e) => setValue("degree_level", e.target.value)} error={errors.degree_level} placeholder={t.degreePlaceholder} options={(metadata?.degrees || []).map((x) => ({ value: x, label: optionLabel("degree_level", x) }))} />
-                <Select id="student_type" label={t.studentType} value={form.student_type} onChange={(e) => setValue("student_type", e.target.value)} error={errors.student_type} placeholder={t.studentTypePlaceholder} options={(metadata?.student_types || []).map((x) => ({ value: x, label: optionLabel("student_type", x) }))} />
-                <Select id="faculty_id" label={t.faculty} value={form.faculty_id} onChange={(e) => setValue("faculty_id", e.target.value)} error={errors.faculty_id} disabled={!form.degree_level} placeholder={t.facultyPlaceholder} options={filteredFaculties.map((x) => ({ value: x.id, label: x.name }))} />
-                <Select id="program_id" label={t.program} value={form.program_id} onChange={(e) => setValue("program_id", e.target.value)} error={errors.program_id} disabled={!form.faculty_id} placeholder={t.programPlaceholder} options={availablePrograms.map((x) => ({ value: x.id, label: `${x.code} - ${x.name}` }))} />
+                <Select
+                  id="degree_level"
+                  label={t.degree}
+                  value={form.degree_level}
+                  onChange={(e) => setValue("degree_level", e.target.value)}
+                  error={errors.degree_level}
+                  placeholder={t.degreePlaceholder}
+                  options={(metadata?.degrees || []).map((x) => ({
+                    value: x,
+                    label: optionLabel("degree_level", x),
+                  }))}
+                />
+                <Select
+                  id="student_type"
+                  label={t.studentType}
+                  value={form.student_type}
+                  onChange={(e) => setValue("student_type", e.target.value)}
+                  error={errors.student_type}
+                  placeholder={t.studentTypePlaceholder}
+                  options={(metadata?.student_types || []).map((x) => ({
+                    value: x,
+                    label: optionLabel("student_type", x),
+                  }))}
+                />
+                <Select
+                  id="faculty_id"
+                  label={t.faculty}
+                  value={form.faculty_id}
+                  onChange={(e) => setValue("faculty_id", e.target.value)}
+                  error={errors.faculty_id}
+                  disabled={!form.degree_level}
+                  placeholder={t.facultyPlaceholder}
+                  options={filteredFaculties.map((x) => ({
+                    value: x.id,
+                    label: x.name,
+                  }))}
+                />
+                <Select
+                  id="program_id"
+                  label={t.program}
+                  value={form.program_id}
+                  onChange={(e) => setValue("program_id", e.target.value)}
+                  error={errors.program_id}
+                  disabled={!form.faculty_id}
+                  placeholder={t.programPlaceholder}
+                  options={availablePrograms.map((x) => ({
+                    value: x.id,
+                    label: `${x.code} - ${x.name}`,
+                  }))}
+                />
                 <Select
                   id="education_type"
                   label={t.educationType}
@@ -415,7 +648,10 @@ export default function ApplyPage() {
                   error={errors.education_type}
                   disabled={!selectedProgram}
                   placeholder={t.educationTypePlaceholder}
-                  options={selectedProgramEducationTypes.map((x) => ({ value: x, label: optionLabel("education_type", x) }))}
+                  options={selectedProgramEducationTypes.map((x) => ({
+                    value: x,
+                    label: optionLabel("education_type", x),
+                  }))}
                 />
                 <Select
                   id="study_language"
@@ -425,60 +661,191 @@ export default function ApplyPage() {
                   error={errors.study_language}
                   disabled={!selectedProgram}
                   placeholder={t.languagePlaceholder}
-                  options={selectedProgramLanguages.map((x) => ({ value: x, label: optionLabel("study_language", x) }))}
+                  options={selectedProgramLanguages.map((x) => ({
+                    value: x,
+                    label: optionLabel("study_language", x),
+                  }))}
                 />
-                <Select id="intended_intake" label={t.intake} value={form.intended_intake} onChange={(e) => setValue("intended_intake", e.target.value)} error={errors.intended_intake} placeholder={t.intakePlaceholder} options={(metadata?.intakes || []).map((x) => ({ value: x, label: x }))} />
+                <Select
+                  id="intended_intake"
+                  label={t.intake}
+                  value={form.intended_intake}
+                  onChange={(e) => setValue("intended_intake", e.target.value)}
+                  error={errors.intended_intake}
+                  placeholder={t.intakePlaceholder}
+                  options={(metadata?.intakes || []).map((x) => ({
+                    value: x,
+                    label: x,
+                  }))}
+                />
                 <div className="rounded-2xl border border-gray-100 bg-gray-50 p-4">
-                  <p className="text-[11px] font-extrabold uppercase tracking-wider text-gray-400">{t.duration}</p>
-                  <p className="mt-1 text-sm font-extrabold text-navy">{selectedProgram?.duration_years ? `${selectedProgram.duration_years} ${t.yearsLabel}` : "--"}</p>
+                  <p className="text-[11px] font-extrabold uppercase tracking-wider text-gray-400">
+                    {t.duration}
+                  </p>
+                  <p className="mt-1 text-sm font-extrabold text-navy">
+                    {selectedProgram?.duration_years
+                      ? `${selectedProgram.duration_years} ${t.yearsLabel}`
+                      : "--"}
+                  </p>
                 </div>
-                {form.student_type === "transfer" && <div className="md:col-span-2 rounded-2xl border border-amber-100 bg-amber-50 p-4 text-sm font-bold text-amber-700">{t.transferNote}</div>}
+                {form.student_type === "transfer" && (
+                  <div className="md:col-span-2 rounded-2xl border border-amber-100 bg-amber-50 p-4 text-sm font-bold text-amber-700">
+                    {t.transferNote}
+                  </div>
+                )}
               </div>
             )}
 
             {step === 2 && (
               <div className="space-y-6">
                 <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-                  <Input id="email" label={t.email} type="email" value={form.email} onChange={(e) => setValue("email", e.target.value)} error={errors.email} icon={Mail} placeholder={t.emailPlaceholder} />
-                  <Field id="password" label={t.password} error={errors.password}>
+                  <Input
+                    id="email"
+                    label={t.email}
+                    type="email"
+                    value={form.email}
+                    onChange={(e) => setValue("email", e.target.value)}
+                    error={errors.email}
+                    icon={Mail}
+                    placeholder={t.emailPlaceholder}
+                  />
+                  <Field
+                    id="password"
+                    label={t.password}
+                    error={errors.password}
+                  >
                     <div className="relative">
                       <Lock className="absolute left-3 top-3.5 h-4 w-4 text-gray-400" />
-                      <input id="password" type={showPassword ? "text" : "password"} aria-invalid={Boolean(errors.password)} value={form.password} onChange={(e) => setValue("password", e.target.value)} placeholder={t.passwordPlaceholder} className={`w-full rounded-xl border bg-white py-3 pl-10 pr-11 text-sm font-semibold outline-none focus:ring-2 ${errors.password ? "border-red-300 focus:ring-red-100" : "border-gray-200 focus:border-primary focus:ring-primary/15"}`} />
-                      <button type="button" onClick={() => setShowPassword((x) => !x)} className="absolute right-3 top-3 text-gray-400">{showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}</button>
+                      <input
+                        id="password"
+                        type={showPassword ? "text" : "password"}
+                        aria-invalid={Boolean(errors.password)}
+                        value={form.password}
+                        onChange={(e) => setValue("password", e.target.value)}
+                        placeholder={t.passwordPlaceholder}
+                        className={`w-full rounded-xl border bg-white py-3 pl-10 pr-11 text-sm font-semibold outline-none focus:ring-2 ${errors.password ? "border-red-300 focus:ring-red-100" : "border-gray-200 focus:border-primary focus:ring-primary/15"}`}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword((x) => !x)}
+                        className="absolute right-3 top-3 text-gray-400"
+                      >
+                        {showPassword ? (
+                          <EyeOff className="h-4 w-4" />
+                        ) : (
+                          <Eye className="h-4 w-4" />
+                        )}
+                      </button>
                     </div>
-                    <div className="mt-2 flex gap-1">{[1, 2, 3, 4].map((x) => <span key={x} className={`h-1.5 flex-1 rounded-full ${passwordScore >= x ? "bg-primary" : "bg-gray-100"}`} />)}</div>
+                    <div className="mt-2 flex gap-1">
+                      {[1, 2, 3, 4].map((x) => (
+                        <span
+                          key={x}
+                          className={`h-1.5 flex-1 rounded-full ${passwordScore >= x ? "bg-primary" : "bg-gray-100"}`}
+                        />
+                      ))}
+                    </div>
                   </Field>
-                  <Input id="password_confirmation" label={t.confirmPassword} type={showPassword ? "text" : "password"} value={form.password_confirmation} onChange={(e) => setValue("password_confirmation", e.target.value)} error={errors.password_confirmation} icon={Lock} placeholder={t.confirmPasswordPlaceholder} />
+                  <Input
+                    id="password_confirmation"
+                    label={t.confirmPassword}
+                    type={showPassword ? "text" : "password"}
+                    value={form.password_confirmation}
+                    onChange={(e) =>
+                      setValue("password_confirmation", e.target.value)
+                    }
+                    error={errors.password_confirmation}
+                    icon={Lock}
+                    placeholder={t.confirmPasswordPlaceholder}
+                  />
                 </div>
 
-                <ReviewBox title={t.personalInfo} action={{ label: t.editPersonal, onClick: () => setStep(0) }}>
+                <ReviewBox
+                  title={t.personalInfo}
+                  action={{ label: t.editPersonal, onClick: () => setStep(0) }}
+                >
                   <Row label={t.fullName} value={form.full_name_english} />
                   <Row label={t.birthDate} value={form.birth_date} />
                   <Row label={t.nationality} value={form.nationality} />
                   <Row label={t.passportNumber} value={form.passport_number} />
                   <Row label={t.primaryPhone} value={form.primary_phone} />
-                  <Row label={t.messenger} value={optionLabel("messenger", form.preferred_messenger)} />
+                  <Row
+                    label={t.messenger}
+                    value={optionLabel("messenger", form.preferred_messenger)}
+                  />
                 </ReviewBox>
-                <ReviewBox title={t.academicInfo} action={{ label: t.editAcademic, onClick: () => setStep(1) }}>
-                  <Row label={t.degree} value={optionLabel("degree_level", form.degree_level)} />
-                  <Row label={t.studentType} value={optionLabel("student_type", form.student_type)} />
-                  <Row label={t.educationType} value={optionLabel("education_type", form.education_type)} />
-                  <Row label={t.faculty} value={selectedProgram?.faculty?.name} />
+                <ReviewBox
+                  title={t.academicInfo}
+                  action={{ label: t.editAcademic, onClick: () => setStep(1) }}
+                >
+                  <Row
+                    label={t.degree}
+                    value={optionLabel("degree_level", form.degree_level)}
+                  />
+                  <Row
+                    label={t.studentType}
+                    value={optionLabel("student_type", form.student_type)}
+                  />
+                  <Row
+                    label={t.educationType}
+                    value={optionLabel("education_type", form.education_type)}
+                  />
+                  <Row
+                    label={t.faculty}
+                    value={selectedProgram?.faculty?.name}
+                  />
                   <Row label={t.program} value={selectedProgram?.name} />
-                  <Row label={t.language} value={optionLabel("study_language", form.study_language)} />
+                  <Row
+                    label={t.language}
+                    value={optionLabel("study_language", form.study_language)}
+                  />
                   <Row label={t.intake} value={form.intended_intake} />
                 </ReviewBox>
-                <ReviewBox title={t.accountInfo} action={{ label: t.editLogin, onClick: () => document.getElementById("email")?.focus() }}>
+                <ReviewBox
+                  title={t.accountInfo}
+                  action={{
+                    label: t.editLogin,
+                    onClick: () => document.getElementById("email")?.focus(),
+                  }}
+                >
                   <Row label={t.email} value={form.email} />
                 </ReviewBox>
 
                 <label className="flex gap-3 rounded-2xl border border-gray-100 bg-gray-50 p-4 text-sm font-bold text-gray-600">
-                  <input type="checkbox" checked={form.terms_agreement} onChange={(e) => setValue("terms_agreement", e.target.checked)} className="mt-1 accent-primary" />
-                  <span>{t.terms}{errors.terms_agreement && <em className="ml-2 not-italic text-red-500">{errors.terms_agreement}</em>}</span>
+                  <input
+                    type="checkbox"
+                    checked={form.terms_agreement}
+                    onChange={(e) =>
+                      setValue("terms_agreement", e.target.checked)
+                    }
+                    className="mt-1 accent-primary"
+                  />
+                  <span>
+                    {t.terms}
+                    {errors.terms_agreement && (
+                      <em className="ml-2 not-italic text-red-500">
+                        {errors.terms_agreement}
+                      </em>
+                    )}
+                  </span>
                 </label>
                 <label className="flex gap-3 rounded-2xl border border-gray-100 bg-gray-50 p-4 text-sm font-bold text-gray-600">
-                  <input type="checkbox" checked={form.information_confirmation} onChange={(e) => setValue("information_confirmation", e.target.checked)} className="mt-1 accent-primary" />
-                  <span>{t.confirm}{errors.information_confirmation && <em className="ml-2 not-italic text-red-500">{errors.information_confirmation}</em>}</span>
+                  <input
+                    type="checkbox"
+                    checked={form.information_confirmation}
+                    onChange={(e) =>
+                      setValue("information_confirmation", e.target.checked)
+                    }
+                    className="mt-1 accent-primary"
+                  />
+                  <span>
+                    {t.confirm}
+                    {errors.information_confirmation && (
+                      <em className="ml-2 not-italic text-red-500">
+                        {errors.information_confirmation}
+                      </em>
+                    )}
+                  </span>
                 </label>
               </div>
             )}
@@ -487,18 +854,42 @@ export default function ApplyPage() {
 
         <div className="mt-8 flex items-center justify-between gap-4">
           {step > 0 ? (
-            <button type="button" onClick={back} className="inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-5 py-3 text-sm font-extrabold text-navy hover:border-primary hover:text-primary">
+            <button
+              type="button"
+              onClick={back}
+              className="inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-5 py-3 text-sm font-extrabold text-navy hover:border-primary hover:text-primary"
+            >
               <ChevronLeft className="h-4 w-4" /> {t.back}
             </button>
-          ) : <Link to="/programs" className="text-sm font-bold text-gray-400 hover:text-primary">{t.back}</Link>}
+          ) : (
+            <Link
+              to="/programs"
+              className="text-sm font-bold text-gray-400 hover:text-primary"
+            >
+              {t.back}
+            </Link>
+          )}
 
           {step < 2 ? (
-            <button type="button" onClick={next} className="inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-extrabold text-white shadow-md shadow-primary/20 hover:bg-primary-hover">
+            <button
+              type="button"
+              onClick={next}
+              className="inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-extrabold text-white shadow-md shadow-primary/20 hover:bg-primary-hover"
+            >
               {t.next} <ChevronRight className="h-4 w-4" />
             </button>
           ) : (
-            <button type="button" disabled={submitting} onClick={submit} className="inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-extrabold text-white shadow-md shadow-primary/20 hover:bg-primary-hover disabled:opacity-70">
-              {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Shield className="h-4 w-4" />}
+            <button
+              type="button"
+              disabled={submitting}
+              onClick={submit}
+              className="inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-extrabold text-white shadow-md shadow-primary/20 hover:bg-primary-hover disabled:opacity-70"
+            >
+              {submitting ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <Shield className="h-4 w-4" />
+              )}
               {submitting ? t.submitting : t.submit}
             </button>
           )}

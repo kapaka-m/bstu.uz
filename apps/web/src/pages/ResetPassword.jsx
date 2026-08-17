@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { ArrowLeft, Eye, EyeOff, KeyRound, Lock, Mail } from "lucide-react";
+import { ArrowLeft, Eye, EyeOff, KeyRound, Lock, Mail, ShieldCheck } from "lucide-react";
 import { motion } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
 import { authService } from "../services/authService";
@@ -8,10 +8,10 @@ import FormError from "../components/common/FormError";
 import { authCmsService } from "../services/authCmsService";
 
 export default function ResetPassword() {
-  const { t, hasTranslation, logoSrc, isRtl, language } = useLanguage();
+  const { logoSrc, isRtl, language } = useLanguage();
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token") || "";
-  const initialEmail = searchParams.get("email") || "";
+  const initialEmail = searchParams.get("email") || searchParams.get("amp;email") || "";
   const [email, setEmail] = useState(initialEmail);
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
@@ -40,25 +40,27 @@ export default function ResetPassword() {
 
   const c = useMemo(
     () => ({
-      title: content?.title || t("auth.resetPassword"),
-      emailLabel: content?.email_label || t("auth.emailLabel"),
-      emailPlaceholder: content?.email_placeholder || t("auth.emailPlaceholder"),
-      passwordLabel: content?.password_label || t("auth.passwordLabel"),
-      passwordPlaceholder: content?.password_placeholder || t("auth.passwordPlaceholder"),
-      confirmPasswordLabel: content?.confirm_password_label || t("auth.confirmPasswordLabel"),
-      confirmPasswordPlaceholder: content?.confirm_password_placeholder || t("auth.confirmPasswordLabel"),
-      submitLabel: content?.submit_label || t("auth.resetPassword"),
-      loadingLabel: content?.loading_label || t("auth.resetPassword"),
-      successMessage: content?.success_message || t("auth.resetSent"),
-      backLabel: content?.back_label || t("auth.backToLogin"),
-      showPassword: content?.show_password_label || t("auth.showPassword"),
-      hidePassword: content?.hide_password_label || t("auth.hidePassword"),
-      requiredMessage: content?.validation_required_message || t("auth.loginFailed"),
-      mismatchMessage: content?.validation_mismatch_message || t("auth.passwordsNotMatch"),
-      errorMessage: content?.error_message || t("auth.loginFailed"),
-      logoAlt: content?.logo_alt || (hasTranslation("common.logoAlt") ? t("common.logoAlt") : "BSTU logo"),
+      title: content?.title || "",
+      subtitle: content?.subtitle || "",
+      emailLabel: content?.email_label || "",
+      emailPlaceholder: content?.email_placeholder || "",
+      passwordLabel: content?.password_label || "",
+      passwordPlaceholder: content?.password_placeholder || "",
+      confirmPasswordLabel: content?.confirm_password_label || "",
+      confirmPasswordPlaceholder: content?.confirm_password_placeholder || "",
+      submitLabel: content?.submit_label || "",
+      loadingLabel: content?.loading_label || "",
+      successMessage: content?.success_message || "",
+      successTitle: content?.success_title || "",
+      backLabel: content?.back_label || "",
+      showPassword: content?.show_password_label || "",
+      hidePassword: content?.hide_password_label || "",
+      requiredMessage: content?.validation_required_message || "",
+      mismatchMessage: content?.validation_mismatch_message || "",
+      errorMessage: content?.error_message || "",
+      logoAlt: content?.logo_alt || "",
     }),
-    [content, hasTranslation, t],
+    [content],
   );
 
   if (content === undefined) {
@@ -96,29 +98,43 @@ export default function ResetPassword() {
     }
   };
 
-  return (
-    <div className="min-h-screen pt-28 pb-20 flex items-center justify-center bg-linear-to-br from-primary-light via-white to-[#eef4ff] relative overflow-hidden">
-      <div className="absolute top-20 left-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-10 right-10 w-96 h-96 bg-blue-400/5 rounded-full blur-3xl" />
+  const missingLinkData = !token;
 
+  return (
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gray-50 px-4 pb-20 pt-28">
+      <div className="absolute inset-x-0 top-0 h-72 bg-linear-to-b from-primary-light to-transparent" />
+      <div className="absolute inset-x-0 bottom-0 h-px bg-linear-to-r from-transparent via-primary/20 to-transparent" />
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="w-full max-w-md bg-white border border-gray-100 p-8 md:p-10 rounded-3xl shadow-xl hover:shadow-2xl transition-shadow relative z-10 mx-4"
+        className="relative z-10 w-full max-w-md overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-xl"
       >
-        <div className="text-center mb-8">
-          {logoSrc && (
-            <Link to="/" className="inline-flex items-center gap-2 mb-3">
-              <img src={logoSrc} alt={c.logoAlt} className="h-10" />
-            </Link>
-          )}
+        <div className="border-b border-gray-100 bg-white px-6 py-7 text-center sm:px-8">
+          <Link to="/" className="mx-auto mb-4 inline-flex h-14 w-14 items-center justify-center rounded-2xl border border-gray-100 bg-white shadow-xs">
+            {logoSrc ? (
+              <img src={logoSrc} alt={c.logoAlt} className="h-10 w-10 object-contain" />
+            ) : (
+              <ShieldCheck className="h-7 w-7 text-primary" />
+            )}
+          </Link>
           <h2 className="text-2xl font-extrabold text-navy">{c.title}</h2>
+          {c.subtitle && (
+            <p className="mx-auto mt-2 max-w-sm text-xs font-semibold leading-relaxed text-gray-500">
+              {c.subtitle}
+            </p>
+          )}
         </div>
 
+        <div className="p-6 sm:p-8">
         {!submitted ? (
           <>
             {error && <FormError message={error} />}
+            {missingLinkData && (
+              <div className="mb-5 rounded-2xl border border-amber-100 bg-amber-50 p-4 text-xs font-bold leading-relaxed text-amber-700">
+                {c.errorMessage}
+              </div>
+            )}
             <form onSubmit={handleSubmit} className="flex flex-col gap-5 text-start">
               <div className="flex flex-col gap-2">
                 <label htmlFor="email" className="text-xs font-bold text-navy uppercase tracking-wider">
@@ -132,7 +148,7 @@ export default function ResetPassword() {
                     placeholder={c.emailPlaceholder}
                     value={email}
                     onChange={(event) => setEmail(event.target.value)}
-                    className="w-full bg-white border border-gray-100 hover:border-gray-200 focus:border-primary pl-11 pr-4 rtl:pl-4 rtl:pr-11 py-3.5 rounded-xl text-sm focus:outline-none transition-all shadow-sm"
+                    className="w-full bg-white border border-gray-200 hover:border-gray-300 focus:border-primary pl-11 pr-4 rtl:pl-4 rtl:pr-11 py-3.5 rounded-xl text-sm font-semibold text-navy focus:outline-none transition-all shadow-sm"
                     required
                   />
                 </div>
@@ -150,7 +166,7 @@ export default function ResetPassword() {
                     placeholder={c.passwordPlaceholder}
                     value={password}
                     onChange={(event) => setPassword(event.target.value)}
-                    className="w-full bg-white border border-gray-100 hover:border-gray-200 focus:border-primary pl-11 pr-12 rtl:pl-12 rtl:pr-11 py-3.5 rounded-xl text-sm focus:outline-none transition-all shadow-sm"
+                    className="w-full bg-white border border-gray-200 hover:border-gray-300 focus:border-primary pl-11 pr-12 rtl:pl-12 rtl:pr-11 py-3.5 rounded-xl text-sm font-semibold text-navy focus:outline-none transition-all shadow-sm"
                     required
                     minLength={8}
                   />
@@ -177,7 +193,7 @@ export default function ResetPassword() {
                     placeholder={c.confirmPasswordPlaceholder}
                     value={passwordConfirmation}
                     onChange={(event) => setPasswordConfirmation(event.target.value)}
-                    className="w-full bg-white border border-gray-100 hover:border-gray-200 focus:border-primary pl-11 pr-4 rtl:pl-4 rtl:pr-11 py-3.5 rounded-xl text-sm focus:outline-none transition-all shadow-sm"
+                    className="w-full bg-white border border-gray-200 hover:border-gray-300 focus:border-primary pl-11 pr-4 rtl:pl-4 rtl:pr-11 py-3.5 rounded-xl text-sm font-semibold text-navy focus:outline-none transition-all shadow-sm"
                     required
                     minLength={8}
                   />
@@ -186,7 +202,7 @@ export default function ResetPassword() {
 
               <button
                 type="submit"
-                disabled={loading}
+                disabled={loading || missingLinkData}
                 className="w-full mt-2 inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary-hover disabled:bg-primary/50 text-white py-3.5 rounded-xl text-sm font-semibold transition-all duration-300 shadow-md shadow-primary/20 hover:shadow-primary/30 cursor-pointer"
               >
                 {loading ? c.loadingLabel : c.submitLabel}
@@ -203,13 +219,15 @@ export default function ResetPassword() {
             <div className="w-16 h-16 rounded-full bg-green-50 text-green-500 flex items-center justify-center mb-4">
               <KeyRound className="w-10 h-10" />
             </div>
+            <h3 className="mb-2 text-lg font-extrabold text-navy">{c.successTitle}</h3>
             <p className="text-gray-500 text-sm leading-relaxed mb-6">
               {c.successMessage}
             </p>
           </motion.div>
         )}
+        </div>
 
-        <div className="text-center mt-8 pt-6 border-t border-gray-50 text-sm font-semibold text-gray-500">
+        <div className="border-t border-gray-100 bg-gray-50/70 px-6 py-5 text-center text-sm font-semibold text-gray-500">
           <Link to="/login" className="text-primary hover:underline inline-flex items-center gap-1.5 font-bold">
             <ArrowLeft className={`w-3.5 h-3.5 transition-transform ${isRtl ? "rotate-180" : ""}`} />
             {c.backLabel}

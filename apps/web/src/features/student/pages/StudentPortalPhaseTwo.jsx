@@ -30,6 +30,33 @@ const statusClass = (status = "") => {
 const labelize = (value) => String(value || "").replaceAll("_", " ");
 const uploadAccept = ".pdf,.jpg,.jpeg,.png,.webp,.heic,.heif";
 const maxUploadSize = 10 * 1024 * 1024;
+const statusKeyAliases = {
+  "action required": "action_required",
+  notstarted: "notStarted",
+  "not started": "notStarted",
+  "pending review": "pendingReview",
+  "pending verification": "pendingVerification",
+  "waiting documents": "waitingDocuments",
+  "waiting payment": "waitingPayment",
+};
+
+const normalizeStatusKey = (status = "") => {
+  const normalized = String(status || "")
+    .trim()
+    .replace(/([a-z])([A-Z])/g, "$1_$2")
+    .replace(/[\s-]+/g, "_")
+    .toLowerCase();
+
+  return statusKeyAliases[normalized] || statusKeyAliases[String(status || "").trim().toLowerCase()] || normalized;
+};
+
+const humanizeStatus = (status = "") =>
+  String(status || "")
+    .replace(/([a-z])([A-Z])/g, "$1 $2")
+    .replace(/[_-]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .replace(/\b\w/g, (letter) => letter.toUpperCase());
 
 const apiErrorMessage = (err, fallback) => {
   const fieldMessages = err?.errors
@@ -42,16 +69,24 @@ const apiErrorMessage = (err, fallback) => {
 };
 
 function StatusPill({ status }) {
-  return <span className={`inline-flex px-2.5 py-1 rounded-full border text-[10px] font-black uppercase ${statusClass(status)}`}>{labelize(status)}</span>;
+  const { t, hasTranslation } = useLanguage();
+  if (status === undefined || status === null || String(status).trim() === "") {
+    return <span className="text-xs font-extrabold text-gray-400">—</span>;
+  }
+
+  const key = `status.${normalizeStatusKey(status)}`;
+  const label = hasTranslation?.(key) ? t(key) : humanizeStatus(status);
+
+  return <span className={`inline-flex max-w-full px-2.5 py-1 rounded-full border text-[10px] font-black uppercase break-words ${statusClass(status)}`}>{label}</span>;
 }
 
 function Panel({ title, icon: Icon = ClipboardList, children, action }) {
   return (
-    <section className="bg-white border border-gray-100 rounded-3xl p-6 shadow-xs space-y-5">
+    <section className="min-w-0 bg-white border border-gray-100 rounded-3xl p-4 sm:p-6 shadow-xs space-y-5">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-gray-50">
-        <div className="flex items-center gap-2 text-navy">
-          <Icon className="w-4 h-4 text-primary" />
-          <h2 className="text-sm font-extrabold uppercase tracking-wider">{title}</h2>
+        <div className="flex min-w-0 items-center gap-2 text-navy">
+          <Icon className="w-4 h-4 shrink-0 text-primary" />
+          <h2 className="min-w-0 text-sm font-extrabold uppercase tracking-wider break-words">{title}</h2>
         </div>
         {action}
       </div>
@@ -64,8 +99,8 @@ function InfoGrid({ rows }) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">
       {rows.map(([label, value]) => (
-        <div key={label} className="rounded-2xl border border-gray-100 bg-gray-50/60 p-4">
-          <p className="text-[10px] font-black uppercase tracking-wider text-gray-400">{label}</p>
+        <div key={label} className="min-w-0 rounded-2xl border border-gray-100 bg-gray-50/60 p-4">
+          <p className="text-[10px] font-black uppercase tracking-wider text-gray-400 break-words">{label}</p>
           <p className="mt-1 text-xs font-extrabold text-navy wrap-break-word">{value || "—"}</p>
         </div>
       ))}
@@ -254,17 +289,28 @@ export default function StudentPortalPhaseTwo() {
   };
 
   const renderDashboard = () => (
-    <div className="space-y-6">
-      <div className="bg-linear-to-r from-navy to-navy-dark rounded-3xl p-8 text-white shadow-xl">
+    <div className="min-w-0 space-y-6">
+      <div className="bg-linear-to-r from-navy to-navy-dark rounded-3xl p-5 sm:p-8 text-white shadow-xl">
         <p className="text-xs font-bold text-white/60 uppercase tracking-widest">{t("student.application.label")}</p>
-        <h1 className="mt-2 text-2xl md:text-3xl font-extrabold">{student.full_name_english || user.name}</h1>
-        <p className="mt-2 text-xs font-semibold text-white/70">{app.application_number} · {programName}</p>
+        <h1 className="mt-2 text-xl sm:text-2xl md:text-3xl font-extrabold break-words !text-white">{student.full_name_english || user.name}</h1>
+        <p className="mt-2 text-xs font-semibold text-white/70 break-words">{app.application_number} · {programName}</p>
+        <div className="mt-5 flex flex-wrap gap-2">
+          <span className="rounded-full border border-white/15 bg-white/10 px-3 py-1 text-[10px] font-black uppercase tracking-wider text-white">
+            {facultyName || t("faculty.title")}
+          </span>
+          <span className="rounded-full border border-white/15 bg-white/10 px-3 py-1 text-[10px] font-black uppercase tracking-wider text-white">
+            {app.degree_level || t("application.degreeLevel")}
+          </span>
+          <span className="rounded-full border border-white/15 bg-white/10 px-3 py-1 text-[10px] font-black uppercase tracking-wider text-white">
+            {summary.next_action || t("student.portal.nextStep")}
+          </span>
+        </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 gap-4">
         <Metric label={t("student.portal.completion")} value={`${summary.completion_percentage}%`} icon={CheckCircle} />
-        <Metric label={t("application.currentStatus")} value={labelize(app.status)} icon={ClipboardList} />
-        <Metric label={t("document.title")} value={labelize(app.documents_status)} icon={FileCheck} />
-        <Metric label={t("student.nav.admission")} value={labelize(app.admission_status)} icon={ShieldCheck} />
+        <Metric label={t("application.currentStatus")} value={app.status} icon={ClipboardList} />
+        <Metric label={t("document.title")} value={app.documents_status} icon={FileCheck} />
+        <Metric label={t("student.nav.admission")} value={app.admission_status} icon={ShieldCheck} />
         <Metric label={t("student.nav.enrollment")} value={summary.checks?.enrollment_issued ? t("status.issued") : t("status.pending")} icon={ShieldCheck} />
       </div>
       <Panel title={t("student.portal.nextStep")} icon={ClipboardList}>
@@ -279,8 +325,8 @@ export default function StudentPortalPhaseTwo() {
     <Panel title={t("application.timeline")} icon={ClipboardList}>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         {(summary.timeline || []).map((item) => (
-          <div key={item.key} className="flex items-center justify-between gap-3 rounded-2xl border border-gray-100 p-4">
-            <span className="text-xs font-extrabold text-navy">{item.label}</span>
+          <div key={item.key} className="flex flex-col gap-3 rounded-2xl border border-gray-100 p-4 sm:flex-row sm:items-center sm:justify-between">
+            <span className="text-xs font-extrabold text-navy break-words">{item.label}</span>
             <StatusPill status={item.status} />
           </div>
         ))}
@@ -307,9 +353,9 @@ export default function StudentPortalPhaseTwo() {
           ["/student/residence", t("student.nav.residence"), FileCheck],
           ["/student/notifications", t("student.notifications"), Bell],
         ].map(([to, label, Icon]) => (
-          <Link key={to} to={to} className="rounded-2xl border border-gray-100 p-4 hover:border-primary/30 hover:bg-primary/5 transition-all">
+          <Link key={to} to={to} className="min-w-0 rounded-2xl border border-gray-100 p-4 hover:border-primary/30 hover:bg-primary/5 transition-all">
             <Icon className="w-5 h-5 text-primary" />
-            <p className="mt-3 text-xs font-extrabold text-navy">{label}</p>
+            <p className="mt-3 text-xs font-extrabold text-navy break-words">{label}</p>
           </Link>
         ))}
       </div>
@@ -317,11 +363,11 @@ export default function StudentPortalPhaseTwo() {
   );
 
   const renderApplication = () => (
-    <div className="space-y-6">
+    <div className="min-w-0 space-y-6">
       <Panel title={t("student.nav.applicationOverview")} icon={ClipboardList}>
         <InfoGrid rows={[
           [t("application.number"), app.application_number],
-          [t("application.status"), labelize(app.status)],
+          [t("application.status"), <StatusPill status={app.status} />],
           [t("common.createdAt"), app.created_at ? new Date(app.created_at).toLocaleString(locale) : ""],
           [t("common.updatedAt"), app.updated_at ? new Date(app.updated_at).toLocaleString(locale) : ""],
           [t("application.program"), programName],
@@ -392,16 +438,16 @@ export default function StudentPortalPhaseTwo() {
       <div className="space-y-3">
         {(summary.requirements || []).map((req) => (
           <div key={req.document_type} className="rounded-2xl border border-gray-100 p-4 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-            <div>
-              <div className="flex items-center gap-2">
-                <p className="text-xs font-extrabold text-navy">{req.name}</p>
+            <div className="min-w-0">
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                <p className="text-xs font-extrabold text-navy break-words">{req.name}</p>
                 <StatusPill status={req.status} />
               </div>
-              <p className="mt-1 text-[11px] font-semibold text-gray-500">{req.description}</p>
-              {req.document?.rejection_reason && <p className="mt-2 text-[11px] font-bold text-rose-600">{req.document.rejection_reason}</p>}
-              {req.document && <p className="mt-2 text-[10px] font-bold text-gray-400">Version {req.document.current_version} · {req.document.original_name}</p>}
+              <p className="mt-1 text-[11px] font-semibold text-gray-500 break-words">{req.description}</p>
+              {req.document?.rejection_reason && <p className="mt-2 text-[11px] font-bold text-rose-600 break-words">{req.document.rejection_reason}</p>}
+              {req.document && <p className="mt-2 text-[10px] font-bold text-gray-400 break-all">Version {req.document.current_version} · {req.document.original_name}</p>}
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               {req.document && (
                 <button
                   onClick={() => studentPortalService.downloadDocument(req.document.id)}
@@ -437,7 +483,7 @@ export default function StudentPortalPhaseTwo() {
     return (
       <Panel title={t("student.nav.academicEquivalency")} icon={GraduationCap}>
         <InfoGrid rows={[
-          [t("application.status"), eq?.status || t("status.waitingDocuments")],
+        [t("application.status"), <StatusPill status={eq?.status || "waitingDocuments"} />],
           [t("equivalency.previousUniversity"), eq?.previous_university],
           [t("equivalency.previousCountry"), eq?.previous_country],
           [t("equivalency.previousProgram"), eq?.previous_program],
@@ -448,17 +494,17 @@ export default function StudentPortalPhaseTwo() {
         ]} />
         <div className="space-y-2">
           {(eq?.courses || []).map((course) => (
-            <div key={course.id} className="rounded-2xl border border-gray-100 p-4 flex justify-between gap-3">
-              <div>
-                <p className="text-xs font-extrabold text-navy">{course.previous_course_name}</p>
-                <p className="text-[11px] text-gray-500">{course.matched_university_course || t("equivalency.noMatchedCourse")}</p>
+            <div key={course.id} className="rounded-2xl border border-gray-100 p-4 flex flex-col gap-3 sm:flex-row sm:justify-between">
+              <div className="min-w-0">
+                <p className="text-xs font-extrabold text-navy break-words">{course.previous_course_name}</p>
+                <p className="text-[11px] text-gray-500 break-words">{course.matched_university_course || t("equivalency.noMatchedCourse")}</p>
               </div>
               <StatusPill status={course.course_status} />
             </div>
           ))}
         </div>
         {["RESULT_ISSUED", "STUDENT_REVIEW_REQUIRED"].includes(eq?.status) && (
-          <div className="flex gap-3">
+          <div className="flex flex-col gap-3 sm:flex-row">
             <button onClick={acceptEquivalency} className="px-4 py-2 rounded-xl bg-primary text-white text-xs font-extrabold">{t("equivalency.acceptResult")}</button>
             <button onClick={requestEquivalencyReview} className="px-4 py-2 rounded-xl border border-gray-200 text-navy text-xs font-extrabold">{t("equivalency.requestReview")}</button>
           </div>
@@ -468,20 +514,20 @@ export default function StudentPortalPhaseTwo() {
   };
 
   const renderPayments = () => (
-    <div className="space-y-6">
+    <div className="min-w-0 space-y-6">
       <Panel title={t("payment.applicationFee")} icon={CreditCard}>
         <InfoGrid rows={[
           [t("payment.fee"), t("payment.applicationFeeAmount")],
-          [t("application.status"), labelize(app.application_fee_status)],
+          [t("application.status"), <StatusPill status={app.application_fee_status} />],
           [t("payment.canUploadReceipt"), summary.checks?.documents_approved && summary.checks?.equivalency_complete ? t("common.yes") : t("status.notYet")],
         ]} />
         <div className="space-y-3">
           {(app.application_fee_payments || []).map((payment) => (
-            <div key={payment.id} className="rounded-2xl border border-gray-100 p-4 flex justify-between">
-              <div>
-                <p className="text-xs font-extrabold text-navy">{payment.payment_number}</p>
-                <p className="text-[11px] text-gray-500">{payment.receipt_original_name}</p>
-                {payment.rejection_reason && <p className="text-[11px] font-bold text-rose-600">{payment.rejection_reason}</p>}
+            <div key={payment.id} className="rounded-2xl border border-gray-100 p-4 flex flex-col gap-3 sm:flex-row sm:justify-between">
+              <div className="min-w-0">
+                <p className="text-xs font-extrabold text-navy break-all">{payment.payment_number}</p>
+                <p className="text-[11px] text-gray-500 break-all">{payment.receipt_original_name}</p>
+                {payment.rejection_reason && <p className="text-[11px] font-bold text-rose-600 break-words">{payment.rejection_reason}</p>}
               </div>
               <StatusPill status={payment.status} />
             </div>
@@ -510,7 +556,7 @@ export default function StudentPortalPhaseTwo() {
               [t("contract.number"), contract.contract_number],
               [t("payment.totalAmount"), Number(contract.amount) > 0 ? `${contract.amount} ${contract.currency || ""}` : t("contract.toBeCalculated")],
               [t("contract.requiredAdvance"), Number(contract.advance_amount) > 0 ? `${contract.advance_amount} ${contract.currency || ""}` : t("contract.advancePercent")],
-              [t("application.status"), summary.checks?.contract_advance_paid ? t("status.approved") : t("status.waitingPayment")],
+            [t("application.status"), <StatusPill status={summary.checks?.contract_advance_paid ? "approved" : "waitingPayment"} />],
             ]} />
             <button
               type="button"
@@ -522,11 +568,11 @@ export default function StudentPortalPhaseTwo() {
             </button>
             <div className="space-y-3">
               {(contract.payments || []).map((payment) => (
-                <div key={payment.id} className="rounded-2xl border border-gray-100 p-4 flex justify-between">
-                  <div>
-                    <p className="text-xs font-extrabold text-navy">{payment.payment_number}</p>
-                    <p className="text-[11px] text-gray-500">{payment.receipt_original_name}</p>
-                    {payment.rejection_reason && <p className="text-[11px] font-bold text-rose-600">{payment.rejection_reason}</p>}
+                <div key={payment.id} className="rounded-2xl border border-gray-100 p-4 flex flex-col gap-3 sm:flex-row sm:justify-between">
+                  <div className="min-w-0">
+                    <p className="text-xs font-extrabold text-navy break-all">{payment.payment_number}</p>
+                    <p className="text-[11px] text-gray-500 break-all">{payment.receipt_original_name}</p>
+                    {payment.rejection_reason && <p className="text-[11px] font-bold text-rose-600 break-words">{payment.rejection_reason}</p>}
                   </div>
                   <StatusPill status={payment.status} />
                 </div>
@@ -567,7 +613,7 @@ export default function StudentPortalPhaseTwo() {
             [t("application.degreeLevel"), app.degree_level],
             [t("faculty.title"), facultyName],
             [t("application.program"), programName],
-            [t("application.status"), app.admission.status],
+            [t("application.status"), <StatusPill status={app.admission.status} />],
           ]} />
           <button
             type="button"
@@ -581,9 +627,9 @@ export default function StudentPortalPhaseTwo() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {Object.entries(summary.checks || {}).map(([key, value]) => (
-            <div key={key} className="rounded-2xl border border-gray-100 p-4 flex justify-between">
-              <span className="text-xs font-extrabold text-navy">{labelize(key)}</span>
-              <StatusPill status={value ? t("status.completed") : t("status.notStarted")} />
+            <div key={key} className="rounded-2xl border border-gray-100 p-4 flex flex-col gap-3 sm:flex-row sm:justify-between">
+              <span className="text-xs font-extrabold text-navy break-words">{labelize(key)}</span>
+              <StatusPill status={value ? "completed" : "notStarted"} />
             </div>
           ))}
         </div>
@@ -599,7 +645,7 @@ export default function StudentPortalPhaseTwo() {
             [t("student.number"), app.enrollment.student_number],
             [t("common.academicYear"), app.enrollment.academic_year],
             [t("common.issueDate"), app.enrollment.issue_date],
-            [t("application.status"), app.enrollment.status],
+            [t("application.status"), <StatusPill status={app.enrollment.status} />],
           ]} />
           <button
             type="button"
@@ -617,9 +663,9 @@ export default function StudentPortalPhaseTwo() {
             [t("contract.advanceApproved"), summary.checks?.contract_advance_paid],
             [t("enrollment.issued"), summary.checks?.enrollment_issued],
           ].map(([label, value]) => (
-            <div key={label} className="rounded-2xl border border-gray-100 p-4 flex justify-between">
-              <span className="text-xs font-extrabold text-navy">{label}</span>
-              <StatusPill status={value ? t("status.completed") : t("status.notStarted")} />
+            <div key={label} className="rounded-2xl border border-gray-100 p-4 flex flex-col gap-3 sm:flex-row sm:justify-between">
+              <span className="text-xs font-extrabold text-navy break-words">{label}</span>
+              <StatusPill status={value ? "completed" : "notStarted"} />
             </div>
           ))}
         </div>
@@ -635,7 +681,7 @@ export default function StudentPortalPhaseTwo() {
             [t("prikaz.number"), app.prikaz.prikaz_number],
             [t("common.academicYear"), app.prikaz.academic_year],
             [t("common.issueDate"), app.prikaz.issue_date],
-            [t("application.status"), app.prikaz.status],
+            [t("application.status"), <StatusPill status={app.prikaz.status} />],
           ]} />
           <button
             type="button"
@@ -661,15 +707,15 @@ export default function StudentPortalPhaseTwo() {
       <InfoGrid rows={[
         [t("serviceFee.requiredFee"), t("serviceFee.amount")],
         [t("prikaz.issued"), summary.checks?.prikaz_issued ? t("common.yes") : t("common.no")],
-        [t("student.nav.serviceFee"), summary.checks?.service_fee_paid ? t("status.approved") : t("status.pending")],
+        [t("student.nav.serviceFee"), <StatusPill status={summary.checks?.service_fee_paid ? "approved" : "pending"} />],
       ]} />
       <div className="space-y-3">
         {(app.service_fee_payments || []).map((payment) => (
-          <div key={payment.id} className="rounded-2xl border border-gray-100 p-4 flex justify-between">
-            <div>
-              <p className="text-xs font-extrabold text-navy">{payment.payment_number}</p>
-              <p className="text-[11px] text-gray-500">{payment.amount} {payment.currency} · {payment.receipt_original_name}</p>
-              {payment.rejection_reason && <p className="text-[11px] font-bold text-rose-600">{payment.rejection_reason}</p>}
+          <div key={payment.id} className="rounded-2xl border border-gray-100 p-4 flex flex-col gap-3 sm:flex-row sm:justify-between">
+            <div className="min-w-0">
+              <p className="text-xs font-extrabold text-navy break-all">{payment.payment_number}</p>
+              <p className="text-[11px] text-gray-500 break-all">{payment.amount} {payment.currency} · {payment.receipt_original_name}</p>
+              {payment.rejection_reason && <p className="text-[11px] font-bold text-rose-600 break-words">{payment.rejection_reason}</p>}
             </div>
             <StatusPill status={payment.status} />
           </div>
@@ -696,8 +742,8 @@ export default function StudentPortalPhaseTwo() {
     <Panel title={t("student.nav.visa")} icon={ShieldCheck}>
       <InfoGrid rows={[
         [t("visa.telexNumber"), app.visa_process?.telex_number],
-        [t("visa.telexStatus"), labelize(app.visa_process?.telex_status)],
-        [t("visa.status"), labelize(app.visa_process?.visa_status)],
+        [t("visa.telexStatus"), <StatusPill status={app.visa_process?.telex_status} />],
+        [t("visa.status"), <StatusPill status={app.visa_process?.visa_status} />],
         [t("common.notes"), app.visa_process?.visa_notes],
       ]} />
     </Panel>
@@ -707,7 +753,7 @@ export default function StudentPortalPhaseTwo() {
     <Panel title={t("student.nav.housing")} icon={ClipboardList}>
       <InfoGrid rows={[
         [t("housing.requested"), app.housing_request?.requested ? t("common.yes") : t("common.no")],
-        [t("application.status"), labelize(app.housing_request?.status)],
+        [t("application.status"), <StatusPill status={app.housing_request?.status} />],
         [t("housing.preferredRoom"), app.housing_request?.preferred_room_type],
         [t("common.notes"), app.housing_request?.notes],
         [t("common.administrationNotes"), app.housing_request?.admin_notes],
@@ -723,7 +769,7 @@ export default function StudentPortalPhaseTwo() {
   const renderResidence = () => (
     <Panel title={t("student.nav.residence")} icon={FileCheck}>
       <InfoGrid rows={[
-        [t("application.status"), labelize(app.residence_permit_process?.status)],
+        [t("application.status"), <StatusPill status={app.residence_permit_process?.status} />],
         [t("common.issuedAt"), app.residence_permit_process?.issued_at],
         [t("common.expiresAt"), app.residence_permit_process?.expires_at],
         [t("common.notes"), app.residence_permit_process?.notes],
@@ -736,9 +782,9 @@ export default function StudentPortalPhaseTwo() {
     <Panel title={t("student.notifications")} icon={Bell}>
       <div className="space-y-3">
         {notifications.map((item) => (
-          <div key={item.id} className="rounded-2xl border border-gray-100 p-4">
-            <p className="text-xs font-extrabold text-navy">{item.title}</p>
-            <p className="mt-1 text-[11px] font-semibold text-gray-500">{item.message}</p>
+          <div key={item.id} className="min-w-0 rounded-2xl border border-gray-100 p-4">
+            <p className="text-xs font-extrabold text-navy break-words">{item.title}</p>
+            <p className="mt-1 text-[11px] font-semibold text-gray-500 break-words">{item.message}</p>
           </div>
         ))}
       </div>
@@ -746,7 +792,7 @@ export default function StudentPortalPhaseTwo() {
   );
 
   return (
-    <div className="space-y-6 animate-in fade-in duration-200">
+    <div className="min-w-0 space-y-6 animate-in fade-in duration-200">
       {success && mode !== "documents" && <Success message={success} />}
       {mode === "dashboard" && renderDashboard()}
       {mode === "application" && renderApplication()}
@@ -768,11 +814,15 @@ export default function StudentPortalPhaseTwo() {
 }
 
 function Metric({ label, value, icon: Icon }) {
+  const showStatus = typeof value === "string" && !value.includes("%");
+
   return (
-    <div className="bg-white border border-gray-100 rounded-3xl p-5 shadow-xs">
+    <div className="min-w-0 bg-white border border-gray-100 rounded-3xl p-5 shadow-xs">
       <Icon className="w-5 h-5 text-primary" />
-      <p className="mt-4 text-[10px] font-black uppercase tracking-wider text-gray-400">{label}</p>
-      <p className="mt-1 text-lg font-extrabold text-navy">{value}</p>
+      <p className="mt-4 text-[10px] font-black uppercase tracking-wider text-gray-400 break-words">{label}</p>
+      <div className="mt-2 text-lg font-extrabold text-navy break-words">
+        {showStatus ? <StatusPill status={value} /> : value}
+      </div>
     </div>
   );
 }

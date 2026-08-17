@@ -153,6 +153,14 @@ export const apanelService = {
     return api.put("/apanel/cms/about-page/settings", payload).then(unwrapPayload);
   },
 
+  getApplyPage() {
+    return api.get("/apanel/cms/apply-page").then(unwrapPayload);
+  },
+
+  updateApplyPage(payload) {
+    return api.put("/apanel/cms/apply-page", payload).then(unwrapPayload);
+  },
+
   createAboutPageEntry(payload) {
     return api.post("/apanel/cms/about-page/entries", payload).then(unwrapPayload);
   },
@@ -183,6 +191,30 @@ export const apanelService = {
 
   updateHomeCms(payload) {
     return api.put("/apanel/cms/home", payload).then(unwrapPayload);
+  },
+
+  getFacultyPageCms() {
+    return api.get("/apanel/cms/faculty-page").then(unwrapPayload);
+  },
+
+  updateFacultyPageCms(payload) {
+    return api.put("/apanel/cms/faculty-page", payload).then(unwrapPayload);
+  },
+
+  getDepartmentPageCms() {
+    return api.get("/apanel/cms/department-page").then(unwrapPayload);
+  },
+
+  updateDepartmentPageCms(payload) {
+    return api.put("/apanel/cms/department-page", payload).then(unwrapPayload);
+  },
+
+  getProgramPageCms() {
+    return api.get("/apanel/cms/programs").then(unwrapPayload);
+  },
+
+  updateProgramPageCms(payload) {
+    return api.put("/apanel/cms/programs", payload).then(unwrapPayload);
   },
 
   getAuthCms() {

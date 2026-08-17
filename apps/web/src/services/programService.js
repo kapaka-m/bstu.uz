@@ -1,8 +1,16 @@
 import { api } from "../lib/api";
 
 export const programService = {
-  getPrograms() {
-    return api.get("/programs").then(res => res.data || []);
+  getPrograms(params = {}) {
+    const query = new URLSearchParams();
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== undefined && value !== null && value !== "") {
+        query.set(key, value);
+      }
+    });
+
+    const queryString = query.toString();
+    return api.get(`/programs${queryString ? `?${queryString}` : ""}`).then(res => res.data || []);
   },
 
   getProgram(slug) {

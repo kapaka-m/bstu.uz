@@ -9,6 +9,7 @@ import {
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
+import SeoManager from "./components/SeoManager";
 
 import { LocaleProvider } from "./context/LocaleContext";
 import { useLanguage } from "./context/LanguageContext";
@@ -20,6 +21,7 @@ import LoadingState from "./components/common/LoadingState";
 const Home = React.lazy(() => import("./pages/Home"));
 const Blog = React.lazy(() => import("./pages/Blog"));
 const BlogDetails = React.lazy(() => import("./pages/BlogDetails"));
+const PublishersPage = React.lazy(() => import("./pages/PublishersPage"));
 const BlogDepartmentPage = React.lazy(() => import("./pages/BlogDepartmentPage"));
 const AboutPage = React.lazy(() => import("./pages/AboutPage"));
 const ServicesPage = React.lazy(() => import("./pages/ServicesPage"));
@@ -45,6 +47,7 @@ const GreenCampusDetails = React.lazy(
   () => import("./pages/GreenCampusDetails"),
 );
 const ProfileDetails = React.lazy(() => import("./pages/ProfileDetails"));
+const NotFoundPage = React.lazy(() => import("./pages/NotFoundPage"));
 
 // Lazy loaded student portal routes
 const StudentLayout = React.lazy(
@@ -133,11 +136,23 @@ const ApanelFooterWeb = React.lazy(
 const ApanelAboutPage = React.lazy(
   () => import("./features/apanel/pages/ApanelAboutPage"),
 );
+const ApanelApplyPage = React.lazy(
+  () => import("./features/apanel/pages/ApanelApplyPage"),
+);
 const ApanelContactPage = React.lazy(
   () => import("./features/apanel/pages/ApanelContactPage"),
 );
 const ApanelHomeCms = React.lazy(
   () => import("./features/apanel/pages/ApanelHomeCms"),
+);
+const ApanelFacultyPageCms = React.lazy(
+  () => import("./features/apanel/pages/ApanelFacultyPageCms"),
+);
+const ApanelDepartmentPageCms = React.lazy(
+  () => import("./features/apanel/pages/ApanelDepartmentPageCms"),
+);
+const ApanelProgramPageCms = React.lazy(
+  () => import("./features/apanel/pages/ApanelProgramPageCms"),
 );
 const ApanelAuthCms = React.lazy(
   () => import("./features/apanel/pages/ApanelAuthCms"),
@@ -261,6 +276,7 @@ function AppContent() {
 
   return (
     <div className="flex flex-col min-h-screen">
+      <SeoManager />
       {!isApanel && !isStudent && <Header />}
       <main className="grow">
         <Suspense
@@ -282,26 +298,45 @@ function AppContent() {
             <Route path="/faculty/:id" element={<FacultyDetails />} />
             <Route path="/department/:id" element={<DepartmentPage />} />
             <Route path="/center/:id" element={<CenterDetails />} />
+            <Route path="/center/:id/*" element={<CenterDetails />} />
             <Route path="/programs" element={<ProgramsPage />} />
             <Route path="/programs/:id" element={<ProgramDetails />} />
+            <Route path="/programs/:id/*" element={<ProgramDetails />} />
+            <Route path="/programs/*" element={<Navigate to="/programs" replace />} />
             <Route path="/announcements" element={<AnnouncementsPage />} />
             <Route
               path="/announcements/:id"
               element={<AnnouncementDetails />}
             />
+            <Route
+              path="/announcements/:id/*"
+              element={<AnnouncementDetails />}
+            />
+            <Route path="/announcements/*" element={<Navigate to="/announcements" replace />} />
             <Route path="/video-bdtu" element={<VideoBDTU />} />
+            <Route path="/video-bdtu/*" element={<Navigate to="/video-bdtu" replace />} />
             <Route path="/news" element={<NewsPage />} />
             <Route path="/news/:id" element={<NewsDetails />} />
+            <Route path="/news/:id/*" element={<NewsDetails />} />
+            <Route path="/news/*" element={<Navigate to="/news" replace />} />
             <Route path="/green-campus" element={<GreenCampusPage />} />
             <Route path="/green-campus/:id" element={<GreenCampusDetails />} />
+            <Route path="/green-campus/:id/*" element={<GreenCampusDetails />} />
+            <Route path="/green-campus/*" element={<Navigate to="/green-campus" replace />} />
 
             <Route path="/apply" element={<ApplyPage />} />
             <Route path="/profile/:id" element={<ProfileDetails />} />
+            <Route path="/profile/:id/*" element={<ProfileDetails />} />
 
             <Route path="/blog" element={<Blog />} />
+            <Route path="/publishers" element={<PublishersPage />} />
             <Route path="/publishers/:id" element={<BlogDepartmentPage />} />
+            <Route path="/publishers/:id/*" element={<BlogDepartmentPage />} />
             <Route path="/blog/departments/:id" element={<BlogDepartmentPage />} />
+            <Route path="/blog/departments/:id/*" element={<BlogDepartmentPage />} />
             <Route path="/blog/:id" element={<BlogDetails />} />
+            <Route path="/blog/:id/*" element={<BlogDetails />} />
+            <Route path="/blog/*" element={<Navigate to="/blog" replace />} />
 
             {/* ── Student Portal Routes ── */}
             <Route path="/student/login" element={<Navigate to="/login" replace />} />
@@ -710,11 +745,51 @@ function AppContent() {
               }
             />
             <Route
+              path="/apanel/cms/faculty-page"
+              element={
+                <AdminRoute>
+                  <ApanelLayout>
+                    <ApanelFacultyPageCms />
+                  </ApanelLayout>
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/apanel/cms/department-page"
+              element={
+                <AdminRoute>
+                  <ApanelLayout>
+                    <ApanelDepartmentPageCms />
+                  </ApanelLayout>
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/apanel/cms/programs"
+              element={
+                <AdminRoute>
+                  <ApanelLayout>
+                    <ApanelProgramPageCms />
+                  </ApanelLayout>
+                </AdminRoute>
+              }
+            />
+            <Route
               path="/apanel/cms/cms-auth"
               element={
                 <AdminRoute>
                   <ApanelLayout>
                     <ApanelAuthCms />
+                  </ApanelLayout>
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/apanel/cms/apply-page"
+              element={
+                <AdminRoute>
+                  <ApanelLayout>
+                    <ApanelApplyPage />
                   </ApanelLayout>
                 </AdminRoute>
               }
@@ -848,6 +923,7 @@ function AppContent() {
                 </AdminRoute>
               }
             />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </Suspense>
       </main>

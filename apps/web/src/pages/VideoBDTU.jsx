@@ -1,6 +1,21 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { ThumbsUp, Share2, Award, Check, Eye, Calendar, ChevronUp, Bell, MessageSquare, CornerDownRight, User } from "lucide-react";
+import {
+  AlertCircle,
+  Award,
+  Bell,
+  Calendar,
+  Check,
+  ChevronUp,
+  CornerDownRight,
+  Eye,
+  MessageSquare,
+  PlayCircle,
+  Share2,
+  ThumbsUp,
+  User,
+  Video,
+} from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
 import { useAuth } from "../context/AuthContext";
@@ -9,12 +24,20 @@ import { formatLocalizedDate } from "../utils/dateFormat";
 
 const ALL_CATEGORY = "__all";
 
+const asText = (value, fallback = "") => {
+  if (typeof value === "string" || typeof value === "number") return String(value);
+  if (Array.isArray(value)) return value.filter(Boolean).join(" ");
+  if (value && typeof value === "object") return Object.values(value).filter(Boolean).join(" ");
+  return fallback;
+};
+
 export default function VideoBDTU() {
-  const { t, hasTranslation, language, logoSrc } = useLanguage();
+  const { t, hasTranslation, language, logoSrc, isRtl } = useLanguage();
   const { user, isAuthenticated, loading: authLoading } = useAuth();
   const [videos, setVideos] = useState([]);
   const [settings, setSettings] = useState({});
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   const [activeVideo, setActiveVideo] = useState(null);
   const [likedVideos, setLikedVideos] = useState({});
   const [isSubscribed, setIsSubscribed] = useState(false);
@@ -77,6 +100,7 @@ export default function VideoBDTU() {
   useEffect(() => {
     let active = true;
     setLoading(true);
+    setError("");
 
     Promise.all([videoService.getSettings(), videoService.getVideos()])
       .then(([settingsData, videoItems]) => {
@@ -95,6 +119,7 @@ export default function VideoBDTU() {
         setSettings({});
         setVideos([]);
         setActiveVideo(null);
+        setError(t("common.loadError") || "Unable to load video gallery.");
       })
       .finally(() => {
         if (active) setLoading(false);
@@ -103,7 +128,7 @@ export default function VideoBDTU() {
     return () => {
       active = false;
     };
-  }, [language]);
+  }, [language, t]);
 
   useEffect(() => {
     if (!activeVideoSlug) return;
@@ -126,7 +151,7 @@ export default function VideoBDTU() {
   // Update subscriber count dynamically
   const handleSubscribeToggle = () => {
     if (settings.youtube_channel_url) {
-      window.open(settings.youtube_channel_url, "_blank");
+      window.open(settings.youtube_channel_url, "_blank", "noopener,noreferrer");
     }
     if (isSubscribed) {
       setSubCount((prev) => prev - 1);
@@ -168,11 +193,18 @@ export default function VideoBDTU() {
     const videoUrl = activeVideo.isLocal
       ? window.location.href
       : `https://www.youtube.com/watch?v=${activeVideo.youtubeId}`;
-    navigator.clipboard.writeText(videoUrl).then(() => {
+    const copyPromise = navigator.clipboard
+      ? navigator.clipboard.writeText(videoUrl)
+      : Promise.resolve();
+
+    copyPromise.then(() => {
       setShowShareToast(true);
       setTimeout(() => {
         setShowShareToast(false);
       }, 3000);
+    }).catch(() => {
+      setShowShareToast(true);
+      setTimeout(() => setShowShareToast(false), 3000);
     });
   };
 
@@ -237,62 +269,112 @@ export default function VideoBDTU() {
     ),
   ];
 
-  if (loading || !activeVideo) {
-    return null;
+  const pageTitle = settings.home_title || "Video Gallery";
+  if (loading) {
+    return (
+      <div className="pt-20 bg-white min-h-screen overflow-x-hidden" dir={isRtl ? "rtl" : "ltr"}>
+        <div className="container mx-auto px-4 md:px-8 max-w-7xl py-12 min-w-0">
+          <div className="mb-8 rounded-2xl border border-gray-100 bg-gray-50 p-6">
+            <div className="h-3 w-32 rounded-full bg-gray-200 animate-pulse mb-4" />
+            <div className="h-8 w-full max-w-md rounded-full bg-gray-200 animate-pulse mb-3" />
+            <div className="h-4 w-full max-w-2xl rounded-full bg-gray-200 animate-pulse" />
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start min-w-0">
+            <div className="lg:col-span-8 min-w-0">
+              <div className="aspect-video rounded-3xl bg-gray-100 animate-pulse" />
+            </div>
+            <div className="lg:col-span-4 flex min-w-0 flex-col gap-3">
+              {[1, 2, 3, 4].map((item) => (
+                <div key={item} className="h-24 rounded-2xl bg-gray-100 animate-pulse" />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !activeVideo) {
+    return (
+      <div className="pt-20 bg-white min-h-screen overflow-x-hidden" dir={isRtl ? "rtl" : "ltr"}>
+        <div className="container mx-auto px-4 md:px-8 max-w-7xl py-12 min-w-0">
+          <div className="max-w-2xl rounded-2xl border border-red-100 bg-red-50 p-6 text-start">
+            <div className="flex items-start gap-3">
+              <AlertCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
+              <div className="min-w-0">
+                <h1 className="text-lg font-extrabold text-navy break-words">
+                  {error ? asText(pageTitle) : settings.no_videos_label || "No videos available."}
+                </h1>
+                <p className="mt-2 text-sm font-semibold text-gray-500 break-words">
+                  {error || settings.no_videos_label || "No videos are currently published in the gallery."}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div className="pt-20 bg-white min-h-screen">
-      <div className="container mx-auto px-4 md:px-8 max-w-7xl py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+    <div className="pt-20 bg-white min-h-screen overflow-x-hidden" dir={isRtl ? "rtl" : "ltr"}>
+      <div className="container mx-auto px-4 md:px-8 max-w-7xl py-12 min-w-0">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start min-w-0">
           {/* LEFT COLUMN: Main Video Player & Details */}
-          <div ref={playerRef} className="lg:col-span-8 flex flex-col gap-6">
+          <div ref={playerRef} className="lg:col-span-8 flex flex-col gap-6 min-w-0">
             {/* Video Player */}
             <div className="w-full aspect-video rounded-3xl overflow-hidden shadow-lg border border-gray-100 bg-black relative">
-              {activeVideo.isLocal ? (
+              {activeVideo.isLocal && activeVideo.videoUrl ? (
                 <video
                   src={activeVideo.videoUrl}
                   controls
                   autoPlay
                   className="w-full h-full object-contain absolute inset-0 bg-black"
                 />
-              ) : (
+              ) : activeVideo.youtubeId ? (
                 <iframe
-                  title={activeVideo.title}
+                  title={asText(activeVideo.title)}
                   src={`https://www.youtube.com/embed/${activeVideo.youtubeId}?autoplay=1&rel=0`}
                   className="w-full h-full border-0 absolute inset-0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                 ></iframe>
+              ) : (
+                <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-navy text-white text-center p-6">
+                  <Video className="w-10 h-10 text-primary" />
+                  <p className="text-sm font-extrabold break-words">
+                    {settings.no_videos_label || "Video source is not available."}
+                  </p>
+                </div>
               )}
             </div>
 
             {/* Title & Metadata */}
-            <div className="flex flex-col gap-3 text-start">
-              <h2 className="text-xl md:text-2xl font-extrabold text-navy leading-snug">
-                {activeVideo.title}
+            <div className="flex flex-col gap-3 text-start min-w-0">
+              <h2 className="text-xl md:text-2xl font-extrabold text-navy leading-snug break-words">
+                {asText(activeVideo.title)}
               </h2>
 
               {/* Views, Date & Interactive Actions */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-gray-100">
-                <div className="flex items-center gap-3 text-xs md:text-sm font-semibold text-gray-400">
-                  <span className="flex items-center gap-1.5">
+              <div className="flex min-w-0 flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-gray-100">
+                <div className="flex flex-wrap items-center gap-3 text-xs md:text-sm font-semibold text-gray-400 min-w-0">
+                  <span className="flex min-w-0 items-center gap-1.5">
                     <Eye className="w-4 h-4 text-primary" />
-                    {formatViews(activeVideo.viewsCount)}
+                    <span className="truncate">{formatViews(activeVideo.viewsCount)}</span>
                   </span>
-                  <span>•</span>
-                  <span className="flex items-center gap-1.5">
+                  <span className="shrink-0">•</span>
+                  <span className="flex min-w-0 items-center gap-1.5">
                     <Calendar className="w-4 h-4" />
-                    {formatDate(activeVideo.publishedAt)}
+                    <span className="truncate">{formatDate(activeVideo.publishedAt)}</span>
                   </span>
                 </div>
 
                 {/* Actions Button Group */}
-                <div className="flex items-center gap-2">
+                <div className="flex min-w-0 flex-wrap items-center gap-2">
                   {/* Like Button */}
                   <button
                     onClick={() => handleLikeToggle(activeVideo.id)}
-                    className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs md:text-sm font-extrabold transition-all border cursor-pointer hover:scale-105 active:scale-95 ${
+                    className={`inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-full text-xs md:text-sm font-extrabold transition-all border cursor-pointer hover:scale-105 active:scale-95 ${
                       likedVideos[activeVideo.id]
                         ? "bg-primary text-white border-primary shadow-md shadow-primary/20"
                         : "bg-gray-50 border-gray-100 text-navy hover:bg-gray-100"
@@ -314,7 +396,7 @@ export default function VideoBDTU() {
                   {/* Share Button */}
                   <button
                     onClick={handleShareClick}
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs md:text-sm font-extrabold transition-all border border-gray-100 bg-gray-50 text-navy hover:bg-gray-100 cursor-pointer hover:scale-105 active:scale-95"
+                    className="inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-full text-xs md:text-sm font-extrabold transition-all border border-gray-100 bg-gray-50 text-navy hover:bg-gray-100 cursor-pointer hover:scale-105 active:scale-95"
                   >
                     <Share2 className="w-4 h-4" />
                     {settings.share_label || ""}
@@ -324,10 +406,10 @@ export default function VideoBDTU() {
             </div>
 
             {/* Channel Info & Description */}
-            <div className="flex flex-col gap-5 text-start">
+            <div className="flex min-w-0 flex-col gap-5 text-start">
               {/* Channel Profile Row */}
-              <div className="flex items-center justify-between gap-4 bg-primary-light/30 border border-primary-light p-5 rounded-2xl">
-                <div className="flex items-center gap-3.5">
+              <div className="flex min-w-0 flex-col sm:flex-row sm:items-center justify-between gap-4 bg-primary-light/30 border border-primary-light p-5 rounded-2xl">
+                <div className="flex items-center gap-3.5 min-w-0">
                   {logoSrc && hasTranslation("common.logoAlt") && (
                     <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-primary bg-white flex items-center justify-center shadow-sm shrink-0">
                       <img
@@ -340,15 +422,15 @@ export default function VideoBDTU() {
                       />
                     </div>
                   )}
-                  <div className="flex flex-col">
+                  <div className="flex flex-col min-w-0">
                     <div className="flex items-center gap-1.5">
-                      <span className="font-extrabold text-sm md:text-base text-navy leading-tight">
+                      <span className="font-extrabold text-sm md:text-base text-navy leading-tight min-w-0 break-words">
                         {activePublisherRoute ? (
-                          <Link to={activePublisherRoute} className="hover:text-primary transition-colors">
-                            {activePublisher?.name || settings.channel_name || ""}
+                          <Link to={activePublisherRoute} className="min-w-0 break-words hover:text-primary transition-colors">
+                            {asText(activePublisher?.name || settings.channel_name)}
                           </Link>
                         ) : (
-                          activePublisher?.name || settings.channel_name || ""
+                          asText(activePublisher?.name || settings.channel_name)
                         )}
                       </span>
                       <span
@@ -368,7 +450,7 @@ export default function VideoBDTU() {
                 {/* Subscribe Button */}
                 <button
                   onClick={handleSubscribeToggle}
-                  className={`inline-flex items-center gap-1.5 px-6 py-3 rounded-full text-xs md:text-sm font-extrabold transition-all duration-300 shadow-xs cursor-pointer ${
+                  className={`inline-flex items-center justify-center gap-1.5 px-6 py-3 rounded-full text-xs md:text-sm font-extrabold transition-all duration-300 shadow-xs cursor-pointer ${
                     isSubscribed
                       ? "bg-gray-100 border border-gray-200 text-gray-500 hover:bg-gray-200"
                       : "bg-navy hover:bg-primary text-white hover:shadow-md hover:-translate-y-0.5"
@@ -388,14 +470,14 @@ export default function VideoBDTU() {
               {/* Expandable Description Details */}
               <div
                 onClick={() => !isDescExpanded && setIsDescExpanded(true)}
-                className={`bg-gray-50 border border-gray-100 rounded-2xl p-5 hover:bg-gray-100/50 transition-all duration-200 ${
+                className={`bg-gray-50 border border-gray-100 rounded-2xl p-5 hover:bg-gray-100/50 transition-all duration-200 min-w-0 ${
                   !isDescExpanded ? "cursor-pointer" : ""
                 }`}
               >
-                <div className="flex items-center justify-between mb-3 text-xs md:text-sm font-bold text-navy">
-                  <div className="flex items-center gap-2">
+                <div className="flex min-w-0 items-center justify-between gap-3 mb-3 text-xs md:text-sm font-bold text-navy">
+                  <div className="flex min-w-0 items-center gap-2">
                     <Award className="w-4 h-4 text-primary" />
-                    <span>{settings.description_title || ""}</span>
+                    <span className="min-w-0 break-words">{settings.description_title || ""}</span>
                   </div>
                   {isDescExpanded && (
                     <button
@@ -403,7 +485,7 @@ export default function VideoBDTU() {
                         e.stopPropagation();
                         setIsDescExpanded(false);
                       }}
-                      className="text-primary hover:underline flex items-center gap-1 cursor-pointer"
+                    className="text-primary hover:underline flex items-center gap-1 cursor-pointer shrink-0"
                     >
                       {settings.show_less_label || ""}
                       <ChevronUp className="w-4 h-4" />
@@ -412,9 +494,9 @@ export default function VideoBDTU() {
                 </div>
 
                 <p
-                  className={`text-gray-500 text-xs md:text-sm leading-relaxed ${!isDescExpanded ? "line-clamp-2" : ""}`}
+                  className={`text-gray-500 text-xs md:text-sm leading-relaxed break-words ${!isDescExpanded ? "line-clamp-2" : ""}`}
                 >
-                  {activeVideo.description}
+                  {asText(activeVideo.description)}
                 </p>
 
                 {!isDescExpanded && (
@@ -424,22 +506,22 @@ export default function VideoBDTU() {
                 )}
 
                 {isDescExpanded && (
-                  <div className="mt-5 pt-4 border-t border-gray-200/50 flex flex-wrap gap-4 text-xs font-semibold text-gray-400">
-                    <span className="bg-white border border-gray-100 px-2.5 py-1 rounded-md">
+                  <div className="mt-5 pt-4 border-t border-gray-200/50 flex min-w-0 flex-wrap gap-3 text-xs font-semibold text-gray-400">
+                    <span className="max-w-full break-words bg-white border border-gray-100 px-2.5 py-1 rounded-md">
                       {settings.category_label || ""}
                       :{" "}
                       <strong className="text-navy">
                         {labelForCategory(activeVideo.category)}
                       </strong>
                     </span>
-                    <span className="bg-white border border-gray-100 px-2.5 py-1 rounded-md">
+                    <span className="max-w-full break-words bg-white border border-gray-100 px-2.5 py-1 rounded-md">
                       {settings.duration_label || ""}
                       :{" "}
                       <strong className="text-navy">
                         {activeVideo.duration}
                       </strong>
                     </span>
-                    <span className="bg-white border border-gray-100 px-2.5 py-1 rounded-md">
+                    <span className="max-w-full break-words bg-white border border-gray-100 px-2.5 py-1 rounded-md">
                       {settings.platform_label || ""}
                       :{" "}
                       <strong className="text-navy">
@@ -452,8 +534,8 @@ export default function VideoBDTU() {
                 )}
               </div>
 
-              <div className="bg-white border border-gray-100 rounded-2xl p-5">
-                <h3 className="text-lg font-extrabold text-navy mb-5 flex items-center gap-2">
+              <div className="bg-white border border-gray-100 rounded-2xl p-5 min-w-0">
+                <h3 className="text-lg font-extrabold text-navy mb-5 flex min-w-0 items-center gap-2">
                   <MessageSquare className="w-5 h-5 text-primary" />
                   {commentsList.length} {settings.comments_label || ""}
                 </h3>
@@ -466,7 +548,7 @@ export default function VideoBDTU() {
                     return (
                       <div
                         key={comment.id}
-                        className={`flex gap-4 p-4 rounded-2xl bg-gray-50 border border-gray-100 ${comment.parent_id ? "ml-8 md:ml-12 border-l-4 border-l-primary" : ""}`}
+                        className={`flex gap-3 sm:gap-4 p-4 rounded-2xl bg-gray-50 border border-gray-100 min-w-0 ${comment.parent_id ? "ms-4 md:ms-12 border-s-4 border-s-primary" : ""}`}
                       >
                         {comment.parent_id && (
                           <CornerDownRight className="w-5 h-5 text-gray-300 shrink-0 mt-2" />
@@ -474,11 +556,11 @@ export default function VideoBDTU() {
                         <div className="w-10 h-10 rounded-full bg-primary-light text-primary flex items-center justify-center shrink-0 border border-white">
                           <User className="w-5 h-5" />
                         </div>
-                        <div className="grow">
+                        <div className="grow min-w-0">
                           <div className="flex flex-wrap items-baseline justify-between gap-2 mb-1">
-                            <div className="flex items-baseline gap-2">
-                              <h5 className="font-bold text-navy text-sm">
-                                {comment.author}
+                            <div className="flex flex-wrap items-baseline gap-2 min-w-0">
+                              <h5 className="font-bold text-navy text-sm break-words">
+                                {asText(comment.author)}
                               </h5>
                               <span className="text-xs text-gray-400 font-semibold">
                                 {formatCommentDate(comment.date)}
@@ -487,20 +569,20 @@ export default function VideoBDTU() {
                             <button
                               type="button"
                               onClick={() =>
-                                handleReplyClick(comment.id, comment.author)
+                                handleReplyClick(comment.id, asText(comment.author))
                               }
                               className="text-xs font-bold text-primary hover:text-primary-hover hover:underline cursor-pointer"
                             >
                               {settings.reply_label || ""}
                             </button>
                           </div>
-                          <p className="text-gray-500 text-sm leading-relaxed">
+                          <p className="text-gray-500 text-sm leading-relaxed break-words">
                             {parent && (
-                              <span className="text-primary font-semibold mr-1">
-                                @{parent.author}
+                              <span className="text-primary font-semibold me-1">
+                                @{asText(parent.author)}
                               </span>
                             )}
-                            {comment.text}
+                            {asText(comment.text)}
                           </p>
                         </div>
                       </div>
@@ -510,26 +592,26 @@ export default function VideoBDTU() {
 
                 <div
                   id="video-comment-form"
-                  className="bg-gray-50 border border-gray-100 rounded-2xl p-5"
+                  className="bg-gray-50 border border-gray-100 rounded-2xl p-5 min-w-0"
                 >
                   {isAuthenticated ? (
                     <form
                       onSubmit={handleCommentSubmit}
                       className="flex flex-col gap-4"
                     >
-                      <div className="flex items-center justify-between gap-3">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                         <h4 className="text-sm font-extrabold text-navy">
                           {settings.form_title || ""}
                         </h4>
                         {!authLoading && user?.name && (
-                          <span className="text-xs font-bold text-gray-400">
-                            {settings.signed_in_as_label || ""} {user.name}
+                          <span className="text-xs font-bold text-gray-400 break-words">
+                            {settings.signed_in_as_label || ""} {asText(user.name)}
                           </span>
                         )}
                       </div>
                       {replyTarget && (
-                        <div className="flex items-center justify-between rounded-xl bg-white border border-gray-100 px-3 py-2 text-xs font-bold text-gray-500">
-                          <span>@{replyTarget.author}</span>
+                        <div className="flex min-w-0 items-center justify-between gap-3 rounded-xl bg-white border border-gray-100 px-3 py-2 text-xs font-bold text-gray-500">
+                          <span className="min-w-0 break-words">@{replyTarget.author}</span>
                           <button
                             type="button"
                             onClick={() => setReplyTarget(null)}
@@ -546,7 +628,7 @@ export default function VideoBDTU() {
                         }
                         placeholder={settings.form_comment_label || ""}
                         rows={4}
-                        className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm font-semibold text-navy focus:outline-none focus:border-primary bg-white"
+                        className="w-full min-w-0 rounded-xl border border-gray-200 px-4 py-3 text-sm font-semibold text-navy focus:outline-none focus:border-primary bg-white"
                         required
                       />
                       <button
@@ -557,12 +639,12 @@ export default function VideoBDTU() {
                       </button>
                     </form>
                   ) : (
-                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                      <div>
+                    <div className="flex min-w-0 flex-col md:flex-row md:items-center justify-between gap-4">
+                      <div className="min-w-0">
                         <h4 className="text-sm font-extrabold text-navy">
                           {settings.sign_in_title || ""}
                         </h4>
-                        <p className="text-xs font-semibold text-gray-500 mt-1">
+                        <p className="text-xs font-semibold text-gray-500 mt-1 break-words">
                           {settings.sign_in_text || ""}
                         </p>
                       </div>
@@ -580,14 +662,14 @@ export default function VideoBDTU() {
           </div>
 
           {/* RIGHT COLUMN: Sidebar Video List & Category Filter */}
-          <div className="lg:col-span-4 flex flex-col gap-6 text-start">
+          <div className="lg:col-span-4 flex flex-col gap-6 text-start min-w-0">
             {/* Category Pills Slider/Container */}
             <div className="flex flex-wrap items-center gap-2 pb-2">
               {categories.map((cat) => (
                 <button
                   key={cat.value}
                   onClick={() => setActiveCategory(cat.value)}
-                  className={`px-4 py-2 rounded-full text-xs font-extrabold transition-all cursor-pointer ${
+                  className={`max-w-full break-words px-4 py-2 rounded-full text-xs font-extrabold transition-all cursor-pointer ${
                     activeCategory === cat.value
                       ? "bg-primary text-white shadow-sm"
                       : "bg-gray-50 border border-gray-100 text-navy hover:bg-gray-100"
@@ -600,21 +682,21 @@ export default function VideoBDTU() {
 
             {/* Sidebar Play List */}
             <div className="flex flex-col gap-4">
-              <h4 className="text-sm font-extrabold uppercase tracking-wider text-navy mb-1 flex items-center gap-1.5">
+              <h4 className="text-sm font-extrabold uppercase tracking-wider text-navy mb-1 flex items-center gap-1.5 break-words">
                 <span className="w-2.5 h-2.5 rounded-full bg-primary inline-block"></span>
                 {activeCategory === ALL_CATEGORY
                   ? settings.recommended_label || ""
                   : `${labelForCategory(activeCategory)} ${settings.videos_label || ""}`}
               </h4>
 
-              <div className="flex flex-col gap-3 max-h-170 overflow-y-auto pr-1 scrollbar-thin">
+              <div className="flex flex-col gap-3 max-h-170 overflow-y-auto pe-1 scrollbar-thin scrollbar-thumb-primary/30 scrollbar-track-transparent hover:scrollbar-thumb-primary/50">
                 {filteredVideos.map((video) => {
                   const isActive = video.id === activeVideo.id;
                   return (
                     <div
                       key={video.id}
                       onClick={() => handleVideoSelect(video)}
-                      className={`flex gap-3 p-2.5 rounded-2xl border transition-all duration-300 cursor-pointer group ${
+                      className={`flex gap-3 p-2.5 rounded-2xl border transition-all duration-300 cursor-pointer group min-w-0 ${
                         isActive
                           ? "bg-primary-light/50 border-primary shadow-xs"
                           : "bg-white border-gray-100 hover:bg-gray-50 hover:shadow-xs"
@@ -625,12 +707,17 @@ export default function VideoBDTU() {
                         {video.poster ? (
                           <img
                             src={video.poster}
-                            alt={video.title}
+                            alt={asText(video.title)}
                             className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-300"
                             loading="lazy"
+                            onError={(event) => {
+                              event.currentTarget.style.display = "none";
+                            }}
                           />
                         ) : (
-                          <div className="w-full h-full bg-gray-100" />
+                          <div className="w-full h-full bg-gray-100 flex items-center justify-center text-primary">
+                            <PlayCircle className="w-7 h-7" />
+                          </div>
                         )}
                         {video.isLocal && (
                           <div className="absolute inset-0 flex items-center justify-center bg-black/10">
@@ -664,20 +751,20 @@ export default function VideoBDTU() {
                                 : "text-navy group-hover:text-primary"
                             }`}
                           >
-                            {video.title}
+                            <span className="break-words">{asText(video.title)}</span>
                           </h5>
-                          <span className="text-[10px] font-extrabold text-gray-400 uppercase tracking-wider">
+                          <span className="text-[10px] font-extrabold text-gray-400 uppercase tracking-wider break-words">
                             {labelForCategory(video.category)}
                           </span>
                         </div>
 
-                        <div className="flex items-center gap-2 text-[10px] font-semibold text-gray-400 mt-1">
-                          <span className="flex items-center gap-0.5">
+                        <div className="flex min-w-0 flex-wrap items-center gap-2 text-[10px] font-semibold text-gray-400 mt-1">
+                          <span className="flex min-w-0 items-center gap-0.5">
                             <Eye className="w-3 h-3" />
-                            {formatViews(video.viewsCount)}
+                            <span className="truncate">{formatViews(video.viewsCount)}</span>
                           </span>
-                          <span>•</span>
-                          <span>{formatDate(video.publishedAt)}</span>
+                          <span className="shrink-0">•</span>
+                          <span className="truncate">{formatDate(video.publishedAt)}</span>
                         </div>
                       </div>
                     </div>
@@ -704,7 +791,7 @@ export default function VideoBDTU() {
             initial={{ opacity: 0, y: 50, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 30, scale: 0.9 }}
-            className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50 bg-navy text-white px-6 py-3.5 rounded-2xl shadow-xl flex items-center gap-3 border border-white/10"
+            className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50 bg-navy text-white px-5 sm:px-6 py-3.5 rounded-2xl shadow-xl flex items-center gap-3 border border-white/10 max-w-[calc(100vw-2rem)]"
           >
             <div className="w-5 h-5 rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-sm shrink-0">
               <Check className="w-3 h-3 stroke-3" />

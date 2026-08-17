@@ -90,17 +90,17 @@ export default function StudentDashboard() {
     });
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-200">
+    <div className="min-w-0 space-y-8 animate-in fade-in duration-200">
       {/* Welcome Banner */}
-      <div className="bg-linear-to-r from-navy to-navy-dark rounded-3xl p-8 text-white relative overflow-hidden shadow-xl">
-        <div className="absolute right-0 bottom-0 top-0 opacity-10 flex items-center justify-center">
+      <div className="bg-linear-to-r from-navy to-navy-dark rounded-3xl p-5 sm:p-8 text-white relative overflow-hidden shadow-xl">
+        <div className="absolute end-0 bottom-0 top-0 opacity-10 flex items-center justify-center">
           <ClipboardList className="w-64 h-64 rotate-12 translate-x-12 translate-y-12" />
         </div>
         <div className="relative z-10 space-y-2">
-          <h1 className="text-2xl md:text-3xl font-extrabold uppercase tracking-wide">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold uppercase tracking-wide break-words !text-white">
             {t("student.welcome")}
           </h1>
-          <p className="text-gray-300 text-xs font-semibold max-w-xl">
+          <p className="text-gray-300 text-xs font-semibold max-w-xl leading-relaxed">
             {t("student.welcomeSubtitle")}
           </p>
         </div>
@@ -110,12 +110,12 @@ export default function StudentDashboard() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Application Card */}
         <div className="bg-white border border-gray-100 rounded-3xl p-6 shadow-xs flex flex-col justify-between space-y-4">
-          <div className="flex justify-between items-start">
-            <div className="space-y-1">
+          <div className="flex justify-between items-start gap-3">
+            <div className="min-w-0 space-y-1">
               <span className="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest">
                 {t("student.dashboard.activeApplication")}
               </span>
-              <h3 className="text-base font-bold text-navy">
+              <h3 className="text-base font-bold text-navy break-words">
                 {activeApp?.program?.translations?.[0]?.name ||
                   t("student.dashboard.noActiveApplication")}
               </h3>
@@ -125,11 +125,11 @@ export default function StudentDashboard() {
             </div>
           </div>
           {activeApp ? (
-            <div className="flex items-center justify-between pt-2 border-t border-gray-50">
+            <div className="flex flex-col gap-3 pt-2 border-t border-gray-50 sm:flex-row sm:items-center sm:justify-between">
               <StatusBadge status={activeApp.status} />
               <Link
                 to="/student/application"
-                className="text-xs font-extrabold text-primary hover:underline flex items-center gap-1"
+                className="inline-flex items-center gap-1 text-xs font-extrabold text-primary hover:underline"
               >
                 <span>{t("button.viewDetails")}</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -151,11 +151,11 @@ export default function StudentDashboard() {
         {/* Profile Completion Card */}
         <div className="bg-white border border-gray-100 rounded-3xl p-6 shadow-xs flex flex-col justify-between space-y-4">
           <div className="flex justify-between items-start">
-            <div className="space-y-1">
+              <div className="min-w-0 space-y-1">
               <span className="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest">
                 {t("student.dashboard.profileStatus")}
               </span>
-              <h3 className="text-base font-bold text-navy">
+              <h3 className="text-base font-bold text-navy break-words">
                 {profile
                   ? t("student.dashboard.profileCompleted")
                   : t("student.dashboard.profileIncomplete")}
@@ -171,15 +171,15 @@ export default function StudentDashboard() {
               )}
             </div>
           </div>
-          <div className="flex items-center justify-between pt-2 border-t border-gray-50">
-            <span className="text-xs font-bold text-gray-400">
+          <div className="flex flex-col gap-3 pt-2 border-t border-gray-50 sm:flex-row sm:items-center sm:justify-between">
+            <span className="text-xs font-bold text-gray-400 break-words">
               {profile
                 ? t("student.dashboard.detailsUpdated")
                 : t("student.dashboard.requiredToApply")}
             </span>
             <Link
               to="/student/profile"
-              className="text-xs font-extrabold text-primary hover:underline flex items-center gap-1"
+              className="inline-flex items-center gap-1 text-xs font-extrabold text-primary hover:underline"
             >
               <span>
                 {profile ? t("button.editProfile") : t("button.completeProfile")}
@@ -192,11 +192,11 @@ export default function StudentDashboard() {
         {/* Documents Status Card */}
         <div className="bg-white border border-gray-100 rounded-3xl p-6 shadow-xs flex flex-col justify-between space-y-4">
           <div className="flex justify-between items-start">
-            <div className="space-y-1">
+              <div className="min-w-0 space-y-1">
               <span className="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest">
                 {t("student.dashboard.verificationDocuments")}
               </span>
-              <h3 className="text-base font-bold text-navy">
+              <h3 className="text-base font-bold text-navy break-words">
                 {missingDocs.length > 0
                   ? t("student.dashboard.missingFiles").replace(":count", missingDocs.length)
                   : t("student.dashboard.allFilesUploaded")}
@@ -208,15 +208,15 @@ export default function StudentDashboard() {
               <FileCheck className="w-5 h-5" />
             </div>
           </div>
-          <div className="flex items-center justify-between pt-2 border-t border-gray-50">
-            <span className="text-xs font-bold text-gray-400">
+          <div className="flex flex-col gap-3 pt-2 border-t border-gray-50 sm:flex-row sm:items-center sm:justify-between">
+            <span className="text-xs font-bold text-gray-400 break-words">
               {activeApp
                 ? t("student.dashboard.filesAttached").replace(":count", activeApp.documents?.length || 0)
                 : t("student.dashboard.applicationDraftNeeded")}
             </span>
             <Link
               to="/student/documents"
-              className="text-xs font-extrabold text-primary hover:underline flex items-center gap-1"
+              className="inline-flex items-center gap-1 text-xs font-extrabold text-primary hover:underline"
             >
               <span>{t("button.uploadFiles")}</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -230,7 +230,7 @@ export default function StudentDashboard() {
         <div className="lg:col-span-2 space-y-8">
           {/* Notifications feed */}
           <div className="bg-white border border-gray-100 rounded-3xl p-6 shadow-xs space-y-4">
-            <div className="flex justify-between items-center pb-2 border-b border-gray-50">
+            <div className="flex flex-col gap-2 border-b border-gray-50 pb-2 sm:flex-row sm:items-center sm:justify-between">
               <h3 className="text-base font-extrabold text-navy uppercase tracking-wider">
                 {t("student.notifications")}
               </h3>
@@ -246,16 +246,16 @@ export default function StudentDashboard() {
                 {notifications.map((notif) => (
                   <div
                     key={notif.id}
-                    className="flex gap-3.5 p-3 rounded-2xl border border-gray-50 hover:bg-gray-50/50 transition-all"
+                  className="flex min-w-0 gap-3.5 rounded-2xl border border-gray-50 p-3 transition-all hover:bg-gray-50/50"
                   >
                     <div className="w-8 h-8 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
                       <Bell className="w-4 h-4" />
                     </div>
-                    <div className="space-y-1">
-                      <p className="text-xs font-bold text-navy">
+                    <div className="min-w-0 space-y-1">
+                      <p className="text-xs font-bold text-navy break-words">
                         {translateMaybe(notif.title)}
                       </p>
-                      <p className="text-[11px] text-gray-400 font-semibold">
+                      <p className="text-[11px] text-gray-400 font-semibold break-words">
                         {translateMaybe(notif.message)}
                       </p>
                       <span className="block text-[9px] text-gray-450 font-bold">
@@ -279,20 +279,22 @@ export default function StudentDashboard() {
             <h3 className="text-base font-extrabold text-navy uppercase tracking-wider pb-2 border-b border-gray-50">
               {t("student.dashboard.contractsBilling")}
             </h3>
-            <div className="p-4 rounded-2xl border border-gray-50 bg-gray-50/50 flex items-center justify-between gap-3">
-              <div className="flex items-center gap-3">
+            <div className="flex flex-col gap-3 rounded-2xl border border-gray-50 bg-gray-50/50 p-4 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex min-w-0 items-center gap-3">
                 <div className="w-9 h-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
                   <CreditCard className="w-4 h-4" />
                 </div>
-                <div>
+                <div className="min-w-0">
                   <p className="text-[10px] text-gray-400 font-black uppercase tracking-wider">
                     {t("student.dashboard.latestPayment")}
                   </p>
-                  <p className="text-xs font-extrabold text-navy">
-                    {latestPayment
-                      ? latestPayment.status.replace("_", " ").toUpperCase()
-                      : t("payment.noRequest")}
-                  </p>
+                  <div className="text-xs font-extrabold text-navy break-words">
+                    {latestPayment ? (
+                      <StatusBadge status={latestPayment.status} />
+                    ) : (
+                      t("payment.noRequest")
+                    )}
+                  </div>
                 </div>
               </div>
               <Link
@@ -309,17 +311,13 @@ export default function StudentDashboard() {
                     key={c.id}
                     className="p-4 rounded-2xl border border-gray-50 space-y-2"
                   >
-                    <div className="flex justify-between items-center">
-                      <span className="text-[10px] font-extrabold text-gray-400 uppercase">
+                    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                      <span className="text-[10px] font-extrabold text-gray-400 uppercase break-all">
                         Contract #{c.contract_number}
                       </span>
-                      <span
-                        className={`text-[10px] font-extrabold px-2 py-0.5 rounded-full ${c.status === "signed" || c.status === "active" ? "bg-emerald-50 text-emerald-600" : "bg-amber-50 text-amber-600"}`}
-                      >
-                        {(c.status || "pending").toUpperCase()}
-                      </span>
+                      <StatusBadge status={c.status || "pending"} />
                     </div>
-                    <div className="flex justify-between items-end">
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
                       <div className="space-y-0.5">
                         <p className="text-[10px] text-gray-400 font-bold">
                           {t("payment.totalAmount")}

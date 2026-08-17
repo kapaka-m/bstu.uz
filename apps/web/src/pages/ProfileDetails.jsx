@@ -120,12 +120,45 @@ export default function ProfileDetails() {
   }
 
   if (!person && adminLoading) {
-    return null;
+    return (
+      <div className="pt-24 bg-white min-h-screen overflow-x-hidden">
+        <div className="container mx-auto px-4 md:px-8 max-w-6xl py-12">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            <div className="lg:col-span-4 bg-gray-50 border border-gray-100 rounded-3xl p-6 shadow-sm">
+              <div className="w-48 h-48 rounded-2xl bg-gray-200 mx-auto animate-pulse" />
+              <div className="h-4 w-24 bg-gray-200 rounded-full mx-auto mt-6 animate-pulse" />
+              <div className="h-6 w-4/5 bg-gray-200 rounded-full mx-auto mt-4 animate-pulse" />
+              <div className="h-4 w-3/5 bg-gray-200 rounded-full mx-auto mt-3 animate-pulse" />
+              <div className="border-t border-gray-200/65 mt-6 pt-6 space-y-4">
+                {[1, 2, 3].map((item) => (
+                  <div key={item} className="flex items-center gap-3">
+                    <div className="w-5 h-5 rounded-full bg-gray-200 animate-pulse" />
+                    <div className="grow space-y-2">
+                      <div className="h-3 w-20 bg-gray-200 rounded-full animate-pulse" />
+                      <div className="h-4 w-36 bg-gray-200 rounded-full animate-pulse" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="lg:col-span-8 space-y-8">
+              <div className="h-20 bg-gray-50 border border-gray-100 rounded-2xl animate-pulse" />
+              <div className="space-y-4">
+                <div className="h-6 w-48 bg-gray-200 rounded-full animate-pulse" />
+                <div className="h-4 w-full bg-gray-100 rounded-full animate-pulse" />
+                <div className="h-4 w-11/12 bg-gray-100 rounded-full animate-pulse" />
+                <div className="h-4 w-3/4 bg-gray-100 rounded-full animate-pulse" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   if (!person) {
     return (
-      <div className="pt-24 min-h-[70vh] bg-white flex flex-col items-center justify-center p-6 text-center">
+      <div className="pt-24 min-h-[70vh] bg-white flex flex-col items-center justify-center p-6 text-center overflow-x-hidden">
         <h2 className="text-2xl font-extrabold text-navy mb-4">{t("common.notFound")}</h2>
         <button onClick={() => navigate(-1)} className="bg-primary text-white px-6 py-2.5 rounded-xl font-bold text-sm">
           {t("common.goBack")}
@@ -164,13 +197,13 @@ export default function ProfileDetails() {
   const phoneParts = splitPhone(phone);
 
   return (
-    <div className="pt-24 bg-white min-h-screen text-start">
-      <div className="container mx-auto px-4 md:px-8 max-w-6xl py-12">
+    <div className="pt-24 bg-white min-h-screen text-start overflow-x-hidden">
+      <div className="container mx-auto px-4 md:px-8 max-w-6xl py-12 min-w-0">
 
         {/* Main Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start min-w-0">
           {/* Left Column: Portrait Card */}
-          <div className="lg:col-span-4 bg-gray-50 border border-gray-100 rounded-3xl p-6 text-center shadow-sm flex flex-col items-center gap-6">
+          <div className="lg:col-span-4 bg-gray-50 border border-gray-100 rounded-3xl p-6 text-center shadow-sm flex flex-col items-center gap-6 min-w-0">
             {person.image ? (
               <img
                 src={person.image}
@@ -190,18 +223,18 @@ export default function ProfileDetails() {
               {getInitials(person.name)}
             </div>
 
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 min-w-0 max-w-full">
               {category && (
                 <span className="inline-block text-[10px] font-extrabold uppercase tracking-wider text-primary bg-primary/10 px-3 py-1 rounded-full w-fit mx-auto">
                   {category}
                 </span>
               )}
-              <h1 className="text-xl font-extrabold text-navy leading-snug mt-2">{person.name}</h1>
-              <p className="text-xs font-semibold text-gray-500">{person.title}</p>
+              <h1 className="text-xl font-extrabold text-navy leading-snug mt-2 break-words">{person.name}</h1>
+              <p className="text-xs font-semibold text-gray-500 break-words">{person.title}</p>
             </div>
 
             {/* Quick Contact Info */}
-            <div className="w-full border-t border-gray-200/65 pt-6 flex flex-col gap-4 text-xs font-semibold text-gray-600 text-start">
+            <div className="w-full min-w-0 border-t border-gray-200/65 pt-6 flex flex-col gap-4 text-xs font-semibold text-gray-600 text-start">
               {email && (
                 <div className="flex items-center gap-3">
                   <Mail className="w-5 h-5 text-primary shrink-0" />
@@ -235,34 +268,34 @@ export default function ProfileDetails() {
               )}
               <div className="flex items-center gap-3">
                 <Clock className="w-5 h-5 text-primary shrink-0" />
-                <div>
+                <div className="min-w-0">
                   <p className="text-[10px] text-gray-400 font-extrabold uppercase tracking-wider">{labels.officeHours}</p>
-                  <p className="text-navy font-bold">{person.officeHours}</p>
+                  <p className="text-navy font-bold break-words">{person.officeHours}</p>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Right Column: Bio & Professional details */}
-          <div className="lg:col-span-8 flex flex-col gap-8">
+          <div className="lg:col-span-8 flex flex-col gap-8 min-w-0">
             {/* Degree / Academic Rank banner */}
             {person.degree && (
-              <div className="bg-primary/5 border border-primary/10 rounded-2xl p-4 flex items-center gap-3">
+              <div className="bg-primary/5 border border-primary/10 rounded-2xl p-4 flex items-center gap-3 min-w-0">
                 <GraduationCap className="w-6 h-6 text-primary shrink-0" />
-                <div>
+                <div className="min-w-0">
                   <h4 className="text-xs font-extrabold text-navy uppercase tracking-wider">{labels.academicRank}</h4>
-                  <p className="text-sm font-bold text-primary leading-snug">{person.degree}</p>
+                  <p className="text-sm font-bold text-primary leading-snug break-words">{person.degree}</p>
                 </div>
               </div>
             )}
 
             {/* About / Bio */}
             <section className="flex flex-col gap-4">
-              <h3 className="text-lg font-extrabold text-navy flex items-center gap-2 border-b border-gray-100 pb-2">
+              <h3 className="text-lg font-extrabold text-navy flex items-center gap-2 border-b border-gray-100 pb-2 min-w-0">
                 <Briefcase className="w-5 h-5 text-primary shrink-0" />
-                {labels.biography}
+                <span className="break-words">{labels.biography}</span>
               </h3>
-              <p className="text-gray-500 text-sm md:text-base leading-relaxed whitespace-pre-line">
+              <p className="text-gray-500 text-sm md:text-base leading-relaxed whitespace-pre-line break-words">
                 {person.about}
               </p>
             </section>
@@ -270,18 +303,18 @@ export default function ProfileDetails() {
             {/* Detailed Duties / Responsibilities (Rectorate only) */}
             {person.details && (
               <section className="flex flex-col gap-4">
-                <h3 className="text-lg font-extrabold text-navy flex items-center gap-2 border-b border-gray-100 pb-2">
+                <h3 className="text-lg font-extrabold text-navy flex items-center gap-2 border-b border-gray-100 pb-2 min-w-0">
                   <FileText className="w-5 h-5 text-primary shrink-0" />
-                  {labels.duties}
+                  <span className="break-words">{labels.duties}</span>
                 </h3>
                 <div className="grid grid-cols-1 gap-3">
                   {person.details.split(/[;؛]/).map((duty, idx) => {
                     const cleanDuty = duty.trim();
                     if (!cleanDuty) return null;
                     return (
-                      <div key={idx} className="flex gap-3 items-start bg-gray-50 p-4 border border-gray-100 rounded-2xl">
+                      <div key={idx} className="flex gap-3 items-start bg-gray-50 p-4 border border-gray-100 rounded-2xl min-w-0">
                         <CheckCircle className="w-5 h-5 text-primary shrink-0 mt-0.5" />
-                        <p className="text-xs text-navy font-semibold leading-relaxed">{cleanDuty}</p>
+                        <p className="text-xs text-navy font-semibold leading-relaxed break-words min-w-0">{cleanDuty}</p>
                       </div>
                     );
                   })}
@@ -292,15 +325,15 @@ export default function ProfileDetails() {
             {/* Achievements (Rectorate only) */}
             {person.achievements && person.achievements.length > 0 && (
               <section className="flex flex-col gap-4">
-                <h3 className="text-lg font-extrabold text-navy flex items-center gap-2 border-b border-gray-100 pb-2">
+                <h3 className="text-lg font-extrabold text-navy flex items-center gap-2 border-b border-gray-100 pb-2 min-w-0">
                   <Award className="w-5 h-5 text-primary shrink-0" />
-                  {labels.achievements}
+                  <span className="break-words">{labels.achievements}</span>
                 </h3>
                 <ul className="flex flex-col gap-3">
                   {person.achievements.map((ach, idx) => (
                     <li key={idx} className="flex items-start gap-3 text-sm text-gray-500 font-semibold leading-relaxed">
                       <div className="w-2 h-2 rounded-full bg-primary mt-2 shrink-0" />
-                      <span>{ach}</span>
+                      <span className="break-words min-w-0">{ach}</span>
                     </li>
                   ))}
                 </ul>

@@ -4,6 +4,8 @@ import {
   Trash2,
   Eye,
   ArrowUpDown,
+  ArrowDown,
+  ArrowUp,
   Check,
   X,
   ShieldAlert,
@@ -20,6 +22,13 @@ function getNestedValue(obj, keyPath) {
     if (!isNaN(numKey) && Array.isArray(acc)) return acc[numKey];
     return acc[key];
   }, obj);
+}
+
+function formatCellValue(value) {
+  if (value === null || value === undefined || value === "") return "—";
+  if (Array.isArray(value)) return value.length ? value.join(", ") : "—";
+  if (typeof value === "object") return JSON.stringify(value);
+  return String(value);
 }
 
 export default function DataTable({
@@ -41,30 +50,42 @@ export default function DataTable({
   };
 
   return (
-    <div className="w-full max-w-full min-w-0 overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm">
+    <div className="w-full max-w-full min-w-0 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
       <div className="w-full max-w-full overflow-x-auto">
-        <table className="min-w-full border-collapse text-start">
-          <thead>
-            <tr className="border-b border-gray-100 bg-gray-50/80 text-start text-[10px] font-black uppercase tracking-widest text-gray-500">
+        <table className="min-w-full border-separate border-spacing-0 text-start">
+          <thead className="sticky top-0 z-10">
+            <tr className="border-b border-gray-200 bg-gray-50/95 text-start text-[10px] font-black uppercase tracking-widest text-gray-500 backdrop-blur">
               {columns.map((col) => (
                 <th
                   key={col.key}
                   onClick={() => col.sortable && handleSort(col.key)}
-                  className={`whitespace-nowrap px-5 py-4 text-start select-none ${col.sortable ? "cursor-pointer hover:text-navy transition-all" : ""}`}
+                  className={`whitespace-nowrap border-b border-gray-200 px-5 py-3.5 text-start select-none ${
+                    col.sortable ? "cursor-pointer transition-all hover:bg-white hover:text-navy" : ""
+                  }`}
                 >
                   <div className="flex items-center gap-1.5">
                     <span>{col.label}</span>
                     {col.sortable && (
-                      <ArrowUpDown className="h-3 w-3 shrink-0 text-gray-300" />
+                      sortBy === col.key ? (
+                        sortDir === "asc" ? (
+                          <ArrowUp className="h-3.5 w-3.5 shrink-0 text-primary" />
+                        ) : (
+                          <ArrowDown className="h-3.5 w-3.5 shrink-0 text-primary" />
+                        )
+                      ) : (
+                        <ArrowUpDown className="h-3.5 w-3.5 shrink-0 text-gray-300" />
+                      )
                     )}
                   </div>
                 </th>
               ))}
-              <th className="whitespace-nowrap px-5 py-4 text-end">{t("apanel.dataTable.actions")}</th>
+              <th className="sticky right-0 whitespace-nowrap border-b border-gray-200 bg-gray-50/95 px-5 py-3.5 text-end backdrop-blur">
+                {t("apanel.dataTable.actions")}
+              </th>
             </tr>
           </thead>
 
-          <tbody className="divide-y divide-gray-50 text-xs font-bold text-navy">
+          <tbody className="text-xs font-bold text-navy">
             {data.length === 0 ? (
               <tr>
                 <td
@@ -83,18 +104,19 @@ export default function DataTable({
               data.map((row, index) => (
                 <tr
                   key={row.id || index}
-                  className="transition-all hover:bg-primary-light/30"
+                  className="group transition-all odd:bg-white even:bg-gray-50/35 hover:bg-primary-light/30"
                 >
-                  {columns.map((col) => {
+                  {columns.map((col, colIndex) => {
                     // Support nested dot-notation keys (e.g. "studentProfile.user.name")
                     const value = col.key.includes(".")
                       ? getNestedValue(row, col.key)
                       : row[col.key];
+                    const displayValue = formatCellValue(value);
 
                     return (
                       <td
                         key={col.key}
-                        className="max-w-72 px-5 py-4 align-middle"
+                        className="max-w-80 border-b border-gray-100 px-5 py-4 align-middle"
                       >
                         {col.type === "boolean" ||
                         col.key === "is_active" ||
@@ -106,17 +128,23 @@ export default function DataTable({
                               onClick={() =>
                                 onStatusToggle(row.id, col.key, !value)
                               }
-                              className={`p-1 rounded-lg border transition-all cursor-pointer ${
+                              className={`inline-flex min-h-8 items-center gap-1.5 rounded-xl border px-2.5 py-1 text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer ${
                                 value
-                                  ? "bg-emerald-50 text-emerald-600 border-emerald-100 hover:bg-emerald-100"
-                                  : "bg-rose-50 text-rose-600 border-rose-100 hover:bg-rose-100"
+                                  ? "bg-emerald-50 text-emerald-700 border-emerald-100 hover:bg-emerald-100"
+                                  : "bg-rose-50 text-rose-700 border-rose-100 hover:bg-rose-100"
                               }`}
                               title={t("apanel.dataTable.toggleStatus")}
                             >
                               {value ? (
-                                <Check className="w-3.5 h-3.5" />
+                                <>
+                                  <Check className="w-3.5 h-3.5" />
+                                  <span>Active</span>
+                                </>
                               ) : (
-                                <X className="w-3.5 h-3.5" />
+                                <>
+                                  <X className="w-3.5 h-3.5" />
+                                  <span>Inactive</span>
+                                </>
                               )}
                             </button>
                           ) : (
@@ -131,18 +159,25 @@ export default function DataTable({
                             {value ? new Date(value).toLocaleString() : "—"}
                           </span>
                         ) : (
-                          <span className="block max-w-72 truncate" title={value !== null && value !== undefined ? String(value) : ""}>
-                            {value !== null && value !== undefined
-                              ? String(value)
-                              : "—"}
+                          <span
+                            className={`block max-w-80 truncate ${
+                              displayValue === "—"
+                                ? "text-gray-300"
+                                : colIndex === 0
+                                  ? "font-black text-navy"
+                                  : "text-gray-600"
+                            }`}
+                            title={displayValue !== "—" ? displayValue : ""}
+                          >
+                            {displayValue}
                           </span>
                         )}
                       </td>
                     );
                   })}
 
-                  <td className="shrink-0 px-5 py-4 text-end align-middle">
-                    <div className="flex justify-end gap-1.5">
+                  <td className="sticky right-0 shrink-0 border-b border-gray-100 bg-inherit px-5 py-4 text-end align-middle shadow-[-12px_0_18px_-18px_rgba(15,23,42,0.4)]">
+                    <div className="flex justify-end gap-1 rounded-xl border border-gray-100 bg-white p-1 shadow-xs">
                       {onViewClick && (
                         <button
                           onClick={() => onViewClick(row)}

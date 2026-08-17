@@ -3,6 +3,7 @@ import { studentService } from "../../../services/studentService";
 import { useLanguage } from "../../../context/LanguageContext";
 import { formatLocalizedDate } from "../../../utils/dateFormat";
 import { Loader2, CreditCard } from "lucide-react";
+import StatusBadge from "../../apanel/components/StatusBadge";
 
 export default function StudentPayments() {
   const { language, t } = useLanguage();
@@ -38,9 +39,9 @@ export default function StudentPayments() {
     });
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6 animate-in fade-in duration-200">
+    <div className="mx-auto max-w-4xl min-w-0 space-y-6 animate-in fade-in duration-200">
       <div>
-        <h1 className="text-2xl font-extrabold text-navy uppercase tracking-wider">
+        <h1 className="text-xl sm:text-2xl font-extrabold text-navy uppercase tracking-wider break-words">
           {t("payment.title")}
         </h1>
         <p className="text-xs font-semibold text-gray-400">
@@ -55,7 +56,7 @@ export default function StudentPayments() {
       )}
 
       {/* Payments history ledger */}
-      <div className="bg-white border border-gray-100 rounded-3xl p-6 shadow-xs space-y-4">
+      <div className="min-w-0 bg-white border border-gray-100 rounded-3xl p-4 sm:p-6 shadow-xs space-y-4">
         {payments.length > 0 ? (
           <div className="space-y-4">
             {payments.map((p) => (
@@ -63,18 +64,14 @@ export default function StudentPayments() {
                 key={p.id}
                 className="p-5 border border-gray-100 rounded-2xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4"
               >
-                <div className="space-y-1.5 grow">
-                  <div className="flex items-center gap-2">
-                    <h3 className="text-xs font-black text-navy uppercase tracking-wider">
+                <div className="min-w-0 grow space-y-1.5">
+                  <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                    <h3 className="text-xs font-black text-navy uppercase tracking-wider break-all">
                       {t("payment.itemNumber")} #{p.transaction_id || t("status.pending")}
                     </h3>
-                    <span
-                      className={`text-[9px] font-extrabold px-2 py-0.5 rounded-full ${p.status === "verified" ? "bg-emerald-50 text-emerald-600 border border-emerald-150" : "bg-amber-50 text-amber-600 border border-amber-150"}`}
-                    >
-                      {p.status.toUpperCase()}
-                    </span>
+                    <StatusBadge status={p.status} />
                   </div>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-xs">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
                     <div>
                       <p className="text-[10px] text-gray-400 font-bold">
                         {t("payment.paidAmount")}

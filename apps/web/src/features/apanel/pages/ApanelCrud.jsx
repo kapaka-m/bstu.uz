@@ -1,13 +1,33 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { apanelService } from "../../../services/apanelService";
+import { publicAssetUrl } from "../../../lib/api";
 import SearchFilterBar from "../components/SearchFilterBar";
 import DataTable from "../components/DataTable";
 import ApanelStatsCards from "../components/ApanelStatsCards";
 import Pagination from "../components/Pagination";
 import FormBuilder from "../components/FormBuilder";
 import ConfirmDialog from "../components/ConfirmDialog";
-import { CheckCircle2, Loader2, MessageCircle, Plus, Reply, ShieldAlert } from "lucide-react";
+import {
+  BookOpen,
+  Building2,
+  CheckCircle2,
+  Clock,
+  ExternalLink,
+  GraduationCap,
+  Hash,
+  Loader2,
+  Mail,
+  MessageCircle,
+  Pencil,
+  Phone,
+  Plus,
+  Reply,
+  ShieldAlert,
+  Trash2,
+  UsersRound,
+  X,
+} from "lucide-react";
 import FormError from "../../../components/common/FormError";
 import { useLanguage } from "../../../context/LanguageContext";
 
@@ -177,67 +197,6 @@ const RESOURCE_SCHEMAS = {
       },
     ],
   },
-  pages: {
-    title: "apanel.crud.ui.title.pages",
-    columns: [
-      { key: "slug", label: "apanel.crud.ui.label.slug", sortable: true },
-      { key: "template", label: "apanel.crud.ui.label.layoutTemplate" },
-      { key: "is_published", label: "apanel.crud.ui.label.published", type: "boolean" },
-    ],
-    fields: [
-      { name: "slug", label: "apanel.crud.ui.label.slug", type: "text", required: true },
-      { name: "template", label: "apanel.crud.ui.label.templateLayout", type: "text" },
-      { name: "is_published", label: "apanel.crud.ui.label.publishImmediately", type: "boolean" },
-      { name: "sort_order", label: "apanel.crud.ui.label.sortOrder", type: "number" },
-      {
-        name: "title",
-        label: "apanel.crud.ui.label.pageTitle",
-        type: "text",
-        required: true,
-        translated: true,
-      },
-    ],
-  },
-  "page-blocks": {
-    title: "apanel.crud.ui.title.pageBlocks",
-    columns: [
-      { key: "page_id", label: "apanel.crud.ui.label.pageId", sortable: true },
-      { key: "block_key", label: "apanel.crud.ui.label.blockKey", sortable: true },
-      { key: "type", label: "apanel.crud.ui.label.type" },
-      { key: "is_active", label: "apanel.crud.ui.label.active", type: "boolean" },
-    ],
-    fields: [
-      { name: "page_id", label: "apanel.crud.ui.label.pageIdKey", type: "number", required: true },
-      {
-        name: "block_key",
-        label: "apanel.crud.ui.label.uniqueBlockIdentifier",
-        type: "text",
-        required: true,
-      },
-      {
-        name: "type",
-        label: "apanel.crud.ui.label.blockLayoutType",
-        type: "text",
-        required: true,
-      },
-      { name: "sort_order", label: "apanel.crud.ui.label.sortOrder", type: "number" },
-      { name: "is_active", label: "apanel.crud.ui.label.activeStatus", type: "boolean" },
-      {
-        name: "title",
-        label: "apanel.crud.ui.label.blockTitleHeader",
-        type: "text",
-        required: true,
-        translated: true,
-      },
-      {
-        name: "content",
-        label: "apanel.crud.ui.label.blockContentBody",
-        type: "textarea",
-        required: true,
-        translated: true,
-      },
-    ],
-  },
   faculties: {
     title: "apanel.crud.ui.title.faculties",
     columns: [
@@ -249,7 +208,6 @@ const RESOURCE_SCHEMAS = {
     fields: [
       { name: "slug", label: "apanel.crud.ui.label.slugUrl", type: "text", required: true },
       { name: "code", label: "apanel.crud.ui.label.facultyCode", type: "text" },
-      { name: "image", label: "apanel.crud.ui.label.bannerImage", type: "media" },
       { name: "icon", label: "apanel.crud.ui.label.lucideIconCode", type: "text" },
       { name: "sort_order", label: "apanel.crud.ui.label.sortIndex", type: "number" },
       { name: "is_active", label: "apanel.crud.ui.label.activeStatus", type: "boolean" },
@@ -334,6 +292,7 @@ const RESOURCE_SCHEMAS = {
       { key: "department_id", label: "apanel.crud.ui.label.deptId", sortable: true },
       { key: "degree", label: "apanel.crud.ui.label.degree", sortable: true },
       { key: "duration_years", label: "apanel.crud.ui.label.years", sortable: true },
+      { key: "show_on_homepage", label: "Home", type: "boolean" },
       { key: "is_active", label: "apanel.crud.ui.label.active", type: "boolean" },
     ],
     fields: [
@@ -369,8 +328,13 @@ const RESOURCE_SCHEMAS = {
       {
         name: "study_mode",
         label: "apanel.crud.ui.label.studyMode",
-        type: "select",
-        options: ["full_time", "part_time", "distance"],
+        type: "checkbox-group",
+        preserveValues: true,
+        options: [
+          { value: "full_time", label: "Full-time" },
+          { value: "part_time", label: "Part-time" },
+          { value: "distance", label: "Distance" },
+        ],
         required: true,
       },
       {
@@ -394,6 +358,8 @@ const RESOURCE_SCHEMAS = {
       { name: "currency", label: "apanel.crud.ui.label.isoCurrency", type: "text" },
       { name: "image", label: "apanel.crud.ui.label.featuredImageBanner", type: "media" },
       { name: "is_active", label: "apanel.crud.ui.label.activeStatus", type: "boolean" },
+      { name: "show_on_homepage", label: "Show on homepage programs section", type: "boolean" },
+      { name: "homepage_sort_order", label: "Homepage display order", type: "number" },
       { name: "sort_order", label: "apanel.crud.ui.label.sortIndex", type: "number" },
       {
         name: "name",
@@ -404,21 +370,35 @@ const RESOURCE_SCHEMAS = {
       },
       {
         name: "description",
-        label: "apanel.crud.ui.label.courseOverviewDetails",
+        label: "Program Overview Details",
         type: "textarea",
         required: true,
         translated: true,
       },
       {
         name: "requirements",
-        label: "apanel.crud.ui.label.entryRequirementsChecklist",
+        label: "Admission Requirements Checklist",
+        type: "textarea",
+        required: true,
+        translated: true,
+      },
+      {
+        name: "documents",
+        label: "Required Documents Checklist",
+        type: "textarea",
+        required: true,
+        translated: true,
+      },
+      {
+        name: "curriculum_summary",
+        label: "Course Curriculum Summary",
         type: "textarea",
         required: true,
         translated: true,
       },
       {
         name: "career_opportunities",
-        label: "apanel.crud.ui.label.jobCareerProspects",
+        label: "Career Opportunities",
         type: "textarea",
         required: true,
         translated: true,
@@ -480,6 +460,12 @@ const RESOURCE_SCHEMAS = {
         name: "department_id",
         label: "apanel.crud.ui.label.associatedDepartmentId",
         type: "number",
+      },
+      {
+        name: "secondary_department_ids",
+        label: "apanel.crud.ui.label.additionalDepartments",
+        type: "checkbox-group",
+        options: "__staff_departments__",
       },
       { name: "photo", label: "apanel.crud.ui.label.staffPortraitImage", type: "media" },
       { name: "email", label: "apanel.crud.ui.label.emailAddress", type: "email" },
@@ -1138,6 +1124,54 @@ const localizeResourceSchema = (schema, t) => ({
   })),
 });
 
+const getPrimaryTranslation = (item, preferredLocale = "en") => {
+  const translations = Array.isArray(item?.translations) ? item.translations : [];
+  return (
+    translations.find((translation) => translation.locale === preferredLocale) ||
+    translations.find((translation) => translation.locale === "en") ||
+    translations[0] ||
+    {}
+  );
+};
+
+const countByDepartmentId = (items = []) =>
+  items.reduce((acc, item) => {
+    if (!item?.department_id) return acc;
+    acc[item.department_id] = (acc[item.department_id] || 0) + 1;
+    return acc;
+  }, {});
+
+const mapById = (items = []) =>
+  items.reduce((acc, item) => {
+    if (item?.id) acc[item.id] = item;
+    return acc;
+  }, {});
+
+const formatDegreeLabel = (value) =>
+  String(value || "unknown")
+    .replaceAll("_", " ")
+    .replace(/\b\w/g, (letter) => letter.toUpperCase());
+
+const formatProgramTuition = (program) => {
+  const fee = Number(program?.tuition_fee || 0);
+  const currency = String(program?.currency || "USD").trim() || "USD";
+  if (!fee) return "--";
+  return `${fee.toLocaleString()} ${currency}`;
+};
+
+const getInitials = (name) => {
+  const parts = String(name || "")
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean);
+  if (parts.length === 0) return "ST";
+  return parts
+    .slice(0, 2)
+    .map((part) => part[0])
+    .join("")
+    .toUpperCase();
+};
+
 export default function ApanelCrud() {
   const { t, locales: availableLocales } = useLanguage();
   const { resource } = useParams();
@@ -1162,6 +1196,28 @@ export default function ApanelCrud() {
   const [editItem, setEditItem] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState(null);
+  const [facultyRelations, setFacultyRelations] = useState({
+    departments: {},
+    programs: {},
+    staff: {},
+    loading: false,
+  });
+  const [departmentRelations, setDepartmentRelations] = useState({
+    faculties: {},
+    programs: {},
+    staff: {},
+    loading: false,
+  });
+  const [programRelations, setProgramRelations] = useState({
+    faculties: {},
+    departments: {},
+    loading: false,
+  });
+  const [staffRelations, setStaffRelations] = useState({
+    faculties: {},
+    departments: {},
+    loading: false,
+  });
 
   const [toast, setToast] = useState(null);
   const showToast = (message, type = "success") => {
@@ -1207,7 +1263,384 @@ export default function ApanelCrud() {
     fetchRecords();
   }, [fetchRecords]);
 
+  useEffect(() => {
+    if (resource !== "faculties") return;
+
+    let cancelled = false;
+    const fetchFacultyRelations = async () => {
+      try {
+        setFacultyRelations((prev) => ({ ...prev, loading: true }));
+        const visibleFacultyIds = dataList.map((faculty) => faculty.id).filter(Boolean);
+
+        if (visibleFacultyIds.length === 0) {
+          if (!cancelled) {
+            setFacultyRelations({
+              departments: {},
+              programs: {},
+              staff: {},
+              loading: false,
+            });
+          }
+          return;
+        }
+
+        const countLinkedResource = async (linkedResource) => {
+          const entries = await Promise.all(
+            visibleFacultyIds.map(async (facultyId) => {
+              const pageData = await apanelService.listPage(linkedResource, {
+                per_page: 1,
+                filter: { faculty_id: facultyId },
+              });
+              return [facultyId, pageData.total || 0];
+            }),
+          );
+
+          return Object.fromEntries(entries);
+        };
+
+        const [departments, programs, staff] = await Promise.all([
+          countLinkedResource("departments"),
+          countLinkedResource("programs"),
+          countLinkedResource("staff"),
+        ]);
+
+        if (cancelled) return;
+
+        setFacultyRelations({
+          departments,
+          programs,
+          staff,
+          loading: false,
+        });
+      } catch {
+        if (!cancelled) {
+          setFacultyRelations({
+            departments: {},
+            programs: {},
+            staff: {},
+            loading: false,
+          });
+        }
+      }
+    };
+
+    fetchFacultyRelations();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [resource, dataList]);
+
+  useEffect(() => {
+    if (resource !== "departments") return;
+
+    let cancelled = false;
+    const fetchDepartmentRelations = async () => {
+      try {
+        setDepartmentRelations((prev) => ({ ...prev, loading: true }));
+        const [facultiesPage, programsPage, staffPage] = await Promise.all([
+          apanelService.listPage("faculties", { per_page: 500, sort_by: "sort_order", sort_dir: "asc" }),
+          apanelService.listPage("programs", { per_page: 500, sort_by: "department_id", sort_dir: "asc" }),
+          apanelService.listPage("staff", { per_page: 500, sort_by: "department_id", sort_dir: "asc" }),
+        ]);
+
+        if (cancelled) return;
+
+        setDepartmentRelations({
+          faculties: mapById(facultiesPage.items),
+          programs: countByDepartmentId(programsPage.items),
+          staff: countByDepartmentId(staffPage.items),
+          loading: false,
+        });
+      } catch {
+        if (!cancelled) {
+          setDepartmentRelations({
+            faculties: {},
+            programs: {},
+            staff: {},
+            loading: false,
+          });
+        }
+      }
+    };
+
+    fetchDepartmentRelations();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [resource, dataList]);
+
+  useEffect(() => {
+    if (resource !== "programs") return;
+
+    let cancelled = false;
+    const fetchProgramRelations = async () => {
+      try {
+        setProgramRelations((prev) => ({ ...prev, loading: true }));
+        const [facultiesPage, departmentsPage] = await Promise.all([
+          apanelService.listPage("faculties", { per_page: 500, sort_by: "sort_order", sort_dir: "asc" }),
+          apanelService.listPage("departments", { per_page: 500, sort_by: "sort_order", sort_dir: "asc" }),
+        ]);
+
+        if (cancelled) return;
+
+        setProgramRelations({
+          faculties: mapById(facultiesPage.items),
+          departments: mapById(departmentsPage.items),
+          loading: false,
+        });
+      } catch {
+        if (!cancelled) {
+          setProgramRelations({
+            faculties: {},
+            departments: {},
+            loading: false,
+          });
+        }
+      }
+    };
+
+    fetchProgramRelations();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [resource, dataList]);
+
+  useEffect(() => {
+    if (resource !== "staff") return;
+
+    let cancelled = false;
+    const fetchStaffRelations = async () => {
+      try {
+        setStaffRelations((prev) => ({ ...prev, loading: true }));
+        const [facultiesPage, departmentsPage] = await Promise.all([
+          apanelService.listPage("faculties", { per_page: 500, sort_by: "sort_order", sort_dir: "asc" }),
+          apanelService.listPage("departments", { per_page: 500, sort_by: "sort_order", sort_dir: "asc" }),
+        ]);
+
+        if (cancelled) return;
+
+        setStaffRelations({
+          faculties: mapById(facultiesPage.items),
+          departments: mapById(departmentsPage.items),
+          loading: false,
+        });
+      } catch {
+        if (!cancelled) {
+          setStaffRelations({
+            faculties: {},
+            departments: {},
+            loading: false,
+          });
+        }
+      }
+    };
+
+    fetchStaffRelations();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [resource, dataList]);
+
   const resourceStats = React.useMemo(() => {
+    if (resource === "faculties") {
+      const active = dataList.filter((item) => item.is_active).length;
+      const inactive = dataList.length - active;
+      const departments = Object.values(facultyRelations.departments).reduce((sum, value) => sum + value, 0);
+      const programs = Object.values(facultyRelations.programs).reduce((sum, value) => sum + value, 0);
+      const staff = Object.values(facultyRelations.staff).reduce((sum, value) => sum + value, 0);
+
+      return [
+        {
+          label: "Faculties",
+          value: total,
+          hint: "Total records",
+          icon: GraduationCap,
+          tone: "text-blue-600 bg-blue-50 border-blue-100",
+        },
+        {
+          label: "Active",
+          value: active,
+          hint: inactive ? `${inactive} inactive on this page` : "All visible records active",
+          icon: CheckCircle2,
+          tone: "text-emerald-600 bg-emerald-50 border-emerald-100",
+        },
+        {
+          label: "Departments",
+          value: departments,
+          hint: facultyRelations.loading ? "Refreshing counts" : "Linked records",
+          icon: Building2,
+          tone: "text-cyan-600 bg-cyan-50 border-cyan-100",
+        },
+        {
+          label: "Programs",
+          value: programs,
+          hint: staff ? `${staff} staff profiles` : "Linked records",
+          icon: BookOpen,
+          tone: "text-amber-600 bg-amber-50 border-amber-100",
+        },
+      ];
+    }
+
+    if (resource === "departments") {
+      const active = dataList.filter((item) => item.is_active).length;
+      const inactive = dataList.length - active;
+      const facultyCount = new Set(dataList.map((item) => item.faculty_id).filter(Boolean)).size;
+      const programs = Object.values(departmentRelations.programs).reduce((sum, value) => sum + value, 0);
+      const staff = Object.values(departmentRelations.staff).reduce((sum, value) => sum + value, 0);
+
+      return [
+        {
+          label: "Departments",
+          value: total,
+          hint: "Total records",
+          icon: Building2,
+          tone: "text-blue-600 bg-blue-50 border-blue-100",
+        },
+        {
+          label: "Active",
+          value: active,
+          hint: inactive ? `${inactive} inactive on this page` : "All visible records active",
+          icon: CheckCircle2,
+          tone: "text-emerald-600 bg-emerald-50 border-emerald-100",
+        },
+        {
+          label: "Faculties",
+          value: facultyCount,
+          hint: departmentRelations.loading ? "Refreshing links" : "Represented on this page",
+          icon: GraduationCap,
+          tone: "text-cyan-600 bg-cyan-50 border-cyan-100",
+        },
+        {
+          label: "Programs",
+          value: programs,
+          hint: staff ? `${staff} staff profiles` : "Linked records",
+          icon: BookOpen,
+          tone: "text-amber-600 bg-amber-50 border-amber-100",
+        },
+      ];
+    }
+
+    if (resource === "programs") {
+      const active = dataList.filter((item) => item.is_active).length;
+      const inactive = dataList.length - active;
+      const facultyCount = new Set(dataList.map((item) => item.faculty_id).filter(Boolean)).size;
+      const departmentCount = new Set(dataList.map((item) => item.department_id).filter(Boolean)).size;
+      const bachelorCount = dataList.filter((item) => item.degree === "bachelor").length;
+      const featuredCount = dataList.filter((item) => item.show_on_homepage).length;
+
+      return [
+        {
+          label: "Programs",
+          value: total,
+          hint: "Total records",
+          icon: BookOpen,
+          tone: "text-blue-600 bg-blue-50 border-blue-100",
+        },
+        {
+          label: "Active",
+          value: active,
+          hint: inactive ? `${inactive} inactive on this page` : "All visible records active",
+          icon: CheckCircle2,
+          tone: "text-emerald-600 bg-emerald-50 border-emerald-100",
+        },
+        {
+          label: "Structure",
+          value: `${facultyCount}/${departmentCount}`,
+          hint: programRelations.loading ? "Refreshing links" : "Faculties / departments",
+          icon: Building2,
+          tone: "text-cyan-600 bg-cyan-50 border-cyan-100",
+        },
+        {
+          label: "Homepage",
+          value: featuredCount,
+          hint: `${bachelorCount} bachelor programs on this page`,
+          icon: GraduationCap,
+          tone: "text-amber-600 bg-amber-50 border-amber-100",
+        },
+      ];
+    }
+
+    if (resource === "courses") {
+      const active = dataList.filter((item) => item.is_active).length;
+      const inactive = dataList.length - active;
+      const credits = dataList.reduce((sum, item) => sum + Number(item.credits || 0), 0);
+      const semesters = new Set(dataList.map((item) => item.semester).filter(Boolean)).size;
+
+      return [
+        {
+          label: "Courses",
+          value: total,
+          hint: "Total records",
+          icon: BookOpen,
+          tone: "text-blue-600 bg-blue-50 border-blue-100",
+        },
+        {
+          label: "Active",
+          value: active,
+          hint: inactive ? `${inactive} inactive on this page` : "All visible records active",
+          icon: CheckCircle2,
+          tone: "text-emerald-600 bg-emerald-50 border-emerald-100",
+        },
+        {
+          label: "Credits",
+          value: credits,
+          hint: "Total credits on this page",
+          icon: Clock,
+          tone: "text-cyan-600 bg-cyan-50 border-cyan-100",
+        },
+        {
+          label: "Semesters",
+          value: semesters,
+          hint: "Represented on this page",
+          icon: GraduationCap,
+          tone: "text-amber-600 bg-amber-50 border-amber-100",
+        },
+      ];
+    }
+
+    if (resource === "staff") {
+      const active = dataList.filter((item) => item.is_active).length;
+      const inactive = dataList.length - active;
+      const withPhotos = dataList.filter((item) => item.photo || item.photo_url).length;
+      const facultyCount = new Set(dataList.map((item) => item.faculty_id).filter(Boolean)).size;
+      const departmentCount = new Set(dataList.map((item) => item.department_id).filter(Boolean)).size;
+
+      return [
+        {
+          label: "Staff",
+          value: total,
+          hint: "Total profiles",
+          icon: UsersRound,
+          tone: "text-blue-600 bg-blue-50 border-blue-100",
+        },
+        {
+          label: "Active",
+          value: active,
+          hint: inactive ? `${inactive} inactive on this page` : "All visible profiles active",
+          icon: CheckCircle2,
+          tone: "text-emerald-600 bg-emerald-50 border-emerald-100",
+        },
+        {
+          label: "Portraits",
+          value: withPhotos,
+          hint: "Profiles with photos on this page",
+          icon: UsersRound,
+          tone: "text-cyan-600 bg-cyan-50 border-cyan-100",
+        },
+        {
+          label: "Structure",
+          value: `${facultyCount}/${departmentCount}`,
+          hint: staffRelations.loading ? "Refreshing links" : "Faculties / departments",
+          icon: Building2,
+          tone: "text-amber-600 bg-amber-50 border-amber-100",
+        },
+      ];
+    }
+
     if (!["comments", "video-comments"].includes(resource)) return [];
     const approved = dataList.filter((item) => item.is_approved).length;
     const pending = dataList.filter((item) => !item.is_approved).length;
@@ -1243,7 +1676,7 @@ export default function ApanelCrud() {
         tone: "text-violet-600 bg-violet-50 border-violet-100",
       },
     ];
-  }, [dataList, resource, total]);
+  }, [dataList, departmentRelations, facultyRelations, programRelations, resource, staffRelations, total]);
 
   const rawSchema = RESOURCE_SCHEMAS[resource];
   if (!rawSchema) {
@@ -1255,6 +1688,19 @@ export default function ApanelCrud() {
   }
   const schema = localizeResourceSchema(rawSchema, t);
   const formFields = schema.fields.map((field) => {
+    if (field.options === "__staff_departments__") {
+      return {
+        ...field,
+        options: Object.values(staffRelations.departments).map((department) => {
+          const translation = getPrimaryTranslation(department);
+          return {
+            value: department.id,
+            label: translation.name || department.slug || `Department #${department.id}`,
+          };
+        }),
+      };
+    }
+
     if (field.options !== "__active_locales__") return field;
     return {
       ...field,
@@ -1377,6 +1823,909 @@ export default function ApanelCrud() {
     setPage(1);
   };
 
+  const renderFacultyManagementBoard = () => {
+    if (resource !== "faculties" || loading || dataList.length === 0) return null;
+
+    return (
+      <section className="space-y-4">
+        <div className="flex flex-col gap-3 rounded-3xl border border-gray-100 bg-white p-5 shadow-sm lg:flex-row lg:items-center lg:justify-between">
+          <div className="min-w-0">
+            <p className="text-[10px] font-black uppercase tracking-widest text-primary">
+              Faculty Management
+            </p>
+            <h2 className="mt-1 text-xl font-black text-navy">
+              Academic structure overview
+            </h2>
+          </div>
+          <div className="grid grid-cols-3 gap-2 text-center">
+            <div className="rounded-2xl border border-gray-100 px-4 py-3">
+              <p className="text-lg font-black text-navy">{dataList.length}</p>
+              <p className="text-[10px] font-black uppercase tracking-wider text-gray-400">Shown</p>
+            </div>
+            <div className="rounded-2xl border border-gray-100 px-4 py-3">
+              <p className="text-lg font-black text-emerald-600">
+                {dataList.filter((item) => item.is_active).length}
+              </p>
+              <p className="text-[10px] font-black uppercase tracking-wider text-gray-400">Active</p>
+            </div>
+            <div className="rounded-2xl border border-gray-100 px-4 py-3">
+              <p className="text-lg font-black text-cyan-600">
+                {Object.values(facultyRelations.departments).reduce((sum, value) => sum + value, 0)}
+              </p>
+              <p className="text-[10px] font-black uppercase tracking-wider text-gray-400">Departments</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
+          {dataList.map((faculty) => {
+            const translation = getPrimaryTranslation(faculty);
+            const departmentsCount = facultyRelations.departments[faculty.id] || 0;
+            const programsCount = facultyRelations.programs[faculty.id] || 0;
+            const staffCount = facultyRelations.staff[faculty.id] || 0;
+
+            return (
+              <article
+                key={faculty.id}
+                className="rounded-3xl border border-gray-100 bg-white p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
+              >
+                <div className="flex min-w-0 flex-col">
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="min-w-0">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-primary/10 bg-primary-light text-primary">
+                            <GraduationCap className="h-5 w-5" />
+                          </span>
+                          <h3 className="min-w-0 truncate text-lg font-black text-navy">
+                            {translation.name || faculty.slug}
+                          </h3>
+                          <span
+                            className={`rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-wider ${
+                              faculty.is_active
+                                ? "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-100"
+                                : "bg-rose-50 text-rose-700 ring-1 ring-rose-100"
+                            }`}
+                          >
+                            {faculty.is_active ? "Active" : "Inactive"}
+                          </span>
+                        </div>
+                        <div className="mt-2 flex flex-wrap items-center gap-2 text-[11px] font-extrabold text-gray-400">
+                          <span className="inline-flex min-w-0 items-center gap-1 rounded-full bg-gray-50 px-2.5 py-1">
+                            <Hash className="h-3 w-3 shrink-0" />
+                            <span className="truncate">{faculty.slug}</span>
+                          </span>
+                          {faculty.code && (
+                            <span className="rounded-full bg-primary-light px-2.5 py-1 text-primary">
+                              {faculty.code}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="flex shrink-0 items-center gap-1">
+                        <button
+                          type="button"
+                          onClick={() => handleOpenEdit(faculty)}
+                          className="rounded-xl border border-gray-100 p-2 text-gray-500 transition-all hover:border-primary/20 hover:bg-primary-light hover:text-primary"
+                          title={t("button.edit")}
+                        >
+                          <Pencil className="h-4 w-4" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setDeleteTarget(faculty)}
+                          className="rounded-xl border border-gray-100 p-2 text-gray-500 transition-all hover:border-rose-100 hover:bg-rose-50 hover:text-rose-600"
+                          title={t("button.delete")}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </button>
+                      </div>
+                    </div>
+
+                    <p className="mt-3 line-clamp-2 text-xs font-semibold leading-5 text-gray-500">
+                      {translation.description || "No overview entered yet."}
+                    </p>
+
+                    <div className="mt-4 grid grid-cols-3 gap-2">
+                      {[
+                        { label: "Departments", value: departmentsCount, icon: Building2 },
+                        { label: "Programs", value: programsCount, icon: BookOpen },
+                        { label: "Staff", value: staffCount, icon: UsersRound },
+                      ].map((item) => {
+                        const Icon = item.icon;
+                        return (
+                          <div key={item.label} className="rounded-2xl border border-gray-100 bg-gray-50/60 p-3">
+                            <div className="flex items-center gap-2 text-gray-400">
+                              <Icon className="h-3.5 w-3.5" />
+                              <span className="truncate text-[10px] font-black uppercase tracking-wider">{item.label}</span>
+                            </div>
+                            <p className="mt-2 text-xl font-black leading-none text-navy">{item.value}</p>
+                          </div>
+                        );
+                      })}
+                    </div>
+
+                    <div className="mt-4 grid gap-2 text-xs font-bold text-gray-500 sm:grid-cols-2">
+                      {faculty.head_name && (
+                        <span className="flex min-w-0 items-center gap-2">
+                          <UsersRound className="h-3.5 w-3.5 shrink-0 text-primary" />
+                          <span className="truncate">{faculty.head_name}</span>
+                        </span>
+                      )}
+                      {faculty.phone && (
+                        <span className="flex min-w-0 items-center gap-2">
+                          <Phone className="h-3.5 w-3.5 shrink-0 text-primary" />
+                          <span className="truncate">{faculty.phone}</span>
+                        </span>
+                      )}
+                      {faculty.email && (
+                        <span className="flex min-w-0 items-center gap-2">
+                          <Mail className="h-3.5 w-3.5 shrink-0 text-primary" />
+                          <span className="truncate">{faculty.email}</span>
+                        </span>
+                      )}
+                      {faculty.reception_time && (
+                        <span className="flex min-w-0 items-center gap-2">
+                          <Clock className="h-3.5 w-3.5 shrink-0 text-primary" />
+                          <span className="truncate">{faculty.reception_time}</span>
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="mt-5 flex flex-wrap items-center gap-2 border-t border-gray-50 pt-4">
+                      <button
+                        type="button"
+                        onClick={() => navigate(`/faculty/${faculty.slug}`)}
+                        className="inline-flex items-center gap-1.5 rounded-xl border border-gray-100 px-3 py-2 text-[11px] font-black text-navy transition-all hover:bg-gray-50"
+                      >
+                        <ExternalLink className="h-3.5 w-3.5" />
+                        Public page
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => navigate("/apanel/departments")}
+                        className="inline-flex items-center gap-1.5 rounded-xl border border-gray-100 px-3 py-2 text-[11px] font-black text-navy transition-all hover:bg-gray-50"
+                      >
+                        <Building2 className="h-3.5 w-3.5" />
+                        Departments
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => navigate("/apanel/programs")}
+                        className="inline-flex items-center gap-1.5 rounded-xl border border-gray-100 px-3 py-2 text-[11px] font-black text-navy transition-all hover:bg-gray-50"
+                      >
+                        <BookOpen className="h-3.5 w-3.5" />
+                        Programs
+                      </button>
+                    </div>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      </section>
+    );
+  };
+
+  const renderDepartmentManagementBoard = () => {
+    if (resource !== "departments" || loading || dataList.length === 0) return null;
+
+    return (
+      <section className="space-y-4">
+        <div className="flex flex-col gap-3 rounded-3xl border border-gray-100 bg-white p-5 shadow-sm lg:flex-row lg:items-center lg:justify-between">
+          <div className="min-w-0">
+            <p className="text-[10px] font-black uppercase tracking-widest text-primary">
+              Department Management
+            </p>
+            <h2 className="mt-1 text-xl font-black text-navy">
+              Academic departments overview
+            </h2>
+          </div>
+          <div className="grid grid-cols-3 gap-2 text-center">
+            <div className="rounded-2xl border border-gray-100 px-4 py-3">
+              <p className="text-lg font-black text-navy">{dataList.length}</p>
+              <p className="text-[10px] font-black uppercase tracking-wider text-gray-400">Shown</p>
+            </div>
+            <div className="rounded-2xl border border-gray-100 px-4 py-3">
+              <p className="text-lg font-black text-emerald-600">
+                {dataList.filter((item) => item.is_active).length}
+              </p>
+              <p className="text-[10px] font-black uppercase tracking-wider text-gray-400">Active</p>
+            </div>
+            <div className="rounded-2xl border border-gray-100 px-4 py-3">
+              <p className="text-lg font-black text-cyan-600">
+                {new Set(dataList.map((item) => item.faculty_id).filter(Boolean)).size}
+              </p>
+              <p className="text-[10px] font-black uppercase tracking-wider text-gray-400">Faculties</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
+          {dataList.map((department) => {
+            const translation = getPrimaryTranslation(department);
+            const faculty = departmentRelations.faculties[department.faculty_id];
+            const facultyTranslation = getPrimaryTranslation(faculty);
+            const programsCount = departmentRelations.programs[department.id] || 0;
+            const staffCount = departmentRelations.staff[department.id] || 0;
+
+            return (
+              <article
+                key={department.id}
+                className="rounded-3xl border border-gray-100 bg-white p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
+              >
+                <div className="flex min-w-0 flex-col">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-cyan-100 bg-cyan-50 text-cyan-700">
+                          <Building2 className="h-5 w-5" />
+                        </span>
+                        <h3 className="min-w-0 truncate text-lg font-black text-navy">
+                          {translation.name || department.slug}
+                        </h3>
+                        <span
+                          className={`rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-wider ${
+                            department.is_active
+                              ? "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-100"
+                              : "bg-rose-50 text-rose-700 ring-1 ring-rose-100"
+                          }`}
+                        >
+                          {department.is_active ? "Active" : "Inactive"}
+                        </span>
+                      </div>
+
+                      <div className="mt-2 flex flex-wrap items-center gap-2 text-[11px] font-extrabold text-gray-400">
+                        <span className="inline-flex min-w-0 items-center gap-1 rounded-full bg-gray-50 px-2.5 py-1">
+                          <Hash className="h-3 w-3 shrink-0" />
+                          <span className="truncate">{department.slug}</span>
+                        </span>
+                        {department.code && (
+                          <span className="rounded-full bg-primary-light px-2.5 py-1 text-primary">
+                            {department.code}
+                          </span>
+                        )}
+                        <span className="inline-flex min-w-0 items-center gap-1 rounded-full bg-cyan-50 px-2.5 py-1 text-cyan-700">
+                          <GraduationCap className="h-3 w-3 shrink-0" />
+                          <span className="truncate">
+                            {facultyTranslation.name || `Faculty #${department.faculty_id}`}
+                          </span>
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="flex shrink-0 items-center gap-1">
+                      <button
+                        type="button"
+                        onClick={() => handleOpenEdit(department)}
+                        className="rounded-xl border border-gray-100 p-2 text-gray-500 transition-all hover:border-primary/20 hover:bg-primary-light hover:text-primary"
+                        title={t("button.edit")}
+                      >
+                        <Pencil className="h-4 w-4" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setDeleteTarget(department)}
+                        className="rounded-xl border border-gray-100 p-2 text-gray-500 transition-all hover:border-rose-100 hover:bg-rose-50 hover:text-rose-600"
+                        title={t("button.delete")}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                    </div>
+                  </div>
+
+                  <p className="mt-3 line-clamp-2 text-xs font-semibold leading-5 text-gray-500">
+                    {translation.description || "No overview entered yet."}
+                  </p>
+
+                  <div className="mt-4 grid grid-cols-2 gap-2">
+                    {[
+                      { label: "Programs", value: programsCount, icon: BookOpen },
+                      { label: "Staff", value: staffCount, icon: UsersRound },
+                    ].map((item) => {
+                      const Icon = item.icon;
+                      return (
+                        <div key={item.label} className="rounded-2xl border border-gray-100 bg-gray-50/60 p-3">
+                          <div className="flex items-center gap-2 text-gray-400">
+                            <Icon className="h-3.5 w-3.5" />
+                            <span className="truncate text-[10px] font-black uppercase tracking-wider">{item.label}</span>
+                          </div>
+                          <p className="mt-2 text-xl font-black leading-none text-navy">{item.value}</p>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  <div className="mt-4 grid gap-2 text-xs font-bold text-gray-500 sm:grid-cols-2">
+                    {department.head_name && (
+                      <span className="flex min-w-0 items-center gap-2">
+                        <UsersRound className="h-3.5 w-3.5 shrink-0 text-primary" />
+                        <span className="truncate">{department.head_name}</span>
+                      </span>
+                    )}
+                    {department.phone && (
+                      <span className="flex min-w-0 items-center gap-2">
+                        <Phone className="h-3.5 w-3.5 shrink-0 text-primary" />
+                        <span className="truncate">{department.phone}</span>
+                      </span>
+                    )}
+                    {department.email && (
+                      <span className="flex min-w-0 items-center gap-2">
+                        <Mail className="h-3.5 w-3.5 shrink-0 text-primary" />
+                        <span className="truncate">{department.email}</span>
+                      </span>
+                    )}
+                    {department.reception_time && (
+                      <span className="flex min-w-0 items-center gap-2">
+                        <Clock className="h-3.5 w-3.5 shrink-0 text-primary" />
+                        <span className="truncate">{department.reception_time}</span>
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="mt-5 flex flex-wrap items-center gap-2 border-t border-gray-50 pt-4">
+                    <button
+                      type="button"
+                      onClick={() => navigate(`/department/${department.slug}`)}
+                      className="inline-flex items-center gap-1.5 rounded-xl border border-gray-100 px-3 py-2 text-[11px] font-black text-navy transition-all hover:bg-gray-50"
+                    >
+                      <ExternalLink className="h-3.5 w-3.5" />
+                      Public page
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => navigate("/apanel/programs")}
+                      className="inline-flex items-center gap-1.5 rounded-xl border border-gray-100 px-3 py-2 text-[11px] font-black text-navy transition-all hover:bg-gray-50"
+                    >
+                      <BookOpen className="h-3.5 w-3.5" />
+                      Programs
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => navigate("/apanel/staff")}
+                      className="inline-flex items-center gap-1.5 rounded-xl border border-gray-100 px-3 py-2 text-[11px] font-black text-navy transition-all hover:bg-gray-50"
+                    >
+                      <UsersRound className="h-3.5 w-3.5" />
+                      Staff
+                    </button>
+                  </div>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      </section>
+    );
+  };
+
+  const renderProgramManagementBoard = () => {
+    if (resource !== "programs" || loading || dataList.length === 0) return null;
+
+    const bachelorCount = dataList.filter((item) => item.degree === "bachelor").length;
+    const masterCount = dataList.filter((item) => item.degree === "master").length;
+
+    return (
+      <section className="space-y-4">
+        <div className="flex flex-col gap-3 rounded-3xl border border-gray-100 bg-white p-5 shadow-sm lg:flex-row lg:items-center lg:justify-between">
+          <div className="min-w-0">
+            <p className="text-[10px] font-black uppercase tracking-widest text-primary">
+              Program Management
+            </p>
+            <h2 className="mt-1 text-xl font-black text-navy">
+              Study programs overview
+            </h2>
+          </div>
+          <div className="grid grid-cols-3 gap-2 text-center">
+            <div className="rounded-2xl border border-gray-100 px-4 py-3">
+              <p className="text-lg font-black text-navy">{dataList.length}</p>
+              <p className="text-[10px] font-black uppercase tracking-wider text-gray-400">Shown</p>
+            </div>
+            <div className="rounded-2xl border border-gray-100 px-4 py-3">
+              <p className="text-lg font-black text-emerald-600">
+                {dataList.filter((item) => item.is_active).length}
+              </p>
+              <p className="text-[10px] font-black uppercase tracking-wider text-gray-400">Active</p>
+            </div>
+            <div className="rounded-2xl border border-gray-100 px-4 py-3">
+              <p className="text-lg font-black text-amber-600">{bachelorCount}/{masterCount}</p>
+              <p className="text-[10px] font-black uppercase tracking-wider text-gray-400">B/M</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
+          {dataList.map((program) => {
+            const translation = getPrimaryTranslation(program);
+            const faculty = programRelations.faculties[program.faculty_id];
+            const department = programRelations.departments[program.department_id];
+            const facultyTranslation = getPrimaryTranslation(faculty);
+            const departmentTranslation = getPrimaryTranslation(department);
+
+            return (
+              <article
+                key={program.id}
+                className="rounded-3xl border border-gray-100 bg-white p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
+              >
+                <div className="flex min-w-0 flex-col">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-amber-100 bg-amber-50 text-amber-700">
+                          <BookOpen className="h-5 w-5" />
+                        </span>
+                        <h3 className="min-w-0 truncate text-lg font-black text-navy">
+                          {translation.name || program.slug}
+                        </h3>
+                        <span
+                          className={`rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-wider ${
+                            program.is_active
+                              ? "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-100"
+                              : "bg-rose-50 text-rose-700 ring-1 ring-rose-100"
+                          }`}
+                        >
+                          {program.is_active ? "Active" : "Inactive"}
+                        </span>
+                      </div>
+
+                      <div className="mt-2 flex flex-wrap items-center gap-2 text-[11px] font-extrabold text-gray-400">
+                        <span className="inline-flex min-w-0 items-center gap-1 rounded-full bg-gray-50 px-2.5 py-1">
+                          <Hash className="h-3 w-3 shrink-0" />
+                          <span className="truncate">{program.slug}</span>
+                        </span>
+                        {(program.official_code || program.code) && (
+                          <span className="rounded-full bg-primary-light px-2.5 py-1 text-primary">
+                            {program.official_code || program.code}
+                          </span>
+                        )}
+                        <span className="rounded-full bg-amber-50 px-2.5 py-1 text-amber-700">
+                          {formatDegreeLabel(program.degree)}
+                        </span>
+                        {program.show_on_homepage && (
+                          <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-emerald-700">
+                            Home #{program.homepage_sort_order || "--"}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="flex shrink-0 items-center gap-1">
+                      <button
+                        type="button"
+                        onClick={() => handleOpenEdit(program)}
+                        className="rounded-xl border border-gray-100 p-2 text-gray-500 transition-all hover:border-primary/20 hover:bg-primary-light hover:text-primary"
+                        title={t("button.edit")}
+                      >
+                        <Pencil className="h-4 w-4" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setDeleteTarget(program)}
+                        className="rounded-xl border border-gray-100 p-2 text-gray-500 transition-all hover:border-rose-100 hover:bg-rose-50 hover:text-rose-600"
+                        title={t("button.delete")}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                    </div>
+                  </div>
+
+                  <p className="mt-3 line-clamp-2 text-xs font-semibold leading-5 text-gray-500">
+                    {translation.description || "No overview entered yet."}
+                  </p>
+
+                  <div className="mt-4 grid grid-cols-2 gap-2 lg:grid-cols-5">
+                    {[
+                      { label: "Years", value: program.duration_years || "--", icon: Clock },
+                      { label: "Mode", value: formatDegreeLabel(program.study_mode), icon: CheckCircle2 },
+                      { label: "Language", value: program.language_of_study || "--", icon: MessageCircle },
+                      { label: "Tuition", value: formatProgramTuition(program), icon: BookOpen },
+                      { label: "Home", value: program.show_on_homepage ? `#${program.homepage_sort_order || "--"}` : "Hidden", icon: ExternalLink },
+                    ].map((item) => {
+                      const Icon = item.icon;
+                      return (
+                        <div key={item.label} className="rounded-2xl border border-gray-100 bg-gray-50/60 p-3">
+                          <div className="flex items-center gap-2 text-gray-400">
+                            <Icon className="h-3.5 w-3.5" />
+                            <span className="truncate text-[10px] font-black uppercase tracking-wider">{item.label}</span>
+                          </div>
+                          <p className="mt-2 truncate text-sm font-black leading-none text-navy" title={String(item.value)}>
+                            {item.value}
+                          </p>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  <div className="mt-4 grid gap-2 text-xs font-bold text-gray-500 sm:grid-cols-2">
+                    <span className="flex min-w-0 items-center gap-2">
+                      <GraduationCap className="h-3.5 w-3.5 shrink-0 text-primary" />
+                      <span className="truncate">
+                        {facultyTranslation.name || `Faculty #${program.faculty_id}`}
+                      </span>
+                    </span>
+                    <span className="flex min-w-0 items-center gap-2">
+                      <Building2 className="h-3.5 w-3.5 shrink-0 text-primary" />
+                      <span className="truncate">
+                        {departmentTranslation.name || `Department #${program.department_id}`}
+                      </span>
+                    </span>
+                    {program.track && (
+                      <span className="flex min-w-0 items-center gap-2 sm:col-span-2">
+                        <Hash className="h-3.5 w-3.5 shrink-0 text-primary" />
+                        <span className="truncate">{program.track}</span>
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="mt-5 flex flex-wrap items-center gap-2 border-t border-gray-50 pt-4">
+                    <button
+                      type="button"
+                      onClick={() => navigate(`/programs/${program.slug}`)}
+                      className="inline-flex items-center gap-1.5 rounded-xl border border-gray-100 px-3 py-2 text-[11px] font-black text-navy transition-all hover:bg-gray-50"
+                    >
+                      <ExternalLink className="h-3.5 w-3.5" />
+                      Public page
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => navigate("/apanel/faculties")}
+                      className="inline-flex items-center gap-1.5 rounded-xl border border-gray-100 px-3 py-2 text-[11px] font-black text-navy transition-all hover:bg-gray-50"
+                    >
+                      <GraduationCap className="h-3.5 w-3.5" />
+                      Faculties
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => navigate("/apanel/departments")}
+                      className="inline-flex items-center gap-1.5 rounded-xl border border-gray-100 px-3 py-2 text-[11px] font-black text-navy transition-all hover:bg-gray-50"
+                    >
+                      <Building2 className="h-3.5 w-3.5" />
+                      Departments
+                    </button>
+                  </div>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      </section>
+    );
+  };
+
+  const renderCourseManagementBoard = () => {
+    if (resource !== "courses" || loading || dataList.length === 0) return null;
+
+    const credits = dataList.reduce((sum, item) => sum + Number(item.credits || 0), 0);
+    const semesters = new Set(dataList.map((item) => item.semester).filter(Boolean)).size;
+
+    return (
+      <section className="space-y-4">
+        <div className="flex flex-col gap-3 rounded-3xl border border-gray-100 bg-white p-5 shadow-sm lg:flex-row lg:items-center lg:justify-between">
+          <div className="min-w-0">
+            <p className="text-[10px] font-black uppercase tracking-widest text-primary">
+              Course Management
+            </p>
+            <h2 className="mt-1 text-xl font-black text-navy">
+              Course catalog overview
+            </h2>
+          </div>
+          <div className="grid grid-cols-3 gap-2 text-center">
+            <div className="rounded-2xl border border-gray-100 px-4 py-3">
+              <p className="text-lg font-black text-navy">{dataList.length}</p>
+              <p className="text-[10px] font-black uppercase tracking-wider text-gray-400">Shown</p>
+            </div>
+            <div className="rounded-2xl border border-gray-100 px-4 py-3">
+              <p className="text-lg font-black text-cyan-600">{credits}</p>
+              <p className="text-[10px] font-black uppercase tracking-wider text-gray-400">Credits</p>
+            </div>
+            <div className="rounded-2xl border border-gray-100 px-4 py-3">
+              <p className="text-lg font-black text-amber-600">{semesters}</p>
+              <p className="text-[10px] font-black uppercase tracking-wider text-gray-400">Semesters</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
+          {dataList.map((course) => {
+            const translation = getPrimaryTranslation(course);
+
+            return (
+              <article
+                key={course.id}
+                className="rounded-3xl border border-gray-100 bg-white p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
+              >
+                <div className="flex min-w-0 flex-col">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-blue-100 bg-blue-50 text-blue-700">
+                          <BookOpen className="h-5 w-5" />
+                        </span>
+                        <h3 className="min-w-0 truncate text-lg font-black text-navy">
+                          {translation.name || course.code || `Course #${course.id}`}
+                        </h3>
+                        <span
+                          className={`rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-wider ${
+                            course.is_active
+                              ? "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-100"
+                              : "bg-rose-50 text-rose-700 ring-1 ring-rose-100"
+                          }`}
+                        >
+                          {course.is_active ? "Active" : "Inactive"}
+                        </span>
+                      </div>
+
+                      <div className="mt-2 flex flex-wrap items-center gap-2 text-[11px] font-extrabold text-gray-400">
+                        <span className="inline-flex min-w-0 items-center gap-1 rounded-full bg-gray-50 px-2.5 py-1">
+                          <Hash className="h-3 w-3 shrink-0" />
+                          <span className="truncate">{course.code || `ID ${course.id}`}</span>
+                        </span>
+                        <span className="rounded-full bg-cyan-50 px-2.5 py-1 text-cyan-700">
+                          {course.credits || 0} credits
+                        </span>
+                        <span className="rounded-full bg-amber-50 px-2.5 py-1 text-amber-700">
+                          Semester {course.semester || "—"}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="flex shrink-0 items-center gap-1">
+                      <button
+                        type="button"
+                        onClick={() => handleOpenEdit(course)}
+                        className="rounded-xl border border-gray-100 p-2 text-gray-500 transition-all hover:border-primary/20 hover:bg-primary-light hover:text-primary"
+                        title={t("button.edit")}
+                      >
+                        <Pencil className="h-4 w-4" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setDeleteTarget(course)}
+                        className="rounded-xl border border-gray-100 p-2 text-gray-500 transition-all hover:border-rose-100 hover:bg-rose-50 hover:text-rose-600"
+                        title={t("button.delete")}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                    </div>
+                  </div>
+
+                  <p className="mt-3 line-clamp-3 text-xs font-semibold leading-5 text-gray-500">
+                    {translation.description || "No course description entered yet."}
+                  </p>
+
+                  <div className="mt-4 grid grid-cols-3 gap-2">
+                    {[
+                      { label: "Code", value: course.code || "—", icon: Hash },
+                      { label: "Credits", value: course.credits || 0, icon: Clock },
+                      { label: "Semester", value: course.semester || "—", icon: GraduationCap },
+                    ].map((item) => {
+                      const Icon = item.icon;
+                      return (
+                        <div key={item.label} className="rounded-2xl border border-gray-100 bg-gray-50/60 p-3">
+                          <div className="flex items-center gap-2 text-gray-400">
+                            <Icon className="h-3.5 w-3.5" />
+                            <span className="truncate text-[10px] font-black uppercase tracking-wider">{item.label}</span>
+                          </div>
+                          <p className="mt-2 truncate text-sm font-black leading-none text-navy" title={String(item.value)}>
+                            {item.value}
+                          </p>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  <div className="mt-5 flex flex-wrap items-center gap-2 border-t border-gray-50 pt-4">
+                    <button
+                      type="button"
+                      onClick={() => handleOpenEdit(course)}
+                      className="inline-flex items-center gap-1.5 rounded-xl border border-gray-100 px-3 py-2 text-[11px] font-black text-navy transition-all hover:bg-gray-50"
+                    >
+                      <Pencil className="h-3.5 w-3.5" />
+                      Edit course
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => navigate("/apanel/programs")}
+                      className="inline-flex items-center gap-1.5 rounded-xl border border-gray-100 px-3 py-2 text-[11px] font-black text-navy transition-all hover:bg-gray-50"
+                    >
+                      <BookOpen className="h-3.5 w-3.5" />
+                      Programs
+                    </button>
+                  </div>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      </section>
+    );
+  };
+
+  const renderStaffManagementBoard = () => {
+    if (resource !== "staff" || loading || dataList.length === 0) return null;
+
+    const visibleActive = dataList.filter((item) => item.is_active).length;
+    const visibleWithPhotos = dataList.filter((item) => item.photo || item.photo_url).length;
+    const visibleDepartments = new Set(dataList.map((item) => item.department_id).filter(Boolean)).size;
+
+    return (
+      <section className="space-y-4">
+        <div className="flex flex-col gap-3 rounded-3xl border border-gray-100 bg-white p-5 shadow-sm lg:flex-row lg:items-center lg:justify-between">
+          <div className="min-w-0">
+            <p className="text-[10px] font-black uppercase tracking-widest text-primary">
+              Staff Management
+            </p>
+            <h2 className="mt-1 text-xl font-black text-navy">
+              Academic and leadership profiles
+            </h2>
+          </div>
+          <div className="grid grid-cols-3 gap-2 text-center">
+            <div className="rounded-2xl border border-gray-100 px-4 py-3">
+              <p className="text-lg font-black text-navy">{dataList.length}</p>
+              <p className="text-[10px] font-black uppercase tracking-wider text-gray-400">Shown</p>
+            </div>
+            <div className="rounded-2xl border border-gray-100 px-4 py-3">
+              <p className="text-lg font-black text-emerald-600">{visibleActive}</p>
+              <p className="text-[10px] font-black uppercase tracking-wider text-gray-400">Active</p>
+            </div>
+            <div className="rounded-2xl border border-gray-100 px-4 py-3">
+              <p className="text-lg font-black text-cyan-600">{visibleWithPhotos}/{visibleDepartments}</p>
+              <p className="text-[10px] font-black uppercase tracking-wider text-gray-400">Photos/Dept</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
+          {dataList.map((staff) => {
+            const translation = getPrimaryTranslation(staff);
+            const faculty = staffRelations.faculties[staff.faculty_id];
+            const department = staffRelations.departments[staff.department_id];
+            const facultyTranslation = getPrimaryTranslation(faculty);
+            const departmentTranslation = getPrimaryTranslation(department);
+            const displayName = translation.full_name || staff.full_name || staff.slug || `Staff #${staff.id}`;
+            const position = translation.position || staff.position || "Staff profile";
+            const portrait = publicAssetUrl(staff.photo_url || staff.photo || "");
+
+            return (
+              <article
+                key={staff.id}
+                className="rounded-3xl border border-gray-100 bg-white p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
+              >
+                <div className="flex min-w-0 gap-4">
+                  <div className="h-20 w-20 shrink-0 overflow-hidden rounded-2xl border border-gray-100 bg-gradient-to-br from-primary-light to-cyan-50 shadow-inner">
+                    {portrait ? (
+                      <img
+                        src={portrait}
+                        alt={displayName}
+                        className="h-full w-full object-cover"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <div className="flex h-full w-full items-center justify-center text-lg font-black text-primary">
+                        {getInitials(displayName)}
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="min-w-0">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <h3 className="min-w-0 truncate text-lg font-black text-navy">
+                            {displayName}
+                          </h3>
+                          <span
+                            className={`rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-wider ${
+                              staff.is_active
+                                ? "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-100"
+                                : "bg-rose-50 text-rose-700 ring-1 ring-rose-100"
+                            }`}
+                          >
+                            {staff.is_active ? "Active" : "Inactive"}
+                          </span>
+                        </div>
+                        <p className="mt-1 truncate text-xs font-black uppercase tracking-wider text-primary">
+                          {position}
+                        </p>
+                        <div className="mt-2 flex flex-wrap items-center gap-2 text-[11px] font-extrabold text-gray-400">
+                          <span className="inline-flex min-w-0 items-center gap-1 rounded-full bg-gray-50 px-2.5 py-1">
+                            <Hash className="h-3 w-3 shrink-0" />
+                            <span className="truncate">{staff.slug || `ID ${staff.id}`}</span>
+                          </span>
+                          {portrait ? (
+                            <span className="rounded-full bg-cyan-50 px-2.5 py-1 text-cyan-700">Photo ready</span>
+                          ) : (
+                            <span className="rounded-full bg-amber-50 px-2.5 py-1 text-amber-700">No photo</span>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="flex shrink-0 items-center gap-1">
+                        <button
+                          type="button"
+                          onClick={() => handleOpenEdit(staff)}
+                          className="rounded-xl border border-gray-100 p-2 text-gray-500 transition-all hover:border-primary/20 hover:bg-primary-light hover:text-primary"
+                          title={t("button.edit")}
+                        >
+                          <Pencil className="h-4 w-4" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setDeleteTarget(staff)}
+                          className="rounded-xl border border-gray-100 p-2 text-gray-500 transition-all hover:border-rose-100 hover:bg-rose-50 hover:text-rose-600"
+                          title={t("button.delete")}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </button>
+                      </div>
+                    </div>
+
+                    <p className="mt-3 line-clamp-2 text-xs font-semibold leading-5 text-gray-500">
+                      {translation.bio || "No biography entered yet."}
+                    </p>
+
+                    <div className="mt-4 grid gap-2 text-xs font-bold text-gray-500 sm:grid-cols-2">
+                      <span className="flex min-w-0 items-center gap-2">
+                        <GraduationCap className="h-3.5 w-3.5 shrink-0 text-primary" />
+                        <span className="truncate">
+                          {facultyTranslation.name || (staff.faculty_id ? `Faculty #${staff.faculty_id}` : "No faculty")}
+                        </span>
+                      </span>
+                      <span className="flex min-w-0 items-center gap-2">
+                        <Building2 className="h-3.5 w-3.5 shrink-0 text-primary" />
+                        <span className="truncate">
+                          {departmentTranslation.name || (staff.department_id ? `Department #${staff.department_id}` : "Faculty leadership")}
+                        </span>
+                      </span>
+                      {staff.phone && (
+                        <span className="flex min-w-0 items-center gap-2">
+                          <Phone className="h-3.5 w-3.5 shrink-0 text-primary" />
+                          <span className="truncate">{staff.phone}</span>
+                        </span>
+                      )}
+                      {staff.email && (
+                        <span className="flex min-w-0 items-center gap-2">
+                          <Mail className="h-3.5 w-3.5 shrink-0 text-primary" />
+                          <span className="truncate">{staff.email}</span>
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="mt-5 flex flex-wrap items-center gap-2 border-t border-gray-50 pt-4">
+                      <button
+                        type="button"
+                        onClick={() => navigate(`/profile/${staff.slug}`)}
+                        className="inline-flex items-center gap-1.5 rounded-xl border border-gray-100 px-3 py-2 text-[11px] font-black text-navy transition-all hover:bg-gray-50"
+                      >
+                        <ExternalLink className="h-3.5 w-3.5" />
+                        Public profile
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => navigate("/apanel/faculties")}
+                        className="inline-flex items-center gap-1.5 rounded-xl border border-gray-100 px-3 py-2 text-[11px] font-black text-navy transition-all hover:bg-gray-50"
+                      >
+                        <GraduationCap className="h-3.5 w-3.5" />
+                        Faculties
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => navigate("/apanel/departments")}
+                        className="inline-flex items-center gap-1.5 rounded-xl border border-gray-100 px-3 py-2 text-[11px] font-black text-navy transition-all hover:bg-gray-50"
+                      >
+                        <Building2 className="h-3.5 w-3.5" />
+                        Departments
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      </section>
+    );
+  };
+
   return (
     <div className="space-y-6 animate-in fade-in duration-200">
       {/* Toast Notification */}
@@ -1471,6 +2820,12 @@ export default function ApanelCrud() {
         </div>
       )}
 
+      {renderFacultyManagementBoard()}
+      {renderDepartmentManagementBoard()}
+      {renderProgramManagementBoard()}
+      {renderCourseManagementBoard()}
+      {renderStaffManagementBoard()}
+
       {/* Table view */}
       {loading && dataList.length === 0 ? (
         <div className="flex items-center justify-center min-h-75">
@@ -1505,14 +2860,30 @@ export default function ApanelCrud() {
 
       {/* Form Dialog Panel */}
       {isFormOpen && (
-        <div className="fixed inset-0 z-9999 flex items-center justify-center bg-navy/40 backdrop-blur-xs p-4 overflow-y-auto">
-          <div className="bg-white border border-gray-100 rounded-3xl max-w-3xl w-full p-6 shadow-2xl animate-in fade-in zoom-in-95 duration-200 my-8">
-            <h3 className="font-extrabold text-navy text-lg border-b border-gray-50 pb-4 mb-6 uppercase tracking-wider">
-              {editItem
-                ? `${t("apanel.crud.editRecord")} ${schema.title} (#${editItem.id})`
-                : `${t("apanel.crud.createNew")} ${schema.title}`}
-            </h3>
+        <div className="fixed inset-0 z-9999 flex items-center justify-center bg-navy/45 p-3 backdrop-blur-xs sm:p-5">
+          <div className="flex max-h-[calc(100vh-1.5rem)] w-full max-w-6xl flex-col overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-2xl animate-in fade-in zoom-in-95 duration-200 sm:max-h-[calc(100vh-2.5rem)]">
+            <div className="flex shrink-0 items-start justify-between gap-4 border-b border-gray-50 px-5 py-4 sm:px-6">
+              <div className="min-w-0">
+                <p className="text-[10px] font-black uppercase tracking-widest text-primary">
+                  {schema.title}
+                </p>
+                <h3 className="mt-1 truncate text-lg font-black text-navy">
+                  {editItem
+                    ? `${t("apanel.crud.editRecord")} #${editItem.id}`
+                    : t("apanel.crud.createNew")}
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsFormOpen(false)}
+                className="rounded-xl border border-gray-100 p-2 text-gray-400 transition-all hover:bg-gray-50 hover:text-navy"
+                title={t("button.cancel")}
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
 
+            <div className="flex min-h-0 flex-1 flex-col px-5 py-4 sm:px-6">
             <FormBuilder
               fields={formFields}
               initialValues={editItem || {}}
@@ -1521,7 +2892,9 @@ export default function ApanelCrud() {
               isSubmitting={isSubmitting}
               isEdit={!!editItem}
               validationErrors={validationErrors}
+              modalMode
             />
+            </div>
           </div>
         </div>
       )}

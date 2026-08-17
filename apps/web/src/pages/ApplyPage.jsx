@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
 import { authStorage } from "../lib/auth";
+import { applyPageCmsService } from "../services/applyPageCmsService";
 import { initialApplicationService } from "../services/initialApplicationService";
 
 const steps = ["personal", "academic", "review"];
@@ -55,18 +56,27 @@ const initialForm = {
 };
 
 const cleanPhone = (value) => value.replace(/[^\d+]/g, "");
+const normalizeOptionKey = (value) =>
+  String(value || "").replace(/[^a-zA-Z0-9]+/g, "_");
 const optionKey = (group, value) =>
-  `initialApplication.options.${group}.${String(value || "").replace(/[^a-zA-Z0-9]+/g, "_")}`;
+  `initialApplication.options.${group}.${normalizeOptionKey(value)}`;
+const resolvePath = (source, keyPath) => {
+  if (!source || !keyPath) return undefined;
+  return keyPath.split(".").reduce(
+    (value, key) => (value && value[key] !== undefined ? value[key] : undefined),
+    source,
+  );
+};
 
 function Field({ id, label, error, children, hint }) {
   return (
-    <div className="space-y-1.5">
-      <label htmlFor={id} className="text-[11px] font-extrabold text-navy uppercase tracking-wider">
+    <div className="min-w-0 space-y-1.5">
+      <label htmlFor={id} className="block break-words text-[11px] font-extrabold uppercase tracking-wider text-navy">
         {label}
       </label>
       {children}
-      {hint && <p className="text-[11px] font-semibold text-gray-400">{hint}</p>}
-      {error && <p className="text-xs font-bold text-red-500">{error}</p>}
+      {hint && <p className="break-words text-[11px] font-semibold text-gray-400">{hint}</p>}
+      {error && <p className="break-words text-xs font-bold text-red-500">{error}</p>}
     </div>
   );
 }
@@ -75,11 +85,11 @@ function Input({ id, label, error, hint, icon: Icon, ...props }) {
   return (
     <Field id={id} label={label} error={error} hint={hint}>
       <div className="relative">
-        {Icon && <Icon className="absolute left-3 top-3.5 w-4 h-4 text-gray-400" />}
+        {Icon && <Icon className="absolute left-3 top-3.5 h-4 w-4 text-gray-400 rtl:left-auto rtl:right-3" />}
         <input
           id={id}
           aria-invalid={Boolean(error)}
-          className={`w-full ${Icon ? "pl-10" : "pl-4"} pr-4 py-3 rounded-xl border text-sm font-semibold outline-none focus:ring-2 bg-white ${error ? "border-red-300 focus:ring-red-100" : "border-gray-200 focus:border-primary focus:ring-primary/15"}`}
+          className={`w-full min-w-0 rounded-xl border bg-white py-3 text-sm font-semibold outline-none focus:ring-2 ${Icon ? "pl-10 rtl:pl-4 rtl:pr-10" : "pl-4 rtl:pr-4"} pr-4 ${error ? "border-red-300 focus:ring-red-100" : "border-gray-200 focus:border-primary focus:ring-primary/15"}`}
           {...props}
         />
       </div>
@@ -93,7 +103,7 @@ function Select({ id, label, error, options, placeholder, ...props }) {
       <select
         id={id}
         aria-invalid={Boolean(error)}
-        className={`w-full px-4 py-3 rounded-xl border text-sm font-semibold outline-none focus:ring-2 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-400 ${error ? "border-red-300 focus:ring-red-100" : "border-gray-200 bg-white focus:border-primary focus:ring-primary/15"}`}
+        className={`w-full min-w-0 rounded-xl border px-4 py-3 text-sm font-semibold outline-none focus:ring-2 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-400 ${error ? "border-red-300 focus:ring-red-100" : "border-gray-200 bg-white focus:border-primary focus:ring-primary/15"}`}
         {...props}
       >
         <option value="">{placeholder}</option>
@@ -108,8 +118,8 @@ function Select({ id, label, error, options, placeholder, ...props }) {
 function ReviewBox({ title, action, children }) {
   return (
     <section className="rounded-2xl border border-gray-100 bg-gray-50/70 p-5">
-      <div className="mb-4 flex items-center justify-between gap-3">
-        <h3 className="text-sm font-extrabold text-navy">{title}</h3>
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <h3 className="min-w-0 break-words text-sm font-extrabold text-navy">{title}</h3>
         <button type="button" onClick={action.onClick} className="text-xs font-extrabold text-primary hover:underline">
           {action.label}
         </button>
@@ -121,24 +131,66 @@ function ReviewBox({ title, action, children }) {
 
 function Row({ label, value }) {
   return (
-    <div className="flex justify-between gap-4 py-2 text-xs">
-      <span className="font-bold text-gray-400">{label}</span>
-      <span className="text-right font-extrabold text-navy">{value || "--"}</span>
+    <div className="flex flex-col gap-1 py-2 text-xs sm:flex-row sm:justify-between sm:gap-4">
+      <span className="break-words font-bold text-gray-400">{label}</span>
+      <span className="break-words font-extrabold text-navy sm:text-end">{value || "--"}</span>
+    </div>
+  );
+}
+
+function ApplySkeleton({ isRtl }) {
+  return (
+    <div className="min-h-screen bg-primary-light/35 pt-20" dir={isRtl ? "rtl" : "ltr"}>
+      <header className="bg-navy px-4 py-12 text-center text-white">
+        <div className="mx-auto max-w-4xl">
+          <div className="mx-auto mb-4 h-10 w-10 rounded-full bg-white/10" />
+          <div className="mx-auto h-9 w-80 max-w-full rounded-xl bg-white/10" />
+          <div className="mx-auto mt-4 h-4 w-120 max-w-full rounded-lg bg-white/10" />
+        </div>
+      </header>
+      <main className="mx-auto max-w-5xl px-4 py-10">
+        <div className="mb-8 grid grid-cols-1 gap-2 sm:grid-cols-3">
+          {[1, 2, 3].map((item) => (
+            <div key={item} className="rounded-2xl border border-gray-100 bg-white p-4">
+              <div className="mx-auto mb-2 h-8 w-8 rounded-full bg-gray-100" />
+              <div className="mx-auto h-3 w-20 rounded bg-gray-100" />
+            </div>
+          ))}
+        </div>
+        <div className="rounded-3xl border border-gray-100 bg-white p-5 shadow-sm md:p-8">
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+            {[1, 2, 3, 4, 5, 6].map((item) => (
+              <div key={item} className="space-y-2">
+                <div className="h-3 w-28 rounded bg-gray-100" />
+                <div className="h-12 rounded-xl bg-gray-100" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </main>
     </div>
   );
 }
 
 export default function ApplyPage() {
   const { t: translate, language, isRtl } = useLanguage();
+  const [pageContent, setPageContent] = useState({});
   const t = useMemo(
     () =>
       new Proxy(
         {},
         {
-          get: (_, key) => translate(`initialApplication.${String(key)}`),
+          get: (_, key) => {
+            const value = resolvePath(pageContent, String(key));
+            if (value !== undefined && value !== null && typeof value !== "object") {
+              return value;
+            }
+
+            return translate(`initialApplication.${String(key)}`);
+          },
         },
       ),
-    [translate],
+    [pageContent, translate],
   );
 
   const firstErrorRef = useRef(null);
@@ -154,10 +206,14 @@ export default function ApplyPage() {
 
   useEffect(() => {
     let active = true;
-    initialApplicationService.getMetadata()
-      .then((data) => {
+    Promise.all([
+      initialApplicationService.getMetadata(),
+      applyPageCmsService.getPage().catch(() => null),
+    ])
+      .then(([data, page]) => {
         if (!active) return;
         setMetadata(data);
+        setPageContent(page?.content || {});
         setForm((current) => ({
           ...current,
           passport_type: data.passport_types?.includes("ordinary") ? "ordinary" : data.passport_types?.[0] || "",
@@ -196,7 +252,9 @@ export default function ApplyPage() {
   const selectedProgram = programs.find((program) => String(program.id) === String(form.program_id));
   const selectedProgramEducationTypes = selectedProgram?.available_education_types || [];
   const selectedProgramLanguages = selectedProgram?.available_study_languages || [];
-  const optionLabel = (group, value) => translate(optionKey(group, value));
+  const optionLabel = (group, value) =>
+    resolvePath(pageContent, `options.${group}.${normalizeOptionKey(value)}`)
+    || translate(optionKey(group, value));
   const passwordScore = [
     form.password.length >= 8,
     /[A-Za-z]/.test(form.password),
@@ -316,22 +374,22 @@ export default function ApplyPage() {
   };
 
   if (loading) {
-    return null;
+    return <ApplySkeleton isRtl={isRtl} />;
   }
 
   if (success) {
     return (
-      <div className="min-h-screen pt-24 bg-primary-light/40 px-4 py-10">
-        <div className="mx-auto max-w-2xl rounded-3xl border border-gray-100 bg-white p-8 text-center shadow-sm">
+      <div className="min-h-screen bg-primary-light/40 px-4 py-24" dir={isRtl ? "rtl" : "ltr"}>
+        <div className="mx-auto max-w-2xl rounded-2xl border border-gray-100 bg-white p-6 text-center shadow-sm sm:p-8">
           <CheckCircle2 className="mx-auto mb-5 h-14 w-14 text-emerald-500" />
-          <h1 className="mb-2 text-2xl font-extrabold text-navy">{t.successTitle}</h1>
-          <p className="mx-auto mb-6 max-w-xl text-sm font-semibold leading-relaxed text-gray-500">{t.successText}</p>
+          <h1 className="mb-2 break-words text-2xl font-extrabold text-navy">{t.successTitle}</h1>
+          <p className="mx-auto mb-6 max-w-xl break-words text-sm font-semibold leading-relaxed text-gray-500">{t.successText}</p>
           <div className="mb-6 rounded-2xl border border-primary/10 bg-primary/5 p-5">
             <p className="text-xs font-bold text-gray-400">{t.fullName}</p>
-            <p className="mb-3 text-lg font-extrabold text-navy">{form.full_name_english}</p>
+            <p className="mb-3 break-words text-lg font-extrabold text-navy">{form.full_name_english}</p>
             <p className="text-xs font-bold text-gray-400">{t.applicationNumber}</p>
-            <p className="text-xl font-black tracking-widest text-primary">{success.application_number}</p>
-            <p className="mt-3 text-xs font-bold text-gray-400">{form.email}</p>
+            <p className="break-words text-xl font-black tracking-widest text-primary">{success.application_number}</p>
+            <p className="mt-3 break-words text-xs font-bold text-gray-400">{form.email}</p>
           </div>
           <button onClick={goDashboard} className="rounded-xl bg-primary px-6 py-3 text-sm font-extrabold text-white shadow-md shadow-primary/20 hover:bg-primary-hover">
             {t.dashboard}
@@ -343,29 +401,29 @@ export default function ApplyPage() {
 
   return (
     <div
-      className="min-h-screen bg-primary-light/35 pt-20"
+      className="min-h-screen overflow-hidden bg-primary-light/35 pt-20"
       dir={isRtl ? "rtl" : "ltr"}
     >
       <header className="bg-navy px-4 py-12 text-center text-white">
         <div className="mx-auto max-w-4xl">
           <GraduationCap className="mx-auto mb-3 h-10 w-10 text-primary" />
-          <h1 className="text-2xl !text-white font-extrabold md:text-4xl">
+          <h1 className="break-words text-2xl !text-white font-extrabold md:text-4xl">
             {t.title}
           </h1>
-          <p className="mt-3 text-sm font-semibold text-white">
+          <p className="mt-3 break-words text-sm font-semibold leading-relaxed text-white">
             {t.subtitle}
           </p>
         </div>
       </header>
 
       <main className="mx-auto max-w-5xl px-4 py-10">
-        <div className="mb-8 grid grid-cols-3 gap-2">
+        <div className="mb-8 grid grid-cols-1 gap-2 sm:grid-cols-3">
           {steps.map((item, index) => (
             <button
               key={item}
               type="button"
               onClick={() => index < step && setStep(index)}
-              className={`rounded-2xl border p-3 text-center text-xs font-extrabold ${index <= step ? "border-primary/20 bg-white text-primary" : "border-gray-100 bg-white/70 text-gray-400"}`}
+              className={`min-w-0 rounded-2xl border p-3 text-center text-xs font-extrabold ${index <= step ? "border-primary/20 bg-white text-primary" : "border-gray-100 bg-white/70 text-gray-400"}`}
             >
               <span
                 className={`mx-auto mb-2 flex h-8 w-8 items-center justify-center rounded-full ${index < step ? "bg-emerald-500 text-white" : index === step ? "bg-primary text-white" : "bg-gray-100 text-gray-400"}`}
@@ -376,7 +434,7 @@ export default function ApplyPage() {
                   index + 1
                 )}
               </span>
-              {t[item]}
+              <span className="block break-words">{t[item]}</span>
             </button>
           ))}
         </div>
@@ -398,11 +456,11 @@ export default function ApplyPage() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: direction > 0 ? -40 : 40 }}
             transition={{ duration: 0.2 }}
-            className="rounded-3xl border border-gray-100 bg-white p-5 shadow-sm md:p-8"
+            className="min-w-0 rounded-2xl border border-gray-100 bg-white p-5 shadow-sm md:p-8"
           >
             {step === 0 && (
               <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-                <div className="md:col-span-2 rounded-2xl bg-primary/5 p-4 text-sm font-semibold text-primary">
+                <div className="break-words rounded-2xl bg-primary/5 p-4 text-sm font-semibold leading-relaxed text-primary md:col-span-2">
                   {t.passportHint}
                 </div>
                 <Input
@@ -715,7 +773,7 @@ export default function ApplyPage() {
                     error={errors.password}
                   >
                     <div className="relative">
-                      <Lock className="absolute left-3 top-3.5 h-4 w-4 text-gray-400" />
+                      <Lock className="absolute left-3 top-3.5 h-4 w-4 text-gray-400 rtl:left-auto rtl:right-3" />
                       <input
                         id="password"
                         type={showPassword ? "text" : "password"}
@@ -723,12 +781,13 @@ export default function ApplyPage() {
                         value={form.password}
                         onChange={(e) => setValue("password", e.target.value)}
                         placeholder={t.passwordPlaceholder}
-                        className={`w-full rounded-xl border bg-white py-3 pl-10 pr-11 text-sm font-semibold outline-none focus:ring-2 ${errors.password ? "border-red-300 focus:ring-red-100" : "border-gray-200 focus:border-primary focus:ring-primary/15"}`}
+                        className={`w-full min-w-0 rounded-xl border bg-white py-3 pl-10 pr-11 text-sm font-semibold outline-none focus:ring-2 rtl:pl-11 rtl:pr-10 ${errors.password ? "border-red-300 focus:ring-red-100" : "border-gray-200 focus:border-primary focus:ring-primary/15"}`}
                       />
                       <button
                         type="button"
                         onClick={() => setShowPassword((x) => !x)}
-                        className="absolute right-3 top-3 text-gray-400"
+                        aria-label={showPassword ? translate("auth.hidePassword") : translate("auth.showPassword")}
+                        className="absolute right-3 top-3 text-gray-400 rtl:right-auto rtl:left-3"
                       >
                         {showPassword ? (
                           <EyeOff className="h-4 w-4" />
@@ -818,9 +877,9 @@ export default function ApplyPage() {
                     onChange={(e) =>
                       setValue("terms_agreement", e.target.checked)
                     }
-                    className="mt-1 accent-primary"
+                    className="mt-1 shrink-0 accent-primary"
                   />
-                  <span>
+                  <span className="min-w-0 break-words">
                     {t.terms}
                     {errors.terms_agreement && (
                       <em className="ml-2 not-italic text-red-500">
@@ -836,9 +895,9 @@ export default function ApplyPage() {
                     onChange={(e) =>
                       setValue("information_confirmation", e.target.checked)
                     }
-                    className="mt-1 accent-primary"
+                    className="mt-1 shrink-0 accent-primary"
                   />
-                  <span>
+                  <span className="min-w-0 break-words">
                     {t.confirm}
                     {errors.information_confirmation && (
                       <em className="ml-2 not-italic text-red-500">
@@ -852,19 +911,19 @@ export default function ApplyPage() {
           </motion.section>
         </AnimatePresence>
 
-        <div className="mt-8 flex items-center justify-between gap-4">
+        <div className="mt-8 flex flex-col items-stretch justify-between gap-3 sm:flex-row sm:items-center">
           {step > 0 ? (
             <button
               type="button"
               onClick={back}
-              className="inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-5 py-3 text-sm font-extrabold text-navy hover:border-primary hover:text-primary"
+              className="inline-flex items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-5 py-3 text-sm font-extrabold text-navy hover:border-primary hover:text-primary"
             >
-              <ChevronLeft className="h-4 w-4" /> {t.back}
+              <ChevronLeft className={`h-4 w-4 ${isRtl ? "rotate-180" : ""}`} /> {t.back}
             </button>
           ) : (
             <Link
               to="/programs"
-              className="text-sm font-bold text-gray-400 hover:text-primary"
+              className="inline-flex justify-center rounded-xl px-5 py-3 text-sm font-bold text-gray-400 hover:text-primary"
             >
               {t.back}
             </Link>
@@ -874,16 +933,16 @@ export default function ApplyPage() {
             <button
               type="button"
               onClick={next}
-              className="inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-extrabold text-white shadow-md shadow-primary/20 hover:bg-primary-hover"
+              className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-extrabold text-white shadow-md shadow-primary/20 hover:bg-primary-hover"
             >
-              {t.next} <ChevronRight className="h-4 w-4" />
+              {t.next} <ChevronRight className={`h-4 w-4 ${isRtl ? "rotate-180" : ""}`} />
             </button>
           ) : (
             <button
               type="button"
               disabled={submitting}
               onClick={submit}
-              className="inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-extrabold text-white shadow-md shadow-primary/20 hover:bg-primary-hover disabled:opacity-70"
+              className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-extrabold text-white shadow-md shadow-primary/20 hover:bg-primary-hover disabled:opacity-70"
             >
               {submitting ? (
                 <Loader2 className="h-4 w-4 animate-spin" />

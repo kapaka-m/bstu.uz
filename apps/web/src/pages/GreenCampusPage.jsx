@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
-  Search,
-  Calendar,
-  User,
+  AlertCircle,
   ArrowRight,
+  Award,
+  Calendar,
+  Eye,
+  Globe,
   Leaf,
   Mail,
-  Award,
-  Globe,
+  Search,
   TreePine,
+  User,
   Users,
-  Eye,
 } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
 import { greenCampusService } from "../services/greenCampusService";
@@ -25,8 +26,15 @@ const ICON_MAP = {
   users: Users,
 };
 
+const asText = (value, fallback = "") => {
+  if (typeof value === "string" || typeof value === "number") return String(value);
+  if (Array.isArray(value)) return value.filter(Boolean).join(" ");
+  if (value && typeof value === "object") return Object.values(value).filter(Boolean).join(" ");
+  return fallback;
+};
+
 export default function GreenCampusPage() {
-  const { language, t } = useLanguage();
+  const { language, t, isRtl } = useLanguage();
   const location = useLocation();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -34,6 +42,7 @@ export default function GreenCampusPage() {
   const [stats, setStats] = useState([]);
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   const formatArticleDate = (dateValue) => {
     return formatLocalizedDate(dateValue, language, t, {
@@ -54,6 +63,7 @@ export default function GreenCampusPage() {
   useEffect(() => {
     let active = true;
     setLoading(true);
+    setError("");
 
     Promise.all([
       greenCampusService.getSettings(),
@@ -71,6 +81,7 @@ export default function GreenCampusPage() {
         setSettings({});
         setStats([]);
         setArticles([]);
+        setError(t("common.loadError") || "Unable to load green campus content.");
       })
       .finally(() => {
         if (active) setLoading(false);
@@ -79,26 +90,27 @@ export default function GreenCampusPage() {
     return () => {
       active = false;
     };
-  }, [language]);
+  }, [language, t]);
 
   const categoryLabels = settings.category_labels || {};
   const categoryLabel = (category) => categoryLabels[category] || category;
 
   const filteredArticles = articles.filter((article) => {
-    const titleTrans = (article.title || "").toLowerCase();
-    const excerptTrans = (article.excerpt || "").toLowerCase();
+    const titleTrans = asText(article.title).toLowerCase();
+    const excerptTrans = asText(article.excerpt).toLowerCase();
+    const category = asText(article.category).toLowerCase();
     const matchesSearch =
       titleTrans.includes(searchQuery.toLowerCase()) ||
       excerptTrans.includes(searchQuery.toLowerCase());
     const matchesCategory =
       selectedCategory === "all" ||
-      article.category.toLowerCase() === selectedCategory.toLowerCase();
+      category === selectedCategory.toLowerCase();
     return matchesSearch && matchesCategory;
   });
 
   const uniqueCategories = [
     "all",
-    ...new Set(articles.map((a) => a.category.toLowerCase())),
+    ...new Set(articles.map((a) => asText(a.category).toLowerCase()).filter(Boolean)),
   ];
   const categories = uniqueCategories.map((cat) => {
     const name = cat === "all" ? settings.all_label || "" : categoryLabel(cat);
@@ -106,7 +118,7 @@ export default function GreenCampusPage() {
       cat === "all"
         ? articles.length
         : articles.filter(
-            (a) => a.category.toLowerCase() === cat,
+            (a) => asText(a.category).toLowerCase() === cat,
           ).length;
     return { name, count, value: cat };
   });
@@ -114,14 +126,46 @@ export default function GreenCampusPage() {
   const recentArticles = articles.slice(0, Number(settings.recent_limit || 4));
 
   if (loading) {
-    return null;
+    return (
+      <div className="pt-20 bg-white min-h-screen overflow-x-hidden">
+        <div className="bg-linear-to-r from-emerald-600 to-green-700 py-10">
+          <div className="container mx-auto px-4 md:px-8 max-w-7xl">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              {[1, 2, 3, 4].map((item) => (
+                <div key={item} className="flex flex-col items-center gap-3">
+                  <div className="w-8 h-8 rounded-full bg-white/20 animate-pulse" />
+                  <div className="h-7 w-16 rounded-full bg-white/20 animate-pulse" />
+                  <div className="h-3 w-24 rounded-full bg-white/20 animate-pulse" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div className="container mx-auto px-4 md:px-8 max-w-7xl py-12">
+          <div className="h-3 w-32 rounded-full bg-gray-100 animate-pulse mb-4" />
+          <div className="h-10 w-full max-w-xl rounded-full bg-gray-100 animate-pulse mb-10" />
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+            <div className="lg:col-span-8 flex flex-col gap-6">
+              {[1, 2, 3].map((item) => (
+                <div key={item} className="h-64 rounded-3xl bg-gray-100 animate-pulse" />
+              ))}
+            </div>
+            <div className="lg:col-span-4 hidden lg:flex flex-col gap-6">
+              {[1, 2, 3].map((item) => (
+                <div key={item} className="h-40 rounded-3xl bg-gray-100 animate-pulse" />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div className="pt-20 bg-white">
+    <div className="pt-20 bg-white min-h-screen overflow-x-hidden" dir={isRtl ? "rtl" : "ltr"}>
       {/* Stats Banner */}
       <div className="bg-linear-to-r from-emerald-600 to-green-700 py-10">
-        <div className="container mx-auto px-4 md:px-8 max-w-7xl">
+        <div className="container mx-auto px-4 md:px-8 max-w-7xl min-w-0">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {stats.map((stat, idx) => {
               const Icon = ICON_MAP[stat.icon] || Leaf;
@@ -134,8 +178,8 @@ export default function GreenCampusPage() {
                   <span className="text-2xl md:text-3xl font-black tracking-tight">
                     {stat.value}
                   </span>
-                  <span className="text-emerald-100 text-xs font-semibold leading-snug">
-                    {stat.label}
+                  <span className="text-emerald-100 text-xs font-semibold leading-snug break-words">
+                    {asText(stat.label)}
                   </span>
                 </div>
               );
@@ -144,14 +188,25 @@ export default function GreenCampusPage() {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 md:px-8 max-w-7xl py-16 md:py-24 text-start">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-          <div className="order-1 lg:hidden">
-            <div className="bg-gray-50 border border-gray-100 p-8 rounded-3xl">
+      <div className="container mx-auto px-4 md:px-8 max-w-7xl py-12 md:py-20 text-start min-w-0">
+        {error && (
+          <div className="mb-8 rounded-2xl border border-red-100 bg-red-50 p-5 text-start">
+            <div className="flex items-start gap-3">
+              <AlertCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
+              <p className="text-sm font-semibold text-gray-600 break-words">
+                {error}
+              </p>
+            </div>
+          </div>
+        )}
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start min-w-0">
+          <div className="order-1 lg:hidden min-w-0">
+            <div className="bg-gray-50 border border-gray-100 p-5 sm:p-8 rounded-3xl min-w-0">
               <h4 className="text-base font-extrabold text-navy mb-4 border-b border-gray-200/50 pb-2">
                 {settings.search_title || ""}
               </h4>
-              <div className="relative">
+              <div className="relative min-w-0">
                 <input
                   id="green-campus-search-input-mobile"
                   name="green_campus_search_mobile"
@@ -160,77 +215,83 @@ export default function GreenCampusPage() {
                   placeholder={settings.search_placeholder || ""}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 rounded-xl bg-white border border-gray-200 focus:outline-none focus:border-emerald-500 text-sm font-semibold transition-colors"
+                  className="w-full min-w-0 ps-10 pe-4 py-3 rounded-xl bg-white border border-gray-200 focus:outline-none focus:border-emerald-500 text-sm font-semibold transition-colors"
                 />
-                <Search className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
+                <Search className="w-4 h-4 text-gray-400 absolute start-3.5 top-3.5" />
               </div>
             </div>
           </div>
 
           {/* Left: Green Campus Articles List */}
-          <div className="order-2 lg:order-1 lg:col-span-8 flex flex-col gap-10">
+          <div className="order-2 lg:order-1 lg:col-span-8 flex flex-col gap-10 min-w-0">
             {filteredArticles.length > 0 ? (
               filteredArticles.map((article) => (
                 <article
                   key={article.id}
-                  className="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col md:flex-row gap-0 group text-start"
+                  className="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col md:flex-row gap-0 group text-start min-w-0"
                 >
                   {/* Photo area */}
                   <Link
                     to={`/green-campus/${article.id}`}
                     className="w-full md:w-72 shrink-0 overflow-hidden block bg-gray-50"
                   >
-                    <img
-                      src={article.image}
-                      alt={article.title}
-                      className="w-full h-52 md:h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      loading="lazy"
-                      onError={(e) => {
-                        e.currentTarget.style.display = "none";
-                      }}
-                    />
+                    {article.image ? (
+                      <img
+                        src={article.image}
+                        alt={asText(article.title)}
+                        className="w-full h-52 md:h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        loading="lazy"
+                        onError={(e) => {
+                          e.currentTarget.style.display = "none";
+                        }}
+                      />
+                    ) : (
+                      <div className="w-full h-52 md:h-full flex items-center justify-center text-emerald-600 bg-emerald-50">
+                        <Leaf className="w-10 h-10" />
+                      </div>
+                    )}
                   </Link>
 
                   {/* Content area */}
-                  <div className="flex flex-col gap-3 grow justify-between p-6">
+                  <div className="flex flex-col gap-3 grow justify-between p-6 min-w-0">
                     <div className="flex flex-col gap-3">
                       {/* Meta info */}
                       <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs font-semibold text-gray-400">
                         <span className="bg-emerald-50 text-emerald-600 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">
-                          {categoryLabel(article.category)}
+                          {categoryLabel(asText(article.category))}
                         </span>
                         <span className="flex items-center gap-1.5">
                           <Calendar className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                          {formatArticleDate(article.date)}
+                          <span className="truncate">{formatArticleDate(article.date)}</span>
                         </span>
-                        <span className="flex items-center gap-1.5">
+                        <span className="flex items-center gap-1.5 min-w-0">
                           <User className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
                           {article.publisher?.slug ? (
-                            <Link to={`/publishers/${article.publisher.slug}`} className="hover:text-emerald-600 transition-colors">
-                              {article.publisher.name || article.author}
+                            <Link to={`/publishers/${article.publisher.slug}`} className="min-w-0 hover:text-emerald-600 transition-colors break-words">
+                              {asText(article.publisher.name || article.author)}
                             </Link>
                           ) : (
-                            article.author
+                            <span className="break-words">{asText(article.author)}</span>
                           )}
                         </span>
                         {article.views && (
                           <span className="flex items-center gap-1.5">
                             <Eye className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                            {article.views.toLocaleString(language)}
+                            <span className="truncate">{article.views.toLocaleString(language)}</span>
                           </span>
                         )}
                       </div>
 
                       {/* Title */}
-                      <h2 className="text-xl font-extrabold text-navy group-hover:text-emerald-600 transition-colors leading-tight">
+                      <h2 className="text-xl font-extrabold text-navy group-hover:text-emerald-600 transition-colors leading-tight break-words">
                         <Link to={`/green-campus/${article.id}`}>
-                          {article.title}
+                          {asText(article.title)}
                         </Link>
                       </h2>
 
                       {/* Excerpt */}
-                      <p className="text-gray-500 text-xs font-semibold leading-relaxed line-clamp-3">
-                        {article.excerpt}
+                      <p className="text-gray-500 text-xs font-semibold leading-relaxed line-clamp-3 break-words">
+                        {asText(article.excerpt)}
                       </p>
 
                       {/* Gallery preview */}
@@ -243,7 +304,7 @@ export default function GreenCampusPage() {
                               alt=""
                               className="w-14 h-10 object-cover rounded-lg opacity-80 hover:opacity-100 transition-opacity"
                               onError={(e) => {
-                                e.target.style.display = "none";
+                                e.currentTarget.style.display = "none";
                               }}
                             />
                           ))}
@@ -259,10 +320,10 @@ export default function GreenCampusPage() {
                     {/* Link */}
                     <Link
                       to={`/green-campus/${article.id}`}
-                      className="pt-4 border-t border-gray-50 flex items-center justify-between text-xs font-extrabold text-emerald-600 group-hover:text-emerald-700 cursor-pointer"
+                    className="pt-4 border-t border-gray-50 flex min-w-0 items-center justify-between gap-3 text-xs font-extrabold text-emerald-600 group-hover:text-emerald-700 cursor-pointer"
                     >
                       <span>{settings.read_more_label || ""}</span>
-                      <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1 rtl:rotate-180" />
+                      <ArrowRight className={`w-4 h-4 shrink-0 transition-transform ${isRtl ? "rotate-180 group-hover:-translate-x-1" : "group-hover:translate-x-1"}`} />
                     </Link>
                   </div>
                 </article>
@@ -278,13 +339,13 @@ export default function GreenCampusPage() {
           </div>
 
           {/* Right: Sidebar */}
-          <div className="order-3 lg:order-2 lg:col-span-4 flex flex-col gap-8">
+          <div className="order-3 lg:order-2 lg:col-span-4 flex flex-col gap-8 min-w-0">
             {/* Search widget */}
-            <div className="hidden lg:block bg-gray-50 border border-gray-100 p-8 rounded-3xl">
+            <div className="hidden lg:block bg-gray-50 border border-gray-100 p-8 rounded-3xl min-w-0">
               <h4 className="text-base font-extrabold text-navy mb-4 border-b border-gray-200/50 pb-2">
                 {settings.search_title || ""}
               </h4>
-              <div className="relative">
+              <div className="relative min-w-0">
                 <input
                   id="green-campus-search-input"
                   name="green_campus_search"
@@ -293,14 +354,14 @@ export default function GreenCampusPage() {
                   placeholder={settings.search_placeholder || ""}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 rounded-xl bg-white border border-gray-200 focus:outline-none focus:border-emerald-500 text-sm font-semibold transition-colors"
+                  className="w-full min-w-0 ps-10 pe-4 py-3 rounded-xl bg-white border border-gray-200 focus:outline-none focus:border-emerald-500 text-sm font-semibold transition-colors"
                 />
-                <Search className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
+                <Search className="w-4 h-4 text-gray-400 absolute start-3.5 top-3.5" />
               </div>
             </div>
 
             {/* Categories widget */}
-            <div className="bg-gray-50 border border-gray-100 p-8 rounded-3xl">
+            <div className="bg-gray-50 border border-gray-100 p-5 sm:p-8 rounded-3xl min-w-0">
               <h4 className="text-base font-extrabold text-navy mb-4 border-b border-gray-200/50 pb-2">
                 {settings.categories_title || ""}
               </h4>
@@ -309,13 +370,13 @@ export default function GreenCampusPage() {
                   <li key={cat.value}>
                     <button
                       onClick={() => setSelectedCategory(cat.value)}
-                      className={`w-full flex items-center justify-between py-1.5 transition-all text-start ${
+                      className={`w-full flex min-w-0 items-center justify-between gap-3 py-1.5 transition-all text-start ${
                         selectedCategory === cat.value
                           ? "text-emerald-600 font-bold"
                           : "text-gray-500 hover:text-navy"
                       }`}
                     >
-                      <span>{cat.name}</span>
+                      <span className="min-w-0 break-words">{cat.name}</span>
                       <span className="text-[10px] bg-white border border-gray-200/80 text-gray-400 px-2 py-0.5 rounded-md font-bold shrink-0">
                         {cat.count}
                       </span>
@@ -326,7 +387,7 @@ export default function GreenCampusPage() {
             </div>
 
             {/* Recent Posts widget */}
-            <div className="bg-gray-50 border border-gray-100 p-8 rounded-3xl">
+            <div className="bg-gray-50 border border-gray-100 p-5 sm:p-8 rounded-3xl min-w-0">
               <h4 className="text-base font-extrabold text-navy mb-5 border-b border-gray-200/50 pb-2">
                 {settings.recent_title || ""}
               </h4>
@@ -334,20 +395,26 @@ export default function GreenCampusPage() {
                 {recentArticles.map((article) => (
                   <div
                     key={article.id}
-                    className="flex gap-4 items-start group"
+                    className="flex min-w-0 gap-4 items-start group"
                   >
-                    <img
-                      src={article.image}
-                      alt={article.title}
-                      className="w-16 h-12 object-cover rounded-lg bg-white shrink-0"
-                      onError={(e) => {
-                        e.currentTarget.style.display = "none";
-                      }}
-                    />
+                    {article.image ? (
+                      <img
+                        src={article.image}
+                        alt={asText(article.title)}
+                        className="w-16 h-12 object-cover rounded-lg bg-white shrink-0"
+                        onError={(e) => {
+                          e.currentTarget.style.display = "none";
+                        }}
+                      />
+                    ) : (
+                      <div className="w-16 h-12 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+                        <Leaf className="w-5 h-5" />
+                      </div>
+                    )}
                     <div className="flex flex-col gap-1 text-start min-w-0">
-                      <h5 className="text-xs font-bold text-navy group-hover:text-emerald-600 transition-colors leading-snug line-clamp-2">
+                      <h5 className="text-xs font-bold text-navy group-hover:text-emerald-600 transition-colors leading-snug line-clamp-2 break-words">
                         <Link to={`/green-campus/${article.id}`}>
-                          {article.title}
+                          {asText(article.title)}
                         </Link>
                       </h5>
                       <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">
@@ -363,16 +430,16 @@ export default function GreenCampusPage() {
             <div className="bg-linear-to-br from-emerald-600 to-emerald-700 text-white p-8 rounded-3xl flex flex-col gap-5 text-center shadow-lg shadow-emerald-600/10">
               <Leaf className="w-10 h-10 mx-auto text-emerald-100" />
               <div>
-                <h4 className="text-lg font-bold mb-2">
+                <h4 className="text-lg font-bold mb-2 break-words">
                   {settings.callout_title || ""}
                 </h4>
-                <p className="text-emerald-100 text-xs leading-relaxed">
+                <p className="text-emerald-100 text-xs leading-relaxed break-words">
                   {settings.callout_description || ""}
                 </p>
               </div>
               <a
                 href={`mailto:${settings.callout_email || ""}`}
-                className="bg-white text-emerald-600 hover:bg-emerald-50 px-6 py-3.5 rounded-xl text-xs font-bold transition-all shadow-sm flex items-center justify-center gap-2"
+                className="bg-white text-emerald-600 hover:bg-emerald-50 px-6 py-3.5 rounded-xl text-xs font-bold transition-all shadow-sm flex min-w-0 items-center justify-center gap-2"
               >
                 <Mail className="w-4 h-4" />
                 {settings.callout_cta_label || ""}

@@ -54,7 +54,7 @@ export default function Stats() {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={inView ? { opacity: 1, scale: 1 } : {}}
         transition={{ duration: 0.5, delay: index * 0.08 }}
-        className="bg-white border border-gray-100/50 p-4 md:p-5 rounded-2xl shadow-sm flex items-center gap-4 h-full min-h-24"
+        className="bg-white border border-gray-100/50 p-4 lg:p-5 rounded-2xl shadow-sm flex items-center gap-3 lg:gap-4 h-full min-h-24"
       >
         <div
           className={`w-11 h-11 md:w-12 md:h-12 rounded-xl border flex items-center justify-center ${stat.color} shrink-0`}
@@ -62,11 +62,11 @@ export default function Stats() {
           <IconComponent className="w-5.5 h-5.5 md:w-6 md:h-6" />
         </div>
         <div className="flex flex-col text-start min-w-0">
-          <span className="text-xl md:text-2xl font-extrabold text-navy leading-none">
+          <span className="text-xl md:text-2xl font-extrabold text-navy leading-none whitespace-nowrap">
             {inView ? <CountUp end={stat.value} duration={2} separator="," /> : "0"}
             {stat.suffix}
           </span>
-          <span className="text-gray-500 font-bold text-[10px] md:text-xs mt-1.5 leading-tight line-clamp-2">
+          <span className="text-gray-500 font-bold text-[10px] md:text-xs mt-1.5 leading-tight break-words">
             {stat.label}
           </span>
         </div>
@@ -80,8 +80,8 @@ export default function Stats() {
         <div className="md:hidden">
           <Swiper
             modules={[Autoplay]}
-            slidesPerView={1.12}
-            spaceBetween={14}
+            slidesPerView={1}
+            spaceBetween={12}
             loop={stats.length > 2}
             speed={4500}
             autoplay={{
@@ -89,7 +89,7 @@ export default function Stats() {
               disableOnInteraction: false,
               pauseOnMouseEnter: true,
             }}
-            className="stats-mobile-swiper overflow-visible! [&_.swiper-wrapper]:items-stretch [&_.swiper-wrapper]:ease-linear"
+            className="stats-mobile-swiper overflow-hidden [&_.swiper-wrapper]:items-stretch [&_.swiper-wrapper]:ease-linear"
           >
             {stats.map((stat, index) => (
               <SwiperSlide key={`mobile-${index}`} className="h-auto">
@@ -99,7 +99,7 @@ export default function Stats() {
           </Swiper>
         </div>
 
-        <div className="hidden md:grid md:grid-cols-4 gap-4 md:gap-5">
+        <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
           {stats.map((stat, index) => renderStatCard(stat, index))}
         </div>
       </div>

@@ -1,9 +1,10 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Clock, GraduationCap, Search, X } from "lucide-react";
+import { ArrowRight, Building2, Clock, GraduationCap, Hash, Search, X } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
 import { programService } from "../services/programService";
 import { facultyService } from "../services/facultyService";
+import { useHomeSection } from "../hooks/useHomeSection";
 
 const colorConfig = {
   cyan: {
@@ -77,12 +78,15 @@ const normalizeProgram = (program, index) => ({
   durationYears: program.duration_years,
   facultyId: program.faculty?.slug || program.faculty_slug || program.faculty_id,
   departmentId: program.department?.slug || program.department_slug || program.department_id,
+  facultyName: program.faculty?.short_name || program.faculty?.name || "",
+  departmentName: program.department?.short_name || program.department?.name || "",
   color: program.color || paletteKeys[index % paletteKeys.length],
   icon: GraduationCap,
 });
 
-export default function Programs({ limit, showRemaining }) {
+export default function Programs({ limit, showRemaining, featured = false }) {
   const { t, language, isRtl } = useLanguage();
+  const { section: homeSection, loading: homeSectionLoading } = useHomeSection("programs");
   const [selectedFaculty, setSelectedFaculty] = useState("all");
   const [selectedDegree, setSelectedDegree] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
@@ -94,7 +98,10 @@ export default function Programs({ limit, showRemaining }) {
     let active = true;
     setLoading(true);
 
-    Promise.all([programService.getPrograms(), facultyService.getFaculties()])
+    Promise.all([
+      programService.getPrograms(featured ? { featured: "home" } : {}),
+      facultyService.getFaculties(),
+    ])
       .then(([programItems, facultyItems]) => {
         if (!active) return;
         setPrograms((programItems || []).map(normalizeProgram));
@@ -112,7 +119,7 @@ export default function Programs({ limit, showRemaining }) {
     return () => {
       active = false;
     };
-  }, [language]);
+  }, [featured, language]);
 
   const getProgramName = (program) => program.name;
   const getProgramDescription = (program) => program.description;
@@ -153,42 +160,60 @@ export default function Programs({ limit, showRemaining }) {
     })),
   ], [faculties, t]);
 
-  if (loading) {
+  const homeMode = Boolean(featured || limit);
+
+  if (loading || (homeMode && homeSectionLoading)) {
     return null;
   }
 
+  const sectionEyebrow = homeMode ? homeSection?.eyebrow || "" : t("home.programs.tag");
+  const sectionTitle = homeMode ? homeSection?.title || "" : t("home.programs.title");
+  const viewAllLabel = homeMode ? homeSection?.cta_label || "" : t("home.programs.viewAll");
+  const homeLabel = (key, fallback = "") =>
+    homeSection?.items?.find((item) => item.item_key === key)?.label || fallback;
+  const exploreLabel = homeMode ? homeLabel("explore_label") : t("home.programs.explore");
+  const hasActiveFilters = searchQuery || selectedFaculty !== "all" || selectedDegree !== "all";
+
   return (
-    <section id="programs" className="py-24 bg-primary-light/50 border-t border-gray-100">
+    <section id="programs" className="bg-primary-light/50 py-16 border-t border-gray-100 sm:py-20 lg:py-24">
       <div className="container mx-auto px-4 md:px-8 max-w-7xl">
         
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-16">
+        <div className="mx-auto mb-10 max-w-2xl text-center sm:mb-14">
           <h2 className="text-sm font-extrabold uppercase tracking-widest text-primary mb-3">
-            {t("home.programs.tag")}
+            {sectionEyebrow}
           </h2>
           <p className="text-3xl md:text-4xl font-extrabold text-navy">
-            {t("home.programs.title")}
+            {sectionTitle}
           </p>
           <div className="w-16 h-1 bg-primary mx-auto mt-4 rounded-full" />
         </div>
 
         {/* Filters Bar - Only visible on full programs catalog page */}
         {!limit && (
-          <div className="flex flex-col gap-4 mb-12">
+          <div className="mb-10 flex min-w-0 flex-col gap-4 rounded-3xl border border-gray-100 bg-white p-3 shadow-sm sm:p-5">
             {/* Search Bar */}
             <div className="relative">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+              <Search
+                className={`pointer-events-none absolute top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400 ${
+                  isRtl ? "right-4" : "left-4"
+                }`}
+              />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
                 placeholder={t("programs.searchPlaceholder")}
-                className="w-full pl-11 pr-11 py-3.5 bg-white border border-gray-200 rounded-2xl text-sm font-semibold text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all shadow-sm"
+                className={`w-full rounded-2xl border border-gray-200 bg-gray-50 px-11 py-3.5 text-sm font-semibold text-navy shadow-inner outline-none transition-all placeholder:text-gray-400 focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/15 ${
+                  isRtl ? "text-right" : "text-left"
+                }`}
               />
               {searchQuery && (
                 <button
                   onClick={() => setSearchQuery("")}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-navy transition-colors"
+                  className={`absolute top-1/2 -translate-y-1/2 rounded-lg p-1 text-gray-400 transition-colors hover:bg-white hover:text-navy ${
+                    isRtl ? "left-3" : "right-3"
+                  }`}
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -196,9 +221,9 @@ export default function Programs({ limit, showRemaining }) {
             </div>
 
             {/* Faculty & Degree Filters */}
-            <div className="flex flex-col lg:flex-row justify-between items-stretch lg:items-center gap-4 bg-white p-5 rounded-3xl border border-gray-100 shadow-sm">
+            <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
               {/* Faculty Filters */}
-              <div className="flex flex-wrap gap-2 text-start justify-center lg:justify-start">
+              <div className="student-header-scroll flex max-h-32 flex-wrap gap-2 overflow-y-auto text-start sm:max-h-none lg:justify-start">
                 {facultyFilters.map(fac => (
                   <button
                     key={fac.id}
@@ -215,7 +240,7 @@ export default function Programs({ limit, showRemaining }) {
               </div>
 
               {/* Degree Filters */}
-              <div className="flex gap-2 justify-center lg:justify-end border-t pt-4 border-gray-100 lg:border-t-0 lg:pt-0">
+              <div className="grid grid-cols-2 gap-2 border-t border-gray-100 pt-4 sm:flex lg:shrink-0 lg:border-t-0 lg:pt-0">
                 {[
                   { id: "all", label: t("common.allDegrees") },
                   { id: "bachelor", label: t("home.programs.degrees.bachelor") },
@@ -225,7 +250,7 @@ export default function Programs({ limit, showRemaining }) {
                   <button
                     key={deg.id}
                     onClick={() => setSelectedDegree(deg.id)}
-                    className={`text-xs font-extrabold px-4 py-2.5 rounded-xl transition-all cursor-pointer ${
+                    className={`text-xs font-extrabold px-4 py-2.5 rounded-xl transition-all cursor-pointer whitespace-nowrap ${
                       selectedDegree === deg.id
                         ? "bg-primary text-white shadow-md shadow-primary/10"
                         : "bg-gray-50 text-gray-500 hover:bg-gray-100"
@@ -238,11 +263,25 @@ export default function Programs({ limit, showRemaining }) {
             </div>
 
             {/* Results count */}
-            {(searchQuery || selectedFaculty !== "all" || selectedDegree !== "all") && (
-              <p className="text-xs font-bold text-gray-400 text-center">
-                {displayPrograms.length} {t("programs.resultsFound")}
+            <div className="flex flex-col gap-2 border-t border-gray-50 pt-3 text-xs font-bold text-gray-400 sm:flex-row sm:items-center sm:justify-between">
+              <p>
+                <span className="text-navy">{displayPrograms.length}</span> {t("programs.resultsFound")}
               </p>
-            )}
+              {hasActiveFilters && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSelectedFaculty("all");
+                    setSelectedDegree("all");
+                    setSearchQuery("");
+                  }}
+                  className="inline-flex w-fit items-center gap-1.5 rounded-xl bg-gray-50 px-3 py-2 text-[11px] font-extrabold text-primary transition-all hover:bg-primary/10"
+                >
+                  <X className="h-3.5 w-3.5" />
+                  {t("common.clearFilters")}
+                </button>
+              )}
+            </div>
           </div>
         )}
 
@@ -254,7 +293,7 @@ export default function Programs({ limit, showRemaining }) {
             <p className="text-sm text-gray-500">{t("programs.noResults.desc")}</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
             {displayPrograms.map((program) => {
             const Icon = program.icon || GraduationCap;
             const colors = colorConfig[program.color] || colorConfig.cyan;
@@ -264,12 +303,20 @@ export default function Programs({ limit, showRemaining }) {
             
             const degreeKey = program.degree.toLowerCase();
             const degreeTranslationKey = degreeKey ? `home.programs.degrees.${degreeKey}` : "";
-            const degreeTranslation = degreeTranslationKey ? t(degreeTranslationKey) : "";
+            const degreeTranslation = homeMode
+              ? homeLabel(`degree_${degreeKey}`)
+              : degreeTranslationKey
+                ? t(degreeTranslationKey)
+                : "";
             const pDegree = degreeTranslation === degreeTranslationKey ? program.degree : degreeTranslation;
             
             const durationKey = program.durationYears ? `years${program.durationYears}` : "";
             const durationTranslationKey = durationKey ? `home.programs.durations.${durationKey}` : "";
-            const durationTranslation = durationTranslationKey ? t(durationTranslationKey) : "";
+            const durationTranslation = homeMode
+              ? homeLabel(`duration_${durationKey}`)
+              : durationTranslationKey
+                ? t(durationTranslationKey)
+                : "";
             const pDuration =
               program.duration ||
               (durationTranslation === durationTranslationKey ? "" : durationTranslation);
@@ -277,22 +324,22 @@ export default function Programs({ limit, showRemaining }) {
             return (
               <div
                 key={program.id}
-                className={`group bg-white border ${colors.border} p-8 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1.5 flex flex-col text-start`}
+                className={`group flex min-w-0 flex-col rounded-3xl border ${colors.border} bg-white p-5 text-start shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl sm:p-6`}
               >
                 {/* Header: Icon & Badges */}
-                <div className="flex items-center justify-between mb-6">
-                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors duration-300 ${colors.icon}`}>
+                <div className="mb-5 flex items-start justify-between gap-3">
+                  <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl transition-colors duration-300 ${colors.icon}`}>
                     <Icon className="w-5 h-5" />
                   </div>
-                  <div className="flex gap-2">
+                  <div className="flex min-w-0 flex-wrap justify-end gap-2">
                     {pDegree && (
-                      <span className={`inline-flex items-center gap-1 text-[10px] font-extrabold uppercase border px-2.5 py-1 rounded-full ${colors.badge}`}>
+                      <span className={`inline-flex min-w-0 items-center gap-1 rounded-full border px-2.5 py-1 text-[10px] font-extrabold uppercase ${colors.badge}`}>
                         <GraduationCap className="w-3.5 h-3.5 shrink-0" />
-                        {pDegree}
+                        <span className="truncate">{pDegree}</span>
                       </span>
                     )}
                     {pDuration && (
-                      <span className="inline-flex items-center gap-1 text-[10px] font-bold text-gray-500 bg-gray-50 border border-gray-100 px-2.5 py-1 rounded-full">
+                      <span className="inline-flex items-center gap-1 rounded-full border border-gray-100 bg-gray-50 px-2.5 py-1 text-[10px] font-bold text-gray-500">
                         <Clock className="w-3.5 h-3.5 shrink-0" />
                         {pDuration}
                       </span>
@@ -301,21 +348,43 @@ export default function Programs({ limit, showRemaining }) {
                 </div>
 
                 {/* Content */}
-                <h3 className="text-xl font-bold text-navy mb-3 group-hover:text-primary transition-colors">
+                {program.code && (
+                  <div className="mb-3 inline-flex w-fit items-center gap-1.5 rounded-xl bg-gray-50 px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-gray-500">
+                    <Hash className="h-3.5 w-3.5 text-primary" />
+                    {program.code}
+                  </div>
+                )}
+                <h3 className="mb-3 line-clamp-2 min-h-14 text-lg font-extrabold leading-snug text-navy transition-colors group-hover:text-primary sm:text-xl">
                   {pName}
                 </h3>
-                <p className="text-gray-500 text-sm leading-relaxed mb-6 grow">
+                <p className="mb-5 line-clamp-4 grow text-sm font-semibold leading-relaxed text-gray-500">
                   {pDesc}
                 </p>
+                {(program.facultyName || program.departmentName) && (
+                  <div className="mb-5 space-y-2 rounded-2xl bg-gray-50 p-3 text-[11px] font-bold text-gray-500">
+                    {program.facultyName && (
+                      <div className="flex min-w-0 items-center gap-2">
+                        <Building2 className="h-3.5 w-3.5 shrink-0 text-primary" />
+                        <span className="truncate">{program.facultyName}</span>
+                      </div>
+                    )}
+                    {program.departmentName && (
+                      <div className="flex min-w-0 items-center gap-2">
+                        <GraduationCap className="h-3.5 w-3.5 shrink-0 text-primary" />
+                        <span className="truncate">{program.departmentName}</span>
+                      </div>
+                    )}
+                  </div>
+                )}
 
                 {/* Footer Link */}
-                <div className="pt-4 border-t border-gray-50">
+                <div className="border-t border-gray-50 pt-4">
                   <Link
                     to={`/programs/${program.id}`}
-                    className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-primary group-hover:underline"
+                    className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-primary"
                   >
-                    {t("home.programs.explore")}
-                    <span className={`transition-transform duration-300 ${isRtl ? 'rotate-180 group-hover:-translate-x-1' : 'group-hover:translate-x-1'}`}>→</span>
+                    {exploreLabel}
+                    <ArrowRight className={`h-4 w-4 transition-transform duration-300 ${isRtl ? "rotate-180 group-hover:-translate-x-1" : "group-hover:translate-x-1"}`} />
                   </Link>
                 </div>
               </div>
@@ -331,7 +400,7 @@ export default function Programs({ limit, showRemaining }) {
               to="/programs"
               className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-white px-8 py-4 rounded-xl font-extrabold text-sm transition-all shadow-md shadow-primary/20 hover:shadow-primary/30 hover:-translate-y-0.5"
             >
-              {t("home.programs.viewAll")}
+              {viewAllLabel}
               <ArrowRight className={`w-4 h-4 transition-transform ${isRtl ? 'rotate-180' : ''}`} />
             </Link>
           </div>

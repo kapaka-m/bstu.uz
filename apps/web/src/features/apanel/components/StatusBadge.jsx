@@ -2,10 +2,26 @@ import React from "react";
 import { useLanguage } from "../../../context/LanguageContext";
 
 export default function StatusBadge({ status }) {
-  const { t } = useLanguage();
+  const { t, hasTranslation } = useLanguage();
   const normalized = String(status || "")
     .toLowerCase()
-    .trim();
+    .trim()
+    .replace(/[\s-]+/g, "_");
+  const aliases = {
+    not_started: "notStarted",
+    pending_review: "pendingReview",
+    pending_verification: "pendingVerification",
+    waiting_documents: "waitingDocuments",
+    waiting_payment: "waitingPayment",
+  };
+  const translationKey = normalized ? `status.${aliases[normalized] || normalized}` : "";
+  const translated = translationKey && hasTranslation?.(translationKey) ? t(translationKey) : "";
+  const label = normalized
+    ? translated ||
+      normalized
+        .replaceAll("_", " ")
+        .replace(/\b\w/g, (letter) => letter.toUpperCase())
+    : "—";
 
   const configs = {
     // Boolean active/inactive
@@ -31,6 +47,15 @@ export default function StatusBadge({ status }) {
     paid: "bg-emerald-50 text-emerald-700 border-emerald-100",
     pending: "bg-amber-50 text-amber-700 border-amber-100",
     failed: "bg-red-50 text-red-700 border-red-100",
+    verified: "bg-emerald-50 text-emerald-700 border-emerald-100",
+    action_required: "bg-amber-50 text-amber-700 border-amber-100",
+    documents_required: "bg-amber-50 text-amber-700 border-amber-100",
+    application_fee_required: "bg-amber-50 text-amber-700 border-amber-100",
+    reupload_required: "bg-rose-50 text-rose-700 border-rose-100",
+    application_rejected: "bg-rose-50 text-rose-700 border-rose-100",
+    admission_issued: "bg-emerald-50 text-emerald-700 border-emerald-100",
+    result_issued: "bg-emerald-50 text-emerald-700 border-emerald-100",
+    student_review_required: "bg-amber-50 text-amber-700 border-amber-100",
   };
 
   const style =
@@ -38,9 +63,9 @@ export default function StatusBadge({ status }) {
 
   return (
     <span
-      className={`inline-flex items-center text-[10px] font-extrabold uppercase tracking-wider border px-2.5 py-0.5 rounded-full ${style}`}
+      className={`inline-flex min-h-6 max-w-full items-center rounded-full border px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-wider break-words ${style}`}
     >
-      {t(`status.${normalized}`)}
+      {label}
     </span>
   );
 }

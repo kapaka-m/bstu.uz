@@ -1,37 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { ArrowRight, Cpu, Globe, Briefcase, Zap } from "lucide-react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useLanguage } from "../context/LanguageContext";
-import { aboutService } from "../services/aboutService";
 import { publicAssetUrl } from "../lib/api";
 import { useHomeSection } from "../hooks/useHomeSection";
 
 export default function Features() {
-  const { language, isRtl } = useLanguage();
-  const [aboutPage, setAboutPage] = useState(null);
+  const { isRtl } = useLanguage();
   const { section } = useHomeSection("strategic_goals");
 
-  useEffect(() => {
-    let alive = true;
-
-    aboutService
-      .getPage(language)
-      .then((page) => {
-        if (alive) setAboutPage(page || null);
-      })
-      .catch(() => {
-        if (alive) setAboutPage(null);
-      });
-
-    return () => {
-      alive = false;
-    };
-  }, [language]);
-
-  const imageSrc = publicAssetUrl(
-    section?.settings?.image || aboutPage?.identity_image_url || aboutPage?.identity_image || "",
-  );
+  const imageSrc = publicAssetUrl(section?.settings?.image || "");
   const icons = [Cpu, Globe, Briefcase, Zap];
   const bstuBullets = (section?.items || [])
     .map((item, index) => ({ text: item.title || item.label, icon: icons[index] || Cpu }))

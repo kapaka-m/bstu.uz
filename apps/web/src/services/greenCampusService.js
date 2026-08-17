@@ -13,10 +13,16 @@ const cached = (key, fetcher) => {
     return Promise.resolve(cachedEntry.value);
   }
 
-  return fetcher().then((value) => {
+  const pending = fetcher().then((value) => {
     responseCache.set(cacheKey, { time: Date.now(), value });
     return value;
+  }).catch((error) => {
+    responseCache.delete(cacheKey);
+    throw error;
   });
+
+  responseCache.set(cacheKey, { time: Date.now(), value: pending });
+  return pending;
 };
 
 const normalizeDate = (value) => {
@@ -26,16 +32,19 @@ const normalizeDate = (value) => {
   return "";
 };
 
-const normalizeArticle = (item) => {
+const normalizeArticle = (item = {}) => {
   const gallery = Array.isArray(item.gallery) ? item.gallery : [];
   return {
     ...item,
     id: item.slug || item.id,
-    image: publicAssetUrl(item.image),
+    slug: item.slug || item.id,
+    image: publicAssetUrl(item.image_url || item.image || item.thumbnail_url || item.thumbnail || ""),
     gallery: gallery.map(publicAssetUrl).filter(Boolean),
     date: normalizeDate(item.published_at || item.created_at),
     category: item.category || "",
     categoryLabel: item.category_label || item.category || "",
+    title: item.title || "",
+    excerpt: item.summary || item.excerpt || item.description || "",
     publisher: item.publisher
       ? {
           ...item.publisher,

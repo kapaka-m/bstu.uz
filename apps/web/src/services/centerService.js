@@ -36,9 +36,14 @@ const profileSlugFromImage = (image = "") => {
   return profileSlugFromName(basename.replace(/[_]+/g, " "));
 };
 
+const cleanValue = (value = "") => {
+  const text = String(value || "").trim();
+  return text === "-" ? "" : text;
+};
+
 const normalizeCenter = (item = {}) => {
   const defaultTrans = item.translations?.find((t) => t.locale === "en") || item.translations?.[0] || {};
-  const head = item.head || defaultTrans.head || "";
+  const head = cleanValue(item.head || defaultTrans.head);
   const image = item.image || "";
   return {
     id: item.slug || item.id,
@@ -47,16 +52,16 @@ const normalizeCenter = (item = {}) => {
     name: item.name || defaultTrans.name || "",
     head,
     headProfileSlug: item.headProfileSlug || item.head_profile_slug || profileSlugFromName(head) || profileSlugFromImage(image),
-    headTitle: item.headTitle || defaultTrans.head_title || defaultTrans.headTitle || "",
-    officeHours: item.officeHours || defaultTrans.office_hours || defaultTrans.officeHours || "",
+    headTitle: cleanValue(item.headTitle || defaultTrans.head_title || defaultTrans.headTitle),
+    officeHours: cleanValue(item.officeHours || defaultTrans.office_hours || defaultTrans.officeHours),
     about: item.about || defaultTrans.about || "",
     functions: Array.isArray(item.functions) ? item.functions : (Array.isArray(defaultTrans.functions) ? defaultTrans.functions : []),
     image,
-    email: item.email || "",
-    phone: item.phone || "",
+    email: cleanValue(item.email),
+    phone: cleanValue(item.phone),
     sort_order: Number(item.sort_order ?? 0),
     is_active: Boolean(item.is_active ?? true),
-    headDescription: item.headDescription || defaultTrans.head_description || defaultTrans.headDescription || "",
+    headDescription: cleanValue(item.headDescription || defaultTrans.head_description || defaultTrans.headDescription),
   };
 };
 

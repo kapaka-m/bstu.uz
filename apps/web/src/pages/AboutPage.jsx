@@ -114,7 +114,7 @@ export default function AboutPage() {
   }
 
   return (
-    <div dir={isRtl ? "rtl" : "ltr"} className={`bg-white min-h-screen ${isRtl ? "text-right" : ""}`}>
+    <div dir={isRtl ? "rtl" : "ltr"} className={`bg-white min-h-screen overflow-x-hidden ${isRtl ? "text-right" : ""}`}>
       {/* SECTION 1: Immersive Hero Section (No standard breadcrumbs) */}
       <section className="relative pt-32 pb-24 overflow-hidden bg-linear-to-br from-navy-dark via-navy to-navy-dark text-white">
         {/* Glow Effects */}
@@ -123,14 +123,14 @@ export default function AboutPage() {
         {/* Grid pattern overlay */}
         <div className="absolute inset-0 bg-[radial-gradient(#ffffff0a_1px,transparent_1px)] bg-size-[16px_16px] pointer-events-none" />
 
-        <div className="container mx-auto px-4 md:px-8 max-w-7xl relative z-10">
-          <div dir={isRtl ? "rtl" : "ltr"} className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div className="container mx-auto px-4 md:px-8 max-w-7xl relative z-10 min-w-0">
+          <div dir={isRtl ? "rtl" : "ltr"} className="grid min-w-0 grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
             {/* Left Headline */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className={`lg:col-span-7 flex flex-col gap-6 ${isRtl ? "items-start text-right" : "items-start"}`}
+              className={`lg:col-span-7 flex min-w-0 flex-col gap-6 ${isRtl ? "items-start text-right" : "items-start"}`}
             >
               <div
                 className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/10 text-xs font-bold uppercase tracking-widest text-white! ${isRtl ? "self-start text-right" : "self-start"}`}
@@ -141,21 +141,21 @@ export default function AboutPage() {
               </div>
 
               <h1
-                className={`w-full text-4xl md:text-6xl font-black tracking-tight leading-tight uppercase font-heading text-white! ${isRtl ? "text-right" : ""}`}
+                className={`w-full text-3xl sm:text-4xl md:text-6xl font-black tracking-tight leading-tight uppercase font-heading text-white! break-words [overflow-wrap:anywhere] ${isRtl ? "text-right" : ""}`}
                 style={{ color: "#ffffff" }}
               >
                 {text("hero.title")}
               </h1>
 
-              <p className={`w-full text-white/80 text-sm md:text-base leading-relaxed max-w-2xl font-semibold ${isRtl ? "text-right self-start" : ""}`}>
+              <p className={`w-full text-white/80 text-sm md:text-base leading-relaxed max-w-2xl font-semibold break-words ${isRtl ? "text-right self-start" : ""}`}>
                 {text("hero.subtitle")}
               </p>
 
-              <div className={`flex w-full flex-wrap gap-4 mt-4 ${isRtl ? "justify-start self-start text-right" : ""}`}>
+              <div className={`flex w-full min-w-0 flex-col gap-3 mt-4 sm:flex-row sm:flex-wrap sm:gap-4 ${isRtl ? "justify-start self-start text-right" : ""}`}>
                 {heroContactUrl && text("hero.admissionsBtn") && (
                   <Link
                     to={heroContactUrl}
-                    className={`bg-primary hover:bg-primary-hover text-white px-8 py-4 rounded-2xl text-sm font-extrabold transition-all shadow-lg shadow-primary/20 flex items-center gap-2 group ${isRtl ? "text-right" : ""}`}
+                    className={`flex w-full items-center justify-center gap-2 bg-primary hover:bg-primary-hover text-white px-6 sm:px-8 py-4 rounded-2xl text-sm font-extrabold transition-all shadow-lg shadow-primary/20 group sm:w-auto ${isRtl ? "text-right" : ""}`}
                   >
                     {text("hero.admissionsBtn")}
                     <ArrowRight
@@ -166,7 +166,7 @@ export default function AboutPage() {
                 {heroCampusUrl && text("hero.campusBtn") && (
                   <Link
                     to={heroCampusUrl}
-                    className={`bg-white/10 hover:bg-white/20 text-white border border-white/20 px-8 py-4 rounded-2xl text-sm font-extrabold transition-all backdrop-blur-xs flex items-center gap-2 ${isRtl ? "text-right" : ""}`}
+                    className={`flex w-full items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white border border-white/20 px-6 sm:px-8 py-4 rounded-2xl text-sm font-extrabold transition-all backdrop-blur-xs sm:w-auto ${isRtl ? "text-right" : ""}`}
                   >
                     {text("hero.campusBtn")}
                   </Link>
@@ -179,12 +179,12 @@ export default function AboutPage() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="lg:col-span-5 relative"
+              className="lg:col-span-5 relative min-w-0"
             >
-              <div className="bg-white/5 border border-white/10 rounded-3xl p-8 backdrop-blur-xl shadow-2xl relative overflow-hidden">
+              <div className="bg-white/5 border border-white/10 rounded-3xl p-5 sm:p-8 backdrop-blur-xl shadow-2xl relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-2xl pointer-events-none" />
                 <h3
-                  className="text-xl font-bold mb-6 text-white! flex items-center gap-2"
+                  className="text-lg sm:text-xl font-bold mb-6 text-white! flex items-center gap-2 break-words"
                   style={{ color: "#ffffff" }}
                 >
                   <Compass className="w-5 h-5 text-white" />
@@ -243,27 +243,27 @@ export default function AboutPage() {
 
       {/* SECTION 2: Stacked University Core (Identity, Mission & Vision, Core Values) */}
       <section className="py-20 bg-white">
-        <div className="container mx-auto px-4 md:px-8 max-w-7xl space-y-24">
+        <div className="container mx-auto px-4 md:px-8 max-w-7xl space-y-20 md:space-y-24 min-w-0">
           {/* Subsection 1 */}
-          <div className="bg-primary-light/50 border border-primary-light rounded-4xl p-8 md:p-12 shadow-xs">
-            <div dir={isRtl ? "rtl" : "ltr"} className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div className="bg-primary-light/50 border border-primary-light rounded-3xl md:rounded-4xl p-5 sm:p-8 md:p-12 shadow-xs min-w-0">
+            <div dir={isRtl ? "rtl" : "ltr"} className="grid min-w-0 grid-cols-1 lg:grid-cols-12 gap-8 items-center">
               <div
-                className={`lg:col-span-7 flex flex-col gap-5 ${isRtl ? "items-start text-right" : "items-start"}`}
+                className={`lg:col-span-7 flex min-w-0 flex-col gap-5 ${isRtl ? "items-start text-right" : "items-start"}`}
               >
                 <span className={`inline-flex bg-primary/10 text-primary text-[10px] font-extrabold uppercase tracking-widest px-3 py-1.5 rounded-full ${isRtl ? "self-start text-right" : "self-start"}`}>
                   {text("identity.badge")}
                 </span>
-                <h2 className={`w-full text-2xl md:text-3xl font-extrabold text-navy uppercase leading-tight font-heading ${isRtl ? "text-right" : ""}`}>
+                <h2 className={`w-full text-2xl md:text-3xl font-extrabold text-navy uppercase leading-tight font-heading break-words [overflow-wrap:anywhere] ${isRtl ? "text-right" : ""}`}>
                   {text("identity.title")}
                 </h2>
-                <p className={`w-full text-gray-500 text-sm leading-relaxed font-semibold ${isRtl ? "text-right" : ""}`}>
+                <p className={`w-full text-gray-500 text-sm leading-relaxed font-semibold break-words ${isRtl ? "text-right" : ""}`}>
                   {text("identity.desc1")}
                 </p>
-                <p className={`w-full text-gray-500 text-sm leading-relaxed font-semibold ${isRtl ? "text-right" : ""}`}>
+                <p className={`w-full text-gray-500 text-sm leading-relaxed font-semibold break-words ${isRtl ? "text-right" : ""}`}>
                   {text("identity.desc2")}
                 </p>
               </div>
-              <div className="lg:col-span-5 relative">
+              <div className="lg:col-span-5 relative min-w-0">
                 <div className="aspect-4/3 rounded-3xl overflow-hidden shadow-lg bg-gray-50 border border-gray-100">
                   {identityImageSrc ? (
                     <img
@@ -403,7 +403,7 @@ export default function AboutPage() {
 
       {/* SECTION 3: Key University Stats Grid */}
       <section className="py-20 bg-primary-light/30 border-y border-gray-100">
-        <div className="container mx-auto px-4 md:px-8 max-w-7xl">
+        <div className="container mx-auto px-4 md:px-8 max-w-7xl min-w-0">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <span className="bg-primary/10 text-primary text-[10px] font-extrabold uppercase tracking-widest px-3 py-1.5 rounded-full mb-3 inline-block font-heading">
               {text("stats.badge")}
@@ -431,17 +431,17 @@ export default function AboutPage() {
                   <div
                     className={`flex justify-between items-start mb-4 ${isRtl ? "flex-row-reverse" : ""}`}
                   >
-                    <span className="text-3xl font-black text-navy group-hover:text-primary transition-colors">
+                    <span className="text-3xl font-black text-navy group-hover:text-primary transition-colors break-words">
                       {item.number}
                     </span>
                     <div className="w-10 h-10 rounded-xl bg-primary-light text-primary flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
                       <Icon className="w-5 h-5 text-primary" />
                     </div>
                   </div>
-                  <h4 className="text-sm font-extrabold text-navy mb-1 font-heading">
+                  <h4 className="text-sm font-extrabold text-navy mb-1 font-heading break-words">
                     {item.label}
                   </h4>
-                  <p className="text-gray-400 text-[11px] leading-relaxed font-semibold">
+                  <p className="text-gray-400 text-[11px] leading-relaxed font-semibold break-words">
                     {item.desc}
                   </p>
                 </motion.div>
@@ -453,7 +453,7 @@ export default function AboutPage() {
 
       {/* SECTION 4: Interactive Faculties Showcase */}
       <section className="py-20 bg-white">
-        <div className="container mx-auto px-4 md:px-8 max-w-7xl">
+        <div className="container mx-auto px-4 md:px-8 max-w-7xl min-w-0">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <span className="bg-primary/10 text-primary text-[10px] font-extrabold uppercase tracking-widest px-3 py-1.5 rounded-full mb-3 inline-block font-heading">
               {text("facultiesList.badge")}
@@ -474,26 +474,26 @@ export default function AboutPage() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.05 }}
-                className={`bg-white border p-8 rounded-3xl shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between group ${isRtl ? "text-right" : ""} ${f.color}`}
+                className={`bg-white border p-5 sm:p-8 rounded-3xl shadow-xs hover:shadow-xl transition-all duration-300 flex min-w-0 flex-col justify-between group ${isRtl ? "text-right" : ""} ${f.color}`}
               >
                 <div>
                   <div
-                    className="flex justify-between items-start mb-6"
+                    className="flex min-w-0 flex-col gap-3 mb-6 sm:flex-row sm:justify-between sm:items-start"
                   >
-                    <div className={isRtl ? "text-right" : ""}>
+                    <div className={`min-w-0 ${isRtl ? "text-right" : ""}`}>
                       <span className="text-[10px] text-primary font-bold uppercase tracking-wider block mb-1">
                         {text("facultiesList.facultyBadge")}
                       </span>
-                      <h3 className="text-xl font-extrabold text-navy group-hover:text-primary transition-colors duration-300 font-heading">
+                      <h3 className="text-xl font-extrabold text-navy group-hover:text-primary transition-colors duration-300 font-heading break-words [overflow-wrap:anywhere]">
                         {f.name}
                       </h3>
                     </div>
-                    <span className="text-xs font-bold text-gray-400 bg-gray-50 border border-gray-100 px-3 py-1.5 rounded-xl shrink-0">
+                    <span className="w-fit text-xs font-bold text-gray-400 bg-gray-50 border border-gray-100 px-3 py-1.5 rounded-xl shrink-0">
                       {f.count}
                     </span>
                   </div>
 
-                  <p className="text-gray-500 text-xs md:text-sm leading-relaxed mb-6 font-semibold">
+                  <p className="text-gray-500 text-xs md:text-sm leading-relaxed mb-6 font-semibold break-words">
                     {f.desc}
                   </p>
 
@@ -504,12 +504,12 @@ export default function AboutPage() {
                     {f.deanProfile ? (
                       <Link
                         to={f.deanProfile}
-                        className="text-sm font-extrabold text-navy hover:text-primary transition-colors font-heading"
+                        className="text-sm font-extrabold text-navy hover:text-primary transition-colors font-heading break-words"
                       >
                         {f.dean}
                       </Link>
                     ) : (
-                      <span className="text-sm font-extrabold text-navy font-heading">
+                      <span className="text-sm font-extrabold text-navy font-heading break-words">
                         {f.dean}
                       </span>
                     )}
@@ -533,15 +533,15 @@ export default function AboutPage() {
 
       {/* SECTION 5: Rector Spotlight Welcome */}
       <section className="py-20 bg-primary-light/20 border-t border-gray-100">
-        <div className="container mx-auto px-4 md:px-8 max-w-7xl">
-          <div className="bg-white border border-gray-100 rounded-4xl p-8 md:p-12 shadow-xs">
+        <div className="container mx-auto px-4 md:px-8 max-w-7xl min-w-0">
+          <div className="bg-white border border-gray-100 rounded-3xl md:rounded-4xl p-5 sm:p-8 md:p-12 shadow-xs min-w-0">
             <div
               dir={isRtl ? "rtl" : "ltr"}
-              className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center"
+              className="grid min-w-0 grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center"
             >
               {/* Photo */}
               <div className="lg:col-span-4 flex flex-col items-center">
-                <div className="relative w-64 h-64 md:w-72 md:h-72 rounded-3xl overflow-hidden shadow-xl border-4 border-white bg-gray-50">
+                <div className="relative w-56 h-56 sm:w-64 sm:h-64 md:w-72 md:h-72 rounded-3xl overflow-hidden shadow-xl border-4 border-white bg-gray-50">
                   {rectorProfile?.image ? (
                     <img
                       src={rectorProfile.image}
@@ -554,11 +554,11 @@ export default function AboutPage() {
                   <div className="absolute inset-0 bg-linear-to-t from-navy/60 via-transparent to-transparent" />
                 </div>
                 <div className="text-center mt-5">
-                  <h4 className="text-lg font-extrabold text-navy font-heading">
+                  <h4 className="text-lg font-extrabold text-navy font-heading break-words">
                     {rectorProfile?.name || text("rector.name")}
                   </h4>
                   <p className="text-xs text-primary font-bold uppercase tracking-wider mt-1 font-heading">
-                    {rectorProfile?.position || rectorProfile?.title || text("rector.name")}
+                    {rectorProfile?.position || rectorProfile?.title || text("rector.position")}
                   </p>
                   <p className="text-[10px] text-gray-400 font-semibold mt-0.5">
                     {rectorProfile?.degree || text("rector.degree")}
@@ -568,19 +568,19 @@ export default function AboutPage() {
 
               {/* Message */}
               <div
-                className={`lg:col-span-8 flex flex-col gap-5 ${isRtl ? "items-start text-right" : "items-start"}`}
+                className={`lg:col-span-8 flex min-w-0 flex-col gap-5 ${isRtl ? "items-start text-right" : "items-start"}`}
               >
                 <span className={`inline-flex items-center gap-1 bg-primary/10 text-primary text-[10px] font-extrabold uppercase tracking-widest px-3 py-1.5 rounded-full font-heading ${isRtl ? "self-start text-right" : "self-start"}`}>
                   {text("rector.badge")}
                 </span>
-                <h3 className={`w-full text-2xl md:text-3xl font-extrabold text-navy leading-snug font-heading ${isRtl ? "text-right" : ""}`}>
+                <h3 className={`w-full text-2xl md:text-3xl font-extrabold text-navy leading-snug font-heading break-words ${isRtl ? "text-right" : ""}`}>
                   {text("rector.title")}
                 </h3>
 
-                <p className={`w-full text-gray-500 text-xs md:text-sm leading-relaxed font-semibold ${isRtl ? "text-right" : ""}`}>
+                <p className={`w-full text-gray-500 text-xs md:text-sm leading-relaxed font-semibold break-words ${isRtl ? "text-right" : ""}`}>
                   "{text("rector.quote1")}"
                 </p>
-                <p className={`w-full text-gray-500 text-xs md:text-sm leading-relaxed font-semibold ${isRtl ? "text-right" : ""}`}>
+                <p className={`w-full text-gray-500 text-xs md:text-sm leading-relaxed font-semibold break-words ${isRtl ? "text-right" : ""}`}>
                   "{text("rector.quote2")}"
                 </p>
 
@@ -670,7 +670,7 @@ export default function AboutPage() {
 
       {/* SECTION 6: Detailed Historical Timeline */}
       <section className="py-20 bg-white">
-        <div className="container mx-auto px-4 md:px-8 max-w-5xl">
+        <div className="container mx-auto px-4 md:px-8 max-w-5xl min-w-0">
           <div className="text-center max-w-2xl mx-auto mb-20">
             <span className="inline-flex items-center gap-1.5 bg-primary/10 text-primary text-[10px] font-extrabold uppercase tracking-widest px-3 py-1.5 rounded-full mb-3 font-heading">
               <History className="w-3.5 h-3.5" /> {text("timeline.badge")}
@@ -684,17 +684,17 @@ export default function AboutPage() {
           </div>
 
           {/* Timeline - clean flex layout */}
-          <div className="relative flex flex-col gap-10">
+          <div className="relative flex min-w-0 flex-col gap-8 md:gap-10">
             {/* Vertical line */}
             <div
-              className={`absolute top-0 bottom-0 w-0.5 bg-primary/20 ${isRtl ? "right-30 md:right-38" : "left-30 md:left-38"}`}
+              className={`absolute top-0 bottom-0 w-0.5 bg-primary/20 ${isRtl ? "right-20 sm:right-30 md:right-38" : "left-20 sm:left-30 md:left-38"}`}
             />
 
             {timelineEvents.map((evt, idx) => (
-              <div key={idx} className="flex items-start gap-0 relative group">
+              <div key={idx} className="flex min-w-0 items-start gap-0 relative group">
                 {/* Year column */}
-                <div className="w-28 md:w-36 shrink-0 pt-5 text-end pe-4">
-                  <span className="text-xl md:text-2xl font-black text-navy group-hover:text-primary transition-colors duration-300 font-heading block">
+                <div className="w-18 sm:w-28 md:w-36 shrink-0 pt-5 text-end pe-3 sm:pe-4">
+                  <span className="text-base sm:text-xl md:text-2xl font-black text-navy group-hover:text-primary transition-colors duration-300 font-heading block break-words">
                     {evt.year}
                   </span>
                 </div>
@@ -705,14 +705,14 @@ export default function AboutPage() {
                 </div>
 
                 {/* Card */}
-                <div className="flex-1 ps-4 md:ps-6 pb-2">
+                <div className="min-w-0 flex-1 ps-3 sm:ps-4 md:ps-6 pb-2">
                   <div
-                    className={`bg-white border border-gray-100 rounded-3xl p-6 md:p-8 shadow-xs group-hover:shadow-md transition-all duration-300 ${isRtl ? "text-right" : ""}`}
+                    className={`bg-white border border-gray-100 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 shadow-xs group-hover:shadow-md transition-all duration-300 min-w-0 ${isRtl ? "text-right" : ""}`}
                   >
-                    <h3 className="font-extrabold text-navy text-lg mb-2 group-hover:text-primary transition-colors font-heading">
+                    <h3 className="font-extrabold text-navy text-base sm:text-lg mb-2 group-hover:text-primary transition-colors font-heading break-words">
                       {evt.title}
                     </h3>
-                    <p className="text-gray-500 text-xs md:text-sm leading-relaxed font-semibold">
+                    <p className="text-gray-500 text-xs md:text-sm leading-relaxed font-semibold break-words">
                       {evt.desc}
                     </p>
                   </div>

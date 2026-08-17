@@ -10,6 +10,7 @@ import { useApanelLocaleCodes } from "../utils/locales";
 
 const sectionLabels = {
   hero: "Hero",
+  programs: "Academic Programs",
   registrar_office: "Registrar Office",
   alt_features: "Feature List",
   strategic_goals: "Strategic Goals",
@@ -58,6 +59,7 @@ const itemFields = [
 
 const sectionFieldKeysBySection = {
   hero: ["title", "subtitle", "cta_label", "secondary_title", "image_alt"],
+  programs: ["eyebrow", "title", "cta_label"],
   registrar_office: ["eyebrow", "title", "description", "cta_label", "cta_url", "image_alt"],
   alt_features: ["image_alt"],
   strategic_goals: ["eyebrow", "title", "subtitle", "description", "secondary_title", "cta_label", "cta_url", "image_alt"],
@@ -71,6 +73,7 @@ const itemFieldKeysBySection = {
   alt_features: ["title", "description"],
   strategic_goals: ["title"],
   stats: ["label"],
+  programs: ["label"],
   core_values: ["title", "description"],
 };
 
@@ -82,6 +85,7 @@ const itemMetaKeysBySection = {
     ["value", "Value"],
     ["suffix", "Suffix"],
   ],
+  programs: [],
   core_values: [],
 };
 
@@ -129,6 +133,7 @@ const itemlessSections = new Set(["hero", "identity"]);
 const sectionSettingFieldsBySection = {
   hero: [
     ["cta_url", "CTA URL"],
+    ["background_image", "Hero Background Image"],
     ["video_url", "Hero Video URL"],
   ],
 };
@@ -408,7 +413,7 @@ export default function ApanelHomeCms() {
           {(sectionSettingFieldsBySection[section.section_key] || []).length > 0 && (
             <div className="mt-6 grid gap-4 md:grid-cols-2">
               {sectionSettingFieldsBySection[section.section_key].map(([key, label]) =>
-                key === "video_url" ? (
+                key === "video_url" || key === "background_image" ? (
                   <div key={key}>
                     <MediaPicker
                       label={label}

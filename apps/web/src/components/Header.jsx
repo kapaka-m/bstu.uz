@@ -233,20 +233,22 @@ export default function Header() {
     return (
       <div
         key={item.id || key}
-        className={`${level === 0 ? "border-t border-gray-50 pt-2" : ""} flex flex-col`}
+        className={`${level === 0 ? "border-t border-gray-50 pt-2" : ""} flex min-w-0 flex-col`}
       >
         <button
           type="button"
           onClick={() => toggleDropdown(key)}
-          className={`flex cursor-pointer items-center justify-between ${paddingClass} text-navy`}
+          className={`flex w-full min-w-0 cursor-pointer items-center justify-between gap-3 ${paddingClass} text-start text-navy`}
         >
           <span
-            className={`${level > 0 ? "text-xs font-extrabold uppercase tracking-wider text-primary" : ""}`}
+            className={`min-w-0 flex-1 text-start leading-snug ${
+              level > 0 ? "text-xs font-extrabold uppercase tracking-wider text-primary" : ""
+            }`}
           >
             {item.label}
           </span>
           <ChevronDown
-            className={`h-4 w-4 transition-transform duration-300 ${openDropdowns[key] ? "rotate-180" : ""}`}
+            className={`h-4 w-4 shrink-0 transition-transform duration-300 ${openDropdowns[key] ? "rotate-180" : ""}`}
           />
         </button>
         {openDropdowns[key] && (

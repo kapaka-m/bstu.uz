@@ -125,7 +125,30 @@ export default function Services({ limit }) {
   const displayServices = useMemo(() => services, [services]);
 
   if (loading) {
-    return null;
+    return (
+      <section id="services" className="py-24 bg-primary-light overflow-visible">
+        <div className="container mx-auto px-4 md:px-8 max-w-7xl min-w-0">
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <div className="h-4 w-40 bg-primary/20 rounded-full mx-auto animate-pulse mb-4" />
+            <div className="h-10 w-4/5 bg-gray-200 rounded-full mx-auto animate-pulse" />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
+              <div key={item} className="bg-white border border-gray-100 p-8 rounded-3xl shadow-sm min-h-80">
+                <div className="w-14 h-14 rounded-2xl bg-gray-200 animate-pulse mb-6" />
+                <div className="h-6 w-4/5 bg-gray-200 rounded-full animate-pulse mb-4" />
+                <div className="space-y-3">
+                  <div className="h-4 w-full bg-gray-100 rounded-full animate-pulse" />
+                  <div className="h-4 w-11/12 bg-gray-100 rounded-full animate-pulse" />
+                  <div className="h-4 w-3/4 bg-gray-100 rounded-full animate-pulse" />
+                </div>
+                <div className="h-4 w-32 bg-primary/20 rounded-full animate-pulse mt-10" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
   }
 
   const renderServiceCard = (service, index) => {
@@ -135,7 +158,7 @@ export default function Services({ limit }) {
     return (
       <div
         key={service.slug || index}
-        className={`group bg-white border ${colors.border} p-8 rounded-3xl shadow-sm hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 flex flex-col relative overflow-hidden text-start h-full min-h-80`}
+        className={`group bg-white border ${colors.border} p-6 md:p-8 rounded-3xl shadow-sm hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 flex flex-col relative overflow-hidden text-start h-full min-h-80 min-w-0`}
       >
         <div
           className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 transition-all duration-300 ${colors.icon}`}
@@ -143,10 +166,10 @@ export default function Services({ limit }) {
           <Icon className="w-6 h-6" />
         </div>
 
-        <h3 className="text-xl font-bold text-navy mb-4 min-h-14 line-clamp-2">
+        <h3 className="text-xl font-bold text-navy mb-4 min-h-14 line-clamp-2 break-words">
           {service.title}
         </h3>
-        <p className="text-gray-500 mb-8 leading-relaxed text-sm min-h-24 line-clamp-4">
+        <p className="text-gray-500 mb-8 leading-relaxed text-sm min-h-24 line-clamp-4 break-words">
           {service.description}
         </p>
 
@@ -155,7 +178,7 @@ export default function Services({ limit }) {
             href={service.url}
             target={service.opens_new_tab ? "_blank" : undefined}
             rel={service.opens_new_tab ? "noopener noreferrer" : undefined}
-            className="inline-flex items-center gap-1.5 text-sm font-bold text-primary cursor-pointer"
+            className="inline-flex items-center gap-1.5 text-sm font-bold text-primary cursor-pointer break-words"
           >
             {service.action_label}
             <span
@@ -170,14 +193,14 @@ export default function Services({ limit }) {
   };
 
   return (
-    <section id="services" className="py-24 bg-primary-light">
-      <div className="container mx-auto px-4 md:px-8 max-w-7xl">
+    <section id="services" className="py-24 bg-primary-light overflow-visible">
+      <div className="container mx-auto px-4 md:px-8 max-w-7xl min-w-0">
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-16">
+        <div className="text-center max-w-2xl mx-auto mb-16 min-w-0">
           <h2 className="text-sm font-extrabold uppercase tracking-widest text-primary mb-3">
             {settings.home_tag || ""}
           </h2>
-          <p className="text-3xl md:text-4xl font-extrabold text-navy">
+          <p className="text-3xl md:text-4xl font-extrabold text-navy break-words">
             {settings.home_title || ""}
           </p>
         </div>
@@ -195,7 +218,7 @@ export default function Services({ limit }) {
               key={language}
               dir={isRtl ? "rtl" : "ltr"}
               modules={[Autoplay]}
-              spaceBetween={28}
+              spaceBetween={16}
               slidesPerView={1}
               autoplay={{ delay: 5000, disableOnInteraction: false }}
               breakpoints={{
@@ -203,16 +226,16 @@ export default function Services({ limit }) {
                 1024: { slidesPerView: 3 },
                 1280: { slidesPerView: 4 },
               }}
-              className="pt-3 pb-6 overflow-visible! [&_.swiper-wrapper]:items-stretch"
+              className="!overflow-visible py-3 [&_.swiper-wrapper]:items-stretch"
             >
               {displayServices.map((service, index) => (
-                <SwiperSlide key={service.slug || index} className="h-auto flex">
+                <SwiperSlide key={service.slug || index} className="h-auto flex py-2">
                   {renderServiceCard(service, index)}
                 </SwiperSlide>
               ))}
             </Swiper>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 min-w-0">
               {displayServices.map((service, index) => renderServiceCard(service, index))}
             </div>
           )

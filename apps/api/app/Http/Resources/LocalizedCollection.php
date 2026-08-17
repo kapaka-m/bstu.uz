@@ -9,9 +9,11 @@ use Illuminate\Support\Facades\App;
 class LocalizedCollection extends ResourceCollection
 {
     protected ?string $locale = null;
+    protected mixed $localizedItems = null;
 
     public function __construct(mixed $resource, ?string $locale = null)
     {
+        $this->localizedItems = $resource;
         parent::__construct($resource);
         $this->locale = $locale ?: App::getLocale();
     }
@@ -24,7 +26,7 @@ class LocalizedCollection extends ResourceCollection
         return [
             'locale' => $locale,
             'direction' => $direction,
-            'data' => $this->collection->map(function ($item) use ($locale) {
+            'data' => collect($this->localizedItems)->map(function ($item) use ($locale) {
                 if ($item instanceof LocalizedResource) {
                     $arr = $item->toArray(request());
 

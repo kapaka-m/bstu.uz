@@ -20,4 +20,11 @@ class StaffProfile extends Model
     {
         return $this->belongsTo(Faculty::class);
     }
+
+    public function linkedDepartments()
+    {
+        return $this->belongsToMany(Department::class, 'staff_profile_department')
+            ->withPivot('sort_order')
+            ->withTimestamps();
+    }
 }

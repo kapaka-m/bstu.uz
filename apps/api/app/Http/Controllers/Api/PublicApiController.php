@@ -34,8 +34,6 @@ use App\Models\MenuItem;
 use App\Models\News;
 use App\Models\NewsEventSetting;
 use App\Models\NewsletterSubscription;
-use App\Models\Page;
-use App\Models\PageBlock;
 use App\Models\Program;
 use App\Models\Service;
 use App\Models\Setting;
@@ -70,21 +68,30 @@ class PublicApiController extends Controller
      */
     protected function getRequestLocale(Request $request): string
     {
-        $locale = $request->query('locale') ?: $request->header('Accept-Language');
+        $locale = $request->query('locale')
+            ?: $request->header('X-Locale')
+            ?: $request->header('Accept-Language');
         $supported = $this->activeLocaleCodes();
 
         if ($locale) {
-            $locale = strtolower(trim(explode(',', $locale)[0]));
-            if (strlen($locale) > 2 && $locale[2] === '-') {
-                $locale = substr($locale, 0, 2);
-            }
+            $locale = $this->normalizeRequestedLocale($locale);
 
             if (in_array($locale, $supported, true)) {
                 return $locale;
             }
+
+            $primary = explode('-', $locale)[0] ?? '';
+            if ($primary && in_array($primary, $supported, true)) {
+                return $primary;
+            }
         }
 
         return $this->fallbackLocale();
+    }
+
+    protected function normalizeRequestedLocale(string $locale): string
+    {
+        return strtolower(trim(explode(',', str_replace('_', '-', $locale))[0]));
     }
 
     protected function activeLocaleCodes(): array
@@ -95,6 +102,7 @@ class PublicApiController extends Controller
                 ->orderBy('sort_order')
                 ->orderBy('id')
                 ->pluck('code')
+                ->map(fn ($code) => strtolower(str_replace('_', '-', trim((string) $code))))
                 ->filter()
                 ->values()
                 ->all();
@@ -150,11 +158,9 @@ class PublicApiController extends Controller
         }, $programs);
     }
 
-    protected function withDepartmentHeadProfile(array $data, Department $department): array
+    protected function withDepartmentHeadProfile(array $data, Department $department, string $locale): array
     {
-        $staffProfiles = $department->relationLoaded('staffProfiles')
-            ? $department->staffProfiles
-            : $department->staffProfiles()->where('is_active', true)->with('translations')->orderBy('sort_order')->get();
+        $staffProfiles = $this->departmentStaffProfiles($department);
 
         $headName = trim((string) $department->head_name);
         $head = $staffProfiles->first(function (StaffProfile $profile) use ($headName) {
@@ -164,9 +170,103 @@ class PublicApiController extends Controller
         }) ?: $staffProfiles->first();
 
         unset($data['staff_profiles']);
+        $data['reception_time'] = $this->localizedScheduleText((string) ($data['reception_time'] ?? $department->reception_time ?? ''), $locale);
+        if ($head) {
+            $data['head_name'] = $head->translate('full_name', $locale) ?: ($data['head_name'] ?? $department->head_name);
+        }
         $data['head_profile_slug'] = $head?->slug;
+        $data['head_profile_photo'] = $head?->photo;
+        $data['head_profile_photo_url'] = $head
+            ? ($this->withPublicImageUrl(['photo' => $head->photo], 'photo')['photo_url'] ?? null)
+            : null;
 
         return $data;
+    }
+
+    protected function departmentStaffProfiles(Department $department)
+    {
+        $primary = $department->relationLoaded('staffProfiles')
+            ? $department->staffProfiles
+            : $department->staffProfiles()->where('is_active', true)->with('translations')->orderBy('sort_order')->get();
+
+        $linked = $department->relationLoaded('linkedStaffProfiles')
+            ? $department->linkedStaffProfiles
+            : $department->linkedStaffProfiles()
+                ->where('staff_profiles.is_active', true)
+                ->with('translations')
+                ->orderBy('staff_profile_department.sort_order')
+                ->orderBy('staff_profiles.sort_order')
+                ->get();
+
+        return $primary
+            ->concat($linked)
+            ->unique('id')
+            ->sortBy(function (StaffProfile $profile) {
+                return sprintf(
+                    '%010d-%010d-%010d',
+                    (int) ($profile->pivot->sort_order ?? $profile->sort_order ?? 0),
+                    (int) ($profile->sort_order ?? 0),
+                    (int) $profile->id,
+                );
+            })
+            ->values();
+    }
+
+    protected function localizedScheduleText(string $value, string $locale): string
+    {
+        $value = trim($value);
+        if ($value === '' || $locale === $this->fallbackLocale()) {
+            return $value;
+        }
+
+        $timePattern = '([0-2]?\d:[0-5]\d\s*[-–]\s*[0-2]?\d:[0-5]\d)';
+
+        if (preg_match('/daily\s+'.$timePattern.'\s*\(?\s*except\s+monday\s+and\s+saturday\s*\)?/i', $value, $matches)) {
+            return match ($locale) {
+                'uz' => 'Har kuni '.$matches[1].' (dushanba va shanbadan tashqari)',
+                'ru' => 'Ежедневно '.$matches[1].' (кроме понедельника и субботы)',
+                'ar' => 'يومياً '.$matches[1].' (ما عدا الاثنين والسبت)',
+                default => $value,
+            };
+        }
+
+        if (preg_match('/daily\s+'.$timePattern.'/i', $value, $matches)) {
+            return match ($locale) {
+                'uz' => 'Har kuni '.$matches[1],
+                'ru' => 'Ежедневно '.$matches[1],
+                'ar' => 'يومياً '.$matches[1],
+                default => $value,
+            };
+        }
+
+        if (preg_match('/monday\s*[-–]\s*friday\s+'.$timePattern.'/i', $value, $matches)) {
+            return match ($locale) {
+                'uz' => 'Dushanba-juma '.$matches[1],
+                'ru' => 'Понедельник-пятница '.$matches[1],
+                'ar' => 'الاثنين-الجمعة '.$matches[1],
+                default => $value,
+            };
+        }
+
+        if (preg_match('/monday\s*[-–]\s*saturday\s+'.$timePattern.'/i', $value, $matches)) {
+            return match ($locale) {
+                'uz' => 'Dushanba-shanba '.$matches[1],
+                'ru' => 'Понедельник-суббота '.$matches[1],
+                'ar' => 'الاثنين-السبت '.$matches[1],
+                default => $value,
+            };
+        }
+
+        if (preg_match('/tuesday\s*[-–]\s*thursday\s+'.$timePattern.'/i', $value, $matches)) {
+            return match ($locale) {
+                'uz' => 'Seshanba-payshanba '.$matches[1],
+                'ru' => 'Вторник-четверг '.$matches[1],
+                'ar' => 'الثلاثاء-الخميس '.$matches[1],
+                default => $value,
+            };
+        }
+
+        return $value;
     }
 
     protected function withPublicImageUrl(array $data, string $field = 'image'): array
@@ -575,6 +675,8 @@ class PublicApiController extends Controller
                 'form_name_label',
                 'form_email_label',
                 'form_comment_label',
+                'form_comment_placeholder',
+                'form_reply_placeholder',
                 'form_submit_label',
                 'comment_login_title',
                 'comment_login_text',
@@ -749,85 +851,6 @@ class PublicApiController extends Controller
         ];
     }
 
-    public function home(Request $request)
-    {
-        $locale = $this->getRequestLocale($request);
-        $payload = $this->publicCache($request, 'home', [$locale], function () use ($request, $locale) {
-            $page = Page::where('slug', 'home')->where('is_published', true)->with('translations')->first();
-
-            if (! $page) {
-                return null;
-            }
-
-            $blocks = PageBlock::where('page_id', $page->id)
-                ->where('is_active', true)
-                ->with('translations')
-                ->orderBy('sort_order')
-                ->get();
-
-            return [
-                'page' => (new LocalizedResource($page, $locale))->toArray($request)['data'],
-                'blocks' => (new LocalizedCollection($blocks, $locale))->toArray($request)['data'],
-            ];
-        });
-
-        if (! $payload) {
-            return $this->errorResponse("Page 'home' not found", 404);
-        }
-
-        return $this->successResponse($payload, 'Home content retrieved successfully');
-    }
-
-    public function pages(Request $request)
-    {
-        $locale = $this->getRequestLocale($request);
-        $payload = $this->publicCache($request, 'pages', [$locale], function () use ($request, $locale) {
-            $pages = Page::where('is_published', true)->with('translations')->orderBy('sort_order')->get();
-
-            return (new LocalizedCollection($pages, $locale))->toArray($request);
-        });
-
-        return response()->json($payload);
-    }
-
-    public function page(Request $request, string $slug)
-    {
-        $locale = $this->getRequestLocale($request);
-        $payload = $this->publicCache($request, 'page', [$locale, $slug], function () use ($request, $locale, $slug) {
-            $page = Page::where('slug', $slug)->where('is_published', true)->with('translations')->first();
-
-            if (! $page) {
-                return null;
-            }
-
-            return (new LocalizedResource($page, $locale))->toArray($request);
-        });
-
-        if (! $payload) {
-            return $this->errorResponse("Page '{$slug}' not found", 404);
-        }
-
-        return response()->json($payload);
-    }
-
-    public function pageBlocks(Request $request, string $pageSlug)
-    {
-        $locale = $this->getRequestLocale($request);
-        $page = Page::where('slug', $pageSlug)->where('is_published', true)->first();
-
-        if (! $page) {
-            return $this->errorResponse("Page '{$pageSlug}' not found", 404);
-        }
-
-        $blocks = PageBlock::where('page_id', $page->id)
-            ->where('is_active', true)
-            ->with('translations')
-            ->orderBy('sort_order')
-            ->get();
-
-        return new LocalizedCollection($blocks, $locale);
-    }
-
     public function faculties(Request $request)
     {
         $locale = $this->getRequestLocale($request);
@@ -848,7 +871,7 @@ class PublicApiController extends Controller
                 ->where('is_active', true)
                 ->with([
                     'translations',
-                    'departments' => fn ($query) => $query->where('is_active', true)->with(['translations', 'staffProfiles.translations'])->orderBy('sort_order'),
+                    'departments' => fn ($query) => $query->where('is_active', true)->with(['translations', 'staffProfiles.translations', 'linkedStaffProfiles.translations'])->orderBy('sort_order'),
                     'programs' => fn ($query) => $query->where('is_active', true)->with('translations')->orderBy('sort_order'),
                     'staffProfiles' => fn ($query) => $query->where('is_active', true)->with('translations')->orderBy('sort_order'),
                 ])
@@ -861,7 +884,7 @@ class PublicApiController extends Controller
             $data = $this->withPublicImageUrl($this->localizedData($request, $faculty, $locale));
             $data['departments'] = $faculty->departments
                 ->map(function (Department $department) use ($request, $locale) {
-                    return $this->withDepartmentHeadProfile($this->localizedData($request, $department, $locale), $department);
+                    return $this->withDepartmentHeadProfile($this->localizedData($request, $department, $locale), $department, $locale);
                 })
                 ->all();
             $data['programs'] = $this->withProgramDisplayCodes($this->localizedList($request, $faculty->programs, $locale));
@@ -886,12 +909,12 @@ class PublicApiController extends Controller
     {
         $locale = $this->getRequestLocale($request);
         $payload = $this->publicCache($request, 'departments', [$locale], function () use ($request, $locale) {
-            $departments = Department::where('is_active', true)->with(['translations', 'staffProfiles.translations'])->orderBy('sort_order')->get();
+            $departments = Department::where('is_active', true)->with(['translations', 'staffProfiles.translations', 'linkedStaffProfiles.translations'])->orderBy('sort_order')->get();
 
             return [
                 'data' => $departments
                     ->map(function (Department $department) use ($request, $locale) {
-                        return $this->withDepartmentHeadProfile($this->localizedData($request, $department, $locale), $department);
+                        return $this->withDepartmentHeadProfile($this->localizedData($request, $department, $locale), $department, $locale);
                     })
                     ->all(),
             ];
@@ -910,6 +933,7 @@ class PublicApiController extends Controller
                 'faculty.translations',
                 'programs' => fn ($query) => $query->where('is_active', true)->with(['translations', 'courses.translations'])->orderBy('sort_order'),
                 'staffProfiles' => fn ($query) => $query->where('is_active', true)->with('translations')->orderBy('sort_order'),
+                'linkedStaffProfiles' => fn ($query) => $query->where('staff_profiles.is_active', true)->with('translations')->orderBy('staff_profile_department.sort_order')->orderBy('staff_profiles.sort_order'),
             ])
             ->first();
 
@@ -918,10 +942,10 @@ class PublicApiController extends Controller
         }
 
         $data = $this->withPublicImageUrl($this->localizedData($request, $department, $locale));
-        $data = $this->withDepartmentHeadProfile($data, $department);
+        $data = $this->withDepartmentHeadProfile($data, $department, $locale);
         $data['faculty'] = $department->faculty ? $this->localizedData($request, $department->faculty, $locale) : null;
         $data['programs'] = $this->withProgramDisplayCodes($this->localizedList($request, $department->programs, $locale));
-        $data['staff'] = $this->localizedStaffList($request, $department->staffProfiles, $locale);
+        $data['staff'] = $this->localizedStaffList($request, $this->departmentStaffProfiles($department), $locale);
         $data['courses'] = $department->programs
             ->flatMap(fn ($program) => $program->courses)
             ->unique('id')
@@ -939,9 +963,20 @@ class PublicApiController extends Controller
     public function programs(Request $request)
     {
         $locale = $this->getRequestLocale($request);
-        $programs = Program::where('is_active', true)
-            ->with(['translations', 'faculty.translations', 'department.translations'])
-            ->orderBy('sort_order')
+        $query = Program::where('is_active', true)
+            ->with(['translations', 'faculty.translations', 'department.translations']);
+
+        if ($request->query('featured') === 'home') {
+            $query
+                ->where('show_on_homepage', true)
+                ->orderByRaw('CASE WHEN homepage_sort_order = 0 THEN 1 ELSE 0 END')
+                ->orderBy('homepage_sort_order')
+                ->orderBy('sort_order');
+        } else {
+            $query->orderBy('sort_order');
+        }
+
+        $programs = $query
             ->get()
             ->map(function (Program $program) use ($request, $locale) {
                 $data = $this->localizedData($request, $program, $locale);
@@ -991,6 +1026,7 @@ class PublicApiController extends Controller
                 'faculty.translations',
                 'department.translations',
                 'department.staffProfiles' => fn ($query) => $query->where('is_active', true)->with('translations')->orderBy('sort_order'),
+                'department.linkedStaffProfiles' => fn ($query) => $query->where('staff_profiles.is_active', true)->with('translations')->orderBy('staff_profile_department.sort_order')->orderBy('staff_profiles.sort_order'),
                 'courses.translations',
             ])
             ->first();
@@ -1002,8 +1038,8 @@ class PublicApiController extends Controller
         $data = $this->withPublicImageUrl($this->localizedData($request, $program, $locale));
         $data['display_code'] = $data['official_code'] ?: ($data['code'] ?? null);
         $data['faculty'] = $program->faculty ? $this->localizedData($request, $program->faculty, $locale) : null;
-        $data['department'] = $program->department ? $this->withDepartmentHeadProfile($this->localizedData($request, $program->department, $locale), $program->department) : null;
-        $data['staff'] = $program->department ? $this->localizedStaffList($request, $program->department->staffProfiles, $locale) : [];
+        $data['department'] = $program->department ? $this->withDepartmentHeadProfile($this->localizedData($request, $program->department, $locale), $program->department, $locale) : null;
+        $data['staff'] = $program->department ? $this->localizedStaffList($request, $this->departmentStaffProfiles($program->department), $locale) : [];
         $data['courses'] = $this->localizedList($request, $program->courses, $locale);
 
         return response()->json([

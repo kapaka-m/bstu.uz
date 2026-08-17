@@ -1,36 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
-import { aboutService } from "../services/aboutService";
 import { publicAssetUrl } from "../lib/api";
 import { useHomeSection } from "../hooks/useHomeSection";
 
 export default function About() {
-  const { language, isRtl } = useLanguage();
-  const [aboutPage, setAboutPage] = useState(null);
+  const { isRtl } = useLanguage();
   const { section } = useHomeSection("identity");
 
-  useEffect(() => {
-    let alive = true;
-
-    aboutService
-      .getPage(language)
-      .then((page) => {
-        if (alive) setAboutPage(page || null);
-      })
-      .catch(() => {
-        if (alive) setAboutPage(null);
-      });
-
-    return () => {
-      alive = false;
-    };
-  }, [language]);
-
-  const imageSrc = publicAssetUrl(
-    section?.settings?.image || aboutPage?.identity_image_url || aboutPage?.identity_image || "",
-  );
+  const imageSrc = publicAssetUrl(section?.settings?.image || "");
 
   if (!section) {
     return null;

@@ -99,6 +99,26 @@ export default function ApanelLayout({ children }) {
           icon: FileText,
         },
         {
+          path: "/apanel/cms/faculty-page",
+          label: "Faculty Page",
+          icon: GraduationCap,
+        },
+        {
+          path: "/apanel/cms/department-page",
+          label: "Department Page",
+          icon: Building2,
+        },
+        {
+          path: "/apanel/cms/programs",
+          label: "Program Pages",
+          icon: GraduationCap,
+        },
+        {
+          path: "/apanel/cms/apply-page",
+          label: "Apply Page",
+          icon: ClipboardList,
+        },
+        {
           path: "/apanel/cms/contact-page",
           label: t("apanel.nav.contactPage"),
           icon: Mail,

@@ -2,9 +2,13 @@
 
 use App\Http\Controllers\Api\AdminCrudController;
 use App\Http\Controllers\Api\ApanelApplicationWorkflowController;
+use App\Http\Controllers\Api\ApplyPageCmsController;
 use App\Http\Controllers\Api\AuthCmsController;
+use App\Http\Controllers\Api\DepartmentPageCmsController;
+use App\Http\Controllers\Api\FacultyPageCmsController;
 use App\Http\Controllers\Api\HomeCmsController;
 use App\Http\Controllers\Api\InitialApplicationController;
+use App\Http\Controllers\Api\ProgramPageCmsController;
 use App\Http\Controllers\Api\PublicApiController;
 use App\Http\Controllers\Api\StudentApiController;
 use App\Http\Controllers\Api\StudentApplicationPortalController;
@@ -37,6 +41,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/settings', [PublicApiController::class, 'settings']);
         Route::get('/settings/public', [PublicApiController::class, 'settings']);
         Route::get('/footer-web', [PublicApiController::class, 'footerWeb']);
+        Route::get('/apply-page', [ApplyPageCmsController::class, 'publicShow']);
         Route::get('/about-page', [PublicApiController::class, 'aboutPage']);
         Route::get('/contact-page', [PublicApiController::class, 'contactPage']);
         Route::get('/administration/settings', [PublicApiController::class, 'administrationSettings']);
@@ -45,11 +50,10 @@ Route::prefix('v1')->group(function () {
         Route::get('/news-events/settings', [PublicApiController::class, 'newsEventSettings']);
         Route::get('/menus', [PublicApiController::class, 'menus']);
         Route::get('/menus/{location}', [PublicApiController::class, 'menu']);
-        Route::get('/home', [PublicApiController::class, 'home']);
         Route::get('/home-sections', [HomeCmsController::class, 'publicIndex']);
-        Route::get('/pages', [PublicApiController::class, 'pages']);
-        Route::get('/pages/{slug}', [PublicApiController::class, 'page']);
-        Route::get('/page-blocks/{pageSlug}', [PublicApiController::class, 'pageBlocks']);
+        Route::get('/faculty-page', [FacultyPageCmsController::class, 'publicShow']);
+        Route::get('/department-page', [DepartmentPageCmsController::class, 'publicShow']);
+        Route::get('/program-page', [ProgramPageCmsController::class, 'publicShow']);
         Route::get('/faculties', [PublicApiController::class, 'faculties']);
         Route::get('/faculties/{slug}', [PublicApiController::class, 'faculty']);
         Route::get('/departments', [PublicApiController::class, 'departments']);
@@ -204,10 +208,18 @@ Route::prefix('v1')->group(function () {
         Route::put('cms/about-page/entries/{entry}', [AdminCrudController::class, 'updateAboutPageEntry']);
         Route::delete('cms/about-page/entries/{entry}', [AdminCrudController::class, 'deleteAboutPageEntry']);
         Route::post('cms/about-page/entries/reorder', [AdminCrudController::class, 'reorderAboutPageEntries']);
+        Route::get('cms/apply-page', [ApplyPageCmsController::class, 'adminShow']);
+        Route::put('cms/apply-page', [ApplyPageCmsController::class, 'adminUpdate']);
         Route::get('cms/contact-page', [AdminCrudController::class, 'showContactPage']);
         Route::put('cms/contact-page', [AdminCrudController::class, 'updateContactPage']);
         Route::get('cms/home', [HomeCmsController::class, 'adminShow']);
         Route::put('cms/home', [HomeCmsController::class, 'adminUpdate']);
+        Route::get('cms/faculty-page', [FacultyPageCmsController::class, 'adminShow']);
+        Route::put('cms/faculty-page', [FacultyPageCmsController::class, 'adminUpdate']);
+        Route::get('cms/department-page', [DepartmentPageCmsController::class, 'adminShow']);
+        Route::put('cms/department-page', [DepartmentPageCmsController::class, 'adminUpdate']);
+        Route::get('cms/programs', [ProgramPageCmsController::class, 'adminShow']);
+        Route::put('cms/programs', [ProgramPageCmsController::class, 'adminUpdate']);
         Route::get('cms/cms-auth', [AuthCmsController::class, 'adminShow']);
         Route::put('cms/cms-auth', [AuthCmsController::class, 'adminUpdate']);
         Route::get('cms/header-navbar', [AdminCrudController::class, 'showHeaderNavbar']);

@@ -511,6 +511,7 @@ class StudentApiController extends Controller
     public function supportTickets(Request $request)
     {
         $tickets = SupportTicket::where('user_id', $this->currentUserId())
+            ->with(['messages' => fn ($query) => $query->with('user:id,name,email')->orderBy('created_at')])
             ->orderBy('created_at', 'desc')
             ->get();
 
@@ -544,7 +545,11 @@ class StudentApiController extends Controller
 
             DB::commit();
 
-            return $this->successResponse($ticket, 'Support ticket created successfully', 201);
+            return $this->successResponse(
+                $ticket->load(['messages' => fn ($query) => $query->with('user:id,name,email')->orderBy('created_at')]),
+                'Support ticket created successfully',
+                201,
+            );
         } catch (Throwable $e) {
             DB::rollBack();
 
@@ -585,7 +590,11 @@ class StudentApiController extends Controller
             'updated_at' => now(),
         ]);
 
-        return $this->successResponse(null, 'Message added successfully', 201);
+        return $this->successResponse(
+            $ticket->fresh()->load(['messages' => fn ($query) => $query->with('user:id,name,email')->orderBy('created_at')]),
+            'Message added successfully',
+            201,
+        );
     }
 
     private function workflow(): ApplicationWorkflowService

@@ -143,9 +143,9 @@ export default function StudentDocuments() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6 animate-in fade-in duration-200">
+    <div className="mx-auto max-w-4xl min-w-0 space-y-6 animate-in fade-in duration-200">
       <div>
-        <h1 className="text-2xl font-extrabold text-navy uppercase tracking-wider">
+        <h1 className="text-xl sm:text-2xl font-extrabold text-navy uppercase tracking-wider break-words">
           {t("document.checklistTitle")}
         </h1>
         <p className="text-xs font-semibold text-gray-400">
@@ -174,26 +174,26 @@ export default function StudentDocuments() {
           return (
             <div
               key={type.key}
-              className="bg-white border border-gray-100 rounded-3xl p-5 shadow-xs flex flex-col justify-between space-y-4"
+              className="min-w-0 bg-white border border-gray-100 rounded-3xl p-5 shadow-xs flex flex-col justify-between space-y-4"
             >
               <div className="space-y-1">
-                <h3 className="text-xs font-black text-navy uppercase tracking-wider">
+                <h3 className="text-xs font-black text-navy uppercase tracking-wider break-words">
                   {type.label}
                 </h3>
-                <p className="text-[11px] text-gray-400 font-semibold leading-relaxed">
+                <p className="text-[11px] text-gray-400 font-semibold leading-relaxed break-words">
                   {type.desc}
                 </p>
               </div>
 
               {uploadedDoc ? (
                 <div className="space-y-3 pt-3 border-t border-gray-50">
-                  <div className="flex justify-between items-center">
+                  <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <span
                       className={`text-[9px] font-extrabold px-2 py-0.5 rounded-md border ${status.color}`}
                     >
                       {status.label}
                     </span>
-                    <div className="flex gap-2">
+                    <div className="flex flex-wrap gap-2">
                       <a
                         href={publicAssetUrl(uploadedDoc.file_path)}
                         target="_blank"

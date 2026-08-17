@@ -132,7 +132,7 @@ export default function RecentBlog() {
   return (
     <section
       id="recent-blog"
-      className="py-24 bg-primary-light border-t border-gray-100"
+      className="py-24 bg-primary-light border-t border-gray-100 overflow-hidden"
     >
       <div className="container mx-auto px-4 md:px-8 max-w-7xl">
         {/* Section Header */}
@@ -151,14 +151,14 @@ export default function RecentBlog() {
             key={language}
             dir={isRtl ? "rtl" : "ltr"}
             modules={[Autoplay]}
-            spaceBetween={24}
+            spaceBetween={16}
             slidesPerView={1}
             autoplay={{ delay: 4500, disableOnInteraction: false, pauseOnMouseEnter: true }}
             breakpoints={{ 768: { slidesPerView: 2 } }}
-            className="pt-3 pb-6 overflow-visible! [&_.swiper-wrapper]:items-stretch"
+            className="!overflow-visible py-3 [&_.swiper-wrapper]:items-stretch"
           >
             {recentPosts.map((post, index) => (
-              <SwiperSlide key={post.slug || post.id} className="h-auto">
+              <SwiperSlide key={post.slug || post.id} className="h-auto py-2">
                 {renderBlogCard(post, index)}
               </SwiperSlide>
             ))}

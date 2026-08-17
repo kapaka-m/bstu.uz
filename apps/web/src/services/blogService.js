@@ -40,7 +40,10 @@ const normalizeBlogItem = (item = {}) => ({
   views: item.views_count ?? item.views ?? 0,
   paragraphs:
     typeof item.content === "string"
-      ? item.content.split(/\n{2,}/).filter(Boolean)
+      ? item.content
+          .split(/\n{2,}/)
+          .map((paragraph) => paragraph.trim())
+          .filter(Boolean)
       : item.paragraphs || [],
 });
 
@@ -102,6 +105,32 @@ export const blogService = {
     return cached("blog/departments", () =>
       api.get("/blog/departments").then((res) => unwrap(res) || []),
     );
+  },
+
+  getPublishers() {
+    return cached("publishers", () =>
+      api.get("/publishers").then((res) =>
+        (unwrap(res) || []).map((publisher) => ({
+          ...publisher,
+          image: publicAssetUrl(publisher.image_url || publisher.image || ""),
+        })),
+      ),
+    );
+  },
+
+  getPublisher(slug) {
+    return api.get(`/publishers/${slug}`).then((res) => {
+      const publisher = unwrap(res) || {};
+      return {
+        ...publisher,
+        image: publicAssetUrl(publisher.image_url || publisher.image || ""),
+        blogs: (publisher.blogs || []).map(normalizeBlogItem),
+        news: (publisher.news || []).map(normalizePublisherContentItem),
+        announcements: (publisher.announcements || []).map(normalizePublisherContentItem),
+        green_campus_articles: (publisher.green_campus_articles || []).map(normalizePublisherContentItem),
+        videos: (publisher.videos || []).map(normalizePublisherContentItem),
+      };
+    });
   },
 
   getDepartment(slug) {

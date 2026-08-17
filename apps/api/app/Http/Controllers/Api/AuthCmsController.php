@@ -223,21 +223,30 @@ class AuthCmsController extends Controller
 
     protected function requestLocale(Request $request): string
     {
-        $locale = $request->query('locale') ?: $request->header('Accept-Language');
+        $locale = $request->query('locale')
+            ?: $request->header('X-Locale')
+            ?: $request->header('Accept-Language');
         $supported = $this->localeCodes();
 
         if ($locale) {
-            $locale = strtolower(trim(explode(',', $locale)[0]));
-            if (strlen($locale) > 2 && $locale[2] === '-') {
-                $locale = substr($locale, 0, 2);
-            }
+            $locale = $this->normalizeRequestedLocale($locale);
 
             if (in_array($locale, $supported, true)) {
                 return $locale;
             }
+
+            $primary = explode('-', $locale)[0] ?? '';
+            if ($primary && in_array($primary, $supported, true)) {
+                return $primary;
+            }
         }
 
         return $this->fallbackLocale();
+    }
+
+    protected function normalizeRequestedLocale(string $locale): string
+    {
+        return strtolower(trim(explode(',', str_replace('_', '-', $locale))[0]));
     }
 
     protected function localeCodes(): array
@@ -247,11 +256,15 @@ class AuthCmsController extends Controller
             ->orderBy('sort_order')
             ->orderBy('id')
             ->pluck('code')
+            ->map(fn ($code) => strtolower(str_replace('_', '-', trim((string) $code))))
             ->filter()
             ->values()
             ->all();
 
-        return $codes ?: ['en', 'uz', 'ru', 'ar'];
+        return $codes ?: array_values(array_filter([
+            config('app.fallback_locale'),
+            config('app.locale'),
+        ]));
     }
 
     protected function fallbackLocale(): string

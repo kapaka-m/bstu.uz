@@ -266,22 +266,39 @@ class HomeCmsController extends Controller
             ->orderBy('sort_order')
             ->orderBy('id')
             ->pluck('code')
+            ->map(fn ($code) => strtolower(str_replace('_', '-', trim((string) $code))))
             ->filter()
             ->values()
             ->all();
 
-        return $codes ?: ['en', 'uz', 'ru', 'ar'];
+        return $codes ?: array_values(array_filter([
+            config('app.fallback_locale'),
+            config('app.locale'),
+        ]));
     }
 
     protected function requestLocale(Request $request): string
     {
-        $locale = strtolower((string) ($request->query('locale') ?: $request->header('Accept-Language')));
-        $locale = trim(explode(',', $locale)[0]);
-        if (strlen($locale) > 2 && $locale[2] === '-') {
-            $locale = substr($locale, 0, 2);
+        $locale = $this->normalizeRequestedLocale((string) (
+            $request->query('locale')
+            ?: $request->header('X-Locale')
+            ?: $request->header('Accept-Language')
+        ));
+
+        if (in_array($locale, $this->localeCodes(), true)) {
+            return $locale;
         }
 
-        return in_array($locale, $this->localeCodes(), true) ? $locale : $this->fallbackLocale();
+        $primary = explode('-', $locale)[0] ?? '';
+
+        return $primary && in_array($primary, $this->localeCodes(), true)
+            ? $primary
+            : $this->fallbackLocale();
+    }
+
+    protected function normalizeRequestedLocale(string $locale): string
+    {
+        return strtolower(trim(explode(',', str_replace('_', '-', $locale))[0]));
     }
 
     protected function fallbackLocale(): string
@@ -300,6 +317,7 @@ class HomeCmsController extends Controller
                     'cta_url' => '/apply',
                     'video_url' => 'cms/videos/files/graduation-2026.mp4',
                     'image' => 'cms/home/hero/hero-university.jpg',
+                    'background_image' => 'cms/home/hero/hero-bg.png',
                 ],
                 'translation' => [
                     'title' => 'Bukhara State Technical University',
@@ -331,6 +349,26 @@ class HomeCmsController extends Controller
                     ['item_key' => 'distance_learning', 'sort_order' => 2, 'translation' => ['title' => 'Distance Learning Platform']],
                     ['item_key' => 'contract_invoice', 'sort_order' => 3, 'translation' => ['title' => 'Contract & Invoice Portal']],
                     ['item_key' => 'remote_education', 'sort_order' => 4, 'translation' => ['title' => 'Remote Education Management']],
+                ],
+            ],
+            [
+                'section_key' => 'programs',
+                'section_type' => 'dynamic_programs',
+                'sort_order' => 80,
+                'settings' => ['cta_url' => '/programs'],
+                'translation' => [
+                    'eyebrow' => 'Academic programs',
+                    'title' => 'Choose your study program',
+                    'cta_label' => 'View all programs',
+                ],
+                'items' => [
+                    ['item_key' => 'explore_label', 'sort_order' => 1, 'translation' => ['label' => 'Explore']],
+                    ['item_key' => 'degree_bachelor', 'sort_order' => 2, 'translation' => ['label' => 'Bachelor']],
+                    ['item_key' => 'degree_master', 'sort_order' => 3, 'translation' => ['label' => 'Master']],
+                    ['item_key' => 'degree_phd', 'sort_order' => 4, 'translation' => ['label' => 'PhD']],
+                    ['item_key' => 'duration_years2', 'sort_order' => 5, 'translation' => ['label' => '2 years']],
+                    ['item_key' => 'duration_years4', 'sort_order' => 6, 'translation' => ['label' => '4 years']],
+                    ['item_key' => 'duration_years5', 'sort_order' => 7, 'translation' => ['label' => '5 years']],
                 ],
             ],
             [

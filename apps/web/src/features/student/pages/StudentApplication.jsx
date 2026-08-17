@@ -16,6 +16,18 @@ import {
 import FormError from "../../../components/common/FormError";
 import StatusBadge from "../../apanel/components/StatusBadge";
 
+const normalizeOption = (value) =>
+  String(value || "")
+    .trim()
+    .toLowerCase()
+    .replaceAll("_", "-");
+
+const normalizeOptionList = (value) =>
+  String(value || "")
+    .split(/[,;/|]+/)
+    .map((item) => normalizeOption(item))
+    .filter(Boolean);
+
 export default function StudentApplication() {
   const { t } = useLanguage();
   const navigate = useNavigate();
@@ -42,11 +54,6 @@ export default function StudentApplication() {
   const [selectedLanguage, setSelectedLanguage] = useState("");
   const [selectedMode, setSelectedMode] = useState("");
   const [selectedProgramId, setSelectedProgramId] = useState("");
-  const normalizeOption = (value) =>
-    String(value || "")
-      .trim()
-      .toLowerCase()
-      .replaceAll("_", "-");
 
   const loadApplication = React.useCallback(async () => {
     try {
@@ -80,8 +87,8 @@ export default function StudentApplication() {
           setSelectedDegree(normalizeOption(prog.degree));
           setSelectedFaculty(prog.faculty_id || "");
           setSelectedDepartment(prog.department_id || "");
-          setSelectedLanguage(normalizeOption(prog.language_of_study));
-          setSelectedMode(normalizeOption(prog.study_mode));
+          setSelectedLanguage(normalizeOptionList(prog.language_of_study)[0] || "");
+          setSelectedMode(normalizeOptionList(prog.study_mode)[0] || "");
         }
       }
     } catch {
@@ -111,10 +118,10 @@ export default function StudentApplication() {
       return false;
     if (
       selectedLanguage &&
-      normalizeOption(p.language_of_study) !== selectedLanguage
+      !normalizeOptionList(p.language_of_study).includes(selectedLanguage)
     )
       return false;
-    if (selectedMode && normalizeOption(p.study_mode) !== selectedMode)
+    if (selectedMode && !normalizeOptionList(p.study_mode).includes(selectedMode))
       return false;
     return true;
   });
@@ -154,11 +161,11 @@ export default function StudentApplication() {
           null,
         language_of_study:
           selectedLanguage ||
-          normalizeOption(selectedProgramDetails?.language_of_study) ||
+          normalizeOptionList(selectedProgramDetails?.language_of_study)[0] ||
           null,
         study_mode:
           selectedMode ||
-          normalizeOption(selectedProgramDetails?.study_mode) ||
+          normalizeOptionList(selectedProgramDetails?.study_mode)[0] ||
           null,
       };
 
@@ -234,10 +241,10 @@ export default function StudentApplication() {
   const isReadOnly = activeApp && activeApp.status !== "draft";
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6 animate-in fade-in duration-200">
+    <div className="mx-auto max-w-4xl min-w-0 space-y-6 animate-in fade-in duration-200">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <div>
-          <h1 className="text-2xl font-extrabold text-navy uppercase tracking-wider">
+        <div className="min-w-0">
+          <h1 className="text-xl sm:text-2xl font-extrabold text-navy uppercase tracking-wider break-words">
             {t("student.application.title")}
           </h1>
           <p className="text-xs font-semibold text-gray-400">
@@ -285,7 +292,7 @@ export default function StudentApplication() {
       )}
 
       {/* Selector Options Box */}
-      <div className="bg-white border border-gray-100 rounded-3xl p-6 shadow-xs space-y-6">
+      <div className="min-w-0 bg-white border border-gray-100 rounded-3xl p-4 sm:p-6 shadow-xs space-y-6">
         <div className="flex items-center gap-2 pb-3 border-b border-gray-50 text-navy font-extrabold uppercase text-xs tracking-wider">
           <ClipboardCheck className="w-4 h-4 text-primary" />
           <span>{t("application.academicSelections")}</span>
@@ -428,16 +435,16 @@ export default function StudentApplication() {
 
         {/* Selected Details summary */}
         {selectedProgramDetails && (
-          <div className="p-5 rounded-2xl border border-primary/10 bg-primary/5 space-y-3">
-            <h4 className="text-xs font-black text-navy uppercase tracking-wider">
+          <div className="min-w-0 p-5 rounded-2xl border border-primary/10 bg-primary/5 space-y-3">
+            <h4 className="text-xs font-black text-navy uppercase tracking-wider break-words">
               {t("application.selectedProgramSpecifications")}
             </h4>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
               <div>
                 <p className="text-[10px] text-gray-400 font-bold">
                   {t("program.tuitionFee")}
                 </p>
-                <p className="font-extrabold text-navy">
+                <p className="font-extrabold text-navy break-words">
                   {Number(selectedProgramDetails.tuition_fee).toLocaleString()}{" "}
                   {selectedProgramDetails.currency || ""}{" "}
                   / {t("time.year")}
@@ -472,11 +479,11 @@ export default function StudentApplication() {
 
       {/* Form Buttons */}
       {!isReadOnly && (
-        <div className="flex justify-end gap-3">
+        <div className="flex flex-col justify-end gap-3 sm:flex-row">
           <button
             onClick={handleSaveDraft}
             disabled={saving}
-            className="px-5 py-3 bg-white hover:bg-gray-50 border border-gray-250 text-navy text-xs font-bold rounded-xl cursor-pointer transition-all flex items-center gap-1.5"
+            className="inline-flex w-full items-center justify-center gap-1.5 rounded-xl border border-gray-250 bg-white px-5 py-3 text-xs font-bold text-navy transition-all hover:bg-gray-50 disabled:cursor-not-allowed sm:w-auto"
           >
             {saving ? (
               <Loader2 className="w-4 h-4 animate-spin" />
@@ -490,7 +497,7 @@ export default function StudentApplication() {
             <button
               onClick={handleSubmitApplication}
               disabled={submitting}
-              className="px-6 py-3 bg-primary hover:bg-primary-hover text-white text-xs font-extrabold rounded-xl shadow-md hover:shadow-lg cursor-pointer transition-all flex items-center gap-1.5"
+              className="inline-flex w-full items-center justify-center gap-1.5 rounded-xl bg-primary px-6 py-3 text-xs font-extrabold text-white shadow-md transition-all hover:bg-primary-hover hover:shadow-lg disabled:cursor-not-allowed sm:w-auto"
             >
               {submitting ? (
                 <Loader2 className="w-4 h-4 animate-spin" />

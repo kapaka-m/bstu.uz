@@ -11,6 +11,8 @@ import {
   Twitter,
   Facebook,
   Instagram,
+  AlertCircle,
+  BookOpen,
 } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
 import { useAuth } from "../context/AuthContext";
@@ -48,6 +50,7 @@ export default function BlogDetails() {
   });
   const [replyTarget, setReplyTarget] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -59,6 +62,7 @@ export default function BlogDetails() {
     const loadDetails = async () => {
       try {
         setLoading(true);
+        setError("");
         const nextSettings = await blogService.getSettings();
         const [nextPost, recentResponse] = await Promise.all([
           blogService.getBlogItem(id),
@@ -77,7 +81,11 @@ export default function BlogDetails() {
         }
       } catch {
         if (alive) {
+          setSettings({});
           setPost(null);
+          setRecentPosts([]);
+          setCommentsList([]);
+          setError(t("common.loadError"));
         }
       } finally {
         if (alive) setLoading(false);
@@ -89,7 +97,7 @@ export default function BlogDetails() {
     return () => {
       alive = false;
     };
-  }, [id, language]);
+  }, [id, language, t]);
 
   const categories = useMemo(() => {
     const labelByValue = recentPosts.reduce((labels, item) => {
@@ -177,6 +185,17 @@ export default function BlogDetails() {
     return null;
   }
 
+  if (error) {
+    return (
+      <div className="pt-24 min-h-screen bg-slate-50/50 flex items-center justify-center px-4">
+        <div className="flex items-center gap-3 rounded-2xl border border-red-100 bg-red-50 px-5 py-4 text-sm font-bold text-red-600">
+          <AlertCircle className="w-5 h-5 shrink-0" />
+          <span>{error}</span>
+        </div>
+      </div>
+    );
+  }
+
   if (!post) {
     return (
       <div className="pt-24 bg-white">
@@ -190,6 +209,7 @@ export default function BlogDetails() {
   }
 
   const commentsLabel = labelText(settings.comments_label, "");
+  const paragraphs = Array.isArray(post.paragraphs) ? post.paragraphs : [];
   const currentUrl = typeof window !== "undefined" ? window.location.href : "";
   const categoryLabel = asText(post.categoryLabel, asText(post.category));
   const publisher = post.department || null;
@@ -226,76 +246,82 @@ export default function BlogDetails() {
   };
 
   return (
-    <div className="pt-24 bg-white">
-      <div className="container mx-auto px-4 md:px-8 max-w-7xl py-12 md:py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+    <div className="pt-24 bg-white overflow-x-hidden">
+      <div className="container mx-auto px-4 md:px-8 max-w-7xl py-12 md:py-16 min-w-0">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start min-w-0">
           {/* Left: Article Details & Comments */}
-          <div className="lg:col-span-8 flex flex-col gap-10">
-            <article className="flex flex-col gap-6">
+          <div className="lg:col-span-8 flex min-w-0 flex-col gap-10">
+            <article className="flex min-w-0 flex-col gap-6">
               {/* Image */}
-              <div className="rounded-3xl overflow-hidden shadow-lg aspect-video bg-gray-50 border border-gray-100">
-                <img
-                  src={post.image}
-                  alt={post.title}
-                  className="w-full h-full object-cover"
-                />
+              <div className="rounded-3xl overflow-hidden shadow-lg aspect-video bg-primary/10 border border-gray-100">
+                {post.image ? (
+                  <img
+                    src={post.image}
+                    alt={asText(post.title)}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-primary">
+                    <BookOpen className="w-14 h-14" />
+                  </div>
+                )}
               </div>
 
               {/* Title */}
-              <h1 className="text-2xl md:text-4xl font-extrabold text-navy leading-snug">
-                {post.title}
+              <h1 className="text-2xl md:text-4xl font-extrabold text-navy leading-snug break-words">
+                {asText(post.title)}
               </h1>
 
               {/* Meta */}
-              <div className="flex items-center gap-4 text-xs md:text-sm font-semibold text-gray-400 border-b border-gray-200/50 pb-4">
-                <span className="flex items-center gap-1">
+              <div className="flex min-w-0 flex-wrap items-center gap-x-4 gap-y-2 text-xs md:text-sm font-semibold text-gray-400 border-b border-gray-200/50 pb-4">
+                <span className="flex min-w-0 items-center gap-1">
                   <User className="w-4 h-4 text-primary" />
                   {publisherRoute ? (
-                    <Link to={publisherRoute} className="hover:text-primary transition-colors">
+                    <Link to={publisherRoute} className="min-w-0 truncate hover:text-primary transition-colors">
                       {publisherName}
                     </Link>
                   ) : (
-                    <span>{publisherName}</span>
+                    <span className="min-w-0 truncate">{publisherName}</span>
                   )}
                 </span>
-                <span className="flex items-center gap-1">
+                <span className="flex min-w-0 items-center gap-1">
                   <Calendar className="w-4 h-4 text-primary" />
-                  <span>{formatPostDate(post.date)}</span>
+                  <span className="truncate">{formatPostDate(post.date)}</span>
                 </span>
-                <span className="flex items-center gap-1">
+                <span className="flex min-w-0 items-center gap-1">
                   <MessageSquare className="w-4 h-4 text-primary" />
-                  <span>
+                  <span className="truncate">
                     {commentsList.length} {commentsLabel}
                   </span>
                 </span>
               </div>
 
               {/* Content */}
-              <div className="text-gray-500 text-sm md:text-base leading-relaxed flex flex-col gap-6">
-                {post.paragraphs.length > 0 ? (
-                  post.paragraphs.map((paragraph, idx) => (
+              <div className="min-w-0 text-gray-500 text-sm md:text-base leading-relaxed flex flex-col gap-6 break-words">
+                {paragraphs.length > 0 ? (
+                  paragraphs.map((paragraph, idx) => (
                     <p key={idx} className="leading-relaxed">
                       {paragraph}
                     </p>
                   ))
                 ) : (
-                  <p className="leading-relaxed">{post.excerpt}</p>
+                  <p className="leading-relaxed">{asText(post.excerpt)}</p>
                 )}
               </div>
 
               {/* Meta Bottom */}
-              <div className="flex flex-wrap items-center gap-6 border-t border-gray-200/50 pt-4 text-xs md:text-sm text-gray-400 font-semibold">
-                <span className="flex items-center gap-1.5">
+              <div className="flex min-w-0 flex-wrap items-center gap-6 border-t border-gray-200/50 pt-4 text-xs md:text-sm text-gray-400 font-semibold">
+                <span className="flex min-w-0 items-center gap-1.5">
                   <Folder className="w-4 h-4 text-primary" />
-                  <span className="text-navy">{categoryLabel}</span>
+                  <span className="min-w-0 break-words text-navy">{categoryLabel}</span>
                 </span>
-                <span className="flex items-center gap-1.5">
+                <span className="flex min-w-0 items-center gap-1.5">
                   <Tag className="w-4 h-4 text-primary" />
-                  <div className="flex gap-2">
+                  <div className="flex min-w-0 gap-2">
                     <Link
                       to="/blog"
                       state={{ category: asText(post.category).toLowerCase() }}
-                      className="bg-gray-50 hover:bg-primary/5 hover:text-primary transition-colors border border-gray-100 px-2.5 py-1 rounded-lg text-gray-500 font-bold"
+                      className="min-w-0 break-words bg-gray-50 hover:bg-primary/5 hover:text-primary transition-colors border border-gray-100 px-2.5 py-1 rounded-lg text-gray-500 font-bold"
                     >
                       {categoryLabel}
                     </Link>
@@ -307,7 +333,7 @@ export default function BlogDetails() {
             {/* Author Section */}
             <div
               dir={isRtl ? "ltr" : undefined}
-              className={`bg-primary-light border border-gray-100 p-8 rounded-3xl flex gap-6 ${isRtl ? "flex-row items-center justify-end text-right" : "flex-col sm:flex-row items-center sm:items-start"}`}
+              className={`bg-primary-light border border-gray-100 p-5 sm:p-8 rounded-3xl flex min-w-0 gap-5 sm:gap-6 ${isRtl ? "flex-row items-center justify-end text-right" : "flex-col sm:flex-row items-center sm:items-start"}`}
             >
               {publisherImage && publisherRoute ? (
                 <Link to={publisherRoute} className="shrink-0" aria-label={publisherName}>
@@ -333,9 +359,9 @@ export default function BlogDetails() {
               )}
               <div
                 dir={isRtl ? "rtl" : undefined}
-                className={`${isRtl ? "order-1 text-right items-end shrink-0" : "text-center sm:text-left items-center sm:items-start grow w-full"} flex flex-col`}
+                className={`${isRtl ? "order-1 text-right items-end" : "text-center sm:text-left items-center sm:items-start grow w-full"} flex min-w-0 flex-col`}
               >
-                <h4 className="text-lg font-extrabold text-navy mb-1">
+                <h4 className="max-w-full break-words text-lg font-extrabold text-navy mb-1">
                   {publisherRoute ? (
                     <Link to={publisherRoute} className="hover:text-primary transition-colors">
                       {publisherName}
@@ -345,7 +371,7 @@ export default function BlogDetails() {
                   )}
                 </h4>
                 {publisher?.description && (
-                  <p className="text-sm text-gray-500 leading-relaxed max-w-2xl mb-3">
+                  <p className="max-w-full text-sm text-gray-500 leading-relaxed break-words sm:max-w-2xl mb-3">
                     {publisher.description}
                   </p>
                 )}
@@ -353,7 +379,7 @@ export default function BlogDetails() {
                   className={`flex items-center ${isRtl ? "justify-end" : "justify-center sm:justify-start"} gap-2.5 mb-3`}
                 >
                   <a
-                    href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(currentUrl)}&text=${encodeURIComponent(post.title)}`}
+                    href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(currentUrl)}&text=${encodeURIComponent(asText(post.title))}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-gray-400 hover:text-primary"
@@ -393,7 +419,7 @@ export default function BlogDetails() {
                   return (
                     <div
                       key={comment.id}
-                      className={`flex gap-4 p-5 rounded-3xl bg-white border border-gray-50 shadow-sm ${comment.parent_id ? "ml-8 md:ml-12 border-l-4 border-l-primary" : ""}`}
+                className={`flex min-w-0 gap-4 p-4 sm:p-5 rounded-3xl bg-white border border-gray-50 shadow-sm ${comment.parent_id ? "ms-6 md:ms-12 border-s-4 border-s-primary" : ""}`}
                     >
                       {comment.parent_id && (
                         <CornerDownRight className="w-5 h-5 text-gray-300 shrink-0 mt-2" />
@@ -401,39 +427,39 @@ export default function BlogDetails() {
                       {comment.avatar ? (
                         <img
                           src={comment.avatar}
-                          alt={comment.author}
+                          alt={asText(comment.author)}
                           className="w-12 h-12 rounded-full object-cover border-2 border-white shadow-sm shrink-0"
                         />
                       ) : (
                         <div
                           className="w-12 h-12 rounded-full border-2 border-white shadow-sm shrink-0 bg-primary-light text-primary flex items-center justify-center"
-                          aria-label={comment.author}
+                          aria-label={asText(comment.author)}
                         >
                           <User className="w-5 h-5" />
                         </div>
                       )}
-                      <div className="grow">
+                      <div className="grow min-w-0">
                         <div className="flex flex-wrap items-baseline justify-between gap-2 mb-2">
-                          <div className="flex items-baseline gap-2">
-                            <h5 className="font-bold text-navy text-sm md:text-base">
-                              {comment.author}
+                          <div className="flex min-w-0 flex-wrap items-baseline gap-2">
+                            <h5 className="font-bold text-navy text-sm md:text-base break-words">
+                              {asText(comment.author)}
                             </h5>
-                            <span className="text-xs text-gray-400 font-semibold">
+                            <span className="text-xs text-gray-400 font-semibold shrink-0">
                               {formatPostDate(comment.date)}
                             </span>
                           </div>
                           <button
                             onClick={() =>
-                              handleReplyClick(comment.id, comment.author)
+                              handleReplyClick(comment.id, asText(comment.author))
                             }
                             className="text-xs font-bold text-primary hover:text-primary-hover hover:underline cursor-pointer"
                           >
                             {labelText(settings.reply_label, "")}
                           </button>
                         </div>
-                        <p className="text-gray-500 text-sm leading-relaxed">
+                        <p className="text-gray-500 text-sm leading-relaxed break-words">
                           {parent && (
-                            <span className="text-primary font-semibold mr-1">
+                            <span className="text-primary font-semibold me-1">
                               @{parent.author}
                             </span>
                           )}
@@ -449,7 +475,7 @@ export default function BlogDetails() {
             {/* Comment Form */}
             <div
               id="comment-form"
-              className="bg-primary-light border border-gray-100 p-8 rounded-3xl"
+              className="bg-primary-light border border-gray-100 p-5 sm:p-8 rounded-3xl min-w-0"
             >
               <h3 className="text-xl font-bold text-navy mb-2">
                 {labelText(settings.form_title, "")}
@@ -459,7 +485,7 @@ export default function BlogDetails() {
                   <h4 className="text-base font-extrabold text-navy mb-2">
                     {commentAuthCopy.title}
                   </h4>
-                  <p className="text-sm text-gray-500 leading-relaxed mb-4">
+                  <p className="text-sm text-gray-500 leading-relaxed mb-4 break-words">
                     {commentAuthCopy.text}
                   </p>
                   <Link
@@ -475,20 +501,20 @@ export default function BlogDetails() {
                   {replyTarget && (
                     <div className="flex items-center justify-between bg-primary/5 text-primary text-xs font-bold px-4 py-2 rounded-lg mb-4">
                       <span>
-                        {labelText(settings.form_replying_to_label, "")}{" "}
+                        {labelText(settings.reply_label, "")}{" "}
                         @{replyTarget.author}
                       </span>
                       <button
                         onClick={() => setReplyTarget(null)}
                         className="text-gray-400 hover:text-primary cursor-pointer"
                       >
-                        {labelText(settings.form_cancel_label, "")}
+                        {t("common.cancel")}
                       </button>
                     </div>
                   )}
                   <div className="mt-4 mb-4 bg-white border border-gray-100 rounded-xl px-4 py-3 text-xs font-bold text-gray-500">
                     {commentAuthCopy.signedInAs}:{" "}
-                    <span className="text-navy">
+                    <span className="text-navy break-words">
                       {user?.name || user?.email}
                     </span>
                   </div>
@@ -510,7 +536,7 @@ export default function BlogDetails() {
                         rows={4}
                         value={commentForm.comment}
                         onChange={handleCommentChange}
-                        className="w-full bg-white border border-gray-100 rounded-xl px-4 py-3 text-sm focus:border-primary focus:outline-none transition-colors shadow-sm resize-none"
+                        className="w-full min-w-0 bg-white border border-gray-100 rounded-xl px-4 py-3 text-sm focus:border-primary focus:outline-none transition-colors shadow-sm resize-none"
                         placeholder={
                           replyTarget
                             ? `${labelText(settings.form_reply_placeholder, "")} @${replyTarget.author}...`
@@ -538,13 +564,13 @@ export default function BlogDetails() {
           </div>
 
           {/* Right: Sidebar */}
-          <div className="lg:col-span-4 flex flex-col gap-8">
+          <div className="lg:col-span-4 flex min-w-0 flex-col gap-8">
             {/* Search Box */}
-            <div className="bg-primary-light border border-gray-100 p-6 rounded-3xl">
+            <div className="bg-primary-light border border-gray-100 p-5 sm:p-6 rounded-3xl min-w-0">
               <h4 className="text-base font-extrabold text-navy mb-4">
                 {labelText(settings.search_title, "")}
               </h4>
-              <div className="flex bg-white border border-gray-200/50 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+              <div className="flex min-w-0 bg-white border border-gray-200/50 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
                 <input
                   id="blog-details-search-input"
                   name="blog_search"
@@ -554,21 +580,21 @@ export default function BlogDetails() {
                     settings.search_placeholder,
                     "",
                   )}
-                  className="grow px-4 py-3 text-sm focus:outline-none"
+                  className="min-w-0 grow px-4 py-3 text-sm focus:outline-none"
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
                       navigate("/blog", { state: { search: e.target.value } });
                     }
                   }}
                 />
-                <div className="px-4 py-3 text-gray-400 flex items-center justify-center border-s border-gray-100 bg-gray-50">
+                <div className="px-4 py-3 text-gray-400 flex items-center justify-center border-s border-gray-100 bg-gray-50 shrink-0">
                   <Search className="w-4 h-4" />
                 </div>
               </div>
             </div>
 
             {/* Categories */}
-            <div className="bg-primary-light border border-gray-100 p-8 rounded-3xl">
+            <div className="bg-primary-light border border-gray-100 p-5 sm:p-8 rounded-3xl min-w-0">
               <h4 className="text-base font-extrabold text-navy mb-5 border-b border-gray-200/50 pb-3">
                 {labelText(
                   settings.categories_title,
@@ -581,10 +607,10 @@ export default function BlogDetails() {
                     <Link
                       to="/blog"
                       state={{ category: cat.value }}
-                      className="w-full flex items-center justify-between py-2 text-gray-500 hover:text-primary transition-all"
+                      className="w-full flex min-w-0 items-center justify-between gap-3 py-2 text-gray-500 hover:text-primary transition-all"
                     >
-                      <span>{cat.name}</span>
-                      <span className="bg-white px-2.5 py-1 rounded-lg border border-gray-100 text-xs text-gray-400">
+                      <span className="min-w-0 break-words">{cat.name}</span>
+                      <span className="shrink-0 bg-white px-2.5 py-1 rounded-lg border border-gray-100 text-xs text-gray-400">
                         ({cat.count})
                       </span>
                     </Link>
@@ -594,7 +620,7 @@ export default function BlogDetails() {
             </div>
 
             {/* Recent Posts */}
-            <div className="bg-primary-light border border-gray-100 p-8 rounded-3xl">
+            <div className="bg-primary-light border border-gray-100 p-5 sm:p-8 rounded-3xl min-w-0">
               <h4 className="text-base font-extrabold text-navy mb-5 border-b border-gray-200/50 pb-3">
                 {labelText(
                   settings.recent_title,
@@ -603,15 +629,21 @@ export default function BlogDetails() {
               </h4>
               <div className="flex flex-col gap-5">
                 {recentPosts.map((item) => (
-                  <div key={item.slug || item.id} className="flex gap-4">
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      className="w-16 h-16 rounded-xl object-cover shrink-0 bg-gray-100 border border-white shadow-sm"
-                    />
-                    <div className="flex flex-col justify-center">
+                  <div key={item.slug || item.id} className="flex min-w-0 gap-4">
+                    {item.image ? (
+                      <img
+                        src={item.image}
+                        alt={asText(item.title)}
+                        className="w-16 h-16 rounded-xl object-cover shrink-0 bg-gray-100 border border-white shadow-sm"
+                      />
+                    ) : (
+                      <div className="w-16 h-16 rounded-xl shrink-0 bg-primary/10 border border-primary/10 flex items-center justify-center text-primary">
+                        <BookOpen className="w-5 h-5" />
+                      </div>
+                    )}
+                    <div className="flex flex-col justify-center min-w-0">
                       <h5 className="font-bold text-sm text-navy hover:text-primary transition-colors line-clamp-2 leading-tight">
-                        <Link to={`/blog/${item.slug}`}>{item.title}</Link>
+                          <Link to={`/blog/${item.slug}`}>{asText(item.title)}</Link>
                       </h5>
                       <span className="text-xs text-gray-400 mt-1 font-semibold">
                         {formatPostDate(item.date)}
@@ -623,7 +655,7 @@ export default function BlogDetails() {
             </div>
 
             {/* Tags */}
-            <div className="bg-primary-light border border-gray-100 p-8 rounded-3xl">
+            <div className="bg-primary-light border border-gray-100 p-5 sm:p-8 rounded-3xl min-w-0">
               <h4 className="text-base font-extrabold text-navy mb-5 border-b border-gray-200/50 pb-3">
                 {labelText(settings.tags_title, "")}
               </h4>
@@ -633,7 +665,7 @@ export default function BlogDetails() {
                     key={tag.value}
                     to="/blog"
                     state={{ category: tag.value }}
-                    className="px-3 py-1.5 bg-white hover:bg-primary hover:text-white border border-gray-200/30 rounded-lg text-xs font-bold text-gray-400 transition-colors shadow-sm"
+                    className="max-w-full break-words px-3 py-1.5 bg-white hover:bg-primary hover:text-white border border-gray-200/30 rounded-lg text-xs font-bold text-gray-400 transition-colors shadow-sm"
                   >
                     {tag.label}
                   </Link>

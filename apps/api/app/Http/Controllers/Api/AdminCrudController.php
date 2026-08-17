@@ -40,8 +40,6 @@ use App\Models\NewsEventSetting;
 use App\Models\NewsletterCampaign;
 use App\Models\NewsletterSubscription;
 use App\Models\Notification;
-use App\Models\Page;
-use App\Models\PageBlock;
 use App\Models\Payment;
 use App\Models\Permission;
 use App\Models\Program;
@@ -93,8 +91,6 @@ class AdminCrudController extends Controller
         'settings' => Setting::class,
         'menus' => Menu::class,
         'menu-items' => MenuItem::class,
-        'pages' => Page::class,
-        'page-blocks' => PageBlock::class,
         'faculties' => Faculty::class,
         'departments' => Department::class,
         'programs' => Program::class,
@@ -228,6 +224,10 @@ class AdminCrudController extends Controller
             $query->with('translations');
         }
 
+        if ($resource === 'staff') {
+            $query->with('linkedDepartments.translations');
+        }
+
         if ($resource === 'blogs') {
             $query->with('blogDepartment.translations');
         }
@@ -312,12 +312,19 @@ class AdminCrudController extends Controller
                 if (in_array($resource, ['news', 'announcements', 'green-campus-articles', 'videos'], true)) {
                     $relations[] = 'publisher.translations';
                 }
+                if ($resource === 'staff') {
+                    $relations[] = 'linkedDepartments.translations';
+                }
                 $record = $modelClass::with($relations)->find($id);
             }
         }
 
         if (! $record) {
             return $this->errorResponse('Record not found', 404);
+        }
+
+        if ($resource === 'staff') {
+            $record->secondary_department_ids = $record->linkedDepartments->pluck('id')->values()->all();
         }
 
         return $this->successResponse($record, "{$resource} item retrieved");
@@ -368,10 +375,12 @@ class AdminCrudController extends Controller
                 // Extract translations if present
                 $translations = $request->input('translations', []);
                 unset($validated['translations']);
+                $secondaryDepartmentIds = $this->extractStaffSecondaryDepartmentIds($resource, $validated);
 
                 $validated = $this->prepareValidatedData($resource, $validated);
                 $record = $modelClass::create($validated);
                 $this->handleWorkflowCreated($resource, $record);
+                $this->syncStaffSecondaryDepartments($resource, $record, $secondaryDepartmentIds);
 
                 // Save translations
                 if (method_exists($record, 'translations') && ! empty($translations)) {
@@ -438,10 +447,12 @@ class AdminCrudController extends Controller
         try {
             $translations = $request->input('translations', []);
             unset($validated['translations']);
+            $secondaryDepartmentIds = $this->extractStaffSecondaryDepartmentIds($resource, $validated);
 
             $validated = $this->prepareValidatedData($resource, $validated, $record);
             $record->update($validated);
             $this->handleWorkflowSideEffects($resource, $record, $oldValues, $validated, $request);
+            $this->syncStaffSecondaryDepartments($resource, $record, $secondaryDepartmentIds);
 
             if ($resource === 'comments') {
                 $this->syncBlogCommentsCount((int) ($oldValues['blog_id'] ?? $record->blog_id));
@@ -470,6 +481,47 @@ class AdminCrudController extends Controller
 
             return $this->transactionErrorResponse($e);
         }
+    }
+
+    protected function extractStaffSecondaryDepartmentIds(string $resource, array &$validated): array
+    {
+        if ($resource !== 'staff') {
+            return [];
+        }
+
+        $ids = collect($validated['secondary_department_ids'] ?? [])
+            ->map(fn ($id) => (int) $id)
+            ->filter()
+            ->unique()
+            ->values()
+            ->all();
+
+        unset($validated['secondary_department_ids']);
+
+        return $ids;
+    }
+
+    protected function syncStaffSecondaryDepartments(string $resource, Model $record, array $departmentIds): void
+    {
+        if ($resource !== 'staff' || ! method_exists($record, 'linkedDepartments')) {
+            return;
+        }
+
+        $primaryDepartmentId = (int) ($record->department_id ?? 0);
+        $departmentIds = collect($departmentIds)
+            ->map(fn ($id) => (int) $id)
+            ->filter(fn ($id) => $id > 0 && $id !== $primaryDepartmentId)
+            ->unique()
+            ->values();
+
+        $payload = [];
+        foreach ($departmentIds as $index => $departmentId) {
+            $payload[$departmentId] = [
+                'sort_order' => (int) ($record->sort_order ?? (($index + 1) * 10)),
+            ];
+        }
+
+        $record->linkedDepartments()->sync($payload);
     }
 
     protected function handleWorkflowSideEffects(string $resource, Model $record, array $oldValues, array $validated, Request $request): void
@@ -1781,6 +1833,8 @@ class AdminCrudController extends Controller
             'translations.*.form_name_label' => 'nullable|string|max:255',
             'translations.*.form_email_label' => 'nullable|string|max:255',
             'translations.*.form_comment_label' => 'nullable|string|max:255',
+            'translations.*.form_comment_placeholder' => 'nullable|string|max:255',
+            'translations.*.form_reply_placeholder' => 'nullable|string|max:255',
             'translations.*.form_submit_label' => 'nullable|string|max:255',
             'translations.*.comment_login_title' => 'nullable|string|max:255',
             'translations.*.comment_login_text' => 'nullable|string|max:500',
@@ -2201,8 +2255,6 @@ class AdminCrudController extends Controller
             'document-requirements',
             'menus',
             'menu-items',
-            'pages',
-            'page-blocks',
             'faculties',
             'departments',
             'programs',
@@ -2246,7 +2298,29 @@ class AdminCrudController extends Controller
             }
         }
 
+        if ($resource === 'programs' && array_key_exists('study_mode', $validated)) {
+            $validated['study_mode'] = $this->normalizeProgramOptionList($validated['study_mode']);
+        }
+
+        if ($resource === 'programs' && array_key_exists('language_of_study', $validated)) {
+            $validated['language_of_study'] = $this->normalizeProgramOptionList($validated['language_of_study']);
+        }
+
         return $validated;
+    }
+
+    protected function normalizeProgramOptionList(mixed $value): string
+    {
+        $items = is_array($value)
+            ? $value
+            : preg_split('/[,;\/|]+/', (string) $value);
+
+        return collect($items ?: [])
+            ->map(fn ($item) => strtolower(trim((string) $item)))
+            ->filter()
+            ->map(fn ($item) => str_replace([' ', '-'], '_', $item))
+            ->unique()
+            ->implode(', ');
     }
 
     protected function transactionErrorResponse(Throwable $e)
@@ -2268,7 +2342,7 @@ class AdminCrudController extends Controller
         switch ($resource) {
             case 'locales':
                 return [
-                    'code' => 'required|string|unique:locales,code,'.$id,
+                    'code' => 'required|string|max:35|unique:locales,code,'.$id,
                     'name' => 'required|string',
                     'native_name' => 'required|string',
                     'direction' => 'required|in:ltr,rtl',
@@ -2285,7 +2359,7 @@ class AdminCrudController extends Controller
             case 'translation-values':
                 return [
                     'translation_key_id' => 'required|integer|exists:translation_keys,id',
-                    'locale' => 'required|string|max:5',
+                    'locale' => 'required|string|max:35',
                     'value' => 'required|string',
                 ];
             case 'settings':
@@ -2310,24 +2384,6 @@ class AdminCrudController extends Controller
                     'url' => 'nullable|string',
                     'icon' => 'nullable|string',
                     'sort_order' => 'integer',
-                    'is_active' => 'boolean',
-                    'translations' => 'required|array',
-                ];
-            case 'pages':
-                return [
-                    'slug' => 'required|string|unique:pages,slug,'.$id,
-                    'template' => 'string',
-                    'is_published' => 'boolean',
-                    'sort_order' => 'integer',
-                    'translations' => 'required|array',
-                ];
-            case 'page-blocks':
-                return [
-                    'page_id' => 'required|integer|exists:pages,id',
-                    'block_key' => 'required|string',
-                    'type' => 'required|string',
-                    'sort_order' => 'integer',
-                    'settings_json' => 'nullable|array',
                     'is_active' => 'boolean',
                     'translations' => 'required|array',
                 ];
@@ -2402,12 +2458,14 @@ class AdminCrudController extends Controller
                     'track' => 'nullable|string',
                     'degree' => 'required|string',
                     'duration_years' => 'required|numeric',
-                    'study_mode' => 'required|string',
-                    'language_of_study' => 'required|string',
+                    'study_mode' => 'required',
+                    'language_of_study' => 'required',
                     'tuition_fee' => 'required|numeric',
                     'currency' => 'string|max:3',
                     'image' => 'nullable|string',
                     'is_active' => 'boolean',
+                    'show_on_homepage' => 'boolean',
+                    'homepage_sort_order' => 'nullable|integer|min:0',
                     'sort_order' => 'integer',
                     'translations' => 'required|array',
                 ];
@@ -2453,7 +2511,7 @@ class AdminCrudController extends Controller
             case 'newsletter-subscriptions':
                 return [
                     'email' => 'required|email|unique:newsletter_subscriptions,email,'.$id,
-                    'locale' => 'nullable|string|max:5',
+                    'locale' => 'nullable|string|max:35',
                     'status' => 'required|string|in:active,unsubscribed',
                     'subscribed_at' => 'nullable|date',
                     'unsubscribed_at' => 'nullable|date',
@@ -2500,6 +2558,8 @@ class AdminCrudController extends Controller
                 return [
                     'slug' => 'nullable|string|unique:staff_profiles,slug,'.$id,
                     'department_id' => 'nullable|integer|exists:departments,id',
+                    'secondary_department_ids' => 'nullable|array',
+                    'secondary_department_ids.*' => 'integer|exists:departments,id',
                     'faculty_id' => 'nullable|integer|exists:faculties,id',
                     'photo' => 'nullable|string',
                     'email' => 'nullable|email',

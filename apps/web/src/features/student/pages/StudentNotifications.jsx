@@ -75,10 +75,10 @@ export default function StudentNotifications() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6 animate-in fade-in duration-200">
+    <div className="mx-auto max-w-4xl min-w-0 space-y-6 animate-in fade-in duration-200">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-extrabold text-navy uppercase tracking-wider">
+          <h1 className="text-xl sm:text-2xl font-extrabold text-navy uppercase tracking-wider break-words">
             {t("student.notifications")}
           </h1>
           <p className="text-xs font-semibold text-gray-400">
@@ -90,7 +90,7 @@ export default function StudentNotifications() {
           <button
             onClick={handleMarkAllRead}
             disabled={markingAll}
-            className="flex items-center gap-2 px-4 py-2.5 bg-primary/10 hover:bg-primary/20 text-primary rounded-xl text-xs font-extrabold transition-all cursor-pointer border border-primary/20"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-primary/20 bg-primary/10 px-4 py-2.5 text-xs font-extrabold text-primary transition-all hover:bg-primary/20 disabled:cursor-not-allowed sm:w-auto"
           >
             {markingAll ? (
               <Loader2 className="w-4 h-4 animate-spin" />
@@ -108,13 +108,13 @@ export default function StudentNotifications() {
         </div>
       )}
 
-      <div className="bg-white border border-gray-100 rounded-3xl p-6 shadow-xs space-y-4">
+      <div className="min-w-0 bg-white border border-gray-100 rounded-3xl p-4 sm:p-6 shadow-xs space-y-4">
         {notifications.length > 0 ? (
           <div className="space-y-3">
             {notifications.map((notif) => (
               <div
                 key={notif.id}
-                className={`flex gap-4 p-4 rounded-2xl border transition-all ${
+                className={`flex min-w-0 gap-4 p-4 rounded-2xl border transition-all ${
                   notif.is_read
                     ? "border-gray-50 bg-white"
                     : "border-primary/20 bg-primary/5 shadow-sm"
@@ -131,15 +131,15 @@ export default function StudentNotifications() {
                 </div>
 
                 <div className="space-y-1.5 grow min-w-0">
-                  <div className="flex justify-between items-start gap-2">
+                  <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
                     <h3
-                      className={`text-xs font-black uppercase tracking-wider truncate ${
+                      className={`min-w-0 text-xs font-black uppercase tracking-wider break-words ${
                         notif.is_read ? "text-gray-500" : "text-navy"
                       }`}
                     >
                       {translateMaybe(notif.title)}
                     </h3>
-                    <div className="flex items-center gap-2 shrink-0">
+                    <div className="flex flex-wrap items-center gap-2 shrink-0">
                       <span className="text-[9px] text-gray-400 font-bold flex items-center gap-1">
                         <Clock className="w-3 h-3" />
                         {formatDate(notif.created_at)}
@@ -154,7 +154,7 @@ export default function StudentNotifications() {
                       )}
                     </div>
                   </div>
-                  <p className="text-xs text-gray-600 font-semibold leading-relaxed">
+                  <p className="text-xs text-gray-600 font-semibold leading-relaxed break-words">
                     {translateMaybe(notif.message)}
                   </p>
                   {!notif.is_read && (

@@ -95,7 +95,7 @@ export default function Announcements() {
             key={language} // Force re-initialization on language change to adapt RTL/LTR native layout
             dir={isRtl ? "rtl" : "ltr"}
             modules={[Autoplay]}
-            spaceBetween={28}
+            spaceBetween={16}
             slidesPerView={1}
             autoplay={{ delay: 5000, disableOnInteraction: false }}
             breakpoints={{
@@ -103,10 +103,10 @@ export default function Announcements() {
               1024: { slidesPerView: 3 },
               1280: { slidesPerView: 4 },
             }}
-            className="pt-3 pb-6 overflow-visible! [&_.swiper-wrapper]:items-stretch"
+            className="!overflow-visible py-3 [&_.swiper-wrapper]:items-stretch"
           >
             {latestAnnouncements.map((item) => (
-                <SwiperSlide key={item.id} className="h-auto flex">
+                <SwiperSlide key={item.id} className="h-auto flex py-2">
                   <article className="bg-white border border-gray-100/70 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col min-h-115 sm:min-h-112.5 w-full group text-start">
                     {/* Image Container */}
                     <div className="aspect-16/10 overflow-hidden bg-gray-100 relative">

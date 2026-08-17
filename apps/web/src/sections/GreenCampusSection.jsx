@@ -47,7 +47,7 @@ export default function GreenCampusSection() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="bg-white border border-gray-100/80 rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 flex flex-col text-start relative group h-full"
+      className="bg-white border border-gray-100/80 rounded-3xl p-6 md:p-7 lg:p-8 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 flex h-full min-h-[28rem] w-full flex-col text-start relative group"
     >
       <div className="w-full aspect-video rounded-2xl overflow-hidden bg-gray-50 border border-gray-100 mb-6">
         <img
@@ -61,11 +61,11 @@ export default function GreenCampusSection() {
         />
       </div>
 
-      <h3 className="text-lg font-extrabold text-navy mb-3 group-hover:text-emerald-600 transition-colors">
+      <h3 className="mb-3 min-h-[3.4rem] text-lg font-extrabold leading-snug text-navy transition-colors line-clamp-2 group-hover:text-emerald-600">
         {item.title}
       </h3>
 
-      <p className="text-gray-500 text-xs font-semibold leading-relaxed mb-6 grow">
+      <p className="mb-6 min-h-[4.5rem] grow text-xs font-semibold leading-relaxed text-gray-500 line-clamp-4">
         {item.excerpt}
       </p>
 
@@ -115,7 +115,7 @@ export default function GreenCampusSection() {
             className="pt-3 pb-6 overflow-visible! [&_.swiper-wrapper]:items-stretch"
           >
             {articles.map((item, index) => (
-              <SwiperSlide key={item.id} className="h-auto">
+              <SwiperSlide key={item.id} className="!h-auto flex">
                 {renderArticleCard(item, index)}
               </SwiperSlide>
             ))}

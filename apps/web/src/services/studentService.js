@@ -39,5 +39,9 @@ export const studentService = {
 
   createSupportTicket(data) {
     return api.post("/student/support-tickets", data).then(res => res.data);
+  },
+
+  addSupportTicketMessage(id, data) {
+    return api.post(`/student/support-tickets/${id}/messages`, data).then(res => res.data);
   }
 };

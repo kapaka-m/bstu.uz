@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Search, Calendar, User, ArrowRight } from "lucide-react";
+import { Search, Calendar, User, ArrowRight, AlertCircle, BookOpen } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
 import { blogService } from "../services/blogService";
 import { formatLocalizedDate } from "../utils/dateFormat";
@@ -28,6 +28,7 @@ export default function Blog() {
   const [posts, setPosts] = useState([]);
   const [settings, setSettings] = useState({});
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -59,6 +60,7 @@ export default function Blog() {
     const loadBlog = async () => {
       try {
         setLoading(true);
+        setError("");
         const [nextSettings, response] = await Promise.all([
           blogService.getSettings(),
           blogService.getBlog({ per_page: 100, page: 1 }),
@@ -71,6 +73,7 @@ export default function Blog() {
         if (alive) {
           setSettings({});
           setPosts([]);
+          setError(t("common.loadError"));
         }
       } finally {
         if (alive) setLoading(false);
@@ -82,7 +85,7 @@ export default function Blog() {
     return () => {
       alive = false;
     };
-  }, [language]);
+  }, [language, t]);
 
   const filteredPosts = useMemo(() => {
     return posts.filter((post) => {
@@ -156,16 +159,27 @@ export default function Blog() {
     return null;
   }
 
+  if (error) {
+    return (
+      <div className="pt-24 min-h-screen bg-slate-50/50 flex items-center justify-center px-4">
+        <div className="flex items-center gap-3 rounded-2xl border border-red-100 bg-red-50 px-5 py-4 text-sm font-bold text-red-600">
+          <AlertCircle className="w-5 h-5 shrink-0" />
+          <span>{error}</span>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="pt-20 bg-white">
-      <div className="container mx-auto px-4 md:px-8 max-w-7xl py-16 md:py-24">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-          <div className="order-1 lg:hidden">
-            <div className="bg-primary-light border border-gray-100 p-6 rounded-3xl">
+    <div className="pt-20 bg-white overflow-x-hidden">
+      <div className="container mx-auto px-4 md:px-8 max-w-7xl py-12 md:py-16 min-w-0">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start min-w-0">
+          <div className="order-1 lg:hidden min-w-0">
+            <div className="bg-primary-light border border-gray-100 p-5 sm:p-6 rounded-3xl min-w-0">
               <h4 className="text-base font-extrabold text-navy mb-4">
                 {labelText(settings.search_title, "")}
               </h4>
-              <div className="flex bg-white border border-gray-200/50 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+              <div className="flex min-w-0 bg-white border border-gray-200/50 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
                 <input
                   id="blog-search-input-mobile"
                   name="blog_search_mobile"
@@ -177,9 +191,9 @@ export default function Blog() {
                   )}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="grow px-4 py-3 text-sm focus:outline-none"
+                  className="min-w-0 grow px-4 py-3 text-sm focus:outline-none"
                 />
-                <div className="px-4 py-3 text-gray-400 flex items-center justify-center border-l border-gray-100 bg-gray-50">
+                <div className="px-4 py-3 text-gray-400 flex items-center justify-center border-s border-gray-100 bg-gray-50 shrink-0">
                   <Search className="w-4 h-4" />
                 </div>
               </div>
@@ -187,52 +201,58 @@ export default function Blog() {
           </div>
 
           {/* Left: Blog Posts List */}
-          <div className="order-2 lg:order-1 lg:col-span-8 flex flex-col gap-10">
+          <div className="order-2 lg:order-1 lg:col-span-8 flex min-w-0 flex-col gap-10">
             {filteredPosts.length > 0 ? (
               filteredPosts.map((post) => (
                 <article
                   key={post.slug || post.id}
-                  className="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col md:flex-row gap-6 p-6 group"
+                  className="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col md:flex-row gap-6 p-5 sm:p-6 group min-w-0 text-start"
                 >
                   {/* Photo area */}
-                  <div className="w-full md:w-70 aspect-16/11 md:aspect-auto overflow-hidden rounded-2xl bg-gray-50 shrink-0">
-                    <img
-                      src={post.image}
-                      alt={asText(post.title)}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
+                  <div className="w-full md:w-70 aspect-16/11 md:aspect-auto overflow-hidden rounded-2xl bg-primary/10 shrink-0">
+                    {post.image ? (
+                      <img
+                        src={post.image}
+                        alt={asText(post.title)}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-primary">
+                        <BookOpen className="w-10 h-10" />
+                      </div>
+                    )}
                   </div>
 
                   {/* Text area */}
-                  <div className="flex flex-col justify-between grow py-2">
+                  <div className="flex flex-col justify-between grow py-2 min-w-0">
                     <div>
                       {/* Meta */}
-                      <div className="flex items-center gap-4 text-xs font-semibold text-gray-400 mb-3">
-                        <span className="flex items-center gap-1">
+                      <div className="flex min-w-0 flex-wrap items-center gap-x-4 gap-y-2 text-xs font-semibold text-gray-400 mb-3">
+                        <span className="flex min-w-0 items-center gap-1">
                           <Calendar className="w-3.5 h-3.5" />
-                          {formatPostDate(post.date)}
+                          <span className="truncate">{formatPostDate(post.date)}</span>
                         </span>
-                        <span className="flex items-center gap-1">
+                        <span className="flex min-w-0 items-center gap-1">
                           <User className="w-3.5 h-3.5" />
                           {post.department?.slug ? (
-                            <Link to={`/publishers/${post.department.slug}`} className="hover:text-primary transition-colors">
+                            <Link to={`/publishers/${post.department.slug}`} className="min-w-0 truncate hover:text-primary transition-colors">
                               {asText(post.department.name, asText(post.author))}
                             </Link>
                           ) : (
-                            asText(post.author)
+                            <span className="min-w-0 truncate">{asText(post.author)}</span>
                           )}
                         </span>
                       </div>
 
                       {/* Title */}
-                      <h2 className="text-xl md:text-2xl font-bold text-navy group-hover:text-primary transition-colors duration-300 leading-snug mb-3">
+                      <h2 className="text-xl md:text-2xl font-bold text-navy group-hover:text-primary transition-colors duration-300 leading-snug mb-3 break-words">
                         <Link to={`/blog/${post.slug}`}>
                           {asText(post.title)}
                         </Link>
                       </h2>
 
                       {/* Excerpt */}
-                      <p className="text-gray-500 text-sm md:text-base leading-relaxed line-clamp-3 mb-6">
+                      <p className="text-gray-500 text-sm md:text-base leading-relaxed line-clamp-3 mb-6 break-words">
                         {asText(post.excerpt)}
                       </p>
                     </div>
@@ -280,13 +300,13 @@ export default function Blog() {
           </div>
 
           {/* Right: Sidebar */}
-          <div className="order-3 lg:order-2 lg:col-span-4 flex flex-col gap-8">
+          <div className="order-3 lg:order-2 lg:col-span-4 flex min-w-0 flex-col gap-8">
             {/* Search Box */}
             <div className="hidden lg:block bg-primary-light border border-gray-100 p-6 rounded-3xl">
               <h4 className="text-base font-extrabold text-navy mb-4">
                 {labelText(settings.search_title, "")}
               </h4>
-              <div className="flex bg-white border border-gray-200/50 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+              <div className="flex min-w-0 bg-white border border-gray-200/50 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
                 <input
                   id="blog-search-input"
                   name="blog_search"
@@ -298,9 +318,9 @@ export default function Blog() {
                   )}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="grow px-4 py-3 text-sm focus:outline-none"
+                  className="min-w-0 grow px-4 py-3 text-sm focus:outline-none"
                 />
-                <div className="px-4 py-3 text-gray-400 flex items-center justify-center border-l border-gray-100 bg-gray-50">
+                <div className="px-4 py-3 text-gray-400 flex items-center justify-center border-s border-gray-100 bg-gray-50 shrink-0">
                   <Search className="w-4 h-4" />
                 </div>
               </div>
@@ -319,14 +339,14 @@ export default function Blog() {
                   <li key={cat.value}>
                     <button
                       onClick={() => setSelectedCategory(cat.value)}
-                      className={`w-full flex items-center justify-between py-2 transition-all ${
+                      className={`w-full flex min-w-0 items-center justify-between gap-3 py-2 transition-all text-start ${
                         selectedCategory === cat.value
-                          ? "text-primary font-bold pl-1"
-                          : "text-gray-500 hover:text-primary hover:pl-1"
+                          ? "text-primary font-bold ps-1"
+                          : "text-gray-500 hover:text-primary hover:ps-1"
                       }`}
                     >
-                      <span>{cat.name}</span>
-                      <span className="bg-white px-2.5 py-1 rounded-lg border border-gray-100 text-xs text-gray-400">
+                      <span className="min-w-0 break-words">{cat.name}</span>
+                      <span className="shrink-0 bg-white px-2.5 py-1 rounded-lg border border-gray-100 text-xs text-gray-400">
                         {cat.count}
                       </span>
                     </button>
@@ -345,13 +365,19 @@ export default function Blog() {
               </h4>
               <div className="flex flex-col gap-5">
                 {recentPosts.map((post) => (
-                  <div key={post.slug || post.id} className="flex gap-4">
-                    <img
-                      src={post.image}
-                      alt={asText(post.title)}
-                      className="w-16 h-16 rounded-xl object-cover shrink-0 bg-gray-100 border border-white shadow-sm"
-                    />
-                    <div className="flex flex-col justify-center">
+                  <div key={post.slug || post.id} className="flex min-w-0 gap-4">
+                    {post.image ? (
+                      <img
+                        src={post.image}
+                        alt={asText(post.title)}
+                        className="w-16 h-16 rounded-xl object-cover shrink-0 bg-gray-100 border border-white shadow-sm"
+                      />
+                    ) : (
+                      <div className="w-16 h-16 rounded-xl shrink-0 bg-primary/10 border border-primary/10 flex items-center justify-center text-primary">
+                        <BookOpen className="w-5 h-5" />
+                      </div>
+                    )}
+                    <div className="flex flex-col justify-center min-w-0">
                       <h5 className="font-bold text-sm text-navy hover:text-primary transition-colors line-clamp-2 leading-tight">
                         <Link to={`/blog/${post.slug}`}>
                           {asText(post.title)}
@@ -379,7 +405,7 @@ export default function Blog() {
                       setSearchQuery("");
                       setSelectedCategory(tag.value);
                     }}
-                    className="px-3 py-1.5 bg-white hover:bg-primary hover:text-white border border-gray-200/30 rounded-lg text-xs font-bold text-gray-400 transition-colors shadow-sm cursor-pointer"
+                  className="max-w-full break-words px-3 py-1.5 bg-white hover:bg-primary hover:text-white border border-gray-200/30 rounded-lg text-xs font-bold text-gray-400 transition-colors shadow-sm cursor-pointer"
                   >
                     {tag.label}
                   </button>

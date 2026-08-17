@@ -28,4 +28,11 @@ class Department extends Model
     {
         return $this->hasMany(StaffProfile::class);
     }
+
+    public function linkedStaffProfiles()
+    {
+        return $this->belongsToMany(StaffProfile::class, 'staff_profile_department')
+            ->withPivot('sort_order')
+            ->withTimestamps();
+    }
 }

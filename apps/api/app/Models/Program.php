@@ -11,7 +11,8 @@ class Program extends Model
 
     protected $fillable = [
         'faculty_id', 'department_id', 'slug', 'code', 'official_code', 'track', 'degree', 'duration_years',
-        'study_mode', 'language_of_study', 'tuition_fee', 'currency', 'image', 'is_active', 'sort_order',
+        'study_mode', 'language_of_study', 'tuition_fee', 'currency', 'image', 'is_active',
+        'show_on_homepage', 'homepage_sort_order', 'sort_order',
     ];
 
     public function faculty()

@@ -4,6 +4,7 @@ import { useLanguage } from "../../../context/LanguageContext";
 import { formatLocalizedDate } from "../../../utils/dateFormat";
 import { Loader2, CreditCard, Download } from "lucide-react";
 import { publicAssetUrl } from "../../../lib/api";
+import StatusBadge from "../../apanel/components/StatusBadge";
 
 export default function StudentContracts() {
   const { language, t } = useLanguage();
@@ -39,9 +40,9 @@ export default function StudentContracts() {
     });
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6 animate-in fade-in duration-200">
+    <div className="mx-auto max-w-4xl min-w-0 space-y-6 animate-in fade-in duration-200">
       <div>
-        <h1 className="text-2xl font-extrabold text-navy uppercase tracking-wider">
+        <h1 className="text-xl sm:text-2xl font-extrabold text-navy uppercase tracking-wider break-words">
           {t("contract.title")}
         </h1>
         <p className="text-xs font-semibold text-gray-400">
@@ -56,7 +57,7 @@ export default function StudentContracts() {
       )}
 
       {/* Contracts table list */}
-      <div className="bg-white border border-gray-100 rounded-3xl p-6 shadow-xs space-y-4">
+      <div className="min-w-0 bg-white border border-gray-100 rounded-3xl p-4 sm:p-6 shadow-xs space-y-4">
         {contracts.length > 0 ? (
           <div className="space-y-4">
             {contracts.map((c) => (
@@ -64,18 +65,14 @@ export default function StudentContracts() {
                 key={c.id}
                 className="p-5 border border-gray-100 rounded-2xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4"
               >
-                <div className="space-y-1.5 grow">
-                  <div className="flex items-center gap-2">
-                    <h3 className="text-xs font-black text-navy uppercase tracking-wider">
+                <div className="min-w-0 grow space-y-1.5">
+                  <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                    <h3 className="text-xs font-black text-navy uppercase tracking-wider break-all">
                       {t("contract.number")} #{c.contract_number}
                     </h3>
-                    <span
-                      className={`text-[9px] font-extrabold px-2 py-0.5 rounded-full ${c.payment_status === "paid" ? "bg-emerald-50 text-emerald-600 border border-emerald-150" : "bg-amber-50 text-amber-600 border border-amber-150"}`}
-                    >
-                      {c.payment_status.toUpperCase()}
-                    </span>
+                    <StatusBadge status={c.payment_status} />
                   </div>
-                  <div className="grid grid-cols-2 gap-4 text-xs">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
                     <div>
                       <p className="text-[10px] text-gray-400 font-bold">
                         {t("contract.billingAmount")}

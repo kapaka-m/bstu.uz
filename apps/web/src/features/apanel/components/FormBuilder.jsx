@@ -30,6 +30,7 @@ export default function FormBuilder({
   isSubmitting = false,
   isEdit = false,
   validationErrors = {},
+  modalMode = false,
 }) {
   const { t, locales: availableLocales } = useLanguage();
   const localeCodes = React.useMemo(
@@ -178,7 +179,11 @@ export default function FormBuilder({
   const hasTranslations = fields.some((f) => f.translated);
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form
+      onSubmit={handleSubmit}
+      className={modalMode ? "flex min-h-0 flex-1 flex-col" : "space-y-6"}
+    >
+      <div className={modalMode ? "min-h-0 flex-1 space-y-5 overflow-y-auto pr-1" : "space-y-6"}>
       {Object.keys(validationErrors).length > 0 && (
         <div className="bg-rose-50 border border-rose-100 p-4 rounded-2xl flex gap-3 text-rose-600 text-xs font-bold">
           <AlertCircle className="w-5 h-5 shrink-0" />
@@ -211,7 +216,7 @@ export default function FormBuilder({
         />
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+      <div className={`grid grid-cols-1 md:grid-cols-2 ${modalMode ? "gap-4" : "gap-5"}`}>
         {fields.map((field) => {
           // Determine if we should show this field in the active tab context
           if (field.translated) {
@@ -249,7 +254,7 @@ export default function FormBuilder({
                       )
                     }
                     required={field.required && activeLocale === primaryLocale}
-                    rows={field.type === "json" ? 8 : 6}
+                    rows={field.type === "json" ? (modalMode ? 7 : 8) : (modalMode ? 4 : 6)}
                     className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold bg-white text-navy"
                   />
                 ) : (
@@ -277,13 +282,13 @@ export default function FormBuilder({
           return (
             <div
               key={field.name}
-              className={
-                field.type === "textarea" || field.type === "json"
-                  ? "md:col-span-2"
-                  : "col-span-1"
-              }
-            >
-              {field.type !== "boolean" && (
+            className={
+              field.type === "textarea" || field.type === "json" || field.type === "media"
+                ? "md:col-span-2"
+                : "col-span-1"
+            }
+          >
+              {field.type !== "boolean" && field.type !== "media" && (
                 <label className="block text-xs font-bold text-navy mb-1.5 uppercase tracking-wider">
                   {field.label}{" "}
                   {field.required && <span className="text-red-500">*</span>}
@@ -325,13 +330,19 @@ export default function FormBuilder({
                     } else {
                       nextList = nextList.filter((v) => v !== normOptVal);
                     }
+                    const shouldKeepValues = field.preserveValues || (field.options || []).some((opt) => {
+                      const val = typeof opt === "object" ? opt.value : opt;
+                      return typeof val === "number";
+                    });
+
                     const formattedList = (field.options || []).map(opt => {
                       const val = typeof opt === "object" ? opt.value : opt;
                       const lbl = typeof opt === "object" ? opt.label : opt;
-                      return nextList.includes(String(val).toLowerCase()) ? lbl : null;
-                    }).filter(Boolean);
+                      if (!nextList.includes(String(val).toLowerCase())) return null;
+                      return shouldKeepValues ? val : lbl;
+                    }).filter((item) => item !== null);
 
-                    handleRootChange(field.name, formattedList.join(", "));
+                    handleRootChange(field.name, shouldKeepValues ? formattedList : formattedList.join(", "));
                   };
 
                   return (
@@ -399,7 +410,7 @@ export default function FormBuilder({
                   value={value || ""}
                   onChange={(e) => handleRootChange(field.name, e.target.value)}
                   required={field.required}
-                  rows={field.type === "json" ? 8 : 4}
+                  rows={field.type === "json" ? (modalMode ? 7 : 8) : 4}
                   className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold bg-white text-navy"
                 />
               ) : (
@@ -424,8 +435,9 @@ export default function FormBuilder({
           );
         })}
       </div>
+      </div>
 
-      <div className="flex justify-end gap-3 pt-4 border-t border-gray-50">
+      <div className={`${modalMode ? "mt-4 shrink-0 bg-white" : ""} flex justify-end gap-3 pt-4 border-t border-gray-50`}>
         {onCancel && (
           <button
             type="button"

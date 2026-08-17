@@ -48,7 +48,7 @@ export default function Home() {
       <AltFeatures />
       <Services limit={4} />
       <RegistrarOffice />
-      <Programs limit={6} />
+      <Programs limit={6} featured />
       <Leadership />
       <Announcements />
 

@@ -92,10 +92,10 @@ export default function VideoGallery() {
         </div>
 
         {/* Swiper Slider */}
-        <div className="relative px-2 overflow-visible">
+        <div className="relative overflow-visible px-0 sm:px-2">
           <Swiper
             modules={[Autoplay, Navigation]}
-            spaceBetween={30}
+            spaceBetween={16}
             slidesPerView={1}
             autoplay={{
               delay: 4000,
@@ -120,10 +120,10 @@ export default function VideoGallery() {
                 slidesPerView: 4,
               },
             }}
-            className="pb-16 pt-4 px-2 overflow-visible!"
+            className="!overflow-visible pb-16 pt-4 px-0 sm:px-2"
           >
             {videos.slice(0, Number(settings.home_limit || 4)).map((video) => (
-              <SwiperSlide key={video.id}>
+              <SwiperSlide key={video.id} className="py-2">
                 <div
                   onClick={() => setActiveVideo(video)}
                   className="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 flex flex-col group cursor-pointer h-full"

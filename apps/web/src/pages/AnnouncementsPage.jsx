@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Search, Calendar, Eye, ArrowRight, Sparkles, User } from "lucide-react";
+import { Search, Calendar, Eye, ArrowRight, Sparkles, User, AlertCircle, Megaphone } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
 import { announcementService } from "../services/announcementService";
@@ -14,6 +14,7 @@ export default function AnnouncementsPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -26,6 +27,7 @@ export default function AnnouncementsPage() {
   useEffect(() => {
     let mounted = true;
     setLoading(true);
+    setError("");
     Promise.all([
       announcementService.getSettings().catch(() => null),
       announcementService
@@ -37,6 +39,12 @@ export default function AnnouncementsPage() {
         setSettings(settingsData);
         setAnnouncements(listData.items || []);
       })
+      .catch(() => {
+        if (!mounted) return;
+        setSettings(null);
+        setAnnouncements([]);
+        setError(t("common.loadError"));
+      })
       .finally(() => {
         if (mounted) setLoading(false);
       });
@@ -44,7 +52,7 @@ export default function AnnouncementsPage() {
     return () => {
       mounted = false;
     };
-  }, [language]);
+  }, [language, t]);
 
   const formatDate = (value) => {
     return formatLocalizedDate(value, language, t, {
@@ -58,12 +66,12 @@ export default function AnnouncementsPage() {
     return announcements.filter((item) => {
       const matchesSearch =
         !query ||
-        item.title.toLowerCase().includes(query) ||
-        item.excerpt.toLowerCase().includes(query) ||
-        item.category_label.toLowerCase().includes(query);
+        String(item.title || "").toLowerCase().includes(query) ||
+        String(item.excerpt || "").toLowerCase().includes(query) ||
+        String(item.category_label || "").toLowerCase().includes(query);
       const matchesCategory =
         selectedCategory === "all" ||
-        item.category.toLowerCase() === selectedCategory.toLowerCase();
+        String(item.category || "").toLowerCase() === selectedCategory.toLowerCase();
       return matchesSearch && matchesCategory;
     });
   }, [announcements, searchQuery, selectedCategory]);
@@ -71,7 +79,7 @@ export default function AnnouncementsPage() {
   const categories = useMemo(() => {
     const grouped = announcements.reduce(
       (acc, item) => {
-        const value = item.category.toLowerCase();
+        const value = String(item.category || "general").toLowerCase();
         if (!acc[value]) {
           acc[value] = { name: item.category_label, count: 0, value };
         }
@@ -111,16 +119,27 @@ export default function AnnouncementsPage() {
     return null;
   }
 
+  if (error) {
+    return (
+      <div className="pt-24 min-h-screen bg-slate-50/50 flex items-center justify-center px-4">
+        <div className="flex items-center gap-3 rounded-2xl border border-red-100 bg-red-50 px-5 py-4 text-sm font-bold text-red-600">
+          <AlertCircle className="w-5 h-5 shrink-0" />
+          <span>{error}</span>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="pt-24 min-h-screen bg-slate-50/50">
-      <div className="container mx-auto px-4 md:px-8 max-w-7xl py-12 md:py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+    <div className="pt-24 min-h-screen bg-slate-50/50 overflow-x-hidden">
+      <div className="container mx-auto px-4 md:px-8 max-w-7xl py-12 md:py-16 min-w-0">
+        <div className="grid min-w-0 grid-cols-1 lg:grid-cols-12 gap-10 items-start">
           <div className="order-1 lg:hidden">
             <div className="bg-white border border-gray-100 p-6 rounded-3xl shadow-xs text-start">
               <h4 className="text-base font-extrabold text-navy mb-4">
                 {settings?.search_title || ""}
               </h4>
-              <div className="flex bg-slate-50 border border-gray-100 rounded-xl overflow-hidden hover:border-gray-200 transition-all">
+              <div className="flex min-w-0 bg-slate-50 border border-gray-100 rounded-xl overflow-hidden hover:border-gray-200 transition-all">
                 <input
                   id="announcements-search-mobile"
                   name="announcements_search_mobile"
@@ -128,7 +147,7 @@ export default function AnnouncementsPage() {
                   placeholder={settings?.search_placeholder || ""}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="grow px-4 py-3 text-sm bg-transparent focus:outline-none"
+                  className="min-w-0 grow px-4 py-3 text-sm bg-transparent focus:outline-none"
                 />
                 <div className="px-4 py-3 text-gray-400 flex items-center justify-center bg-slate-100/50">
                   <Search className="w-4 h-4" />
@@ -137,7 +156,7 @@ export default function AnnouncementsPage() {
             </div>
           </div>
 
-          <div className="order-2 lg:order-1 lg:col-span-8 flex flex-col gap-6">
+          <div className="order-2 lg:order-1 lg:col-span-8 flex min-w-0 flex-col gap-6">
             <AnimatePresence mode="popLayout">
               {filteredAnnouncements.length > 0 ? (
                 <motion.div
@@ -151,7 +170,7 @@ export default function AnnouncementsPage() {
                       key={item.slug}
                       variants={cardVariants}
                       layout
-                      className="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col md:flex-row gap-6 p-6 group relative"
+                      className="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col md:flex-row gap-6 p-5 sm:p-6 group relative min-w-0"
                     >
                       {importantSlugs.has(item.slug) && (
                         <div
@@ -162,12 +181,18 @@ export default function AnnouncementsPage() {
                         </div>
                       )}
 
-                      <div className="w-full md:w-65 aspect-16/11 md:aspect-auto overflow-hidden rounded-2xl bg-gray-50 shrink-0 relative">
-                        <img
-                          src={item.image}
-                          alt={item.title}
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                        />
+                      <div className="w-full md:w-65 aspect-16/11 md:aspect-auto overflow-hidden rounded-2xl bg-primary/10 shrink-0 relative">
+                        {item.image ? (
+                          <img
+                            src={item.image}
+                            alt={item.title}
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-primary">
+                            <Megaphone className="w-10 h-10" />
+                          </div>
+                        )}
                         <span
                           className={`absolute bottom-3 ${isRtl ? "right-3" : "left-3"} bg-navy/80 backdrop-blur-xs text-white text-[10px] font-bold px-2.5 py-1 rounded-lg`}
                         >
@@ -175,22 +200,22 @@ export default function AnnouncementsPage() {
                         </span>
                       </div>
 
-                      <div className="flex flex-col justify-between grow py-1 text-start">
+                      <div className="flex min-w-0 flex-col justify-between grow py-1 text-start">
                         <div>
-                          <div className="flex items-center gap-4 text-xs font-semibold text-gray-400 mb-3">
-                            <span className="flex items-center gap-1">
+                          <div className="flex min-w-0 flex-wrap items-center gap-x-4 gap-y-2 text-xs font-semibold text-gray-400 mb-3">
+                            <span className="flex min-w-0 items-center gap-1">
                               <Calendar className="w-3.5 h-3.5 text-primary" />
-                              {formatDate(item.date)}
+                              <span className="truncate">{formatDate(item.date)}</span>
                             </span>
                             <span className="flex items-center gap-1">
                               <Eye className="w-3.5 h-3.5" />
                           {item.views} {settings?.views_label || ""}
                             </span>
                             {item.publisher?.name && (
-                              <span className="flex items-center gap-1">
+                              <span className="flex min-w-0 items-center gap-1">
                                 <User className="w-3.5 h-3.5 text-primary" />
                                 {item.publisher.slug ? (
-                                  <Link to={`/publishers/${item.publisher.slug}`} className="hover:text-primary transition-colors">
+                                  <Link to={`/publishers/${item.publisher.slug}`} className="min-w-0 truncate hover:text-primary transition-colors">
                                     {item.publisher.name}
                                   </Link>
                                 ) : (
@@ -200,11 +225,11 @@ export default function AnnouncementsPage() {
                             )}
                           </div>
 
-                          <h2 className="text-lg md:text-xl font-extrabold text-navy group-hover:text-primary transition-colors duration-300 leading-snug mb-3">
+                          <h2 className="text-lg md:text-xl font-extrabold text-navy group-hover:text-primary transition-colors duration-300 leading-snug mb-3 break-words">
                             <Link to={`/announcements/${item.slug}`}>{item.title}</Link>
                           </h2>
 
-                          <p className="text-gray-500 text-sm leading-relaxed mb-4 line-clamp-2">
+                          <p className="text-gray-500 text-sm leading-relaxed mb-4 line-clamp-2 break-words">
                             {item.excerpt}
                           </p>
                         </div>
@@ -247,12 +272,12 @@ export default function AnnouncementsPage() {
             </AnimatePresence>
           </div>
 
-          <div className="order-3 lg:order-2 lg:col-span-4 flex flex-col gap-8 text-start">
+          <div className="order-3 lg:order-2 lg:col-span-4 flex min-w-0 flex-col gap-8 text-start">
             <div className="hidden lg:block bg-white border border-gray-100 p-6 rounded-3xl shadow-xs">
               <h4 className="text-base font-extrabold text-navy mb-4">
                 {settings?.search_title || ""}
               </h4>
-              <div className="flex bg-slate-50 border border-gray-100 rounded-xl overflow-hidden hover:border-gray-200 transition-all">
+              <div className="flex min-w-0 bg-slate-50 border border-gray-100 rounded-xl overflow-hidden hover:border-gray-200 transition-all">
                 <input
                   id="announcements-search"
                   name="announcements_search"
@@ -260,7 +285,7 @@ export default function AnnouncementsPage() {
                   placeholder={settings?.search_placeholder || ""}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="grow px-4 py-3 text-sm bg-transparent focus:outline-none"
+                  className="min-w-0 grow px-4 py-3 text-sm bg-transparent focus:outline-none"
                 />
                 <div className="px-4 py-3 text-gray-400 flex items-center justify-center bg-slate-100/50">
                   <Search className="w-4 h-4" />
@@ -277,13 +302,13 @@ export default function AnnouncementsPage() {
                   <li key={cat.value}>
                     <button
                       onClick={() => setSelectedCategory(cat.value)}
-                      className={`w-full flex items-center justify-between py-2.5 px-3 rounded-xl transition-all cursor-pointer ${
+                      className={`w-full flex items-center justify-between gap-3 py-2.5 px-3 rounded-xl transition-all cursor-pointer text-start ${
                         selectedCategory === cat.value
                           ? "bg-primary text-white font-bold"
                           : "text-gray-500 hover:bg-slate-50 hover:text-primary"
                       }`}
                     >
-                      <span>{cat.name}</span>
+                      <span className="min-w-0 break-words">{cat.name}</span>
                       <span
                         className={`px-2.5 py-0.5 rounded-lg text-[10px] font-extrabold ${
                           selectedCategory === cat.value
@@ -305,13 +330,19 @@ export default function AnnouncementsPage() {
               </h4>
               <div className="flex flex-col gap-4">
                 {recentAnnouncements.map((ann) => (
-                  <div key={ann.slug} className="flex gap-3 group">
-                    <img
-                      src={ann.image}
-                      alt={ann.title}
-                      className="w-14 h-14 rounded-xl object-cover shrink-0 bg-gray-50 border border-slate-100"
-                    />
-                    <div className="flex flex-col justify-center text-start">
+                  <div key={ann.slug} className="flex min-w-0 gap-3 group">
+                    {ann.image ? (
+                      <img
+                        src={ann.image}
+                        alt={ann.title}
+                        className="w-14 h-14 rounded-xl object-cover shrink-0 bg-gray-50 border border-slate-100"
+                      />
+                    ) : (
+                      <div className="w-14 h-14 rounded-xl shrink-0 bg-primary/10 border border-primary/10 flex items-center justify-center text-primary">
+                        <Megaphone className="w-5 h-5" />
+                      </div>
+                    )}
+                    <div className="flex flex-col justify-center text-start min-w-0">
                       <h5 className="font-extrabold text-xs text-navy group-hover:text-primary transition-colors line-clamp-2 leading-snug">
                         <Link to={`/announcements/${ann.slug}`}>{ann.title}</Link>
                       </h5>

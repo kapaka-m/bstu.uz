@@ -7,15 +7,16 @@ import {
   BriefcaseBusiness,
   Building2,
   Clock,
+  FileQuestion,
   GraduationCap,
   Mail,
   Phone,
   ShieldCheck,
   UserCheck,
-  Users,
 } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
 import { facultyService } from "../services/facultyService";
+import { facultyPageCmsService } from "../services/facultyPageCmsService";
 
 const getInitials = (name) => {
   if (!name) return "";
@@ -29,6 +30,11 @@ const getInitials = (name) => {
 };
 
 const telHref = (phone) => `tel:${phone.replace(/[^\d+]/g, "")}`;
+
+const formatPhoneDisplay = (phone) => {
+  const value = String(phone || "").trim();
+  return value.replace(/^\(\+998\s*(\d{2})\)/, "+998 ($1)");
+};
 
 const shortText = (text, max = 170) => {
   if (!text) return "";
@@ -78,18 +84,18 @@ function ImageWithFallback({
 
 function SectionTitle({ icon: Icon, eyebrow, title, description }) {
   return (
-    <div className="flex flex-col gap-3 text-start">
+    <div className="flex flex-col gap-3 text-start min-w-0">
       {eyebrow && (
         <span className="inline-flex items-center gap-2 text-[11px] font-extrabold uppercase tracking-wider text-primary">
           <Icon className="w-4 h-4" />
           {eyebrow}
         </span>
       )}
-      <h2 className="text-2xl md:text-3xl font-extrabold text-navy leading-tight">
+      <h2 className="text-2xl md:text-3xl font-extrabold text-navy leading-tight break-words">
         {title}
       </h2>
       {description && (
-        <p className="text-sm md:text-base text-gray-500 leading-relaxed max-w-3xl">
+        <p className="text-sm md:text-base text-gray-500 leading-relaxed max-w-3xl break-words">
           {description}
         </p>
       )}
@@ -110,11 +116,11 @@ function ProgramGrid({ programs, label, icon: Icon }) {
             </div>
             <div className="min-w-0">
               {program.code && (
-                <span className="text-[11px] font-extrabold text-primary uppercase tracking-wider">
+                <span className="text-[11px] font-extrabold text-primary uppercase tracking-wider break-words">
                   {program.code}
                 </span>
               )}
-              <h3 className="text-sm md:text-base font-bold text-navy leading-snug mt-1">
+              <h3 className="text-sm md:text-base font-bold text-navy leading-snug mt-1 break-words">
                 {displayName}
               </h3>
               <p className="text-xs font-semibold text-gray-400 mt-2">
@@ -128,14 +134,14 @@ function ProgramGrid({ programs, label, icon: Icon }) {
           <Link
             key={`${program.code}-${program.name}-${index}`}
             to={program.route}
-            className="bg-white border border-gray-100 hover:border-primary/25 rounded-2xl p-5 shadow-sm flex gap-4 items-start transition-colors text-start w-full"
+            className="bg-white border border-gray-100 hover:border-primary/25 rounded-2xl p-5 shadow-sm flex gap-4 items-start transition-colors text-start w-full min-w-0"
           >
             {content}
           </Link>
         ) : (
           <div
             key={`${program.code}-${program.name}-${index}`}
-            className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm flex gap-4 items-start text-start w-full"
+            className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm flex gap-4 items-start text-start w-full min-w-0"
           >
             {content}
           </div>
@@ -147,10 +153,12 @@ function ProgramGrid({ programs, label, icon: Icon }) {
 
 export default function FacultyDetails() {
   const { id } = useParams();
-  const { t, language, isRtl } = useLanguage();
+  const { language, isRtl } = useLanguage();
   const [faculty, setFaculty] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [facultyPageLabels, setFacultyPageLabels] = useState({});
+  const [facultyLoading, setFacultyLoading] = useState(true);
+  const [labelsLoading, setLabelsLoading] = useState(true);
+  const [error, setError] = useState(false);
 
 
   useEffect(() => {
@@ -159,62 +167,112 @@ export default function FacultyDetails() {
 
   useEffect(() => {
     let active = true;
-    setLoading(true);
-    setError("");
+    setFacultyLoading(true);
+    setError(false);
 
     facultyService
       .getFaculty(id)
       .then((data) => {
         if (!active) return;
         setFaculty(data || null);
-        if (data?.name) {
-          document.title = data.name;
-        }
       })
       .catch(() => {
         if (!active) return;
         setFaculty(null);
-        setError(t("common.notFoundDesc"));
+        setError(true);
       })
       .finally(() => {
-        if (active) setLoading(false);
+        if (active) setFacultyLoading(false);
       });
 
     return () => {
       active = false;
     };
-  }, [id, language, t]);
+  }, [id, language]);
+
+  useEffect(() => {
+    let active = true;
+    setLabelsLoading(true);
+
+    facultyPageCmsService
+      .get(language)
+      .then((payload) => {
+        if (active) setFacultyPageLabels(payload?.labels || {});
+      })
+      .catch(() => {
+        if (active) setFacultyPageLabels({});
+      })
+      .finally(() => {
+        if (active) setLabelsLoading(false);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [language]);
+
+  const cmsLabel = (key) => facultyPageLabels[key] || "";
 
   const labels = {
-    home: t("nav.home"),
-    faculties: t("common.faculties"),
-    departments: t("common.departments"),
-    bachelorPrograms: t("common.bachelorPrograms"),
-    masterSpecializations: t("facultyTechnology.masterSpecializations"),
-    contact: t("common.contact"),
-    overview: t("common.aboutFaculty"),
-    leadership: t("common.managementDean"),
-    learnMore: t("common.learnMore"),
-    head: t("common.headOfDepartment"),
-    phone: t("common.phone"),
-    email: t("common.email"),
-    quickDepartmentLinks: t("facultyTechnology.quickDepartmentLinks"),
-    deanContact: t("facultyTechnology.deanContact"),
-    deputyDeanContacts: t("facultyTechnology.deputyDeanContacts"),
-    industryCooperation: t("facultyTechnology.industryCooperation"),
-    academicPathways: t("facultyTechnology.academicPathways"),
+    home: cmsLabel("home"),
+    faculties: cmsLabel("faculties"),
+    departments: cmsLabel("departments"),
+    bachelorPrograms: cmsLabel("bachelor_programs"),
+    masterSpecializations: cmsLabel("master_specializations"),
+    contact: cmsLabel("contact"),
+    overview: cmsLabel("overview"),
+    leadership: cmsLabel("leadership"),
+    learnMore: cmsLabel("learn_more"),
+    head: cmsLabel("head_of_department"),
+    phone: cmsLabel("phone"),
+    email: cmsLabel("email"),
+    quickDepartmentLinks: cmsLabel("quick_department_links"),
+    deanContact: cmsLabel("dean_contact"),
+    deputyDeanContacts: cmsLabel("deputy_dean_contacts"),
+    industryCooperation: cmsLabel("industry_cooperation"),
+    academicPathways: cmsLabel("academic_pathways"),
+    leadershipDesc: cmsLabel("leadership_description"),
+    departmentsDesc: cmsLabel("departments_description"),
+    bachelorDesc: cmsLabel("bachelor_description"),
+    masterDesc: cmsLabel("master_description"),
+    contactDesc: cmsLabel("contact_description"),
+    notFoundTitle: cmsLabel("not_found_title"),
+    notFoundDesc: cmsLabel("not_found_description"),
   };
 
-  if (loading) {
-    return null;
+  if (facultyLoading || labelsLoading) {
+    return (
+      <div className="pt-20 bg-white min-h-screen overflow-x-hidden">
+        <section className="bg-primary-light border-b border-gray-100">
+          <div className="container mx-auto px-4 md:px-8 max-w-7xl py-14 md:py-20">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+              <div className="lg:col-span-8">
+                <div className="h-8 w-40 rounded-full bg-white/80 animate-pulse mb-5" />
+                <div className="h-12 w-full max-w-2xl rounded-full bg-white/80 animate-pulse mb-4" />
+                <div className="h-5 w-full max-w-3xl rounded-full bg-white/80 animate-pulse" />
+              </div>
+              <div className="lg:col-span-4">
+                <div className="h-56 rounded-3xl bg-white/80 animate-pulse" />
+              </div>
+            </div>
+          </div>
+        </section>
+        <div className="container mx-auto px-4 md:px-8 max-w-7xl py-12 md:py-16 flex flex-col gap-10">
+          {[1, 2, 3].map((item) => (
+            <div key={item} className="h-44 rounded-3xl bg-gray-100 animate-pulse" />
+          ))}
+        </div>
+      </div>
+    );
   }
 
   if (!faculty || error) {
     return (
       <div className="pt-20 min-h-screen bg-primary-light flex flex-col items-center justify-center text-center p-8">
-        <h1 className="text-3xl font-extrabold text-navy mb-2">{t("common.notFound")}</h1>
+        <FileQuestion className="w-12 h-12 text-primary mb-4" />
+        <h1 className="text-3xl font-extrabold text-navy mb-2">{labels.notFoundTitle}</h1>
         <p className="text-gray-500 max-w-md mb-8">
-          {error || t("common.notFoundDesc")}
+          {labels.notFoundDesc}
         </p>
         <Link
           to="/"
@@ -243,6 +301,7 @@ export default function FacultyDetails() {
           role: labels.head,
           phone: dept.phone,
           email: dept.email,
+          image: dept.head_profile_photo_url || dept.head_profile_photo,
         }
       : null,
   }));
@@ -285,7 +344,7 @@ export default function FacultyDetails() {
     }));
 
   return (
-    <div className="pt-20 bg-white" dir={isRtl ? "rtl" : "ltr"}>
+    <div className="pt-20 bg-white overflow-x-hidden" dir={isRtl ? "rtl" : "ltr"}>
       {/* Top Banner/Hero */}
       <section className="bg-primary-light border-b border-gray-100">
         <div className="container mx-auto px-4 md:px-8 max-w-7xl py-14 md:py-20">
@@ -294,16 +353,16 @@ export default function FacultyDetails() {
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.45 }}
-              className="lg:col-span-8 text-start"
+              className="lg:col-span-8 text-start min-w-0"
             >
               <span className="inline-flex items-center gap-2 text-[11px] font-extrabold uppercase tracking-wider text-primary bg-white/70 border border-white px-3 py-1.5 rounded-full mb-5">
                 <BriefcaseBusiness className="w-4 h-4" />
                 {labels.industryCooperation}
               </span>
-              <h1 className="text-3xl md:text-5xl font-extrabold text-navy leading-tight tracking-tight mb-5">
+              <h1 className="text-3xl md:text-5xl font-extrabold text-navy leading-tight tracking-tight mb-5 break-words">
                 {title}
               </h1>
-              <p className="text-gray-500 text-sm md:text-lg leading-relaxed max-w-3xl">
+              <p className="text-gray-500 text-sm md:text-lg leading-relaxed max-w-3xl break-words">
                 {shortText(heroDescription, 330)}
               </p>
 
@@ -327,7 +386,7 @@ export default function FacultyDetails() {
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.45, delay: 0.08 }}
-              className="lg:col-span-4"
+              className="lg:col-span-4 min-w-0"
             >
               <div className="bg-white border border-gray-100 rounded-3xl p-6 shadow-sm">
                 <div className="w-14 h-14 bg-primary/10 text-primary rounded-2xl flex items-center justify-center mb-5">
@@ -379,8 +438,8 @@ export default function FacultyDetails() {
               title={labels.overview}
             />
           </div>
-          <div className="lg:col-span-8 bg-white border border-gray-100 rounded-3xl p-6 md:p-8 shadow-sm">
-            <div className="flex flex-col gap-4 text-gray-500 text-sm md:text-base leading-relaxed text-start">
+          <div className="lg:col-span-8 bg-white border border-gray-100 rounded-3xl p-6 md:p-8 shadow-sm min-w-0">
+            <div className="flex flex-col gap-4 text-gray-500 text-sm md:text-base leading-relaxed text-start break-words">
               {overviewParagraphs.map((paragraph, index) => (
                 <p key={index}>{paragraph}</p>
               ))}
@@ -394,13 +453,13 @@ export default function FacultyDetails() {
             icon={UserCheck}
             eyebrow={labels.leadership}
             title={labels.leadership}
-            description={t("facultyTechnology.leadershipDesc")}
+            description={labels.leadershipDesc}
           />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {leadership.map((member, idx) => (
               <article
                 key={member.email || idx}
-                className="bg-gray-50 border border-gray-100 rounded-3xl p-6 shadow-sm text-center flex flex-col items-center"
+                className="bg-gray-50 border border-gray-100 rounded-3xl p-6 shadow-sm text-center flex flex-col items-center min-w-0"
               >
                 <ImageWithFallback
                   src={member.image}
@@ -412,7 +471,7 @@ export default function FacultyDetails() {
                 <p className="text-primary text-[10px] font-extrabold uppercase tracking-wider mb-2">
                   {member.role}
                 </p>
-                <h3 className="text-base font-extrabold text-navy leading-snug">
+                <h3 className="text-base font-extrabold text-navy leading-snug break-words">
                   {member.route ? (
                     <Link to={member.route} className="hover:text-primary transition-colors">
                       {member.name}
@@ -425,7 +484,7 @@ export default function FacultyDetails() {
                   {member.reception && (
                     <span className="flex items-start gap-2">
                       <Clock className="w-4 h-4 text-primary shrink-0 mt-0.5" />
-                      <span>{member.reception}</span>
+                      <span className="break-words">{member.reception}</span>
                     </span>
                   )}
                   {member.phone && (
@@ -434,7 +493,7 @@ export default function FacultyDetails() {
                       className="flex items-center gap-2 hover:text-primary transition-colors"
                     >
                       <Phone className="w-4 h-4 text-primary shrink-0" />
-                      <span dir="ltr">{member.phone}</span>
+                      <span dir="ltr">{formatPhoneDisplay(member.phone)}</span>
                     </a>
                   )}
                   {member.email && (
@@ -458,25 +517,25 @@ export default function FacultyDetails() {
             icon={ShieldCheck}
             eyebrow={labels.departments}
             title={labels.departments}
-            description={t("facultyTechnology.departmentsDesc")}
+            description={labels.departmentsDesc}
           />
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
             {facultyDepartmentsList.map((department, index) => {
               const summary = shortText(
-                department.about || t(`departments.${department.slug}.about`),
+                department.about,
                 160,
               );
               return (
                 <article
                   key={department.slug}
-                  className="group bg-white border border-gray-100 rounded-3xl p-6 shadow-sm hover:shadow-xl hover:border-primary/20 transition-all flex flex-col gap-5 text-start w-full"
+                className="group bg-white border border-gray-100 rounded-3xl p-6 shadow-sm hover:shadow-xl hover:border-primary/20 transition-all flex flex-col gap-5 text-start w-full min-w-0"
                 >
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex items-start gap-4 min-w-0">
                       <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
                         <Building2 className="w-6 h-6" />
                       </div>
-                      <h3 className="text-base font-extrabold text-navy leading-snug min-w-0 pt-1">
+                      <h3 className="text-base font-extrabold text-navy leading-snug min-w-0 pt-1 break-words">
                         <Link
                           to={department.route}
                           className="hover:text-primary transition-colors"
@@ -491,26 +550,31 @@ export default function FacultyDetails() {
                   </div>
                   <div>
                     {summary && (
-                      <p className="text-xs md:text-sm text-gray-500 font-medium leading-relaxed">
+                      <p className="text-xs md:text-sm text-gray-500 font-medium leading-relaxed break-words">
                         {summary}
                       </p>
                     )}
                   </div>
                   {department.contact?.name && (
-                    <div className="border-t border-gray-100 pt-4 text-xs font-semibold text-gray-500 flex items-start gap-2 mt-auto">
-                      <Users className="w-4 h-4 text-primary shrink-0 mt-0.5" />
-                      <span>
+                    <div className="border-t border-gray-100 pt-4 text-xs font-semibold text-gray-500 flex items-start gap-3 mt-auto min-w-0">
+                      <ImageWithFallback
+                        src={department.contact.image}
+                        alt={department.contact.name}
+                        className="w-10 h-10 rounded-full object-cover border-2 border-white shadow-sm shrink-0"
+                        initialsClassName="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-extrabold text-xs shrink-0"
+                      />
+                      <div className="min-w-0">
                         <span className="text-navy font-bold">
                           {labels.head}:{" "}
                         </span>
                         {department.contact.route ? (
-                          <Link to={department.contact.route} className="hover:text-primary transition-colors">
+                          <Link to={department.contact.route} className="hover:text-primary transition-colors break-words">
                             {department.contact.name}
                           </Link>
                         ) : (
-                          department.contact.name
+                          <span className="break-words">{department.contact.name}</span>
                         )}
-                      </span>
+                      </div>
                     </div>
                   )}
                   <Link
@@ -535,7 +599,7 @@ export default function FacultyDetails() {
               icon={GraduationCap}
               eyebrow={labels.academicPathways}
               title={labels.bachelorPrograms}
-              description={t("facultyTechnology.bachelorDesc")}
+              description={labels.bachelorDesc}
             />
             <ProgramGrid
               programs={bachelorPrograms}
@@ -552,7 +616,7 @@ export default function FacultyDetails() {
               icon={BookOpen}
               eyebrow={labels.academicPathways}
               title={labels.masterSpecializations}
-              description={t("facultyTechnology.masterDesc")}
+              description={labels.masterDesc}
             />
             <ProgramGrid
               programs={masterPrograms}
@@ -572,12 +636,12 @@ export default function FacultyDetails() {
               icon={Mail}
               eyebrow={labels.contact}
               title={labels.contact}
-              description={t("facultyTechnology.contactDesc")}
+              description={labels.contactDesc}
             />
           </div>
-          <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-5 min-w-0">
             {/* Dean Contact Card */}
-            <div className="bg-primary-light border border-gray-100 rounded-3xl p-6 shadow-sm text-start">
+            <div className="bg-primary-light border border-gray-100 rounded-3xl p-6 shadow-sm text-start min-w-0">
               <h3 className="text-lg font-extrabold text-navy mb-4">
                 {labels.deanContact}
               </h3>
@@ -597,7 +661,7 @@ export default function FacultyDetails() {
                         className="flex items-center gap-2 hover:text-primary transition-colors"
                       >
                         <Phone className="w-4 h-4 text-primary shrink-0" />
-                        <span dir="ltr">{member.phone}</span>
+                        <span dir="ltr">{formatPhoneDisplay(member.phone)}</span>
                       </a>
                     )}
                     {member.email && (
@@ -614,7 +678,7 @@ export default function FacultyDetails() {
               </div>
             </div>
 
-            <div className="bg-white border border-gray-100 rounded-3xl p-6 shadow-sm text-start">
+            <div className="bg-white border border-gray-100 rounded-3xl p-6 shadow-sm text-start min-w-0">
               <h3 className="text-lg font-extrabold text-navy mb-4">
                 {labels.deputyDeanContacts}
               </h3>
@@ -624,7 +688,7 @@ export default function FacultyDetails() {
                     key={idx}
                     className="border-b border-gray-100 last:border-b-0 pb-4 last:pb-0"
                   >
-                    <p className="text-sm font-extrabold text-navy">
+                    <p className="text-sm font-extrabold text-navy break-words">
                       {member.route ? (
                         <Link to={member.route} className="hover:text-primary transition-colors">
                           {member.name}
@@ -640,18 +704,21 @@ export default function FacultyDetails() {
                       {member.phone && (
                         <a
                           href={telHref(member.phone)}
-                          className="hover:text-primary transition-colors"
-                          dir="ltr"
+                          className={`block w-full hover:text-primary transition-colors ${isRtl ? "text-right" : "text-left"}`}
                         >
-                          {member.phone}
+                          <span dir="ltr" className="inline-block">
+                            {formatPhoneDisplay(member.phone)}
+                          </span>
                         </a>
                       )}
                       {member.email && (
                         <a
                           href={`mailto:${member.email}`}
-                          className="hover:text-primary transition-colors truncate"
+                          className={`block w-full hover:text-primary transition-colors ${isRtl ? "text-right" : "text-left"}`}
                         >
-                          {member.email}
+                          <span dir="ltr" className="inline-block max-w-full truncate align-top">
+                            {member.email}
+                          </span>
                         </a>
                       )}
                     </div>
@@ -670,9 +737,9 @@ export default function FacultyDetails() {
                   <Link
                     key={department.slug}
                     to={department.route}
-                    className="flex items-center justify-between gap-3 border border-gray-100 rounded-2xl px-4 py-3 text-sm font-bold text-gray-500 hover:text-primary hover:border-primary/20 transition-colors"
+                    className="flex items-center justify-between gap-3 border border-gray-100 rounded-2xl px-4 py-3 text-sm font-bold text-gray-500 hover:text-primary hover:border-primary/20 transition-colors min-w-0"
                   >
-                    <span className="min-w-0">
+                    <span className="min-w-0 break-words">
                       {department.name}
                     </span>
                     <ArrowRight

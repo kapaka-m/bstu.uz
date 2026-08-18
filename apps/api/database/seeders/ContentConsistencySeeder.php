@@ -67,13 +67,18 @@ class ContentConsistencySeeder extends Seeder
         $this->runMigrationCorrection('2026_08_16_000021_normalize_light_industry_engineering_design_department.php');
         $this->runMigrationCorrection('2026_08_16_000022_normalize_mechanics_engineering_graphics_department.php');
         $this->runMigrationCorrection('2026_08_16_000023_add_mechanical_engineering_program.php');
+        $this->runMigrationCorrection('2026_08_18_000005_add_mechanical_engineering_program_courses.php');
         $this->runMigrationCorrection('2026_08_16_000024_normalize_technological_machines_equipment_department.php');
+        $this->runMigrationCorrection('2026_08_18_000006_add_technological_machines_program_courses.php');
         $this->runMigrationCorrection('2026_08_17_000001_normalize_technology_department_sections.php');
         $this->runMigrationCorrection('2026_08_17_000002_normalize_oil_gas_refining_staff.php');
         $this->runMigrationCorrection('2026_08_17_000003_normalize_food_technology_service_staff.php');
         $this->runMigrationCorrection('2026_08_17_000004_normalize_chemical_technology_staff.php');
+        $this->runMigrationCorrection('2026_08_18_000007_add_chemical_technology_program_courses.php');
         $this->runMigrationCorrection('2026_08_17_000005_normalize_agricultural_products_storage_oil_fat_staff.php');
+        $this->runMigrationCorrection('2026_08_18_000008_add_agricultural_products_program_courses.php');
         $this->runMigrationCorrection('2026_08_17_000006_normalize_oil_gas_engineering_staff.php');
+        $this->runMigrationCorrection('2026_08_18_000009_add_oil_gas_engineering_program_courses.php');
         $this->runMigrationCorrection('2026_08_17_000007_normalize_metrology_standardization_staff.php');
         $this->runMigrationCorrection('2026_08_15_000008_delete_obsolete_inactive_departments.php');
         $this->runMigrationCorrection('2026_08_15_000009_clean_broken_staff_html_fragments.php');

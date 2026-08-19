@@ -1211,7 +1211,15 @@ export default function ApanelCrud() {
   const [programRelations, setProgramRelations] = useState({
     faculties: {},
     departments: {},
+    facultyTotal: 0,
+    departmentTotal: 0,
     loading: false,
+    loaded: false,
+  });
+  const [programStats, setProgramStats] = useState({
+    records: [],
+    loading: false,
+    loaded: false,
   });
   const [staffRelations, setStaffRelations] = useState({
     faculties: {},
@@ -1231,7 +1239,30 @@ export default function ApanelCrud() {
     setPage(1);
     setSearch("");
     setActiveFilters({});
+    setProgramStats({ records: [], loading: false, loaded: false });
   }, [resource]);
+
+  const fetchProgramStatsRecords = React.useCallback(async () => {
+    const firstPage = await apanelService.listPage("programs", {
+      page: 1,
+      per_page: 100,
+      sort_by: "id",
+      sort_dir: "asc",
+    });
+    const items = [...firstPage.items];
+
+    for (let nextPage = 2; nextPage <= firstPage.lastPage; nextPage += 1) {
+      const pageData = await apanelService.listPage("programs", {
+        page: nextPage,
+        per_page: 100,
+        sort_by: "id",
+        sort_dir: "asc",
+      });
+      items.push(...pageData.items);
+    }
+
+    return items;
+  }, []);
 
   const fetchRecords = React.useCallback(async () => {
     if (!RESOURCE_SCHEMAS[resource]) return;
@@ -1249,15 +1280,27 @@ export default function ApanelCrud() {
 
       const pageData = await apanelService.listPage(resource, params);
 
+      if (resource === "programs") {
+        setProgramStats((prev) => ({ ...prev, loading: true, loaded: false }));
+      }
+
       setDataList(pageData.items);
       setTotal(pageData.total);
       setLastPage(pageData.lastPage);
+
+      if (resource === "programs") {
+        const statsRecords = await fetchProgramStatsRecords();
+        setProgramStats({ records: statsRecords, loading: false, loaded: true });
+      }
     } catch {
+      if (resource === "programs") {
+        setProgramStats((prev) => ({ ...prev, loading: false }));
+      }
       setError(t("apanel.crud.fetchFailed"));
     } finally {
       setLoading(false);
     }
-  }, [resource, search, page, sortBy, sortDir, activeFilters, t]);
+  }, [resource, search, page, sortBy, sortDir, activeFilters, fetchProgramStatsRecords, t]);
 
   useEffect(() => {
     fetchRecords();
@@ -1388,14 +1431,20 @@ export default function ApanelCrud() {
         setProgramRelations({
           faculties: mapById(facultiesPage.items),
           departments: mapById(departmentsPage.items),
+          facultyTotal: facultiesPage.total,
+          departmentTotal: departmentsPage.total,
           loading: false,
+          loaded: true,
         });
       } catch {
         if (!cancelled) {
           setProgramRelations({
             faculties: {},
             departments: {},
+            facultyTotal: 0,
+            departmentTotal: 0,
             loading: false,
+            loaded: false,
           });
         }
       }
@@ -1525,39 +1574,46 @@ export default function ApanelCrud() {
     }
 
     if (resource === "programs") {
-      const active = dataList.filter((item) => item.is_active).length;
-      const inactive = dataList.length - active;
-      const facultyCount = new Set(dataList.map((item) => item.faculty_id).filter(Boolean)).size;
-      const departmentCount = new Set(dataList.map((item) => item.department_id).filter(Boolean)).size;
-      const bachelorCount = dataList.filter((item) => item.degree === "bachelor").length;
-      const featuredCount = dataList.filter((item) => item.show_on_homepage).length;
+      const statsList = programStats.records;
+      const statsLoading = programStats.loading || !programStats.loaded;
+      const structureLoading = programRelations.loading || !programRelations.loaded;
+      const active = statsList.filter((item) => item.is_active).length;
+      const inactive = statsList.length - active;
+      const facultyCount = programRelations.facultyTotal || Object.keys(programRelations.faculties).length;
+      const departmentCount = programRelations.departmentTotal || Object.keys(programRelations.departments).length;
+      const bachelorCount = statsList.filter((item) => item.degree === "bachelor").length;
+      const featuredCount = statsList.filter((item) => item.show_on_homepage).length;
 
       return [
         {
           label: "Programs",
-          value: total,
-          hint: "Total records",
+          value: total || (statsLoading ? "..." : statsList.length),
+          hint: statsLoading ? "Loading all records" : "Total records",
           icon: BookOpen,
           tone: "text-blue-600 bg-blue-50 border-blue-100",
         },
         {
           label: "Active",
-          value: active,
-          hint: inactive ? `${inactive} inactive on this page` : "All visible records active",
+          value: statsLoading ? "..." : active,
+          hint: statsLoading
+            ? "Loading all records"
+            : inactive
+              ? `${inactive} inactive records`
+              : "All records active",
           icon: CheckCircle2,
           tone: "text-emerald-600 bg-emerald-50 border-emerald-100",
         },
         {
           label: "Structure",
-          value: `${facultyCount}/${departmentCount}`,
-          hint: programRelations.loading ? "Refreshing links" : "Faculties / departments",
+          value: structureLoading ? "..." : `${facultyCount}/${departmentCount}`,
+          hint: structureLoading ? "Loading structure totals" : "Total faculties / departments",
           icon: Building2,
           tone: "text-cyan-600 bg-cyan-50 border-cyan-100",
         },
         {
           label: "Homepage",
-          value: featuredCount,
-          hint: `${bachelorCount} bachelor programs on this page`,
+          value: statsLoading ? "..." : featuredCount,
+          hint: statsLoading ? "Loading all records" : `${bachelorCount} bachelor programs total`,
           icon: GraduationCap,
           tone: "text-amber-600 bg-amber-50 border-amber-100",
         },
@@ -1676,7 +1732,7 @@ export default function ApanelCrud() {
         tone: "text-violet-600 bg-violet-50 border-violet-100",
       },
     ];
-  }, [dataList, departmentRelations, facultyRelations, programRelations, resource, staffRelations, total]);
+  }, [dataList, departmentRelations, facultyRelations, programRelations, programStats, resource, staffRelations, total]);
 
   const rawSchema = RESOURCE_SCHEMAS[resource];
   if (!rawSchema) {

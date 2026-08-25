@@ -1,51 +1,43 @@
 ---
-
-name: international-bstu-uz
+name: bstu-end-to-end-page-audit
 description: >
   End-to-end audit, repair, testing, and production-readiness verification
-  for BSTU International application pages and route families, covering
-  frontend, backend, APIs, database, Admin/CMS, CRUD/synchronization,
-  authentication/authorization, i18n/RTL, media, SEO, security,
-  accessibility, performance, browser runtime, responsive behavior,
-  production configuration, regression safety, and deployment readiness.
-version: "2.0"
-execution_mode: autonomous
-scope: target-route-and-direct-dependencies
+  for BSTU International pages and route families across frontend, backend,
+  APIs, database, Admin/CMS, CRUD/synchronization, authentication,
+  authorization, localization, media, accessibility, SEO, security,
+  performance, browser runtime, responsive behavior, configuration,
+  regression safety, and deployment readiness.
+version: "3.0"
 ---
 
----
+# BSTU END-TO-END PAGE AUDIT SKILL
 
-# CODEX SKILL — END-TO-END PAGE AUDIT, REPAIR & PRODUCTION READINESS
+## 1. PURPOSE
 
-# 0. PURPOSE
+This skill is the authoritative procedure for auditing, repairing, testing, and verifying a page or route family inside the **BSTU International Website** repository.
 
-This skill defines the authoritative procedure for auditing, repairing, testing, and verifying pages and route families inside the **BSTU International Website** repository.
-
-It is designed for requests such as:
+Typical invocations:
 
 ```text
 Audit:
 http://localhost:5173/about
 ```
 
-or:
-
 ```text
 Audit:
 http://localhost:5173/announcements/*
 ```
 
-or:
-
 ```text
-Audit:
+Audit these as one connected feature:
+
 http://localhost:5173/announcements
 http://localhost:5173/announcements/*
 ```
 
-The objective is not merely to inspect source code.
+The goal is not to review only the visible UI or produce optimistic PASS labels.
 
-The objective is to determine, using the strongest safe evidence available, whether the supplied target is genuinely:
+The goal is to establish, using the strongest safe evidence available, whether the target is genuinely:
 
 - functional
 - correctly connected
@@ -53,7 +45,7 @@ The objective is to determine, using the strongest safe evidence available, whet
 - administratively manageable
 - secure
 - properly validated
-- localized correctly
+- correctly localized
 - responsive
 - accessible
 - performant
@@ -61,17 +53,15 @@ The objective is to determine, using the strongest safe evidence available, whet
 - production-safe
 - deployment-ready
 
-When invoked, begin work immediately.
+Begin immediately once the target is clear.
 
-Do not ask the user to restate instructions already contained in this skill.
+Do not ask the user to repeat instructions already contained in this skill.
 
-Do not ask for ordinary confirmation before safe inspection, diagnosis, testing, or target-related repairs.
+Do not request confirmation for ordinary safe inspection, diagnosis, testing, or target-related fixes.
 
 ---
 
-# 1. REPOSITORY CONTEXT
-
-This skill operates inside the **BSTU International Website monorepo**.
+# 2. REPOSITORY CONTEXT
 
 Expected repository root:
 
@@ -79,15 +69,13 @@ Expected repository root:
 C:\Users\KAPAKA\Desktop\international.bstu.uz
 ```
 
-Expected repository structure:
+Expected high-level structure:
 
 ```text
 international.bstu.uz/
-│
 ├── apps/
 │   ├── web/
 │   └── api/
-│
 ├── AGENTS.md
 ├── README.md
 ├── SKILL.md
@@ -97,169 +85,47 @@ international.bstu.uz/
 
 Before executing this skill:
 
-1. Read and obey the repository-root `AGENTS.md`.
-2. Use `README.md` as durable project/developer context where needed.
-3. Treat this `SKILL.md` as the authoritative execution protocol for page and route-family audits.
+1. Read and obey `AGENTS.md`.
+2. Use `README.md` for durable project/developer context where needed.
+3. Use this `SKILL.md` as the specialized page/route audit procedure.
 
-Repository-wide architecture, database safety, Git safety, security, and coding conventions in `AGENTS.md` remain in force during this audit.
+Responsibilities:
 
-Do not duplicate, bypass, or silently override repository-wide rules.
+```text
+README.md
+→ developer/project documentation
 
----
+AGENTS.md
+→ repository-wide agent rules and safety
 
-# 2. DOCUMENT RESPONSIBILITIES
+SKILL.md
+→ page/route audit execution protocol
+```
 
-The repository documentation has separate responsibilities:
-
-## `README.md`
-
-Use for:
-
-- project overview
-- developer setup
-- architecture summary
-- development workflow
-- deployment basics
-
-## `AGENTS.md`
-
-Use for:
-
-- repository-wide coding-agent behavior
-- architecture constraints
-- project conventions
-- database safety
-- security rules
-- Git/change rules
-
-## `SKILL.md`
-
-Use for:
-
-- page audits
-- route audits
-- route-family audits
-- end-to-end runtime verification
-- repair workflow
-- production-readiness decisions
-
-Do not move the complete contents of this skill into `AGENTS.md`.
-
-Do not duplicate this skill under multiple filenames unless explicitly requested.
-
-`SKILL.md` is the page-audit source of truth.
+Repository-wide architecture, database safety, security, and Git rules remain in force during the audit.
 
 ---
 
 # 3. ROLE
 
-Act simultaneously as the project's:
+Act as the project's:
 
 - Senior Full-Stack Engineer
 - Software Architect
-- QA Engineer
-- E2E Engineer
+- QA / E2E Engineer
 - Database Engineer
 - Security Reviewer
 - Accessibility Reviewer
 - Performance Engineer
 - DevOps / Production Readiness Auditor
 
-Your job is not to produce a reassuring report.
-
-Your job is to maximize **real confidence backed by evidence**.
+Do not prioritize a positive verdict over an accurate verdict.
 
 ---
 
-# 4. INVOCATION
+# 4. TARGET INTERPRETATION
 
-This skill may be invoked explicitly or through `AGENTS.md`.
-
-Valid requests include:
-
-```text
-Audit:
-http://localhost:5173/about
-```
-
-```text
-Audit:
-http://localhost:5173/announcements/*
-```
-
-```text
-Audit according to SKILL.md:
-http://localhost:5173/about
-```
-
-```text
-Audit these as one feature:
-http://localhost:5173/announcements
-http://localhost:5173/announcements/*
-```
-
-The user does not need to provide the absolute path to this file when the agent is already operating inside the repository.
-
-If an explicit path is provided, for example:
-
-```text
-C:\Users\KAPAKA\Desktop\international.bstu.uz\SKILL.md
-```
-
-read it and continue normally.
-
-Begin immediately after resolving the supplied target.
-
----
-
-# 5. INPUT CONTRACT
-
-Accept:
-
-- one exact target URL
-- one dynamic route
-- one wildcard route family
-- multiple related targets
-
-Examples:
-
-```text
-http://localhost:5173/
-http://localhost:5173/about
-http://localhost:5173/announcements
-http://localhost:5173/announcements/*
-http://localhost:5173/programs/*
-```
-
-Do not require special syntax if the user's intent is clear.
-
----
-
-# 6. PROJECT ROOT DISCOVERY
-
-Do not blindly assume the working directory.
-
-Confirm the repository root using evidence such as:
-
-- `.git`
-- `AGENTS.md`
-- `README.md`
-- `SKILL.md`
-- `apps/web`
-- `apps/api`
-- `package.json`
-- `composer.json`
-- workspace configuration
-
-When this skill is located at the repository root, prefer that directory and its descendants.
-
-Do not guess architecture solely from folder names.
-
----
-
-# 7. TARGET SEMANTICS
-
-## 7.1 Exact Page
+## Exact Page
 
 Example:
 
@@ -267,11 +133,11 @@ Example:
 http://localhost:5173/about
 ```
 
-Audit that exact page and all direct dependencies required for it.
+Audit the exact route and everything directly required to operate it.
 
 ---
 
-## 7.2 Wildcard Route Family
+## Wildcard Route Family
 
 Example:
 
@@ -279,148 +145,128 @@ Example:
 http://localhost:5173/announcements/*
 ```
 
-Interpret `/*` as:
+Treat `/*` as:
 
-> Audit the real route family beneath this path.
+> Audit the real route family below this path.
 
-Do not treat the wildcard itself as a literal browser URL.
+Do not open the wildcard literally in the browser.
 
-Inspect the actual frontend router and discover the implemented child/dynamic routes.
+Discover actual route definitions from the project's router.
 
-Possible patterns might include:
+Possible implementations might include:
 
 ```text
 /announcements/:id
 /announcements/:slug
-/announcements/category/:slug
 ```
 
 These are examples only.
 
-Never invent routes that are not actually implemented.
+Never invent routes.
 
 ---
 
-## 7.3 Base Route + Wildcard
+## Base + Wildcard
 
-If the user supplies:
+If both are supplied:
 
 ```text
 http://localhost:5173/announcements
 http://localhost:5173/announcements/*
 ```
 
-audit them as one connected feature family.
+treat them as one connected feature family.
 
-Include where relevant:
+Audit where applicable:
 
-- list/index page
+- index/list page
 - detail routes
-- filters
 - search
+- filters
 - sorting
 - pagination
-- navigation list → detail
+- list → detail navigation
 - detail → list/back navigation
-- API contracts
+- APIs
 - shared components
 - database relationships
-- Admin/CMS management
+- Admin/CMS
 - empty states
-- invalid/not-found detail routes
+- invalid/not-found states
 
-Do not duplicate the same investigation unnecessarily.
+Avoid duplicate work.
 
 ---
 
-# 8. REPRESENTATIVE ROUTE-FAMILY TESTING
+# 5. REPRESENTATIVE DYNAMIC ROUTE TESTING
 
-For dynamic route families, discover actual routable records from the API/database.
+For large route families, discover real routable records from the API/database.
 
-When sufficient data exists, test representative cases such as:
+When suitable data exists, test representative cases such as:
 
-1. A normal valid published record.
-2. A record with optional/null fields where available.
-3. A record containing media where applicable.
-4. A record with long text where useful for responsive verification.
-5. Relevant locales where content behavior differs.
-6. An invalid/nonexistent slug or identifier.
-7. An unpublished/inactive record where access behavior matters.
+1. normal valid published record
+2. record with optional/null fields
+3. record containing media
+4. record with long content
+5. relevant locale variants
+6. invalid/nonexistent identifier or slug
+7. inactive/unpublished record where behavior matters
 
-Do not create fake URLs when valid route examples can be discovered from project data.
+Do not fabricate routes when valid records can be discovered.
 
-For large route families, representative runtime testing is acceptable when:
+Representative runtime testing is acceptable when:
 
 - the shared implementation is confirmed
-- API/schema behavior is shared
-- representative edge cases are covered
+- the contract is shared
+- meaningful edge cases are covered
 
-Do not claim every database record was individually browser-tested unless that actually occurred.
+Never claim every database record was browser-tested unless that actually occurred.
 
 ---
 
-# 9. EXECUTION PRINCIPLE
+# 6. EXECUTION MODEL
 
-Follow this lifecycle:
+Use:
 
 ```text
 DISCOVER
-    ↓
+  ↓
 TRACE
-    ↓
+  ↓
 EXECUTE
-    ↓
+  ↓
 VERIFY
-    ↓
+  ↓
 DIAGNOSE
-    ↓
+  ↓
 FIX
-    ↓
+  ↓
 RETEST
-    ↓
+  ↓
 REGRESSION CHECK
-    ↓
+  ↓
 REPORT
 ```
 
-For every relevant area:
+For every relevant subsystem:
 
-1. Inspect the real implementation.
-2. Trace the real dependency path.
+1. Inspect the actual implementation.
+2. Trace its real dependencies.
 3. Execute the strongest safe verification available.
 4. Verify actual runtime/data behavior.
-5. Identify root causes.
-6. Apply the smallest safe fix.
-7. Retest.
-8. Check regression impact.
+5. Diagnose confirmed problems.
+6. Apply the smallest safe root-cause fix.
+7. Retest the affected path.
+8. Check likely regressions.
 9. Report only what evidence supports.
 
 Never guess.
 
 ---
 
-# 10. EVIDENCE PRIORITY
+# 7. EVIDENCE STANDARD
 
-Prefer stronger evidence over weaker evidence.
-
-Use this order:
-
-1. Real end-to-end browser + API + database verification
-2. Runtime integration verification
-3. API/database execution
-4. Automated E2E/integration tests
-5. Feature/unit tests
-6. Build/type/lint/static checks
-7. Code-path inspection
-8. Assumption
-
-An assumption is never acceptable as `PASS`.
-
----
-
-# 11. VERIFICATION STATES
-
-Use only:
+Use only these verification states:
 
 ## PASS
 
@@ -428,7 +274,7 @@ Actually executed and successfully verified with appropriate evidence.
 
 ## CODE-VERIFIED
 
-Implementation was fully traced and appears correct, but equivalent runtime verification could not safely/practically be completed.
+Implementation was fully traced and appears correct, but equivalent runtime execution could not safely or practically be completed.
 
 ## FAIL
 
@@ -440,206 +286,136 @@ Insufficient evidence.
 
 ## N/A
 
-Genuinely not applicable.
+The check genuinely does not apply.
 
 Never convert `NOT VERIFIED` into `PASS`.
 
 ---
 
-# 12. VERIFICATION ESCALATION RULE
+## Evidence Priority
 
-`CODE-VERIFIED` and `NOT VERIFIED` are fallback states, not shortcuts.
+Prefer:
 
-Before using either, ask internally:
+1. real browser + API + database end-to-end verification
+2. runtime integration verification
+3. direct API/database execution
+4. automated E2E/integration tests
+5. feature/unit tests
+6. production build/type/lint checks
+7. code inspection
+8. assumptions
 
-> Is another safe verification method available?
+Assumptions are never PASS evidence.
 
-Examples:
+Before using `CODE-VERIFIED` or `NOT VERIFIED`, ask internally:
 
-- Playwright unavailable → check Chrome/Cypress/Puppeteer/Selenium.
-- Browser framework absent → inspect local Chrome/Edge.
-- API returns 200 → inspect payload/schema.
-- Migration exists → inspect actual schema.
-- CSS looks responsive → test real viewports.
-- CRUD code exists → verify mutation path.
-- Live mutation unsafe → check existing integration/E2E tests.
-
-Do not stop at the first unavailable tool.
+> Is another safe verification method reasonably available?
 
 ---
 
-# 13. VERIFICATION LEDGER / CONTINUATION RULE
+# 8. CONTINUATION / VERIFICATION LEDGER
 
 During an active audit, maintain an internal verification ledger.
 
-Track production-critical areas using:
+Track production-critical areas and the evidence supporting them.
 
-- PASS
-- CODE-VERIFIED
-- FAIL
-- NOT VERIFIED
-- N/A
+If the audit continues after code changes:
 
-Also track the evidence establishing each state.
-
-If the user asks to continue the same audit:
-
-- do not restart from zero
-- do not repeat unaffected verified work
-- invalidate only checks affected by changes
-- rerun downstream checks that may regress
-- rerun final build/browser/regression verification where appropriate
+- do not restart unnecessarily
+- reuse unaffected verified evidence
+- invalidate checks affected by the change
+- rerun downstream checks that may have regressed
+- rerun final browser/build/regression verification where applicable
 
 Example:
 
-If only a responsive React component changes, rerun:
+If only a responsive React component changed, rerun relevant:
 
-- relevant lint/type checks
+- lint/type checks
 - production build
 - browser runtime
 - responsive viewports
-- affected interactions
-- affected locales
+- interactions
+- locales
 - shared-component regression checks
 
-Do not unnecessarily rerun unrelated database discovery when the data layer did not change.
+Do not rediscover unrelated database architecture without reason.
 
 ---
 
-# 14. AUDIT SCOPE
+# 9. REQUIRED DEPENDENCY TRACE
 
-Audit:
+Trace the target through the real implementation:
 
 ```text
 Target URL
-→ Router
+→ Frontend Router
 → Layout
 → Page
 → Components
-→ Hooks/Stores/Context
+→ Hooks / Context / State
 → API Client
 → API Endpoint
 → Middleware
 → Validation
 → Controller
-→ Service/Repository
+→ Service / Repository
 → Model
 → Database
-→ Admin/CMS
-→ CRUD/Synchronization
-→ Authentication/Authorization
+→ Admin / CMS
+→ CRUD / Synchronization
+→ Authentication / Authorization
 → i18n
-→ Media/Storage
-→ Accessibility
+→ Media / Storage
 → SEO
-→ Performance
 → Production Configuration
-→ Build
 → Browser Runtime
-→ Responsive Runtime
-→ End-to-End Flow
 ```
 
-Do not stop at the visible frontend.
+For every important dynamic public field, identify its intended source.
 
-Do not turn the audit into an unrelated repository rewrite.
+Do not stop at the frontend.
 
 ---
 
-# 15. PHASE A — PROJECT DISCOVERY
+# 10. PROJECT DISCOVERY
 
-Identify:
+Confirm rather than assume:
 
 - frontend framework/version
 - backend framework/version
-- routing system
+- router
 - database
 - ORM/query layer
-- authentication system
-- authorization/roles/policies
+- authentication
+- roles/policies/authorization
 - Admin/CMS architecture
 - API architecture
 - state management
-- validation libraries
-- i18n system
-- storage/media architecture
+- validation
+- localization
+- media/storage
 - build tooling
 - test tooling
 - browser/E2E tooling
-- environment mechanism
+- environment/config mechanism
 - package manager
-- monorepo/workspace structure
+- workspace structure
 
-Use existing project conventions.
+Use existing repository conventions.
 
-Do not replace architecture merely because another design is possible.
-
----
-
-# 16. PHASE B — RESOLVE TARGET IMPLEMENTATION
-
-Locate:
-
-- frontend route
-- route parameters
-- parent route
-- page component
-- layout
-- child components
-- shared components
-- hooks
-- stores
-- contexts/providers
-- API clients
-- services
-- utilities
-- types/interfaces
-- translations
-- assets
-- SEO configuration
-- environment variables
-- route guards
-
-Do not infer filenames from URLs.
-
-Search and confirm.
+Do not redesign working architecture without a confirmed need.
 
 ---
 
-# 17. PHASE C — DEPENDENCY MAP
+# 11. FRONTEND AUDIT
 
-For every important dynamic section, determine:
-
-```text
-UI Section
-→ Component
-→ Hook/State/Context
-→ API Client
-→ Endpoint
-→ Middleware
-→ Validator
-→ Controller
-→ Service/Repository
-→ Model
-→ Database Table(s)
-→ Translation Source
-→ Media Source
-→ Admin/CMS
-```
-
-Document meaningful branches.
-
-Every public dynamic field should have an intended source.
-
----
-
-# 18. PHASE D — FRONTEND AUDIT
+Inspect all target-related frontend code.
 
 ## Rendering
 
-Check:
+Verify:
 
-- rendering logic
 - conditional rendering
 - nullable values
 - state synchronization
@@ -647,14 +423,14 @@ Check:
 - hooks/effects
 - dependency arrays
 - cleanup
-- memoization where useful
-- error boundaries where applicable
+- loading behavior
+- error behavior
 - hydration where applicable
-- safe image/media rendering
+- safe media rendering
 
-## Data Handling
+## Data
 
-Check:
+Verify:
 
 - requests
 - parameters
@@ -662,43 +438,42 @@ Check:
 - loading states
 - empty states
 - error states
-- retries
+- retries where appropriate
 - race conditions
 - stale state
-- cancellation
+- cancellation where relevant
 - unhandled promises
 - malformed payload handling
 
-## User Interaction
+## Interactions
 
 Actually test relevant:
 
 - buttons
 - links
-- forms
 - CTAs
-- menus
+- forms
 - dropdowns
 - tabs
+- menus
 - modals
 - search
-- filters
+- filtering
 - sorting
 - pagination
 - uploads
-- language switching
-- interactive cards
+- language switcher
 - external links
 - list/detail navigation
 
 No unexplained dead control is acceptable.
 
-## Code Problems
+## Code Quality
 
-Search for:
+Search relevant files for:
 
 - dead code
-- duplicate code
+- duplicate logic
 - invalid imports
 - unused imports
 - missing dependencies
@@ -708,97 +483,97 @@ Search for:
 - temporary workarounds
 - TODO/FIXME
 - console/debug artifacts
-- runtime errors
 - unsafe fallbacks
 
-Fix confirmed issues safely.
+Fix confirmed target-related issues safely.
 
 ---
 
-# 19. PHASE E — RESPONSIVE RUNTIME
+# 12. RESPONSIVE & ACCESSIBILITY VERIFICATION
 
-Minimum test viewports:
+## Required Viewports
+
+When browser tooling is available, test:
 
 ```text
-Mobile:  375 × 812
-Tablet:  768 × 1024
-Laptop:  1366 × 768
-Desktop: 1920 × 1080
+375 × 812
+768 × 1024
+1366 × 768
+1920 × 1080
 ```
 
-Use project-defined breakpoints if clearly more appropriate.
+Use project-defined breakpoints only when clearly more appropriate.
 
-Inspect the **full rendered document**, not only the initial viewport.
+Inspect the **full document**, not just the initial viewport.
 
 Check:
 
-- Header
-- Navigation
-- Page title/Hero
-- Main sections
-- Cards
-- Lists
-- Tables
-- Forms
-- Images
-- Videos
-- Modals
-- Pagination
-- Footer
-- Sticky/fixed elements
-- Late-loaded content
-
-Also check:
-
-```text
-document.scrollWidth <= expected viewport width
-```
-
-unless horizontal scrolling is intentionally required.
+- header
+- navigation
+- title/hero
+- all main sections
+- cards
+- lists
+- tables
+- forms
+- media
+- modals
+- pagination
+- footer
+- fixed/sticky elements
+- late-loaded content
 
 Look for:
 
 - horizontal overflow
 - clipped text
-- overlap
+- overlapping content
 - off-screen controls
 - broken grids
 - malformed cards
 - image distortion
-- broken navigation
+- navigation breakage
 - excessive whitespace
-- unreadable content
-- RTL breakage
+- unreadable text
+- RTL issues
 
-Do not mark responsiveness PASS from Tailwind/CSS inspection alone.
+Where appropriate verify:
+
+```text
+document.scrollWidth <= document.documentElement.clientWidth
+```
+
+unless horizontal scrolling is intentional.
+
+Do not mark responsive design PASS from CSS/Tailwind inspection alone.
 
 ---
 
-# 20. PHASE F — ACCESSIBILITY
+## Accessibility
 
-Check where relevant:
+Check relevant:
 
 - semantic HTML
 - heading hierarchy
 - labels
 - input associations
 - alt text
-- keyboard navigation
+- keyboard usability
 - focus visibility
 - focus order
 - button/link semantics
 - appropriate ARIA
-- non-color-only state communication
+- state communication not dependent on color alone
 
-Use runtime verification where possible.
+Use runtime inspection where practical.
 
-Do not claim full WCAG compliance unless tested to that standard.
+Do not claim full WCAG compliance unless formally tested to that standard.
 
 ---
 
-# 21. PHASE G — API / DATA CONTRACT
+# 13. API CONTRACT & BACKEND AUDIT
 
-Compare:
+For every important API used by the target, compare:
 
 ```text
 Frontend expectation
@@ -808,57 +583,46 @@ Actual backend response
 
 Verify:
 
-- names
+- URL
+- method
+- status
+- content type
+- field names
 - types
 - nullability
-- nested objects
+- nested structures
 - arrays
 - IDs
 - pagination
-- translations
+- localized fields
 - media URLs
 - dates
 - booleans
 - statuses
 - optional values
 - error payloads
+- frontend compatibility
 
-If TypeScript or equivalent types exist, compare them with actual backend output.
+If TypeScript or equivalent types exist, compare them with actual responses.
 
 ---
 
-# 22. HTTP 200 IS NOT API VERIFICATION
+## HTTP 200 Rule
 
-For each major endpoint inspect:
-
-- request URL
-- method
-- HTTP status
-- content type
-- schema
-- required fields
-- nested structure
-- relevant types
-- locale behavior
-- pagination
-- media URLs
-- absence of hidden errors
-- frontend compatibility
-
-Forbidden logic:
+This is forbidden reasoning:
 
 ```text
 HTTP 200
 therefore API works
 ```
 
-A malformed `200` response is not a pass.
+A `200` response containing malformed, incompatible, stale, or hidden error data is not PASS.
 
 ---
 
-# 23. PHASE H — BACKEND AUDIT
+## Backend Inspection
 
-Inspect:
+Inspect relevant:
 
 - routes
 - middleware
@@ -869,55 +633,50 @@ Inspect:
 - models
 - resources/serializers
 - policies
-- authentication
-- authorization
 - exception handling
 
 Check:
 
-- methods
-- status codes
-- request shape
-- response shape
+- correct methods/statuses
 - validation
 - sanitization
 - pagination
 - filtering
 - sorting
-- errors
+- error handling
 - N+1
 - repeated queries
-- eager loading
+- missing eager loading
 - unbounded queries
 - unsafe raw queries
 - mass assignment
-- exposed sensitive fields
+- sensitive field exposure
 
-Fix confirmed issues while preserving contracts when practical.
+Fix confirmed issues while preserving established contracts where practical.
 
 ---
 
-# 24. PHASE I — DATABASE
+# 14. DATABASE AUDIT & SAFETY
 
 Compare:
 
 ```text
 Migration
-↔ Actual DB Schema
+↔ Actual Database Schema
 ↔ Model
-↔ Service
+↔ Service/Repository
 ↔ Controller
 ↔ API
 ↔ Frontend
 ```
 
-Check:
+Inspect applicable:
 
 - tables
 - columns
 - types
-- PKs
-- FKs
+- primary keys
+- foreign keys
 - indexes
 - unique constraints
 - nullability
@@ -932,22 +691,23 @@ Check:
 
 Look for:
 
+- schema/code drift
 - missing fields
 - obsolete fields
 - incorrect types
-- incorrect FKs
-- missing indexes
+- incorrect relationships
+- invalid foreign keys
+- missing useful indexes
 - dangerous cascades
-- schema/code drift
-- translation inconsistencies
+- inconsistent translations
 
 Do not create migrations without a confirmed requirement.
 
 ---
 
-# 25. DATABASE ENVIRONMENT CLASSIFICATION
+## Environment Classification
 
-Before mutations determine:
+Before any mutation determine whether the connected database is:
 
 - development
 - automated test
@@ -955,7 +715,7 @@ Before mutations determine:
 - production
 - unknown
 
-Inspect config without revealing credentials.
+Never expose database credentials.
 
 Never assume:
 
@@ -963,57 +723,58 @@ Never assume:
 localhost = disposable database
 ```
 
-Unknown means potentially important.
+An unknown database must be treated as potentially important.
 
 ---
 
-# 26. DATABASE SAFETY
+## Database Safety
 
 Never automatically:
 
 - drop tables
 - reset databases
-- truncate data
-- delete production records
+- run `migrate:fresh`
+- run `db:wipe`
+- truncate important data
+- delete real data for convenience
+- remove important columns blindly
 - run destructive seeders
-- remove important columns
-- rewrite migration history
-- destroy relationships
+- rewrite migration history recklessly
 
 Prefer:
 
-- additive migrations
+- additive changes
 - reversible migrations
-- backward-compatible changes
+- backward-compatible migrations
 - safe indexes
 - safe constraints
 
-If destructive work is necessary, report it instead of executing it automatically.
+If destructive work appears required, report it rather than automatically executing it.
 
 ---
 
-# 27. PHASE J — ADMIN / CMS
+# 15. ADMIN / CMS & CRUD
 
-Mandatory whenever content is dynamic or managed.
+This section is mandatory whenever the target depends on dynamic managed content.
 
-Discover relevant:
+Locate relevant Admin/CMS management for:
 
-- page CMS
-- services
+- page content
 - programs
 - faculties
+- services
 - announcements
 - news
 - blog
 - leadership
 - statistics
 - contacts
+- translations
 - media
 - documents
-- translations
 - SEO
-- visibility
 - ordering
+- visibility/status
 
 Verify:
 
@@ -1034,84 +795,83 @@ Admin UI
 
 Look for:
 
-- disconnected fields
-- unmanaged DB fields
-- hardcoded public data
-- saves that never reach public output
-- frontend fields with no source
+- disconnected Admin fields
+- unmanaged public DB fields
+- hardcoded public values
+- saved Admin values that never reach public output
+- public fields with no intended management source
 
 ---
 
-# 28. ADMIN MUTATION ARCHITECTURE
+## Mutation Architecture
 
-Do not infer CRUD from method names.
+Do not infer CRUD from HTTP method names.
 
-Identify whether:
+Determine whether mutations use:
 
-- POST creates
-- PUT/PATCH updates
-- DELETE removes
-- or aggregate synchronization handles multiple operations
+- POST
+- PUT
+- PATCH
+- DELETE
+- aggregate synchronization
 
-If aggregate synchronization exists, inspect whether it:
+If an aggregate operation manages a page/resource, determine whether it:
 
-- creates
-- updates
-- removes
+- creates missing records
+- updates existing records
+- removes records
 - soft-deletes
 - restores
 - reorders
 - changes status
-- syncs translations
-- syncs relationships
-- replaces media
-- removes old media
+- synchronizes translations
+- synchronizes relationships
+- replaces/removes media
 
-`PUT exists` does not mean `full CRUD verified`.
+`PUT exists` does not mean full CRUD works.
 
 ---
 
-# 29. CRUD / SYNCHRONIZATION
+## CRUD Verification
 
-Verify where applicable:
+Where applicable verify:
 
-## CREATE
+### CREATE
 
-- form/request
 - validation
 - persistence
 - relationships
 - translations
 - media
-- public API exposure
+- public exposure
 
-## READ
+### READ
 
 - Admin values
-- public API
-- public frontend
+- public API values
+- public frontend values
 
-## UPDATE
+### UPDATE
 
-- existing values
-- persistence
-- relationships
-- translations
-- media
-- public API
-- frontend
+- current values load
+- changes persist
+- translations update
+- relationships remain valid
+- media replacement works
+- public API updates
+- frontend updates
 
-## DELETE / REMOVE
+### DELETE / REMOVE
 
-- intended record
-- relationships
-- files
-- API
-- frontend missing-state handling
+- correct record affected
+- relationships remain valid
+- file behavior is safe
+- API reflects removal
+- frontend handles removal
 
-Also verify:
+Also verify when applicable:
 
-- active/inactive
+- activate/deactivate
 - publish/unpublish
 - reorder
 - search
@@ -1122,110 +882,93 @@ Also verify:
 
 ---
 
-# 30. SAFE REVERSIBLE CMS MUTATION
+# 16. SAFE REVERSIBLE CMS VERIFICATION
 
-When environment safety is established, prefer a real reversible mutation.
+When database safety is positively established, prefer a reversible real mutation.
 
 Procedure:
 
-1. Select a safe existing development/test/staging textual value.
-2. Record the exact original value.
-3. Create a temporary unique value:
+1. Select one safe existing non-production textual CMS value.
+2. Record its exact original state.
+3. Create a unique temporary value:
 
 ```text
 AUDIT_TEST_<timestamp>
 ```
 
-4. Change it using the real authenticated Admin/API flow.
-5. Verify mutation succeeds.
-6. Verify DB.
+4. Submit through the real authenticated Admin/application mutation path.
+5. Verify mutation success.
+6. Verify database.
 7. Verify public API.
-8. Verify frontend.
-9. Verify browser.
-10. Restore exact original value through the real app path.
-11. Verify DB restoration.
+8. Verify frontend receives it.
+9. Verify browser displays it.
+10. Restore the exact original state through the real application path.
+11. Verify database restoration.
 12. Verify API restoration.
-13. Verify browser restoration.
-14. Confirm temporary value is gone.
+13. Verify frontend/browser restoration.
+14. Confirm no audit value remains.
 
-Never perform against confirmed production data.
-
----
-
-# 31. MUTATION ROLLBACK GUARANTEE
-
-Treat reversible mutation as a transactional audit operation.
-
-Before mutating:
-
-1. Capture original state.
-2. Preserve rollback data.
-3. Prepare restoration before continuing.
-
-If any later step fails:
-
-1. Stop normal verification.
-2. Restore original state immediately.
-3. Verify restoration.
-4. Only then continue diagnosis.
-
-Never leave temporary audit data because a later test failed.
+Never perform this against confirmed production data.
 
 ---
 
-# 32. EQUIVALENT CMS EVIDENCE
+## Rollback Guarantee
 
-A live reversible mutation is preferred high-confidence evidence, but it is not the only acceptable evidence.
+Before mutation:
 
-Equivalent strong evidence may include:
+- capture original state
+- preserve rollback information
+- prepare restoration
 
-- E2E tests against isolated DB
-- integration tests
-- transactional Laravel feature tests
-- isolated staging workflows
-- disposable automated test databases
+If any later verification step fails:
 
-Do not downgrade an otherwise strongly verified page solely because real development data was intentionally not mutated if equivalent strong automated evidence exists.
+1. stop normal verification
+2. restore the original state immediately
+3. verify restoration
+4. continue diagnosis only after restoration
+
+Temporary audit values must never be left behind because a test failed.
 
 ---
 
-# 33. PHASE K — AUTHENTICATION & AUTHORIZATION
+## Equivalent Strong Evidence
+
+A live mutation is preferred but not mandatory if equivalent strong evidence exists, such as:
+
+- isolated E2E tests
+- transactional integration tests
+- Laravel feature tests
+- disposable test database
+- isolated staging workflow
+
+Do not downgrade a fully verified feature merely because important development data was intentionally not mutated when equivalent strong evidence exists.
+
+---
+
+# 17. AUTHENTICATION, AUTHORIZATION & SECURITY
 
 Authentication and authorization are separate.
 
-Test where practical:
-
-## Unauthenticated
-
-Expected:
+For protected Admin endpoints verify where safely practical:
 
 ```text
-401
+Unauthenticated
+→ expected 401 or intentional equivalent
+
+Authenticated non-admin
+→ expected 403 or intentional equivalent
+
+Authorized admin
+→ expected successful access
 ```
 
-or intentional equivalent.
-
-## Authenticated Non-Admin
-
-Expected:
-
-```text
-403
-```
-
-or intentional equivalent.
-
-## Authorized Admin
-
-Expected successful access.
-
-Do not treat `401` as proof that role authorization works.
+Do not treat a 401 response as proof that role authorization works.
 
 ---
 
-# 34. PHASE L — SECURITY
+## Security Review
 
-Review:
+Check applicable:
 
 - XSS
 - CSRF
@@ -1234,10 +977,10 @@ Review:
 - unsafe HTML
 - unsafe redirects
 - path traversal
-- upload abuse
+- file upload validation
 - MIME spoofing
-- upload size
-- sensitive data
+- excessive upload size
+- sensitive data exposure
 - debug output
 - stack traces
 - credentials
@@ -1248,45 +991,45 @@ Review:
 
 Never print secrets.
 
-Security verification must remain non-destructive.
+Security testing must remain non-destructive.
 
 Do not perform:
 
-- brute-force credential testing
+- credential brute force
 - denial-of-service testing
+- destructive fuzzing
 - destructive penetration tests
-- uncontrolled fuzzing
-- destructive payloads
-
-Security testing must remain scoped to application correctness, validation, access control, and safe request behavior.
+- uncontrolled harmful payloads
 
 ---
 
-# 35. PHASE M — MEDIA / STORAGE
+# 18. MEDIA, LOCALIZATION & SEO
 
-Verify when applicable:
+## Media / Storage
+
+When relevant verify:
 
 - upload
 - validation
 - MIME
 - extension
 - size
-- names
+- naming
 - storage
-- public URLs
+- public URL generation
 - replacement
 - deletion
-- orphan cleanup
-- fallback
-- broken image handling
+- orphan handling
+- missing-file fallback
+- broken-image handling
 
-Search for:
+Search relevant code for unsafe dependencies on:
 
 ```text
 localhost
 127.0.0.1
 absolute Windows paths
-development storage URLs
+development-only storage URLs
 hardcoded local assets
 ```
 
@@ -1294,47 +1037,75 @@ Production must not depend on local-machine paths.
 
 ---
 
-# 36. PHASE N — i18n / LOCALIZATION
+## i18n / Localization
 
-Discover active locales from project/database.
+Discover active locales from the real project/database.
 
 Verify:
 
-- translation keys
+- translation availability
 - missing translations
-- fallback locale
+- fallback behavior
 - DB translations
 - API locale behavior
-- Admin inputs
-- language switch
-- localized routes
+- Admin translation fields
+- language switching
 - locale persistence
-- localized SEO
+- localized routes where applicable
+- localized SEO where applicable
 - LTR/RTL
 
-For RTL verify runtime:
+For RTL languages verify browser behavior for:
 
 - direction
 - alignment
 - navigation
 - cards
-- forms
 - tables
+- forms
 - modals
 - pagination
 - directional icons
 - mixed-direction content
 
-Switch languages in the browser where possible.
+Switch languages at runtime where possible.
 
 ---
 
-# 37. PHASE O — BROWSER TOOLING DISCOVERY
+## SEO
 
-Do not stop because Playwright is absent.
+Verify where applicable:
 
-Check for:
+- title
+- meta description
+- canonical
+- Open Graph
+- Twitter/X metadata
+- robots
+- structured data
+- heading hierarchy
+- image alt text
 
+Inspect runtime-generated metadata where possible.
+
+Production metadata should not accidentally reference:
+
+- localhost
+- development ports
+- filesystem paths
+- staging-only URLs
+
+---
+
+# 19. BROWSER RUNTIME VERIFICATION
+
+Browser verification is production-critical for normal public pages.
+
+Do not stop merely because Playwright is absent.
+
+Check for available:
+
+- existing E2E tooling
 - Playwright
 - Cypress
 - Puppeteer
@@ -1343,43 +1114,37 @@ Check for:
 - Chromium
 - Edge
 - Firefox
-- existing E2E scripts
-- existing browser helpers
 
-If no framework exists, consider a temporary/non-invasive browser method.
-
-Do not permanently modify the project for one disposable audit unless justified.
+Prefer a temporary/non-invasive method over permanently modifying the project for one audit.
 
 ---
 
-# 38. PHASE P — REAL BROWSER RUNTIME
+## Runtime Checks
 
-Actually load the target when possible.
+Actually load the target when browser execution is available.
 
 Verify:
 
 - page load
+- rendering
 - console errors
-- console warnings
+- relevant console warnings
 - uncaught exceptions
-- unhandled promises
+- unhandled promise rejections
 - framework warnings
-- network traffic
-- failed XHR/fetch
+- network requests
+- failed fetch/XHR
 - relevant 4xx/5xx
-- broken assets
+- broken resources
 - broken images
-- missing fonts/resources
 - navigation
-- buttons
-- forms
-- modals
+- interactions
 - language switching
-- target interactions
+- route-family detail behavior
 
 A screenshot alone is insufficient.
 
-Report:
+Report actual counts/results:
 
 ```text
 Console errors:
@@ -1390,90 +1155,71 @@ Failed relevant network requests:
 Broken resources/assets:
 ```
 
-Fix target-related problems and retest.
+If target-related failures exist:
+
+1. identify root cause
+2. fix safely
+3. retest
+4. report post-fix state
 
 ---
 
-# 39. PAGE HTTP RULE
+## Page HTTP Rule
 
 ```text
-GET /target => 200
+GET /target => HTTP 200
 ```
 
-does not prove:
+proves only that the server returned a successful response.
+
+It does not prove:
 
 - React rendering
-- hydration
 - JS execution
 - console cleanliness
 - API integration
 - correct content
-- responsive design
+- responsive behavior
 - interactions
 - localization
 - accessibility
 
-Never translate page HTTP success into frontend runtime PASS.
+Never convert page HTTP success into frontend runtime PASS.
 
 ---
 
-# 40. PHASE Q — FAILURE STATES
+# 20. FAILURE-STATE VERIFICATION
 
-Where safe, verify relevant:
+Where safe and practical, verify relevant:
 
-- API unavailable
 - API error
+- API unavailable
 - empty dataset
-- missing optional fields
-- missing image
-- broken image URL
-- invalid payload
+- missing optional values
+- missing media
+- broken media URL
+- malformed payload
 - validation error
 - unauthenticated request
 - forbidden request
 - invalid route parameter
-- missing detail record
+- nonexistent detail record
 - missing translation
 - slow loading
 
-The page should fail gracefully.
+The page should fail gracefully rather than crash or become unusable.
 
 Do not intentionally disrupt production systems.
 
 ---
 
-# 41. PHASE R — SEO
+# 21. PERFORMANCE & PRODUCTION CONFIGURATION
 
-Verify:
+## Performance
 
-- title
-- description
-- canonical
-- Open Graph
-- Twitter/X
-- robots
-- structured data
-- headings
-- image alt
+Check meaningful target-related problems.
 
-Verify runtime metadata where possible.
-
-No production metadata should contain:
-
-- localhost
-- local ports
-- filesystem paths
-- staging URLs
-
-unless intentionally environment-specific.
-
----
-
-# 42. PHASE S — PERFORMANCE
-
-## Frontend
-
-Check:
+Frontend:
 
 - duplicate requests
 - excessive requests
@@ -1483,26 +1229,23 @@ Check:
 - oversized media
 - blocking resources
 - useful lazy loading opportunities
-- expensive repeated calculations
 
-## Backend
-
-Check:
+Backend:
 
 - N+1
 - duplicate queries
 - unnecessary joins
-- missing indexes
+- missing useful indexes
 - unbounded queries
 - excessive payloads
 - missing pagination
-- inefficient translation loading
+- inefficient localization loading
 
-Avoid speculative micro-optimization.
+Do not perform speculative micro-optimizations.
 
 ---
 
-# 43. PHASE T — PRODUCTION CONFIGURATION
+## Production Configuration
 
 Search relevant code/config for:
 
@@ -1511,11 +1254,10 @@ localhost
 127.0.0.1
 hardcoded ports
 hardcoded domains
-hardcoded APIs
+hardcoded API URLs
 hardcoded asset URLs
 debug flags
 test credentials
-temporary credentials
 mock
 dummy
 TODO
@@ -1523,23 +1265,25 @@ FIXME
 development fallbacks
 ```
 
-Verify environment-driven:
+Verify environment-driven configuration for:
 
-- API URL
 - frontend URL
-- backend URL
-- assets
-- storage
+- backend/API URL
+- application URL
+- assets/storage
 - CORS
+- Sanctum
 - cookies
 - sessions
-- Sanctum
 - SameSite
 - Secure
 - HTTPS
-- production build
+- cache
+- queue
+- logging
+- production build behavior
 
-Local values such as:
+Local development values such as:
 
 ```text
 APP_ENV=local
@@ -1548,30 +1292,29 @@ APP_DEBUG=true
 
 are not defects by themselves.
 
-Do not change the developer's local environment to production merely to obtain PASS.
+Do not change the developer's local environment to production mode merely to obtain PASS.
 
 ---
 
-# 44. PHASE U — STATIC / BUILD
+# 22. BUILD, TESTS & FIX POLICY
 
-Use real project commands.
+Use actual repository commands.
 
 Run applicable:
 
-- type checks
+- type checking
 - lint
-- frontend build
+- frontend production build
 - backend tests
 - frontend tests
-- unit tests
-- integration tests
 - feature tests
+- integration tests
 - E2E tests
-- route listing
+- route inspection
 - migration status
-- schema checks
+- schema verification
 
-Classify failures:
+Classify failures as:
 
 ```text
 TARGET-RELATED
@@ -1583,102 +1326,94 @@ or:
 PRE-EXISTING / UNRELATED
 ```
 
-Do not blindly repair unrelated project-wide errors.
+Do not blindly repair unrelated repository-wide issues.
 
 ---
 
-# 45. PRODUCTION BUILD RULE
+## Production Build Rule
 
-Build success alone is not production readiness.
+A successful build does not prove runtime correctness.
 
-Inspect warnings for:
+Inspect relevant warnings for:
 
 - unresolved assets
 - broken imports
 - missing dependencies
 - chunk warnings
-- environment URL assumptions
-- debug/source map concerns
-- large target-related assets
+- environment assumptions
+- debug/source-map concerns
+- unusually large target-related assets
 
 Only report Build PASS if the production build actually completed successfully.
 
 ---
 
-# 46. ROOT-CAUSE REPAIR POLICY
+## Root-Cause Repair
 
 For every confirmed issue:
 
-1. Reproduce.
-2. Identify root cause.
-3. Determine smallest safe correction.
-4. Implement.
-5. Inspect affected dependencies.
-6. Retest.
-7. Confirm resolution.
-8. Check regression impact.
+1. reproduce
+2. identify root cause
+3. implement smallest safe correction
+4. inspect affected dependencies
+5. retest
+6. confirm resolution
+7. check regressions
 
-Do not hide errors with:
+Do not hide problems with:
 
-- empty catch
+- empty catches
 - disabled validation
 - unjustified `any`
 - `@ts-ignore`
 - `@ts-nocheck`
-- disabled lint
-- arbitrary hardcoded fallback
+- disabled lint rules
+- arbitrary hardcoded fallbacks
 - removed authorization
 - suppressed exceptions
 
-unless strongly justified by the established architecture.
+unless the established architecture genuinely requires it.
 
 ---
 
-# 47. MODIFIED FILE VERIFICATION
+# 23. MODIFIED FILE & SHARED-DEPENDENCY VERIFICATION
 
-After changing a file:
+After changing any file:
 
-1. Reopen final file.
-2. Check syntax/JSX.
-3. Check duplicates.
-4. Check imports.
-5. Confirm new imports are used.
-6. Confirm removed imports are gone.
-7. Run relevant checks.
-8. Run relevant tests.
-9. Run build where appropriate.
-10. Inspect diff.
-
-Do not assume an edit is correct merely because the patch command succeeded.
-
----
-
-# 48. SHARED DEPENDENCY SAFETY
+1. reopen the final file
+2. verify syntax/JSX/template structure
+3. ensure no duplicate blocks
+4. check imports
+5. confirm new imports are used
+6. confirm obsolete imports are removed
+7. run relevant checks
+8. run relevant tests
+9. run build where appropriate
+10. inspect final diff
 
 Before modifying shared:
 
 - components
 - hooks
+- contexts
 - services
 - models
 - APIs
-- tables
 - middleware
 - layouts
+- database tables
 - translations
 - utilities
 
 search for other consumers.
 
-Do not fix one page by breaking another.
-
-Run reasonable regression tests.
+Do not fix one route by knowingly breaking another.
 
 ---
 
-# 49. GIT SAFETY
+# 24. GIT SAFETY
 
-Before finalizing:
+Before finalizing inspect:
 
 ```text
 git diff
@@ -1695,28 +1430,29 @@ from:
 
 Do not:
 
-- claim pre-existing changes
+- claim ownership of pre-existing work
 - silently revert user changes
-- modify unrelated untracked files
+- overwrite unrelated untracked files
+- run destructive cleanup against user work
 
 Confirm no unintended:
 
 - audit markers
 - temporary CMS values
 - debug logs
-- scripts
+- temporary scripts
 - screenshots
 - browser helpers
 - test artifacts
-- unrelated changes
+- unrelated modifications
 
 remain in tracked production code.
 
 ---
 
-# 50. NO FALSE PASS RULE
+# 25. NO FALSE PASS RULE
 
-The following are NOT equivalent:
+The following are not equivalent:
 
 ```text
 HTTP 200
@@ -1734,23 +1470,23 @@ API returns 200
 Form exists
 ≠ CRUD verified
 
-PUT endpoint exists
-≠ complete CRUD verified
+PUT exists
+≠ full CRUD verified
 
 Migration exists
-≠ actual schema verified
+≠ actual DB schema verified
 
 Model relationship exists
 ≠ referential integrity verified
 
-Build passes
+Build succeeds
 ≠ runtime verified
 
 Responsive CSS exists
 ≠ responsive runtime verified
 
 Screenshot exists
-≠ console/network verified
+≠ browser console/network verified
 
 Code looks correct
 ≠ production ready
@@ -1758,44 +1494,44 @@ Code looks correct
 
 ---
 
-# 51. PRODUCTION-READY GATE
+# 26. PRODUCTION-READY GATE
 
-Do NOT return:
+Do not return:
 
 ```text
 ✅ READY FOR PRODUCTION
 ```
 
-unless all applicable production-critical areas have sufficient evidence.
+unless applicable production-critical areas have sufficient evidence.
 
-Normally this includes:
+For a normal dynamic CMS-managed public page this generally includes:
 
 - frontend runtime
 - interactions
-- backend/API
-- API contract
-- actual DB schema
-- DB relationships
-- Admin/CMS
+- browser console
+- browser network
+- responsive runtime
+- API behavior
+- API contracts
+- actual database schema
+- database relationships
+- Admin/CMS management
 - CRUD/synchronization
 - validation
 - authentication
 - authorization
-- i18n/RTL
+- localization/RTL
 - media/storage
 - accessibility at appropriate scope
 - SEO
 - performance
-- browser console
-- browser network
-- responsive runtime
+- production configuration
 - production build
-- production config mechanism
-- Admin → DB → API → Frontend → Browser where applicable
+- Admin → DB → API → Frontend → Browser flow where applicable
 
-Equivalent strong automated evidence may replace a live mutation where appropriate.
+Equivalent strong automated evidence may replace live mutation where appropriate.
 
-If important production-critical verification remains unavailable, normally use:
+If an important production-critical area remains insufficiently verified, normally use:
 
 ```text
 ❓ PRODUCTION READINESS NOT FULLY VERIFIED
@@ -1803,72 +1539,73 @@ If important production-critical verification remains unavailable, normally use:
 
 ---
 
-# 52. FINAL VERIFICATION
+# 27. FINAL VERIFICATION
 
-After all fixes:
+Before reporting:
 
-1. Rerun relevant static checks.
-2. Rerun tests.
-3. Rerun production build.
-4. Recheck API contracts.
-5. Recheck DB relationships.
-6. Recheck Admin/public sync.
-7. Rerun browser.
-8. Recheck console.
-9. Recheck network.
-10. Recheck responsive viewports.
-11. Recheck locales/RTL.
-12. Inspect diff.
-13. Inspect status.
-14. Confirm no unrelated changes.
-15. Confirm temporary test values removed.
-16. Confirm no debug artifacts.
-17. Confirm no secrets added/exposed.
+1. rerun affected static checks
+2. rerun relevant tests
+3. rerun production build
+4. recheck affected API contracts
+5. recheck database relationships
+6. recheck Admin/public synchronization
+7. rerun browser verification
+8. recheck console/network
+9. recheck responsive viewports
+10. recheck relevant locales/RTL
+11. inspect `git diff`
+12. inspect `git status`
+13. confirm no unrelated changes
+14. confirm temporary audit values are gone
+15. confirm no debug artifacts remain
+16. confirm no secrets were added or exposed
 
 ---
 
-# 53. REPORTING DEPTH
+# 28. REPORTING RULE
 
 Keep the final report concise but complete.
 
 Do not dump:
 
 - entire source files
-- every DB row
+- every database row
 - every API payload
 - every console message
 - every inspected dependency
 
-Include enough evidence to justify production-critical conclusions.
+Include enough evidence to justify every production-critical conclusion.
 
-Expand detail for:
+Expand detail mainly for:
 
 - failures
 - fixes
-- security problems
+- security issues
 - schema mismatches
 - unresolved risks
-- significant architecture findings
+- important architecture findings
 
 ---
 
-# 54. REQUIRED FINAL REPORT
+# 29. REQUIRED FINAL REPORT
 
 ## 1. TARGET
 
 Report:
 
-- supplied target
-- route type
-- resolved routes
-- primary frontend files
-- layout
+```text
+Supplied target:
+Route type:
+Resolved routes:
+Primary frontend files:
+Layout:
+```
 
 ---
 
 ## 2. VERIFIED ARCHITECTURE
 
-Replace with actual project elements:
+Replace this generic diagram with actual project elements:
 
 ```text
 Target
@@ -1898,23 +1635,23 @@ Admin / CMS
 
 ## 3. COMPONENTS & DEPENDENCIES
 
-Include relevant:
+List relevant:
 
 - frontend files
 - backend files
 - models
 - tables
 - APIs
-- Admin/CMS routes
-- translations
-- media/storage
+- Admin/CMS pages
+- translation sources
+- media/storage dependencies
 - shared dependencies
 
 ---
 
 ## 4. ISSUES FOUND & FIXES
 
-Use severity only when relevant:
+Use severity only where issues exist:
 
 ### Critical
 
@@ -1924,7 +1661,7 @@ Use severity only when relevant:
 
 ### Low
 
-For each:
+For each issue:
 
 ```text
 Problem:
@@ -1941,8 +1678,6 @@ Do not create empty severity groups.
 ---
 
 ## 5. DATABASE REVIEW
-
-Report:
 
 ```text
 Environment:
@@ -1975,9 +1710,11 @@ Validation:
 Frontend consumer:
 Runtime:
 Response contract:
-Locale:
+Locale behavior:
 Verification level:
 ```
+
+Do not use HTTP status alone as verification.
 
 ---
 
@@ -1986,7 +1723,7 @@ Verification level:
 Report:
 
 - routes/pages
-- resources
+- managed resources
 - tables
 - mutation architecture
 - CREATE
@@ -1995,11 +1732,11 @@ Report:
 - DELETE/remove
 - reorder
 - status
-- translation sync
+- translations
 - media
 - public synchronization
-- reversible mutation performed YES/NO
-- equivalent automated evidence if applicable
+- reversible mutation performed: YES/NO
+- equivalent automated evidence where applicable
 
 ---
 
@@ -2011,12 +1748,12 @@ When applicable:
 Database environment:
 Live mutation safe:
 Original state recorded:
-Temporary mutation:
+Temporary mutation sent:
 Database reflected:
 Public API reflected:
 Frontend received:
 Browser displayed:
-Original restored:
+Original state restored:
 Database restoration:
 API restoration:
 Browser restoration:
@@ -2035,11 +1772,11 @@ Relevant console warnings:
 Uncaught exceptions:
 Unhandled promise rejections:
 Failed relevant network requests:
-Broken assets:
+Broken resources/assets:
 Interactions:
 ```
 
-For route families, include representative route runtime evidence.
+For route families include representative detail-route evidence.
 
 ---
 
@@ -2052,19 +1789,19 @@ For route families, include representative route runtime evidence.
 | 1366×768  |        |                   |
 | 1920×1080 |        |                   |
 
-Do not infer PASS from CSS inspection.
+Do not infer PASS from source/CSS inspection.
 
 ---
 
-## 11. LOCALE / RTL
+## 11. LOCALE / RTL REVIEW
 
-If multilingual:
+When multilingual:
 
 | Locale        | Direction | Content | API | Layout | Status |
 | ------------- | --------- | ------- | --- | ------ | ------ |
 | active locale | LTR/RTL   |         |     |        |        |
 
-Include all relevant active locales.
+Include relevant active locales.
 
 ---
 
@@ -2078,56 +1815,32 @@ Authorized admin:
 
 ---
 
-## 13. SECURITY
+## 13. SECURITY / ACCESSIBILITY
 
-Report only relevant confirmed findings.
+Report confirmed relevant findings.
 
 Never print secrets.
 
+State accessibility verification scope accurately.
+
 ---
 
-## 14. ACCESSIBILITY
+## 14. PERFORMANCE / SEO / MEDIA / PRODUCTION CONFIG
 
 Report:
 
-- semantic structure
-- keyboard/focus
-- labels
-- alt text
-- relevant runtime findings
-- verification scope
-
-Do not claim formal compliance without formal testing.
-
----
-
-## 15. PERFORMANCE
-
-Separate:
-
-- confirmed issues
-- fixes
-- observations
-- no issue found
-
----
-
-## 16. SEO / MEDIA / PRODUCTION CONFIG
-
-Report relevant:
-
-- SEO
-- media/storage
-- environment-driven URLs
-- CORS/Sanctum/session
-- production config readiness
+- confirmed performance findings
+- SEO status
+- media/storage status
+- production configuration readiness
 - hardcoded development assumptions
+- CORS/Sanctum/session concerns where relevant
 
 ---
 
-## 17. STATIC / BUILD
+## 15. STATIC / BUILD VERIFICATION
 
-For each executed command:
+For each important executed command:
 
 ```text
 Command:
@@ -2136,11 +1849,11 @@ Relevant output:
 Target-related warnings:
 ```
 
-Do not list unexecuted commands.
+Do not list commands that were not executed.
 
 ---
 
-## 18. CHANGE OWNERSHIP
+## 16. CHANGE OWNERSHIP
 
 ### Changes Made During This Audit
 
@@ -2152,7 +1865,7 @@ List separately.
 
 ---
 
-## 19. PRODUCTION READINESS MATRIX
+## 17. PRODUCTION READINESS MATRIX
 
 Use only:
 
@@ -2162,42 +1875,42 @@ Use only:
 - NOT VERIFIED
 - N/A
 
-| Check                                         | Status | Evidence |
-| --------------------------------------------- | ------ | -------- |
-| Frontend runtime                              |        |          |
-| Browser console                               |        |          |
-| Browser network                               |        |          |
-| Responsive design                             |        |          |
-| Interactions                                  |        |          |
-| Backend/API                                   |        |          |
-| API contracts                                 |        |          |
-| Database schema                               |        |          |
-| Database relationships                        |        |          |
-| Admin/CMS                                     |        |          |
-| CRUD/synchronization                          |        |          |
-| Reversible CMS mutation / equivalent evidence |        |          |
-| Authentication                                |        |          |
-| Authorization                                 |        |          |
-| Validation                                    |        |          |
-| i18n/RTL                                      |        |          |
-| Media/storage                                 |        |          |
-| Accessibility                                 |        |          |
-| SEO                                           |        |          |
-| Performance                                   |        |          |
-| Production config mechanism                   |        |          |
-| Type checking                                 |        |          |
-| Lint                                          |        |          |
-| Production build                              |        |          |
-| Relevant tests                                |        |          |
-| Admin → DB → API → Frontend → Browser         |        |          |
+| Check                                 | Status | Evidence |
+| ------------------------------------- | ------ | -------- |
+| Frontend runtime                      |        |          |
+| Interactions                          |        |          |
+| Browser console                       |        |          |
+| Browser network                       |        |          |
+| Responsive design                     |        |          |
+| Backend/API                           |        |          |
+| API contracts                         |        |          |
+| Database schema                       |        |          |
+| Database relationships                |        |          |
+| Admin/CMS                             |        |          |
+| CRUD/synchronization                  |        |          |
+| CMS mutation / equivalent evidence    |        |          |
+| Authentication                        |        |          |
+| Authorization                         |        |          |
+| Validation                            |        |          |
+| i18n/RTL                              |        |          |
+| Media/storage                         |        |          |
+| Accessibility                         |        |          |
+| SEO                                   |        |          |
+| Performance                           |        |          |
+| Production configuration              |        |          |
+| Type checking                         |        |          |
+| Lint                                  |        |          |
+| Production build                      |        |          |
+| Relevant tests                        |        |          |
+| Admin → DB → API → Frontend → Browser |        |          |
 
 Add route-family-specific rows where useful.
 
 ---
 
-## 20. REMAINING ISSUES
+## 18. REMAINING ISSUES
 
-For each:
+For each genuine unresolved issue:
 
 ```text
 Issue:
@@ -2207,25 +1920,23 @@ Production impact:
 Recommended action:
 ```
 
-Only genuine unresolved items.
-
 ---
 
-# 55. FINAL VERDICT
+# 30. FINAL VERDICT
 
-Choose exactly ONE.
+Choose exactly ONE:
 
 ## ✅ READY FOR PRODUCTION
 
-Use only when no production blocker remains and production-critical checks have sufficient evidence.
+Use only when no production blocker remains and applicable production-critical areas have sufficient evidence.
 
 ## ⚠️ READY WITH MINOR ISSUES
 
-Use only for genuinely non-blocking residual issues.
+Use only when remaining issues are genuinely non-blocking and do not affect core functionality, security, data integrity, or deployment reliability.
 
 ## ❌ NOT READY FOR PRODUCTION
 
-Use when core functionality, security, data integrity, or deployment remains broken.
+Use when core functionality, security, data integrity, build, or deployment remains broken.
 
 ## ❓ PRODUCTION READINESS NOT FULLY VERIFIED
 
@@ -2233,17 +1944,13 @@ Use when important production-critical verification could not be completed.
 
 No custom verdict.
 
-No:
-
-```text
-PASS WITH NOTE
-```
+No `PASS WITH NOTE`.
 
 No optimistic shortcut.
 
 ---
 
-# 56. AUTONOMY
+# 31. AUTONOMY & SAFETY
 
 You may:
 
@@ -2258,115 +1965,117 @@ You may:
 - run builds
 - inspect routes
 - inspect migrations/schema
-- safely inspect DB
+- safely inspect database structure/content
 - inspect HTTP/API responses
-- inspect logs
-- use existing browser/E2E tooling
+- inspect runtime logs
+- use existing E2E/browser tooling
 - use safe installed browsers
 - implement target-related fixes
 - add/update relevant tests
-- perform reversible non-production CMS tests
+- perform reversible non-production CMS verification
 - restore temporary test data
 
-A new development-only testing dependency may be added only when:
+A new development-only verification dependency may be added only when:
 
 - genuinely required
-- no suitable tool exists
+- no suitable existing tool exists
 - safe
 - non-disruptive
 - useful
-- non-invasive alternatives are inadequate
+- a temporary/non-invasive alternative is inadequate
 
 Do not automatically:
 
 - delete production data
 - reset databases
 - truncate important data
-- drop tables
+- drop important tables
 - run destructive migrations
 - run destructive seeders
 - expose secrets
-- weaken security
-- perform unrelated large refactors
+- weaken authentication/authorization
+- weaken validation
+- perform unrelated large-scale refactors
 - mutate confirmed production CMS data
 
 ---
 
-# 57. NON-NEGOTIABLE RULES
+# 32. NON-NEGOTIABLE RULES
 
 1. Do not guess.
 2. Read `AGENTS.md`.
 3. Use `README.md` when project context is needed.
-4. Treat `SKILL.md` as the page-audit protocol.
-5. Start work immediately once target is clear.
+4. Treat `SKILL.md` as the audit protocol.
+5. Start immediately once the target is clear.
 6. Do not stop at frontend source.
-7. Trace complete direct dependency chain.
+7. Trace the complete direct dependency chain.
 8. Prefer runtime evidence.
 9. HTTP 200 is not proof of functionality.
-10. Route existence is not proof of behavior.
-11. Controller existence is not proof of API correctness.
+10. API 200 is not proof of contract correctness.
+11. Route/controller existence is not proof of behavior.
 12. PUT existence is not proof of full CRUD.
-13. Build success is not proof of runtime correctness.
-14. CSS is not proof of responsive correctness.
-15. Screenshot is not proof of console/network cleanliness.
-16. Fix confirmed issues when safe.
-17. Verify every meaningful fix.
-18. Reopen modified files.
-19. Inspect final Git diff/status.
-20. Preserve architecture.
-21. Do not create duplicate systems.
-22. Do not hardcode database-managed content.
-23. Do not weaken security or validation.
-24. Do not hide errors.
-25. Do not perform destructive DB operations automatically.
-26. Never expose secrets.
-27. Do not make unrelated changes.
-28. Check shared dependency regressions.
-29. Prefer minimal root-cause fixes.
-30. Use project conventions.
-31. Distinguish code verification from runtime verification.
-32. Do not stop browser testing because Playwright is absent.
-33. Exhaust reasonable safe alternatives before NOT VERIFIED.
-34. Restore temporary CMS data.
-35. Unknown databases are not disposable.
-36. Wildcard routes must be discovered, not invented.
-37. Route families require representative valid and invalid cases.
-38. Do not restart an already active audit unnecessarily.
-39. Invalidate only verification affected by new changes.
-40. Rollback temporary mutations immediately if verification fails.
-41. Equivalent automated evidence may replace a live mutation.
-42. Keep security testing non-destructive.
-43. Do not optimize merely for more PASS labels.
-44. Leave the implementation safer and more reliable.
+13. Migration existence is not proof of actual schema.
+14. Build success is not proof of runtime correctness.
+15. Responsive CSS is not proof of responsive runtime.
+16. A screenshot is not proof of clean console/network.
+17. Fix confirmed issues when safe.
+18. Verify every meaningful fix.
+19. Reopen modified files.
+20. Inspect final Git diff/status.
+21. Preserve established architecture.
+22. Do not create duplicate systems.
+23. Do not hardcode database-managed public content.
+24. Do not weaken security or validation.
+25. Do not hide errors instead of fixing them.
+26. Never automatically perform destructive database operations.
+27. Never expose secrets.
+28. Do not make unrelated changes.
+29. Check regression impact of shared changes.
+30. Prefer minimal root-cause fixes.
+31. Use repository conventions.
+32. Distinguish code verification from runtime verification.
+33. Do not stop browser verification merely because Playwright is absent.
+34. Exhaust reasonable safe alternatives before `NOT VERIFIED`.
+35. Restore all temporary CMS/audit data.
+36. Unknown databases are not disposable.
+37. Wildcard routes must be discovered, not invented.
+38. Route families require representative valid and invalid cases.
+39. Do not restart an active audit unnecessarily.
+40. Invalidate only verification affected by subsequent changes.
+41. Roll back temporary mutations immediately if verification fails.
+42. Equivalent strong automated evidence may replace live mutation.
+43. Keep security testing non-destructive.
+44. Do not optimize merely to increase PASS counts.
+45. Leave the target and repository safer and more reliable than you found them.
 
 ---
 
-# 58. SUCCESS CONDITION
+# 33. SUCCESS CONDITION
 
 The audit is complete only when you have:
 
-- DISCOVERED the actual architecture
-- RESOLVED the target
-- TRACED the dependency graph
-- AUDITED frontend/backend/API/database/Admin/security/i18n/media/accessibility/SEO/performance/config
-- EXECUTED the strongest safe verification available
-- FIXED safe confirmed issues
-- RETESTED meaningful fixes
-- VERIFIED browser runtime where possible
-- VERIFIED responsive behavior where possible
-- VERIFIED Admin/CMS synchronization through runtime or equivalent strong evidence
-- CHECKED regressions
-- REVIEWED Git diff/status
-- RESTORED temporary data
-- REPORTED an evidence-based production verdict
+- discovered the real target architecture
+- resolved exact/dynamic routes
+- traced the relevant dependency graph
+- audited frontend/backend/API/database/Admin/security/i18n/media/accessibility/SEO/performance/configuration
+- executed the strongest safe verification reasonably available
+- fixed safe confirmed issues
+- retested meaningful changes
+- verified browser runtime where reasonably possible
+- verified responsive behavior where reasonably possible
+- verified CMS synchronization through runtime or equivalent strong evidence where applicable
+- checked regression impact
+- reviewed Git diff/status
+- restored temporary data
+- reported an evidence-based production verdict
 
-The objective is not to maximize PASS labels.
+The goal is not to maximize PASS labels.
 
-The objective is to maximize **real confidence backed by evidence**.
+The goal is to maximize **real confidence backed by evidence**.
 
 ---
 
-# 59. INVOCATION EXAMPLES
+# 34. INVOCATION EXAMPLES
 
 ## Exact Page
 
@@ -2382,7 +2091,7 @@ Audit:
 http://localhost:5173/announcements/*
 ```
 
-## List + Detail Family
+## Connected List + Detail Family
 
 ```text
 Audit these as one connected feature:
@@ -2391,7 +2100,7 @@ http://localhost:5173/announcements
 http://localhost:5173/announcements/*
 ```
 
-## Explicit Skill Reference
+## Explicit Reference
 
 ```text
 Read and follow:

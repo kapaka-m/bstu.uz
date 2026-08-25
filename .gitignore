@@ -1,78 +1,427 @@
-# =========================
+# =============================================================================
+
+# BSTU International Website — Git Ignore Rules
+
+# =============================================================================
+
+#
+
+# Monorepo:
+
+# apps/web  -> React 19 + Vite + Tailwind CSS 4
+
+# apps/api  -> Laravel 13 + MySQL
+
+#
+
+# Durable repository guidance such as README.md, AGENTS.md, and SKILL.md
+
+# must remain tracked.
+
+# =============================================================================
+
+# =============================================================================
+
 # Dependencies
-# =========================
+
+# =============================================================================
+
 node_modules/
 vendor/
+
 **/node_modules/
 **/vendor/
 
-# =========================
-# Build outputs
-# =========================
+# =============================================================================
+
+# Frontend Build Outputs
+
+# =============================================================================
+
 dist/
 build/
+
 **/dist/
 **/build/
-# =========================
-# Environment and secrets
-# =========================
+
+# Vite temporary/cache directories
+
+.vite/
+**/.vite/
+
+# Optional framework/cache outputs
+
+.cache/
+**/.cache/
+
+# =============================================================================
+
+# Environment Files / Secrets
+
+# =============================================================================
+
 .env
 .env.*
 **/.env
 **/.env.*
+
+# Environment templates are intentionally tracked
 
 !.env.example
 !**/.env.example
 !apps/api/.env.example
 !apps/web/.env.example
 
-# =========================
-# Laravel runtime/generated files
-# =========================
+# =============================================================================
+
+# Laravel Runtime / Generated Files
+
+# =============================================================================
+
 apps/api/storage/*
+
+# Preserve Laravel directory structure
+
 !apps/api/storage/.gitignore
+
 !apps/api/storage/app/
 !apps/api/storage/app/.gitignore
+
 !apps/api/storage/framework/
 !apps/api/storage/framework/.gitignore
+
 !apps/api/storage/framework/cache/
 !apps/api/storage/framework/cache/.gitignore
+
 !apps/api/storage/framework/sessions/
 !apps/api/storage/framework/sessions/.gitignore
+
 !apps/api/storage/framework/views/
 !apps/api/storage/framework/views/.gitignore
+
 !apps/api/storage/logs/
 !apps/api/storage/logs/.gitignore
 
+# Laravel bootstrap runtime cache
+
 apps/api/bootstrap/cache/*
+
 !apps/api/bootstrap/cache/.gitignore
+
+# Laravel public storage symlink / Windows junction
+
+#
+
+# apps/api/public/storage points to storage/app/public and must not be
+
+# committed as a duplicate upload directory.
 
 apps/api/public/storage
 
-# =========================
-# Logs and caches
-# =========================
+# Laravel development server hot file if generated
+
+apps/api/public/hot
+
+# =============================================================================
+
+# PHP / PHPUnit / Laravel Test Artifacts
+
+# =============================================================================
+
+.phpunit.result.cache
+.phpunit.cache/
+**/.phpunit.cache/
+
+.phpunit.cache
+**/.phpunit.cache
+
+coverage.xml
+clover.xml
+
+.php-cs-fixer.cache
+.phpstan.cache
+phpstan-result-cache.php
+
+# =============================================================================
+
+# JavaScript / Node Test Coverage
+
+# =============================================================================
+
+coverage/
+**/coverage/
+
+.nyc_output/
+**/.nyc_output/
+
+# =============================================================================
+
+# Browser / E2E Test Artifacts
+
+# =============================================================================
+
+# Playwright
+
+playwright-report/
+**/playwright-report/
+
+test-results/
+**/test-results/
+
+blob-report/
+**/blob-report/
+
+playwright/.cache/
+**/playwright/.cache/
+
+# Cypress
+
+cypress/screenshots/
+**/cypress/screenshots/
+
+cypress/videos/
+**/cypress/videos/
+
+cypress/downloads/
+**/cypress/downloads/
+
+# Puppeteer / temporary browser captures
+
+browser-results/
+**/browser-results/
+
+browser-screenshots/
+**/browser-screenshots/
+
+# =============================================================================
+
+# Temporary Audit / Agent Artifacts
+
+# =============================================================================
+
+# Agent scratch directories
+
+.agents/
+.kilo/
+
+**/.agents/
+**/.kilo/
+
+# Temporary audit output
+
+.audit/
+**/.audit/
+
+audit-results/
+**/audit-results/
+
+audit-artifacts/
+**/audit-artifacts/
+
+audit-screenshots/
+**/audit-screenshots/
+
+tmp-audit/
+**/tmp-audit/
+
+# Temporary browser/debug screenshots created during audits
+
+audit-*.png
+audit-*.jpg
+audit-*.jpeg
+audit-*.webp
+
+screenshot-*.png
+screenshot-*.jpg
+screenshot-*.jpeg
+screenshot-*.webp
+
+# Temporary test data / diagnostic exports
+
+audit-*.json
+audit-*.log
+debug-*.json
+debug-*.log
+
+# =============================================================================
+
+# Logs / Runtime Files
+
+# =============================================================================
+
 *.log
 *.pid
-.phpunit.result.cache
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-# =========================
-# IDE / OS
-# =========================
-.agents/
-.kilo/
+debug.log
+error.log
+
+# =============================================================================
+
+# Temporary Files
+
+# =============================================================================
+
+*.tmp
+*.temp
+*.bak
+*.backup
+
+*.orig
+*.rej
+
+*~
+
+tmp/
+temp/
+
+**/tmp/
+**/temp/
+
+# =============================================================================
+
+# Package Manager / Tooling Caches
+
+# =============================================================================
+
+.npm/
+**/.npm/
+
+.pnpm-store/
+**/.pnpm-store/
+
+.yarn/cache/
+.yarn/unplugged/
+
+.eslintcache
+**/.eslintcache
+
+.stylelintcache
+**/.stylelintcache
+
+# =============================================================================
+
+# TypeScript / Build Metadata
+
+# =============================================================================
+
+*.tsbuildinfo
+
+# =============================================================================
+
+# IDE / Editor
+
+# =============================================================================
+
 .vscode/
-DEL/
 .idea/
-.DS_Store
-Thumbs.db
+.fleet/
+.history/
+
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+*.code-workspace.user
+
+# NOTE:
+
+# The repository-level file:
+
+#
+
+# international.bstu.uz.code-workspace
+
+#
+
+# is intentionally NOT ignored and may remain tracked.
+
+# =============================================================================
+
+# Operating System
+
+# =============================================================================
+
+.DS_Store
+.AppleDouble
+.LSOverride
+
+Thumbs.db
+Thumbs.db:encryptable
+Desktop.ini
+
+ehthumbs.db
+ehthumbs_vista.db
+
+# =============================================================================
+
+# Windows / Local Miscellaneous
+
+# =============================================================================
+
+DEL/
+
+# =============================================================================
+
+# Local Database / Dumps
+
+# =============================================================================
+
+# Ignore ad-hoc local database exports by default.
+
+# Durable reviewed seed/data files under apps/api/database/data/ remain tracked.
+
+*.sql.bak
+*.sql.tmp
+*.dump
+*.dump.gz
+
+# =============================================================================
+
+# Sensitive Authentication / Package Credentials
+
+# =============================================================================
+
+auth.json
+**/auth.json
+
+.npmrc.local
+.yarnrc.local
+
+# =============================================================================
+
+# IMPORTANT — DO NOT IGNORE PROJECT GUIDANCE
+
+# =============================================================================
+
+# These files are intentionally tracked:
+
+#
+
+# README.md
+
+# AGENTS.md
+
+# SKILL.md
+
+# .gitignore
+
+# apps/api/database/data/
+
+# database migrations
+
+# seeders
+
+# application source code
+
+#
+
+# Do not add them to ignore rules.
+
+# =============================================================================

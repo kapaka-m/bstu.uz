@@ -1,67 +1,96 @@
 # Bukhara State Technical University (BSTU) International Website
 
-Official monorepo for the **BSTU International Website**, including the public website, student portal, administrative panel (`apanel`), REST API, CMS, localization system, and database-backed content management.
+Official monorepo for the **BSTU International Website**, including:
+
+* Public international website
+* Student portal
+* Administrative panel (`apanel`)
+* Laravel REST API
+* MySQL-backed CMS
+* Authentication and authorization
+* Localization / RTL-LTR infrastructure
+* Media and storage management
+* Database-backed public content
+
+The repository is an existing production-oriented system.
+
+Do not recreate the frontend or backend architecture unnecessarily.
 
 ---
 
-## Repository Structure
+## 1. Repository Structure
 
 ```text
 international.bstu.uz/
 │
 ├── apps/
-│   ├── web/                 # React frontend
-│   └── api/                 # Laravel REST API
+│   ├── web/                         # React frontend
+│   └── api/                         # Laravel REST API
 │
-├── AGENTS.md                # Repository-wide coding agent instructions
-├── SKILL.md                 # End-to-end page audit & production-readiness skill
-├── README.md                # Developer/project documentation
+├── AGENTS.md                        # Repository-wide agent instructions
+├── SKILL.md                         # Page audit & production-readiness protocol
+├── README.md                        # Developer/project documentation
 ├── international.bstu.uz.code-workspace
-└── .gitignore
+├── .gitignore
+└── ...
 ```
 
-### Frontend Stack
+---
+
+## 2. Applications
+
+## Frontend Technology
 
 ```text
 apps/web
 ```
 
-Contains:
+React application containing:
 
 * Public BSTU International website
 * Student portal
 * `apanel` administrative interface
-* Routing
-* Localization UI
-* API clients
+* Frontend routing
+* Shared layouts
 * Shared components
 * Public pages
-* CMS management interfaces
+* Student pages
+* Admin/CMS pages
+* API clients/services
+* Localization infrastructure
+* Browser UI and responsive layouts
 
-### Backend
+---
+
+## Backend Technology
 
 ```text
 apps/api
 ```
 
-Contains:
+Laravel application containing:
 
-* Laravel REST API
+* REST API
 * Public APIs
 * Student APIs
 * Admin/CMS APIs
-* Authentication and authorization
-* MySQL models
+* Authentication
+* Authorization
+* Validation
+* Database models
 * Migrations
 * Seeders
-* Media/storage handling
+* CMS content management
 * Translation infrastructure
+* Media/storage handling
+* Caching
+* Application configuration
 
 ---
 
-## Technology Stack
+## 3. Technology Stack
 
-### Frontend
+## Frontend
 
 * React 19
 * React Router 7
@@ -72,184 +101,225 @@ Contains:
 * Lucide React
 * React Context
 
-### Backend Stack
+---
+
+## Backend
 
 * Laravel 13
 * PHP 8.3+
 * Laravel Sanctum
-* MySQL / InnoDB
 * REST API
-
-### Localization Stack
-
-Active languages are database-driven.
-
-Default seeded locales:
-
-* English — `en`
-* Uzbek — `uz`
-* Russian — `ru`
-* Arabic — `ar`
-
-Arabic uses RTL.
-
-Other languages use their configured direction from the database.
 
 ---
 
-## Architecture Overview
+## Database
 
-The application follows this general flow:
+* MySQL
+* InnoDB
+* Eloquent ORM
+
+---
+
+## Localization
+
+Default seeded locales:
+
+```text
+en
+uz
+ru
+ar
+```
+
+Typical configuration:
+
+| Locale | Language | Direction |
+| ------ | -------- | --------- |
+| `en`   | English  | LTR       |
+| `uz`   | Uzbek    | LTR       |
+| `ru`   | Russian  | LTR       |
+| `ar`   | Arabic   | RTL       |
+
+The database is the authoritative source for active locale configuration.
+
+---
+
+## 4. Architecture Overview
+
+The application generally follows:
 
 ```text
 React Frontend
       ↓
 REST API
       ↓
-Laravel Controllers / Services
+Laravel
       ↓
 Eloquent Models
       ↓
 MySQL
-      ↑
-Admin / CMS
 ```
 
-Dynamic public content should normally follow:
+Administratively managed public content generally follows:
 
 ```text
 Admin / CMS
-    ↓
-Laravel API
-    ↓
+      ↓
+Laravel Admin API
+      ↓
 MySQL
-    ↓
+      ↓
 Public API
-    ↓
+      ↓
 React Website
 ```
 
-The database/API layer is the runtime source of truth for managed content.
+The database/API architecture is the runtime source of truth for managed public content.
 
-Do not move database-managed production content back into static frontend files.
+Do not move database-managed production content into static React files as a hidden runtime fallback.
 
 ---
 
-## Important Agent Documentation
+## 5. Repository Documentation
 
-This repository contains two agent-related instruction files.
+The repository intentionally separates developer documentation, agent rules, and audit procedures.
 
-## `AGENTS.md`
+## README.md Responsibilities
+
+```text
+README.md
+```
+
+Purpose:
+
+* project overview
+* setup instructions
+* architecture documentation
+* development workflow
+* production/deployment basics
+
+---
+
+## AGENTS.md Responsibilities
 
 ```text
 AGENTS.md
 ```
 
-Contains repository-wide instructions covering:
+Purpose:
 
-* architecture
-* frontend conventions
-* backend conventions
+* repository-wide coding-agent instructions
+* architecture constraints
+* frontend/backend conventions
 * database safety
-* authentication
-* storage
-* production configuration
+* security rules
 * Git/change safety
 * coding-agent behavior
 
-Coding agents working inside this repository should read and follow `AGENTS.md`.
+Coding agents operating inside this repository should read and obey `AGENTS.md`.
 
 ---
 
-## `SKILL.md`
+## SKILL.md Responsibilities
 
 ```text
 SKILL.md
 ```
 
-Contains the reusable **End-to-End Page Audit, Repair & Production Readiness Protocol**.
+Purpose:
 
-Use it when auditing pages or route families such as:
+* page audits
+* route audits
+* route-family audits
+* end-to-end verification
+* browser/runtime testing
+* Admin/CMS verification
+* database verification
+* repair workflow
+* production-readiness decisions
+
+For a page audit, an agent can normally be instructed with:
 
 ```text
+Audit:
 http://localhost:5173/about
-```
-
-or:
-
-```text
-http://localhost:5173/announcements/*
-```
-
-The audit skill covers:
-
-* Frontend
-* Backend
-* APIs
-* Database
-* Admin/CMS
-* CRUD/synchronization
-* Authentication/authorization
-* Browser runtime
-* Console/network
-* Responsive design
-* i18n / RTL
-* Media/storage
-* Security
-* SEO
-* Performance
-* Production configuration
-* Build verification
-* End-to-end CMS data flow
-
-Example Agent request:
-
-```text
-Audit according to the repository page-audit skill:
-
-http://localhost:5173/about
-
-Begin immediately.
 ```
 
 For a route family:
 
 ```text
-Audit according to the repository page-audit skill:
+Audit:
+http://localhost:5173/announcements/*
+```
+
+For list + detail routes:
+
+```text
+Audit these as one connected feature:
 
 http://localhost:5173/announcements
 http://localhost:5173/announcements/*
-
-Treat them as one connected feature family.
-Begin immediately.
 ```
 
+`AGENTS.md` instructs the coding agent to load and follow `SKILL.md` automatically for audit tasks.
+
 ---
 
-## Local Development
+## 6. Local Development Requirements
 
-## Requirements
-
-Recommended local environment:
+Recommended local development environment:
 
 * Windows
+* Git
+* Node.js
+* npm
 * PHP 8.3+
 * Composer
-* Node.js / npm
 * MySQL
-* Git
 
-The Laravel backend requires extensions including:
+The Laravel backend requires appropriate PHP extensions.
 
-* `pdo_mysql`
-* `fileinfo`
-* `zip`
+Common required extensions include:
+
+```text
+pdo_mysql
+fileinfo
+zip
+```
+
+Additional extensions may be required by installed Composer packages.
 
 ---
 
-## Local Database
+## 7. Local Development URLs
 
-Default local development configuration:
+Typical frontend URL:
+
+```text
+http://localhost:5173
+```
+
+Typical backend URL:
+
+```text
+http://127.0.0.1:8000
+```
+
+Typical phpMyAdmin URL when installed locally:
+
+```text
+http://localhost/phpmyadmin/
+```
+
+These are local development URLs only.
+
+Production domains must be provided through environment configuration.
+
+---
+
+## 8. Local Database
+
+Typical local development database configuration:
 
 ```text
 Connection: mysql
@@ -257,22 +327,21 @@ Host:       127.0.0.1
 Port:       3306
 Database:   bstu_international
 Username:   root
-Password:   empty by default in local development
+Password:   empty by default in the local development environment
 ```
 
-phpMyAdmin, when installed locally:
+These values are development examples only.
 
-```text
-http://localhost/phpmyadmin/
-```
+Production database credentials must:
 
-These values are intended for local development only.
-
-Production credentials must be configured through environment variables and must never be committed to the repository.
+* be environment-driven
+* remain secret
+* never be committed to Git
+* never be printed in audit reports or application output
 
 ---
 
-## Backend Setup
+## 9. Backend Setup
 
 Navigate to:
 
@@ -280,54 +349,96 @@ Navigate to:
 cd apps/api
 ```
 
-## Install Dependencies
+---
+
+## Install PHP Dependencies
 
 ```bash
 composer install
 ```
 
-## Configure Environment
+Do not run `composer install` unnecessarily if dependencies are already present and valid.
+
+---
+
+## 10. Backend Environment
 
 Create:
 
 ```text
-.env
+apps/api/.env
 ```
 
 from:
 
 ```text
-.env.example
+apps/api/.env.example
 ```
 
-Configure:
+Configure environment-specific values including:
 
-* database
+* `APP_ENV`
+* `APP_DEBUG`
 * application URL
 * frontend URL
-* Sanctum
+* database connection
+* Sanctum configuration
 * CORS
+* sessions
+* cookies
 * mail
 * cache
 * queue
 * storage
-* other environment-specific settings
+* logging
+
+Never commit `.env`.
 
 ---
 
-## Generate Application Key
+## 11. Application Key
 
-Where standard PHP is correctly configured:
+If the application key has not been generated:
 
 ```bash
 php artisan key:generate
 ```
 
-If using the repository's local PHP helper, use the appropriate existing project command.
+When the local Windows project requires its bundled PHP helper, use the established project helper instead.
+
+Do not regenerate a valid application key unnecessarily on an existing environment.
 
 ---
 
-## Database Migration
+## 12. Laravel Artisan on Windows
+
+The repository may provide:
+
+```text
+apps/api/php-local.bat
+```
+
+for Laravel Artisan commands in the configured Windows development environment.
+
+Examples:
+
+```bash
+.\php-local.bat artisan route:list
+```
+
+```bash
+.\php-local.bat artisan migrate
+```
+
+```bash
+.\php-local.bat artisan db:seed
+```
+
+Prefer the existing helper when it is required by the project environment.
+
+---
+
+## 13. Database Migration
 
 For an existing development database:
 
@@ -335,72 +446,105 @@ For an existing development database:
 .\php-local.bat artisan migrate
 ```
 
-To seed required project data:
+To inspect migration status where needed:
+
+```bash
+.\php-local.bat artisan migrate:status
+```
+
+Do not run migrations blindly against an unknown database.
+
+---
+
+## 14. Database Seeding
+
+When required:
 
 ```bash
 .\php-local.bat artisan db:seed
 ```
 
-or, when appropriate:
+or:
 
 ```bash
 .\php-local.bat artisan migrate --seed
 ```
 
-## Important Database Safety Warning
+Seeders should remain safe and idempotent where the architecture expects them to be rerunnable.
 
-Do **not** run:
+Stable identifiers may include:
+
+* slug
+* code
+* locale
+* email
+* other stable natural keys
+
+---
+
+## 15. Critical Database Safety
+
+Never run the following against important, shared, staging, production, or unknown data:
 
 ```bash
 php artisan migrate:fresh
 ```
 
-or:
-
 ```bash
 php artisan migrate:fresh --seed
 ```
 
-against:
+```bash
+php artisan db:wipe
+```
 
-* shared databases
-* staging data you need to preserve
-* real user data
-* production databases
-* any database whose safety is uncertain
+These operations can destroy existing data.
 
-`migrate:fresh --seed` is only appropriate for a positively identified disposable local/test database.
+`migrate:fresh --seed` is acceptable only for a database positively identified as disposable local/test data.
 
-Database migrations should normally be:
+Production-compatible database changes should generally be:
 
 * additive
-* backward-compatible where practical
 * reversible
-* safe for existing data
+* backward-compatible where practical
+* safe for existing records
 
 ---
 
-## Start Backend
+## 16. Start Backend
 
-The repository may use the included Windows PHP helper for Artisan commands.
+Use the local PHP environment configured for the repository.
 
-For a local PHP development server, use the project's configured PHP environment.
-
-Typical development endpoint:
+Typical backend address:
 
 ```text
 http://127.0.0.1:8000
 ```
 
-Verify Laravel routes with:
+If using PHP's built-in development server directly, ensure required extensions are loaded.
+
+The exact command may depend on the local PHP configuration.
+
+---
+
+## 17. Verify Backend Routes
+
+Use:
 
 ```bash
+cd apps/api
 .\php-local.bat artisan route:list
+```
+
+API routes are primarily defined in:
+
+```text
+apps/api/routes/api.php
 ```
 
 ---
 
-## Frontend Setup
+## 18. Frontend Setup
 
 Navigate to:
 
@@ -408,19 +552,23 @@ Navigate to:
 cd apps/web
 ```
 
-Install dependencies:
+Install dependencies when needed:
 
 ```bash
 npm install
 ```
 
-Start development server:
+Do not run dependency installation repeatedly without need.
+
+---
+
+## 19. Start Frontend
 
 ```bash
 npm run dev
 ```
 
-Typical Vite development URL:
+Typical Vite URL:
 
 ```text
 http://localhost:5173
@@ -428,7 +576,7 @@ http://localhost:5173
 
 ---
 
-## Frontend Verification
+## 20. Frontend Static Verification
 
 Lint:
 
@@ -442,19 +590,59 @@ Production build:
 npm.cmd run build
 ```
 
-A successful build does not by itself prove that a page is production-ready.
+Use the actual scripts defined in `package.json`.
 
-For page-level verification, use the repository's:
+A successful build proves that the production bundle was generated successfully.
+
+It does **not** prove that every page works correctly at runtime.
+
+---
+
+## 21. Page-Level Verification
+
+For production-readiness auditing, use:
 
 ```text
 SKILL.md
 ```
 
-audit protocol.
+Page verification should include where applicable:
+
+* browser runtime
+* console errors
+* browser network requests
+* API response contracts
+* frontend/API compatibility
+* responsive rendering
+* localization
+* RTL/LTR
+* Admin/CMS management
+* database relationships
+* validation
+* authentication
+* authorization
+* media/storage
+* SEO
+* accessibility
+* performance
+* production configuration
+* build verification
+
+The following are not sufficient by themselves:
+
+```text
+HTTP 200
+```
+
+or:
+
+```text
+npm run build
+```
 
 ---
 
-## Admin Panel
+## 22. Admin Panel
 
 The administrative interface is part of the React application.
 
@@ -464,77 +652,146 @@ Typical local login route:
 http://localhost:5173/apanel/login
 ```
 
-Default seeded development account may exist in local seeded environments.
+Local seeded development environments may include an Admin/Apanel account.
 
-Example development seed:
+Example identity:
 
 ```text
 Email: apanel@bstu.uz
 Role:  apanel
 ```
 
-Any default seeded password is strictly for local development/testing.
-
-## Security Requirement
-
-Never deploy production with a known/default seeded administrator password.
-
-Production administrator credentials must be changed and managed securely.
-
-Do not expose real credentials in documentation, source code, screenshots, logs, or audit reports.
+Any default seeded password is intended only for development/testing.
 
 ---
 
-## Dynamic Content & CMS
+## 23. Admin Credential Security
 
-Public CMS-managed content should normally be stored in MySQL and exposed through Laravel APIs.
+Never deploy production with:
 
-The runtime content path should generally be:
+* a known default Admin password
+* development test credentials
+* seeded credentials that have not been changed
+* credentials stored in source code
+
+Production Admin credentials must be securely managed.
+
+Do not publish real credentials in:
+
+* README files
+* code
+* screenshots
+* logs
+* Git history
+* audit reports
+
+---
+
+## 24. Dynamic CMS Content
+
+Public CMS-managed content should normally use:
 
 ```text
-Admin CMS
-   ↓
+Admin / CMS
+      ↓
 Laravel API
-   ↓
+      ↓
 MySQL
-   ↓
+      ↓
 Public API
-   ↓
+      ↓
 React
 ```
 
-Static frontend data should not be used as a hidden runtime fallback for database-managed content unless explicitly required by the architecture.
+Important public dynamic content should have an intentional management path.
+
+Examples may include:
+
+* homepage content
+* programs
+* faculties
+* departments
+* services
+* announcements
+* news
+* blog
+* administration/leadership
+* videos
+* images
+* documents
+* SEO
+* translations
+
+Actual management architecture must be determined from the repository.
 
 ---
 
-## Localization Details
+## 25. Content Source of Truth
 
-Active locale configuration is stored in the database.
+The production runtime source of truth should normally be:
 
-The `locales` table controls information such as:
+```text
+MySQL
++
+Laravel APIs
++
+Admin/CMS
+```
+
+Historical/static frontend files are not automatically production sources.
+
+Do not silently use old React/Dart data as fallback production content if the current architecture is database-backed.
+
+---
+
+## 26. Backend Seed/Data Sources
+
+Reviewed durable seed content may exist under:
+
+```text
+apps/api/database/data/
+```
+
+and related Laravel seeders.
+
+Historical import files should not become runtime dependencies after their data has been migrated into the supported backend data architecture.
+
+---
+
+## 27. Localization Architecture
+
+Active locales are database-driven.
+
+Locale configuration may include:
 
 * locale code
 * language name
-* active/inactive status
-* direction
+* active/inactive state
+* text direction
 
-Locale management is available through the administrative system.
+Locale management is available through the Admin/CMS system.
 
-General UI translations are retrieved through APIs such as:
+---
+
+## 28. General UI Translations
+
+General UI translation data may be retrieved through endpoints such as:
 
 ```text
 GET /api/v1/translations?locale=...
 ```
 
-Some CMS resources may also use dedicated translation tables.
+Individual CMS resources may use their own translation tables and localized APIs.
 
-Always inspect the actual resource architecture instead of assuming every translated field comes from the global translation endpoint.
+Do not assume every localized field comes from the global translation endpoint.
+
+Inspect each resource's actual architecture.
 
 ---
 
-## RTL / LTR
+## 29. RTL / LTR
 
-Arabic is normally configured as:
+Arabic normally uses:
 
 ```text
 RTL
@@ -546,69 +803,109 @@ English, Uzbek, and Russian normally use:
 LTR
 ```
 
-Frontend locale handling is responsible for setting appropriate document attributes such as:
+Frontend locale handling should set appropriate document values such as:
 
 ```html
 <html lang="..." dir="...">
 ```
 
-Responsive and localization audits should verify RTL/LTR behavior in the real browser, not only from source code.
+RTL/LTR behavior should be verified in the real browser for production-readiness audits.
 
 ---
 
-## Media & Storage
+## 30. Media & Storage
 
-Laravel-managed uploads use the public disk.
+Laravel-managed uploads use the established public storage architecture.
 
-The public storage path:
+Public path:
 
 ```text
 apps/api/public/storage
 ```
 
-is a Laravel public link/junction to:
+points to:
 
 ```text
 storage/app/public
 ```
 
-It is not intended to be a second independent upload directory.
+through Laravel's public storage link/junction.
 
-Use the project's existing media/storage URL helpers.
+It is not a duplicate independent upload directory.
 
-Do not hardcode local filesystem paths into frontend source.
+Use existing storage/media URL helpers.
+
+Do not hardcode Windows filesystem paths into frontend source.
 
 ---
 
-## Content Source of Truth
+## 31. Missing Media
 
-The following should be treated as the production runtime source of truth where applicable:
+Public UI should gracefully handle missing or optional media.
 
-```text
-MySQL
-+
-Laravel APIs
-+
-CMS/Admin management
+Avoid rendering invalid markup such as:
+
+```html
+<img src="">
 ```
 
-Historical/static frontend data files are not automatically production runtime sources.
+Use:
 
-Legacy import/reference files should remain reference/migration data unless current application architecture explicitly uses them.
+* appropriate fallback UI
+* placeholder
+* intentionally omitted media
+
+depending on the existing project design.
 
 ---
 
-## Caching
+## 32. Authentication
 
-Public CMS caching may use:
+The backend uses:
+
+```text
+Laravel Sanctum
+```
+
+Authentication-sensitive operations must preserve the existing security model.
+
+Do not bypass login or token/session requirements simply to make an endpoint work.
+
+---
+
+## 33. Authorization
+
+Authorization is separate from authentication.
+
+Protected Admin operations should distinguish between:
+
+```text
+Unauthenticated
+Authenticated but unauthorized
+Authorized administrator
+```
+
+A `401` response does not prove role authorization is correct.
+
+Role/policy/middleware behavior should be tested independently where relevant.
+
+---
+
+## 34. Public Caching
+
+Public CMS content may use cache versioning through:
 
 ```text
 public_content_cache_version
 ```
 
-Private student and Admin responses should not be cached as public content.
+Private student or Admin data must not be treated as public cacheable content.
 
-Relevant Laravel cache-clearing commands may include:
+---
+
+## 35. Cache Maintenance
+
+Relevant development commands may include:
 
 ```bash
 .\php-local.bat artisan cache:clear
@@ -622,107 +919,128 @@ and:
 
 Do not clear caches unnecessarily.
 
+Use cache clearing only when required for diagnosis, configuration changes, or content verification.
+
 ---
 
-## Production Requirements
+## 36. Production Environment
 
-Before production deployment verify at minimum:
+Production must use environment-specific configuration.
 
-## Laravel
+Typical Laravel requirements include:
 
 ```text
 APP_ENV=production
 APP_DEBUG=false
 ```
 
-Production configuration should also define appropriate:
+Production configuration should also define appropriate values for:
 
 * application URL
 * frontend URL
-* database credentials
-* CORS origins
-* Sanctum stateful domains
-* token/session settings
+* backend/API URL
+* database
+* CORS
+* Sanctum domains
+* sessions
+* token settings
 * secure cookies
-* HTTPS behavior
-* mail settings
-* cache store
-* queue store
-* log configuration
-* storage configuration
-
-Local development `.env` settings are not themselves production configuration.
-
-Do not simply change the developer's local environment to production mode for testing.
+* HTTPS
+* mail
+* cache
+* queue
+* logging
+* storage
 
 ---
 
-## Production Verification
+## 37. Local vs Production Configuration
 
-Before considering a public page production-ready, verify more than:
-
-```text
-HTTP 200
-```
-
-and more than:
+A local environment may legitimately use:
 
 ```text
-npm run build
+APP_ENV=local
+APP_DEBUG=true
 ```
 
-Page-level production verification should include, where applicable:
+This is not automatically a defect.
 
-* browser runtime
-* console errors
-* network failures
-* API contracts
-* responsive rendering
-* localization
-* RTL
-* database relationships
-* Admin/CMS management
-* authentication/authorization
-* media
-* SEO
-* production configuration
+Production-readiness verification should confirm that the deployment environment can safely use production configuration.
 
-Use:
-
-```text
-SKILL.md
-```
-
-for the complete protocol.
+Do not change the developer's local `.env` to production merely to obtain a positive audit result.
 
 ---
 
-## Git Safety
+## 38. Production CORS
 
-Before completing significant work:
+Production CORS configuration should be restricted intentionally.
 
-```bash
-git status
-```
+Avoid broad wildcard origins unless explicitly required and reviewed.
 
-and:
-
-```bash
-git diff
-```
-
-should be reviewed.
-
-Distinguish:
-
-* changes created during the current task
-* pre-existing developer/user changes
-
-Do not silently revert unrelated work.
+Production frontend domains should be configured through environment/configuration mechanisms rather than source-code hardcoding.
 
 ---
 
-## Package Management
+## 39. Sanctum & Sessions
+
+Production must configure appropriately:
+
+* stateful domains
+* session domains
+* cookie security
+* SameSite behavior
+* Secure cookies
+* token expiration where applicable
+* HTTPS
+
+Do not weaken these values to make local testing easier.
+
+---
+
+## 40. Production Cache / Queue
+
+Production should use appropriate persistent infrastructure where required.
+
+Avoid relying on local-development-only cache or queue behavior if the deployed application requires persistent stores.
+
+---
+
+## 41. Logging
+
+Production logging should:
+
+* avoid exposing secrets
+* avoid debug stack traces to public users
+* support rotation or appropriate log management
+* preserve enough diagnostics for operational troubleshooting
+
+---
+
+## 42. Security Principles
+
+Never expose:
+
+* passwords
+* API keys
+* private tokens
+* database credentials
+* secret environment values
+* internal stack traces
+* filesystem paths
+
+Never disable:
+
+* authentication
+* authorization
+* CSRF
+* validation
+* output escaping
+
+simply to make tests pass.
+
+---
+
+## 43. Package Management
 
 Do not manually edit:
 
@@ -736,36 +1054,79 @@ or:
 node_modules/.package-lock.json
 ```
 
-npm lockfile version `3` is expected.
+npm lockfile version `3` is expected for the frontend environment.
 
-Use npm for dependency changes.
-
-Avoid permanent dependencies created solely for one disposable audit when a non-invasive method is available.
+Use npm itself when dependencies genuinely need to change.
 
 ---
 
-## Temporary Agent Files
+## 44. Browser / E2E Dependencies
 
-Scratch folders such as:
+Do not permanently add large testing dependencies merely for one disposable audit if:
+
+* an existing tool is available
+* an installed browser can be used
+* a temporary non-invasive approach is sufficient
+
+For audit behavior, follow `SKILL.md`.
+
+---
+
+## 45. Git Safety
+
+Before completing significant implementation work, inspect:
+
+```bash
+git status
+```
+
+and:
+
+```bash
+git diff
+```
+
+Distinguish:
+
+* changes created during the current task
+* pre-existing user/developer changes
+
+Do not silently revert unrelated work.
+
+---
+
+## 46. Generated / Temporary Files
+
+Disposable artifacts may include:
+
+* browser screenshots
+* E2E reports
+* test results
+* temporary scripts
+* debug logs
+* audit values
+* diagnostic exports
+
+These should not become production source unless intentionally adopted as permanent testing infrastructure.
+
+The repository `.gitignore` excludes common temporary artifacts.
+
+---
+
+## 47. Temporary Agent Directories
+
+Directories such as:
 
 ```text
 .agents/
 .kilo/
 ```
 
-are ignored by Git and should not become project source-of-truth.
+are temporary scratch spaces.
 
-Temporary:
+They should not become durable project source-of-truth.
 
-* screenshots
-* debug scripts
-* audit values
-* browser helpers
-* diagnostic files
-
-should not be committed unless they intentionally become part of the project's testing infrastructure.
-
-Long-lived project guidance belongs in:
+Long-lived documentation belongs in:
 
 ```text
 README.md
@@ -773,60 +1134,200 @@ AGENTS.md
 SKILL.md
 ```
 
-or appropriate source/data documentation.
+or appropriate source/data files.
 
 ---
 
-## Development Principles
+## 48. Development Principles
 
-1. Preserve the existing monorepo architecture.
+1. Preserve the monorepo architecture.
 2. Keep React in `apps/web`.
 3. Keep Laravel in `apps/api`.
-4. Treat database/API-backed CMS content as runtime source-of-truth.
-5. Use additive database migrations.
-6. Protect existing data.
-7. Preserve authentication and authorization.
-8. Do not hide runtime/type/lint problems.
-9. Prefer root-cause fixes.
-10. Test changes after implementation.
-11. Verify browser behavior for UI changes.
-12. Check shared-component regression impact.
-13. Keep production configuration environment-driven.
-14. Never commit secrets.
-15. Review Git changes before finishing.
+4. Use the existing REST API.
+5. Treat database-backed CMS data as runtime source-of-truth.
+6. Protect existing database data.
+7. Prefer additive/reversible migrations.
+8. Preserve authentication.
+9. Preserve authorization.
+10. Preserve localization architecture.
+11. Preserve media/storage architecture.
+12. Fix root causes.
+13. Avoid hardcoded production data.
+14. Avoid hidden runtime fallbacks.
+15. Test meaningful changes.
+16. Verify browser behavior for UI changes.
+17. Review regression impact for shared changes.
+18. Keep production configuration environment-driven.
+19. Never commit secrets.
+20. Inspect Git changes before finishing.
 
 ---
 
-## Documentation Responsibilities
+## 49. Coding Agent Workflow
 
-Use:
+Coding agents should follow:
 
-### README Documentation
+```text
+Read AGENTS.md
+      ↓
+Understand the task
+      ↓
+Inspect the real implementation
+      ↓
+Trace dependencies
+      ↓
+Make the smallest safe change
+      ↓
+Run relevant verification
+      ↓
+Inspect regression impact
+      ↓
+Inspect git diff/status
+      ↓
+Report accurately
+```
 
-For:
+For a page/route audit:
+
+```text
+Read AGENTS.md
+      ↓
+Read SKILL.md
+      ↓
+Resolve target
+      ↓
+Perform end-to-end audit
+      ↓
+Repair safe confirmed issues
+      ↓
+Retest
+      ↓
+Production-readiness verdict
+```
+
+---
+
+## 50. Page Audit Examples
+
+## Exact Page
+
+```text
+Audit:
+http://localhost:5173/about
+```
+
+## Route Family
+
+```text
+Audit:
+http://localhost:5173/announcements/*
+```
+
+## List + Detail Family
+
+```text
+Audit these as one connected feature:
+
+http://localhost:5173/announcements
+http://localhost:5173/announcements/*
+```
+
+The coding agent should follow `SKILL.md` automatically when these requests are recognized.
+
+---
+
+## 51. Documentation Responsibilities
+
+## README.md
+
+Maintain:
 
 * project overview
 * setup instructions
 * developer workflow
 * architecture overview
-* deployment basics
+* environment/deployment basics
 
-### AGENTS Documentation
+---
 
-For:
+## AGENTS.md
 
-* repository-specific coding-agent behavior
+Maintain:
+
+* coding-agent behavior
 * architecture constraints
-* agent safety rules
 * implementation conventions
+* repository safety
+* database/security/Git rules
 
-### SKILL Documentation Responsibilities
+---
 
-For:
+## SKILL.md
 
-* page/route auditing
-* end-to-end runtime verification
+Maintain:
+
+* page-audit protocol
+* end-to-end verification
+* browser testing
+* CMS/database verification
 * repair workflow
-* production-readiness decisions
+* production-readiness criteria
 
-This separation should be preserved as the project evolves.
+Keep these responsibilities separate as the repository evolves.
+
+---
+
+## 52. Documentation Source of Truth
+
+Avoid maintaining duplicate copies of the same durable instructions.
+
+In particular:
+
+```text
+SKILL.md
+```
+
+should remain the single authoritative page-audit skill.
+
+Do not maintain a second outdated copy such as:
+
+```text
+page-audit-skill.md
+```
+
+unless there is an explicit reason to keep it synchronized.
+
+---
+
+## 53. Final Developer Checklist
+
+Before committing meaningful implementation changes:
+
+* application architecture preserved
+* database safety considered
+* relevant lint/tests executed
+* relevant build executed
+* browser behavior verified where applicable
+* shared dependencies checked
+* no secrets exposed
+* no temporary audit data remains
+* `git diff` reviewed
+* `git status` reviewed
+* documentation updated if architecture changed
+
+---
+
+## 54. Repository Goal
+
+The repository should remain:
+
+* maintainable
+* data-safe
+* secure
+* multilingual
+* administratively manageable
+* production-oriented
+* auditable
+* deployment-ready
+
+Changes should improve the existing architecture rather than bypass it.

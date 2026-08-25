@@ -1,26 +1,16 @@
-const padDay = (value, dayFormat) => {
-  const day = String(value);
-  return dayFormat === "2-digit" ? day.padStart(2, "0") : day;
-};
-
-export function formatLocalizedDate(value, locale, translate, options = {}) {
+export function formatLocalizedDate(value, locale, _translate, options = {}) {
   if (!value) return "";
   if (/^\d{4}$/.test(String(value).trim())) return String(value);
 
   const parsed = new Date(value);
   if (Number.isNaN(parsed.getTime())) return String(value);
 
-  const day = padDay(parsed.getDate(), options.day || "numeric");
-  const year = parsed.getFullYear();
-  const monthNumber = parsed.getMonth() + 1;
   const monthStyle = options.month === "long" ? "long" : "short";
-  const month = translate?.(`date.months.${monthStyle}.${monthNumber}`) || "";
-
-  const dateText = month
-    ? locale === "en"
-      ? `${month} ${day}, ${year}`
-      : `${day} ${month} ${year}`
-    : `${year}-${String(monthNumber).padStart(2, "0")}-${day}`;
+  const dateText = new Intl.DateTimeFormat(locale || undefined, {
+    day: options.day || "numeric",
+    month: monthStyle,
+    year: "numeric",
+  }).format(parsed);
 
   if (!options.hour && !options.minute) {
     return dateText;

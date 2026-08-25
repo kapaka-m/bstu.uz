@@ -265,12 +265,12 @@ function AdminRoute({ children }) {
 // Separate component to consume React Router hooks (useLocation) safely
 function AppContent() {
   const location = useLocation();
-  const { loading: localeLoading, translationsReady } = useLanguage();
+  const { initialLoading } = useLanguage();
   const isApanel = location.pathname.startsWith("/apanel");
   const isStudent = location.pathname.startsWith("/student");
   const isPublicSite = !isApanel && !isStudent;
 
-  if (isPublicSite && (localeLoading || !translationsReady)) {
+  if (isPublicSite && initialLoading) {
     return null;
   }
 

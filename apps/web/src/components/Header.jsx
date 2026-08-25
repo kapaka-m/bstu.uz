@@ -30,7 +30,7 @@ export default function Header() {
   const [openDropdowns, setOpenDropdowns] = useState({});
   const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
 
-  const { language, changeLanguage, t, logoSrc, headerMenu, locales, isRtl } =
+  const { language, changeLanguage, t, hasTranslation, logoSrc, headerMenu, locales, isRtl } =
     useLanguage();
   const location = useLocation();
   const langDropdownRef = useRef(null);
@@ -77,6 +77,10 @@ export default function Header() {
     languages[0] ||
     null;
   const hasHeaderContent = Boolean(logoSrc) || navItems.length > 0;
+  const logoAlt = hasTranslation("common.logoAlt") ? t("common.logoAlt") : "BSTU logo";
+  const toggleMobileMenuLabel = hasTranslation("common.toggleMobileMenu")
+    ? t("common.toggleMobileMenu")
+    : "Toggle mobile menu";
 
   if (!hasHeaderContent) {
     return null;
@@ -275,7 +279,7 @@ export default function Header() {
           {logoSrc && (
             <img
               src={logoSrc}
-              alt={t("common.logoAlt")}
+              alt={logoAlt}
               className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105 md:h-12"
               width="108"
               height="48"
@@ -345,7 +349,7 @@ export default function Header() {
           <button
             type="button"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label={t("common.toggleMobileMenu")}
+            aria-label={toggleMobileMenuLabel}
             className="cursor-pointer p-2 text-navy transition-colors hover:text-primary xl:hidden"
           >
             {isMobileMenuOpen ? (

@@ -13,13 +13,13 @@ import { newsService } from "../services/newsService";
 import { announcementService } from "../services/announcementService";
 import { blogService } from "../services/blogService";
 import { greenCampusService } from "../services/greenCampusService";
+import { homeCmsService } from "../services/homeCmsService";
+import { aboutService } from "../services/aboutService";
 
 const SITE_SUFFIX = "BSTU International";
 
 const STATIC_META = {
   en: {
-    home: ["Bukhara State Technical University", "International admissions, academic programs, university services, news, and student resources at Bukhara State Technical University."],
-    about: ["About Bukhara State Technical University", "Learn about BSTU, its mission, faculties, academic structure, leadership, and international development."],
     programs: ["Academic Programs", "Explore bachelor, master, and doctoral study programs at Bukhara State Technical University."],
     services: ["Interactive Services", "Access digital university services, student platforms, applications, registrar services, and support resources."],
     announcements: ["Announcements", "Official announcements, notices, and updates from Bukhara State Technical University."],
@@ -36,8 +36,6 @@ const STATIC_META = {
     notFound: ["Page Not Found", "The requested page could not be found on the BSTU International website."],
   },
   ar: {
-    home: ["جامعة بخارى الحكومية التقنية", "القبول الدولي والبرامج الأكاديمية والخدمات الجامعية والأخبار وموارد الطلاب في جامعة بخارى الحكومية التقنية."],
-    about: ["عن جامعة بخارى الحكومية التقنية", "تعرف على جامعة بخارى الحكومية التقنية ورسالتها وكلياتها وهيكلها الأكاديمي وقيادتها وتطورها الدولي."],
     programs: ["البرامج الأكاديمية", "استعرض برامج البكالوريوس والماجستير والدكتوراه في جامعة بخارى الحكومية التقنية."],
     services: ["الخدمات التفاعلية", "الوصول إلى الخدمات الرقمية الجامعية ومنصات الطلاب والتقديم وخدمات شؤون الطلاب والدعم."],
     announcements: ["الإعلانات", "الإعلانات والتنبيهات والتحديثات الرسمية من جامعة بخارى الحكومية التقنية."],
@@ -121,12 +119,10 @@ const buildTitle = (title, siteName) => {
 
 const pickStatic = (locale, key) => {
   const dict = STATIC_META[locale] || STATIC_META[FALLBACK_LOCALE];
-  return dict[key] || STATIC_META[FALLBACK_LOCALE][key] || STATIC_META[FALLBACK_LOCALE].home;
+  return dict[key] || STATIC_META[FALLBACK_LOCALE][key] || STATIC_META[FALLBACK_LOCALE].notFound;
 };
 
 function getStaticMeta(pathname, locale) {
-  if (pathname === "/") return pickStatic(locale, "home");
-  if (pathname === "/about") return pickStatic(locale, "about");
   if (pathname === "/programs") return pickStatic(locale, "programs");
   if (pathname === "/services") return pickStatic(locale, "services");
   if (pathname === "/announcements") return pickStatic(locale, "announcements");
@@ -159,6 +155,36 @@ const metaFromItem = (item, fallbackTitle) => {
 };
 
 async function loadDynamicMeta(pathname, locale) {
+  if (pathname === "/") {
+    const sections = await homeCmsService.getSections();
+    const hero = sections?.hero || {};
+    const identity = sections?.identity || {};
+
+    return {
+      title: hero.title || identity.title || "",
+      description:
+        hero.subtitle ||
+        hero.description ||
+        identity.description ||
+        identity.secondary_description ||
+        "",
+      image: hero.settings?.image || hero.settings?.background_image || identity.settings?.image || "",
+    };
+  }
+
+  if (pathname === "/about") {
+    const page = await aboutService.getPage(locale);
+    const content = page?.content || {};
+    const hero = content.hero || {};
+    const identity = content.identity || {};
+
+    return {
+      title: hero.title || identity.title || "",
+      description: hero.subtitle || identity.desc1 || identity.desc2 || "",
+      image: page?.identity_image_url || page?.identity_image || "",
+    };
+  }
+
   const [, section, id] = pathname.split("/");
   if (!id) return null;
 
@@ -204,6 +230,13 @@ export default function SeoManager() {
     const staticMeta = getStaticMeta(pathname, locale);
     if (staticMeta) return { title: staticMeta[0], description: staticMeta[1] };
 
+    if (pathname === "/") {
+      return {
+        title: settings.site_name || "",
+        description: settings.site_meta_description || "",
+      };
+    }
+
     const [, section, id] = pathname.split("/");
     const collections = {
       faculty: faculties,
@@ -240,7 +273,7 @@ export default function SeoManager() {
       title: humanizeSlug(pathname.split("/").filter(Boolean).pop() || siteName),
       description: settings.site_meta_description || pickStatic(locale, "notFound")[1],
     };
-  }, [departments, faculties, greenCampusArticles, locale, pathname, programs, services, settings.site_meta_description, siteName]);
+  }, [departments, faculties, greenCampusArticles, locale, pathname, programs, services, settings.site_meta_description, settings.site_name, siteName]);
 
   useEffect(() => {
     let active = true;
@@ -264,8 +297,7 @@ export default function SeoManager() {
     const title = buildTitle(meta.title, siteName);
     const description =
       cleanText(meta.description) ||
-      cleanText(settings.site_meta_description) ||
-      pickStatic(locale, "home")[1];
+      cleanText(settings.site_meta_description);
     const keywords = cleanText(settings.site_meta_keywords, 240);
     const canonical = `${window.location.origin}${pathname === "/" ? "/" : pathname}`;
     const image = publicAssetUrl(meta.image || settings.branding_og_image || settings.branding_logo_default || "");

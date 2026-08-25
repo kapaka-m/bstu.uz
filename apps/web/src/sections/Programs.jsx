@@ -85,7 +85,7 @@ const normalizeProgram = (program, index) => ({
 });
 
 export default function Programs({ limit, showRemaining, featured = false }) {
-  const { t, language, isRtl } = useLanguage();
+  const { t, hasTranslation, language, isRtl } = useLanguage();
   const { section: homeSection, loading: homeSectionLoading } = useHomeSection("programs");
   const [selectedFaculty, setSelectedFaculty] = useState("all");
   const [selectedDegree, setSelectedDegree] = useState("all");
@@ -153,12 +153,15 @@ export default function Programs({ limit, showRemaining, featured = false }) {
   }
 
   const facultyFilters = useMemo(() => [
-    { id: "all", label: t("common.allFaculties") },
+    {
+      id: "all",
+      label: hasTranslation("common.allFaculties") ? t("common.allFaculties") : "All Faculties",
+    },
     ...faculties.map((faculty) => ({
       id: faculty.slug || faculty.id,
       label: faculty.short_name || faculty.name || faculty.slug,
     })),
-  ], [faculties, t]);
+  ], [faculties, hasTranslation, t]);
 
   const homeMode = Boolean(featured || limit);
 
@@ -166,12 +169,12 @@ export default function Programs({ limit, showRemaining, featured = false }) {
     return null;
   }
 
-  const sectionEyebrow = homeMode ? homeSection?.eyebrow || "" : t("home.programs.tag");
-  const sectionTitle = homeMode ? homeSection?.title || "" : t("home.programs.title");
-  const viewAllLabel = homeMode ? homeSection?.cta_label || "" : t("home.programs.viewAll");
+  const sectionEyebrow = homeMode ? homeSection?.eyebrow || "" : t("programs.catalog.tag");
+  const sectionTitle = homeMode ? homeSection?.title || "" : t("programs.catalog.title");
+  const viewAllLabel = homeMode ? homeSection?.cta_label || "" : t("programs.catalog.viewAll");
   const homeLabel = (key, fallback = "") =>
     homeSection?.items?.find((item) => item.item_key === key)?.label || fallback;
-  const exploreLabel = homeMode ? homeLabel("explore_label") : t("home.programs.explore");
+  const exploreLabel = homeMode ? homeLabel("explore_label") : t("programs.catalog.explore");
   const hasActiveFilters = searchQuery || selectedFaculty !== "all" || selectedDegree !== "all";
 
   return (
@@ -243,9 +246,9 @@ export default function Programs({ limit, showRemaining, featured = false }) {
               <div className="grid grid-cols-2 gap-2 border-t border-gray-100 pt-4 sm:flex lg:shrink-0 lg:border-t-0 lg:pt-0">
                 {[
                   { id: "all", label: t("common.allDegrees") },
-                  { id: "bachelor", label: t("home.programs.degrees.bachelor") },
-                  { id: "master", label: t("home.programs.degrees.master") },
-                  { id: "phd", label: t("home.programs.degrees.phd") }
+                  { id: "bachelor", label: t("programs.degrees.bachelor") },
+                  { id: "master", label: t("programs.degrees.master") },
+                  { id: "phd", label: t("programs.degrees.phd") }
                 ].map(deg => (
                   <button
                     key={deg.id}
@@ -302,7 +305,7 @@ export default function Programs({ limit, showRemaining, featured = false }) {
             const pDesc = getProgramDescription(program);
             
             const degreeKey = program.degree.toLowerCase();
-            const degreeTranslationKey = degreeKey ? `home.programs.degrees.${degreeKey}` : "";
+            const degreeTranslationKey = degreeKey ? `programs.degrees.${degreeKey}` : "";
             const degreeTranslation = homeMode
               ? homeLabel(`degree_${degreeKey}`)
               : degreeTranslationKey
@@ -311,7 +314,7 @@ export default function Programs({ limit, showRemaining, featured = false }) {
             const pDegree = degreeTranslation === degreeTranslationKey ? program.degree : degreeTranslation;
             
             const durationKey = program.durationYears ? `years${program.durationYears}` : "";
-            const durationTranslationKey = durationKey ? `home.programs.durations.${durationKey}` : "";
+            const durationTranslationKey = durationKey ? `programs.durations.${durationKey}` : "";
             const durationTranslation = homeMode
               ? homeLabel(`duration_${durationKey}`)
               : durationTranslationKey

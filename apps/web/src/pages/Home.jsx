@@ -18,7 +18,7 @@ import News from "../sections/News";
 import { useLanguage } from "../context/LanguageContext";
 
 export default function Home() {
-  const { loading, translationsReady } = useLanguage();
+  const { initialLoading } = useLanguage();
   // Scroll to top on page render or hash matching
   useEffect(() => {
     const hash = window.location.hash;
@@ -34,7 +34,7 @@ export default function Home() {
     }
   }, []);
 
-  if (loading || !translationsReady) {
+  if (initialLoading) {
     return null;
   }
 

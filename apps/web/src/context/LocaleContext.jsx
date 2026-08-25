@@ -216,6 +216,7 @@ export function LocaleProvider({ children }) {
     hasTranslation,
     t,
     loading: loading || translationsLoading,
+    initialLoading: loading,
     translationsLoading,
     translationsReady: !translationsLoading && Object.keys(translations).length > 0,
   };

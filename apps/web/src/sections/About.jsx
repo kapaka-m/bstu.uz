@@ -1,5 +1,5 @@
 import React from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Building2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
 import { publicAssetUrl } from "../lib/api";
@@ -63,11 +63,17 @@ export default function About() {
             className="flex items-center justify-center relative"
           >
             <div className="relative rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-shadow duration-300">
-              <img
-                src={imageSrc}
-                alt={section.image_alt || section.title || ""}
-                className="w-full object-cover transition-transform duration-500 hover:scale-105"
-              />
+              {imageSrc ? (
+                <img
+                  src={imageSrc}
+                  alt={section.image_alt || section.title || ""}
+                  className="w-full object-cover transition-transform duration-500 hover:scale-105"
+                />
+              ) : (
+                <div className="flex aspect-4/3 w-full min-w-80 items-center justify-center bg-primary/5 text-primary">
+                  <Building2 className="h-16 w-16" />
+                </div>
+              )}
             </div>
           </motion.div>
         </div>

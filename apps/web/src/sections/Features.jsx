@@ -1,5 +1,5 @@
 import React from "react";
-import { ArrowRight, Cpu, Globe, Briefcase, Zap } from "lucide-react";
+import { ArrowRight, Cpu, Globe, Briefcase, Zap, Target } from "lucide-react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useLanguage } from "../context/LanguageContext";
@@ -90,12 +90,18 @@ export default function Features() {
             transition={{ duration: 0.8 }}
             className="lg:col-span-6 flex justify-center"
           >
-            <div className="relative group rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100">
-              <img
-                src={imageSrc}
-                alt={section.image_alt || section.secondary_title || section.title || ""}
-                className="w-full max-w-150 object-cover transition-transform duration-750 group-hover:scale-105"
-              />
+            <div className="relative group rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 bg-primary/5">
+              {imageSrc ? (
+                <img
+                  src={imageSrc}
+                  alt={section.image_alt || section.secondary_title || section.title || ""}
+                  className="w-full max-w-150 object-cover transition-transform duration-750 group-hover:scale-105"
+                />
+              ) : (
+                <div className="flex aspect-4/3 w-full max-w-150 min-w-80 items-center justify-center text-primary">
+                  <Target className="h-16 w-16" />
+                </div>
+              )}
               <div className="absolute inset-0 bg-linear-to-t from-navy/20 via-transparent to-transparent" />
             </div>
           </motion.div>

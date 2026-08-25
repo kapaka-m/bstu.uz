@@ -17,7 +17,6 @@ import {
   ArrowRight,
   Compass,
   Sparkles,
-  AlertCircle,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
@@ -38,11 +37,11 @@ const ABOUT_ICON_MAP = {
 };
 
 export default function AboutPage() {
-  const { t, language, isRtl } = useLanguage();
+  const { language, isRtl } = useLanguage();
   const [aboutPage, setAboutPage] = useState(null);
   const [rectorProfile, setRectorProfile] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -51,7 +50,7 @@ export default function AboutPage() {
   useEffect(() => {
     let alive = true;
     setLoading(true);
-    setError("");
+    setError(false);
     setRectorProfile(null);
 
     aboutService
@@ -70,7 +69,7 @@ export default function AboutPage() {
         if (alive) {
           setAboutPage(null);
           setRectorProfile(null);
-          setError(t("common.loadError"));
+          setError(true);
         }
       })
       .finally(() => {
@@ -80,7 +79,7 @@ export default function AboutPage() {
     return () => {
       alive = false;
     };
-  }, [language, t]);
+  }, [language]);
 
   const content = aboutPage?.content || {};
   const text = (path) =>
@@ -103,14 +102,7 @@ export default function AboutPage() {
   }
 
   if (!aboutPage || error) {
-    return (
-      <div className="bg-white min-h-screen flex items-center justify-center px-4">
-        <div className="flex items-center gap-3 rounded-2xl border border-red-100 bg-red-50 px-5 py-4 text-sm font-bold text-red-600">
-          <AlertCircle className="w-5 h-5 shrink-0" />
-          <span>{error || t("common.loadError")}</span>
-        </div>
-      </div>
-    );
+    return null;
   }
 
   return (

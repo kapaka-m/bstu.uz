@@ -79,25 +79,28 @@ export default function Hero() {
       className="relative min-h-screen pt-28 pb-16 md:pt-32 md:pb-20 flex items-center bg-no-repeat bg-top-right overflow-hidden"
       style={heroBackgroundImage ? { backgroundImage: `url('${heroBackgroundImage}')` } : undefined}
     >
-      <div className="container mx-auto max-w-7xl px-4 md:px-8">
-        <div className="grid min-w-0 grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-12">
+      <div className="container mx-auto w-full max-w-full overflow-hidden px-4 md:max-w-7xl md:px-8">
+        <div className="grid w-full min-w-0 grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-12">
           {/* Left Column (Text) */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className={`flex min-w-0 flex-col justify-center text-center ${isRtl ? "lg:text-right" : "lg:text-left"}`}
+            className={`flex w-full min-w-0 max-w-full flex-col justify-center text-center ${isRtl ? "lg:text-right" : "lg:text-left"}`}
           >
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-navy leading-tight mb-4 break-words">
+            <h1
+              className="mx-auto max-w-[14ch] text-2xl sm:max-w-xl sm:text-4xl md:text-5xl lg:mx-0 lg:max-w-none lg:text-6xl font-extrabold tracking-tight text-navy leading-tight mb-4 break-words"
+              style={{ overflowWrap: "anywhere" }}
+            >
               {section.title || ""}
             </h1>
-            <p className={`text-navy-light text-base sm:text-lg md:text-xl font-medium mb-8 max-w-xl mx-auto ${isRtl ? "lg:mr-0 lg:ml-auto" : "lg:mx-0"}`}>
+            <p className={`mx-auto max-w-[calc(100vw-2rem)] text-navy-light text-base sm:max-w-xl sm:text-lg md:text-xl font-medium mb-8 break-words ${isRtl ? "lg:mr-0 lg:ml-auto" : "lg:mx-0"}`}>
               {section.subtitle || ""}
             </p>
-            <div className="flex min-w-0 flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4">
+            <div className="flex w-full min-w-0 flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4">
               <Link
                 to={section?.settings?.cta_url || section?.cta_url || "/apply"}
-                className="w-full sm:w-auto inline-flex min-w-0 items-center justify-center gap-2 bg-primary hover:bg-primary-hover text-white px-6 sm:px-8 py-4 rounded-xl font-bold shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all duration-300 hover:-translate-y-0.5 group cursor-pointer text-center"
+                className="w-full max-w-[calc(100vw-2rem)] sm:w-auto sm:max-w-none inline-flex min-w-0 items-center justify-center gap-2 bg-primary hover:bg-primary-hover text-white px-6 sm:px-8 py-4 rounded-xl font-bold shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all duration-300 hover:-translate-y-0.5 group cursor-pointer text-center"
               >
                 {section.cta_label || ""}
                 <ArrowRight className={`w-4 h-4 transition-transform duration-300 ${isRtl ? "rotate-180 group-hover:-translate-x-1" : "group-hover:translate-x-1"}`} />
@@ -105,7 +108,7 @@ export default function Hero() {
               {activeHeroVideo && (
                 <button
                   onClick={() => setIsVideoOpen(true)}
-                  className="w-full sm:w-auto inline-flex min-w-0 items-center justify-center gap-2.5 text-navy hover:text-primary transition-colors py-3 px-4 sm:px-6 rounded-xl font-bold group cursor-pointer text-center"
+                  className="w-full max-w-[calc(100vw-2rem)] sm:w-auto sm:max-w-none inline-flex min-w-0 items-center justify-center gap-2.5 text-navy hover:text-primary transition-colors py-3 px-4 sm:px-6 rounded-xl font-bold group cursor-pointer text-center"
                 >
                   <span className="w-12 h-12 rounded-full border-2 border-primary/20 flex items-center justify-center bg-white transition-all duration-300 group-hover:bg-primary group-hover:text-white group-hover:border-primary shadow-md">
                     <Play className="w-4 h-4 fill-current ml-0.5" />
@@ -121,10 +124,10 @@ export default function Hero() {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-            className="flex min-w-0 justify-center items-center relative"
+            className="flex w-full min-w-0 max-w-full justify-center items-center relative overflow-hidden sm:overflow-visible"
           >
             {/* Main Image Container */}
-            <div className="relative mx-auto w-full max-w-[min(100%,32rem)] p-2.5 sm:p-3 bg-linear-to-br from-primary-light to-white rounded-[1.75rem] sm:rounded-[2.5rem] shadow-2xl lg:max-w-none group">
+            <div className="relative mx-auto w-full max-w-[calc(100vw-2rem)] p-2.5 sm:max-w-[32rem] sm:p-3 bg-linear-to-br from-primary-light to-white rounded-[1.75rem] sm:rounded-[2.5rem] shadow-2xl lg:max-w-none group">
               <div className="overflow-hidden rounded-4xl border-4 border-white shadow-md relative">
                 {heroMainImage && (
                   <img
@@ -146,7 +149,7 @@ export default function Hero() {
                   </div>
                   <div>
                     <div className="text-navy font-extrabold text-sm leading-none">{heroStudentCount}</div>
-                    <div className="text-gray-500 text-[10px] font-bold mt-1 uppercase tracking-wider">{heroStudentLabel}</div>
+                    <div className="text-gray-500 text-[10px] font-bold mt-1 uppercase tracking-wider break-words">{heroStudentLabel}</div>
                   </div>
                 </div>
               )}
@@ -161,7 +164,7 @@ export default function Hero() {
                   </div>
                   <div>
                     <div className="text-navy font-extrabold text-sm leading-none">{heroAccreditedTitle}</div>
-                    <div className="text-gray-500 text-[10px] font-bold mt-1 uppercase tracking-wider">{heroAccreditedLabel}</div>
+                    <div className="text-gray-500 text-[10px] font-bold mt-1 uppercase tracking-wider break-words">{heroAccreditedLabel}</div>
                   </div>
                 </div>
               )}

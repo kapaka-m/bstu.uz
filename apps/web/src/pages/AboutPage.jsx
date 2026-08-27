@@ -60,7 +60,9 @@ export default function AboutPage() {
         setAboutPage(page);
         const profileSlug = page?.rector_profile_slug || "";
         if (!profileSlug) return null;
-        return administrationService.getProfile(profileSlug, language).catch(() => null);
+        return administrationService
+          .getProfile(profileSlug, language)
+          .catch(() => null);
       })
       .then((profile) => {
         if (alive) setRectorProfile(profile || null);
@@ -83,30 +85,84 @@ export default function AboutPage() {
 
   const content = aboutPage?.content || {};
   const text = (path) =>
-    path.split(".").reduce((value, key) => (value && value[key] !== undefined ? value[key] : ""), content) || "";
+    path
+      .split(".")
+      .reduce(
+        (value, key) => (value && value[key] !== undefined ? value[key] : ""),
+        content,
+      ) || "";
   const stats = (content.stats?.items || []).map((item) => ({
     ...item,
     icon: ABOUT_ICON_MAP[item.icon] || Users,
   }));
   const timelineEvents = content.timeline?.items || [];
   const faculties = content.facultiesList?.items || [];
-  const identityImageSrc = publicAssetUrl(aboutPage?.identity_image_url || aboutPage?.identity_image || "");
+  const identityImageSrc = publicAssetUrl(
+    aboutPage?.identity_image_url || aboutPage?.identity_image || "",
+  );
   const heroContactUrl = aboutPage?.hero_contact_url || "";
   const heroCampusUrl = aboutPage?.hero_campus_url || "";
   const rectorProfileSlug = aboutPage?.rector_profile_slug || "";
 
-
-
   if (loading) {
-    return null;
+    return (
+      <main
+        dir={isRtl ? "rtl" : "ltr"}
+        className={`min-h-screen bg-white px-4 pt-32 text-navy ${isRtl ? "text-right" : ""}`}
+        aria-busy="true"
+      >
+        <div className="container mx-auto max-w-7xl">
+          <p className="text-sm font-bold text-gray-500">
+            {language === "uz"
+              ? "Sahifa yuklanmoqda..."
+              : language === "ru"
+                ? "Страница загружается..."
+                : language === "ar"
+                  ? "جار تحميل الصفحة..."
+                  : "Loading page..."}
+          </p>
+        </div>
+      </main>
+    );
   }
 
   if (!aboutPage || error) {
-    return null;
+    return (
+      <main
+        dir={isRtl ? "rtl" : "ltr"}
+        className={`min-h-screen bg-white px-4 pt-32 text-navy ${isRtl ? "text-right" : ""}`}
+      >
+        <div className="container mx-auto max-w-7xl">
+          <div className="max-w-2xl rounded-3xl border border-red-100 bg-red-50 p-6">
+            <h1 className="text-2xl font-black font-heading">
+              {language === "uz"
+                ? "Sahifa vaqtincha mavjud emas"
+                : language === "ru"
+                  ? "Страница временно недоступна"
+                  : language === "ar"
+                    ? "الصفحة غير متاحة مؤقتا"
+                    : "Page temporarily unavailable"}
+            </h1>
+            <p className="mt-3 text-sm font-semibold leading-relaxed text-gray-600">
+              {language === "uz"
+                ? "About sahifasi ma'lumotlarini yuklab bo'lmadi. Iltimos, keyinroq qayta urinib ko'ring."
+                : language === "ru"
+                  ? "Не удалось загрузить данные страницы About. Пожалуйста, попробуйте позже."
+                  : language === "ar"
+                    ? "تعذر تحميل بيانات صفحة About. يرجى المحاولة مرة أخرى لاحقا."
+                    : "The About page content could not be loaded. Please try again later."}
+            </p>
+          </div>
+        </div>
+      </main>
+    );
   }
 
   return (
-    <div dir={isRtl ? "rtl" : "ltr"} className={`bg-white min-h-screen overflow-x-hidden ${isRtl ? "text-right" : ""}`}>
+    <div
+      dir={isRtl ? "rtl" : "ltr"}
+      className={`bg-white min-h-screen overflow-x-hidden ${isRtl ? "text-right" : ""}`}
+    >
       {/* SECTION 1: Immersive Hero Section (No standard breadcrumbs) */}
       <section className="relative pt-32 pb-24 overflow-hidden bg-linear-to-br from-navy-dark via-navy to-navy-dark text-white">
         {/* Glow Effects */}
@@ -116,7 +172,10 @@ export default function AboutPage() {
         <div className="absolute inset-0 bg-[radial-gradient(#ffffff0a_1px,transparent_1px)] bg-size-[16px_16px] pointer-events-none" />
 
         <div className="container mx-auto px-4 md:px-8 max-w-7xl relative z-10 min-w-0">
-          <div dir={isRtl ? "rtl" : "ltr"} className="grid min-w-0 grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+          <div
+            dir={isRtl ? "rtl" : "ltr"}
+            className="grid min-w-0 grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center"
+          >
             {/* Left Headline */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -133,17 +192,21 @@ export default function AboutPage() {
               </div>
 
               <h1
-                className={`w-full text-3xl sm:text-4xl md:text-6xl font-black tracking-tight leading-tight uppercase font-heading text-white! break-words [overflow-wrap:anywhere] ${isRtl ? "text-right" : ""}`}
+                className={`w-full text-3xl sm:text-4xl md:text-6xl font-black tracking-tight leading-tight uppercase font-heading text-white! wrap-anywhere ${isRtl ? "text-right" : ""}`}
                 style={{ color: "#ffffff" }}
               >
                 {text("hero.title")}
               </h1>
 
-              <p className={`w-full text-white/80 text-sm md:text-base leading-relaxed max-w-2xl font-semibold break-words ${isRtl ? "text-right self-start" : ""}`}>
+              <p
+                className={`w-full text-white/80 text-sm md:text-base leading-relaxed max-w-2xl font-semibold wrap-break-word ${isRtl ? "text-right self-start" : ""}`}
+              >
                 {text("hero.subtitle")}
               </p>
 
-              <div className={`flex w-full min-w-0 flex-col gap-3 mt-4 sm:flex-row sm:flex-wrap sm:gap-4 ${isRtl ? "justify-start self-start text-right" : ""}`}>
+              <div
+                className={`flex w-full min-w-0 flex-col gap-3 mt-4 sm:flex-row sm:flex-wrap sm:gap-4 ${isRtl ? "justify-start self-start text-right" : ""}`}
+              >
                 {heroContactUrl && text("hero.admissionsBtn") && (
                   <Link
                     to={heroContactUrl}
@@ -176,7 +239,7 @@ export default function AboutPage() {
               <div className="bg-white/5 border border-white/10 rounded-3xl p-5 sm:p-8 backdrop-blur-xl shadow-2xl relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-2xl pointer-events-none" />
                 <h3
-                  className="text-lg sm:text-xl font-bold mb-6 text-white! flex items-center gap-2 break-words"
+                  className="text-lg sm:text-xl font-bold mb-6 text-white! flex items-center gap-2 wrap-break-word"
                   style={{ color: "#ffffff" }}
                 >
                   <Compass className="w-5 h-5 text-white" />
@@ -184,9 +247,7 @@ export default function AboutPage() {
                 </h3>
 
                 <ul className="flex flex-col gap-4 font-semibold text-xs text-white/90">
-                  <li
-                    className="flex items-start gap-3 bg-white/5 p-4 rounded-2xl"
-                  >
+                  <li className="flex items-start gap-3 bg-white/5 p-4 rounded-2xl">
                     <ShieldCheck className="w-5 h-5 text-white shrink-0 mt-0.5" />
                     <div className={isRtl ? "text-right" : ""}>
                       <strong
@@ -198,9 +259,7 @@ export default function AboutPage() {
                       {text("hero.autonomyDesc")}
                     </div>
                   </li>
-                  <li
-                    className="flex items-start gap-3 bg-white/5 p-4 rounded-2xl"
-                  >
+                  <li className="flex items-start gap-3 bg-white/5 p-4 rounded-2xl">
                     <Award className="w-5 h-5 text-white shrink-0 mt-0.5" />
                     <div className={isRtl ? "text-right" : ""}>
                       <strong
@@ -212,9 +271,7 @@ export default function AboutPage() {
                       {text("hero.qsDesc")}
                     </div>
                   </li>
-                  <li
-                    className="flex items-start gap-3 bg-white/5 p-4 rounded-2xl"
-                  >
+                  <li className="flex items-start gap-3 bg-white/5 p-4 rounded-2xl">
                     <History className="w-5 h-5 text-white shrink-0 mt-0.5" />
                     <div className={isRtl ? "text-right" : ""}>
                       <strong
@@ -238,20 +295,31 @@ export default function AboutPage() {
         <div className="container mx-auto px-4 md:px-8 max-w-7xl space-y-20 md:space-y-24 min-w-0">
           {/* Subsection 1 */}
           <div className="bg-primary-light/50 border border-primary-light rounded-3xl md:rounded-4xl p-5 sm:p-8 md:p-12 shadow-xs min-w-0">
-            <div dir={isRtl ? "rtl" : "ltr"} className="grid min-w-0 grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div
+              dir={isRtl ? "rtl" : "ltr"}
+              className="grid min-w-0 grid-cols-1 lg:grid-cols-12 gap-8 items-center"
+            >
               <div
                 className={`lg:col-span-7 flex min-w-0 flex-col gap-5 ${isRtl ? "items-start text-right" : "items-start"}`}
               >
-                <span className={`inline-flex bg-primary/10 text-primary text-[10px] font-extrabold uppercase tracking-widest px-3 py-1.5 rounded-full ${isRtl ? "self-start text-right" : "self-start"}`}>
+                <span
+                  className={`inline-flex bg-primary/10 text-primary text-[10px] font-extrabold uppercase tracking-widest px-3 py-1.5 rounded-full ${isRtl ? "self-start text-right" : "self-start"}`}
+                >
                   {text("identity.badge")}
                 </span>
-                <h2 className={`w-full text-2xl md:text-3xl font-extrabold text-navy uppercase leading-tight font-heading break-words [overflow-wrap:anywhere] ${isRtl ? "text-right" : ""}`}>
+                <h2
+                  className={`w-full text-2xl md:text-3xl font-extrabold text-navy uppercase leading-tight font-heading wrap-anywhere ${isRtl ? "text-right" : ""}`}
+                >
                   {text("identity.title")}
                 </h2>
-                <p className={`w-full text-gray-500 text-sm leading-relaxed font-semibold break-words ${isRtl ? "text-right" : ""}`}>
+                <p
+                  className={`w-full text-gray-500 text-sm leading-relaxed font-semibold wrap-break-word ${isRtl ? "text-right" : ""}`}
+                >
                   {text("identity.desc1")}
                 </p>
-                <p className={`w-full text-gray-500 text-sm leading-relaxed font-semibold break-words ${isRtl ? "text-right" : ""}`}>
+                <p
+                  className={`w-full text-gray-500 text-sm leading-relaxed font-semibold wrap-break-word ${isRtl ? "text-right" : ""}`}
+                >
                   {text("identity.desc2")}
                 </p>
               </div>
@@ -423,17 +491,17 @@ export default function AboutPage() {
                   <div
                     className={`flex justify-between items-start mb-4 ${isRtl ? "flex-row-reverse" : ""}`}
                   >
-                    <span className="text-3xl font-black text-navy group-hover:text-primary transition-colors break-words">
+                    <span className="text-3xl font-black text-navy group-hover:text-primary transition-colors wrap-break-word">
                       {item.number}
                     </span>
                     <div className="w-10 h-10 rounded-xl bg-primary-light text-primary flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
                       <Icon className="w-5 h-5 text-primary" />
                     </div>
                   </div>
-                  <h4 className="text-sm font-extrabold text-navy mb-1 font-heading break-words">
+                  <h4 className="text-sm font-extrabold text-navy mb-1 font-heading wrap-break-word">
                     {item.label}
                   </h4>
-                  <p className="text-gray-400 text-[11px] leading-relaxed font-semibold break-words">
+                  <p className="text-gray-400 text-[11px] leading-relaxed font-semibold wrap-break-word">
                     {item.desc}
                   </p>
                 </motion.div>
@@ -469,14 +537,12 @@ export default function AboutPage() {
                 className={`bg-white border p-5 sm:p-8 rounded-3xl shadow-xs hover:shadow-xl transition-all duration-300 flex min-w-0 flex-col justify-between group ${isRtl ? "text-right" : ""} ${f.color}`}
               >
                 <div>
-                  <div
-                    className="flex min-w-0 flex-col gap-3 mb-6 sm:flex-row sm:justify-between sm:items-start"
-                  >
+                  <div className="flex min-w-0 flex-col gap-3 mb-6 sm:flex-row sm:justify-between sm:items-start">
                     <div className={`min-w-0 ${isRtl ? "text-right" : ""}`}>
                       <span className="text-[10px] text-primary font-bold uppercase tracking-wider block mb-1">
                         {text("facultiesList.facultyBadge")}
                       </span>
-                      <h3 className="text-xl font-extrabold text-navy group-hover:text-primary transition-colors duration-300 font-heading break-words [overflow-wrap:anywhere]">
+                      <h3 className="text-xl font-extrabold text-navy group-hover:text-primary transition-colors duration-300 font-heading wrap-anywhere">
                         {f.name}
                       </h3>
                     </div>
@@ -485,7 +551,7 @@ export default function AboutPage() {
                     </span>
                   </div>
 
-                  <p className="text-gray-500 text-xs md:text-sm leading-relaxed mb-6 font-semibold break-words">
+                  <p className="text-gray-500 text-xs md:text-sm leading-relaxed mb-6 font-semibold wrap-break-word">
                     {f.desc}
                   </p>
 
@@ -496,12 +562,12 @@ export default function AboutPage() {
                     {f.deanProfile ? (
                       <Link
                         to={f.deanProfile}
-                        className="text-sm font-extrabold text-navy hover:text-primary transition-colors font-heading break-words"
+                        className="text-sm font-extrabold text-navy hover:text-primary transition-colors font-heading wrap-break-word"
                       >
                         {f.dean}
                       </Link>
                     ) : (
-                      <span className="text-sm font-extrabold text-navy font-heading break-words">
+                      <span className="text-sm font-extrabold text-navy font-heading wrap-break-word">
                         {f.dean}
                       </span>
                     )}
@@ -546,11 +612,13 @@ export default function AboutPage() {
                   <div className="absolute inset-0 bg-linear-to-t from-navy/60 via-transparent to-transparent" />
                 </div>
                 <div className="text-center mt-5">
-                  <h4 className="text-lg font-extrabold text-navy font-heading break-words">
+                  <h4 className="text-lg font-extrabold text-navy font-heading wrap-break-word">
                     {rectorProfile?.name || text("rector.name")}
                   </h4>
                   <p className="text-xs text-primary font-bold uppercase tracking-wider mt-1 font-heading">
-                    {rectorProfile?.position || rectorProfile?.title || text("rector.position")}
+                    {rectorProfile?.position ||
+                      rectorProfile?.title ||
+                      text("rector.position")}
                   </p>
                   <p className="text-[10px] text-gray-400 font-semibold mt-0.5">
                     {rectorProfile?.degree || text("rector.degree")}
@@ -562,21 +630,31 @@ export default function AboutPage() {
               <div
                 className={`lg:col-span-8 flex min-w-0 flex-col gap-5 ${isRtl ? "items-start text-right" : "items-start"}`}
               >
-                <span className={`inline-flex items-center gap-1 bg-primary/10 text-primary text-[10px] font-extrabold uppercase tracking-widest px-3 py-1.5 rounded-full font-heading ${isRtl ? "self-start text-right" : "self-start"}`}>
+                <span
+                  className={`inline-flex items-center gap-1 bg-primary/10 text-primary text-[10px] font-extrabold uppercase tracking-widest px-3 py-1.5 rounded-full font-heading ${isRtl ? "self-start text-right" : "self-start"}`}
+                >
                   {text("rector.badge")}
                 </span>
-                <h3 className={`w-full text-2xl md:text-3xl font-extrabold text-navy leading-snug font-heading break-words ${isRtl ? "text-right" : ""}`}>
+                <h3
+                  className={`w-full text-2xl md:text-3xl font-extrabold text-navy leading-snug font-heading wrap-break-word ${isRtl ? "text-right" : ""}`}
+                >
                   {text("rector.title")}
                 </h3>
 
-                <p className={`w-full text-gray-500 text-xs md:text-sm leading-relaxed font-semibold break-words ${isRtl ? "text-right" : ""}`}>
+                <p
+                  className={`w-full text-gray-500 text-xs md:text-sm leading-relaxed font-semibold wrap-break-word ${isRtl ? "text-right" : ""}`}
+                >
                   "{text("rector.quote1")}"
                 </p>
-                <p className={`w-full text-gray-500 text-xs md:text-sm leading-relaxed font-semibold break-words ${isRtl ? "text-right" : ""}`}>
+                <p
+                  className={`w-full text-gray-500 text-xs md:text-sm leading-relaxed font-semibold wrap-break-word ${isRtl ? "text-right" : ""}`}
+                >
                   "{text("rector.quote2")}"
                 </p>
 
-                <div className={`flex w-full gap-4 mt-4 border-t border-gray-100 pt-6 ${isRtl ? "justify-start self-start text-right" : ""}`}>
+                <div
+                  className={`flex w-full gap-4 mt-4 border-t border-gray-100 pt-6 ${isRtl ? "justify-start self-start text-right" : ""}`}
+                >
                   {rectorProfileSlug && text("rector.profileBtn") && (
                     <Link
                       to={`/profile/${rectorProfileSlug}`}
@@ -683,10 +761,13 @@ export default function AboutPage() {
             />
 
             {timelineEvents.map((evt, idx) => (
-              <div key={idx} className="flex min-w-0 items-start gap-0 relative group">
+              <div
+                key={idx}
+                className="flex min-w-0 items-start gap-0 relative group"
+              >
                 {/* Year column */}
                 <div className="w-18 sm:w-28 md:w-36 shrink-0 pt-5 text-end pe-3 sm:pe-4">
-                  <span className="text-base sm:text-xl md:text-2xl font-black text-navy group-hover:text-primary transition-colors duration-300 font-heading block break-words">
+                  <span className="text-base sm:text-xl md:text-2xl font-black text-navy group-hover:text-primary transition-colors duration-300 font-heading block wrap-break-word">
                     {evt.year}
                   </span>
                 </div>
@@ -701,10 +782,10 @@ export default function AboutPage() {
                   <div
                     className={`bg-white border border-gray-100 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 shadow-xs group-hover:shadow-md transition-all duration-300 min-w-0 ${isRtl ? "text-right" : ""}`}
                   >
-                    <h3 className="font-extrabold text-navy text-base sm:text-lg mb-2 group-hover:text-primary transition-colors font-heading break-words">
+                    <h3 className="font-extrabold text-navy text-base sm:text-lg mb-2 group-hover:text-primary transition-colors font-heading wrap-break-word">
                       {evt.title}
                     </h3>
-                    <p className="text-gray-500 text-xs md:text-sm leading-relaxed font-semibold break-words">
+                    <p className="text-gray-500 text-xs md:text-sm leading-relaxed font-semibold wrap-break-word">
                       {evt.desc}
                     </p>
                   </div>
@@ -717,4 +798,3 @@ export default function AboutPage() {
     </div>
   );
 }
-

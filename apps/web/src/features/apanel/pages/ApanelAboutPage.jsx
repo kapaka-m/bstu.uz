@@ -223,30 +223,33 @@ export default function ApanelAboutPage() {
     });
   }, [initialForm.translations, localeCodes, primaryLocale]);
 
-  const applyPageToForm = useCallback((page) => {
-    const translations = clone(initialForm.translations);
-    (page.translations || []).forEach((translation) => {
-      if (!localeCodes.includes(translation.locale)) return;
-      translations[translation.locale] = {
-        content: { ...clone(defaultContent), ...clone(translation.content) },
+  const applyPageToForm = useCallback(
+    (page) => {
+      const translations = clone(initialForm.translations);
+      (page.translations || []).forEach((translation) => {
+        if (!localeCodes.includes(translation.locale)) return;
+        translations[translation.locale] = {
+          content: { ...clone(defaultContent), ...clone(translation.content) },
+        };
+      });
+
+      const controls = {
+        hero_contact_url: page.hero_contact_url || "",
+        hero_campus_url: page.hero_campus_url || "",
+        identity_image: page.identity_image || page.identity_image_url || "",
+        rector_profile_slug: page.rector_profile_slug || "",
       };
-    });
 
-    const controls = {
-      hero_contact_url: page.hero_contact_url || "",
-      hero_campus_url: page.hero_campus_url || "",
-      identity_image: page.identity_image || page.identity_image_url || "",
-      rector_profile_slug: page.rector_profile_slug || "",
-    };
-
-    const nextForm = {
-      ...controls,
-      is_published: Boolean(page.is_published),
-      translations,
-    };
-    formRef.current = nextForm;
-    setForm(nextForm);
-  }, [initialForm.translations, localeCodes]);
+      const nextForm = {
+        ...controls,
+        is_published: Boolean(page.is_published),
+        translations,
+      };
+      formRef.current = nextForm;
+      setForm(nextForm);
+    },
+    [initialForm.translations, localeCodes],
+  );
 
   const loadAboutPageForm = useCallback(
     async (isAlive = () => true) => {
@@ -390,6 +393,7 @@ export default function ApanelAboutPage() {
           ? {
               id: activeItem.id || "",
               link: activeItem.link || "",
+              deanProfile: activeItem.deanProfile || "",
               color: activeItem.color || facultyColors[0],
             }
           : {
@@ -441,12 +445,17 @@ export default function ApanelAboutPage() {
     return page;
   };
 
-  const persistForm = async (sourceForm, message = "About page content saved successfully.") => {
+  const persistForm = async (
+    sourceForm,
+    message = "About page content saved successfully.",
+  ) => {
     setSaving(true);
     setError("");
     setSuccess("");
     if (activeSection === "controls") {
-      await apanelService.updateAboutPageSettings(pageSettingsPayload(sourceForm));
+      await apanelService.updateAboutPageSettings(
+        pageSettingsPayload(sourceForm),
+      );
       await reloadAfterMutation("Page settings saved successfully.");
       return;
     }
@@ -465,7 +474,9 @@ export default function ApanelAboutPage() {
           ),
         ),
       );
-      await reloadAfterMutation(`${SECTIONS.find((item) => item.key === activeSection)?.label} saved successfully.`);
+      await reloadAfterMutation(
+        `${SECTIONS.find((item) => item.key === activeSection)?.label} saved successfully.`,
+      );
       return;
     }
 
@@ -635,6 +646,7 @@ export default function ApanelAboutPage() {
       dean: source.dean?.trim() || "",
       count: source.count?.trim() || "",
       link: source.link?.trim() || "",
+      deanProfile: source.deanProfile?.trim() || "",
       color: source.color || facultyColors[0],
       desc: source.desc?.trim() || "",
     };
@@ -654,7 +666,6 @@ export default function ApanelAboutPage() {
         key: draft.id,
         metadata: {
           id: draft.id,
-          count: draft.count,
           link: draft.link,
           deanProfile: draft.deanProfile,
           color: draft.color,
@@ -665,6 +676,7 @@ export default function ApanelAboutPage() {
             {
               name: draft.name,
               dean: draft.dean,
+              count: draft.count,
               description: draft.desc,
             },
           ]),
@@ -847,14 +859,24 @@ export default function ApanelAboutPage() {
               label={t("apanel.aboutPage.label.link")}
               value={item.link}
               onChange={(value) =>
-                updateSharedArrayItem("facultiesList.items", index, "link", value)
+                updateSharedArrayItem(
+                  "facultiesList.items",
+                  index,
+                  "link",
+                  value,
+                )
               }
             />
             <Field
               label={t("apanel.aboutPage.label.deanProfile")}
               value={item.deanProfile}
               onChange={(value) =>
-                updateSharedArrayItem("facultiesList.items", index, "deanProfile", value)
+                updateSharedArrayItem(
+                  "facultiesList.items",
+                  index,
+                  "deanProfile",
+                  value,
+                )
               }
             />
             <SelectField
@@ -862,7 +884,12 @@ export default function ApanelAboutPage() {
               value={item.color}
               options={facultyColors}
               onChange={(value) =>
-                updateSharedArrayItem("facultiesList.items", index, "color", value)
+                updateSharedArrayItem(
+                  "facultiesList.items",
+                  index,
+                  "color",
+                  value,
+                )
               }
             />
             <Field
@@ -1146,7 +1173,9 @@ export default function ApanelAboutPage() {
     <div className="space-y-6">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div>
-          <h1 className="mt-1 text-2xl font-black text-navy">{t("apanel.aboutPage.title")}</h1>
+          <h1 className="mt-1 text-2xl font-black text-navy">
+            {t("apanel.aboutPage.title")}
+          </h1>
           <p className="mt-1 text-sm font-semibold text-gray-500">
             Full control for the public About page at /about.
           </p>
@@ -1238,7 +1267,9 @@ export default function ApanelAboutPage() {
           <form
             onSubmit={(event) => {
               event.preventDefault();
-              const values = Object.fromEntries(new FormData(event.currentTarget).entries());
+              const values = Object.fromEntries(
+                new FormData(event.currentTarget).entries(),
+              );
               handleAddTimelineItem(values);
             }}
             className="w-full max-w-lg rounded-3xl border border-gray-100 bg-white p-6 shadow-2xl"
@@ -1307,7 +1338,9 @@ export default function ApanelAboutPage() {
           <form
             onSubmit={(event) => {
               event.preventDefault();
-              const values = Object.fromEntries(new FormData(event.currentTarget).entries());
+              const values = Object.fromEntries(
+                new FormData(event.currentTarget).entries(),
+              );
               handleAddStatItem(values);
             }}
             className="w-full max-w-2xl rounded-3xl border border-gray-100 bg-white p-6 shadow-2xl"
@@ -1316,7 +1349,9 @@ export default function ApanelAboutPage() {
               <p className="text-xs font-extrabold uppercase tracking-widest text-primary">
                 {activeLocaleLabel}
               </p>
-              <h3 className="mt-1 text-xl font-black text-navy">{t("apanel.aboutPage.addStat")}</h3>
+              <h3 className="mt-1 text-xl font-black text-navy">
+                {t("apanel.aboutPage.addStat")}
+              </h3>
               <p className="mt-1 text-sm font-semibold text-gray-500">
                 This item will be saved to the database immediately.
               </p>
@@ -1392,7 +1427,9 @@ export default function ApanelAboutPage() {
           <form
             onSubmit={(event) => {
               event.preventDefault();
-              const values = Object.fromEntries(new FormData(event.currentTarget).entries());
+              const values = Object.fromEntries(
+                new FormData(event.currentTarget).entries(),
+              );
               handleAddFacultyItem(values);
             }}
             className="max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-3xl border border-gray-100 bg-white p-6 shadow-2xl"
@@ -1401,7 +1438,9 @@ export default function ApanelAboutPage() {
               <p className="text-xs font-extrabold uppercase tracking-widest text-primary">
                 {activeLocaleLabel}
               </p>
-              <h3 className="mt-1 text-xl font-black text-navy">{t("apanel.aboutPage.addFaculty")}</h3>
+              <h3 className="mt-1 text-xl font-black text-navy">
+                {t("apanel.aboutPage.addFaculty")}
+              </h3>
               <p className="mt-1 text-sm font-semibold text-gray-500">
                 This item will be saved to the database immediately.
               </p>
@@ -1453,7 +1492,10 @@ export default function ApanelAboutPage() {
                 name="deanProfile"
                 value={facultyDraft.deanProfile}
                 onChange={(value) =>
-                  setFacultyDraft((current) => ({ ...current, deanProfile: value }))
+                  setFacultyDraft((current) => ({
+                    ...current,
+                    deanProfile: value,
+                  }))
                 }
               />
               <SelectField

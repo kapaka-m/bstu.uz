@@ -48,7 +48,6 @@ export default function VideoBDTU() {
   const [commentsList, setCommentsList] = useState([]);
   const [commentForm, setCommentForm] = useState({ comment: "" });
   const [replyTarget, setReplyTarget] = useState(null);
-  const [now] = useState(() => Date.now());
   const playerRef = useRef(null);
   const activePublisher = activeVideo?.publisher || null;
   const activePublisherRoute = activePublisher?.slug ? `/publishers/${activePublisher.slug}` : "";
@@ -67,24 +66,10 @@ export default function VideoBDTU() {
   };
 
   const formatDate = (dateText) => {
-    if (!dateText) return "";
-    const published = new Date(dateText);
-    if (Number.isNaN(published.getTime())) return String(dateText);
-    const days = Math.max(
-      1,
-      Math.round((now - published.getTime()) / 86400000),
-    );
-    const unit = days < 30 ? "day" : days < 365 ? "month" : "year";
-    const count =
-      days < 30
-        ? days
-        : days < 365
-          ? Math.round(days / 30)
-          : Math.round(days / 365);
-    const value = -count;
-    return new Intl.RelativeTimeFormat(language || undefined, {
-      numeric: "auto",
-    }).format(value, unit);
+    return formatLocalizedDate(dateText, language, t, {
+      day: "2-digit",
+      month: "short",
+    });
   };
   const formatCommentDate = (dateText) =>
     formatLocalizedDate(dateText, language, t, {

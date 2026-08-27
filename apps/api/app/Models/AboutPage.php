@@ -30,6 +30,7 @@ class AboutPage extends Model
 
     public function contentForLocale(string $locale): array
     {
+        $legacyContent = $this->legacyContentForLocale($locale);
         $entries = $this->contentEntries()
             ->with('translations')
             ->where('is_active', true)
@@ -41,20 +42,38 @@ class AboutPage extends Model
 
         foreach ($entries as $entry) {
             $translation = $entry->translations
-                ->first(fn ($item) => $item->locale === $locale && $item->value !== null && $item->value !== '')
-                ?: $entry->translations
-                    ->first(fn ($item) => $item->locale === 'en' && $item->value !== null && $item->value !== '')
-                ?: $entry->translations
-                    ->first(fn ($item) => $item->value !== null && $item->value !== '');
+                ->first(fn ($item) => $item->locale === $locale && $item->value !== null && $item->value !== '');
+            $value = $translation?->value;
 
-            if (! $translation) {
+            if ($value === null || $value === '') {
+                $value = self::getContentPath($legacyContent, $entry->path);
+            }
+
+            if ($value === null || $value === '') {
+                $translation = $entry->translations
+                    ->first(fn ($item) => $item->locale === 'en' && $item->value !== null && $item->value !== '')
+                    ?: $entry->translations
+                        ->first(fn ($item) => $item->value !== null && $item->value !== '');
+
+                $value = $translation?->value;
+            }
+
+            if ($value === null || $value === '') {
                 continue;
             }
 
-            self::setContentPath($content, $entry->path, self::castContentValue($translation->value, $entry->value_type));
+            self::setContentPath($content, $entry->path, self::castContentValue($value, $entry->value_type));
         }
 
         return self::normalizeContentArrays($content);
+    }
+
+    protected function legacyContentForLocale(string $locale): array
+    {
+        $translation = $this->loadedTranslations()
+            ->first(fn ($item) => $item->locale === $locale && is_array($item->content));
+
+        return $translation?->content ?: [];
     }
 
     public function cmsTranslationsPayload(?array $locales = null): array
@@ -196,6 +215,23 @@ class AboutPage extends Model
 
             $target = &$target[$key];
         }
+    }
+
+    protected static function getContentPath(array $content, string $path): mixed
+    {
+        $value = $content;
+
+        foreach (explode('.', $path) as $segment) {
+            $key = ctype_digit($segment) ? (int) $segment : $segment;
+
+            if (! is_array($value) || ! array_key_exists($key, $value)) {
+                return null;
+            }
+
+            $value = $value[$key];
+        }
+
+        return $value;
     }
 
     protected static function normalizeContentArrays(array $content): array

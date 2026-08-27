@@ -110,18 +110,17 @@ export default function AboutPage() {
         dir={isRtl ? "rtl" : "ltr"}
         className={`min-h-screen bg-white px-4 pt-32 text-navy ${isRtl ? "text-right" : ""}`}
         aria-busy="true"
+        aria-label={
+          language === "uz"
+            ? "Sahifa yuklanmoqda"
+            : language === "ru"
+              ? "Страница загружается"
+              : language === "ar"
+                ? "جار تحميل الصفحة"
+                : "Loading page"
+        }
       >
-        <div className="container mx-auto max-w-7xl">
-          <p className="text-sm font-bold text-gray-500">
-            {language === "uz"
-              ? "Sahifa yuklanmoqda..."
-              : language === "ru"
-                ? "Страница загружается..."
-                : language === "ar"
-                  ? "جار تحميل الصفحة..."
-                  : "Loading page..."}
-          </p>
-        </div>
+        <div className="container mx-auto max-w-7xl" />
       </main>
     );
   }

@@ -79,7 +79,7 @@ export default function Hero() {
       className="relative min-h-screen pt-28 pb-16 md:pt-32 md:pb-20 flex items-center bg-no-repeat bg-top-right overflow-hidden"
       style={heroBackgroundImage ? { backgroundImage: `url('${heroBackgroundImage}')` } : undefined}
     >
-      <div className="container mx-auto w-full max-w-full overflow-hidden px-4 md:max-w-7xl md:px-8">
+      <div className="container mx-auto w-full max-w-full px-4 md:max-w-7xl md:px-8">
         <div className="grid w-full min-w-0 grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-12">
           {/* Left Column (Text) */}
           <motion.div
@@ -124,7 +124,7 @@ export default function Hero() {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-            className="flex w-full min-w-0 max-w-full justify-center items-center relative overflow-hidden sm:overflow-visible"
+            className="flex w-full min-w-0 max-w-full justify-center items-center relative overflow-visible py-2 sm:px-8 sm:py-10 lg:px-9"
           >
             {/* Main Image Container */}
             <div className="relative mx-auto w-full max-w-[calc(100vw-2rem)] p-2.5 sm:max-w-[32rem] sm:p-3 bg-linear-to-br from-primary-light to-white rounded-[1.75rem] sm:rounded-[2.5rem] shadow-2xl lg:max-w-none group">
@@ -141,7 +141,7 @@ export default function Hero() {
 
               {/* Floating Card 1: Students Count */}
               {heroStudentCount && (
-                <div className="absolute bottom-3 left-3 sm:-bottom-6 sm:-left-6 bg-white/90 backdrop-blur-md border border-gray-100 p-3 sm:p-4 rounded-2xl shadow-xl flex max-w-[calc(100%-1.5rem)] items-center gap-3 sm:animate-float-slow">
+                <div className="absolute z-10 bottom-3 left-3 sm:-bottom-6 sm:-left-6 bg-white/90 backdrop-blur-md border border-gray-100 p-3 sm:p-4 rounded-2xl shadow-xl flex max-w-[calc(100%-1.5rem)] items-center gap-3 sm:animate-float-slow">
                   <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
                     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
@@ -156,7 +156,7 @@ export default function Hero() {
 
               {/* Floating Card 2: Programs */}
               {(heroAccreditedTitle || heroAccreditedLabel) && (
-                <div className="absolute right-3 top-3 sm:-top-6 sm:-right-6 bg-white/90 backdrop-blur-md border border-gray-100 p-3 sm:p-4 rounded-2xl shadow-xl flex max-w-[calc(100%-1.5rem)] items-center gap-3 sm:animate-float-slow" style={{ animationDelay: "2s" }}>
+                <div className="absolute z-10 right-3 top-3 sm:-top-6 sm:-right-6 bg-white/90 backdrop-blur-md border border-gray-100 p-3 sm:p-4 rounded-2xl shadow-xl flex max-w-[calc(100%-1.5rem)] items-center gap-3 sm:animate-float-slow" style={{ animationDelay: "2s" }}>
                   <div className="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center text-green-600">
                     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138z" />

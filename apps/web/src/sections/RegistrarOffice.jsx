@@ -2,10 +2,12 @@ import React from "react";
 import { ExternalLink, CheckCircle2, Landmark } from "lucide-react";
 import { motion } from "framer-motion";
 import { useHomeSection } from "../hooks/useHomeSection";
+import { useLanguage } from "../context/LanguageContext";
 import { publicAssetUrl } from "../lib/api";
 
 export default function RegistrarOffice() {
   const { section } = useHomeSection("registrar_office");
+  const { language } = useLanguage();
 
   if (!section) {
     return null;
@@ -87,7 +89,7 @@ export default function RegistrarOffice() {
                 className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-white px-8 py-4 rounded-xl font-extrabold shadow-md shadow-primary/20 hover:shadow-primary/30 transition-all hover:-translate-y-0.5 cursor-pointer"
               >
                 {section.cta_label || ""}
-                <ExternalLink className="w-4 h-4" />
+                <ExternalLink className={`w-4 h-4 ${language === "ar" ? "-scale-x-100" : ""}`} />
               </a>
             </div>
           </motion.div>

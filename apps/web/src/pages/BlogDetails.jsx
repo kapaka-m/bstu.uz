@@ -332,26 +332,26 @@ export default function BlogDetails() {
 
             {/* Author Section */}
             <div
-              dir={isRtl ? "ltr" : undefined}
-              className={`bg-primary-light border border-gray-100 p-5 sm:p-8 rounded-3xl flex min-w-0 gap-5 sm:gap-6 ${isRtl ? "flex-row items-center justify-end text-right" : "flex-col sm:flex-row items-center sm:items-start"}`}
+              dir={isRtl ? "rtl" : undefined}
+              className={`bg-primary-light border border-gray-100 p-5 sm:p-8 rounded-3xl flex min-w-0 gap-5 sm:gap-6 ${isRtl ? "flex-row items-start justify-start text-right" : "flex-col sm:flex-row items-center sm:items-start"}`}
             >
               {publisherImage && publisherRoute ? (
                 <Link to={publisherRoute} className="shrink-0" aria-label={publisherName}>
                   <img
                     src={publisherImage}
                     alt={publisherName}
-                    className={`w-20 h-20 rounded-full object-cover border-2 border-white shadow-md shrink-0 ${isRtl ? "order-2" : ""}`}
+                    className="w-20 h-20 rounded-full object-cover border-2 border-white shadow-md shrink-0"
                   />
                 </Link>
               ) : publisherImage ? (
                 <img
                   src={publisherImage}
                   alt={publisherName}
-                  className={`w-20 h-20 rounded-full object-cover border-2 border-white shadow-md shrink-0 ${isRtl ? "order-2" : ""}`}
+                  className="w-20 h-20 rounded-full object-cover border-2 border-white shadow-md shrink-0"
                 />
               ) : (
                 <div
-                  className={`w-20 h-20 rounded-full border-2 border-white shadow-md shrink-0 bg-white text-primary flex items-center justify-center ${isRtl ? "order-2" : ""}`}
+                  className="w-20 h-20 rounded-full border-2 border-white shadow-md shrink-0 bg-white text-primary flex items-center justify-center"
                   aria-label={publisherName}
                 >
                   <User className="w-8 h-8" />
@@ -359,7 +359,7 @@ export default function BlogDetails() {
               )}
               <div
                 dir={isRtl ? "rtl" : undefined}
-                className={`${isRtl ? "order-1 text-right items-end" : "text-center sm:text-left items-center sm:items-start grow w-full"} flex min-w-0 flex-col`}
+                className={`${isRtl ? "text-right items-start grow" : "text-center sm:text-left items-center sm:items-start grow w-full"} flex min-w-0 flex-col`}
               >
                 <h4 className="max-w-full break-words text-lg font-extrabold text-navy mb-1">
                   {publisherRoute ? (
@@ -376,7 +376,7 @@ export default function BlogDetails() {
                   </p>
                 )}
                 <div
-                  className={`flex items-center ${isRtl ? "justify-end" : "justify-center sm:justify-start"} gap-2.5 mb-3`}
+                  className={`flex items-center ${isRtl ? "justify-start" : "justify-center sm:justify-start"} gap-2.5 mb-3`}
                 >
                   <a
                     href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(currentUrl)}&text=${encodeURIComponent(asText(post.title))}`}

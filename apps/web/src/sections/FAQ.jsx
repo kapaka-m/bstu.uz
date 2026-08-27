@@ -35,57 +35,50 @@ export default function FAQ({ page: providedPage = null }) {
   const page = providedPage || fetchedPage;
   const faq = page?.content?.faq || {};
   const faqItems = useMemo(() => faq.items || [], [faq.items]);
-  const midPoint = Math.ceil(faqItems.length / 2);
-  const leftColFaqs = faqItems.slice(0, midPoint);
-  const rightColFaqs = faqItems.slice(midPoint);
 
   if (!page || faqItems.length === 0) {
     return null;
   }
 
-  const renderFaqColumn = (faqs) => (
-    <div className="flex flex-col gap-4 min-w-0">
-      {faqs.map((faq) => {
-        const isOpen = openId === faq.id;
+  const renderFaqItem = (faq) => {
+    const isOpen = openId === faq.id;
 
-        return (
-          <div
-            key={faq.id}
-            className={`bg-white border rounded-2xl overflow-hidden transition-all duration-300 min-w-0 ${
-              isOpen ? "border-primary/20 shadow-md shadow-primary/5" : "border-gray-100 hover:border-gray-200"
+    return (
+      <div
+        key={faq.id}
+        className={`bg-white border rounded-2xl overflow-hidden transition-all duration-300 min-w-0 h-full ${
+          isOpen ? "border-primary/20 shadow-md shadow-primary/5" : "border-gray-100 hover:border-gray-200"
+        }`}
+      >
+        <button
+          onClick={() => toggleFAQ(faq.id)}
+          className="w-full min-h-22 text-start px-5 md:px-6 py-5 flex items-center justify-between gap-4 font-bold text-base text-navy transition-colors hover:text-primary group cursor-pointer min-w-0"
+        >
+          <span className="break-words min-w-0">{faq.question}</span>
+          <ChevronDown
+            className={`w-4 h-4 shrink-0 text-gray-400 group-hover:text-primary transition-transform duration-300 ${
+              isOpen ? "rotate-180 text-primary" : ""
             }`}
-          >
-            <button
-              onClick={() => toggleFAQ(faq.id)}
-              className="w-full text-start px-5 md:px-6 py-5 flex items-center justify-between gap-4 font-bold text-base text-navy transition-colors hover:text-primary group cursor-pointer min-w-0"
+          />
+        </button>
+        <AnimatePresence initial={false}>
+          {isOpen && (
+            <motion.div
+              initial={{ height: 0 }}
+              animate={{ height: "auto" }}
+              exit={{ height: 0 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+              className="overflow-hidden"
             >
-              <span className="break-words min-w-0">{faq.question}</span>
-              <ChevronDown
-                className={`w-4 h-4 text-gray-400 group-hover:text-primary transition-transform duration-300 ${
-                  isOpen ? "rotate-180 text-primary" : ""
-                }`}
-              />
-            </button>
-            <AnimatePresence initial={false}>
-              {isOpen && (
-                <motion.div
-                  initial={{ height: 0 }}
-                  animate={{ height: "auto" }}
-                  exit={{ height: 0 }}
-                  transition={{ duration: 0.3, ease: "easeInOut" }}
-                  className="overflow-hidden"
-                >
-                  <div className="px-5 md:px-6 pb-6 text-sm text-gray-500 leading-relaxed border-t border-gray-50 pt-4 text-start break-words">
-                    {faq.answer}
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        );
-      })}
-    </div>
-  );
+              <div className="px-5 md:px-6 pb-6 text-sm text-gray-500 leading-relaxed border-t border-gray-50 pt-4 text-start break-words">
+                {faq.answer}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    );
+  };
 
   return (
     <section id="faq" className="py-24 bg-primary-light overflow-hidden">
@@ -100,10 +93,9 @@ export default function FAQ({ page: providedPage = null }) {
           </p>
         </div>
 
-        {/* FAQ Columns Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start min-w-0">
-          {renderFaqColumn(leftColFaqs)}
-          {renderFaqColumn(rightColFaqs)}
+        {/* FAQ Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 items-stretch min-w-0">
+          {faqItems.map(renderFaqItem)}
         </div>
       </div>
     </section>

@@ -6,6 +6,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation } from "swiper/modules";
 import { useLanguage } from "../context/LanguageContext";
 import { videoService } from "../services/videoService";
+import { formatLocalizedDate } from "../utils/dateFormat";
 
 // Import Swiper styles
 import "swiper/css";
@@ -15,7 +16,6 @@ export default function VideoGallery() {
   const [activeVideo, setActiveVideo] = useState(null);
   const [videos, setVideos] = useState([]);
   const [settings, setSettings] = useState({});
-  const [now] = useState(() => Date.now());
   const { t, language, isRtl } = useLanguage();
 
   useEffect(() => {
@@ -56,16 +56,10 @@ export default function VideoGallery() {
   };
 
   const formatDate = (dateText) => {
-    if (!dateText) return "";
-    const published = new Date(dateText);
-    if (Number.isNaN(published.getTime())) return String(dateText);
-    const days = Math.max(1, Math.round((now - published.getTime()) / 86400000));
-    const unit = days < 30 ? "day" : days < 365 ? "month" : "year";
-    const count = days < 30 ? days : days < 365 ? Math.round(days / 30) : Math.round(days / 365);
-    const value = -count;
-    return new Intl.RelativeTimeFormat(language || undefined, {
-      numeric: "auto",
-    }).format(value, unit);
+    return formatLocalizedDate(dateText, language, t, {
+      day: "2-digit",
+      month: "short",
+    });
   };
 
   const categoryLabels = settings.category_labels || {};

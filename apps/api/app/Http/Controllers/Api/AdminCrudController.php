@@ -2490,8 +2490,13 @@ class AdminCrudController extends Controller
                     'category' => 'required|string',
                     'published_at' => 'nullable|date',
                     'is_published' => 'boolean',
-                    'views_count' => 'integer',
+                    'views_count' => 'nullable|integer|min:0',
                     'translations' => 'required|array',
+                    'translations.*.title' => 'required|string|max:255',
+                    'translations.*.summary' => 'nullable|string',
+                    'translations.*.content' => 'nullable|string',
+                    'translations.*.meta_title' => 'nullable|string|max:255',
+                    'translations.*.meta_description' => 'nullable|string',
                 ];
             case 'blogs':
                 return [

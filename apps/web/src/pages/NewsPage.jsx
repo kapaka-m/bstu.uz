@@ -120,6 +120,20 @@ export default function NewsPage() {
   return (
     <div className="pt-20 bg-white overflow-x-hidden">
       <div className="container mx-auto px-4 md:px-8 max-w-7xl py-12 md:py-16 min-w-0">
+        <header className="mb-10 max-w-3xl text-start">
+          <p className="mb-2 text-xs font-extrabold uppercase text-primary">
+            {settings?.home_tag || ""}
+          </p>
+          <h1 className="text-3xl font-extrabold leading-tight text-navy md:text-5xl">
+            {settings?.all_news_label || settings?.home_title || ""}
+          </h1>
+          {settings?.home_subtitle && (
+            <p className="mt-4 text-sm leading-relaxed text-gray-500 md:text-base">
+              {settings.home_subtitle}
+            </p>
+          )}
+        </header>
+
         <div className="grid min-w-0 grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
           <div className="order-1 lg:hidden">
             <div className="bg-primary-light border border-gray-100 p-6 rounded-3xl text-start">
@@ -181,13 +195,18 @@ export default function NewsPage() {
                       <div className="flex min-w-0 flex-wrap items-center gap-x-4 gap-y-2 text-xs font-semibold text-gray-400 mb-3">
                         <span className="flex min-w-0 items-center gap-1">
                           <Calendar className="w-3.5 h-3.5 text-primary" />
-                          <span className="truncate">{formatNewsDate(item.date)}</span>
+                          <span className="truncate">
+                            {formatNewsDate(item.date)}
+                          </span>
                         </span>
                         {item.publisher?.name && (
                           <span className="flex min-w-0 items-center gap-1">
                             <User className="w-3.5 h-3.5 text-primary" />
                             {item.publisher.slug ? (
-                              <Link to={`/publishers/${item.publisher.slug}`} className="min-w-0 truncate hover:text-primary transition-colors">
+                              <Link
+                                to={`/publishers/${item.publisher.slug}`}
+                                className="min-w-0 truncate hover:text-primary transition-colors"
+                              >
                                 {item.publisher.name}
                               </Link>
                             ) : (
@@ -197,7 +216,7 @@ export default function NewsPage() {
                         )}
                       </div>
 
-                      <h2 className="text-xl font-extrabold text-navy group-hover:text-primary transition-colors duration-300 leading-snug mb-3 break-words">
+                      <h2 className="text-xl font-extrabold text-navy group-hover:text-primary transition-colors duration-300 leading-snug mb-3 wrap-break-word">
                         <Link
                           to={`/news/${item.id}`}
                           className="hover:underline"
@@ -206,7 +225,7 @@ export default function NewsPage() {
                         </Link>
                       </h2>
 
-                      <p className="text-gray-500 text-sm leading-relaxed mb-6 line-clamp-3 break-words">
+                      <p className="text-gray-500 text-sm leading-relaxed mb-6 line-clamp-3 wrap-break-word">
                         {item.description}
                       </p>
                     </div>
@@ -285,7 +304,7 @@ export default function NewsPage() {
                           : "text-gray-500 hover:text-primary hover:ps-1"
                       }`}
                     >
-                      <span className="min-w-0 break-words">{cat.name}</span>
+                      <span className="min-w-0 wrap-break-word">{cat.name}</span>
                       <span className="bg-white px-2.5 py-1 rounded-lg border border-gray-100 text-xs text-gray-400 font-bold">
                         {cat.count}
                       </span>

@@ -24,23 +24,43 @@ export default function NewsDetails() {
 
     setLoading(true);
     setError("");
-    Promise.all([
-      newsService.getSettings(),
-      newsService.getNewsItem(id, { view: 1 }),
-      newsService.getNews({ per_page: 100 }),
-    ])
-      .then(([settingsData, item, list]) => {
+    const loadNewsDetail = async () => {
+      const [settingsResult, itemResult, listResult] = await Promise.allSettled([
+        newsService.getSettings(),
+        newsService.getNewsItem(id, { view: 1 }),
+        newsService.getNews({ per_page: 100 }),
+      ]);
+
+      if (!active) return;
+
+      const settingsData =
+        settingsResult.status === "fulfilled" ? settingsResult.value : null;
+      const list =
+        listResult.status === "fulfilled" ? listResult.value : { items: [] };
+
+      setSettings(settingsData);
+      setNewsItems(list.items || []);
+
+      if (itemResult.status === "fulfilled") {
         if (!active) return;
-        setSettings(settingsData);
-        setNews(item);
-        setNewsItems(list.items);
-      })
-      .catch(() => {
-        if (!active) return;
-        setSettings(null);
-        setNews(null);
-        setNewsItems([]);
+        setNews(itemResult.value);
+        return;
+      }
+
+      setNews(null);
+      if (itemResult.reason?.status && itemResult.reason.status !== 404) {
         setError(t("common.loadError"));
+      }
+    };
+
+    loadNewsDetail()
+      .catch(() => {
+        if (active) {
+          setSettings(null);
+          setNews(null);
+          setNewsItems([]);
+          setError(t("common.loadError"));
+        }
       })
       .finally(() => {
         if (active) setLoading(false);
@@ -133,7 +153,7 @@ export default function NewsDetails() {
                 )}
               </div>
 
-              <h1 className="text-2xl md:text-4xl font-extrabold text-navy leading-snug break-words">
+              <h1 className="text-2xl md:text-4xl font-extrabold text-navy leading-snug wrap-break-word">
                 {news.title}
               </h1>
 
@@ -162,15 +182,15 @@ export default function NewsDetails() {
                 )}
               </div>
 
-              <div className="text-gray-500 text-sm md:text-base leading-relaxed flex min-w-0 flex-col gap-6 break-words">
+              <div className="text-gray-500 text-sm md:text-base leading-relaxed flex min-w-0 flex-col gap-6 wrap-break-word">
                 {paragraphs.length > 0 ? (
                   paragraphs.map((p, idx) => (
-                    <p key={idx} className="leading-relaxed break-words">
+                    <p key={idx} className="leading-relaxed wrap-break-word">
                       {p}
                     </p>
                   ))
                 ) : (
-                  <p className="leading-relaxed break-words">{news.description}</p>
+                  <p className="leading-relaxed wrap-break-word">{news.description}</p>
                 )}
               </div>
 
@@ -184,7 +204,7 @@ export default function NewsDetails() {
                   <div className="flex min-w-0 gap-2">
                     <Link
                       to={`/news?category=${String(news.category || "news").toLowerCase()}`}
-                      className="min-w-0 break-words bg-gray-50 hover:bg-primary/5 hover:text-primary transition-colors border border-gray-100 px-2.5 py-1 rounded-lg text-gray-500 font-bold"
+                      className="min-w-0 wrap-break-word bg-gray-50 hover:bg-primary/5 hover:text-primary transition-colors border border-gray-100 px-2.5 py-1 rounded-lg text-gray-500 font-bold"
                     >
                       {categoryLabel(news.category)}
                     </Link>
@@ -230,7 +250,7 @@ export default function NewsDetails() {
                       to={`/news?category=${cat.value}`}
                       className="w-full flex min-w-0 items-center justify-between gap-3 py-2 text-gray-500 hover:text-primary transition-all"
                     >
-                      <span className="min-w-0 break-words">{cat.name}</span>
+                      <span className="min-w-0 wrap-break-word">{cat.name}</span>
                       <span className="bg-white px-2.5 py-1 rounded-lg border border-gray-100 text-xs text-gray-400 font-bold">
                         ({cat.count})
                       </span>

@@ -120,20 +120,6 @@ export default function NewsPage() {
   return (
     <div className="pt-20 bg-white overflow-x-hidden">
       <div className="container mx-auto px-4 md:px-8 max-w-7xl py-12 md:py-16 min-w-0">
-        <header className="mb-10 max-w-3xl text-start">
-          <p className="mb-2 text-xs font-extrabold uppercase text-primary">
-            {settings?.home_tag || ""}
-          </p>
-          <h1 className="text-3xl font-extrabold leading-tight text-navy md:text-5xl">
-            {settings?.all_news_label || settings?.home_title || ""}
-          </h1>
-          {settings?.home_subtitle && (
-            <p className="mt-4 text-sm leading-relaxed text-gray-500 md:text-base">
-              {settings.home_subtitle}
-            </p>
-          )}
-        </header>
-
         <div className="grid min-w-0 grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
           <div className="order-1 lg:hidden">
             <div className="bg-primary-light border border-gray-100 p-6 rounded-3xl text-start">

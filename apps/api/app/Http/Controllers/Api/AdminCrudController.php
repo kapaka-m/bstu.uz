@@ -1638,7 +1638,7 @@ class AdminCrudController extends Controller
             }
 
             $this->logAction('update', WebFooter::class, $footer->id, $oldValues, $footer->fresh('translations')->toArray());
-            Cache::forever('public_content_cache_version', (string) now()->getTimestamp());
+            $this->bumpPublicContentCacheVersion();
             DB::commit();
 
             return $this->successResponse($footer->fresh('translations'), 'Footer web CMS content updated');
@@ -1709,7 +1709,7 @@ class AdminCrudController extends Controller
             }
 
             $this->logAction('update', NewsEventSetting::class, $setting->id, $oldValues, $setting->fresh('translations')->toArray());
-            Cache::forever('public_content_cache_version', (string) now()->getTimestamp());
+            $this->bumpPublicContentCacheVersion();
             DB::commit();
 
             return $this->successResponse($setting->fresh('translations'), 'News and events settings updated');
@@ -1783,7 +1783,7 @@ class AdminCrudController extends Controller
             }
 
             $this->logAction('update', AnnouncementSetting::class, $setting->id, $oldValues, $setting->fresh('translations')->toArray());
-            Cache::forever('public_content_cache_version', (string) now()->getTimestamp());
+            $this->bumpPublicContentCacheVersion();
             DB::commit();
 
             return $this->successResponse($setting->fresh('translations'), 'Announcement settings updated');
@@ -1867,7 +1867,7 @@ class AdminCrudController extends Controller
             }
 
             $this->logAction('update', BlogSetting::class, $setting->id, $oldValues, $setting->fresh('translations')->toArray());
-            Cache::forever('public_content_cache_version', (string) now()->getTimestamp());
+            $this->bumpPublicContentCacheVersion();
             DB::commit();
 
             return $this->successResponse($setting->fresh('translations'), 'Blog settings updated');
@@ -1963,7 +1963,7 @@ class AdminCrudController extends Controller
             }
 
             $this->logAction('update', VideoGallerySetting::class, $setting->id, $oldValues, $setting->fresh('translations')->toArray());
-            Cache::forever('public_content_cache_version', (string) now()->getTimestamp());
+            $this->bumpPublicContentCacheVersion();
             DB::commit();
 
             return $this->successResponse($setting->fresh('translations'), 'Video gallery settings updated');
@@ -2242,7 +2242,12 @@ class AdminCrudController extends Controller
             return;
         }
 
-        Cache::forever('public_content_cache_version', (string) now()->getTimestamp());
+        $this->bumpPublicContentCacheVersion();
+    }
+
+    protected function bumpPublicContentCacheVersion(): void
+    {
+        Cache::forever('public_content_cache_version', now()->format('Uu').'-'.bin2hex(random_bytes(4)));
     }
 
     protected function publicContentResources(): array

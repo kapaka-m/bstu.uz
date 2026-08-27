@@ -1522,8 +1522,10 @@ class PublicApiController extends Controller
             return $this->errorResponse("Announcement '{$slug}' not found", 404);
         }
 
-        $ann->increment('views_count');
-        $ann->refresh();
+        if ($request->boolean('track_view', true)) {
+            $ann->increment('views_count');
+            $ann->refresh();
+        }
 
         return response()->json([
             'locale' => $locale,
@@ -1729,7 +1731,7 @@ class PublicApiController extends Controller
 
         $video->increment('views_count');
         $video->refresh();
-        Cache::forever('public_content_cache_version', (string) now()->getTimestamp());
+        $this->bumpPublicContentCacheVersion();
 
         return $this->successResponse(['views_count' => $video->views_count], 'Video view counted');
     }
@@ -1744,7 +1746,7 @@ class PublicApiController extends Controller
 
         $video->increment('likes_count');
         $video->refresh();
-        Cache::forever('public_content_cache_version', (string) now()->getTimestamp());
+        $this->bumpPublicContentCacheVersion();
 
         return $this->successResponse(['likes_count' => $video->likes_count], 'Video like counted');
     }
@@ -1773,6 +1775,11 @@ class PublicApiController extends Controller
             ->values();
 
         return $this->successResponse($comments, 'Video comments retrieved successfully');
+    }
+
+    protected function bumpPublicContentCacheVersion(): void
+    {
+        Cache::forever('public_content_cache_version', now()->format('Uu').'-'.bin2hex(random_bytes(4)));
     }
 
     public function storeVideoComment(Request $request, string $slug)

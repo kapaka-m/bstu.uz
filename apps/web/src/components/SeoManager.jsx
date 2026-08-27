@@ -193,7 +193,12 @@ async function loadDynamicMeta(pathname, locale) {
   if (section === "programs") return metaFromItem(await programService.getProgram(id), humanizeSlug(id));
   if (section === "center") return metaFromItem(await centerService.getCenter(id), humanizeSlug(id));
   if (section === "news") return metaFromItem(await newsService.getNewsItem(id), humanizeSlug(id));
-  if (section === "announcements") return metaFromItem(await announcementService.getAnnouncement(id), humanizeSlug(id));
+  if (section === "announcements") {
+    return metaFromItem(
+      await announcementService.getAnnouncement(id, { trackView: false }),
+      humanizeSlug(id),
+    );
+  }
   if (section === "green-campus") return metaFromItem(await greenCampusService.getArticle(id), humanizeSlug(id));
   if (section === "publishers") return metaFromItem(await blogService.getPublisher(id), humanizeSlug(id));
   if (section === "blog" && pathname.startsWith("/blog/departments/")) {

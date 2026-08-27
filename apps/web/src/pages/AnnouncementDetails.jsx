@@ -73,8 +73,9 @@ export default function AnnouncementDetails() {
 
   const categories = useMemo(() => {
     const grouped = announcements.reduce((acc, item) => {
-      const value = item.category.toLowerCase();
-      if (!acc[value]) acc[value] = { name: item.category_label, count: 0, value };
+      const value = String(item.category || "general").toLowerCase();
+      if (!acc[value])
+        acc[value] = { name: item.category_label, count: 0, value };
       acc[value].count += 1;
       return acc;
     }, {});
@@ -116,7 +117,10 @@ export default function AnnouncementDetails() {
     return (
       <div className="pt-24 min-h-screen bg-slate-50/50">
         <div className="container mx-auto px-4 md:px-8 max-w-7xl py-16 text-center text-gray-500 font-semibold">
-          {settings?.no_results_label || ""}
+          <h1 className="sr-only">
+            {settings?.no_results_label || "Announcement not found"}
+          </h1>
+          <p>{settings?.no_results_label || ""}</p>
         </div>
       </div>
     );
@@ -156,7 +160,7 @@ export default function AnnouncementDetails() {
                 </span>
               </div>
 
-              <h1 className="text-2xl md:text-4xl font-extrabold text-navy leading-snug break-words">
+              <h1 className="text-2xl md:text-4xl font-extrabold text-navy leading-snug wrap-break-word">
                 {announcement.title}
               </h1>
 
@@ -173,7 +177,7 @@ export default function AnnouncementDetails() {
                 </span>
                 <span className="flex min-w-0 items-center gap-1.5">
                   <User className="w-4 h-4 text-primary" />
-                  <span className="min-w-0 break-words">
+                  <span className="min-w-0 wrap-break-word">
                     {settings?.published_by_label || ""}:{" "}
                     {publisherRoute ? (
                       <Link to={publisherRoute} className="text-navy hover:text-primary transition-colors">
@@ -186,15 +190,15 @@ export default function AnnouncementDetails() {
                 </span>
               </div>
 
-              <div className="text-gray-600 text-sm md:text-base leading-relaxed flex min-w-0 flex-col gap-5 whitespace-pre-line font-medium break-words">
+              <div className="text-gray-600 text-sm md:text-base leading-relaxed flex min-w-0 flex-col gap-5 whitespace-pre-line font-medium wrap-break-word">
                 {paragraphArray.length ? (
                   paragraphArray.map((p, idx) => (
-                    <p key={idx} className="leading-relaxed break-words">
+                    <p key={idx} className="leading-relaxed wrap-break-word">
                       {p}
                     </p>
                   ))
                 ) : (
-                  <p className="leading-relaxed break-words">{announcement.excerpt}</p>
+                  <p className="leading-relaxed wrap-break-word">{announcement.excerpt}</p>
                 )}
               </div>
 
@@ -211,7 +215,7 @@ export default function AnnouncementDetails() {
                     <div className="flex min-w-0 gap-2">
                       <Link
                         to={`/announcements?category=${announcement.category}`}
-                        className="min-w-0 break-words bg-slate-50 hover:bg-primary/5 hover:text-primary transition-colors border border-slate-100 px-3 py-1 rounded-lg text-gray-500 font-extrabold"
+                        className="min-w-0 wrap-break-word bg-slate-50 hover:bg-primary/5 hover:text-primary transition-colors border border-slate-100 px-3 py-1 rounded-lg text-gray-500 font-extrabold"
                       >
                         {announcement.category_label}
                       </Link>
@@ -282,7 +286,7 @@ export default function AnnouncementDetails() {
                       to={`/announcements?category=${cat.value}`}
                       className="w-full flex min-w-0 items-center justify-between gap-3 py-2.5 px-3 rounded-xl text-gray-500 hover:bg-slate-50 hover:text-primary transition-all"
                     >
-                      <span className="min-w-0 break-words">{cat.name}</span>
+                      <span className="min-w-0 wrap-break-word">{cat.name}</span>
                       <span className="bg-slate-50 px-2.5 py-0.5 rounded-lg text-[10px] font-extrabold text-gray-400">
                         ({cat.count})
                       </span>

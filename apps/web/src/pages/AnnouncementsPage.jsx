@@ -133,6 +133,9 @@ export default function AnnouncementsPage() {
   return (
     <div className="pt-24 min-h-screen bg-slate-50/50 overflow-x-hidden">
       <div className="container mx-auto px-4 md:px-8 max-w-7xl py-12 md:py-16 min-w-0">
+        <h1 className="sr-only">
+          {settings?.home_title || settings?.search_title || "Announcements"}
+        </h1>
         <div className="grid min-w-0 grid-cols-1 lg:grid-cols-12 gap-10 items-start">
           <div className="order-1 lg:hidden">
             <div className="bg-white border border-gray-100 p-6 rounded-3xl shadow-xs text-start">
@@ -205,17 +208,22 @@ export default function AnnouncementsPage() {
                           <div className="flex min-w-0 flex-wrap items-center gap-x-4 gap-y-2 text-xs font-semibold text-gray-400 mb-3">
                             <span className="flex min-w-0 items-center gap-1">
                               <Calendar className="w-3.5 h-3.5 text-primary" />
-                              <span className="truncate">{formatDate(item.date)}</span>
+                              <span className="truncate">
+                                {formatDate(item.date)}
+                              </span>
                             </span>
                             <span className="flex items-center gap-1">
                               <Eye className="w-3.5 h-3.5" />
-                          {item.views} {settings?.views_label || ""}
+                              {item.views} {settings?.views_label || ""}
                             </span>
                             {item.publisher?.name && (
                               <span className="flex min-w-0 items-center gap-1">
                                 <User className="w-3.5 h-3.5 text-primary" />
                                 {item.publisher.slug ? (
-                                  <Link to={`/publishers/${item.publisher.slug}`} className="min-w-0 truncate hover:text-primary transition-colors">
+                                  <Link
+                                    to={`/publishers/${item.publisher.slug}`}
+                                    className="min-w-0 truncate hover:text-primary transition-colors"
+                                  >
                                     {item.publisher.name}
                                   </Link>
                                 ) : (
@@ -225,11 +233,13 @@ export default function AnnouncementsPage() {
                             )}
                           </div>
 
-                          <h2 className="text-lg md:text-xl font-extrabold text-navy group-hover:text-primary transition-colors duration-300 leading-snug mb-3 break-words">
-                            <Link to={`/announcements/${item.slug}`}>{item.title}</Link>
+                          <h2 className="text-lg md:text-xl font-extrabold text-navy group-hover:text-primary transition-colors duration-300 leading-snug mb-3 wrap-break-word">
+                            <Link to={`/announcements/${item.slug}`}>
+                              {item.title}
+                            </Link>
                           </h2>
 
-                          <p className="text-gray-500 text-sm leading-relaxed mb-4 line-clamp-2 break-words">
+                          <p className="text-gray-500 text-sm leading-relaxed mb-4 line-clamp-2 wrap-break-word">
                             {item.excerpt}
                           </p>
                         </div>
@@ -308,7 +318,7 @@ export default function AnnouncementsPage() {
                           : "text-gray-500 hover:bg-slate-50 hover:text-primary"
                       }`}
                     >
-                      <span className="min-w-0 break-words">{cat.name}</span>
+                      <span className="min-w-0 wrap-break-word">{cat.name}</span>
                       <span
                         className={`px-2.5 py-0.5 rounded-lg text-[10px] font-extrabold ${
                           selectedCategory === cat.value
@@ -344,7 +354,9 @@ export default function AnnouncementsPage() {
                     )}
                     <div className="flex flex-col justify-center text-start min-w-0">
                       <h5 className="font-extrabold text-xs text-navy group-hover:text-primary transition-colors line-clamp-2 leading-snug">
-                        <Link to={`/announcements/${ann.slug}`}>{ann.title}</Link>
+                        <Link to={`/announcements/${ann.slug}`}>
+                          {ann.title}
+                        </Link>
                       </h5>
                       <span className="text-[10px] text-gray-400 mt-1 font-bold">
                         {formatDate(ann.date)}

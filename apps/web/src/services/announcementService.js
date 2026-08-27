@@ -89,9 +89,17 @@ export const announcementService = {
     return cached(path, () => api.get(path).then(normalizeList));
   },
 
-  getAnnouncement(slug) {
+  getAnnouncement(slug, options = {}) {
+    const params = new URLSearchParams();
+    if (options.trackView === false) {
+      params.set("track_view", "0");
+    }
+
+    const query = params.toString();
+    const path = `/announcements/${encodeURIComponent(slug)}${query ? `?${query}` : ""}`;
+
     return api
-      .get(`/announcements/${slug}`)
+      .get(path)
       .then((res) => normalizeAnnouncement(unwrap(res)?.data || unwrap(res)));
   },
 };

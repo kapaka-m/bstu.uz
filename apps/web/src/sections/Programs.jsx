@@ -387,6 +387,7 @@ export default function Programs({ limit, showRemaining, featured = false }) {
                     className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-primary"
                   >
                     {exploreLabel}
+                    {pName && <span className="sr-only"> {pName}</span>}
                     <ArrowRight className={`h-4 w-4 transition-transform duration-300 ${isRtl ? "rotate-180 group-hover:-translate-x-1" : "group-hover:translate-x-1"}`} />
                   </Link>
                 </div>
@@ -401,9 +402,10 @@ export default function Programs({ limit, showRemaining, featured = false }) {
           <div className="text-center mt-16">
             <Link
               to="/programs"
+              aria-label={viewAllLabel || t("programs.catalog.viewAll") || "View all programs"}
               className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-white px-8 py-4 rounded-xl font-extrabold text-sm transition-all shadow-md shadow-primary/20 hover:shadow-primary/30 hover:-translate-y-0.5"
             >
-              {viewAllLabel}
+              {viewAllLabel || t("programs.catalog.viewAll") || "View all programs"}
               <ArrowRight className={`w-4 h-4 transition-transform ${isRtl ? 'rotate-180' : ''}`} />
             </Link>
           </div>

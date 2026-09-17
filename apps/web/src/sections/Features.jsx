@@ -8,7 +8,7 @@ import { useHomeSection } from "../hooks/useHomeSection";
 
 export default function Features() {
   const { isRtl } = useLanguage();
-  const { section } = useHomeSection("strategic_goals");
+  const { section, loading } = useHomeSection("strategic_goals");
 
   const imageSrc = publicAssetUrl(section?.settings?.image || "");
   const icons = [Cpu, Globe, Briefcase, Zap];
@@ -16,8 +16,36 @@ export default function Features() {
     .map((item, index) => ({ text: item.title || item.label, icon: icons[index] || Cpu }))
     .filter((item) => item.text);
 
-  if (!section) {
+  if (!section && !loading) {
     return null;
+  }
+
+  if (!section) {
+    return (
+      <section id="features" aria-busy="true" className="py-24 bg-white overflow-hidden border-t border-gray-50">
+        <div className="container mx-auto px-4 md:px-8 max-w-7xl">
+          <div className="text-center max-w-2xl mx-auto mb-20">
+            <div className="mx-auto mb-3 h-4 w-40 rounded-full bg-primary/20" />
+            <div className="mx-auto h-10 w-4/5 rounded-full bg-gray-100" />
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-20">
+            <div className="lg:col-span-6 flex flex-col gap-6">
+              <div className="h-8 w-32 rounded-full bg-primary/10" />
+              <div className="h-20 w-full rounded-2xl bg-gray-100" />
+              <div className="h-24 w-full rounded-2xl bg-gray-50" />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {[1, 2, 3, 4].map((item) => (
+                  <div key={item} className="h-12 rounded-xl bg-primary-light" />
+                ))}
+              </div>
+            </div>
+            <div className="lg:col-span-6 flex justify-center">
+              <div className="aspect-[4/3] w-full max-w-150 rounded-3xl bg-primary/5 shadow-lg" />
+            </div>
+          </div>
+        </div>
+      </section>
+    );
   }
 
   return (
@@ -26,12 +54,12 @@ export default function Features() {
         
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-20">
-          <h2 className="text-sm font-extrabold uppercase tracking-widest text-primary mb-3">
+          <p className="text-sm font-extrabold uppercase tracking-widest text-primary mb-3">
             {section.eyebrow || ""}
-          </h2>
-          <p className="text-3xl md:text-4xl font-extrabold text-navy">
-            {section.title || ""}
           </p>
+          <h2 className="text-3xl md:text-4xl font-extrabold text-navy">
+            {section.title || ""}
+          </h2>
           <div className="w-16 h-1 bg-primary mx-auto mt-4 rounded-full" />
         </div>
 
@@ -90,15 +118,18 @@ export default function Features() {
             transition={{ duration: 0.8 }}
             className="lg:col-span-6 flex justify-center"
           >
-            <div className="relative group rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 bg-primary/5">
+              <div className="relative group aspect-[4/3] w-full max-w-150 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 bg-primary/5">
               {imageSrc ? (
                 <img
                   src={imageSrc}
                   alt={section.image_alt || section.secondary_title || section.title || ""}
-                  className="w-full max-w-150 object-cover transition-transform duration-750 group-hover:scale-105"
+                  width="900"
+                  height="675"
+                  loading="lazy"
+                  className="h-full w-full object-cover transition-transform duration-750 group-hover:scale-105"
                 />
               ) : (
-                <div className="flex aspect-4/3 w-full max-w-150 min-w-80 items-center justify-center text-primary">
+                <div className="flex h-full w-full min-w-80 items-center justify-center text-primary">
                   <Target className="h-16 w-16" />
                 </div>
               )}

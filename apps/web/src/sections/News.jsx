@@ -156,9 +156,10 @@ export default function News() {
         <div className="text-center mt-14">
           <Link
             to="/news"
+            aria-label={settings?.view_all_label || t("news.viewAll") || "View all news"}
             className="inline-flex items-center gap-2 bg-navy hover:bg-primary text-white font-extrabold px-8 py-3.5 rounded-full transition-all duration-300 shadow-md shadow-navy/10 hover:shadow-primary/20 hover:-translate-y-0.5 cursor-pointer"
           >
-            {settings?.view_all_label || ""}
+            {settings?.view_all_label || t("news.viewAll") || "View all news"}
             <ArrowRight
               className={`w-4 h-4 transition-transform ${isRtl ? "rotate-180" : ""}`}
             />

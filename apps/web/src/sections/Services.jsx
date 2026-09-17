@@ -92,7 +92,7 @@ const iconMap = {
 };
 
 export default function Services({ limit }) {
-  const { language, isRtl } = useLanguage();
+  const { language, isRtl, t } = useLanguage();
   const [settings, setSettings] = useState({});
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -246,9 +246,10 @@ export default function Services({ limit }) {
           <div className="text-center mt-16">
             <Link
               to="/services"
+              aria-label={settings.view_all_label || t("services.viewAll") || "View all services"}
               className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-white px-8 py-3.5 rounded-xl font-extrabold text-sm transition-all shadow-md shadow-primary/20 hover:shadow-primary/30 hover:-translate-y-0.5"
             >
-              {settings.view_all_label || ""}
+              {settings.view_all_label || t("services.viewAll") || "View all services"}
               <ArrowRight
                 className={`w-4 h-4 transition-transform ${isRtl ? "rotate-180" : ""}`}
               />

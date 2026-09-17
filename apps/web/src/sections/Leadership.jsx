@@ -50,13 +50,13 @@ export default function Leadership() {
 
       <div className="container mx-auto px-4 md:px-8 max-w-7xl relative z-10">
         <div className="text-center max-w-3xl mx-auto mb-20">
-          <h2 className="text-sm font-extrabold uppercase tracking-widest text-primary mb-3 inline-flex items-center justify-center gap-2">
+          <p className="text-sm font-extrabold uppercase tracking-widest text-primary mb-3 inline-flex items-center justify-center gap-2">
             <UsersRound className="w-4 h-4" />
             {settings.home_tag}
-          </h2>
-          <p className="text-3xl md:text-4xl font-extrabold text-navy leading-tight">
-            {settings.home_title}
           </p>
+          <h2 className="text-3xl md:text-4xl font-extrabold text-navy leading-tight">
+            {settings.home_title}
+          </h2>
           <div className="w-16 h-1 bg-primary mx-auto mt-4 rounded-full" />
         </div>
 
@@ -125,7 +125,7 @@ function LeaderCard({ leader, settings, isRector }) {
           <div className="flex items-start gap-1.5">
             <Clock className="w-3 h-3 text-primary shrink-0 mt-0.5" />
             <div>
-              <span className="text-gray-400 block text-[8px] uppercase font-bold tracking-wider mb-0.5">
+              <span className="text-gray-600 block text-[8px] uppercase font-bold tracking-wider mb-0.5">
                 {settings?.reception_label}
               </span>
               <span className="text-gray-700 leading-tight block">{leader.reception}</span>
@@ -135,7 +135,7 @@ function LeaderCard({ leader, settings, isRector }) {
           <div className="flex items-start gap-1.5">
             <Phone className="w-3 h-3 text-primary shrink-0 mt-0.5" />
             <div>
-              <span className="text-gray-400 block text-[8px] uppercase font-bold tracking-wider mb-0.5">
+              <span className="text-gray-600 block text-[8px] uppercase font-bold tracking-wider mb-0.5">
                 {settings?.phone_label}
               </span>
               <a
@@ -152,7 +152,7 @@ function LeaderCard({ leader, settings, isRector }) {
             <div className="flex items-start gap-1.5">
               <Mail className="w-3 h-3 text-primary shrink-0 mt-0.5" />
               <div>
-                <span className="text-gray-400 block text-[8px] uppercase font-bold tracking-wider mb-0.5">
+                <span className="text-gray-600 block text-[8px] uppercase font-bold tracking-wider mb-0.5">
                   {settings?.email_label}
                 </span>
                 <a href={`mailto:${leader.email}`} className="text-gray-700 hover:text-primary transition-colors break-all font-bold block leading-tight">
@@ -166,7 +166,7 @@ function LeaderCard({ leader, settings, isRector }) {
             <div className="flex items-start gap-1.5">
               <Send className="w-3 h-3 text-primary shrink-0 mt-0.5" />
               <div>
-                <span className="text-gray-400 block text-[8px] uppercase font-bold tracking-wider mb-0.5">
+                <span className="text-gray-600 block text-[8px] uppercase font-bold tracking-wider mb-0.5">
                   {settings?.telegram_label}
                 </span>
                 <a

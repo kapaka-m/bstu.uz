@@ -1,0 +1,29 @@
+# Bukhara State Technical University International
+
+> Official international website of Bukhara State Technical University (BSTU), providing information about international admissions, academic programs, university services, student resources, campus initiatives, and university news.
+
+## Main Pages
+
+- [Home](https://international.bstu.uz/): Official BSTU international homepage.
+- [About](https://international.bstu.uz/about): Information about Bukhara State Technical University.
+- [Apply](https://international.bstu.uz/apply): International student application information.
+- [Programs](https://international.bstu.uz/programs): Academic programs.
+- [News](https://international.bstu.uz/news): University news.
+- [Blog](https://international.bstu.uz/blog): University articles and updates.
+- [Green Campus](https://international.bstu.uz/green-campus): Sustainability and Green Campus initiatives.
+- [Services](https://international.bstu.uz/services): Services for international students.
+- [Contact](https://international.bstu.uz/contact): Official contact information.
+
+## International Students
+
+- [Apply to BSTU](https://international.bstu.uz/apply): Submit or begin an international admission application.
+- [Student Portal](https://international.bstu.uz/student/): Access application, documents, payments, visa, residence, contracts, notifications, and student services.
+
+## Languages
+
+The international website provides content in English, Uzbek, Russian, and Arabic.
+
+## Additional Resources
+
+- [News](https://international.bstu.uz/news): Latest official international university news.
+- [Video Gallery](https://international.bstu.uz/video-bdtu): Official BSTU video content.

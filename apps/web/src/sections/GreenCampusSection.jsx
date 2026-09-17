@@ -77,6 +77,7 @@ export default function GreenCampusSection() {
       <Link
         to={`/green-campus/${item.id}`}
         className="absolute inset-0"
+        aria-label={`${settings.read_more_label || ""} ${item.title || ""}`.trim()}
       />
     </motion.div>
   );
@@ -93,13 +94,13 @@ export default function GreenCampusSection() {
       <div className="container mx-auto px-4 md:px-8 max-w-7xl relative z-10">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 bg-emerald-50 text-emerald-600 text-xs font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full mb-3">
+          <div className="inline-flex items-center gap-2 bg-emerald-50 text-emerald-800 text-xs font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full mb-3">
             <Leaf className="w-3.5 h-3.5 shrink-0" />
             {settings.home_tag || ""}
           </div>
-          <p className="text-3xl md:text-4xl font-extrabold text-navy leading-tight">
+          <h2 className="text-3xl md:text-4xl font-extrabold text-navy leading-tight">
             {settings.home_title || ""}
-          </p>
+          </h2>
           <div className="w-16 h-1 bg-emerald-500 mx-auto mt-4 rounded-full" />
         </div>
 
@@ -130,7 +131,7 @@ export default function GreenCampusSection() {
         <div className="text-center">
           <Link
             to="/green-campus"
-            className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm px-8 py-4 rounded-2xl shadow-lg shadow-emerald-600/10 hover:shadow-emerald-600/20 transition-all hover:-translate-y-0.5"
+            className="inline-flex items-center gap-2 bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold text-sm px-8 py-4 rounded-2xl shadow-lg shadow-emerald-600/10 hover:shadow-emerald-600/20 transition-all hover:-translate-y-0.5"
           >
             {settings.view_all_label || ""}
             <ArrowRight className="w-4 h-4 rtl:rotate-180" />

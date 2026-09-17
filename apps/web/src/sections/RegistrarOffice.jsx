@@ -6,11 +6,38 @@ import { useLanguage } from "../context/LanguageContext";
 import { publicAssetUrl } from "../lib/api";
 
 export default function RegistrarOffice() {
-  const { section } = useHomeSection("registrar_office");
+  const { section, loading } = useHomeSection("registrar_office");
   const { language } = useLanguage();
 
-  if (!section) {
+  if (!section && !loading) {
     return null;
+  }
+
+  if (!section) {
+    return (
+      <section id="registrar-office" aria-busy="true" className="py-20 bg-white overflow-hidden">
+        <div className="container mx-auto px-4 md:px-8 max-w-7xl">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            <div className="relative order-2 lg:order-1">
+              <div className="p-4 rounded-[2.5rem] bg-primary-light shadow-xl">
+                <div className="aspect-[16/10] rounded-4xl bg-white shadow-lg" />
+              </div>
+            </div>
+            <div className="flex flex-col order-1 lg:order-2">
+              <div className="mb-4 h-7 w-36 rounded-full bg-primary/10" />
+              <div className="mb-4 h-20 w-full rounded-2xl bg-gray-100" />
+              <div className="mb-6 h-24 w-full rounded-2xl bg-gray-50" />
+              <div className="mb-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {[1, 2, 3, 4].map((item) => (
+                  <div key={item} className="h-8 rounded-xl bg-primary-light" />
+                ))}
+              </div>
+              <div className="h-14 w-44 rounded-xl bg-primary/15" />
+            </div>
+          </div>
+        </div>
+      </section>
+    );
   }
 
   const imageSrc = publicAssetUrl(section.settings?.image || "");
@@ -28,11 +55,14 @@ export default function RegistrarOffice() {
             className="relative order-2 lg:order-1"
           >
             <div className="relative group p-4 bg-linear-to-br from-primary-light to-white rounded-[2.5rem] shadow-xl border border-gray-100/50">
-              <div className="overflow-hidden rounded-4xl shadow-lg relative aspect-16/10 bg-white flex items-center justify-center">
+              <div className="overflow-hidden rounded-4xl shadow-lg relative aspect-[16/10] bg-white flex items-center justify-center">
                 {imageSrc ? (
                   <img
                     src={imageSrc}
                     alt={section.image_alt || section.title || ""}
+                    width="960"
+                    height="600"
+                    loading="lazy"
                     className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                 ) : (

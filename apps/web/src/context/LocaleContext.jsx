@@ -8,6 +8,49 @@ import { menuService } from "../services/menuService";
 
 const LocaleContext = createContext();
 
+const FALLBACK_LOCALES = [
+  { code: "en", name: "English", direction: "ltr", is_active: true },
+];
+
+const FALLBACK_TRANSLATIONS = {
+  "services.viewAll": {
+    en: "View all services",
+    uz: "Barcha xizmatlar",
+    ru: "Все услуги",
+    ar: "عرض جميع الخدمات",
+  },
+  "news.viewAll": {
+    en: "View all news",
+    uz: "Barcha yangiliklar",
+    ru: "Все новости",
+    ar: "عرض جميع الأخبار",
+  },
+  "programs.noResults.title": {
+    en: "No programs found",
+    uz: "Dasturlar topilmadi",
+    ru: "Программы не найдены",
+    ar: "لم يتم العثور على برامج",
+  },
+  "programs.noResults.desc": {
+    en: "Try changing your search or filters.",
+    uz: "Qidiruv yoki filtrlarni o'zgartirib ko'ring.",
+    ru: "Попробуйте изменить поиск или фильтры.",
+    ar: "جرّب تغيير البحث أو عوامل التصفية.",
+  },
+  "programs.catalog.viewAll": {
+    en: "View all programs",
+    uz: "Barcha dasturlar",
+    ru: "Все программы",
+    ar: "عرض جميع البرامج",
+  },
+};
+
+const fallbackTranslation = (key, locale) => {
+  const entry = FALLBACK_TRANSLATIONS[key];
+  if (!entry) return "";
+  return entry[locale] || entry.en || "";
+};
+
 const normalizeMenuItems = (menu) => {
   if (Array.isArray(menu)) return menu;
   if (Array.isArray(menu?.data)) return menu.data;
@@ -56,7 +99,10 @@ export function LocaleProvider({ children }) {
 
   const hasTranslation = (key) => {
     const val = resolvePath(translations, key);
-    return val !== undefined && val !== null && val !== "";
+    return (
+      (val !== undefined && val !== null && val !== "" && val !== key) ||
+      Boolean(fallbackTranslation(key, locale))
+    );
   };
 
   const t = (key) => {
@@ -71,12 +117,18 @@ export function LocaleProvider({ children }) {
         return "";
       }
 
-      return val;
+      const rendered = String(val);
+      if (rendered && rendered !== key) return rendered;
     }
+
+    const fallback = fallbackTranslation(key, locale);
+    if (fallback) return fallback;
 
     if (key && !missingTranslationKeys.current.has(key)) {
       missingTranslationKeys.current.add(key);
-      console.warn(`Missing CMS translation: ${key}`);
+      if (import.meta.env.DEV) {
+        console.warn(`Missing CMS translation: ${key}`);
+      }
     }
 
     return "";
@@ -104,7 +156,7 @@ export function LocaleProvider({ children }) {
           activeLocales[0]?.code ||
           storedLocale;
 
-        setLocales(localesData);
+        setLocales(activeLocales.length > 0 ? localesData : FALLBACK_LOCALES);
         setSettings(settingsData);
         if (nextLocale && nextLocale !== storedLocale) {
           localeStorage.setLocale(nextLocale);
@@ -114,8 +166,8 @@ export function LocaleProvider({ children }) {
             currentLocale === nextLocale ? currentLocale : nextLocale,
           );
         }
-      } catch (e) {
-        console.error("Failed to load initial locales and settings", e);
+      } catch {
+        setLocales(FALLBACK_LOCALES);
       } finally {
         setLoading(false);
       }
@@ -156,8 +208,7 @@ export function LocaleProvider({ children }) {
         } else {
           setHeaderMenu([]);
         }
-      } catch (e) {
-        console.error(`Failed to load data for locale: ${locale}`, e);
+      } catch {
         setTranslations({});
         setApiMessageDictionary(locale, {});
       } finally {

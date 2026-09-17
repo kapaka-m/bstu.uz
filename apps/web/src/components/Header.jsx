@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, ChevronDown, LogIn, Globe } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
 
 function sortedActive(items = []) {
@@ -305,14 +304,8 @@ export default function Header() {
                   className={`h-3.5 w-3.5 transition-transform duration-300 ${isLangDropdownOpen ? "rotate-180" : ""}`}
                 />
               </button>
-              <AnimatePresence>
-                {isLangDropdownOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 10 }}
-                    className={`absolute top-full z-50 mt-2 flex w-36 flex-col gap-0.5 rounded-2xl border border-gray-100 bg-white p-1 py-2 shadow-xl ${isRtl ? "left-0" : "right-0"}`}
-                  >
+              {isLangDropdownOpen && (
+                  <div className={`absolute top-full z-50 mt-2 flex w-36 flex-col gap-0.5 rounded-2xl border border-gray-100 bg-white p-1 py-2 shadow-xl ${isRtl ? "left-0" : "right-0"}`}>
                     {languages.map((lang) => (
                       <button
                         key={lang.code}
@@ -330,9 +323,8 @@ export default function Header() {
                         {lang.label}
                       </button>
                     ))}
-                  </motion.div>
+                  </div>
                 )}
-              </AnimatePresence>
             </div>
           )}
 
@@ -361,14 +353,8 @@ export default function Header() {
         </div>
       </div>
 
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="overflow-hidden border-t border-gray-100 bg-white xl:hidden"
-          >
+      {isMobileMenuOpen && (
+          <div className="overflow-hidden border-t border-gray-100 bg-white xl:hidden">
             <div
               className={`flex max-h-[80vh] flex-col gap-4 overflow-y-auto px-6 py-4 font-semibold text-navy ${isRtl ? "text-right" : ""}`}
             >
@@ -386,9 +372,8 @@ export default function Header() {
                 </div>
               )}
             </div>
-          </motion.div>
+          </div>
         )}
-      </AnimatePresence>
     </header>
   );
 }

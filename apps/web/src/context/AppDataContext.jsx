@@ -23,12 +23,13 @@ export function AppDataProvider({ children }) {
   const [greenCampusArticles, setGreenCampusArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const isPublicSite =
+  const shouldPreloadPublicCollections =
     !location.pathname.startsWith("/student") &&
-    !location.pathname.startsWith("/apanel");
+    !location.pathname.startsWith("/apanel") &&
+    location.pathname !== "/";
 
   const fetchGlobalData = useCallback(async () => {
-    if (!isPublicSite) {
+    if (!shouldPreloadPublicCollections) {
       setLoading(false);
       setError(null);
       return;
@@ -62,7 +63,7 @@ export function AppDataProvider({ children }) {
     } finally {
       setLoading(false);
     }
-  }, [isPublicSite]);
+  }, [shouldPreloadPublicCollections]);
 
   useEffect(() => {
     fetchGlobalData();

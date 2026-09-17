@@ -14,7 +14,7 @@ const CountUp =
     : CountUpComponent.default || CountUpComponent;
 
 export default function Stats() {
-  const { section } = useHomeSection("stats");
+  const { section, loading } = useHomeSection("stats");
   const { ref, inView } = useInView({
     triggerOnce: true,
     threshold: 0.1,
@@ -41,8 +41,24 @@ export default function Stats() {
     };
   });
 
-  if (!section || stats.length === 0) {
+  if ((!section || stats.length === 0) && !loading) {
     return null;
+  }
+
+  if (!section) {
+    return (
+      <section id="stats" aria-busy="true" className="py-16 bg-primary-light">
+        <div className="container mx-auto px-4 md:px-6 max-w-7xl">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
+            {[1, 2, 3, 4].map((item) => (
+              <div key={item} className="min-h-24 rounded-2xl border border-gray-100/50 bg-white p-4 shadow-sm lg:p-5">
+                <div className="h-full rounded-xl bg-gray-100" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
   }
 
   const renderStatCard = (stat, index, keyPrefix = "stat") => {

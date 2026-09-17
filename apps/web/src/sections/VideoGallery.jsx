@@ -153,7 +153,7 @@ export default function VideoGallery() {
                   {/* Card Content */}
                   <div className="p-5 flex flex-col grow text-start">
                     {/* Meta stats */}
-                    <div className="flex items-center gap-3 text-[11px] font-bold text-gray-400 mb-2.5">
+                    <div className="flex items-center gap-3 text-[11px] font-bold text-gray-600 mb-2.5">
                       <span className="flex items-center gap-1">
                         <Eye className="w-3.5 h-3.5 text-primary" />
                         {formatViews(video.viewsCount)}

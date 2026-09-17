@@ -5,7 +5,7 @@ import { useHomeSection } from "../hooks/useHomeSection";
 import { publicAssetUrl } from "../lib/api";
 
 export default function AltFeatures() {
-  const { section } = useHomeSection("alt_features");
+  const { section, loading } = useHomeSection("alt_features");
 
   const iconList = [ShieldCheck, ClipboardList, Award, Zap, Dribbble, Filter];
   const features = (section?.items || [])
@@ -16,8 +16,35 @@ export default function AltFeatures() {
     }))
     .filter((item) => item.title || item.description);
 
-  if (!section || features.length === 0) {
+  if ((!section || features.length === 0) && !loading) {
     return null;
+  }
+
+  if (!section) {
+    return (
+      <section id="alt-features" aria-busy="true" className="py-24 bg-white border-t border-gray-50 overflow-hidden">
+        <div className="container mx-auto px-4 md:px-8 max-w-7xl">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div className="lg:col-span-7 order-2 lg:order-1">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
+                {[1, 2, 3, 4].map((item) => (
+                  <div key={item} className="flex gap-4">
+                    <div className="h-12 w-12 shrink-0 rounded-xl bg-primary-light" />
+                    <div className="grow">
+                      <div className="mb-2 h-6 w-3/4 rounded-full bg-gray-100" />
+                      <div className="h-16 w-full rounded-2xl bg-gray-50" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="lg:col-span-5 order-1 lg:order-2 flex justify-center">
+              <div className="aspect-[4/3] w-full max-w-112.5 rounded-3xl bg-white shadow-lg" />
+            </div>
+          </div>
+        </div>
+      </section>
+    );
   }
 
   const imageSrc = publicAssetUrl(section.settings?.image || "");
@@ -71,11 +98,14 @@ export default function AltFeatures() {
             transition={{ duration: 0.8 }}
             className="lg:col-span-5 order-1 lg:order-2 flex justify-center"
           >
-            <div className="relative rounded-3xl overflow-hidden shadow-lg border border-gray-100/80 aspect-4/3 w-full max-w-112.5 lg:max-w-none shrink-0 bg-white flex items-center justify-center">
+            <div className="relative rounded-3xl overflow-hidden shadow-lg border border-gray-100/80 aspect-[4/3] w-full max-w-112.5 lg:max-w-none shrink-0 bg-white flex items-center justify-center">
               {imageSrc ? (
                 <img
                   src={imageSrc}
                   alt={section.image_alt || section.title || ""}
+                  width="800"
+                  height="600"
+                  loading="lazy"
                   className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
                 />
               ) : (

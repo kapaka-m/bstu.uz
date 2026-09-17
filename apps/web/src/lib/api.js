@@ -4,6 +4,8 @@ import { localeStorage } from "./locale";
 
 const BASE_URL = String(import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "");
 const API_ORIGIN = BASE_URL.replace(/\/api\/v1\/?$/, "");
+const PUBLIC_GET_CACHE_TTL_MS = 30000;
+const publicGetCache = new Map();
 
 export const apiBaseUrl = BASE_URL;
 
@@ -57,13 +59,22 @@ async function request(method, path, body = null, options = {}) {
   const separator = path.includes("?") ? "&" : "?";
   const hasLocale = /(?:[?&])locale=/.test(path);
   const url = `${BASE_URL}${path}${locale && !hasLocale ? `${separator}locale=${locale}` : ""}`;
+  const token = authStorage.getToken();
+  const shouldCachePublicGet = method === "GET" && !token && options.cache !== false;
+  const cacheKey = shouldCachePublicGet ? url : "";
+
+  if (shouldCachePublicGet) {
+    const cached = publicGetCache.get(cacheKey);
+    if (cached && Date.now() - cached.time < PUBLIC_GET_CACHE_TTL_MS) {
+      return cached.value;
+    }
+  }
 
   const headers = {
     "Accept": "application/json",
     ...options.headers
   };
 
-  const token = authStorage.getToken();
   if (token) {
     headers["Authorization"] = `Bearer ${token}`;
   }
@@ -78,30 +89,43 @@ async function request(method, path, body = null, options = {}) {
     }
   }
 
-  const response = await fetch(url, {
+  const fetchPromise = fetch(url, {
     method,
     headers,
     body: finalBody,
     ...options
-  });
+  })
+    .then(async (response) => {
+      const text = await response.text();
+      let json = null;
+      try {
+        json = text ? JSON.parse(text) : null;
+      } catch {
+        // Response not JSON
+      }
 
-  const text = await response.text();
-  let json = null;
-  try {
-    json = text ? JSON.parse(text) : null;
-  } catch {
-    // Response not JSON
+      if (!response.ok) {
+        throw new ApiError(response.status, json, translateApiMessage(json?.message) || `HTTP ${response.status}`);
+      }
+
+      if (json?.message) {
+        json = { ...json, message: translateApiMessage(json.message) };
+      }
+
+      return json;
+    })
+    .catch((error) => {
+      if (shouldCachePublicGet) {
+        publicGetCache.delete(cacheKey);
+      }
+      throw error;
+    });
+
+  if (shouldCachePublicGet) {
+    publicGetCache.set(cacheKey, { time: Date.now(), value: fetchPromise });
   }
 
-  if (!response.ok) {
-    throw new ApiError(response.status, json, translateApiMessage(json?.message) || `HTTP ${response.status}`);
-  }
-
-  if (json?.message) {
-    json = { ...json, message: translateApiMessage(json.message) };
-  }
-
-  return json;
+  return fetchPromise;
 }
 
 export const api = {

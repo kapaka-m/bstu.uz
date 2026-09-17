@@ -7,12 +7,32 @@ import { useHomeSection } from "../hooks/useHomeSection";
 
 export default function About() {
   const { isRtl } = useLanguage();
-  const { section } = useHomeSection("identity");
+  const { section, loading } = useHomeSection("identity");
 
   const imageSrc = publicAssetUrl(section?.settings?.image || "");
 
-  if (!section) {
+  if (!section && !loading) {
     return null;
+  }
+
+  if (!section) {
+    return (
+      <section id="about" aria-busy="true" className="py-24 bg-white overflow-hidden">
+        <div className="container mx-auto px-4 md:px-8 max-w-7xl">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="bg-primary-light p-8 md:p-12 rounded-3xl border border-gray-100">
+              <div className="mb-3 h-4 w-40 rounded-full bg-primary/20" />
+              <div className="mb-6 h-24 w-full rounded-2xl bg-gray-100" />
+              <div className="mb-6 h-24 w-full rounded-2xl bg-white/70" />
+              <div className="h-12 w-36 rounded-xl bg-primary/15" />
+            </div>
+            <div className="flex items-center justify-center">
+              <div className="aspect-[4/3] w-full rounded-3xl bg-primary/5 shadow-xl" />
+            </div>
+          </div>
+        </div>
+      </section>
+    );
   }
 
   return (
@@ -27,9 +47,9 @@ export default function About() {
             transition={{ duration: 0.8 }}
             className="bg-primary-light p-8 md:p-12 rounded-3xl flex flex-col justify-center border border-gray-100 text-start"
           >
-            <h3 className="text-sm font-extrabold uppercase tracking-widest text-primary mb-3">
+            <p className="text-sm font-extrabold uppercase tracking-widest text-primary mb-3">
               {section.eyebrow || ""}
-            </h3>
+            </p>
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-navy leading-snug mb-6">
               {section.title || ""}
             </h2>
@@ -62,15 +82,18 @@ export default function About() {
             transition={{ duration: 0.8 }}
             className="flex items-center justify-center relative"
           >
-            <div className="relative rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-shadow duration-300">
+            <div className="relative aspect-[4/3] w-full rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-shadow duration-300 bg-primary/5">
               {imageSrc ? (
                 <img
                   src={imageSrc}
                   alt={section.image_alt || section.title || ""}
-                  className="w-full object-cover transition-transform duration-500 hover:scale-105"
+                  width="900"
+                  height="675"
+                  loading="lazy"
+                  className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
                 />
               ) : (
-                <div className="flex aspect-4/3 w-full min-w-80 items-center justify-center bg-primary/5 text-primary">
+                <div className="flex h-full w-full min-w-80 items-center justify-center text-primary">
                   <Building2 className="h-16 w-16" />
                 </div>
               )}

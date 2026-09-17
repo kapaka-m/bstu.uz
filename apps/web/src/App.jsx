@@ -7,18 +7,17 @@ import {
   useLocation,
 } from "react-router-dom";
 import Header from "./components/Header";
-import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
 import SeoManager from "./components/SeoManager";
 
 import { LocaleProvider } from "./context/LocaleContext";
-import { useLanguage } from "./context/LanguageContext";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import { AppDataProvider } from "./context/AppDataContext";
 import LoadingState from "./components/common/LoadingState";
 
 // Lazy loaded page routes
 const Home = React.lazy(() => import("./pages/Home"));
+const Footer = React.lazy(() => import("./components/Footer"));
 const Blog = React.lazy(() => import("./pages/Blog"));
 const BlogDetails = React.lazy(() => import("./pages/BlogDetails"));
 const PublishersPage = React.lazy(() => import("./pages/PublishersPage"));
@@ -262,17 +261,45 @@ function AdminRoute({ children }) {
   return children;
 }
 
+function DeferredFooter() {
+  const [shouldRender, setShouldRender] = React.useState(false);
+  const ref = React.useRef(null);
+
+  React.useEffect(() => {
+    const element = ref.current;
+    if (!element) return undefined;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldRender(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "480px 0px" },
+    );
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div ref={ref} className={shouldRender ? undefined : "min-h-24"}>
+      {shouldRender ? (
+        <Suspense fallback={null}>
+          <Footer />
+        </Suspense>
+      ) : null}
+    </div>
+  );
+}
+
 // Separate component to consume React Router hooks (useLocation) safely
 function AppContent() {
   const location = useLocation();
-  const { initialLoading } = useLanguage();
   const isApanel = location.pathname.startsWith("/apanel");
   const isStudent = location.pathname.startsWith("/student");
   const isPublicSite = !isApanel && !isStudent;
-
-  if (isPublicSite && initialLoading) {
-    return null;
-  }
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -927,7 +954,7 @@ function AppContent() {
           </Routes>
         </Suspense>
       </main>
-      {!isApanel && !isStudent && <Footer />}
+      {!isApanel && !isStudent && <DeferredFooter />}
       {!isApanel && !isStudent && <ScrollToTop />}
     </div>
   );

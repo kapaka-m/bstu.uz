@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Play, X } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
 import { videoService } from "../services/videoService";
 import { publicAssetUrl } from "../lib/api";
@@ -53,24 +52,59 @@ export default function Hero() {
     : heroVideo;
 
   useEffect(() => {
+    if (configuredVideoUrl) return undefined;
     let alive = true;
+    const loadVideo = () => {
+      videoService
+        .getVideos()
+        .then((videos) => {
+          if (alive) setHeroVideo((videos || [])[0] || null);
+        })
+        .catch(() => {
+          if (alive) setHeroVideo(null);
+        });
+    };
 
-    videoService
-      .getVideos()
-      .then((videos) => {
-        if (alive) setHeroVideo((videos || [])[0] || null);
-      })
-      .catch(() => {
-        if (alive) setHeroVideo(null);
-      });
+    const idleId = window.requestIdleCallback
+      ? window.requestIdleCallback(loadVideo, { timeout: 3000 })
+      : window.setTimeout(loadVideo, 1500);
 
     return () => {
       alive = false;
+      if (window.cancelIdleCallback && typeof idleId === "number") {
+        window.cancelIdleCallback(idleId);
+      } else {
+        window.clearTimeout(idleId);
+      }
     };
-  }, [language]);
+  }, [configuredVideoUrl, language]);
 
   if (!section) {
-    return null;
+    return (
+      <section
+        id="hero"
+        aria-busy="true"
+        className="relative min-h-screen pt-28 pb-16 md:pt-32 md:pb-20 flex items-center bg-white overflow-hidden"
+      >
+        <div className="container mx-auto w-full max-w-full px-4 md:max-w-7xl md:px-8">
+          <div className="grid w-full min-w-0 grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-12">
+            <div className="flex w-full min-w-0 max-w-full flex-col justify-center text-center lg:text-left">
+              <div className="mx-auto mb-4 h-20 w-full max-w-xl rounded-3xl bg-primary/10 lg:mx-0" />
+              <div className="mx-auto mb-8 h-16 w-full max-w-xl rounded-2xl bg-gray-100 lg:mx-0" />
+              <div className="mx-auto flex w-full max-w-xl flex-col items-center gap-3 sm:flex-row lg:mx-0">
+                <div className="h-14 w-full rounded-xl bg-primary/15 sm:w-44" />
+                <div className="h-14 w-full rounded-xl bg-gray-100 sm:w-44" />
+              </div>
+            </div>
+            <div className="flex w-full min-w-0 max-w-full justify-center items-center relative overflow-visible py-2 sm:px-8 sm:py-10 lg:px-9">
+              <div className="relative mx-auto w-full max-w-[calc(100vw-2rem)] p-2.5 sm:max-w-[32rem] sm:p-3 rounded-[1.75rem] sm:rounded-[2.5rem] bg-primary-light shadow-2xl lg:max-w-none">
+                <div className="aspect-[4/3] rounded-4xl border-4 border-white bg-gray-100 shadow-md" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
   }
 
   return (
@@ -82,10 +116,7 @@ export default function Hero() {
       <div className="container mx-auto w-full max-w-full px-4 md:max-w-7xl md:px-8">
         <div className="grid w-full min-w-0 grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-12">
           {/* Left Column (Text) */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+          <div
             className={`flex w-full min-w-0 max-w-full flex-col justify-center text-center ${isRtl ? "lg:text-right" : "lg:text-left"}`}
           >
             <h1
@@ -117,13 +148,10 @@ export default function Hero() {
                 </button>
               )}
             </div>
-          </motion.div>
+          </div>
 
           {/* Right Column (University Image with Premium Dashboard Styling) */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+          <div
             className="flex w-full min-w-0 max-w-full justify-center items-center relative overflow-visible py-2 sm:px-8 sm:py-10 lg:px-9"
           >
             {/* Main Image Container */}
@@ -133,7 +161,11 @@ export default function Hero() {
                   <img
                     src={heroMainImage}
                     alt={section.image_alt || section.title || ""}
-                    className="w-full h-auto aspect-4/3 object-cover transition-transform duration-700 group-hover:scale-105"
+                    width="1200"
+                    height="900"
+                    loading="eager"
+                    fetchPriority="high"
+                    className="w-full h-auto aspect-[4/3] object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                 )}
                 <div className="absolute inset-0 bg-linear-to-t from-navy/35 to-transparent mix-blend-multiply" />
@@ -169,19 +201,13 @@ export default function Hero() {
                 </div>
               )}
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
 
       {/* Video Modal */}
-      <AnimatePresence>
-        {isVideoOpen && activeHeroVideo && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4 backdrop-blur-md"
-          >
+      {isVideoOpen && activeHeroVideo && (
+          <div className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4 backdrop-blur-md">
             <div className="relative w-full max-w-4xl aspect-video bg-black rounded-3xl overflow-hidden shadow-2xl border border-white/10">
               <button
                 onClick={() => setIsVideoOpen(false)}
@@ -208,9 +234,8 @@ export default function Hero() {
                 />
               )}
             </div>
-          </motion.div>
+          </div>
         )}
-      </AnimatePresence>
     </section>
   );
 }

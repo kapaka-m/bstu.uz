@@ -13,10 +13,11 @@ import { newsService } from "../services/newsService";
 import { announcementService } from "../services/announcementService";
 import { blogService } from "../services/blogService";
 import { greenCampusService } from "../services/greenCampusService";
-import { homeCmsService } from "../services/homeCmsService";
 import { aboutService } from "../services/aboutService";
 
 const SITE_SUFFIX = "BSTU International";
+const DEFAULT_DESCRIPTION =
+  "Bukhara State Technical University international admissions, academic programs, student services, and campus updates.";
 
 const STATIC_META = {
   en: {
@@ -155,23 +156,6 @@ const metaFromItem = (item, fallbackTitle) => {
 };
 
 async function loadDynamicMeta(pathname, locale) {
-  if (pathname === "/") {
-    const sections = await homeCmsService.getSections();
-    const hero = sections?.hero || {};
-    const identity = sections?.identity || {};
-
-    return {
-      title: hero.title || identity.title || "",
-      description:
-        hero.subtitle ||
-        hero.description ||
-        identity.description ||
-        identity.secondary_description ||
-        "",
-      image: hero.settings?.image || hero.settings?.background_image || identity.settings?.image || "",
-    };
-  }
-
   if (pathname === "/about") {
     const page = await aboutService.getPage(locale);
     const content = page?.content || {};
@@ -237,8 +221,8 @@ export default function SeoManager() {
 
     if (pathname === "/") {
       return {
-        title: settings.site_name || "",
-        description: settings.site_meta_description || "",
+        title: settings.site_name || SITE_SUFFIX,
+        description: settings.site_meta_description || DEFAULT_DESCRIPTION,
       };
     }
 
@@ -302,7 +286,8 @@ export default function SeoManager() {
     const title = buildTitle(meta.title, siteName);
     const description =
       cleanText(meta.description) ||
-      cleanText(settings.site_meta_description);
+      cleanText(settings.site_meta_description) ||
+      DEFAULT_DESCRIPTION;
     const keywords = cleanText(settings.site_meta_keywords, 240);
     const canonical = `${window.location.origin}${pathname === "/" ? "/" : pathname}`;
     const image = publicAssetUrl(meta.image || settings.branding_og_image || settings.branding_logo_default || "");

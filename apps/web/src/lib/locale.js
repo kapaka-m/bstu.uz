@@ -3,7 +3,7 @@ import { storage } from "./storage";
 const LOCALE_KEY = "bstu_lang";
 
 export const localeStorage = {
-  getLocale(defaultValue = null) {
+  getLocale(defaultValue = "en") {
     return storage.get(LOCALE_KEY, defaultValue);
   },
 

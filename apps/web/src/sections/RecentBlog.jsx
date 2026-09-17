@@ -78,6 +78,9 @@ export default function RecentBlog() {
           <img
             src={post.image}
             alt={post.title}
+            width="800"
+            height="500"
+            loading="lazy"
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
           <span className="absolute top-4 left-4 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm">
@@ -119,6 +122,7 @@ export default function RecentBlog() {
               className="inline-flex items-center gap-1.5 text-sm font-bold text-navy hover:text-primary transition-colors"
             >
               {settings.read_more_label || ""}
+              {post.title && <span className="sr-only"> {post.title}</span>}
               <ArrowRight
                 className={`w-4 h-4 transition-transform duration-300 ${isRtl ? "rotate-180 group-hover:-translate-x-1" : "group-hover:translate-x-1"}`}
               />
@@ -137,13 +141,13 @@ export default function RecentBlog() {
       <div className="container mx-auto px-4 md:px-8 max-w-7xl">
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <h2 className="text-sm font-extrabold uppercase tracking-widest text-primary mb-3 inline-flex items-center justify-center gap-2">
+          <p className="text-sm font-extrabold uppercase tracking-widest text-primary mb-3 inline-flex items-center justify-center gap-2">
             <HomeIcon className="w-4 h-4" />
             {settings.home_tag || ""}
-          </h2>
-          <p className="text-3xl md:text-4xl font-extrabold text-navy">
-            {settings.home_title || ""}
           </p>
+          <h2 className="text-3xl md:text-4xl font-extrabold text-navy">
+            {settings.home_title || ""}
+          </h2>
         </div>
 
         <div className="lg:hidden">

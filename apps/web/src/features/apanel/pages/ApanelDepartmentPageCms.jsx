@@ -1,3 +1,4 @@
+import { useLanguage } from "../../../context/LanguageContext";
 import { useEffect, useMemo, useState } from "react";
 import { Loader2, Save } from "lucide-react";
 import FormError from "../../../components/common/FormError";
@@ -50,6 +51,7 @@ const normalizeTranslations = (translations = [], localeCodes) =>
   );
 
 export default function ApanelDepartmentPageCms() {
+  const { t } = useLanguage();
   const localeCodes = useApanelLocaleCodes();
   const primaryLocale = localeCodes[0] || "en";
   const [setting, setSetting] = useState(null);
@@ -141,10 +143,10 @@ export default function ApanelDepartmentPageCms() {
           CMS
         </p>
         <h1 className="mt-2 text-2xl font-black uppercase tracking-wide text-navy">
-          Department Page
+          {t("interface.departmentPage")}
         </h1>
         <p className="mt-2 text-sm font-semibold text-gray-500">
-          Manage the shared labels used across all public department detail pages.
+          {t("interface.departmentLabelsHelp")}
         </p>
       </div>
 
@@ -153,9 +155,9 @@ export default function ApanelDepartmentPageCms() {
       <div className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm">
         <div className="mb-6 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <h2 className="text-xl font-black text-navy">Shared department labels</h2>
+            <h2 className="text-xl font-black text-navy">{t("interface.sharedDepartmentLabels")}</h2>
             <p className="mt-1 text-xs font-bold text-gray-400">
-              These labels are applied to every department public page.
+              {t("interface.departmentLabelsScope")}
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
@@ -211,7 +213,7 @@ export default function ApanelDepartmentPageCms() {
           className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-extrabold text-white shadow-lg shadow-primary/20 disabled:opacity-60"
         >
           {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
-          {saving ? "Saving..." : "Save Changes"}
+          {saving ? t("interface.saving") : t("interface.saveChanges")}
         </button>
       </div>
     </form>

@@ -59,6 +59,7 @@ use App\Models\VideoComment;
 use App\Models\VideoGallerySetting;
 use App\Models\VideoTranslation;
 use App\Models\WebFooter;
+use App\Rules\LocalizedStaffContent;
 use App\Traits\ApiResponse;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -2576,7 +2577,17 @@ class AdminCrudController extends Controller
                     'phone' => 'nullable|string',
                     'sort_order' => 'integer',
                     'is_active' => 'boolean',
-                    'translations' => 'required|array',
+                    'translations' => 'required|array|required_array_keys:en,uz,ru,ar',
+                    'translations.*' => 'required|array',
+                    'translations.*.full_name' => 'required|string|max:255',
+                    'translations.*.position' => 'required|string|max:255',
+                    'translations.*.bio' => 'nullable|string',
+                    'translations.*.office' => 'nullable|string|max:255',
+                    ...collect(['uz', 'ru', 'ar'])->flatMap(fn ($locale) => [
+                        "translations.{$locale}.position" => ['required', 'string', 'max:255', new LocalizedStaffContent($locale)],
+                        "translations.{$locale}.bio" => ['nullable', 'string', new LocalizedStaffContent($locale)],
+                        "translations.{$locale}.office" => ['nullable', 'string', 'max:255', new LocalizedStaffContent($locale)],
+                    ])->all(),
                 ];
             case 'services':
                 return [

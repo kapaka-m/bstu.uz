@@ -202,16 +202,16 @@ export default function GreenCampusDetails() {
               <AlertCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
               <div className="min-w-0">
                 <h1 className="text-lg font-extrabold text-navy break-words">
-                  {settings.no_results_label || "Green campus article was not found."}
+                  {settings.no_results_label || t("interface.greenArticleNotFound")}
                 </h1>
                 <p className="mt-2 text-sm font-semibold text-gray-500 break-words">
-                  {error || settings.no_results_label || "The requested initiative is not currently available."}
+                  {error || settings.no_results_label || t("interface.initiativeUnavailable")}
                 </p>
                 <Link
                   to="/green-campus"
                   className="mt-4 inline-flex items-center justify-center rounded-xl bg-emerald-600 px-5 py-3 text-xs font-extrabold text-white hover:bg-emerald-700 transition-colors"
                 >
-                  {settings.view_all_label || "Green Campus"}
+                  {settings.view_all_label || t("apanel.dashboard.greenCampus")}
                 </Link>
               </div>
             </div>

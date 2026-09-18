@@ -454,11 +454,10 @@ export default function ApanelNewsEvents() {
       <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-extrabold text-navy uppercase tracking-wider">
-            News & Events CMS
+            {t("interface.newsCms")}
           </h1>
           <p className="text-gray-400 text-xs font-semibold mt-1">
-            Control homepage news, the public news listing, and news detail
-            pages.
+            {t("interface.newsHelp")}
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
@@ -468,7 +467,7 @@ export default function ApanelNewsEvents() {
             className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-gray-200 bg-white text-navy text-xs font-extrabold hover:bg-gray-50 cursor-pointer"
           >
             <RefreshCw className="w-4 h-4" />
-            Refresh
+            {t("button.refresh")}
           </button>
           <button
             type="button"
@@ -476,7 +475,7 @@ export default function ApanelNewsEvents() {
             className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-primary text-white text-xs font-extrabold hover:bg-primary-hover cursor-pointer"
           >
             <Plus className="w-4 h-4" />
-            Add News/Event
+            {t("interface.addNews")}
           </button>
         </div>
       </div>
@@ -541,17 +540,17 @@ export default function ApanelNewsEvents() {
         <section className="bg-white border border-gray-100 rounded-3xl shadow-xs overflow-hidden">
           <div className="p-5 border-b border-gray-100">
             <h2 className="text-lg font-extrabold text-navy">
-              News & Events Settings
+              {t("interface.newsSettings")}
             </h2>
             <p className="text-xs font-semibold text-gray-400">
-              Control labels, section headings, sidebar text, and item limits.
+              {t("interface.settingsHelp")}
             </p>
           </div>
           <form onSubmit={saveSettings} className="p-5 space-y-5">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <label className="space-y-1.5">
                 <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">
-                  Home items limit
+                  {t("interface.homeItemsLimit")}
                 </span>
                 <input
                   type="number"
@@ -566,7 +565,7 @@ export default function ApanelNewsEvents() {
               </label>
               <label className="space-y-1.5">
                 <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">
-                  Recent news limit
+                  {t("interface.recentNewsLimit")}
                 </span>
                 <input
                   type="number"
@@ -581,7 +580,7 @@ export default function ApanelNewsEvents() {
               </label>
               <label className="space-y-1.5">
                 <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">
-                  Settings status
+                  {t("interface.settingsStatus")}
                 </span>
                 <select
                   value={settingsForm.is_active ? "1" : "0"}
@@ -596,7 +595,7 @@ export default function ApanelNewsEvents() {
               </label>
               <label className="space-y-1.5">
                 <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">
-                  Home Icon
+                  {t("interface.homeIcon")}
                 </span>
                 <input
                   value={settingsForm.home_icon || ""}
@@ -661,7 +660,7 @@ export default function ApanelNewsEvents() {
 
             <label className="space-y-1.5 block">
               <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">
-                Home Subtitle
+                {t("interface.homeSubtitle")}
               </span>
               <textarea
                 value={currentSettingsTranslation.home_subtitle || ""}
@@ -687,7 +686,7 @@ export default function ApanelNewsEvents() {
                 ) : (
                   <Save className="w-4 h-4" />
                 )}
-                Save Settings
+                {t("interface.saveSettings")}
               </button>
             </div>
           </form>
@@ -699,11 +698,10 @@ export default function ApanelNewsEvents() {
           <div className="p-5 border-b border-gray-100 flex items-center justify-between gap-4">
             <div>
               <h2 className="text-lg font-extrabold text-navy">
-                {editingRecord ? "Edit News/Event" : "Create News/Event"}
+                {editingRecord ? t("interface.editNews") : t("interface.createNews")}
               </h2>
               <p className="text-xs font-semibold text-gray-400">
-                Fill every language tab so the public website works in four
-                languages.
+                {t("interface.allLanguagesHelp")}
               </p>
             </div>
             <button
@@ -719,7 +717,7 @@ export default function ApanelNewsEvents() {
             <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
               <label className="space-y-1.5">
                 <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">
-                  Slug
+                  {t("apanel.administration.label.slug")}
                 </span>
                 <input
                   value={form.slug}
@@ -732,7 +730,7 @@ export default function ApanelNewsEvents() {
               </label>
               <label className="space-y-1.5">
                 <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">
-                  Category
+                  {t("apanel.blog.category")}
                 </span>
                 <select
                   value={form.category}
@@ -747,14 +745,14 @@ export default function ApanelNewsEvents() {
               </label>
               <label className="space-y-1.5">
                 <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">
-                  Publisher
+                  {t("interface.publisher")}
                 </span>
                 <select
                   value={form.publisher_id}
                   onChange={(event) => setField("publisher_id", event.target.value)}
                   className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm font-semibold text-navy focus:outline-none focus:border-primary bg-white"
                 >
-                  <option value="">Default publisher</option>
+                  <option value="">{t("interface.defaultPublisher")}</option>
                   {publishers.map((publisher) => (
                     <option key={publisher.id} value={publisher.id}>
                       {publisher.name || publisher.slug}
@@ -764,7 +762,7 @@ export default function ApanelNewsEvents() {
               </label>
               <label className="space-y-1.5">
                 <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">
-                  Published Date
+                  {t("apanel.greenCampus.label.publishedDate")}
                 </span>
                 <input
                   type="date"
@@ -777,7 +775,7 @@ export default function ApanelNewsEvents() {
               </label>
               <label className="space-y-1.5">
                 <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">
-                  Status
+                  {t("apanel.blog.status")}
                 </span>
                 <select
                   value={form.is_published ? "1" : "0"}
@@ -794,7 +792,7 @@ export default function ApanelNewsEvents() {
 
             <label className="space-y-1.5 block">
               <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">
-                Image URL or storage path
+                {t("interface.imagePath")}
               </span>
               <div className="flex gap-3">
                 <div className="w-11 h-11 rounded-xl bg-primary-light text-primary flex items-center justify-center shrink-0">
@@ -812,7 +810,7 @@ export default function ApanelNewsEvents() {
                   ) : (
                     <Upload className="w-4 h-4" />
                   )}
-                  Upload
+                  {t("button.upload")}
                   <input
                     type="file"
                     accept="image/jpeg,image/png,image/webp"
@@ -844,7 +842,7 @@ export default function ApanelNewsEvents() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
               <label className="space-y-1.5">
                 <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">
-                  Title
+                  {t("apanel.aboutPage.label.title")}
                 </span>
                 <input
                   value={currentTranslation.title}
@@ -860,7 +858,7 @@ export default function ApanelNewsEvents() {
               </label>
               <label className="space-y-1.5">
                 <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">
-                  Meta Title
+                  {t("interface.metaTitle")}
                 </span>
                 <input
                   value={currentTranslation.meta_title}
@@ -874,7 +872,7 @@ export default function ApanelNewsEvents() {
 
             <label className="space-y-1.5 block">
               <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">
-                Summary
+                {t("interface.summary")}
               </span>
               <textarea
                 value={currentTranslation.summary}
@@ -888,7 +886,7 @@ export default function ApanelNewsEvents() {
 
             <label className="space-y-1.5 block">
               <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">
-                Content
+                {t("apanel.greenCampus.label.content")}
               </span>
               <textarea
                 value={currentTranslation.content}
@@ -903,7 +901,7 @@ export default function ApanelNewsEvents() {
 
             <label className="space-y-1.5 block">
               <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">
-                Meta Description
+                {t("interface.metaDescription")}
               </span>
               <textarea
                 value={currentTranslation.meta_description}
@@ -926,7 +924,7 @@ export default function ApanelNewsEvents() {
                 ) : (
                   <Save className="w-4 h-4" />
                 )}
-                Save News/Event
+                {t("interface.saveNews")}
               </button>
             </div>
           </form>
@@ -950,7 +948,7 @@ export default function ApanelNewsEvents() {
               />
             </div>
             <p className="text-xs font-bold text-gray-400">
-              Page {page} of {lastPage}
+              {t("apanel.newsletter.page")} {page} of {lastPage}
             </p>
           </div>
 
@@ -979,7 +977,7 @@ export default function ApanelNewsEvents() {
                       colSpan="6"
                       className="px-5 py-12 text-center text-sm font-bold text-gray-400"
                     >
-                      No news or events found.
+                      {t("interface.noNews")}
                     </td>
                   </tr>
                 ) : (
@@ -1032,7 +1030,7 @@ export default function ApanelNewsEvents() {
                                 : "bg-gray-100 text-gray-500"
                             }`}
                           >
-                            {item.is_published ? "Published" : "Hidden"}
+                            {item.is_published ? t("apanel.greenCampus.label.published") : t("status.hidden")}
                           </span>
                         </td>
                         <td className="px-5 py-4 text-xs font-semibold text-gray-500">
@@ -1087,7 +1085,7 @@ export default function ApanelNewsEvents() {
               disabled={page <= 1}
               className="px-4 py-2 rounded-xl border border-gray-200 text-xs font-extrabold text-navy disabled:opacity-40 cursor-pointer"
             >
-              Previous
+              {t("button.previous")}
             </button>
             <button
               type="button"
@@ -1097,7 +1095,7 @@ export default function ApanelNewsEvents() {
               disabled={page >= lastPage}
               className="px-4 py-2 rounded-xl border border-gray-200 text-xs font-extrabold text-navy disabled:opacity-40 cursor-pointer"
             >
-              Next
+              {t("button.next")}
             </button>
           </div>
         </section>

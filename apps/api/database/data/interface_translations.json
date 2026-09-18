@@ -1,0 +1,1549 @@
+{
+  "videoGallery": ["Video Gallery", "Videogalereya", "Видеогалерея", "معرض الفيديو"],
+  "studentPortal": ["Student Portal", "Talaba portali", "Портал студента", "بوابة الطالب"],
+  "paymentMethod": ["Payment Method", "To‘lov usuli", "Способ оплаты", "طريقة الدفع"],
+  "applicationTimeline": ["Application Timeline", "Ariza bosqichlari", "Этапы заявления", "مراحل الطلب"],
+  "studentType": ["Student Type", "Talaba turi", "Тип студента", "نوع الطالب"],
+  "loadingAbout": [
+    "Loading About page CMS...",
+    "Haqida sahifasi yuklanmoqda...",
+    "Загрузка страницы об университете...",
+    "جارٍ تحميل صفحة عن الجامعة..."
+  ],
+  "statNumber": [
+    "Stat #",
+    "Ko‘rsatkich №",
+    "Показатель №",
+    "إحصائية رقم"
+  ],
+  "facultyNumber": [
+    "Faculty #",
+    "Fakultet №",
+    "Факультет №",
+    "كلية رقم"
+  ],
+  "timelineNumber": [
+    "Timeline Item #",
+    "Tarixiy voqea №",
+    "Событие №",
+    "حدث زمني رقم"
+  ],
+  "addTimeline": [
+    "Add Timeline Item",
+    "Tarixiy voqea qo‘shish",
+    "Добавить событие",
+    "إضافة حدث زمني"
+  ],
+  "identityPreview": [
+    "Identity Image Preview",
+    "Asosiy rasmni ko‘rish",
+    "Просмотр основного изображения",
+    "معاينة صورة الهوية"
+  ],
+  "aboutIdentityPreview": [
+    "About identity preview",
+    "Haqida sahifasi rasmi",
+    "Изображение страницы об университете",
+    "معاينة صورة صفحة عن الجامعة"
+  ],
+  "noImage": [
+    "No image",
+    "Rasm yo‘q",
+    "Нет изображения",
+    "لا توجد صورة"
+  ],
+  "aboutControl": [
+    "Full control for the public About page at /about.",
+    "/about manzilidagi ommaviy sahifani boshqarish.",
+    "Управление публичной страницей /about.",
+    "إدارة الصفحة العامة في /about."
+  ],
+  "savedImmediately": [
+    "This item will be saved to the database immediately.",
+    "Ushbu element darhol ma’lumotlar bazasiga saqlanadi.",
+    "Этот элемент будет сразу сохранен в базе данных.",
+    "سيُحفظ هذا العنصر في قاعدة البيانات فورًا."
+  ],
+  "cancel": [
+    "Cancel",
+    "Bekor qilish",
+    "Отмена",
+    "إلغاء"
+  ],
+  "leadershipHelp": [
+    "Manage university leadership shown on the homepage, profile pages, and Structure menu.",
+    "Bosh sahifa, profil sahifalari va Tuzilma menyusidagi rahbariyatni boshqaring.",
+    "Управляйте руководством на главной странице, в профилях и меню структуры.",
+    "إدارة القيادة الجامعية المعروضة في الصفحة الرئيسية والملفات وقائمة الهيكل."
+  ],
+  "addProfile": [
+    "Add Profile",
+    "Profil qo‘shish",
+    "Добавить профиль",
+    "إضافة ملف شخصي"
+  ],
+  "uploadPhoto": [
+    "Upload Photo",
+    "Surat yuklash",
+    "Загрузить фотографию",
+    "رفع صورة"
+  ],
+  "announcementsCms": [
+    "Announcements CMS",
+    "E’lonlarni boshqarish",
+    "Управление объявлениями",
+    "إدارة الإعلانات"
+  ],
+  "announcementsHelp": [
+    "Manage public announcements, translations, publishing and homepage labels.",
+    "Ommaviy e’lonlar, tarjimalar, nashrlar va bosh sahifa matnlarini boshqaring.",
+    "Управляйте объявлениями, переводами, публикациями и подписями главной страницы.",
+    "إدارة الإعلانات العامة وترجماتها ونشرها وتسميات الصفحة الرئيسية."
+  ],
+  "items": [
+    "Items",
+    "Elementlar",
+    "Элементы",
+    "العناصر"
+  ],
+  "addAnnouncement": [
+    "Add Announcement",
+    "E’lon qo‘shish",
+    "Добавить объявление",
+    "إضافة إعلان"
+  ],
+  "loadingAnnouncements": [
+    "Loading announcements...",
+    "E’lonlar yuklanmoqda...",
+    "Загрузка объявлений...",
+    "جارٍ تحميل الإعلانات..."
+  ],
+  "publisher": [
+    "Publisher",
+    "Nashr qiluvchi",
+    "Издатель",
+    "الناشر"
+  ],
+  "defaultPublisher": [
+    "Default publisher",
+    "Standart nashr qiluvchi",
+    "Издатель по умолчанию",
+    "الناشر الافتراضي"
+  ],
+  "startsAt": [
+    "Starts At",
+    "Boshlanish vaqti",
+    "Начало",
+    "وقت البدء"
+  ],
+  "endsAt": [
+    "Ends At",
+    "Tugash vaqti",
+    "Окончание",
+    "وقت الانتهاء"
+  ],
+  "viewsCount": [
+    "Views Count",
+    "Ko‘rishlar soni",
+    "Количество просмотров",
+    "عدد المشاهدات"
+  ],
+  "imagePath": [
+    "Image URL or storage path",
+    "Rasm havolasi yoki saqlash yo‘li",
+    "Ссылка или путь к изображению",
+    "رابط الصورة أو مسار تخزينها"
+  ],
+  "uploadImage": [
+    "Upload Image",
+    "Rasm yuklash",
+    "Загрузить изображение",
+    "رفع صورة"
+  ],
+  "summary": [
+    "Summary",
+    "Qisqa mazmun",
+    "Краткое содержание",
+    "الملخص"
+  ],
+  "saveAnnouncement": [
+    "Save Announcement",
+    "E’lonni saqlash",
+    "Сохранить объявление",
+    "حفظ الإعلان"
+  ],
+  "saveSettings": [
+    "Save Settings",
+    "Sozlamalarni saqlash",
+    "Сохранить настройки",
+    "حفظ الإعدادات"
+  ],
+  "applicationReview": [
+    "Application Review",
+    "Arizani ko‘rib chiqish",
+    "Рассмотрение заявления",
+    "مراجعة الطلب"
+  ],
+  "programPrefix": [
+    "— Program:",
+    "Dastur:",
+    "Программа:",
+    "البرنامج:"
+  ],
+  "studentProfile": [
+    "Student Profile",
+    "Talaba profili",
+    "Профиль студента",
+    "ملف الطالب"
+  ],
+  "fullNamePrefix": [
+    "Full Name:",
+    "To‘liq ism:",
+    "Полное имя:",
+    "الاسم الكامل:"
+  ],
+  "nationalityPrefix": [
+    "Nationality:",
+    "Fuqarolik:",
+    "Гражданство:",
+    "الجنسية:"
+  ],
+  "passportPrefix": [
+    "Passport Number:",
+    "Pasport raqami:",
+    "Номер паспорта:",
+    "رقم جواز السفر:"
+  ],
+  "genderPrefix": [
+    "Gender:",
+    "Jinsi:",
+    "Пол:",
+    "الجنس:"
+  ],
+  "phonePrefix": [
+    "Phone Number:",
+    "Telefon raqami:",
+    "Номер телефона:",
+    "رقم الهاتف:"
+  ],
+  "noDocuments": [
+    "No documents uploaded.",
+    "Hujjatlar yuklanmagan.",
+    "Документы не загружены.",
+    "لم تُرفع مستندات."
+  ],
+  "viewDocument": [
+    "View Document",
+    "Hujjatni ko‘rish",
+    "Просмотреть документ",
+    "عرض المستند"
+  ],
+  "verify": [
+    "Verify",
+    "Tasdiqlash",
+    "Подтвердить",
+    "تحقق"
+  ],
+  "request": [
+    "Request",
+    "So‘rash",
+    "Запросить",
+    "طلب"
+  ],
+  "billingPayments": [
+    "Billing Contracts & Payments",
+    "To‘lov shartnomalari va to‘lovlar",
+    "Договоры и платежи",
+    "عقود الفوترة والمدفوعات"
+  ],
+  "activeContracts": [
+    "Active Contracts",
+    "Amaldagi shartnomalar",
+    "Действующие договоры",
+    "العقود النشطة"
+  ],
+  "noContracts": [
+    "No contracts generated yet.",
+    "Hali shartnomalar yaratilmagan.",
+    "Договоры еще не созданы.",
+    "لم تُنشأ عقود بعد."
+  ],
+  "billingReceipts": [
+    "Billing Receipts",
+    "To‘lov kvitansiyalari",
+    "Платежные квитанции",
+    "إيصالات الفوترة"
+  ],
+  "noPayments": [
+    "No payment records found.",
+    "To‘lov yozuvlari topilmadi.",
+    "Записи об оплате не найдены.",
+    "لم يُعثر على سجلات دفع."
+  ],
+  "noReceipts": [
+    "No billing receipts found.",
+    "To‘lov kvitansiyalari topilmadi.",
+    "Платежные квитанции не найдены.",
+    "لم يُعثر على إيصالات فوترة."
+  ],
+  "updateDecision": [
+    "Update Decision",
+    "Qarorni yangilash",
+    "Обновить решение",
+    "تحديث القرار"
+  ],
+  "internalNote": [
+    "Internal Action Note",
+    "Ichki amal izohi",
+    "Внутреннее примечание",
+    "ملاحظة الإجراء الداخلية"
+  ],
+  "notifyStudent": [
+    "Send Student Notification Alert",
+    "Talabaga bildirishnoma yuborish",
+    "Отправить уведомление студенту",
+    "إرسال تنبيه للطالب"
+  ],
+  "submitDecision": [
+    "Submit Decision",
+    "Qarorni yuborish",
+    "Отправить решение",
+    "إرسال القرار"
+  ],
+  "contractActions": [
+    "Contract & Payment Actions",
+    "Shartnoma va to‘lov amallari",
+    "Действия с договорами и платежами",
+    "إجراءات العقود والمدفوعات"
+  ],
+  "create": [
+    "Create",
+    "Yaratish",
+    "Создать",
+    "إنشاء"
+  ],
+  "markEnrolled": [
+    "Mark Enrolled",
+    "O‘qishga qabul qilingan deb belgilash",
+    "Отметить как зачисленного",
+    "تحديد كمقيد بالدراسة"
+  ],
+  "noStatusHistory": [
+    "No status changes logged.",
+    "Holat o‘zgarishlari qayd etilmagan.",
+    "Изменения статуса не зарегистрированы.",
+    "لم تُسجّل تغييرات في الحالة."
+  ],
+  "changedByPrefix": [
+    "Changed By User ID: #",
+    "O‘zgartirgan foydalanuvchi: №",
+    "Изменивший пользователь: №",
+    "معرّف المستخدم المعدّل:"
+  ],
+  "loadingApply": [
+    "Loading apply page CMS...",
+    "Ariza sahifasi yuklanmoqda...",
+    "Загрузка страницы подачи заявления...",
+    "جارٍ تحميل صفحة التقديم..."
+  ],
+  "applyPage": [
+    "Apply Page",
+    "Ariza sahifasi",
+    "Страница подачи заявления",
+    "صفحة التقديم"
+  ],
+  "applyHelp": [
+    "Manage all public application form labels, messages, and option text.",
+    "Ariza shaklidagi barcha matnlar, xabarlar va variantlarni boshqaring.",
+    "Управляйте подписями, сообщениями и вариантами формы заявления.",
+    "إدارة تسميات نموذج التقديم العام ورسائله ونصوص خياراته."
+  ],
+  "authCms": [
+    "CMS Auth",
+    "Kirish sahifalarini boshqarish",
+    "Управление страницами авторизации",
+    "إدارة صفحات المصادقة"
+  ],
+  "authHelp": [
+    "Manage login, password reset pages, and reset email templates in every active language.",
+    "Kirish, parolni tiklash sahifalari va xat shablonlarini barcha faol tillarda boshqaring.",
+    "Управляйте страницами входа, сброса пароля и шаблонами писем на всех активных языках.",
+    "إدارة صفحات الدخول واستعادة كلمة المرور وقوالب البريد بكل اللغات النشطة."
+  ],
+  "placeholders": [
+    "Available placeholders:",
+    "Mavjud o‘rinbosarlar:",
+    "Доступные заполнители:",
+    "العناصر النائبة المتاحة:"
+  ],
+  "blogCms": [
+    "Blog CMS",
+    "Blogni boshqarish",
+    "Управление блогом",
+    "إدارة المدونة"
+  ],
+  "blogHelp": [
+    "Control homepage blog posts, the public blog listing, and blog detail pages.",
+    "Bosh sahifadagi blog maqolalari, ro‘yxat va batafsil sahifalarni boshqaring.",
+    "Управляйте записями блога на главной странице, списком и страницами записей.",
+    "إدارة تدوينات الصفحة الرئيسية وقائمة المدونة وصفحات تفاصيلها."
+  ],
+  "addBlog": [
+    "Add Blog Post",
+    "Blog maqolasi qo‘shish",
+    "Добавить запись блога",
+    "إضافة تدوينة"
+  ],
+  "blogSettings": [
+    "Blog Settings",
+    "Blog sozlamalari",
+    "Настройки блога",
+    "إعدادات المدونة"
+  ],
+  "settingsHelp": [
+    "Control labels, section headings, sidebar text, and item limits.",
+    "Matnlar, bo‘lim sarlavhalari, yon panel va elementlar sonini boshqaring.",
+    "Управляйте подписями, заголовками, текстом боковой панели и лимитами элементов.",
+    "إدارة التسميات وعناوين الأقسام ونص الشريط الجانبي وحدود العناصر."
+  ],
+  "homeItemsLimit": [
+    "Home items limit",
+    "Bosh sahifadagi elementlar soni",
+    "Лимит элементов главной страницы",
+    "حد عناصر الصفحة الرئيسية"
+  ],
+  "recentPostsLimit": [
+    "Recent posts limit",
+    "So‘nggi maqolalar soni",
+    "Лимит последних записей",
+    "حد التدوينات الحديثة"
+  ],
+  "settingsStatus": [
+    "Settings status",
+    "Sozlamalar holati",
+    "Статус настроек",
+    "حالة الإعدادات"
+  ],
+  "homeIcon": [
+    "Home Icon",
+    "Bosh sahifa belgisi",
+    "Значок главной страницы",
+    "أيقونة الصفحة الرئيسية"
+  ],
+  "allLanguagesHelp": [
+    "Fill every language tab so the public website works in four languages.",
+    "Ommaviy sayt to‘rt tilda ishlashi uchun barcha til bo‘limlarini to‘ldiring.",
+    "Заполните все языковые вкладки для работы сайта на четырех языках.",
+    "املأ تبويبات اللغات جميعها ليعمل الموقع العام بأربع لغات."
+  ],
+  "publishingDepartment": [
+    "Publishing Department",
+    "Nashr qiluvchi bo‘lim",
+    "Публикующее подразделение",
+    "القسم الناشر"
+  ],
+  "unassigned": [
+    "Unassigned",
+    "Biriktirilmagan",
+    "Не назначено",
+    "غير معيّن"
+  ],
+  "defaultAuthor": [
+    "Default Author",
+    "Standart muallif",
+    "Автор по умолчанию",
+    "الكاتب الافتراضي"
+  ],
+  "authorImagePath": [
+    "Author Image URL or storage path",
+    "Muallif surati havolasi yoki yo‘li",
+    "Ссылка или путь к фотографии автора",
+    "رابط صورة الكاتب أو مسارها"
+  ],
+  "metaTitle": [
+    "Meta Title",
+    "Qidiruv sarlavhasi",
+    "Мета-заголовок",
+    "عنوان البيانات الوصفية"
+  ],
+  "metaDescription": [
+    "Meta Description",
+    "Qidiruv tavsifi",
+    "Мета-описание",
+    "وصف البيانات الوصفية"
+  ],
+  "saveBlog": [
+    "Save Blog Post",
+    "Blog maqolasini saqlash",
+    "Сохранить запись блога",
+    "حفظ التدوينة"
+  ],
+  "noBlogPosts": [
+    "No blog posts found.",
+    "Blog maqolalari topilmadi.",
+    "Записи блога не найдены.",
+    "لم يُعثر على تدوينات."
+  ],
+  "publishers": [
+    "Content Publishers",
+    "Kontent nashr qiluvchilar",
+    "Издатели контента",
+    "ناشرو المحتوى"
+  ],
+  "publishersHelp": [
+    "Manage publishers used by blog posts, news, announcements, green campus articles, and videos.",
+    "Blog, yangiliklar, e’lonlar, yashil kampus va videolarning nashr qiluvchilarini boshqaring.",
+    "Управляйте издателями блогов, новостей, объявлений, статей зеленого кампуса и видео.",
+    "إدارة ناشري التدوينات والأخبار والإعلانات ومقالات الحرم الأخضر والفيديوهات."
+  ],
+  "addPublisher": [
+    "Add Publisher",
+    "Nashr qiluvchi qo‘shish",
+    "Добавить издателя",
+    "إضافة ناشر"
+  ],
+  "websiteUrl": [
+    "Website URL",
+    "Veb-sayt havolasi",
+    "Адрес сайта",
+    "رابط الموقع"
+  ],
+  "savePublisher": [
+    "Save Publisher",
+    "Nashr qiluvchini saqlash",
+    "Сохранить издателя",
+    "حفظ الناشر"
+  ],
+  "deletePublisher": [
+    "Delete Content Publisher",
+    "Kontent nashr qiluvchini o‘chirish",
+    "Удалить издателя контента",
+    "حذف ناشر المحتوى"
+  ],
+  "centres": [
+    "Centres and Departments",
+    "Markazlar va bo‘limlar",
+    "Центры и отделы",
+    "المراكز والأقسام"
+  ],
+  "centresHelp": [
+    "Manage structural centers, student offices, and general settings.",
+    "Markazlar, talaba bo‘limlari va umumiy sozlamalarni boshqaring.",
+    "Управляйте центрами, студенческими отделами и общими настройками.",
+    "إدارة المراكز التنظيمية ومكاتب الطلاب والإعدادات العامة."
+  ],
+  "customizeLabels": [
+    "Customize Labels",
+    "Matnlarni sozlash",
+    "Настроить подписи",
+    "تخصيص التسميات"
+  ],
+  "addCentre": [
+    "Add Centre / Department",
+    "Markaz yoki bo‘lim qo‘shish",
+    "Добавить центр или отдел",
+    "إضافة مركز أو قسم"
+  ],
+  "noCentres": [
+    "No centers or departments found.",
+    "Markazlar yoki bo‘limlar topilmadi.",
+    "Центры или отделы не найдены.",
+    "لم يُعثر على مراكز أو أقسام."
+  ],
+  "basicDetailsHelp": [
+    "Provide basic details and translations in all 4 languages.",
+    "Asosiy ma’lumotlar va barcha 4 tildagi tarjimalarni kiriting.",
+    "Укажите основные сведения и переводы на всех четырех языках.",
+    "أدخل البيانات الأساسية وترجماتها باللغات الأربع."
+  ],
+  "preview": [
+    "Preview",
+    "Ko‘rib chiqish",
+    "Предпросмотр",
+    "معاينة"
+  ],
+  "translationFields": [
+    "Translation Fields",
+    "Tarjima maydonlari",
+    "Поля перевода",
+    "حقول الترجمة"
+  ],
+  "customizeSettings": [
+    "Customize Static Labels & Settings",
+    "Doimiy matnlar va sozlamalarni o‘zgartirish",
+    "Настроить постоянные подписи и параметры",
+    "تخصيص التسميات الثابتة والإعدادات"
+  ],
+  "staticLabelsHelp": [
+    "Change buttons, sidebar titles, and standard support card descriptions for all 4 languages.",
+    "Tugmalar, yon panel sarlavhalari va yordam tavsiflarini barcha 4 tilda o‘zgartiring.",
+    "Изменяйте кнопки, заголовки боковой панели и описания поддержки на четырех языках.",
+    "تعديل الأزرار وعناوين الشريط الجانبي وأوصاف الدعم باللغات الأربع."
+  ],
+  "contactHelp": [
+    "Read, classify, and reply to inquiries submitted from the public Contact page.",
+    "Ommaviy aloqa sahifasidan yuborilgan murojaatlarni o‘qing, tasniflang va javob bering.",
+    "Читайте, классифицируйте обращения со страницы контактов и отвечайте на них.",
+    "قراءة استفسارات صفحة التواصل العامة وتصنيفها والرد عليها."
+  ],
+  "loadingMessages": [
+    "Loading messages...",
+    "Xabarlar yuklanmoqda...",
+    "Загрузка сообщений...",
+    "جارٍ تحميل الرسائل..."
+  ],
+  "noContactMessages": [
+    "No contact messages found.",
+    "Murojaat xabarlari topilmadi.",
+    "Сообщения обращений не найдены.",
+    "لم يُعثر على رسائل تواصل."
+  ],
+  "selectMessage": [
+    "Select a message to read and reply.",
+    "O‘qish va javob berish uchun xabarni tanlang.",
+    "Выберите сообщение для чтения и ответа.",
+    "اختر رسالة لقراءتها والرد عليها."
+  ],
+  "messageNumber": [
+    "Message #",
+    "Xabar №",
+    "Сообщение №",
+    "رسالة رقم"
+  ],
+  "markRead": [
+    "Mark Read",
+    "O‘qilgan deb belgilash",
+    "Отметить прочитанным",
+    "تحديد كمقروء"
+  ],
+  "message": [
+    "Message",
+    "Xabar",
+    "Сообщение",
+    "الرسالة"
+  ],
+  "replyMessage": [
+    "Reply Message",
+    "Javob xabari",
+    "Ответное сообщение",
+    "رسالة الرد"
+  ],
+  "saveChanges": [
+    "Save Changes",
+    "O‘zgarishlarni saqlash",
+    "Сохранить изменения",
+    "حفظ التغييرات"
+  ],
+  "saveReply": [
+    "Save Reply",
+    "Javobni saqlash",
+    "Сохранить ответ",
+    "حفظ الرد"
+  ],
+  "addContactCard": [
+    "Add Contact Card",
+    "Aloqa kartasi qo‘shish",
+    "Добавить карточку контакта",
+    "إضافة بطاقة تواصل"
+  ],
+  "addFaq": [
+    "Add FAQ",
+    "Savol-javob qo‘shish",
+    "Добавить частый вопрос",
+    "إضافة سؤال شائع"
+  ],
+  "contactCms": [
+    "Contact Page CMS",
+    "Aloqa sahifasini boshqarish",
+    "Управление страницей контактов",
+    "إدارة صفحة التواصل"
+  ],
+  "contactControl": [
+    "Full control for the public Contact page at /contact.",
+    "/contact manzilidagi ommaviy sahifani boshqarish.",
+    "Управление публичной страницей /contact.",
+    "إدارة الصفحة العامة في /contact."
+  ],
+  "facultyManagement": [
+    "Faculty Management",
+    "Fakultetlarni boshqarish",
+    "Управление факультетами",
+    "إدارة الكليات"
+  ],
+  "academicStructureOverview": [
+    "Academic structure overview",
+    "Akademik tuzilma sharhi",
+    "Обзор академической структуры",
+    "نظرة عامة على الهيكل الأكاديمي"
+  ],
+  "shown": [
+    "Shown",
+    "Ko‘rsatilgan",
+    "Показано",
+    "المعروض"
+  ],
+  "publicPage": [
+    "Public page",
+    "Ommaviy sahifa",
+    "Публичная страница",
+    "الصفحة العامة"
+  ],
+  "departmentManagement": [
+    "Department Management",
+    "Kafedralarni boshqarish",
+    "Управление кафедрами",
+    "إدارة الأقسام"
+  ],
+  "academicDepartmentsOverview": [
+    "Academic departments overview",
+    "Kafedralar sharhi",
+    "Обзор кафедр",
+    "نظرة عامة على الأقسام الأكاديمية"
+  ],
+  "staff": [
+    "Staff",
+    "Xodimlar",
+    "Сотрудники",
+    "الموظفون"
+  ],
+  "programManagement": [
+    "Program Management",
+    "Dasturlarni boshqarish",
+    "Управление программами",
+    "إدارة البرامج"
+  ],
+  "programOverview": [
+    "Study programs overview",
+    "Ta’lim dasturlari sharhi",
+    "Обзор образовательных программ",
+    "نظرة عامة على البرامج الدراسية"
+  ],
+  "homeNumber": [
+    "Home #",
+    "Bosh sahifada №",
+    "На главной №",
+    "ترتيب الرئيسية"
+  ],
+  "courseManagement": [
+    "Course Management",
+    "Fanlarni boshqarish",
+    "Управление дисциплинами",
+    "إدارة المقررات"
+  ],
+  "courseOverview": [
+    "Course catalog overview",
+    "Fanlar katalogi sharhi",
+    "Обзор каталога дисциплин",
+    "نظرة عامة على دليل المقررات"
+  ],
+  "semesters": [
+    "Semesters",
+    "Semestrlar",
+    "Семестры",
+    "الفصول الدراسية"
+  ],
+  "credits": [
+    "credits",
+    "kredit",
+    "кредитов",
+    "ساعات معتمدة"
+  ],
+  "editCourse": [
+    "Edit course",
+    "Fanni tahrirlash",
+    "Редактировать дисциплину",
+    "تعديل المقرر"
+  ],
+  "staffManagement": [
+    "Staff Management",
+    "Xodimlarni boshqarish",
+    "Управление сотрудниками",
+    "إدارة الموظفين"
+  ],
+  "staffOverview": [
+    "Academic and leadership profiles",
+    "O‘qituvchilar va rahbarlar profillari",
+    "Профили преподавателей и руководителей",
+    "ملفات الأكاديميين والقيادات"
+  ],
+  "photosDepartments": [
+    "Photos/Dept",
+    "Suratlar/kafedralar",
+    "Фото/кафедры",
+    "الصور/الأقسام"
+  ],
+  "photoReady": [
+    "Photo ready",
+    "Surat mavjud",
+    "Фото добавлено",
+    "الصورة متاحة"
+  ],
+  "noPhoto": [
+    "No photo",
+    "Surat yo‘q",
+    "Нет фото",
+    "لا توجد صورة"
+  ],
+  "publicProfile": [
+    "Public profile",
+    "Ommaviy profil",
+    "Публичный профиль",
+    "الملف العام"
+  ],
+  "departmentPage": [
+    "Department Page",
+    "Kafedra sahifasi",
+    "Страница кафедры",
+    "صفحة القسم"
+  ],
+  "departmentLabelsHelp": [
+    "Manage the shared labels used across all public department detail pages.",
+    "Barcha kafedra sahifalaridagi umumiy matnlarni boshqaring.",
+    "Управляйте общими подписями всех публичных страниц кафедр.",
+    "إدارة التسميات المشتركة في صفحات تفاصيل الأقسام العامة."
+  ],
+  "sharedDepartmentLabels": [
+    "Shared department labels",
+    "Kafedralarning umumiy matnlari",
+    "Общие подписи кафедр",
+    "تسميات الأقسام المشتركة"
+  ],
+  "departmentLabelsScope": [
+    "These labels are applied to every department public page.",
+    "Bu matnlar barcha kafedralarning ommaviy sahifalarida ishlatiladi.",
+    "Эти подписи используются на всех публичных страницах кафедр.",
+    "تُطبق هذه التسميات على الصفحة العامة لكل قسم."
+  ],
+  "facultyPage": [
+    "Faculty Page",
+    "Fakultet sahifasi",
+    "Страница факультета",
+    "صفحة الكلية"
+  ],
+  "facultyLabelsHelp": [
+    "Manage the shared labels and helper text used across all public faculty detail pages.",
+    "Barcha fakultet sahifalaridagi umumiy va yordamchi matnlarni boshqaring.",
+    "Управляйте общими подписями и подсказками всех страниц факультетов.",
+    "إدارة التسميات المشتركة والنصوص المساعدة في صفحات تفاصيل الكليات العامة."
+  ],
+  "sharedFacultyLabels": [
+    "Shared faculty labels",
+    "Fakultetlarning umumiy matnlari",
+    "Общие подписи факультетов",
+    "تسميات الكليات المشتركة"
+  ],
+  "facultyLabelsScope": [
+    "These labels are applied to every faculty public page.",
+    "Bu matnlar barcha fakultetlarning ommaviy sahifalarida ishlatiladi.",
+    "Эти подписи используются на всех публичных страницах факультетов.",
+    "تُطبق هذه التسميات على الصفحة العامة لكل كلية."
+  ],
+  "footerCms": [
+    "CMS Footer Web",
+    "Sayt pastki qismini boshqarish",
+    "Управление подвалом сайта",
+    "إدارة تذييل الموقع"
+  ],
+  "saveFooter": [
+    "Save Footer",
+    "Pastki qismni saqlash",
+    "Сохранить подвал",
+    "حفظ التذييل"
+  ],
+  "footerSaved": [
+    "Footer content saved successfully.",
+    "Pastki qism mazmuni saqlandi.",
+    "Содержимое подвала сохранено.",
+    "تم حفظ محتوى التذييل بنجاح."
+  ],
+  "footerSettings": [
+    "Global Footer Settings",
+    "Pastki qismning umumiy sozlamalari",
+    "Общие настройки подвала",
+    "إعدادات التذييل العامة"
+  ],
+  "admissionsNewsletter": [
+    "Admissions Banner & Newsletter",
+    "Qabul banneri va yangiliklar obunasi",
+    "Баннер приема и рассылка",
+    "إعلان القبول والنشرة البريدية"
+  ],
+  "footerBannerHelp": [
+    "Controls the promotional banner and subscription box above the main footer.",
+    "Pastki qism ustidagi e’lon banneri va obuna maydonini boshqaradi.",
+    "Управляет рекламным баннером и подпиской над основным подвалом.",
+    "التحكم في الإعلان ونموذج الاشتراك أعلى التذييل الرئيسي."
+  ],
+  "socialMedia": [
+    "Social Media",
+    "Ijtimoiy tarmoqlar",
+    "Социальные сети",
+    "وسائل التواصل الاجتماعي"
+  ],
+  "greenCampusCms": [
+    "Green Campus CMS",
+    "Yashil kampusni boshqarish",
+    "Управление зеленым кампусом",
+    "إدارة الحرم الجامعي الأخضر"
+  ],
+  "greenCampusHelp": [
+    "Control homepage sustainability cards, listing page, details page, stats, and labels.",
+    "Barqarorlik kartalari, ro‘yxat, batafsil sahifa, statistika va matnlarni boshqaring.",
+    "Управляйте карточками устойчивости, списком, подробностями, статистикой и подписями.",
+    "إدارة بطاقات الاستدامة والقائمة والتفاصيل والإحصاءات والتسميات."
+  ],
+  "addInitiative": [
+    "Add Initiative",
+    "Tashabbus qo‘shish",
+    "Добавить инициативу",
+    "إضافة مبادرة"
+  ],
+  "saveInitiative": [
+    "Save Initiative",
+    "Tashabbusni saqlash",
+    "Сохранить инициативу",
+    "حفظ المبادرة"
+  ],
+  "saveStat": [
+    "Save Stat",
+    "Ko‘rsatkichni saqlash",
+    "Сохранить показатель",
+    "حفظ الإحصائية"
+  ],
+  "down": [
+    "Down",
+    "Pastga",
+    "Вниз",
+    "لأسفل"
+  ],
+  "addChild": [
+    "Add Child",
+    "Ichki band qo‘shish",
+    "Добавить дочерний пункт",
+    "إضافة عنصر فرعي"
+  ],
+  "labelPrefix": [
+    "Label (",
+    "Yorliq (",
+    "Подпись (",
+    "التسمية ("
+  ],
+  "url": [
+    "URL",
+    "Havola",
+    "Ссылка",
+    "الرابط"
+  ],
+  "headerCms": [
+    "Header Navbar CMS",
+    "Yuqori navigatsiyani boshqarish",
+    "Управление верхней навигацией",
+    "إدارة شريط التنقل العلوي"
+  ],
+  "headerHelp": [
+    "Controls public header navigation, order, labels, dropdown groups, and child links.",
+    "Yuqori navigatsiya, tartib, matnlar, ochiluvchi guruhlar va ichki havolalarni boshqaradi.",
+    "Управляет верхней навигацией, порядком, подписями, группами и вложенными ссылками.",
+    "التحكم في التنقل العلوي وترتيبه وتسمياته ومجموعاته وروابطه الفرعية."
+  ],
+  "addMenuItem": [
+    "Add Menu Item",
+    "Menyu bandi qo‘shish",
+    "Добавить пункт меню",
+    "إضافة عنصر قائمة"
+  ],
+  "homeCms": [
+    "Home CMS",
+    "Bosh sahifani boshqarish",
+    "Управление главной страницей",
+    "إدارة الصفحة الرئيسية"
+  ],
+  "homeHelp": [
+    "Manage homepage sections in all active languages.",
+    "Bosh sahifa bo‘limlarini barcha faol tillarda boshqaring.",
+    "Управляйте разделами главной страницы на всех активных языках.",
+    "إدارة أقسام الصفحة الرئيسية بكل اللغات النشطة."
+  ],
+  "sectionKey": [
+    "Section key:",
+    "Bo‘lim kaliti:",
+    "Ключ раздела:",
+    "مفتاح القسم:"
+  ],
+  "heroCards": [
+    "Hero Cards",
+    "Asosiy banner kartalari",
+    "Карточки главного баннера",
+    "بطاقات القسم الرئيسي"
+  ],
+  "suffix": [
+    "Suffix",
+    "Qo‘shimcha",
+    "Суффикс",
+    "اللاحقة"
+  ],
+  "addItem": [
+    "Add Item",
+    "Element qo‘shish",
+    "Добавить элемент",
+    "إضافة عنصر"
+  ],
+  "activeItem": [
+    "Active item",
+    "Faol element",
+    "Активный элемент",
+    "عنصر نشط"
+  ],
+  "remove": [
+    "Remove",
+    "Olib tashlash",
+    "Удалить",
+    "إزالة"
+  ],
+  "interactiveServicesCms": [
+    "Interactive Services CMS",
+    "Interaktiv xizmatlarni boshqarish",
+    "Управление интерактивными услугами",
+    "إدارة الخدمات التفاعلية"
+  ],
+  "servicesHelp": [
+    "Manage homepage interactive services and the public services page.",
+    "Bosh sahifadagi interaktiv xizmatlar va xizmatlar sahifasini boshqaring.",
+    "Управляйте интерактивными услугами главной страницы и страницей услуг.",
+    "إدارة خدمات الصفحة الرئيسية التفاعلية وصفحة الخدمات العامة."
+  ],
+  "services": [
+    "Services",
+    "Xizmatlar",
+    "Услуги",
+    "الخدمات"
+  ],
+  "addService": [
+    "Add Service",
+    "Xizmat qo‘shish",
+    "Добавить услугу",
+    "إضافة خدمة"
+  ],
+  "order": [
+    "Order",
+    "Tartib",
+    "Порядок",
+    "الترتيب"
+  ],
+  "showOnHome": [
+    "Show on home",
+    "Bosh sahifada ko‘rsatish",
+    "Показывать на главной",
+    "إظهار في الرئيسية"
+  ],
+  "opensNewTab": [
+    "Opens New Tab",
+    "Yangi varaqda ochiladi",
+    "Открывается в новой вкладке",
+    "يفتح في علامة تبويب جديدة"
+  ],
+  "externalTab": [
+    "External tab",
+    "Tashqi varaq",
+    "Внешняя вкладка",
+    "علامة تبويب خارجية"
+  ],
+  "buttonLabel": [
+    "Button Label",
+    "Tugma matni",
+    "Текст кнопки",
+    "تسمية الزر"
+  ],
+  "saveService": [
+    "Save Service",
+    "Xizmatni saqlash",
+    "Сохранить услугу",
+    "حفظ الخدمة"
+  ],
+  "newsCms": [
+    "News & Events CMS",
+    "Yangiliklar va tadbirlarni boshqarish",
+    "Управление новостями и событиями",
+    "إدارة الأخبار والفعاليات"
+  ],
+  "newsHelp": [
+    "Control homepage news, the public news listing, and news detail pages.",
+    "Bosh sahifa yangiliklari, ro‘yxat va batafsil sahifalarni boshqaring.",
+    "Управляйте новостями главной страницы, списком и страницами новостей.",
+    "إدارة أخبار الصفحة الرئيسية وقائمة الأخبار وصفحات تفاصيلها."
+  ],
+  "addNews": [
+    "Add News/Event",
+    "Yangilik yoki tadbir qo‘shish",
+    "Добавить новость или событие",
+    "إضافة خبر أو فعالية"
+  ],
+  "newsSettings": [
+    "News & Events Settings",
+    "Yangiliklar va tadbirlar sozlamalari",
+    "Настройки новостей и событий",
+    "إعدادات الأخبار والفعاليات"
+  ],
+  "recentNewsLimit": [
+    "Recent news limit",
+    "So‘nggi yangiliklar soni",
+    "Лимит последних новостей",
+    "حد الأخبار الحديثة"
+  ],
+  "homeSubtitle": [
+    "Home Subtitle",
+    "Bosh sahifa kichik sarlavhasi",
+    "Подзаголовок главной страницы",
+    "العنوان الفرعي للرئيسية"
+  ],
+  "saveNews": [
+    "Save News/Event",
+    "Yangilik yoki tadbirni saqlash",
+    "Сохранить новость или событие",
+    "حفظ الخبر أو الفعالية"
+  ],
+  "noNews": [
+    "No news or events found.",
+    "Yangiliklar yoki tadbirlar topilmadi.",
+    "Новости или события не найдены.",
+    "لم يُعثر على أخبار أو فعاليات."
+  ],
+  "sendNewsletter": [
+    "Send Newsletter Campaign",
+    "Yangiliklar xatini yuborish",
+    "Отправить рассылку",
+    "إرسال حملة بريدية"
+  ],
+  "newsletterHelp": [
+    "Sends a professional email template to active newsletter subscribers.",
+    "Faol obunachilarga tayyor shablon asosida xat yuboradi.",
+    "Отправляет письмо по шаблону активным подписчикам рассылки.",
+    "إرسال قالب بريد احترافي إلى المشتركين النشطين في النشرة."
+  ],
+  "subject": [
+    "Subject",
+    "Mavzu",
+    "Тема",
+    "الموضوع"
+  ],
+  "ctaLabel": [
+    "CTA Label",
+    "Amal tugmasi matni",
+    "Текст кнопки действия",
+    "تسمية زر الإجراء"
+  ],
+  "ctaUrl": [
+    "CTA URL",
+    "Amal tugmasi havolasi",
+    "Ссылка кнопки действия",
+    "رابط زر الإجراء"
+  ],
+  "localeFilter": [
+    "Locale Filter",
+    "Til filtri",
+    "Фильтр языка",
+    "تصفية اللغة"
+  ],
+  "allSubscribers": [
+    "All active subscribers",
+    "Barcha faol obunachilar",
+    "Все активные подписчики",
+    "جميع المشتركين النشطين"
+  ],
+  "programPages": [
+    "Program Pages",
+    "Dastur sahifalari",
+    "Страницы программ",
+    "صفحات البرامج"
+  ],
+  "programLabelsHelp": [
+    "Manage the shared labels used across all public program detail pages.",
+    "Barcha dastur sahifalaridagi umumiy matnlarni boshqaring.",
+    "Управляйте общими подписями всех публичных страниц программ.",
+    "إدارة التسميات المشتركة في صفحات تفاصيل البرامج العامة."
+  ],
+  "sharedProgramLabels": [
+    "Shared program labels",
+    "Dasturlarning umumiy matnlari",
+    "Общие подписи программ",
+    "تسميات البرامج المشتركة"
+  ],
+  "programLabelsScope": [
+    "These labels replace the general translation dictionary on public program pages.",
+    "Bu matnlar dastur sahifalarida umumiy tarjima lug‘ati o‘rniga ishlatiladi.",
+    "Эти подписи заменяют общий словарь переводов на страницах программ.",
+    "تحل هذه التسميات محل قاموس الترجمة العام في صفحات البرامج."
+  ],
+  "videosHelp": [
+    "Control homepage videos and the public video gallery page.",
+    "Bosh sahifadagi videolar va ommaviy videogalereyani boshqaring.",
+    "Управляйте видео главной страницы и публичной видеогалереей.",
+    "إدارة فيديوهات الصفحة الرئيسية ومعرض الفيديو العام."
+  ],
+  "addVideo": [
+    "Add Video",
+    "Video qo‘shish",
+    "Добавить видео",
+    "إضافة فيديو"
+  ],
+  "label": [
+    "label",
+    "yorliq",
+    "подпись",
+    "تسمية"
+  ],
+  "videoEditHelp": [
+    "Update the video source, thumbnail, stats, publishing status, and translated content.",
+    "Video manbasi, kichik rasm, statistika, nashr holati va tarjimalarni yangilang.",
+    "Обновите источник видео, миниатюру, статистику, статус публикации и переводы.",
+    "تحديث مصدر الفيديو والصورة المصغرة والإحصاءات وحالة النشر والمحتوى المترجم."
+  ],
+  "videoSourceHelp": [
+    "These fields control the media file or YouTube video and the public visibility.",
+    "Bu maydonlar media fayli yoki YouTube videosi va ommaviy ko‘rinishini boshqaradi.",
+    "Эти поля управляют медиафайлом или видео YouTube и публичной видимостью.",
+    "تتحكم هذه الحقول في ملف الوسائط أو فيديو يوتيوب وظهوره للعامة."
+  ],
+  "translatedContent": [
+    "Translated Content -",
+    "Tarjima qilingan mazmun -",
+    "Переведенное содержимое -",
+    "المحتوى المترجم -"
+  ],
+  "videoTranslationsHelp": [
+    "Use the language tabs above to edit the title, category, and description for each locale.",
+    "Har bir til uchun sarlavha, turkum va tavsifni yuqoridagi til bo‘limlarida tahrirlang.",
+    "Редактируйте заголовок, категорию и описание каждого языка во вкладках выше.",
+    "استخدم تبويبات اللغات أعلاه لتعديل العنوان والفئة والوصف لكل لغة."
+  ],
+  "saveVideo": [
+    "Save Video",
+    "Videoni saqlash",
+    "Сохранить видео",
+    "حفظ الفيديو"
+  ],
+  "viewsSeparator": [
+    "views /",
+    "ko‘rish /",
+    "просмотров /",
+    "مشاهدات /"
+  ],
+  "likes": [
+    "likes",
+    "yoqtirish",
+    "отметок «Нравится»",
+    "إعجابات"
+  ],
+  "openStudentMenu": [
+    "Open student menu",
+    "Talaba menyusini ochish",
+    "Открыть меню студента",
+    "فتح قائمة الطالب"
+  ],
+  "contractNumber": [
+    "Contract #",
+    "Shartnoma №",
+    "Договор №",
+    "عقد رقم"
+  ],
+  "version": [
+    "Version",
+    "Versiya",
+    "Версия",
+    "الإصدار"
+  ],
+  "uploading": [
+    "Uploading...",
+    "Yuklanmoqda...",
+    "Загрузка...",
+    "جارٍ الرفع..."
+  ],
+  "uploadIdentity": [
+    "Upload Identity Image",
+    "Asosiy rasmni yuklash",
+    "Загрузить основное изображение",
+    "رفع صورة الهوية"
+  ],
+  "saving": [
+    "Saving...",
+    "Saqlanmoqda...",
+    "Сохранение...",
+    "جارٍ الحفظ..."
+  ],
+  "noStartDate": [
+    "No start date",
+    "Boshlanish sanasi yo‘q",
+    "Дата начала не указана",
+    "لا يوجد تاريخ بدء"
+  ],
+  "editAnnouncement": [
+    "Edit Announcement",
+    "E’lonni tahrirlash",
+    "Редактировать объявление",
+    "تعديل الإعلان"
+  ],
+  "editBlog": [
+    "Edit Blog Post",
+    "Blog maqolasini tahrirlash",
+    "Редактировать запись блога",
+    "تعديل التدوينة"
+  ],
+  "createBlog": [
+    "Create Blog Post",
+    "Blog maqolasi yaratish",
+    "Создать запись блога",
+    "إنشاء تدوينة"
+  ],
+  "editPublisher": [
+    "Edit Publisher",
+    "Nashr qiluvchini tahrirlash",
+    "Редактировать издателя",
+    "تعديل الناشر"
+  ],
+  "createPublisher": [
+    "Create Publisher",
+    "Nashr qiluvchi yaratish",
+    "Создать издателя",
+    "إنشاء ناشر"
+  ],
+  "noEmail": [
+    "No Email",
+    "Elektron pochta yo‘q",
+    "Нет электронной почты",
+    "لا يوجد بريد إلكتروني"
+  ],
+  "notSet": [
+    "Not Set",
+    "Belgilanmagan",
+    "Не задано",
+    "غير محدد"
+  ],
+  "noTitle": [
+    "No Title",
+    "Sarlavha yo‘q",
+    "Без заголовка",
+    "بلا عنوان"
+  ],
+  "editCentre": [
+    "Edit Centre / Department",
+    "Markaz yoki bo‘limni tahrirlash",
+    "Редактировать центр или отдел",
+    "تعديل المركز أو القسم"
+  ],
+  "newCentre": [
+    "New Centre / Department",
+    "Yangi markaz yoki bo‘lim",
+    "Новый центр или отдел",
+    "مركز أو قسم جديد"
+  ],
+  "savingSettings": [
+    "Saving Settings...",
+    "Sozlamalar saqlanmoqda...",
+    "Сохранение настроек...",
+    "جارٍ حفظ الإعدادات..."
+  ],
+  "saveContact": [
+    "Save Contact Page",
+    "Aloqa sahifasini saqlash",
+    "Сохранить страницу контактов",
+    "حفظ صفحة التواصل"
+  ],
+  "noOverview": [
+    "No overview entered yet.",
+    "Hali umumiy ma’lumot kiritilmagan.",
+    "Общие сведения еще не добавлены.",
+    "لم تُدخل نبذة بعد."
+  ],
+  "noCourseDescription": [
+    "No course description entered yet.",
+    "Hali fan tavsifi kiritilmagan.",
+    "Описание дисциплины еще не добавлено.",
+    "لم يُدخل وصف للمقرر بعد."
+  ],
+  "noBiography": [
+    "No biography entered yet.",
+    "Hali tarjimai hol kiritilmagan.",
+    "Биография еще не добавлена.",
+    "لم تُدخل سيرة ذاتية بعد."
+  ],
+  "noFaculty": [
+    "No faculty",
+    "Fakultet yo‘q",
+    "Нет факультета",
+    "لا توجد كلية"
+  ],
+  "facultyLeadership": [
+    "Faculty leadership",
+    "Fakultet rahbariyati",
+    "Руководство факультета",
+    "قيادة الكلية"
+  ],
+  "deleteLink": [
+    "Delete Link?",
+    "Havola o‘chirilsinmi?",
+    "Удалить ссылку?",
+    "حذف الرابط؟"
+  ],
+  "deleteFacultyLink": [
+    "Delete Faculty Link?",
+    "Fakultet havolasi o‘chirilsinmi?",
+    "Удалить ссылку факультета?",
+    "حذف رابط الكلية؟"
+  ],
+  "deleteSocialLink": [
+    "Delete Social Media Link?",
+    "Ijtimoiy tarmoq havolasi o‘chirilsinmi?",
+    "Удалить ссылку социальной сети?",
+    "حذف رابط التواصل الاجتماعي؟"
+  ],
+  "editInitiative": [
+    "Edit Initiative",
+    "Tashabbusni tahrirlash",
+    "Редактировать инициативу",
+    "تعديل المبادرة"
+  ],
+  "createInitiative": [
+    "Create Initiative",
+    "Tashabbus yaratish",
+    "Создать инициативу",
+    "إنشاء مبادرة"
+  ],
+  "editStat": [
+    "Edit Stat",
+    "Ko‘rsatkichni tahrirlash",
+    "Редактировать показатель",
+    "تعديل الإحصائية"
+  ],
+  "createStat": [
+    "Create Stat",
+    "Ko‘rsatkich yaratish",
+    "Создать показатель",
+    "إنشاء إحصائية"
+  ],
+  "enabled": [
+    "Enabled",
+    "Yoqilgan",
+    "Включено",
+    "مفعّل"
+  ],
+  "disabled": [
+    "Disabled",
+    "O‘chirilgan",
+    "Отключено",
+    "معطّل"
+  ],
+  "topMenu": [
+    "Top Menu",
+    "Yuqori menyu",
+    "Верхнее меню",
+    "القائمة العلوية"
+  ],
+  "saveHeader": [
+    "Save Header Navbar",
+    "Yuqori navigatsiyani saqlash",
+    "Сохранить верхнюю навигацию",
+    "حفظ شريط التنقل العلوي"
+  ],
+  "visible": [
+    "Visible",
+    "Ko‘rinadigan",
+    "Видимо",
+    "ظاهر"
+  ],
+  "editService": [
+    "Edit Service",
+    "Xizmatni tahrirlash",
+    "Редактировать услугу",
+    "تعديل الخدمة"
+  ],
+  "editNews": [
+    "Edit News/Event",
+    "Yangilik yoki tadbirni tahrirlash",
+    "Редактировать новость или событие",
+    "تعديل الخبر أو الفعالية"
+  ],
+  "createNews": [
+    "Create News/Event",
+    "Yangilik yoki tadbir yaratish",
+    "Создать новость или событие",
+    "إنشاء خبر أو فعالية"
+  ],
+  "sending": [
+    "Sending...",
+    "Yuborilmoqda...",
+    "Отправка...",
+    "جارٍ الإرسال..."
+  ],
+  "sendCampaign": [
+    "Send Campaign",
+    "Xatlar tarqatmasini yuborish",
+    "Отправить рассылку",
+    "إرسال الحملة"
+  ],
+  "editVideo": [
+    "Edit Video",
+    "Videoni tahrirlash",
+    "Редактировать видео",
+    "تعديل الفيديو"
+  ],
+  "createVideo": [
+    "Create Video",
+    "Video yaratish",
+    "Создать видео",
+    "إنشاء فيديو"
+  ],
+  "announcementNotFound": [
+    "Announcement not found",
+    "E’lon topilmadi",
+    "Объявление не найдено",
+    "لم يُعثر على الإعلان"
+  ],
+  "greenArticleNotFound": [
+    "Green campus article was not found.",
+    "Yashil kampus maqolasi topilmadi.",
+    "Статья зеленого кампуса не найдена.",
+    "لم يُعثر على مقال الحرم الجامعي الأخضر."
+  ],
+  "initiativeUnavailable": [
+    "The requested initiative is not currently available.",
+    "So‘ralgan tashabbus hozir mavjud emas.",
+    "Запрошенная инициатива сейчас недоступна.",
+    "المبادرة المطلوبة غير متاحة حاليًا."
+  ],
+  "noVideos": [
+    "No videos available.",
+    "Videolar mavjud emas.",
+    "Видео недоступны.",
+    "لا توجد فيديوهات متاحة."
+  ],
+  "noPublishedVideos": [
+    "No videos are currently published in the gallery.",
+    "Galereyada hozircha videolar e’lon qilinmagan.",
+    "В галерее пока нет опубликованных видео.",
+    "لا توجد فيديوهات منشورة في المعرض حاليًا."
+  ],
+  "videoSourceUnavailable": [
+    "Video source is not available.",
+    "Video manbasi mavjud emas.",
+    "Источник видео недоступен.",
+    "مصدر الفيديو غير متاح."
+  ],
+  "viewAllNews": [
+    "View all news",
+    "Barcha yangiliklar",
+    "Все новости",
+    "عرض جميع الأخبار"
+  ],
+  "viewAllServices": [
+    "View all services",
+    "Barcha xizmatlar",
+    "Все услуги",
+    "عرض جميع الخدمات"
+  ],
+  "textEmail": [
+    "Email:",
+    "Elektron pochta:",
+    "Электронная почта:",
+    "البريد الإلكتروني:"
+  ]
+}

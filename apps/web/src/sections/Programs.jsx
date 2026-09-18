@@ -85,7 +85,7 @@ const normalizeProgram = (program, index) => ({
 });
 
 export default function Programs({ limit, showRemaining, featured = false }) {
-  const { t, hasTranslation, language, isRtl } = useLanguage();
+  const { t, language, isRtl } = useLanguage();
   const { section: homeSection, loading: homeSectionLoading } = useHomeSection("programs");
   const [selectedFaculty, setSelectedFaculty] = useState("all");
   const [selectedDegree, setSelectedDegree] = useState("all");
@@ -155,13 +155,13 @@ export default function Programs({ limit, showRemaining, featured = false }) {
   const facultyFilters = useMemo(() => [
     {
       id: "all",
-      label: hasTranslation("common.allFaculties") ? t("common.allFaculties") : "All Faculties",
+      label: t("common.allFaculties"),
     },
     ...faculties.map((faculty) => ({
       id: faculty.slug || faculty.id,
       label: faculty.short_name || faculty.name || faculty.slug,
     })),
-  ], [faculties, hasTranslation, t]);
+  ], [faculties, t]);
 
   const homeMode = Boolean(featured || limit);
 
@@ -228,7 +228,7 @@ export default function Programs({ limit, showRemaining, featured = false }) {
               {/* Faculty Filters */}
               <div className="w-full lg:max-w-sm">
                 <label htmlFor="program-faculty-filter" className="sr-only">
-                  {hasTranslation("common.allFaculties") ? t("common.allFaculties") : "All Faculties"}
+                  {t("common.allFaculties")}
                 </label>
                 <div className="relative">
                   <Building2
@@ -418,10 +418,10 @@ export default function Programs({ limit, showRemaining, featured = false }) {
           <div className="text-center mt-16">
             <Link
               to="/programs"
-              aria-label={viewAllLabel || t("programs.catalog.viewAll") || "View all programs"}
+              aria-label={viewAllLabel || t("programs.catalog.viewAll")}
               className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-white px-8 py-4 rounded-xl font-extrabold text-sm transition-all shadow-md shadow-primary/20 hover:shadow-primary/30 hover:-translate-y-0.5"
             >
-              {viewAllLabel || t("programs.catalog.viewAll") || "View all programs"}
+              {viewAllLabel || t("programs.catalog.viewAll")}
               <ArrowRight className={`w-4 h-4 transition-transform ${isRtl ? 'rotate-180' : ''}`} />
             </Link>
           </div>

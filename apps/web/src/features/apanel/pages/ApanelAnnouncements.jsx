@@ -406,11 +406,10 @@ export default function ApanelAnnouncements() {
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black text-navy mt-1">
-            Announcements CMS
+            {t("interface.announcementsCms")}
           </h1>
           <p className="text-sm text-gray-500 mt-1">
-            Manage public announcements, translations, publishing and homepage
-            labels.
+            {t("interface.announcementsHelp")}
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -418,20 +417,20 @@ export default function ApanelAnnouncements() {
             onClick={() => setActiveTab("items")}
             className={`px-4 py-2 rounded-xl text-xs font-extrabold border ${activeTab === "items" ? "bg-navy text-white border-navy" : "bg-white text-gray-500 border-gray-100"}`}
           >
-            Items
+            {t("interface.items")}
           </button>
           <button
             onClick={() => setActiveTab("settings")}
             className={`px-4 py-2 rounded-xl text-xs font-extrabold border ${activeTab === "settings" ? "bg-navy text-white border-navy" : "bg-white text-gray-500 border-gray-100"}`}
           >
-            Settings
+            {t("apanel.nav.settings")}
           </button>
           <button
             onClick={startCreate}
             className="inline-flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-xl text-xs font-extrabold"
           >
             <Plus className="w-4 h-4" />
-            Add Announcement
+            {t("interface.addAnnouncement")}
           </button>
         </div>
       </div>
@@ -459,14 +458,14 @@ export default function ApanelAnnouncements() {
               className="inline-flex items-center gap-2 px-4 py-2.5 bg-slate-50 text-navy rounded-xl text-xs font-extrabold"
             >
               <RefreshCw className="w-4 h-4" />
-              Refresh
+              {t("button.refresh")}
             </button>
           </div>
 
           {loading ? (
             <div className="p-10 text-center text-gray-500 font-semibold">
               <Loader2 className="w-6 h-6 animate-spin mx-auto mb-2" />
-              Loading announcements...
+              {t("interface.loadingAnnouncements")}
             </div>
           ) : (
             <div className="divide-y divide-gray-100">
@@ -502,7 +501,7 @@ export default function ApanelAnnouncements() {
                         {record.priority === "high" && (
                           <span className="text-[10px] font-black uppercase bg-amber-100 text-amber-700 px-2 py-1 rounded-lg inline-flex items-center gap-1">
                             <Sparkles className="w-3 h-3" />
-                            Important
+                            {t("apanel.announcements.important")}
                           </span>
                         )}
                         <span className="text-[10px] font-black uppercase bg-blue-50 text-blue-600 px-2 py-1 rounded-lg inline-flex items-center gap-1">
@@ -513,7 +512,7 @@ export default function ApanelAnnouncements() {
                       <h3 className="font-black text-navy truncate">{title}</h3>
                       <p className="text-xs text-gray-400 mt-1 flex items-center gap-1">
                         <Calendar className="w-3.5 h-3.5" />
-                        {toDateInput(record.starts_at) || "No start date"}
+                        {toDateInput(record.starts_at) || t("interface.noStartDate")}
                       </p>
                     </div>
                     <div className="flex items-center gap-2">
@@ -525,7 +524,7 @@ export default function ApanelAnnouncements() {
                         ) : (
                           <EyeOff className="w-3.5 h-3.5" />
                         )}
-                        {record.is_published ? "Published" : "Hidden"}
+                        {record.is_published ? t("apanel.greenCampus.label.published") : t("status.hidden")}
                       </span>
                       <button
                         onClick={() => startEdit(record)}
@@ -560,7 +559,7 @@ export default function ApanelAnnouncements() {
         >
           <div className="flex items-center justify-between gap-3">
             <h2 className="font-black text-navy">
-              {editingRecord ? "Edit Announcement" : "Add Announcement"}
+              {editingRecord ? t("interface.editAnnouncement") : t("interface.addAnnouncement")}
             </h2>
             <button
               type="button"
@@ -588,7 +587,7 @@ export default function ApanelAnnouncements() {
             </label>
             <label className="space-y-1">
               <span className="text-xs font-extrabold text-gray-500">
-                Category Key
+                {t("apanel.greenCampus.label.categoryKey")}
               </span>
               <input
                 value={form.type}
@@ -604,7 +603,7 @@ export default function ApanelAnnouncements() {
             </label>
             <label className="space-y-1">
               <span className="text-xs font-extrabold text-gray-500">
-                Priority
+                {t("apanel.crud.ui.label.priority")}
               </span>
               <select
                 value={form.priority}
@@ -622,7 +621,7 @@ export default function ApanelAnnouncements() {
             </label>
             <label className="space-y-1">
               <span className="text-xs font-extrabold text-gray-500">
-                Publisher
+                {t("interface.publisher")}
               </span>
               <select
                 value={form.publisher_id}
@@ -634,7 +633,7 @@ export default function ApanelAnnouncements() {
                 }
                 className="w-full border border-gray-100 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-primary bg-white"
               >
-                <option value="">Default publisher</option>
+                <option value="">{t("interface.defaultPublisher")}</option>
                 {publishers.map((publisher) => (
                   <option key={publisher.id} value={publisher.id}>
                     {publisher.name || publisher.slug}
@@ -644,7 +643,7 @@ export default function ApanelAnnouncements() {
             </label>
             <label className="space-y-1">
               <span className="text-xs font-extrabold text-gray-500">
-                Starts At
+                {t("interface.startsAt")}
               </span>
               <input
                 type="date"
@@ -660,7 +659,7 @@ export default function ApanelAnnouncements() {
             </label>
             <label className="space-y-1">
               <span className="text-xs font-extrabold text-gray-500">
-                Ends At
+                {t("interface.endsAt")}
               </span>
               <input
                 type="date"
@@ -676,7 +675,7 @@ export default function ApanelAnnouncements() {
             </label>
             <label className="space-y-1">
               <span className="text-xs font-extrabold text-gray-500">
-                Views Count
+                {t("interface.viewsCount")}
               </span>
               <input
                 type="number"
@@ -696,7 +695,7 @@ export default function ApanelAnnouncements() {
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_220px] gap-4">
             <label className="space-y-1">
               <span className="text-xs font-extrabold text-gray-500">
-                Image URL or storage path
+                {t("interface.imagePath")}
               </span>
               <input
                 value={form.image}
@@ -713,7 +712,7 @@ export default function ApanelAnnouncements() {
               ) : (
                 <Upload className="w-4 h-4" />
               )}
-              Upload Image
+              {t("interface.uploadImage")}
               <input
                 type="file"
                 accept="image/*"
@@ -734,7 +733,7 @@ export default function ApanelAnnouncements() {
                 }))
               }
             />
-            Published
+            {t("apanel.greenCampus.label.published")}
           </label>
 
           <div className="flex flex-wrap gap-2">
@@ -753,7 +752,7 @@ export default function ApanelAnnouncements() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <label className="space-y-1">
               <span className="text-xs font-extrabold text-gray-500">
-                Title
+                {t("apanel.aboutPage.label.title")}
               </span>
               <input
                 value={form.translations[activeLocale].title}
@@ -771,7 +770,7 @@ export default function ApanelAnnouncements() {
             </label>
             <label className="space-y-1">
               <span className="text-xs font-extrabold text-gray-500">
-                Category Label
+                {t("apanel.greenCampus.label.categoryLabel")}
               </span>
               <input
                 value={form.translations[activeLocale].category_label}
@@ -789,7 +788,7 @@ export default function ApanelAnnouncements() {
 
           <label className="space-y-1 block">
             <span className="text-xs font-extrabold text-gray-500">
-              Summary
+              {t("interface.summary")}
             </span>
             <textarea
               value={form.translations[activeLocale].summary}
@@ -802,7 +801,7 @@ export default function ApanelAnnouncements() {
           </label>
           <label className="space-y-1 block">
             <span className="text-xs font-extrabold text-gray-500">
-              Content
+              {t("apanel.greenCampus.label.content")}
             </span>
             <textarea
               value={form.translations[activeLocale].content}
@@ -823,7 +822,7 @@ export default function ApanelAnnouncements() {
             ) : (
               <Save className="w-4 h-4" />
             )}
-            Save Announcement
+            {t("interface.saveAnnouncement")}
           </button>
         </form>
       )}
@@ -857,7 +856,7 @@ export default function ApanelAnnouncements() {
             ))}
             <label className="space-y-1">
               <span className="text-xs font-extrabold text-gray-500">
-                Active
+                {t("apanel.crud.ui.label.active")}
               </span>
               <select
                 value={settingsForm.is_active ? "1" : "0"}
@@ -914,7 +913,7 @@ export default function ApanelAnnouncements() {
             ) : (
               <Save className="w-4 h-4" />
             )}
-            Save Settings
+            {t("interface.saveSettings")}
           </button>
         </form>
       )}

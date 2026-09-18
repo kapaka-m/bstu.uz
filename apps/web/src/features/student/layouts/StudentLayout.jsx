@@ -148,7 +148,7 @@ export default function StudentLayout({ children }) {
   const HeaderIcon = activeMenuLink?.icon || LayoutDashboard;
   const unreadCount = notifications.filter((item) => !item.is_read).length;
   const dropdownAlign = isRtl ? "left-0" : "right-0";
-  const portalLabel = t("student.portal") || "Student Portal";
+  const portalLabel = t("interface.studentPortal");
   const supportLabel = t("student.nav.support") || "Messages";
 
   const closeHeaderMenus = () => {
@@ -282,7 +282,7 @@ export default function StudentLayout({ children }) {
             <button
               onClick={() => setMobileSidebarOpen(true)}
               className="md:hidden flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-gray-200 bg-white text-navy shadow-2xs transition-all hover:border-primary/30 hover:bg-primary/5 hover:text-primary"
-              aria-label="Open student menu"
+              aria-label={t("interface.openStudentMenu")}
             >
               <MenuIcon className="w-5 h-5" />
             </button>

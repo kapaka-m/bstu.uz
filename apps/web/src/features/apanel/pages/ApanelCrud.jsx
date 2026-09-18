@@ -30,6 +30,7 @@ import {
 } from "lucide-react";
 import FormError from "../../../components/common/FormError";
 import { useLanguage } from "../../../context/LanguageContext";
+import { selectTranslation } from "../../../lib/localizedContent";
 
 // Config schemas for all whitelisted resources
 const RESOURCE_SCHEMAS = {
@@ -491,6 +492,12 @@ const RESOURCE_SCHEMAS = {
         label: "apanel.crud.ui.label.biographicalOverview",
         type: "textarea",
         required: true,
+        translated: true,
+      },
+      {
+        name: "office",
+        label: "apanel.administration.label.officeHours",
+        type: "text",
         translated: true,
       },
     ],
@@ -1124,16 +1131,6 @@ const localizeResourceSchema = (schema, t) => ({
   })),
 });
 
-const getPrimaryTranslation = (item, preferredLocale = "en") => {
-  const translations = Array.isArray(item?.translations) ? item.translations : [];
-  return (
-    translations.find((translation) => translation.locale === preferredLocale) ||
-    translations.find((translation) => translation.locale === "en") ||
-    translations[0] ||
-    {}
-  );
-};
-
 const countByDepartmentId = (items = []) =>
   items.reduce((acc, item) => {
     if (!item?.department_id) return acc;
@@ -1173,7 +1170,8 @@ const getInitials = (name) => {
 };
 
 export default function ApanelCrud() {
-  const { t, locales: availableLocales } = useLanguage();
+  const { t, language, locales: availableLocales } = useLanguage();
+  const getPrimaryTranslation = (item) => selectTranslation(item, language);
   const { resource } = useParams();
   const navigate = useNavigate();
 
@@ -1887,28 +1885,28 @@ export default function ApanelCrud() {
         <div className="flex flex-col gap-3 rounded-3xl border border-gray-100 bg-white p-5 shadow-sm lg:flex-row lg:items-center lg:justify-between">
           <div className="min-w-0">
             <p className="text-[10px] font-black uppercase tracking-widest text-primary">
-              Faculty Management
+              {t("interface.facultyManagement")}
             </p>
             <h2 className="mt-1 text-xl font-black text-navy">
-              Academic structure overview
+              {t("interface.academicStructureOverview")}
             </h2>
           </div>
           <div className="grid grid-cols-3 gap-2 text-center">
             <div className="rounded-2xl border border-gray-100 px-4 py-3">
               <p className="text-lg font-black text-navy">{dataList.length}</p>
-              <p className="text-[10px] font-black uppercase tracking-wider text-gray-400">Shown</p>
+              <p className="text-[10px] font-black uppercase tracking-wider text-gray-400">{t("interface.shown")}</p>
             </div>
             <div className="rounded-2xl border border-gray-100 px-4 py-3">
               <p className="text-lg font-black text-emerald-600">
                 {dataList.filter((item) => item.is_active).length}
               </p>
-              <p className="text-[10px] font-black uppercase tracking-wider text-gray-400">Active</p>
+              <p className="text-[10px] font-black uppercase tracking-wider text-gray-400">{t("apanel.crud.ui.label.active")}</p>
             </div>
             <div className="rounded-2xl border border-gray-100 px-4 py-3">
               <p className="text-lg font-black text-cyan-600">
                 {Object.values(facultyRelations.departments).reduce((sum, value) => sum + value, 0)}
               </p>
-              <p className="text-[10px] font-black uppercase tracking-wider text-gray-400">Departments</p>
+              <p className="text-[10px] font-black uppercase tracking-wider text-gray-400">{t("apanel.crud.ui.title.departments")}</p>
             </div>
           </div>
         </div>
@@ -1942,7 +1940,7 @@ export default function ApanelCrud() {
                                 : "bg-rose-50 text-rose-700 ring-1 ring-rose-100"
                             }`}
                           >
-                            {faculty.is_active ? "Active" : "Inactive"}
+                            {faculty.is_active ? t("apanel.crud.ui.label.active") : t("status.inactive")}
                           </span>
                         </div>
                         <div className="mt-2 flex flex-wrap items-center gap-2 text-[11px] font-extrabold text-gray-400">
@@ -1979,7 +1977,7 @@ export default function ApanelCrud() {
                     </div>
 
                     <p className="mt-3 line-clamp-2 text-xs font-semibold leading-5 text-gray-500">
-                      {translation.description || "No overview entered yet."}
+                      {translation.description || t("interface.noOverview")}
                     </p>
 
                     <div className="mt-4 grid grid-cols-3 gap-2">
@@ -2035,7 +2033,7 @@ export default function ApanelCrud() {
                         className="inline-flex items-center gap-1.5 rounded-xl border border-gray-100 px-3 py-2 text-[11px] font-black text-navy transition-all hover:bg-gray-50"
                       >
                         <ExternalLink className="h-3.5 w-3.5" />
-                        Public page
+                        {t("interface.publicPage")}
                       </button>
                       <button
                         type="button"
@@ -2043,7 +2041,7 @@ export default function ApanelCrud() {
                         className="inline-flex items-center gap-1.5 rounded-xl border border-gray-100 px-3 py-2 text-[11px] font-black text-navy transition-all hover:bg-gray-50"
                       >
                         <Building2 className="h-3.5 w-3.5" />
-                        Departments
+                        {t("apanel.crud.ui.title.departments")}
                       </button>
                       <button
                         type="button"
@@ -2051,7 +2049,7 @@ export default function ApanelCrud() {
                         className="inline-flex items-center gap-1.5 rounded-xl border border-gray-100 px-3 py-2 text-[11px] font-black text-navy transition-all hover:bg-gray-50"
                       >
                         <BookOpen className="h-3.5 w-3.5" />
-                        Programs
+                        {t("common.programs")}
                       </button>
                     </div>
                 </div>
@@ -2071,28 +2069,28 @@ export default function ApanelCrud() {
         <div className="flex flex-col gap-3 rounded-3xl border border-gray-100 bg-white p-5 shadow-sm lg:flex-row lg:items-center lg:justify-between">
           <div className="min-w-0">
             <p className="text-[10px] font-black uppercase tracking-widest text-primary">
-              Department Management
+              {t("interface.departmentManagement")}
             </p>
             <h2 className="mt-1 text-xl font-black text-navy">
-              Academic departments overview
+              {t("interface.academicDepartmentsOverview")}
             </h2>
           </div>
           <div className="grid grid-cols-3 gap-2 text-center">
             <div className="rounded-2xl border border-gray-100 px-4 py-3">
               <p className="text-lg font-black text-navy">{dataList.length}</p>
-              <p className="text-[10px] font-black uppercase tracking-wider text-gray-400">Shown</p>
+              <p className="text-[10px] font-black uppercase tracking-wider text-gray-400">{t("interface.shown")}</p>
             </div>
             <div className="rounded-2xl border border-gray-100 px-4 py-3">
               <p className="text-lg font-black text-emerald-600">
                 {dataList.filter((item) => item.is_active).length}
               </p>
-              <p className="text-[10px] font-black uppercase tracking-wider text-gray-400">Active</p>
+              <p className="text-[10px] font-black uppercase tracking-wider text-gray-400">{t("apanel.crud.ui.label.active")}</p>
             </div>
             <div className="rounded-2xl border border-gray-100 px-4 py-3">
               <p className="text-lg font-black text-cyan-600">
                 {new Set(dataList.map((item) => item.faculty_id).filter(Boolean)).size}
               </p>
-              <p className="text-[10px] font-black uppercase tracking-wider text-gray-400">Faculties</p>
+              <p className="text-[10px] font-black uppercase tracking-wider text-gray-400">{t("apanel.crud.ui.title.faculties")}</p>
             </div>
           </div>
         </div>
@@ -2127,7 +2125,7 @@ export default function ApanelCrud() {
                               : "bg-rose-50 text-rose-700 ring-1 ring-rose-100"
                           }`}
                         >
-                          {department.is_active ? "Active" : "Inactive"}
+                          {department.is_active ? t("apanel.crud.ui.label.active") : t("status.inactive")}
                         </span>
                       </div>
 
@@ -2171,7 +2169,7 @@ export default function ApanelCrud() {
                   </div>
 
                   <p className="mt-3 line-clamp-2 text-xs font-semibold leading-5 text-gray-500">
-                    {translation.description || "No overview entered yet."}
+                    {translation.description || t("interface.noOverview")}
                   </p>
 
                   <div className="mt-4 grid grid-cols-2 gap-2">
@@ -2226,7 +2224,7 @@ export default function ApanelCrud() {
                       className="inline-flex items-center gap-1.5 rounded-xl border border-gray-100 px-3 py-2 text-[11px] font-black text-navy transition-all hover:bg-gray-50"
                     >
                       <ExternalLink className="h-3.5 w-3.5" />
-                      Public page
+                      {t("interface.publicPage")}
                     </button>
                     <button
                       type="button"
@@ -2234,7 +2232,7 @@ export default function ApanelCrud() {
                       className="inline-flex items-center gap-1.5 rounded-xl border border-gray-100 px-3 py-2 text-[11px] font-black text-navy transition-all hover:bg-gray-50"
                     >
                       <BookOpen className="h-3.5 w-3.5" />
-                      Programs
+                      {t("common.programs")}
                     </button>
                     <button
                       type="button"
@@ -2242,7 +2240,7 @@ export default function ApanelCrud() {
                       className="inline-flex items-center gap-1.5 rounded-xl border border-gray-100 px-3 py-2 text-[11px] font-black text-navy transition-all hover:bg-gray-50"
                     >
                       <UsersRound className="h-3.5 w-3.5" />
-                      Staff
+                      {t("interface.staff")}
                     </button>
                   </div>
                 </div>
@@ -2265,22 +2263,22 @@ export default function ApanelCrud() {
         <div className="flex flex-col gap-3 rounded-3xl border border-gray-100 bg-white p-5 shadow-sm lg:flex-row lg:items-center lg:justify-between">
           <div className="min-w-0">
             <p className="text-[10px] font-black uppercase tracking-widest text-primary">
-              Program Management
+              {t("interface.programManagement")}
             </p>
             <h2 className="mt-1 text-xl font-black text-navy">
-              Study programs overview
+              {t("interface.programOverview")}
             </h2>
           </div>
           <div className="grid grid-cols-3 gap-2 text-center">
             <div className="rounded-2xl border border-gray-100 px-4 py-3">
               <p className="text-lg font-black text-navy">{dataList.length}</p>
-              <p className="text-[10px] font-black uppercase tracking-wider text-gray-400">Shown</p>
+              <p className="text-[10px] font-black uppercase tracking-wider text-gray-400">{t("interface.shown")}</p>
             </div>
             <div className="rounded-2xl border border-gray-100 px-4 py-3">
               <p className="text-lg font-black text-emerald-600">
                 {dataList.filter((item) => item.is_active).length}
               </p>
-              <p className="text-[10px] font-black uppercase tracking-wider text-gray-400">Active</p>
+              <p className="text-[10px] font-black uppercase tracking-wider text-gray-400">{t("apanel.crud.ui.label.active")}</p>
             </div>
             <div className="rounded-2xl border border-gray-100 px-4 py-3">
               <p className="text-lg font-black text-amber-600">{bachelorCount}/{masterCount}</p>
@@ -2319,7 +2317,7 @@ export default function ApanelCrud() {
                               : "bg-rose-50 text-rose-700 ring-1 ring-rose-100"
                           }`}
                         >
-                          {program.is_active ? "Active" : "Inactive"}
+                          {program.is_active ? t("apanel.crud.ui.label.active") : t("status.inactive")}
                         </span>
                       </div>
 
@@ -2338,7 +2336,7 @@ export default function ApanelCrud() {
                         </span>
                         {program.show_on_homepage && (
                           <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-emerald-700">
-                            Home #{program.homepage_sort_order || "--"}
+                            {t("interface.homeNumber")}{program.homepage_sort_order || "--"}
                           </span>
                         )}
                       </div>
@@ -2365,7 +2363,7 @@ export default function ApanelCrud() {
                   </div>
 
                   <p className="mt-3 line-clamp-2 text-xs font-semibold leading-5 text-gray-500">
-                    {translation.description || "No overview entered yet."}
+                    {translation.description || t("interface.noOverview")}
                   </p>
 
                   <div className="mt-4 grid grid-cols-2 gap-2 lg:grid-cols-5">
@@ -2419,7 +2417,7 @@ export default function ApanelCrud() {
                       className="inline-flex items-center gap-1.5 rounded-xl border border-gray-100 px-3 py-2 text-[11px] font-black text-navy transition-all hover:bg-gray-50"
                     >
                       <ExternalLink className="h-3.5 w-3.5" />
-                      Public page
+                      {t("interface.publicPage")}
                     </button>
                     <button
                       type="button"
@@ -2427,7 +2425,7 @@ export default function ApanelCrud() {
                       className="inline-flex items-center gap-1.5 rounded-xl border border-gray-100 px-3 py-2 text-[11px] font-black text-navy transition-all hover:bg-gray-50"
                     >
                       <GraduationCap className="h-3.5 w-3.5" />
-                      Faculties
+                      {t("apanel.crud.ui.title.faculties")}
                     </button>
                     <button
                       type="button"
@@ -2435,7 +2433,7 @@ export default function ApanelCrud() {
                       className="inline-flex items-center gap-1.5 rounded-xl border border-gray-100 px-3 py-2 text-[11px] font-black text-navy transition-all hover:bg-gray-50"
                     >
                       <Building2 className="h-3.5 w-3.5" />
-                      Departments
+                      {t("apanel.crud.ui.title.departments")}
                     </button>
                   </div>
                 </div>
@@ -2458,24 +2456,24 @@ export default function ApanelCrud() {
         <div className="flex flex-col gap-3 rounded-3xl border border-gray-100 bg-white p-5 shadow-sm lg:flex-row lg:items-center lg:justify-between">
           <div className="min-w-0">
             <p className="text-[10px] font-black uppercase tracking-widest text-primary">
-              Course Management
+              {t("interface.courseManagement")}
             </p>
             <h2 className="mt-1 text-xl font-black text-navy">
-              Course catalog overview
+              {t("interface.courseOverview")}
             </h2>
           </div>
           <div className="grid grid-cols-3 gap-2 text-center">
             <div className="rounded-2xl border border-gray-100 px-4 py-3">
               <p className="text-lg font-black text-navy">{dataList.length}</p>
-              <p className="text-[10px] font-black uppercase tracking-wider text-gray-400">Shown</p>
+              <p className="text-[10px] font-black uppercase tracking-wider text-gray-400">{t("interface.shown")}</p>
             </div>
             <div className="rounded-2xl border border-gray-100 px-4 py-3">
               <p className="text-lg font-black text-cyan-600">{credits}</p>
-              <p className="text-[10px] font-black uppercase tracking-wider text-gray-400">Credits</p>
+              <p className="text-[10px] font-black uppercase tracking-wider text-gray-400">{t("apanel.crud.ui.label.credits")}</p>
             </div>
             <div className="rounded-2xl border border-gray-100 px-4 py-3">
               <p className="text-lg font-black text-amber-600">{semesters}</p>
-              <p className="text-[10px] font-black uppercase tracking-wider text-gray-400">Semesters</p>
+              <p className="text-[10px] font-black uppercase tracking-wider text-gray-400">{t("interface.semesters")}</p>
             </div>
           </div>
         </div>
@@ -2506,7 +2504,7 @@ export default function ApanelCrud() {
                               : "bg-rose-50 text-rose-700 ring-1 ring-rose-100"
                           }`}
                         >
-                          {course.is_active ? "Active" : "Inactive"}
+                          {course.is_active ? t("apanel.crud.ui.label.active") : t("status.inactive")}
                         </span>
                       </div>
 
@@ -2516,10 +2514,10 @@ export default function ApanelCrud() {
                           <span className="truncate">{course.code || `ID ${course.id}`}</span>
                         </span>
                         <span className="rounded-full bg-cyan-50 px-2.5 py-1 text-cyan-700">
-                          {course.credits || 0} credits
+                          {course.credits || 0} {t("interface.credits")}
                         </span>
                         <span className="rounded-full bg-amber-50 px-2.5 py-1 text-amber-700">
-                          Semester {course.semester || "—"}
+                          {t("apanel.crud.ui.label.semester")} {course.semester || "—"}
                         </span>
                       </div>
                     </div>
@@ -2545,7 +2543,7 @@ export default function ApanelCrud() {
                   </div>
 
                   <p className="mt-3 line-clamp-3 text-xs font-semibold leading-5 text-gray-500">
-                    {translation.description || "No course description entered yet."}
+                    {translation.description || t("interface.noCourseDescription")}
                   </p>
 
                   <div className="mt-4 grid grid-cols-3 gap-2">
@@ -2576,7 +2574,7 @@ export default function ApanelCrud() {
                       className="inline-flex items-center gap-1.5 rounded-xl border border-gray-100 px-3 py-2 text-[11px] font-black text-navy transition-all hover:bg-gray-50"
                     >
                       <Pencil className="h-3.5 w-3.5" />
-                      Edit course
+                      {t("interface.editCourse")}
                     </button>
                     <button
                       type="button"
@@ -2584,7 +2582,7 @@ export default function ApanelCrud() {
                       className="inline-flex items-center gap-1.5 rounded-xl border border-gray-100 px-3 py-2 text-[11px] font-black text-navy transition-all hover:bg-gray-50"
                     >
                       <BookOpen className="h-3.5 w-3.5" />
-                      Programs
+                      {t("common.programs")}
                     </button>
                   </div>
                 </div>
@@ -2608,24 +2606,24 @@ export default function ApanelCrud() {
         <div className="flex flex-col gap-3 rounded-3xl border border-gray-100 bg-white p-5 shadow-sm lg:flex-row lg:items-center lg:justify-between">
           <div className="min-w-0">
             <p className="text-[10px] font-black uppercase tracking-widest text-primary">
-              Staff Management
+              {t("interface.staffManagement")}
             </p>
             <h2 className="mt-1 text-xl font-black text-navy">
-              Academic and leadership profiles
+              {t("interface.staffOverview")}
             </h2>
           </div>
           <div className="grid grid-cols-3 gap-2 text-center">
             <div className="rounded-2xl border border-gray-100 px-4 py-3">
               <p className="text-lg font-black text-navy">{dataList.length}</p>
-              <p className="text-[10px] font-black uppercase tracking-wider text-gray-400">Shown</p>
+              <p className="text-[10px] font-black uppercase tracking-wider text-gray-400">{t("interface.shown")}</p>
             </div>
             <div className="rounded-2xl border border-gray-100 px-4 py-3">
               <p className="text-lg font-black text-emerald-600">{visibleActive}</p>
-              <p className="text-[10px] font-black uppercase tracking-wider text-gray-400">Active</p>
+              <p className="text-[10px] font-black uppercase tracking-wider text-gray-400">{t("apanel.crud.ui.label.active")}</p>
             </div>
             <div className="rounded-2xl border border-gray-100 px-4 py-3">
               <p className="text-lg font-black text-cyan-600">{visibleWithPhotos}/{visibleDepartments}</p>
-              <p className="text-[10px] font-black uppercase tracking-wider text-gray-400">Photos/Dept</p>
+              <p className="text-[10px] font-black uppercase tracking-wider text-gray-400">{t("interface.photosDepartments")}</p>
             </div>
           </div>
         </div>
@@ -2676,7 +2674,7 @@ export default function ApanelCrud() {
                                 : "bg-rose-50 text-rose-700 ring-1 ring-rose-100"
                             }`}
                           >
-                            {staff.is_active ? "Active" : "Inactive"}
+                            {staff.is_active ? t("apanel.crud.ui.label.active") : t("status.inactive")}
                           </span>
                         </div>
                         <p className="mt-1 truncate text-xs font-black uppercase tracking-wider text-primary">
@@ -2688,9 +2686,9 @@ export default function ApanelCrud() {
                             <span className="truncate">{staff.slug || `ID ${staff.id}`}</span>
                           </span>
                           {portrait ? (
-                            <span className="rounded-full bg-cyan-50 px-2.5 py-1 text-cyan-700">Photo ready</span>
+                            <span className="rounded-full bg-cyan-50 px-2.5 py-1 text-cyan-700">{t("interface.photoReady")}</span>
                           ) : (
-                            <span className="rounded-full bg-amber-50 px-2.5 py-1 text-amber-700">No photo</span>
+                            <span className="rounded-full bg-amber-50 px-2.5 py-1 text-amber-700">{t("interface.noPhoto")}</span>
                           )}
                         </div>
                       </div>
@@ -2716,20 +2714,20 @@ export default function ApanelCrud() {
                     </div>
 
                     <p className="mt-3 line-clamp-2 text-xs font-semibold leading-5 text-gray-500">
-                      {translation.bio || "No biography entered yet."}
+                      {translation.bio || t("interface.noBiography")}
                     </p>
 
                     <div className="mt-4 grid gap-2 text-xs font-bold text-gray-500 sm:grid-cols-2">
                       <span className="flex min-w-0 items-center gap-2">
                         <GraduationCap className="h-3.5 w-3.5 shrink-0 text-primary" />
                         <span className="truncate">
-                          {facultyTranslation.name || (staff.faculty_id ? `Faculty #${staff.faculty_id}` : "No faculty")}
+                          {facultyTranslation.name || (staff.faculty_id ? `Faculty #${staff.faculty_id}` : t("interface.noFaculty"))}
                         </span>
                       </span>
                       <span className="flex min-w-0 items-center gap-2">
                         <Building2 className="h-3.5 w-3.5 shrink-0 text-primary" />
                         <span className="truncate">
-                          {departmentTranslation.name || (staff.department_id ? `Department #${staff.department_id}` : "Faculty leadership")}
+                          {departmentTranslation.name || (staff.department_id ? `Department #${staff.department_id}` : t("interface.facultyLeadership"))}
                         </span>
                       </span>
                       {staff.phone && (
@@ -2753,7 +2751,7 @@ export default function ApanelCrud() {
                         className="inline-flex items-center gap-1.5 rounded-xl border border-gray-100 px-3 py-2 text-[11px] font-black text-navy transition-all hover:bg-gray-50"
                       >
                         <ExternalLink className="h-3.5 w-3.5" />
-                        Public profile
+                        {t("interface.publicProfile")}
                       </button>
                       <button
                         type="button"
@@ -2761,7 +2759,7 @@ export default function ApanelCrud() {
                         className="inline-flex items-center gap-1.5 rounded-xl border border-gray-100 px-3 py-2 text-[11px] font-black text-navy transition-all hover:bg-gray-50"
                       >
                         <GraduationCap className="h-3.5 w-3.5" />
-                        Faculties
+                        {t("apanel.crud.ui.title.faculties")}
                       </button>
                       <button
                         type="button"
@@ -2769,7 +2767,7 @@ export default function ApanelCrud() {
                         className="inline-flex items-center gap-1.5 rounded-xl border border-gray-100 px-3 py-2 text-[11px] font-black text-navy transition-all hover:bg-gray-50"
                       >
                         <Building2 className="h-3.5 w-3.5" />
-                        Departments
+                        {t("apanel.crud.ui.title.departments")}
                       </button>
                     </div>
                   </div>

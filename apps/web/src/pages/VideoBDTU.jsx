@@ -288,10 +288,10 @@ export default function VideoBDTU() {
               <AlertCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
               <div className="min-w-0">
                 <h1 className="text-lg font-extrabold text-navy break-words">
-                  {error ? asText(pageTitle) : settings.no_videos_label || "No videos available."}
+                  {error ? asText(pageTitle) : settings.no_videos_label || t("interface.noVideos")}
                 </h1>
                 <p className="mt-2 text-sm font-semibold text-gray-500 break-words">
-                  {error || settings.no_videos_label || "No videos are currently published in the gallery."}
+                  {error || settings.no_videos_label || t("interface.noPublishedVideos")}
                 </p>
               </div>
             </div>
@@ -328,7 +328,7 @@ export default function VideoBDTU() {
                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-navy text-white text-center p-6">
                   <Video className="w-10 h-10 text-primary" />
                   <p className="text-sm font-extrabold break-words">
-                    {settings.no_videos_label || "Video source is not available."}
+                    {settings.no_videos_label || t("interface.videoSourceUnavailable")}
                   </p>
                 </div>
               )}

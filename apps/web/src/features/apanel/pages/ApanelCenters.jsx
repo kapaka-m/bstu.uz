@@ -269,10 +269,10 @@ export default function ApanelCenters() {
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-2xl font-black tracking-tight text-navy">
-            Centres and Departments
+            {t("interface.centres")}
           </h1>
           <p className="text-xs font-bold text-gray-400">
-            Manage structural centers, student offices, and general settings.
+            {t("interface.centresHelp")}
           </p>
         </div>
 
@@ -287,14 +287,14 @@ export default function ApanelCenters() {
                 className="inline-flex cursor-pointer items-center gap-2 rounded-xl border border-gray-100 bg-white px-4 py-2.5 text-xs font-extrabold text-navy transition-all hover:bg-gray-55"
               >
                 <SettingsIcon className="w-4 h-4 text-gray-500" />
-                Customize Labels
+                {t("interface.customizeLabels")}
               </button>
               <button
                 onClick={startCreate}
                 className="inline-flex cursor-pointer items-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-xs font-extrabold text-white shadow-md shadow-primary/10 transition-all hover:bg-primary-dark"
               >
                 <Plus className="w-4 h-4" />
-                Add Centre / Department
+                {t("interface.addCentre")}
               </button>
             </>
           )}
@@ -325,7 +325,7 @@ export default function ApanelCenters() {
                 {sortedItems.length === 0 ? (
                   <tr>
                     <td colSpan={6} className="px-6 py-10 text-center font-bold text-gray-400">
-                      No centers or departments found.
+                      {t("interface.noCentres")}
                     </td>
                   </tr>
                 ) : (
@@ -347,7 +347,7 @@ export default function ApanelCenters() {
                           )}
                           <div>
                             <div className="font-extrabold text-navy">{item.name}</div>
-                            <div className="text-[10px] text-gray-400 font-bold">{item.email || "No Email"}</div>
+                            <div className="text-[10px] text-gray-400 font-bold">{item.email || t("interface.noEmail")}</div>
                           </div>
                         </div>
                       </td>
@@ -358,8 +358,8 @@ export default function ApanelCenters() {
                       </td>
                       <td className="px-6 py-4">
                         <div>
-                          <div className="text-navy">{item.head || "Not Set"}</div>
-                          <div className="text-[10px] text-primary font-bold uppercase">{item.headTitle || "No Title"}</div>
+                          <div className="text-navy">{item.head || t("interface.notSet")}</div>
+                          <div className="text-[10px] text-primary font-bold uppercase">{item.headTitle || t("interface.noTitle")}</div>
                         </div>
                       </td>
                       <td className="px-6 py-4">
@@ -370,7 +370,7 @@ export default function ApanelCenters() {
                               : "bg-red-50 text-red-600"
                           }`}
                         >
-                          {item.is_active ? "Active" : "Draft"}
+                          {item.is_active ? t("apanel.crud.ui.label.active") : t("status.draft")}
                         </span>
                       </td>
                       <td className="px-6 py-4 text-right">
@@ -402,10 +402,10 @@ export default function ApanelCenters() {
           <div className="mb-6 flex flex-wrap items-center justify-between gap-4 border-b border-gray-100 pb-4">
             <div>
               <h2 className="text-lg font-black text-navy">
-                {editing ? "Edit Centre / Department" : "New Centre / Department"}
+                {editing ? t("interface.editCentre") : t("interface.newCentre")}
               </h2>
               <p className="text-xs font-bold text-gray-400">
-                Provide basic details and translations in all 4 languages.
+                {t("interface.basicDetailsHelp")}
               </p>
             </div>
             <LocaleTabs active={activeLocale} onChange={setActiveLocale} localeOptions={localeOptions} />
@@ -444,7 +444,7 @@ export default function ApanelCenters() {
                   />
 
                   <label className="flex flex-col justify-end pb-1 text-xs font-bold text-gray-500">
-                    Status
+                    {t("apanel.blog.status")}
                     <select
                       value={form.is_active ? "1" : "0"}
                       onChange={(e) => setForm((prev) => ({ ...prev, is_active: e.target.value === "1" }))}
@@ -465,7 +465,7 @@ export default function ApanelCenters() {
                     <>
                       <img
                         src={storageUrl(form.image)}
-                        alt="Preview"
+                        alt={t("interface.preview")}
                         className="max-h-45 w-full rounded-xl object-cover"
                       />
                       <label className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 rounded-2xl transition-opacity cursor-pointer">
@@ -501,7 +501,7 @@ export default function ApanelCenters() {
                   {activeLocale}
                 </span>
                 <span className="text-xs font-bold text-gray-500">
-                  Translation Fields
+                  {t("interface.translationFields")}
                 </span>
               </div>
 
@@ -569,7 +569,7 @@ export default function ApanelCenters() {
                 className="inline-flex cursor-pointer items-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-xs font-extrabold text-white shadow-md shadow-primary/10 transition-all hover:bg-primary-dark disabled:opacity-50"
               >
                 <Save className="w-4 h-4" />
-                {saving ? "Saving..." : "Save"}
+                {saving ? t("interface.saving") : t("common.save")}
               </button>
               <button
                 type="button"
@@ -581,7 +581,7 @@ export default function ApanelCenters() {
                 className="inline-flex cursor-pointer items-center gap-2 rounded-xl border border-gray-100 bg-white px-4 py-2.5 text-xs font-extrabold text-navy hover:bg-gray-50"
               >
                 <X className="w-4 h-4" />
-                Cancel
+                {t("interface.cancel")}
               </button>
             </div>
           </form>
@@ -593,10 +593,10 @@ export default function ApanelCenters() {
             <div>
               <h2 className="text-lg font-black text-navy flex items-center gap-2">
                 <SettingsIcon className="w-5 h-5 text-primary" />
-                Customize Static Labels & Settings
+                {t("interface.customizeSettings")}
               </h2>
               <p className="text-xs font-bold text-gray-400">
-                Change buttons, sidebar titles, and standard support card descriptions for all 4 languages.
+                {t("interface.staticLabelsHelp")}
               </p>
             </div>
             <LocaleTabs active={activeLocale} onChange={setActiveLocale} localeOptions={localeOptions} />
@@ -681,7 +681,7 @@ export default function ApanelCenters() {
                 className="inline-flex cursor-pointer items-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-xs font-extrabold text-white shadow-md shadow-primary/10 transition-all hover:bg-primary-dark disabled:opacity-50"
               >
                 <Save className="w-4 h-4" />
-                {saving ? "Saving Settings..." : "Save Settings"}
+                {saving ? t("interface.savingSettings") : t("interface.saveSettings")}
               </button>
               <button
                 type="button"
@@ -691,7 +691,7 @@ export default function ApanelCenters() {
                 className="inline-flex cursor-pointer items-center gap-2 rounded-xl border border-gray-100 bg-white px-4 py-2.5 text-xs font-extrabold text-navy hover:bg-gray-55"
               >
                 <X className="w-4 h-4" />
-                Cancel
+                {t("interface.cancel")}
               </button>
             </div>
           </form>

@@ -3,6 +3,7 @@ import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 import { defineConfig, globalIgnores } from 'eslint/config'
+import noUntranslatedJsx from './eslint-rules/no-untranslated-jsx.js'
 
 export default defineConfig([
   globalIgnores(['dist']),
@@ -21,5 +22,10 @@ export default defineConfig([
       'no-unused-vars': ['error', { varsIgnorePattern: '^React$', argsIgnorePattern: '^_' }],
       'react-hooks/set-state-in-effect': 'off',
     },
+  },
+  {
+    files: ['src/**/*.{js,jsx}'],
+    plugins: { localization: { rules: { 'no-untranslated-jsx': noUntranslatedJsx } } },
+    rules: { 'localization/no-untranslated-jsx': 'error' },
   },
 ])

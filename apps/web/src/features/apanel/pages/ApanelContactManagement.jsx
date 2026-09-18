@@ -173,11 +173,10 @@ export default function ApanelContactManagement() {
         <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div>
             <h1 className="mt-1 text-2xl font-black uppercase tracking-wider text-navy">
-              Contact Messages
+              {t("apanel.dashboard.contactMessages")}
             </h1>
             <p className="mt-1 text-xs font-semibold text-gray-400">
-              Read, classify, and reply to inquiries submitted from the public
-              Contact page.
+              {t("interface.contactHelp")}
             </p>
           </div>
           <button
@@ -186,7 +185,7 @@ export default function ApanelContactManagement() {
             className="inline-flex items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-xs font-extrabold text-navy hover:bg-gray-50"
           >
             <RefreshCw className="h-4 w-4" />
-            Refresh
+            {t("button.refresh")}
           </button>
         </div>
       </div>
@@ -244,11 +243,11 @@ export default function ApanelContactManagement() {
             {loading ? (
               <div className="flex items-center justify-center gap-2 p-8 text-sm font-bold text-gray-400">
                 <Loader2 className="h-4 w-4 animate-spin" />
-                Loading messages...
+                {t("interface.loadingMessages")}
               </div>
             ) : items.length === 0 ? (
               <div className="p-8 text-center text-sm font-bold text-gray-400">
-                No contact messages found.
+                {t("interface.noContactMessages")}
               </div>
             ) : (
               <div className="space-y-2">
@@ -293,10 +292,10 @@ export default function ApanelContactManagement() {
               onClick={() => setPage((current) => Math.max(1, current - 1))}
               className="rounded-xl border border-gray-200 px-3 py-2 disabled:opacity-40"
             >
-              Previous
+              {t("button.previous")}
             </button>
             <span>
-              Page {page} of {lastPage}
+              {t("apanel.newsletter.page")} {page} of {lastPage}
             </span>
             <button
               type="button"
@@ -306,7 +305,7 @@ export default function ApanelContactManagement() {
               }
               className="rounded-xl border border-gray-200 px-3 py-2 disabled:opacity-40"
             >
-              Next
+              {t("button.next")}
             </button>
           </div>
         </div>
@@ -314,14 +313,14 @@ export default function ApanelContactManagement() {
         <div className="rounded-3xl border border-gray-100 bg-white p-5 shadow-sm">
           {!selected ? (
             <div className="flex min-h-96 items-center justify-center text-sm font-bold text-gray-400">
-              Select a message to read and reply.
+              {t("interface.selectMessage")}
             </div>
           ) : (
             <div className="space-y-5">
               <div className="flex flex-col gap-3 border-b border-gray-100 pb-5 lg:flex-row lg:items-start lg:justify-between">
                 <div>
                   <p className="text-xs font-extrabold uppercase tracking-widest text-primary">
-                    Message #{selected.id}
+                    {t("interface.messageNumber")}{selected.id}
                   </p>
                   <h2 className="mt-1 text-2xl font-black text-navy">
                     {selected.subject}
@@ -336,7 +335,7 @@ export default function ApanelContactManagement() {
                     </a>
                   </p>
                   <p className="mt-1 text-xs font-semibold text-gray-400">
-                    Submitted {formatDate(selected.created_at, primaryLocale, t)}
+                    {t("application.timeline.submitted")} {formatDate(selected.created_at, primaryLocale, t)}
                   </p>
                 </div>
                 <div className="flex flex-wrap gap-2">
@@ -347,7 +346,7 @@ export default function ApanelContactManagement() {
                     className="inline-flex items-center gap-2 rounded-xl border border-gray-200 px-3 py-2 text-xs font-extrabold text-navy hover:bg-gray-50 disabled:opacity-60"
                   >
                     <CheckCircle2 className="h-4 w-4" />
-                    Mark Read
+                    {t("interface.markRead")}
                   </button>
                   <button
                     type="button"
@@ -356,14 +355,14 @@ export default function ApanelContactManagement() {
                     className="inline-flex items-center gap-2 rounded-xl border border-rose-100 bg-rose-50 px-3 py-2 text-xs font-extrabold text-rose-600 disabled:opacity-60"
                   >
                     <Trash2 className="h-4 w-4" />
-                    Delete
+                    {t("button.delete")}
                   </button>
                 </div>
               </div>
 
               <div className="rounded-2xl bg-gray-50 p-5">
                 <p className="mb-2 text-xs font-extrabold uppercase tracking-widest text-gray-400">
-                  Message
+                  {t("interface.message")}
                 </p>
                 <p className="whitespace-pre-line text-sm font-semibold leading-relaxed text-gray-700">
                   {selected.message}
@@ -372,7 +371,7 @@ export default function ApanelContactManagement() {
 
               <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
                 <label className="block text-xs font-extrabold uppercase tracking-wide text-gray-400">
-                  Status
+                  {t("apanel.blog.status")}
                   <select
                     value={selected.status}
                     onChange={(event) =>
@@ -390,7 +389,7 @@ export default function ApanelContactManagement() {
                   </select>
                 </label>
                 <label className="block text-xs font-extrabold uppercase tracking-wide text-gray-400">
-                  Admin Notes
+                  {t("apanel.workflow.adminNotes")}
                   <textarea
                     value={selected.admin_notes}
                     onChange={(event) =>
@@ -403,7 +402,7 @@ export default function ApanelContactManagement() {
               </div>
 
               <label className="block text-xs font-extrabold uppercase tracking-wide text-gray-400">
-                Reply Message
+                {t("interface.replyMessage")}
                 <textarea
                   value={selected.reply_message}
                   onChange={(event) =>
@@ -422,7 +421,7 @@ export default function ApanelContactManagement() {
                   disabled={saving}
                   className="rounded-xl border border-gray-200 px-4 py-2.5 text-xs font-extrabold text-navy hover:bg-gray-50 disabled:opacity-60"
                 >
-                  Save Changes
+                  {t("interface.saveChanges")}
                 </button>
                 <button
                   type="button"
@@ -435,7 +434,7 @@ export default function ApanelContactManagement() {
                   ) : (
                     <Reply className="h-4 w-4" />
                   )}
-                  Save Reply
+                  {t("interface.saveReply")}
                 </button>
               </div>
             </div>

@@ -1,3 +1,4 @@
+import { useLanguage } from "../../../context/LanguageContext";
 import { useEffect, useMemo, useState } from "react";
 import { Loader2, Save } from "lucide-react";
 import FormError from "../../../components/common/FormError";
@@ -168,6 +169,7 @@ const normalizeEmailTemplate = (template, localeCodes) => ({
 });
 
 export default function ApanelAuthCms() {
+  const { t } = useLanguage();
   const localeCodes = useApanelLocaleCodes();
   const primaryLocale = localeCodes[0] || "en";
   const [pages, setPages] = useState([]);
@@ -308,10 +310,10 @@ export default function ApanelAuthCms() {
     <form onSubmit={save} className="space-y-6">
       <div className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm">
         <h1 className="text-2xl font-black uppercase tracking-wide text-navy">
-          CMS Auth
+          {t("interface.authCms")}
         </h1>
         <p className="mt-2 text-sm font-semibold text-gray-500">
-          Manage login, password reset pages, and reset email templates in every active language.
+          {t("interface.authHelp")}
         </p>
       </div>
 
@@ -453,7 +455,7 @@ export default function ApanelAuthCms() {
             </div>
 
             <div className="rounded-2xl border border-primary/10 bg-primary/5 p-4 text-xs font-bold text-navy">
-              Available placeholders: {"{year}"}, {"{email}"}, {"{name}"}, {"{subject}"}, {"{blog_title}"}, {"{reply_author}"}, {"{reply_excerpt}"}, {"{campaign_subject}"}, {"{campaign_title}"}, {"{campaign_message}"}, {"{campaign_cta_label}"}
+              {t("interface.placeholders")} {"{year}"}, {"{email}"}, {"{name}"}, {"{subject}"}, {"{blog_title}"}, {"{reply_author}"}, {"{reply_excerpt}"}, {"{campaign_subject}"}, {"{campaign_title}"}, {"{campaign_message}"}, {"{campaign_cta_label}"}
             </div>
           </div>
         )}
@@ -466,7 +468,7 @@ export default function ApanelAuthCms() {
           className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-extrabold text-white shadow-lg shadow-primary/20 disabled:opacity-60"
         >
           {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
-          {saving ? "Saving..." : "Save Changes"}
+          {saving ? t("interface.saving") : t("interface.saveChanges")}
         </button>
       </div>
     </form>

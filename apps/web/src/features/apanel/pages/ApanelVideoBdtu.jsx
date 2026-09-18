@@ -486,9 +486,9 @@ export default function ApanelVideoBdtu() {
     <div className="space-y-6">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div>
-          <h1 className="text-2xl font-black text-navy">{t("apanel.videoBdtu.title")}</h1>
+          <h1 className="text-2xl font-black text-navy">{t("interface.videoGallery")}</h1>
           <p className="text-sm font-semibold text-gray-500">
-            Control homepage videos and the public video gallery page.
+            {t("interface.videosHelp")}
           </p>
         </div>
         <div className="flex gap-2">
@@ -498,7 +498,7 @@ export default function ApanelVideoBdtu() {
             className="inline-flex items-center gap-2 rounded-xl border border-gray-200 px-4 py-2.5 text-xs font-extrabold text-navy hover:bg-gray-50"
           >
             <RefreshCw className="w-4 h-4" />
-            Refresh
+            {t("button.refresh")}
           </button>
           <button
             type="button"
@@ -509,7 +509,7 @@ export default function ApanelVideoBdtu() {
             className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-xs font-extrabold text-white hover:bg-primary-hover"
           >
             <Plus className="w-4 h-4" />
-            Add Video
+            {t("interface.addVideo")}
           </button>
         </div>
       </div>
@@ -613,7 +613,7 @@ export default function ApanelVideoBdtu() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {categoryOptions.map((category) => (
               <label key={category} className="space-y-1.5">
-                <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">{category} label</span>
+                <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">{category} {t("interface.label")}</span>
                 <input
                   value={currentSettingsTranslation.category_labels?.[category] || category}
                   onChange={(e) =>
@@ -630,7 +630,7 @@ export default function ApanelVideoBdtu() {
 
           <button type="button" onClick={saveSettings} disabled={saving} className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-3 text-xs font-extrabold text-white hover:bg-primary-hover disabled:opacity-60">
             {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-            Save Settings
+            {t("interface.saveSettings")}
           </button>
         </section>
       )}
@@ -640,10 +640,10 @@ export default function ApanelVideoBdtu() {
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
               <h2 className="text-lg font-black text-navy">
-                {editingRecord ? "Edit Video" : "Create Video"}
+                {editingRecord ? t("interface.editVideo") : t("interface.createVideo")}
               </h2>
               <p className="text-xs font-semibold text-gray-500">
-                Update the video source, thumbnail, stats, publishing status, and translated content.
+                {t("interface.videoEditHelp")}
               </p>
             </div>
 
@@ -651,7 +651,7 @@ export default function ApanelVideoBdtu() {
               <div>
                 <h3 className="text-sm font-black text-navy">{t("apanel.videoBdtu.sourcePublishing")}</h3>
                 <p className="text-[11px] font-semibold text-gray-500">
-                  These fields control the media file or YouTube video and the public visibility.
+                  {t("interface.videoSourceHelp")}
                 </p>
               </div>
 
@@ -661,9 +661,9 @@ export default function ApanelVideoBdtu() {
                 <input value={form.slug} onChange={(e) => setField("slug", slugify(e.target.value))} className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm font-semibold text-navy" required />
               </label>
               <label className="space-y-1.5">
-                <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">Publisher</span>
+                <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">{t("interface.publisher")}</span>
                 <select value={form.publisher_id} onChange={(e) => setField("publisher_id", e.target.value)} className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm font-semibold text-navy bg-white">
-                  <option value="">Default publisher</option>
+                  <option value="">{t("interface.defaultPublisher")}</option>
                   {publishers.map((publisher) => (
                     <option key={publisher.id} value={publisher.id}>
                       {publisher.name || publisher.slug}
@@ -735,17 +735,17 @@ export default function ApanelVideoBdtu() {
 
             <label className="inline-flex items-center gap-2 text-sm font-bold text-navy">
               <input type="checkbox" checked={form.is_active} onChange={(e) => setField("is_active", e.target.checked)} />
-              Published
+              {t("apanel.greenCampus.label.published")}
             </label>
             </div>
 
             <div className="rounded-2xl border border-gray-100 bg-white p-4 space-y-4">
               <div>
                 <h3 className="text-sm font-black text-navy">
-                  Translated Content - {localeNames[activeLocale] || activeLocale.toUpperCase()}
+                  {t("interface.translatedContent")} {localeNames[activeLocale] || activeLocale.toUpperCase()}
                 </h3>
                 <p className="text-[11px] font-semibold text-gray-500">
-                  Use the language tabs above to edit the title, category, and description for each locale.
+                  {t("interface.videoTranslationsHelp")}
                 </p>
               </div>
 
@@ -772,7 +772,7 @@ export default function ApanelVideoBdtu() {
             <div className="flex justify-end">
               <button type="submit" disabled={saving} className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-3 text-xs font-extrabold text-white hover:bg-primary-hover disabled:opacity-60">
                 {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-                Save Video
+                {t("interface.saveVideo")}
               </button>
             </div>
           </form>
@@ -818,9 +818,9 @@ export default function ApanelVideoBdtu() {
                         </div>
                       </td>
                       <td className="px-5 py-4 text-xs font-bold text-gray-500">{category}</td>
-                      <td className="px-5 py-4 text-xs font-semibold text-gray-500">{item.views_count || 0} views / {item.likes_count || 0} likes</td>
+                      <td className="px-5 py-4 text-xs font-semibold text-gray-500">{item.views_count || 0} {t("interface.viewsSeparator")} {item.likes_count || 0} {t("interface.likes")}</td>
                       <td className="px-5 py-4">
-                        <span className={`inline-flex px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider ${item.is_active ? "bg-emerald-50 text-emerald-700" : "bg-gray-100 text-gray-500"}`}>{item.is_active ? "Published" : "Hidden"}</span>
+                        <span className={`inline-flex px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider ${item.is_active ? "bg-emerald-50 text-emerald-700" : "bg-gray-100 text-gray-500"}`}>{item.is_active ? t("apanel.greenCampus.label.published") : t("status.hidden")}</span>
                       </td>
                       <td className="px-5 py-4">
                         <div className="flex items-center justify-end gap-2">

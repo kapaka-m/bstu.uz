@@ -283,7 +283,7 @@ export default function ApanelApplicationDetail() {
   if (!application) {
     return (
       <div className="bg-white border border-gray-100 rounded-3xl p-8 text-center text-gray-400 font-semibold shadow-xs">
-        Application not found.
+        {t("apanel.workflow.notFound")}
       </div>
     );
   }
@@ -307,10 +307,10 @@ export default function ApanelApplicationDetail() {
         </Link>
         <div>
           <h1 className="text-xl font-extrabold text-navy uppercase tracking-wider">
-            Application Review
+            {t("interface.applicationReview")}
           </h1>
           <p className="text-gray-400 text-xs font-semibold">
-            ID: #{application.id} — Program: {programName}
+            ID: #{application.id} {t("interface.programPrefix")} {programName}
           </p>
         </div>
       </div>
@@ -330,14 +330,14 @@ export default function ApanelApplicationDetail() {
             <div className="flex items-center gap-2 border-b border-gray-50 pb-4">
               <User className="w-5 h-5 text-navy" />
               <h3 className="font-extrabold text-navy text-sm uppercase tracking-wider">
-                Student Profile
+                {t("interface.studentProfile")}
               </h3>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-semibold">
               <div className="space-y-1">
                 <span className="text-[10px] text-gray-400 uppercase font-bold block">
-                  Full Name:
+                  {t("interface.fullNamePrefix")}
                 </span>
                 <span className="text-navy font-extrabold">
                   {user.name || "—"}
@@ -345,19 +345,19 @@ export default function ApanelApplicationDetail() {
               </div>
               <div className="space-y-1">
                 <span className="text-[10px] text-gray-400 uppercase font-bold block">
-                  Email:
+                  {t("interface.textEmail")}
                 </span>
                 <span className="text-navy">{user.email || "—"}</span>
               </div>
               <div className="space-y-1">
                 <span className="text-[10px] text-gray-400 uppercase font-bold block">
-                  Nationality:
+                  {t("interface.nationalityPrefix")}
                 </span>
                 <span className="text-navy">{student.nationality || "—"}</span>
               </div>
               <div className="space-y-1">
                 <span className="text-[10px] text-gray-400 uppercase font-bold block">
-                  Passport Number:
+                  {t("interface.passportPrefix")}
                 </span>
                 <span className="text-navy">
                   {student.passport_number || "—"}
@@ -365,7 +365,7 @@ export default function ApanelApplicationDetail() {
               </div>
               <div className="space-y-1">
                 <span className="text-[10px] text-gray-400 uppercase font-bold block">
-                  Gender:
+                  {t("interface.genderPrefix")}
                 </span>
                 <span className="text-navy capitalize">
                   {student.gender || "—"}
@@ -373,7 +373,7 @@ export default function ApanelApplicationDetail() {
               </div>
               <div className="space-y-1">
                 <span className="text-[10px] text-gray-400 uppercase font-bold block">
-                  Phone Number:
+                  {t("interface.phonePrefix")}
                 </span>
                 <span className="text-navy">{student.phone || "—"}</span>
               </div>
@@ -385,14 +385,14 @@ export default function ApanelApplicationDetail() {
             <div className="flex items-center gap-2 border-b border-gray-50 pb-4">
               <FileText className="w-5 h-5 text-navy" />
               <h3 className="font-extrabold text-navy text-sm uppercase tracking-wider">
-                Verification Documents
+                {t("student.dashboard.verificationDocuments")}
               </h3>
             </div>
 
             <div className="divide-y divide-gray-50">
               {!application.documents || application.documents.length === 0 ? (
                 <p className="text-xs font-semibold text-gray-400 py-4">
-                  No documents uploaded.
+                  {t("interface.noDocuments")}
                 </p>
               ) : (
                 application.documents.map((doc) => {
@@ -431,7 +431,7 @@ export default function ApanelApplicationDetail() {
                           rel="noreferrer"
                           className="text-primary hover:underline inline-flex items-center gap-1 text-[10px]"
                         >
-                          View Document
+                          {t("interface.viewDocument")}
                           <ExternalLink className="w-3 h-3" />
                         </a>
                       </div>
@@ -439,15 +439,15 @@ export default function ApanelApplicationDetail() {
                       <div className="flex gap-2">
                         {isApproved ? (
                           <span className="inline-flex items-center gap-1 text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 font-extrabold border border-emerald-100">
-                            Verified
+                            {t("status.verified")}
                           </span>
                         ) : isRejected ? (
                           <span className="inline-flex items-center gap-1 text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-md bg-rose-50 text-rose-700 font-extrabold border border-rose-100">
-                            Rejected
+                            {t("status.rejected")}
                           </span>
                         ) : isRequested ? (
                           <span className="inline-flex items-center gap-1 text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 font-extrabold border border-blue-100">
-                            Requested
+                            {t("apanel.workflow.requested")}
                           </span>
                         ) : (
                           <>
@@ -458,7 +458,7 @@ export default function ApanelApplicationDetail() {
                               className="px-2.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-bold text-[10px] flex items-center gap-1 cursor-pointer transition-all"
                             >
                               <CheckCircle className="w-3.5 h-3.5" />
-                              Verify
+                              {t("interface.verify")}
                             </button>
                             <button
                               onClick={() =>
@@ -467,7 +467,7 @@ export default function ApanelApplicationDetail() {
                               className="px-2.5 py-1.5 bg-rose-600 hover:bg-rose-700 text-white rounded-lg font-bold text-[10px] flex items-center gap-1 cursor-pointer transition-all"
                             >
                               <XCircle className="w-3.5 h-3.5" />
-                              Reject
+                              {t("button.reject")}
                             </button>
                             <button
                               onClick={() =>
@@ -475,7 +475,7 @@ export default function ApanelApplicationDetail() {
                               }
                               className="px-2.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-bold text-[10px] flex items-center gap-1 cursor-pointer transition-all"
                             >
-                              Request
+                              {t("interface.request")}
                             </button>
                           </>
                         )}
@@ -492,7 +492,7 @@ export default function ApanelApplicationDetail() {
             <div className="flex items-center gap-2 border-b border-gray-50 pb-4">
               <CreditCard className="w-5 h-5 text-navy" />
               <h3 className="font-extrabold text-navy text-sm uppercase tracking-wider">
-                Billing Contracts & Payments
+                {t("interface.billingPayments")}
               </h3>
             </div>
 
@@ -500,12 +500,12 @@ export default function ApanelApplicationDetail() {
               {/* Contracts */}
               <div className="space-y-3">
                 <span className="text-[10px] text-gray-400 uppercase font-black tracking-wider block">
-                  Active Contracts
+                  {t("interface.activeContracts")}
                 </span>
                 {!application.contracts ||
                 application.contracts.length === 0 ? (
                   <p className="text-xs font-semibold text-gray-400">
-                    No contracts generated yet.
+                    {t("interface.noContracts")}
                   </p>
                 ) : (
                   application.contracts.map((c) => (
@@ -530,17 +530,17 @@ export default function ApanelApplicationDetail() {
               {/* Payments */}
               <div className="space-y-3">
                 <span className="text-[10px] text-gray-400 uppercase font-black tracking-wider block">
-                  Billing Receipts
+                  {t("interface.billingReceipts")}
                 </span>
                 {!application.contracts ||
                 application.contracts.length === 0 ? (
                   <p className="text-xs font-semibold text-gray-400">
-                    No payment records found.
+                    {t("interface.noPayments")}
                   </p>
                 ) : application.contracts.flatMap((c) => c.payments || [])
                     .length === 0 ? (
                   <p className="text-xs font-semibold text-gray-400">
-                    No billing receipts found.
+                    {t("interface.noReceipts")}
                   </p>
                 ) : (
                   application.contracts
@@ -574,14 +574,14 @@ export default function ApanelApplicationDetail() {
             <div className="flex items-center gap-2 border-b border-gray-50 pb-4">
               <ClipboardList className="w-5 h-5 text-navy" />
               <h3 className="font-extrabold text-navy text-sm uppercase tracking-wider">
-                Update Decision
+                {t("interface.updateDecision")}
               </h3>
             </div>
 
             <form onSubmit={handleStatusUpdate} className="space-y-4">
               <div className="space-y-1">
                 <label className="block text-[10px] font-extrabold text-navy uppercase tracking-wider">
-                  Admissions Status
+                  {t("apanel.crud.ui.label.admissionsStatus")}
                 </label>
                 <select
                   value={status}
@@ -598,7 +598,7 @@ export default function ApanelApplicationDetail() {
 
               <div className="space-y-1">
                 <label className="block text-[10px] font-extrabold text-navy uppercase tracking-wider">
-                  Internal Action Note
+                  {t("interface.internalNote")}
                 </label>
                 <textarea
                   value={comment}
@@ -619,7 +619,7 @@ export default function ApanelApplicationDetail() {
                     className="w-4 h-4 text-primary border-gray-300 rounded-sm focus:ring-primary focus:ring-1"
                   />
                   <span className="text-[10px] font-extrabold text-navy uppercase tracking-wider">
-                    Send Student Notification Alert
+                    {t("interface.notifyStudent")}
                   </span>
                 </label>
 
@@ -649,7 +649,7 @@ export default function ApanelApplicationDetail() {
                 className="w-full bg-primary hover:bg-primary-hover text-white py-3 rounded-xl text-xs font-extrabold shadow-sm hover:shadow-md cursor-pointer transition-all flex items-center justify-center gap-1.5 mt-2"
               >
                 {updating && <Loader2 className="w-4 h-4 animate-spin" />}
-                Submit Decision
+                {t("interface.submitDecision")}
               </button>
             </form>
           </div>
@@ -658,7 +658,7 @@ export default function ApanelApplicationDetail() {
             <div className="flex items-center gap-2 border-b border-gray-50 pb-4">
               <CreditCard className="w-5 h-5 text-navy" />
               <h3 className="font-extrabold text-navy text-sm uppercase tracking-wider">
-                Contract & Payment Actions
+                {t("interface.contractActions")}
               </h3>
             </div>
 
@@ -679,7 +679,7 @@ export default function ApanelApplicationDetail() {
                   disabled={updating}
                   className="px-3 py-2.5 bg-primary text-white rounded-xl text-[10px] font-extrabold cursor-pointer disabled:opacity-60"
                 >
-                  Create
+                  {t("interface.create")}
                 </button>
               </div>
 
@@ -699,7 +699,7 @@ export default function ApanelApplicationDetail() {
                   disabled={updating}
                   className="px-3 py-2.5 bg-primary text-white rounded-xl text-[10px] font-extrabold cursor-pointer disabled:opacity-60"
                 >
-                  Request
+                  {t("interface.request")}
                 </button>
               </div>
 
@@ -709,7 +709,7 @@ export default function ApanelApplicationDetail() {
                 disabled={updating}
                 className="w-full px-3 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-extrabold cursor-pointer disabled:opacity-60"
               >
-                Mark Enrolled
+                {t("interface.markEnrolled")}
               </button>
             </div>
           </div>
@@ -719,7 +719,7 @@ export default function ApanelApplicationDetail() {
             <div className="flex items-center gap-2 border-b border-gray-50 pb-4">
               <History className="w-5 h-5 text-navy" />
               <h3 className="font-extrabold text-navy text-sm uppercase tracking-wider">
-                Status History
+                {t("apanel.nav.statusHistory")}
               </h3>
             </div>
 
@@ -727,7 +727,7 @@ export default function ApanelApplicationDetail() {
               {!application.status_histories ||
               application.status_histories.length === 0 ? (
                 <p className="text-xs font-semibold text-gray-400 py-3">
-                  No status changes logged.
+                  {t("interface.noStatusHistory")}
                 </p>
               ) : (
                 application.status_histories.map((hist) => (
@@ -747,7 +747,7 @@ export default function ApanelApplicationDetail() {
                       </p>
                     )}
                     <p className="text-[9px] text-gray-400 font-bold uppercase tracking-wider">
-                      Changed By User ID: #{hist.changed_by}
+                      {t("interface.changedByPrefix")}{hist.changed_by}
                     </p>
                   </div>
                 ))

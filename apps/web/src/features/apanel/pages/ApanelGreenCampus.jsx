@@ -23,6 +23,7 @@ import ConfirmDialog from "../components/ConfirmDialog";
 import ApanelStatsCards from "../components/ApanelStatsCards";
 import { useApanelLocaleCodes } from "../utils/locales";
 import { useLanguage } from "../../../context/LanguageContext";
+import { selectTranslation } from "../../../lib/localizedContent";
 
 const emptyArticleTranslation = {
   title: "",
@@ -200,7 +201,7 @@ function statPayload(form, localeCodes, primaryLocale) {
 }
 
 export default function ApanelGreenCampus() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const localeCodes = useApanelLocaleCodes();
   const primaryLocale = localeCodes[0] || "";
   const [activeTab, setActiveTab] = useState("articles");
@@ -557,10 +558,10 @@ export default function ApanelGreenCampus() {
       <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-extrabold text-navy uppercase tracking-wider">
-            Green Campus CMS
+            {t("interface.greenCampusCms")}
           </h1>
           <p className="text-gray-400 text-xs font-semibold mt-1">
-            Control homepage sustainability cards, listing page, details page, stats, and labels.
+            {t("interface.greenCampusHelp")}
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
@@ -570,7 +571,7 @@ export default function ApanelGreenCampus() {
             className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-gray-200 bg-white text-navy text-xs font-extrabold hover:bg-gray-50 cursor-pointer"
           >
             <RefreshCw className="w-4 h-4" />
-            Refresh
+            {t("button.refresh")}
           </button>
           {activeTab === "articles" && (
             <button
@@ -579,7 +580,7 @@ export default function ApanelGreenCampus() {
               className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 text-white text-xs font-extrabold hover:bg-emerald-700 cursor-pointer"
             >
               <Plus className="w-4 h-4" />
-              Add Initiative
+              {t("interface.addInitiative")}
             </button>
           )}
           {activeTab === "stats" && (
@@ -589,7 +590,7 @@ export default function ApanelGreenCampus() {
               className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 text-white text-xs font-extrabold hover:bg-emerald-700 cursor-pointer"
             >
               <Plus className="w-4 h-4" />
-              Add Stat
+              {t("apanel.aboutPage.addStat")}
             </button>
           )}
         </div>
@@ -632,12 +633,12 @@ export default function ApanelGreenCampus() {
             </div>
             <div className="divide-y divide-gray-100">
               {articles.map((item) => {
-                const en = item.translations?.find((tr) => tr.locale === "en") || {};
+                const translation = selectTranslation(item, language);
                 return (
                   <div key={item.id} className="p-5 flex flex-col md:flex-row gap-4 md:items-center">
                     <div className="w-full md:w-32 aspect-video rounded-2xl overflow-hidden bg-gray-50 border border-gray-100 shrink-0">
                       {item.image ? (
-                        <img src={mediaPreviewSrc(item.image)} alt={en.title || item.slug} className="w-full h-full object-cover" />
+                        <img src={mediaPreviewSrc(item.image)} alt={translation.title || item.slug} className="w-full h-full object-cover" />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center text-gray-300">
                           <ImageIcon className="w-6 h-6" />
@@ -650,11 +651,11 @@ export default function ApanelGreenCampus() {
                           {item.category}
                         </span>
                         <span className={`px-2.5 py-1 rounded-lg text-[10px] font-black uppercase ${item.is_published ? "bg-green-50 text-green-700" : "bg-gray-100 text-gray-500"}`}>
-                          {item.is_published ? "Published" : "Hidden"}
+                          {item.is_published ? t("apanel.greenCampus.label.published") : t("status.hidden")}
                         </span>
                       </div>
-                      <h3 className="text-sm font-extrabold text-navy line-clamp-1">{en.title || item.slug}</h3>
-                      <p className="text-xs font-semibold text-gray-400 mt-1 line-clamp-2">{en.excerpt || ""}</p>
+                      <h3 className="text-sm font-extrabold text-navy line-clamp-1">{translation.title || item.slug}</h3>
+                      <p className="text-xs font-semibold text-gray-400 mt-1 line-clamp-2">{translation.excerpt || ""}</p>
                     </div>
                     <div className="flex items-center gap-2">
                       <button type="button" onClick={() => toggleArticle(item)} className="p-2 rounded-xl border border-gray-200 text-gray-500 hover:text-navy cursor-pointer">
@@ -676,7 +677,7 @@ export default function ApanelGreenCampus() {
           {articleEditorOpen && (
             <section className="bg-white border border-gray-100 rounded-3xl shadow-xs overflow-hidden">
               <div className="p-5 border-b border-gray-100 flex items-center justify-between">
-                <h2 className="text-lg font-extrabold text-navy">{editingArticle ? "Edit Initiative" : "Create Initiative"}</h2>
+                <h2 className="text-lg font-extrabold text-navy">{editingArticle ? t("interface.editInitiative") : t("interface.createInitiative")}</h2>
                 <button type="button" onClick={() => { setEditingArticle(null); setArticleForm(createEmptyArticleForm(localeCodes)); }} className="text-gray-400 hover:text-navy cursor-pointer">
                   <X className="w-5 h-5" />
                 </button>
@@ -686,13 +687,13 @@ export default function ApanelGreenCampus() {
                 <Input label={t("apanel.greenCampus.label.slug")} value={articleForm.slug} onChange={(value) => setArticleField("slug", value)} />
                 <Input label={t("apanel.greenCampus.label.categoryKey")} value={articleForm.category} onChange={(value) => setArticleField("category", slugify(value))} />
                 <label className="space-y-1.5 block">
-                  <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">Publisher</span>
+                  <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">{t("interface.publisher")}</span>
                   <select
                     value={articleForm.publisher_id}
                     onChange={(event) => setArticleField("publisher_id", event.target.value)}
                     className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm font-semibold text-navy bg-white focus:outline-none focus:border-emerald-600"
                   >
-                    <option value="">Default publisher</option>
+                    <option value="">{t("interface.defaultPublisher")}</option>
                     {publishers.map((publisher) => (
                       <option key={publisher.id} value={publisher.id}>
                         {publisher.name || publisher.slug}
@@ -732,7 +733,7 @@ export default function ApanelGreenCampus() {
 
                 <button type="submit" disabled={saving} className="w-full inline-flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-60 text-white px-5 py-3 rounded-xl text-xs font-extrabold cursor-pointer">
                   <Save className="w-4 h-4" />
-                  Save Initiative
+                  {t("interface.saveInitiative")}
                 </button>
               </form>
             </section>
@@ -748,15 +749,15 @@ export default function ApanelGreenCampus() {
             </div>
             <div className="divide-y divide-gray-100">
               {stats.map((item) => {
-                const en = item.translations?.find((tr) => tr.locale === "en") || {};
+                const translation = selectTranslation(item, language);
                 return (
                   <div key={item.id} className="p-5 flex items-center gap-4">
                     <div className="w-11 h-11 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
                       <BarChart3 className="w-5 h-5" />
                     </div>
                     <div className="grow">
-                      <h3 className="text-sm font-extrabold text-navy">{en.value}</h3>
-                      <p className="text-xs font-semibold text-gray-400">{en.label}</p>
+                      <h3 className="text-sm font-extrabold text-navy">{translation.value}</h3>
+                      <p className="text-xs font-semibold text-gray-400">{translation.label}</p>
                     </div>
                     <button type="button" onClick={() => startEditStat(item)} className="p-2 rounded-xl border border-gray-200 text-gray-500 hover:text-navy cursor-pointer">
                       <Edit3 className="w-4 h-4" />
@@ -773,7 +774,7 @@ export default function ApanelGreenCampus() {
           {statEditorOpen && (
             <section className="bg-white border border-gray-100 rounded-3xl shadow-xs overflow-hidden">
               <div className="p-5 border-b border-gray-100 flex items-center justify-between">
-                <h2 className="text-lg font-extrabold text-navy">{editingStat ? "Edit Stat" : "Create Stat"}</h2>
+                <h2 className="text-lg font-extrabold text-navy">{editingStat ? t("interface.editStat") : t("interface.createStat")}</h2>
                 <button type="button" onClick={() => { setEditingStat(null); setStatForm(createEmptyStatForm(localeCodes)); }} className="text-gray-400 hover:text-navy cursor-pointer">
                   <X className="w-5 h-5" />
                 </button>
@@ -786,7 +787,7 @@ export default function ApanelGreenCampus() {
                 <Input label={t("apanel.greenCampus.label.label")} value={currentStatTranslation.label} onChange={(value) => setStatTranslationField("label", value)} />
                 <button type="submit" disabled={saving} className="w-full inline-flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-60 text-white px-5 py-3 rounded-xl text-xs font-extrabold cursor-pointer">
                   <Save className="w-4 h-4" />
-                  Save Stat
+                  {t("interface.saveStat")}
                 </button>
               </form>
             </section>
@@ -862,7 +863,7 @@ export default function ApanelGreenCampus() {
             </div>
             <button type="submit" disabled={saving} className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-60 text-white px-5 py-3 rounded-xl text-xs font-extrabold cursor-pointer">
               <Save className="w-4 h-4" />
-              Save Settings
+              {t("interface.saveSettings")}
             </button>
           </form>
         </section>
@@ -929,6 +930,7 @@ function Textarea({ label, value, onChange, rows = 4 }) {
 }
 
 function Checkbox({ label, checked, onChange }) {
+  const { t } = useLanguage();
   return (
     <label className="space-y-1.5 block">
       <span className="text-[10px] uppercase font-black tracking-wider text-gray-400">{label}</span>
@@ -939,7 +941,7 @@ function Checkbox({ label, checked, onChange }) {
           onChange={(event) => onChange(event.target.checked)}
           className="h-4 w-4 accent-emerald-600"
         />
-        <span>{checked ? "Enabled" : "Disabled"}</span>
+        <span>{checked ? t("interface.enabled") : t("interface.disabled")}</span>
       </span>
     </label>
   );

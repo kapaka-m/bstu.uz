@@ -313,7 +313,7 @@ export default function StudentDashboard() {
                   >
                     <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                       <span className="text-[10px] font-extrabold text-gray-400 uppercase break-all">
-                        Contract #{c.contract_number}
+                        {t("interface.contractNumber")}{c.contract_number}
                       </span>
                       <StatusBadge status={c.status || "pending"} />
                     </div>

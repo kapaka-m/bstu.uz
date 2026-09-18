@@ -24,6 +24,8 @@ class DatabaseSeeder extends Seeder
                 RemoveDuplicatedHomepageTranslationKeysSeeder::class,
                 StudentPortalTranslationCompletenessSeeder::class,
                 ContentConsistencySeeder::class,
+                CompleteContentLocalizationSeeder::class,
+                InterfaceTranslationSeeder::class,
             ]);
         } finally {
             DB::statement('SET FOREIGN_KEY_CHECKS=1');

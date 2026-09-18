@@ -12,17 +12,7 @@ import {
 } from "lucide-react";
 import StatusBadge from "./StatusBadge";
 import { useLanguage } from "../../../context/LanguageContext";
-
-/** Resolve dot-notation key path from an object (e.g. "studentProfile.user.name") */
-function getNestedValue(obj, keyPath) {
-  return keyPath.split(".").reduce((acc, key) => {
-    if (acc === null || acc === undefined) return undefined;
-    // Support numeric indexes for arrays
-    const numKey = Number(key);
-    if (!isNaN(numKey) && Array.isArray(acc)) return acc[numKey];
-    return acc[key];
-  }, obj);
-}
+import { getLocalizedValue } from "../../../lib/localizedContent";
 
 function formatCellValue(value) {
   if (value === null || value === undefined || value === "") return "—";
@@ -42,7 +32,7 @@ export default function DataTable({
   onDeleteClick,
   onStatusToggle,
 }) {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const handleSort = (key) => {
     if (!onSortChange) return;
     const newDir = sortBy === key && sortDir === "desc" ? "asc" : "desc";
@@ -109,7 +99,7 @@ export default function DataTable({
                   {columns.map((col, colIndex) => {
                     // Support nested dot-notation keys (e.g. "studentProfile.user.name")
                     const value = col.key.includes(".")
-                      ? getNestedValue(row, col.key)
+                      ? getLocalizedValue(row, col.key, language)
                       : row[col.key];
                     const displayValue = formatCellValue(value);
 
@@ -138,12 +128,12 @@ export default function DataTable({
                               {value ? (
                                 <>
                                   <Check className="w-3.5 h-3.5" />
-                                  <span>Active</span>
+                                  <span>{t("apanel.crud.ui.label.active")}</span>
                                 </>
                               ) : (
                                 <>
                                   <X className="w-3.5 h-3.5" />
-                                  <span>Inactive</span>
+                                  <span>{t("status.inactive")}</span>
                                 </>
                               )}
                             </button>

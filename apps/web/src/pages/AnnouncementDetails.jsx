@@ -118,7 +118,7 @@ export default function AnnouncementDetails() {
       <div className="pt-24 min-h-screen bg-slate-50/50">
         <div className="container mx-auto px-4 md:px-8 max-w-7xl py-16 text-center text-gray-500 font-semibold">
           <h1 className="sr-only">
-            {settings?.no_results_label || "Announcement not found"}
+            {settings?.no_results_label || t("interface.announcementNotFound")}
           </h1>
           <p>{settings?.no_results_label || ""}</p>
         </div>

@@ -304,10 +304,10 @@ export default function ApanelHomeCms() {
     <form onSubmit={save} className="space-y-6">
       <div className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm">
         <h1 className="text-2xl font-black uppercase tracking-wide text-navy">
-          Home CMS
+          {t("interface.homeCms")}
         </h1>
         <p className="mt-2 text-sm font-semibold text-gray-500">
-          Manage homepage sections in all active languages.
+          {t("interface.homeHelp")}
         </p>
       </div>
 
@@ -338,7 +338,7 @@ export default function ApanelHomeCms() {
                 {sectionLabels[section.section_key] || section.section_key}
               </h2>
               <p className="mt-1 text-xs font-bold text-gray-400">
-                Section key: {section.section_key}
+                {t("interface.sectionKey")} {section.section_key}
               </p>
             </div>
             <div className="flex flex-wrap gap-2">
@@ -361,7 +361,7 @@ export default function ApanelHomeCms() {
 
           <div className="mb-6 grid gap-4 md:grid-cols-3">
             <label className="text-xs font-bold text-gray-500">
-              Sort Order
+              {t("apanel.administration.label.sortOrder")}
               <input
                 type="number"
                 min="0"
@@ -376,7 +376,7 @@ export default function ApanelHomeCms() {
                 checked={section.is_active}
                 onChange={(event) => updateSection({ is_active: event.target.checked })}
               />
-              Active
+              {t("apanel.crud.ui.label.active")}
             </label>
           </div>
 
@@ -467,7 +467,7 @@ export default function ApanelHomeCms() {
           {section.section_key === "hero" && (
             <div className="mt-6 rounded-2xl border border-gray-100 bg-gray-50/50 p-4">
               <h3 className="mb-4 text-sm font-black uppercase tracking-wide text-navy">
-                Hero Cards
+                {t("interface.heroCards")}
               </h3>
               <div className="grid gap-4 lg:grid-cols-2">
                 {[
@@ -486,7 +486,7 @@ export default function ApanelHomeCms() {
                       {itemKey === "student_count" && (
                         <div className="mb-4 grid gap-3 sm:grid-cols-2">
                           <label className="text-xs font-bold text-gray-500">
-                            Value
+                            {t("apanel.crud.ui.label.value")}
                             <input
                               className={`${inputClass} mt-1`}
                               value={item.value || ""}
@@ -494,7 +494,7 @@ export default function ApanelHomeCms() {
                             />
                           </label>
                           <label className="text-xs font-bold text-gray-500">
-                            Suffix
+                            {t("interface.suffix")}
                             <input
                               className={`${inputClass} mt-1`}
                               value={item.suffix || ""}
@@ -505,7 +505,7 @@ export default function ApanelHomeCms() {
                       )}
                       <div className="grid gap-3">
                         <label className="text-xs font-bold text-gray-500">
-                          {itemKey === "student_count" ? "Label" : "Title"}
+                          {itemKey === "student_count" ? t("apanel.aboutPage.label.label") : t("apanel.aboutPage.label.title")}
                           <input
                             className={`${inputClass} mt-1`}
                             value={
@@ -524,7 +524,7 @@ export default function ApanelHomeCms() {
                         </label>
                         {itemKey === "accreditation" && (
                           <label className="text-xs font-bold text-gray-500">
-                            Label
+                            {t("apanel.aboutPage.label.label")}
                             <input
                               className={`${inputClass} mt-1`}
                               value={item.translations[activeLocale]?.label || ""}
@@ -546,7 +546,7 @@ export default function ApanelHomeCms() {
           <div className="mt-8 border-t border-gray-100 pt-6">
             <div className="mb-4 flex items-center justify-between">
               <h3 className="text-sm font-black uppercase tracking-wide text-navy">
-                Items
+                {t("interface.items")}
               </h3>
               <button
                 type="button"
@@ -554,7 +554,7 @@ export default function ApanelHomeCms() {
                 className="inline-flex items-center gap-2 rounded-xl bg-primary/10 px-3 py-2 text-xs font-extrabold text-primary"
               >
                 <Plus className="h-4 w-4" />
-                Add Item
+                {t("interface.addItem")}
               </button>
             </div>
 
@@ -643,7 +643,7 @@ export default function ApanelHomeCms() {
                         checked={item.is_active}
                         onChange={(event) => updateItem(index, { is_active: event.target.checked })}
                       />
-                      Active item
+                      {t("interface.activeItem")}
                     </label>
                     <button
                       type="button"
@@ -651,7 +651,7 @@ export default function ApanelHomeCms() {
                       className="inline-flex items-center gap-2 rounded-xl bg-red-50 px-3 py-2 text-xs font-extrabold text-red-600"
                     >
                       <Trash2 className="h-4 w-4" />
-                      Remove
+                      {t("interface.remove")}
                     </button>
                   </div>
                 </div>
@@ -667,7 +667,7 @@ export default function ApanelHomeCms() {
         className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-extrabold text-white disabled:opacity-60"
       >
         {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
-        {t("common.save") || "Save"}
+        {t("common.save")}
       </button>
     </form>
   );

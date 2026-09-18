@@ -694,7 +694,7 @@ export default function ApanelAboutPage() {
   if (loading) {
     return (
       <div className="p-8 text-sm font-bold text-gray-500">
-        Loading About page CMS...
+        {t("interface.loadingAbout")}
       </div>
     );
   }
@@ -724,7 +724,7 @@ export default function ApanelAboutPage() {
         >
           <div className="mb-4 flex items-center justify-between">
             <h3 className="text-sm font-extrabold text-navy">
-              Stat #{index + 1}
+              {t("interface.statNumber")}{index + 1}
             </h3>
             <button
               type="button"
@@ -796,7 +796,7 @@ export default function ApanelAboutPage() {
         className="inline-flex items-center gap-2 rounded-xl border border-primary/20 bg-primary/5 px-4 py-2 text-sm font-extrabold text-primary"
       >
         <Plus className="h-4 w-4" />
-        Add Stat
+        {t("apanel.aboutPage.addStat")}
       </button>
     </div>
   );
@@ -810,7 +810,7 @@ export default function ApanelAboutPage() {
         >
           <div className="mb-4 flex items-center justify-between">
             <h3 className="text-sm font-extrabold text-navy">
-              Faculty #{index + 1}
+              {t("interface.facultyNumber")}{index + 1}
             </h3>
             <button
               type="button"
@@ -920,7 +920,7 @@ export default function ApanelAboutPage() {
         className="inline-flex items-center gap-2 rounded-xl border border-primary/20 bg-primary/5 px-4 py-2 text-sm font-extrabold text-primary"
       >
         <Plus className="h-4 w-4" />
-        Add Faculty
+        {t("apanel.aboutPage.addFaculty")}
       </button>
     </div>
   );
@@ -934,7 +934,7 @@ export default function ApanelAboutPage() {
         >
           <div className="mb-4 flex items-center justify-between">
             <h3 className="text-sm font-extrabold text-navy">
-              Timeline Item #{index + 1}
+              {t("interface.timelineNumber")}{index + 1}
             </h3>
             <button
               type="button"
@@ -982,7 +982,7 @@ export default function ApanelAboutPage() {
         className="inline-flex items-center gap-2 rounded-xl border border-primary/20 bg-primary/5 px-4 py-2 text-sm font-extrabold text-primary"
       >
         <Plus className="h-4 w-4" />
-        Add Timeline Item
+        {t("interface.addTimeline")}
       </button>
     </div>
   );
@@ -1011,13 +1011,13 @@ export default function ApanelAboutPage() {
       />
       <div className="rounded-2xl border border-gray-100 bg-gray-50 p-3">
         <p className="mb-2 text-xs font-extrabold uppercase tracking-wide text-gray-400">
-          Identity Image Preview
+          {t("interface.identityPreview")}
         </p>
         <div className="aspect-16/10 overflow-hidden rounded-xl border border-gray-100 bg-white">
           {form.identity_image ? (
             <img
               src={resolveAssetUrl(form.identity_image)}
-              alt="About identity preview"
+              alt={t("interface.aboutIdentityPreview")}
               className="h-full w-full object-cover"
               onError={(event) => {
                 event.currentTarget.style.display = "none";
@@ -1025,14 +1025,14 @@ export default function ApanelAboutPage() {
             />
           ) : (
             <div className="flex h-full items-center justify-center text-xs font-bold text-gray-400">
-              No image
+              {t("interface.noImage")}
             </div>
           )}
         </div>
       </div>
       <div className="flex flex-col justify-end gap-3">
         <label className="flex min-h-10 items-center justify-between gap-3 rounded-xl border border-gray-200 px-3 py-2 text-xs font-bold text-gray-600">
-          Active
+          {t("apanel.crud.ui.label.active")}
           <input
             type="checkbox"
             checked={form.is_published}
@@ -1044,7 +1044,7 @@ export default function ApanelAboutPage() {
         </label>
         <label className="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-dashed border-primary/40 bg-primary/5 px-4 py-2.5 text-xs font-extrabold text-primary">
           <Upload className="h-4 w-4" />
-          {uploading ? "Uploading..." : "Upload Identity Image"}
+          {uploading ? t("interface.uploading") : t("interface.uploadIdentity")}
           <input
             type="file"
             accept="image/*"
@@ -1177,7 +1177,7 @@ export default function ApanelAboutPage() {
             {t("apanel.aboutPage.title")}
           </h1>
           <p className="mt-1 text-sm font-semibold text-gray-500">
-            Full control for the public About page at /about.
+            {t("interface.aboutControl")}
           </p>
         </div>
         <button
@@ -1187,7 +1187,7 @@ export default function ApanelAboutPage() {
           className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-extrabold text-white shadow-sm transition hover:bg-primary-hover disabled:opacity-60"
         >
           <Save className="h-4 w-4" />
-          {saving ? "Saving..." : saveButtonLabel}
+          {saving ? t("interface.saving") : saveButtonLabel}
         </button>
       </div>
 
@@ -1279,10 +1279,10 @@ export default function ApanelAboutPage() {
                 {activeLocaleLabel}
               </p>
               <h3 className="mt-1 text-xl font-black text-navy">
-                Add Timeline Item
+                {t("interface.addTimeline")}
               </h3>
               <p className="mt-1 text-sm font-semibold text-gray-500">
-                This item will be saved to the database immediately.
+                {t("interface.savedImmediately")}
               </p>
             </div>
 
@@ -1320,14 +1320,14 @@ export default function ApanelAboutPage() {
                 onClick={() => setTimelineDraft(null)}
                 className="rounded-xl border border-gray-200 bg-white px-4 py-2 text-xs font-bold text-navy transition hover:border-gray-300"
               >
-                Cancel
+                {t("interface.cancel")}
               </button>
               <button
                 type="submit"
                 disabled={saving}
                 className="rounded-xl bg-primary px-4 py-2 text-xs font-bold text-white shadow-md shadow-primary/20 transition hover:bg-primary-hover disabled:opacity-60"
               >
-                {saving ? "Saving..." : "Add Item"}
+                {saving ? t("interface.saving") : t("interface.addItem")}
               </button>
             </div>
           </form>
@@ -1353,7 +1353,7 @@ export default function ApanelAboutPage() {
                 {t("apanel.aboutPage.addStat")}
               </h3>
               <p className="mt-1 text-sm font-semibold text-gray-500">
-                This item will be saved to the database immediately.
+                {t("interface.savedImmediately")}
               </p>
             </div>
 
@@ -1409,14 +1409,14 @@ export default function ApanelAboutPage() {
                 onClick={() => setStatDraft(null)}
                 className="rounded-xl border border-gray-200 bg-white px-4 py-2 text-xs font-bold text-navy transition hover:border-gray-300"
               >
-                Cancel
+                {t("interface.cancel")}
               </button>
               <button
                 type="submit"
                 disabled={saving}
                 className="rounded-xl bg-primary px-4 py-2 text-xs font-bold text-white shadow-md shadow-primary/20 transition hover:bg-primary-hover disabled:opacity-60"
               >
-                {saving ? "Saving..." : "Add Stat"}
+                {saving ? t("interface.saving") : t("apanel.aboutPage.addStat")}
               </button>
             </div>
           </form>
@@ -1442,7 +1442,7 @@ export default function ApanelAboutPage() {
                 {t("apanel.aboutPage.addFaculty")}
               </h3>
               <p className="mt-1 text-sm font-semibold text-gray-500">
-                This item will be saved to the database immediately.
+                {t("interface.savedImmediately")}
               </p>
             </div>
 
@@ -1526,14 +1526,14 @@ export default function ApanelAboutPage() {
                 onClick={() => setFacultyDraft(null)}
                 className="rounded-xl border border-gray-200 bg-white px-4 py-2 text-xs font-bold text-navy transition hover:border-gray-300"
               >
-                Cancel
+                {t("interface.cancel")}
               </button>
               <button
                 type="submit"
                 disabled={saving}
                 className="rounded-xl bg-primary px-4 py-2 text-xs font-bold text-white shadow-md shadow-primary/20 transition hover:bg-primary-hover disabled:opacity-60"
               >
-                {saving ? "Saving..." : "Add Faculty"}
+                {saving ? t("interface.saving") : t("apanel.aboutPage.addFaculty")}
               </button>
             </div>
           </form>

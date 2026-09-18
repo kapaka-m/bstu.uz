@@ -82,7 +82,7 @@ export default function StudentPayments() {
                     </div>
                     <div>
                       <p className="text-[10px] text-gray-400 font-bold">
-                        {t("payment.method")}
+                        {t("interface.paymentMethod")}
                       </p>
                       <p className="font-semibold text-gray-500 capitalize">
                         {p.payment_method || t("payment.method.bankTransfer")}

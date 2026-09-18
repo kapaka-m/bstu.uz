@@ -1331,3 +1331,29 @@ The repository should remain:
 * deployment-ready
 
 Changes should improve the existing architecture rather than bypass it.
+
+## 55. Content Localization Checks
+
+Public CMS content and interface translations are served from MySQL for `en`, `uz`, `ru`, and `ar`. Interface text added by the September 2026 repair is maintained in `apps/api/database/data/interface_translations.json` and editable through the existing translation CMS. `InterfaceTranslationSeeder` inserts missing values without overwriting editorial changes.
+
+Run the read-only database audit from `apps/api`:
+
+```powershell
+.\php-local.bat artisan content:audit-translations
+.\php-local.bat artisan content:audit-translations --json
+.\php-local.bat artisan test
+```
+
+The audit exits unsuccessfully for missing locale rows, fields missing relative to English, and known untranslated text patterns. It is not a general language detector or a substitute for editorial proofreading. Names, URLs, identifiers, and filter enum values may legitimately remain unchanged across languages.
+
+From `apps/web`:
+
+```powershell
+npm.cmd run lint
+node --test tests/localizedContent.test.js tests/localizationRule.test.js
+npm.cmd run build
+```
+
+The localization lint rule checks direct JSX text and literal accessibility/display attributes. It does not currently detect all captions stored in configuration objects, conditional expressions, or notification messages. Staff CMS validation requires all four languages and rejects known copied English role, biography, and office patterns.
+
+The two `2026_09_19` localization migrations perform targeted data repairs, not table resets. Review and back up important data before applying them. Their rollback intentionally preserves translated content. Do not rerun the entire database seeder merely to repair localization.

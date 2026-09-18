@@ -322,7 +322,7 @@ export default function StudentPortalPhaseTwo() {
   );
 
   const renderTimeline = () => (
-    <Panel title={t("application.timeline")} icon={ClipboardList}>
+    <Panel title={t("interface.applicationTimeline")} icon={ClipboardList}>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         {(summary.timeline || []).map((item) => (
           <div key={item.key} className="flex flex-col gap-3 rounded-2xl border border-gray-100 p-4 sm:flex-row sm:items-center sm:justify-between">
@@ -419,7 +419,7 @@ export default function StudentPortalPhaseTwo() {
     <Panel title={t("student.nav.academicInformation")} icon={GraduationCap}>
       <InfoGrid rows={[
         [t("application.degreeLevel"), app.degree_level],
-        [t("student.type"), app.student_type === "transfer" ? t("student.type.transfer") : t("student.type.new")],
+        [t("interface.studentType"), app.student_type === "transfer" ? t("student.type.transfer") : t("student.type.new")],
         [t("education.type"), app.study_mode],
         [t("faculty.title"), facultyName],
         [t("application.program"), programName],
@@ -445,7 +445,7 @@ export default function StudentPortalPhaseTwo() {
               </div>
               <p className="mt-1 text-[11px] font-semibold text-gray-500 break-words">{req.description}</p>
               {req.document?.rejection_reason && <p className="mt-2 text-[11px] font-bold text-rose-600 break-words">{req.document.rejection_reason}</p>}
-              {req.document && <p className="mt-2 text-[10px] font-bold text-gray-400 break-all">Version {req.document.current_version} · {req.document.original_name}</p>}
+              {req.document && <p className="mt-2 text-[10px] font-bold text-gray-400 break-all">{t("interface.version")} {req.document.current_version} · {req.document.original_name}</p>}
             </div>
             <div className="flex flex-wrap items-center gap-2">
               {req.document && (

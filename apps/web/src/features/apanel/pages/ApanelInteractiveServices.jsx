@@ -362,10 +362,10 @@ export default function ApanelInteractiveServices() {
       <div className="flex flex-col gap-4 rounded-3xl border border-gray-100 bg-white p-6 shadow-sm lg:flex-row lg:items-center lg:justify-between">
         <div>
           <h1 className="mt-1 text-2xl font-black text-navy">
-            Interactive Services CMS
+            {t("interface.interactiveServicesCms")}
           </h1>
           <p className="mt-2 text-sm font-semibold text-gray-500">
-            Manage homepage interactive services and the public services page.
+            {t("interface.servicesHelp")}
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -373,20 +373,20 @@ export default function ApanelInteractiveServices() {
             onClick={() => setActiveTab("items")}
             className={`rounded-xl px-4 py-2 text-sm font-extrabold ${activeTab === "items" ? "bg-primary text-white" : "bg-gray-50 text-gray-600"}`}
           >
-            Services
+            {t("interface.services")}
           </button>
           <button
             onClick={() => setActiveTab("settings")}
             className={`rounded-xl px-4 py-2 text-sm font-extrabold ${activeTab === "settings" ? "bg-primary text-white" : "bg-gray-50 text-gray-600"}`}
           >
-            Settings
+            {t("apanel.nav.settings")}
           </button>
           <button
             onClick={fetchItems}
             className="inline-flex items-center gap-2 rounded-xl border border-gray-100 px-4 py-2 text-sm font-bold text-gray-600"
           >
             <RefreshCw className="h-4 w-4" />
-            Refresh
+            {t("button.refresh")}
           </button>
         </div>
       </div>
@@ -413,7 +413,7 @@ export default function ApanelInteractiveServices() {
                 className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-extrabold text-white"
               >
                 <Plus className="h-4 w-4" />
-                Add Service
+                {t("interface.addService")}
               </button>
             </div>
 
@@ -427,7 +427,7 @@ export default function ApanelInteractiveServices() {
                   <thead className="bg-gray-50 text-xs uppercase tracking-wide text-gray-500">
                     <tr>
                       <th className="px-4 py-3">{t("apanel.interactiveServices.service")}</th>
-                      <th className="px-4 py-3">URL</th>
+                      <th className="px-4 py-3">{t("interface.url")}</th>
                       <th className="px-4 py-3">{t("apanel.interactiveServices.home")}</th>
                       <th className="px-4 py-3">{t("apanel.interactiveServices.status")}</th>
                       <th className="px-4 py-3 text-right">{t("apanel.interactiveServices.actions")}</th>
@@ -455,14 +455,14 @@ export default function ApanelInteractiveServices() {
                             <span
                               className={`rounded-full px-2.5 py-1 text-xs font-bold ${item.home_visible ? "bg-emerald-50 text-emerald-700" : "bg-gray-100 text-gray-500"}`}
                             >
-                              {item.home_visible ? "Visible" : "Hidden"}
+                              {item.home_visible ? t("interface.visible") : t("status.hidden")}
                             </span>
                           </td>
                           <td className="px-4 py-4">
                             <span
                               className={`rounded-full px-2.5 py-1 text-xs font-bold ${item.is_active ? "bg-primary/10 text-primary" : "bg-red-50 text-red-700"}`}
                             >
-                              {item.is_active ? "Published" : "Draft"}
+                              {item.is_active ? t("apanel.greenCampus.label.published") : t("status.draft")}
                             </span>
                           </td>
                           <td className="px-4 py-4">
@@ -510,10 +510,10 @@ export default function ApanelInteractiveServices() {
                 <div className="mb-5 flex items-center justify-between">
                   <div>
                     <p className="text-xs font-extrabold uppercase tracking-widest text-primary">
-                      Service
+                      {t("apanel.interactiveServices.service")}
                     </p>
                     <h2 className="text-lg font-black text-navy">
-                      {editingRecord ? "Edit Service" : "Add Service"}
+                      {editingRecord ? t("interface.editService") : t("interface.addService")}
                     </h2>
                   </div>
                   <button
@@ -538,7 +538,7 @@ export default function ApanelInteractiveServices() {
 
                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                   <label className="text-xs font-bold text-gray-500">
-                    Slug
+                    {t("apanel.administration.label.slug")}
                     <input
                       className={`${inputClass()} mt-1`}
                       value={form.slug}
@@ -553,7 +553,7 @@ export default function ApanelInteractiveServices() {
                   </label>
 
                   <label className="text-xs font-bold text-gray-500 lg:col-span-2">
-                    URL
+                    {t("interface.url")}
                     <input
                       className={`${inputClass()} mt-1`}
                       value={form.url}
@@ -567,7 +567,7 @@ export default function ApanelInteractiveServices() {
                   </label>
 
                   <label className="text-xs font-bold text-gray-500">
-                    Icon
+                    {t("apanel.aboutPage.label.icon")}
                     <input
                       list="interactive-service-icons"
                       className={`${inputClass()} mt-1`}
@@ -582,7 +582,7 @@ export default function ApanelInteractiveServices() {
                   </label>
 
                   <label className="text-xs font-bold text-gray-500">
-                    Color
+                    {t("apanel.aboutPage.label.color")}
                     <input
                       list="interactive-service-colors"
                       className={`${inputClass()} mt-1`}
@@ -597,7 +597,7 @@ export default function ApanelInteractiveServices() {
                   </label>
 
                   <label className="text-xs font-bold text-gray-500">
-                    Order
+                    {t("interface.order")}
                     <input
                       type="number"
                       className={`${inputClass()} mt-1`}
@@ -612,7 +612,7 @@ export default function ApanelInteractiveServices() {
                   </label>
 
                   <label className="text-xs font-bold text-gray-500">
-                    Home
+                    {t("apanel.interactiveServices.home")}
                     <span className={toggleClass()}>
                       <input
                         type="checkbox"
@@ -624,12 +624,12 @@ export default function ApanelInteractiveServices() {
                           }))
                         }
                       />
-                      Show on home
+                      {t("interface.showOnHome")}
                     </span>
                   </label>
 
                   <label className="text-xs font-bold text-gray-500">
-                    Active
+                    {t("apanel.crud.ui.label.active")}
                     <span className={toggleClass()}>
                       <input
                         type="checkbox"
@@ -641,12 +641,12 @@ export default function ApanelInteractiveServices() {
                           }))
                         }
                       />
-                      Published
+                      {t("apanel.greenCampus.label.published")}
                     </span>
                   </label>
 
                   <label className="text-xs font-bold text-gray-500">
-                    Opens New Tab
+                    {t("interface.opensNewTab")}
                     <span className={toggleClass()}>
                       <input
                         type="checkbox"
@@ -658,7 +658,7 @@ export default function ApanelInteractiveServices() {
                           }))
                         }
                       />
-                      External tab
+                      {t("interface.externalTab")}
                     </span>
                   </label>
 
@@ -676,7 +676,7 @@ export default function ApanelInteractiveServices() {
                   </div>
 
                   <label className="text-xs font-bold text-gray-500">
-                    Title
+                    {t("apanel.aboutPage.label.title")}
                     <input
                       className={`${inputClass()} mt-1`}
                       value={currentTranslation.title}
@@ -690,7 +690,7 @@ export default function ApanelInteractiveServices() {
                     />
                   </label>
                   <label className="text-xs font-bold text-gray-500">
-                    Button Label
+                    {t("interface.buttonLabel")}
                     <input
                       className={`${inputClass()} mt-1`}
                       value={currentTranslation.action_label}
@@ -704,7 +704,7 @@ export default function ApanelInteractiveServices() {
                     />
                   </label>
                   <label className="text-xs font-bold text-gray-500 lg:col-span-3">
-                    Description
+                    {t("apanel.aboutPage.label.description")}
                     <textarea
                       className={`${inputClass()} mt-1 min-h-24`}
                       value={currentTranslation.description}
@@ -727,7 +727,7 @@ export default function ApanelInteractiveServices() {
                     ) : (
                       <Save className="h-4 w-4" />
                     )}
-                    Save Service
+                    {t("interface.saveService")}
                   </button>
                 </div>
               </form>
@@ -741,7 +741,7 @@ export default function ApanelInteractiveServices() {
         >
           <div className="mb-6 grid gap-4 md:grid-cols-[180px_180px_1fr]">
             <label className="text-xs font-bold text-gray-500">
-              Home Limit
+              {t("apanel.greenCampus.label.homeLimit")}
               <input
                 type="number"
                 min="1"
@@ -767,7 +767,7 @@ export default function ApanelInteractiveServices() {
                   }))
                 }
               />
-              Active
+              {t("apanel.crud.ui.label.active")}
             </label>
           </div>
 
@@ -812,7 +812,7 @@ export default function ApanelInteractiveServices() {
             ) : (
               <Save className="h-4 w-4" />
             )}
-            Save Settings
+            {t("interface.saveSettings")}
           </button>
         </form>
       )}

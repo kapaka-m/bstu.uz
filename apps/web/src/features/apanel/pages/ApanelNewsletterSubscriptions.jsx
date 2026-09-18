@@ -209,14 +209,14 @@ export default function ApanelNewsletterSubscriptions() {
       {activeTab === "send" && (
         <form onSubmit={sendCampaign} className="rounded-3xl border border-gray-100 bg-white p-6 shadow-xs">
           <div className="mb-6">
-            <h2 className="text-xl font-black text-navy">Send Newsletter Campaign</h2>
+            <h2 className="text-xl font-black text-navy">{t("interface.sendNewsletter")}</h2>
             <p className="mt-1 text-xs font-bold text-gray-400">
-              Sends a professional email template to active newsletter subscribers.
+              {t("interface.newsletterHelp")}
             </p>
           </div>
           <div className="grid gap-4 md:grid-cols-2">
             <label className="text-xs font-bold text-gray-500">
-              Subject
+              {t("interface.subject")}
               <input
                 required
                 value={campaign.subject}
@@ -225,7 +225,7 @@ export default function ApanelNewsletterSubscriptions() {
               />
             </label>
             <label className="text-xs font-bold text-gray-500">
-              Title
+              {t("apanel.aboutPage.label.title")}
               <input
                 required
                 value={campaign.title}
@@ -234,7 +234,7 @@ export default function ApanelNewsletterSubscriptions() {
               />
             </label>
             <label className="text-xs font-bold text-gray-500 md:col-span-2">
-              Message
+              {t("interface.message")}
               <textarea
                 required
                 rows={6}
@@ -244,7 +244,7 @@ export default function ApanelNewsletterSubscriptions() {
               />
             </label>
             <label className="text-xs font-bold text-gray-500">
-              CTA Label
+              {t("interface.ctaLabel")}
               <input
                 value={campaign.cta_label}
                 onChange={(event) => updateCampaign("cta_label", event.target.value)}
@@ -252,7 +252,7 @@ export default function ApanelNewsletterSubscriptions() {
               />
             </label>
             <label className="text-xs font-bold text-gray-500">
-              CTA URL
+              {t("interface.ctaUrl")}
               <input
                 value={campaign.cta_url}
                 onChange={(event) => updateCampaign("cta_url", event.target.value)}
@@ -260,13 +260,13 @@ export default function ApanelNewsletterSubscriptions() {
               />
             </label>
             <label className="text-xs font-bold text-gray-500">
-              Locale Filter
+              {t("interface.localeFilter")}
               <select
                 value={campaign.locale}
                 onChange={(event) => updateCampaign("locale", event.target.value)}
                 className="mt-1 w-full rounded-xl border border-gray-200 bg-white px-3 py-2.5 text-sm font-semibold text-navy focus:border-primary focus:outline-none"
               >
-                <option value="">All active subscribers</option>
+                <option value="">{t("interface.allSubscribers")}</option>
                 {localeCodes.map((locale) => (
                   <option key={locale} value={locale}>
                     {locale.toUpperCase()}
@@ -282,7 +282,7 @@ export default function ApanelNewsletterSubscriptions() {
               className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-extrabold text-white shadow-lg shadow-primary/20 disabled:opacity-60"
             >
               {sending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
-              {sending ? "Sending..." : "Send Campaign"}
+              {sending ? t("interface.sending") : t("interface.sendCampaign")}
             </button>
           </div>
         </form>

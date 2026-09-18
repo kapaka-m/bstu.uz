@@ -309,7 +309,7 @@ export default function ApanelHeaderNavbar() {
                 <GripVertical className="h-4 w-4 text-gray-300" />
                 <div>
                   <p className="text-xs font-extrabold uppercase tracking-widest text-gray-400">
-                    {parentPath.length ? `Child Level ${parentPath.length}` : "Top Menu"} #{index + 1}
+                    {parentPath.length ? `Child Level ${parentPath.length}` : t("interface.topMenu")} #{index + 1}
                   </p>
                   <h3 className="text-sm font-black text-navy">{label}</h3>
                 </div>
@@ -327,7 +327,7 @@ export default function ApanelHeaderNavbar() {
                   onClick={() => setItems((current) => sortTree(moveInTree(current, path, 1)))}
                   className="rounded-xl border border-gray-200 bg-white px-3 py-2 text-xs font-bold text-gray-500"
                 >
-                  Down
+                  {t("interface.down")}
                 </button>
                 {canHaveChildren && (
                   <button
@@ -336,7 +336,7 @@ export default function ApanelHeaderNavbar() {
                     className="inline-flex items-center gap-1 rounded-xl border border-primary/20 bg-primary/5 px-3 py-2 text-xs font-bold text-primary"
                   >
                     <Plus className="h-3.5 w-3.5" />
-                    Add Child
+                    {t("interface.addChild")}
                   </button>
                 )}
                 <button
@@ -351,7 +351,7 @@ export default function ApanelHeaderNavbar() {
 
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-6">
               <label className="block text-xs font-extrabold uppercase tracking-wide text-gray-400">
-                Type
+                {t("apanel.crud.ui.label.type")}
                 <select
                   value={item.route_name}
                   onChange={(event) => updateItem(path, "route_name", event.target.value)}
@@ -363,7 +363,7 @@ export default function ApanelHeaderNavbar() {
                 </select>
               </label>
               <label className="block text-xs font-extrabold uppercase tracking-wide text-gray-400 lg:col-span-2">
-                Label ({activeLocale})
+                {t("interface.labelPrefix")}{activeLocale})
                 <input
                   value={item.translations?.[activeLocale]?.label || ""}
                   onChange={(event) => updateLabel(path, activeLocale, event.target.value)}
@@ -371,7 +371,7 @@ export default function ApanelHeaderNavbar() {
                 />
               </label>
               <label className="block text-xs font-extrabold uppercase tracking-wide text-gray-400">
-                Icon
+                {t("apanel.aboutPage.label.icon")}
                 <input
                   value={item.icon || ""}
                   onChange={(event) => updateItem(path, "icon", event.target.value)}
@@ -380,7 +380,7 @@ export default function ApanelHeaderNavbar() {
                 />
               </label>
               <label className="block text-xs font-extrabold uppercase tracking-wide text-gray-400">
-                URL
+                {t("interface.url")}
                 <input
                   value={item.url || ""}
                   disabled={!["link", "group", "action"].includes(item.route_name)}
@@ -389,7 +389,7 @@ export default function ApanelHeaderNavbar() {
                 />
               </label>
               <label className="flex min-h-10 items-center justify-between gap-3 self-end rounded-xl border border-gray-200 bg-white px-3 py-2 text-xs font-bold text-gray-600">
-                Active
+                {t("apanel.crud.ui.label.active")}
                 <input
                   type="checkbox"
                   checked={item.is_active}
@@ -419,11 +419,10 @@ export default function ApanelHeaderNavbar() {
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div>
           <h1 className="mt-1 text-2xl font-black text-navy">
-            Header Navbar CMS
+            {t("interface.headerCms")}
           </h1>
           <p className="mt-1 text-sm font-semibold text-gray-500">
-            Controls public header navigation, order, labels, dropdown groups,
-            and child links.
+            {t("interface.headerHelp")}
           </p>
         </div>
         <button
@@ -433,7 +432,7 @@ export default function ApanelHeaderNavbar() {
           className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-extrabold text-white shadow-sm transition hover:bg-primary-hover disabled:opacity-60"
         >
           <Save className="h-4 w-4" />
-          {saving ? "Saving..." : "Save Header Navbar"}
+          {saving ? t("interface.saving") : t("interface.saveHeader")}
         </button>
       </div>
 
@@ -449,7 +448,7 @@ export default function ApanelHeaderNavbar() {
       <div className="rounded-3xl border border-gray-100 bg-white p-5 shadow-sm">
         <div className="mb-5 flex flex-col gap-4 border-b border-gray-100 pb-5 lg:flex-row lg:items-center lg:justify-between">
           <label className="flex min-h-10 items-center justify-between gap-3 rounded-xl border border-gray-200 px-3 py-2 text-xs font-bold text-gray-600 lg:w-48">
-            Active
+            {t("apanel.crud.ui.label.active")}
             <input
               type="checkbox"
               checked={isActive}
@@ -480,7 +479,7 @@ export default function ApanelHeaderNavbar() {
           className="mt-5 inline-flex items-center gap-2 rounded-xl border border-primary/20 bg-primary/5 px-4 py-2 text-sm font-extrabold text-primary"
         >
           <Plus className="h-4 w-4" />
-          Add Menu Item
+          {t("interface.addMenuItem")}
         </button>
       </div>
 

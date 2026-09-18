@@ -267,7 +267,7 @@ export default function ApanelDashboard() {
                 </div>
               </div>
               <div className="mt-5 flex items-center justify-between border-t border-gray-50 pt-3 text-[11px] font-extrabold uppercase tracking-widest text-gray-400">
-                <span>Open</span>
+                <span>{t("apanel.workflow.open")}</span>
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:text-primary" />
               </div>
             </Link>

@@ -210,7 +210,7 @@ export default function ApanelAdministration() {
         <div>
           <h1 className="text-2xl font-extrabold text-navy">{t("apanel.administration.title")}</h1>
           <p className="text-sm text-gray-500 font-semibold mt-1">
-            Manage university leadership shown on the homepage, profile pages, and Structure menu.
+            {t("interface.leadershipHelp")}
           </p>
         </div>
         <button
@@ -218,7 +218,7 @@ export default function ApanelAdministration() {
           className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-xs font-extrabold text-white shadow-sm hover:bg-primary-hover"
         >
           <Plus className="w-4 h-4" />
-          Add Profile
+          {t("interface.addProfile")}
         </button>
       </div>
 
@@ -264,7 +264,7 @@ export default function ApanelAdministration() {
                       <p className="text-xs text-gray-500 font-semibold mt-1">{primaryTranslation.position}</p>
                     </div>
                     <span className={`text-[10px] font-black rounded-full px-2 py-1 ${item.is_published ? "bg-emerald-50 text-emerald-700" : "bg-gray-100 text-gray-500"}`}>
-                      {item.is_published ? "Published" : "Hidden"}
+                      {item.is_published ? t("apanel.greenCampus.label.published") : t("status.hidden")}
                     </span>
                   </div>
                   <div className="mt-3 flex flex-wrap gap-2 text-[11px] font-bold text-gray-500">
@@ -275,11 +275,11 @@ export default function ApanelAdministration() {
                   <div className="mt-4 flex gap-2">
                     <button onClick={() => startEdit(item)} className="inline-flex items-center gap-1.5 rounded-lg border border-gray-100 px-3 py-2 text-xs font-bold text-navy hover:border-primary/30">
                       <Edit3 className="w-3.5 h-3.5" />
-                      Edit
+                      {t("button.edit")}
                     </button>
                     <button onClick={() => setPendingDelete(item)} className="inline-flex items-center gap-1.5 rounded-lg border border-rose-100 px-3 py-2 text-xs font-bold text-rose-600 hover:bg-rose-50">
                       <Trash2 className="w-3.5 h-3.5" />
-                      Delete
+                      {t("button.delete")}
                     </button>
                   </div>
                 </div>
@@ -307,7 +307,7 @@ export default function ApanelAdministration() {
         <form onSubmit={saveSettings} className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm space-y-5">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <label className="space-y-1 text-xs font-bold text-gray-500">
-              Home Limit
+              {t("apanel.greenCampus.label.homeLimit")}
               <input
                 type="number"
                 value={settings.home_limit}
@@ -323,7 +323,7 @@ export default function ApanelAdministration() {
                   checked={Boolean(settings.is_active)}
                   onChange={(e) => setSettings((prev) => ({ ...prev, is_active: e.target.checked }))}
                 />
-                Active
+                {t("apanel.crud.ui.label.active")}
               </label>
             </div>
           </div>
@@ -370,7 +370,7 @@ export default function ApanelAdministration() {
 
           <button className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-xs font-extrabold text-white">
             <Save className="w-4 h-4" />
-            {saving ? "Saving..." : "Save Settings"}
+            {saving ? t("interface.saving") : t("interface.saveSettings")}
           </button>
         </form>
       )}
@@ -416,7 +416,7 @@ function ProfileForm({ activeLocale, form, saving, setActiveLocale, setForm, onC
           </div>
           <label className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-gray-100 px-4 py-2.5 text-xs font-extrabold text-navy hover:border-primary/30 cursor-pointer">
             <UploadCloud className="w-4 h-4" />
-            Upload Photo
+            {t("interface.uploadPhoto")}
             <input type="file" accept="image/*" className="hidden" onChange={(e) => onUpload(e.target.files?.[0])} />
           </label>
         </div>
@@ -433,11 +433,11 @@ function ProfileForm({ activeLocale, form, saving, setActiveLocale, setForm, onC
           <div className="flex flex-wrap gap-3">
             <label className="inline-flex items-center gap-2 text-xs font-bold text-navy">
               <input type="checkbox" checked={form.is_rector} onChange={(e) => setForm((prev) => ({ ...prev, is_rector: e.target.checked }))} />
-              Rector
+              {t("apanel.administration.rector")}
             </label>
             <label className="inline-flex items-center gap-2 text-xs font-bold text-navy">
               <input type="checkbox" checked={form.is_published} onChange={(e) => setForm((prev) => ({ ...prev, is_published: e.target.checked }))} />
-              Published
+              {t("apanel.greenCampus.label.published")}
             </label>
           </div>
         </div>
@@ -461,11 +461,11 @@ function ProfileForm({ activeLocale, form, saving, setActiveLocale, setForm, onC
       <div className="flex flex-wrap gap-2">
         <button className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-xs font-extrabold text-white">
           <Save className="w-4 h-4" />
-          {saving ? "Saving..." : "Save"}
+          {saving ? t("interface.saving") : t("common.save")}
         </button>
         <button type="button" onClick={onCancel} className="inline-flex items-center gap-2 rounded-xl border border-gray-100 px-4 py-2.5 text-xs font-extrabold text-navy">
           <X className="w-4 h-4" />
-          Cancel
+          {t("interface.cancel")}
         </button>
       </div>
     </form>

@@ -340,7 +340,7 @@ export default function ApanelFooterWeb() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-extrabold text-navy uppercase tracking-wider">
-            CMS Footer Web
+            {t("interface.footerCms")}
           </h1>
           <p className="text-gray-400 text-xs font-semibold mt-1">
             /apanel/cms/footer-web
@@ -357,20 +357,20 @@ export default function ApanelFooterWeb() {
           ) : (
             <Save className="w-4 h-4" />
           )}
-          Save Footer
+          {t("interface.saveFooter")}
         </button>
       </div>
 
       {error && <FormError message={error} />}
       {saved && (
         <div className="bg-emerald-50 border border-emerald-100 rounded-2xl px-4 py-3 text-sm font-bold text-emerald-700">
-          Footer content saved successfully.
+          {t("interface.footerSaved")}
         </div>
       )}
 
       <section className="bg-white border border-gray-100 rounded-3xl p-5 shadow-xs space-y-4">
         <h2 className="text-sm font-black text-navy uppercase tracking-wider">
-          Global Footer Settings
+          {t("interface.footerSettings")}
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <TextField
@@ -432,11 +432,10 @@ export default function ApanelFooterWeb() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
             <h2 className="text-sm font-black text-navy uppercase tracking-wider">
-              Admissions Banner & Newsletter
+              {t("interface.admissionsNewsletter")}
             </h2>
             <p className="text-xs font-semibold text-gray-400 mt-1">
-              Controls the promotional banner and subscription box above the
-              main footer.
+              {t("interface.footerBannerHelp")}
             </p>
           </div>
           <div className="w-full sm:w-64">
@@ -490,7 +489,7 @@ export default function ApanelFooterWeb() {
       <section className="bg-white border border-gray-100 rounded-3xl p-5 shadow-xs space-y-4">
         <div className="flex items-center justify-between gap-3">
           <h2 className="text-sm font-black text-navy uppercase tracking-wider">
-            Social Media
+            {t("interface.socialMedia")}
           </h2>
           <button
             type="button"
@@ -503,7 +502,7 @@ export default function ApanelFooterWeb() {
             className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-primary text-white text-xs font-extrabold cursor-pointer"
           >
             <Plus className="w-4 h-4" />
-            Add
+            {t("button.add")}
           </button>
         </div>
         <div className="space-y-3">
@@ -544,10 +543,10 @@ export default function ApanelFooterWeb() {
         isOpen={Boolean(pendingDelete)}
         title={
           pendingDelete?.type === "useful"
-            ? "Delete Link?"
+            ? t("interface.deleteLink")
             : pendingDelete?.type === "faculty"
-            ? "Delete Faculty Link?"
-            : "Delete Social Media Link?"
+            ? t("interface.deleteFacultyLink")
+            : t("interface.deleteSocialLink")
         }
         message={`Are you sure you want to delete the link "${pendingDelete?.label || ""}"? This will remove it from the list. You will need to click "Save Footer" to apply the changes.`}
         confirmText="Delete"

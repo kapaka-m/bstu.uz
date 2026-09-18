@@ -256,7 +256,7 @@ export default function ApanelApplyPage() {
   };
 
   if (loading) {
-    return <div className="p-8 text-sm font-bold text-gray-500">Loading apply page CMS...</div>;
+    return <div className="p-8 text-sm font-bold text-gray-500">{t("interface.loadingApply")}</div>;
   }
 
   return (
@@ -264,9 +264,9 @@ export default function ApanelApplyPage() {
       <div className="flex flex-col gap-4 rounded-3xl bg-navy p-6 text-white md:flex-row md:items-center md:justify-between">
         <div>
           <p className="text-xs font-black uppercase tracking-widest text-white/60">CMS</p>
-          <h1 className="mt-1 text-2xl font-extrabold !text-white">Apply Page</h1>
+          <h1 className="mt-1 text-2xl font-extrabold !text-white">{t("interface.applyPage")}</h1>
           <p className="mt-2 text-sm font-semibold text-white/70">
-            Manage all public application form labels, messages, and option text.
+            {t("interface.applyHelp")}
           </p>
         </div>
         <label className="flex items-center gap-2 text-sm font-bold">
@@ -277,7 +277,7 @@ export default function ApanelApplyPage() {
               setPage((current) => ({ ...current, is_published: event.target.checked }))
             }
           />
-          Published
+          {t("apanel.greenCampus.label.published")}
         </label>
       </div>
 
@@ -349,7 +349,7 @@ export default function ApanelApplyPage() {
         className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-extrabold text-white disabled:opacity-60"
       >
         {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
-        {t("common.save") || "Save"}
+        {t("common.save")}
       </button>
     </form>
   );

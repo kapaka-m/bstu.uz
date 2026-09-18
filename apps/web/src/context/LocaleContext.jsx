@@ -12,45 +12,6 @@ const FALLBACK_LOCALES = [
   { code: "en", name: "English", direction: "ltr", is_active: true },
 ];
 
-const FALLBACK_TRANSLATIONS = {
-  "services.viewAll": {
-    en: "View all services",
-    uz: "Barcha xizmatlar",
-    ru: "Все услуги",
-    ar: "عرض جميع الخدمات",
-  },
-  "news.viewAll": {
-    en: "View all news",
-    uz: "Barcha yangiliklar",
-    ru: "Все новости",
-    ar: "عرض جميع الأخبار",
-  },
-  "programs.noResults.title": {
-    en: "No programs found",
-    uz: "Dasturlar topilmadi",
-    ru: "Программы не найдены",
-    ar: "لم يتم العثور على برامج",
-  },
-  "programs.noResults.desc": {
-    en: "Try changing your search or filters.",
-    uz: "Qidiruv yoki filtrlarni o'zgartirib ko'ring.",
-    ru: "Попробуйте изменить поиск или фильтры.",
-    ar: "جرّب تغيير البحث أو عوامل التصفية.",
-  },
-  "programs.catalog.viewAll": {
-    en: "View all programs",
-    uz: "Barcha dasturlar",
-    ru: "Все программы",
-    ar: "عرض جميع البرامج",
-  },
-};
-
-const fallbackTranslation = (key, locale) => {
-  const entry = FALLBACK_TRANSLATIONS[key];
-  if (!entry) return "";
-  return entry[locale] || entry.en || "";
-};
-
 const normalizeMenuItems = (menu) => {
   if (Array.isArray(menu)) return menu;
   if (Array.isArray(menu?.data)) return menu.data;
@@ -100,8 +61,7 @@ export function LocaleProvider({ children }) {
   const hasTranslation = (key) => {
     const val = resolvePath(translations, key);
     return (
-      (val !== undefined && val !== null && val !== "" && val !== key) ||
-      Boolean(fallbackTranslation(key, locale))
+      val !== undefined && val !== null && val !== "" && val !== key
     );
   };
 
@@ -120,9 +80,6 @@ export function LocaleProvider({ children }) {
       const rendered = String(val);
       if (rendered && rendered !== key) return rendered;
     }
-
-    const fallback = fallbackTranslation(key, locale);
-    if (fallback) return fallback;
 
     if (key && !missingTranslationKeys.current.has(key)) {
       missingTranslationKeys.current.add(key);
@@ -180,6 +137,7 @@ export function LocaleProvider({ children }) {
       return;
     }
 
+    let active = true;
     const loadLocaleData = async () => {
       try {
         setTranslationsLoading(true);
@@ -193,6 +151,8 @@ export function LocaleProvider({ children }) {
           translationService.getTranslations(locale),
           menuService.getMenu("header"),
         ]);
+
+        if (!active) return;
 
         if (translationsResult.status === "fulfilled") {
           const nextTranslations = translationsResult.value || {};
@@ -209,13 +169,17 @@ export function LocaleProvider({ children }) {
           setHeaderMenu([]);
         }
       } catch {
+        if (!active) return;
         setTranslations({});
         setApiMessageDictionary(locale, {});
       } finally {
-        setTranslationsLoading(false);
+        if (active) setTranslationsLoading(false);
       }
     };
     loadLocaleData();
+    return () => {
+      active = false;
+    };
   }, [locale, locales]);
 
   useEffect(() => {

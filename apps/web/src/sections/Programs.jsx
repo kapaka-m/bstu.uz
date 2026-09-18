@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Building2, Clock, GraduationCap, Hash, Search, X } from "lucide-react";
+import { ArrowRight, Building2, ChevronDown, Clock, GraduationCap, Hash, Search, X } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
 import { programService } from "../services/programService";
 import { facultyService } from "../services/facultyService";
@@ -226,20 +226,36 @@ export default function Programs({ limit, showRemaining, featured = false }) {
             {/* Faculty & Degree Filters */}
             <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
               {/* Faculty Filters */}
-              <div className="student-header-scroll flex max-h-32 flex-wrap gap-2 overflow-y-auto text-start sm:max-h-none lg:justify-start">
-                {facultyFilters.map(fac => (
-                  <button
-                    key={fac.id}
-                    onClick={() => setSelectedFaculty(fac.id)}
-                    className={`text-xs font-extrabold px-4 py-2.5 rounded-xl transition-all cursor-pointer ${
-                      selectedFaculty === fac.id
-                        ? "bg-primary text-white shadow-md shadow-primary/10"
-                        : "bg-gray-50 text-gray-500 hover:bg-gray-100"
+              <div className="w-full lg:max-w-sm">
+                <label htmlFor="program-faculty-filter" className="sr-only">
+                  {hasTranslation("common.allFaculties") ? t("common.allFaculties") : "All Faculties"}
+                </label>
+                <div className="relative">
+                  <Building2
+                    className={`pointer-events-none absolute top-1/2 h-4 w-4 -translate-y-1/2 text-primary ${
+                      isRtl ? "right-4" : "left-4"
+                    }`}
+                  />
+                  <select
+                    id="program-faculty-filter"
+                    value={selectedFaculty}
+                    onChange={(event) => setSelectedFaculty(event.target.value)}
+                    className={`h-12 w-full cursor-pointer appearance-none rounded-2xl border border-gray-200 bg-gray-50 py-3 text-sm font-extrabold text-navy shadow-inner outline-none transition-all hover:border-primary/40 hover:bg-white focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/15 ${
+                      isRtl ? "pr-11 pl-10 text-right" : "pl-11 pr-10 text-left"
                     }`}
                   >
-                    {fac.label}
-                  </button>
-                ))}
+                    {facultyFilters.map((fac) => (
+                      <option key={fac.id} value={fac.id}>
+                        {fac.label}
+                      </option>
+                    ))}
+                  </select>
+                  <ChevronDown
+                    className={`pointer-events-none absolute top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400 ${
+                      isRtl ? "left-4" : "right-4"
+                    }`}
+                  />
+                </div>
               </div>
 
               {/* Degree Filters */}

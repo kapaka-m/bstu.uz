@@ -22,3 +22,17 @@ test("ordinary arrays, missing relationships, and fallback behavior remain suppo
   assert.deepEqual(selectTranslation(null, "ar"), {});
   assert.equal(selectTranslation(item, "missing").name, "Head of Department");
 });
+
+test("student program and faculty labels follow locale when Arabic is the first API row", () => {
+  const translations = [
+    { locale: "ar", name: "نظم وتكنولوجيا المعلومات" },
+    { locale: "en", name: "Information Systems and Technologies" },
+    { locale: "ru", name: "Информационные системы и технологии" },
+    { locale: "uz", name: "Axborot tizimlari va texnologiyalari" },
+  ];
+  const application = { program: { translations }, faculty: { translations: [...translations].reverse() } };
+  for (const { locale, name } of translations) {
+    assert.equal(selectTranslation(application.program, locale).name, name);
+    assert.equal(selectTranslation(application.faculty, locale).name, name);
+  }
+});

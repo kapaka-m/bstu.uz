@@ -18,6 +18,7 @@ import FormError from "../../../components/common/FormError";
 import { studentPortalService } from "../../../services/studentPortalService";
 import { studentService } from "../../../services/studentService";
 import { useLanguage } from "../../../context/LanguageContext";
+import { selectTranslation } from "../../../lib/localizedContent";
 
 const statusClass = (status = "") => {
   const value = String(status).toUpperCase();
@@ -170,8 +171,8 @@ export default function StudentPortalPhaseTwo() {
   const app = summary.application;
   const student = app.student_profile || app.studentProfile || profile || {};
   const user = student.user || {};
-  const programName = app.program?.translations?.[0]?.name || app.program?.slug;
-  const facultyName = app.faculty?.translations?.[0]?.name || app.faculty?.slug;
+  const programName = selectTranslation(app.program, locale).name || app.program?.slug;
+  const facultyName = selectTranslation(app.faculty, locale).name || app.faculty?.slug;
   const applicationId = app.id;
   const isTransfer = String(app.student_type).toLowerCase() === "transfer";
 

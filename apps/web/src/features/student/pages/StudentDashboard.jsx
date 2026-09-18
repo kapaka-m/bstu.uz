@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import StatusBadge from "../../apanel/components/StatusBadge";
 import LoadingState from "../../../components/common/LoadingState";
+import { selectTranslation } from "../../../lib/localizedContent";
 
 export default function StudentDashboard() {
   const { language, t } = useLanguage();
@@ -116,7 +117,7 @@ export default function StudentDashboard() {
                 {t("student.dashboard.activeApplication")}
               </span>
               <h3 className="text-base font-bold text-navy break-words">
-                {activeApp?.program?.translations?.[0]?.name ||
+                {selectTranslation(activeApp?.program, language).name ||
                   t("student.dashboard.noActiveApplication")}
               </h3>
             </div>

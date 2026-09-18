@@ -5,6 +5,7 @@ import { applicationService } from "../../../services/applicationService";
 import { studentService } from "../../../services/studentService";
 import { studentPortalService } from "../../../services/studentPortalService";
 import { useLanguage } from "../../../context/LanguageContext";
+import { selectTranslation } from "../../../lib/localizedContent";
 import {
   Loader2,
   ClipboardCheck,
@@ -29,7 +30,7 @@ const normalizeOptionList = (value) =>
     .filter(Boolean);
 
 export default function StudentApplication() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const navigate = useNavigate();
   const {
     faculties,
@@ -277,7 +278,7 @@ export default function StudentApplication() {
             </p>
             <p className="text-[11px] text-gray-500 font-semibold leading-relaxed">
               {t("application.reviewNoticePrefix")}{" "}
-              <strong>{activeApp?.program?.translations?.[0]?.name}</strong> is
+              <strong>{selectTranslation(activeApp?.program, language).name}</strong> is
               {" "}{t("application.reviewNoticeSuffix")}
             </p>
             <Link
@@ -360,7 +361,7 @@ export default function StudentApplication() {
               <option value="">{t("application.selectFaculty")}</option>
               {faculties.map((f) => (
                 <option key={f.id} value={f.id}>
-                  {f.translations?.[0]?.name || f.slug}
+                  {selectTranslation(f, language).name || f.slug}
                 </option>
               ))}
             </select>
@@ -383,7 +384,7 @@ export default function StudentApplication() {
               <option value="">{t("application.selectDepartment")}</option>
               {filteredDepartments.map((d) => (
                 <option key={d.id} value={d.id}>
-                  {d.translations?.[0]?.name || d.slug}
+                  {selectTranslation(d, language).name || d.slug}
                 </option>
               ))}
             </select>
@@ -424,7 +425,7 @@ export default function StudentApplication() {
               <option value="">{t("application.chooseProgram")}</option>
               {filteredPrograms.map((p) => (
                 <option key={p.id} value={p.id}>
-                  {p.translations?.[0]?.name} (
+                  {selectTranslation(p, language).name} (
                   {Number(p.tuition_fee).toLocaleString()} {p.currency || ""}/
                   {t("time.year")})
                 </option>

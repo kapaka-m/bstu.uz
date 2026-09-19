@@ -459,25 +459,6 @@ class ApanelApplicationWorkflowController extends Controller
         return $this->successResponse($process->fresh(), 'Visa process updated');
     }
 
-    public function reviewHousing(Request $request, int $application)
-    {
-        $validated = $request->validate([
-            'status' => ['required', Rule::in(['APPROVED', 'REJECTED', 'UNDER_REVIEW', 'NOT_REQUIRED', 'COMPLETED'])],
-            'admin_notes' => ['nullable', 'string', 'max:3000'],
-        ]);
-        $app = $this->findApplication($application);
-        $housing = $this->workflow->ensureHousingRequest($app);
-        $housing->update([
-            'status' => $validated['status'],
-            'admin_notes' => $validated['admin_notes'] ?? null,
-            'reviewer_id' => Auth::id(),
-            'reviewed_at' => now(),
-        ]);
-        $this->workflow->notify($app, 'Housing request updated', 'Your housing request is '.$validated['status'].'.', 'housing', '/student/housing');
-
-        return $this->successResponse($housing->fresh(), 'Housing request reviewed');
-    }
-
     public function updateResidence(Request $request, int $application)
     {
         $validated = $request->validate([

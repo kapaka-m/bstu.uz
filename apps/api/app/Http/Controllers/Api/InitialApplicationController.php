@@ -182,9 +182,9 @@ class InitialApplicationController extends Controller
 
             EducationBackground::create([
                 'student_profile_id' => $profile->id,
-                'institution_name' => 'To be completed in student dashboard',
-                'degree_obtained' => $requestedDegree,
-                'gpa' => 'To be completed',
+                'institution_name' => '',
+                'degree_obtained' => '',
+                'gpa' => '',
                 'graduation_year' => (int) now()->format('Y'),
             ]);
 

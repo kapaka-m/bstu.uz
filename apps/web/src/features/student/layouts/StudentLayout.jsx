@@ -23,6 +23,7 @@ import {
 import { studentPortalService } from "../../../services/studentPortalService";
 import { studentService } from "../../../services/studentService";
 import { formatLocalizedDate } from "../../../utils/dateFormat";
+import { translateNotificationTitle } from "../utils/notificationText";
 
 export default function StudentLayout({ children }) {
   const {
@@ -33,6 +34,7 @@ export default function StudentLayout({ children }) {
     locales = [],
     settings = {},
     logoSrc,
+    hasTranslation,
   } = useLanguage();
   const { user, logout } = useAuth();
   const location = useLocation();
@@ -157,11 +159,6 @@ export default function StudentLayout({ children }) {
     setLanguageDropdownOpen(false);
   };
 
-  const translateMaybe = (value) => {
-    if (!value || !String(value).includes(".")) return value;
-    return t(value);
-  };
-
   const handleMarkAllNotificationsRead = async () => {
     try {
       setMarkingAllNotifications(true);
@@ -251,7 +248,7 @@ export default function StudentLayout({ children }) {
   );
 
   return (
-    <div className="flex min-h-screen overflow-x-hidden bg-gray-50" dir={isRtl ? "rtl" : "ltr"}>
+    <div className="flex min-h-screen overflow-x-clip bg-gray-50" dir={isRtl ? "rtl" : "ltr"}>
       {/* Desktop Sidebar */}
       <aside className={`fixed inset-y-0 z-20 hidden w-64 shrink-0 md:block ${isRtl ? "right-0" : "left-0"}`}>
         {renderSidebar()}
@@ -398,7 +395,7 @@ export default function StudentLayout({ children }) {
                             </span>
                             <span className="min-w-0 grow">
                                   <span className="block min-w-0 truncate text-xs font-black text-navy group-hover:text-primary">
-                                  {translateMaybe(notification.title)}
+                                  {translateNotificationTitle(notification.title, t, hasTranslation)}
                                 </span>
                               <span className="mt-1 flex items-center gap-1 text-[10px] font-bold text-gray-400">
                                 <Clock className="h-3 w-3" />

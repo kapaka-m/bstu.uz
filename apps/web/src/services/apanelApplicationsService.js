@@ -88,6 +88,12 @@ export const apanelApplicationsService = {
   reviewHousing(id, payload) {
     return api.post(`/apanel/applications-workflow/${id}/housing/review`, payload).then(unwrap);
   },
+  reviewHousingReceipt(id, paymentId, payload) {
+    return api.post(`/apanel/applications-workflow/${id}/housing/receipts/${paymentId}/review`, payload).then(unwrap);
+  },
+  downloadHousingReceipt(id, paymentId) {
+    return downloadBlob(`/apanel/applications-workflow/${id}/housing/receipts/${paymentId}/download`);
+  },
   updateResidence(id, payload) {
     return api.put(`/apanel/applications-workflow/${id}/residence`, payload).then(unwrap);
   },

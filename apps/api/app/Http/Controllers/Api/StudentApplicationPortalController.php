@@ -477,30 +477,6 @@ class StudentApplicationPortalController extends Controller
         return $this->successResponse($this->workflow->ensureHousingRequest($application), 'Housing request retrieved');
     }
 
-    public function submitHousingRequest(Request $request, int $applicationId)
-    {
-        $application = $this->ownedApplication($applicationId);
-        if (! $application) {
-            return $this->errorResponse('Application not found or unauthorized', 404);
-        }
-        if (! $application->enrollment) {
-            return $this->errorResponse('Housing request opens after enrollment is issued.', 422);
-        }
-
-        $validated = $request->validate([
-            'preferred_room_type' => ['nullable', 'string', 'max:120'],
-            'notes' => ['nullable', 'string', 'max:2000'],
-        ]);
-        $housing = $this->workflow->ensureHousingRequest($application);
-        $housing->update(array_merge($validated, [
-            'requested' => true,
-            'status' => 'UNDER_REVIEW',
-        ]));
-        $this->workflow->notify($application, 'Housing request submitted', 'Your housing request is waiting for review.', 'housing', '/student/housing');
-
-        return $this->successResponse($housing->fresh(), 'Housing request submitted');
-    }
-
     public function residence(Request $request)
     {
         $application = $this->currentApplication();

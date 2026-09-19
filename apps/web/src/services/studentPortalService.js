@@ -88,6 +88,12 @@ export const studentPortalService = {
   submitHousingRequest(applicationId, payload) {
     return api.post(`/applications/${applicationId}/housing/request`, payload).then(unwrap);
   },
+  uploadHousingReceipt(applicationId, payload) {
+    return api.post(`/applications/${applicationId}/housing/receipts`, payload).then(unwrap);
+  },
+  downloadHousingReceipt(applicationId, paymentId) {
+    return downloadBlob(`/applications/${applicationId}/housing/receipts/${paymentId}/download`);
+  },
   residence() {
     return api.get("/student/residence").then(unwrap);
   },

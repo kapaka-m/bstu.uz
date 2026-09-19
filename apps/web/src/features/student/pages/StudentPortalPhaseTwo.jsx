@@ -19,6 +19,13 @@ import { studentPortalService } from "../../../services/studentPortalService";
 import { studentService } from "../../../services/studentService";
 import { useLanguage } from "../../../context/LanguageContext";
 import { selectTranslation } from "../../../lib/localizedContent";
+import StudentHousing from "../components/StudentHousing";
+import HousingStatus from "../../../components/housing/HousingStatus";
+import {
+  translateLegacyDocumentName,
+  translateNotificationMessage,
+  translateNotificationTitle,
+} from "../utils/notificationText";
 
 const statusClass = (status = "") => {
   const value = String(status).toUpperCase();
@@ -33,12 +40,155 @@ const uploadAccept = ".pdf,.jpg,.jpeg,.png,.webp,.heic,.heif";
 const maxUploadSize = 10 * 1024 * 1024;
 const statusKeyAliases = {
   "action required": "action_required",
+  not_required: "notRequired",
+  "not required": "notRequired",
+  not_uploaded: "notUploaded",
+  "not uploaded": "notUploaded",
+  not_eligible: "notEligible",
+  "not eligible": "notEligible",
+  in_progress: "inProgress",
+  "in progress": "inProgress",
   notstarted: "notStarted",
   "not started": "notStarted",
   "pending review": "pendingReview",
   "pending verification": "pendingVerification",
+  reupload_required: "reuploadRequired",
+  "reupload required": "reuploadRequired",
+  under_review: "underReview",
+  "under review": "underReview",
   "waiting documents": "waitingDocuments",
   "waiting payment": "waitingPayment",
+};
+
+const statusTranslationKeys = {
+  academic_review_in_progress: "interface.applicationStatusAcademicReviewInProgress",
+  academic_review_required: "interface.applicationStatusAcademicReviewRequired",
+  admission_issued: "interface.applicationStatusAdmissionIssued",
+  application_approved: "interface.applicationStatusApplicationApproved",
+  application_fee_required: "interface.applicationStatusApplicationFeeRequired",
+  application_payment_rejected: "interface.applicationStatusApplicationPaymentRejected",
+  application_payment_under_review: "interface.applicationStatusApplicationPaymentUnderReview",
+  application_rejected: "interface.applicationStatusApplicationRejected",
+  correction_required: "interface.applicationStatusCorrectionRequired",
+  document_correction_required: "interface.applicationStatusDocumentCorrectionRequired",
+  documents_required: "interface.applicationStatusDocumentsRequired",
+  documents_under_review: "interface.applicationStatusDocumentsUnderReview",
+  equivalency_result_issued: "interface.applicationStatusEquivalencyResultIssued",
+  equivalency_review_requested: "interface.applicationStatusEquivalencyReviewRequested",
+  final_review: "interface.applicationStatusFinalReview",
+  profile_created: "interface.applicationStatusProfileCreated",
+  student_equivalency_approval_required: "interface.applicationStatusStudentEquivalencyApprovalRequired",
+  action_required: "interface.statusActionRequired",
+  inProgress: "interface.statusInProgress",
+  notEligible: "interface.statusNotEligible",
+  notRequired: "interface.statusNotRequired",
+  notUploaded: "interface.statusNotUploaded",
+  uploaded: "interface.statusUploaded",
+  required: "interface.statusRequired",
+  underReview: "interface.statusUnderReview",
+  reuploadRequired: "interface.statusReuploadRequired",
+};
+
+const workflowCheckTranslationKeys = {
+  profile_complete: "interface.workflowCheckProfileComplete",
+  passport_valid: "interface.workflowCheckPassportValid",
+  academic_complete: "interface.workflowCheckAcademicComplete",
+  documents_approved: "interface.workflowCheckDocumentsApproved",
+  equivalency_complete: "interface.workflowCheckEquivalencyComplete",
+  payment_approved: "interface.workflowCheckPaymentApproved",
+  final_review_approved: "interface.workflowCheckFinalReviewApproved",
+  admission_issued: "interface.workflowCheckAdmissionIssued",
+  study_contract_issued: "interface.workflowCheckStudyContractIssued",
+  contract_advance_paid: "interface.workflowCheckContractAdvancePaid",
+  enrollment_issued: "interface.workflowCheckEnrollmentIssued",
+  prikaz_issued: "interface.workflowCheckPrikazIssued",
+  service_fee_paid: "interface.workflowCheckServiceFeePaid",
+  telex_issued: "interface.workflowCheckTelexIssued",
+  visa_ready: "interface.workflowCheckVisaReady",
+  housing_completed: "interface.workflowCheckHousingCompleted",
+  residence_completed: "interface.workflowCheckResidenceCompleted",
+};
+
+const workflowTimelineTranslationKeys = {
+  account: "interface.workflowTimelineAccount",
+  documents_required: "interface.workflowTimelineDocumentsRequired",
+  documents_review: "interface.workflowTimelineDocumentsReview",
+  academic_review: "interface.workflowTimelineAcademicReview",
+  fee: "interface.workflowTimelineFee",
+  payment_review: "interface.workflowTimelinePaymentReview",
+  final_review: "interface.workflowTimelineFinalReview",
+  admission: "interface.workflowTimelineAdmission",
+  study_contract: "interface.workflowTimelineStudyContract",
+  contract_advance: "interface.workflowTimelineContractAdvance",
+  enrollment: "interface.workflowTimelineEnrollment",
+  prikaz: "interface.workflowTimelinePrikaz",
+  service_fee: "interface.workflowTimelineServiceFee",
+  telex: "interface.workflowTimelineTelex",
+  visa: "interface.workflowTimelineVisa",
+  housing: "interface.workflowTimelineHousing",
+  residence: "interface.workflowTimelineResidence",
+};
+
+const academicValueKeys = {
+  degree: {
+    bachelor: "interface.degreeBachelor",
+    master: "interface.degreeMaster",
+    phd: "interface.degreePhd",
+    doctorate: "interface.degreePhd",
+  },
+  studyMode: {
+    full_time: "interface.studyModeFullTime",
+    part_time: "interface.studyModePartTime",
+    distance: "interface.studyModeDistance",
+    online: "interface.studyModeOnline",
+  },
+  language: {
+    english: "interface.studyLanguageEnglish",
+    russian: "interface.studyLanguageRussian",
+    uzbek: "interface.studyLanguageUzbek",
+    arabic: "interface.studyLanguageArabic",
+  },
+};
+
+const intakeSeasonKeys = {
+  fall: "interface.intakeFall",
+  spring: "interface.intakeSpring",
+  summer: "interface.intakeSummer",
+  winter: "interface.intakeWinter",
+};
+
+const workflowNextActionKeys = {
+  "Upload all required documents.": "interface.workflowNextUploadDocuments",
+  "Wait for document review or correct rejected documents.": "interface.workflowNextWaitDocumentReview",
+  "Wait for academic equivalency result and accept it.": "interface.workflowNextWaitEquivalency",
+  "Academic equivalency is not required.": "interface.workflowNextEquivalencyNotRequired",
+  "Wait for final university review.": "interface.workflowNextWaitFinalReview",
+  "Wait for admission issuance.": "interface.workflowNextWaitAdmission",
+  "Download and review the study contract.": "interface.workflowNextReviewContract",
+  "Wait for enrollment certificate issuance.": "interface.workflowNextWaitEnrollment",
+  "Wait for prikaz issuance.": "interface.workflowNextWaitPrikaz",
+  "Wait for telex processing.": "interface.workflowNextWaitTelex",
+  "Wait for visa processing.": "interface.workflowNextWaitVisa",
+  "Wait for housing request review.": "interface.workflowNextWaitHousing",
+  "Wait for residence permit processing.": "interface.workflowNextWaitResidence",
+  "All current admission workflow steps are completed.": "interface.workflowNextCompleted",
+};
+
+const statusHistoryNoteKeys = {
+  "Initial public application created": "interface.statusHistoryInitialApplicationCreated",
+  "Student portal opened": "interface.statusHistoryStudentPortalOpened",
+};
+
+const documentRequirementKeys = {
+  passport: ["interface.documentPassportName", "interface.documentPassportDescription"],
+  photo: ["interface.documentPhotoName", "interface.documentPhotoDescription"],
+  secondary_certificate: ["interface.documentSecondaryCertificateName", "interface.documentSecondaryCertificateDescription"],
+  secondary_transcript: ["interface.documentSecondaryTranscriptName", "interface.documentSecondaryTranscriptDescription"],
+  bachelor_degree: ["interface.documentBachelorDegreeName", "interface.documentBachelorDegreeDescription"],
+  bachelor_transcript: ["interface.documentBachelorTranscriptName", "interface.documentBachelorTranscriptDescription"],
+  master_degree: ["interface.documentMasterDegreeName", "interface.documentMasterDegreeDescription"],
+  master_transcript: ["interface.documentMasterTranscriptName", "interface.documentMasterTranscriptDescription"],
+  university_transcript: ["interface.documentUniversityTranscriptName", "interface.documentUniversityTranscriptDescription"],
 };
 
 const normalizeStatusKey = (status = "") => {
@@ -59,6 +209,108 @@ const humanizeStatus = (status = "") =>
     .trim()
     .replace(/\b\w/g, (letter) => letter.toUpperCase());
 
+const renderTemplate = (template, values = {}) =>
+  Object.entries(values).reduce(
+    (text, [key, value]) => text.replaceAll(`:${key}`, value ?? ""),
+    template,
+  );
+
+const translateStatusLabel = (status, t, hasTranslation) => {
+  const normalized = normalizeStatusKey(status);
+  const interfaceKey = statusTranslationKeys[normalized];
+  if (interfaceKey && hasTranslation?.(interfaceKey)) return t(interfaceKey);
+
+  const key = `status.${normalized}`;
+  return hasTranslation?.(key) ? t(key) : humanizeStatus(status);
+};
+
+const translateWorkflowCheck = (key, t, hasTranslation) => {
+  const translationKey = workflowCheckTranslationKeys[key];
+  return translationKey && hasTranslation?.(translationKey) ? t(translationKey) : labelize(key);
+};
+
+const translateWorkflowTimeline = (item, t, hasTranslation) => {
+  const translationKey = workflowTimelineTranslationKeys[item?.key];
+  return translationKey && hasTranslation?.(translationKey) ? t(translationKey) : item?.label;
+};
+
+const translateAcademicValue = (type, value, t, hasTranslation) => {
+  const raw = String(value || "").trim();
+  if (!raw) return raw;
+  const normalized = raw.toLowerCase().replace(/[\s-]+/g, "_");
+  const translationKey = academicValueKeys[type]?.[normalized];
+
+  return translationKey && hasTranslation?.(translationKey) ? t(translationKey) : raw;
+};
+
+const translateIntake = (value, t, hasTranslation) => {
+  const raw = String(value || "").trim();
+  const match = raw.match(/^(fall|spring|summer|winter)[-_ ]?(\d{4})$/i);
+  if (!match) return raw;
+
+  const seasonKey = intakeSeasonKeys[match[1].toLowerCase()];
+  const season = seasonKey && hasTranslation?.(seasonKey) ? t(seasonKey) : match[1];
+
+  return `${season} ${match[2]}`;
+};
+
+const translateWorkflowNextAction = (value, t, hasTranslation) => {
+  const raw = String(value || "").trim();
+  const translationKey = workflowNextActionKeys[raw];
+  if (translationKey && hasTranslation?.(translationKey)) return t(translationKey);
+
+  let match = raw.match(/^Pay the ([0-9.]+) ([A-Z]{3}) application and admission fee and upload the receipt\.$/);
+  if (match && hasTranslation?.("interface.workflowNextPayApplicationFee")) {
+    return renderTemplate(t("interface.workflowNextPayApplicationFee"), {
+      amount: match[1],
+      currency: match[2],
+    });
+  }
+
+  match = raw.match(/^Upload the ([0-9.]+)% contract payment receipt\.$/);
+  if (match && hasTranslation?.("interface.workflowNextUploadContractAdvance")) {
+    return renderTemplate(t("interface.workflowNextUploadContractAdvance"), {
+      percentage: match[1],
+    });
+  }
+
+  match = raw.match(/^Upload the ([0-9.]+) ([A-Z]{3}) service fee receipt\.$/);
+  if (match && hasTranslation?.("interface.workflowNextUploadServiceFee")) {
+    return renderTemplate(t("interface.workflowNextUploadServiceFee"), {
+      amount: match[1],
+      currency: match[2],
+    });
+  }
+
+  return translateMaybe(raw, t, hasTranslation);
+};
+
+const translateDocumentRequirement = (requirement, field, t, hasTranslation) => {
+  const keys = documentRequirementKeys[requirement?.document_type];
+  const translationKey = keys?.[field === "description" ? 1 : 0];
+  if (translationKey && hasTranslation?.(translationKey)) return t(translationKey);
+
+  return field === "description" ? requirement?.description : requirement?.name;
+};
+
+const translateMaybe = (value, t, hasTranslation) =>
+  hasTranslation?.(value) ? t(value) : value;
+
+const translateStatusHistoryNote = (note, t, hasTranslation) => {
+  const raw = String(note || "").trim();
+  const translationKey = statusHistoryNoteKeys[raw];
+  if (translationKey && hasTranslation?.(translationKey)) return t(translationKey);
+
+  const uploadMatch = raw.match(/^Student uploaded (.+)$/);
+  if (uploadMatch && hasTranslation?.("interface.statusHistoryStudentUploadedDocument")) {
+    return renderTemplate(t("interface.statusHistoryStudentUploadedDocument"), {
+      document: translateLegacyDocumentName(uploadMatch[1], t, hasTranslation),
+    });
+  }
+
+  return translateMaybe(raw, t, hasTranslation);
+};
+
 const apiErrorMessage = (err, fallback) => {
   const fieldMessages = err?.errors
     ? Object.entries(err.errors).flatMap(([field, messages]) =>
@@ -75,8 +327,7 @@ function StatusPill({ status }) {
     return <span className="text-xs font-extrabold text-gray-400">—</span>;
   }
 
-  const key = `status.${normalizeStatusKey(status)}`;
-  const label = hasTranslation?.(key) ? t(key) : humanizeStatus(status);
+  const label = translateStatusLabel(status, t, hasTranslation);
 
   return <span className={`inline-flex max-w-full px-2.5 py-1 rounded-full border text-[10px] font-black uppercase break-words ${statusClass(status)}`}>{label}</span>;
 }
@@ -110,7 +361,7 @@ function InfoGrid({ rows }) {
 }
 
 export default function StudentPortalPhaseTwo() {
-  const { t, locale } = useLanguage();
+  const { t, locale, hasTranslation } = useLanguage();
   const location = useLocation();
   const [summary, setSummary] = useState(null);
   const [profile, setProfile] = useState(null);
@@ -253,24 +504,6 @@ export default function StudentPortalPhaseTwo() {
     }
   };
 
-  const submitHousingRequest = async () => {
-    const preferredRoomType = window.prompt(t("housing.preferredRoomPrompt"));
-    const notes = window.prompt(t("housing.notesPrompt"));
-    try {
-      setBusy("housing");
-      await studentPortalService.submitHousingRequest(applicationId, {
-        preferred_room_type: preferredRoomType || "",
-        notes: notes || "",
-      });
-      setSuccess(t("housing.requestSubmitted"));
-      await load();
-    } catch (err) {
-      setError(apiErrorMessage(err, t("housing.requestFailed")));
-    } finally {
-      setBusy("");
-    }
-  };
-
   const acceptEquivalency = async () => {
     setBusy("equivalency");
     await studentPortalService.acceptEquivalency(applicationId);
@@ -300,13 +533,19 @@ export default function StudentPortalPhaseTwo() {
             {facultyName || t("faculty.title")}
           </span>
           <span className="rounded-full border border-white/15 bg-white/10 px-3 py-1 text-[10px] font-black uppercase tracking-wider text-white">
-            {app.degree_level || t("application.degreeLevel")}
+            {translateAcademicValue("degree", app.degree_level, t, hasTranslation) || t("application.degreeLevel")}
           </span>
           <span className="rounded-full border border-white/15 bg-white/10 px-3 py-1 text-[10px] font-black uppercase tracking-wider text-white">
-            {summary.next_action || t("student.portal.nextStep")}
+            {translateWorkflowNextAction(summary.next_action, t, hasTranslation) || t("student.portal.nextStep")}
           </span>
         </div>
       </div>
+      {summary.housing?.completed && summary.housing.due_months?.length > 0 && (
+        <Link to="/student/housing" className="flex items-start gap-2 border-s-4 border-amber-500 bg-amber-50 p-4 text-sm font-semibold text-amber-900">
+          <CreditCard className="h-5 w-5 shrink-0" />
+          <span className="min-w-0 break-words">{t("interface.housingDueMonths")}: {summary.housing.due_months.join(", ")}</span>
+        </Link>
+      )}
       <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 gap-4">
         <Metric label={t("student.portal.completion")} value={`${summary.completion_percentage}%`} icon={CheckCircle} />
         <Metric label={t("application.currentStatus")} value={app.status} icon={ClipboardList} />
@@ -315,7 +554,9 @@ export default function StudentPortalPhaseTwo() {
         <Metric label={t("student.nav.enrollment")} value={summary.checks?.enrollment_issued ? t("status.issued") : t("status.pending")} icon={ShieldCheck} />
       </div>
       <Panel title={t("student.portal.nextStep")} icon={ClipboardList}>
-        <p className="text-sm font-bold text-navy">{summary.next_action}</p>
+        <p className="text-sm font-bold text-navy">
+          {translateWorkflowNextAction(summary.next_action, t, hasTranslation)}
+        </p>
       </Panel>
       {renderTimeline()}
       {renderQuickLinks(isTransfer)}
@@ -327,7 +568,9 @@ export default function StudentPortalPhaseTwo() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         {(summary.timeline || []).map((item) => (
           <div key={item.key} className="flex flex-col gap-3 rounded-2xl border border-gray-100 p-4 sm:flex-row sm:items-center sm:justify-between">
-            <span className="text-xs font-extrabold text-navy break-words">{item.label}</span>
+            <span className="text-xs font-extrabold text-navy break-words">
+              {translateWorkflowTimeline(item, t, hasTranslation)}
+            </span>
             <StatusPill status={item.status} />
           </div>
         ))}
@@ -372,7 +615,7 @@ export default function StudentPortalPhaseTwo() {
           [t("common.createdAt"), app.created_at ? new Date(app.created_at).toLocaleString(locale) : ""],
           [t("common.updatedAt"), app.updated_at ? new Date(app.updated_at).toLocaleString(locale) : ""],
           [t("application.program"), programName],
-          [t("student.portal.nextAction"), summary.next_action],
+          [t("student.portal.nextAction"), translateWorkflowNextAction(summary.next_action, t, hasTranslation)],
         ]} />
       </Panel>
       {renderTimeline()}
@@ -381,7 +624,9 @@ export default function StudentPortalPhaseTwo() {
           {(app.status_histories || app.statusHistories || []).map((item) => (
             <div key={item.id} className="rounded-2xl border border-gray-100 p-4">
               <StatusPill status={item.new_status || item.status} />
-              <p className="mt-2 text-xs font-bold text-gray-500">{item.comment || item.note}</p>
+              <p className="mt-2 text-xs font-bold text-gray-500">
+                {translateStatusHistoryNote(item.comment || item.note, t, hasTranslation)}
+              </p>
             </div>
           ))}
         </div>
@@ -419,13 +664,13 @@ export default function StudentPortalPhaseTwo() {
   const renderAcademic = () => (
     <Panel title={t("student.nav.academicInformation")} icon={GraduationCap}>
       <InfoGrid rows={[
-        [t("application.degreeLevel"), app.degree_level],
+        [t("application.degreeLevel"), translateAcademicValue("degree", app.degree_level, t, hasTranslation)],
         [t("interface.studentType"), app.student_type === "transfer" ? t("student.type.transfer") : t("student.type.new")],
-        [t("education.type"), app.study_mode],
+        [t("education.type"), translateAcademicValue("studyMode", app.study_mode, t, hasTranslation)],
         [t("faculty.title"), facultyName],
         [t("application.program"), programName],
-        [t("application.languageOfStudy"), app.language_of_study],
-        [t("application.intendedIntake"), app.intended_intake],
+        [t("application.languageOfStudy"), translateAcademicValue("language", app.language_of_study, t, hasTranslation)],
+        [t("application.intendedIntake"), translateIntake(app.intended_intake, t, hasTranslation)],
         [t("program.estimatedDuration"), app.program?.duration_years ? `${app.program.duration_years} ${t("time.years")}` : t("status.pendingReview")],
       ]} />
       {isTransfer && <p className="text-xs font-bold text-amber-700 bg-amber-50 border border-amber-100 rounded-2xl p-4">{t("equivalency.transferNotice")}</p>}
@@ -441,10 +686,14 @@ export default function StudentPortalPhaseTwo() {
           <div key={req.document_type} className="rounded-2xl border border-gray-100 p-4 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
             <div className="min-w-0">
               <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-                <p className="text-xs font-extrabold text-navy break-words">{req.name}</p>
+                <p className="text-xs font-extrabold text-navy break-words">
+                  {translateDocumentRequirement(req, "name", t, hasTranslation)}
+                </p>
                 <StatusPill status={req.status} />
               </div>
-              <p className="mt-1 text-[11px] font-semibold text-gray-500 break-words">{req.description}</p>
+              <p className="mt-1 text-[11px] font-semibold text-gray-500 break-words">
+                {translateDocumentRequirement(req, "description", t, hasTranslation)}
+              </p>
               {req.document?.rejection_reason && <p className="mt-2 text-[11px] font-bold text-rose-600 break-words">{req.document.rejection_reason}</p>}
               {req.document && <p className="mt-2 text-[10px] font-bold text-gray-400 break-all">{t("interface.version")} {req.document.current_version} · {req.document.original_name}</p>}
             </div>
@@ -611,7 +860,7 @@ export default function StudentPortalPhaseTwo() {
             [t("application.number"), app.application_number],
             [t("admission.number"), app.admission.admission_number],
             [t("common.issueDate"), app.admission.issue_date],
-            [t("application.degreeLevel"), app.degree_level],
+            [t("application.degreeLevel"), translateAcademicValue("degree", app.degree_level, t, hasTranslation)],
             [t("faculty.title"), facultyName],
             [t("application.program"), programName],
             [t("application.status"), <StatusPill status={app.admission.status} />],
@@ -629,7 +878,9 @@ export default function StudentPortalPhaseTwo() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {Object.entries(summary.checks || {}).map(([key, value]) => (
             <div key={key} className="rounded-2xl border border-gray-100 p-4 flex flex-col gap-3 sm:flex-row sm:justify-between">
-              <span className="text-xs font-extrabold text-navy break-words">{labelize(key)}</span>
+              <span className="text-xs font-extrabold text-navy break-words">
+                {translateWorkflowCheck(key, t, hasTranslation)}
+              </span>
               <StatusPill status={value ? "completed" : "notStarted"} />
             </div>
           ))}
@@ -754,16 +1005,12 @@ export default function StudentPortalPhaseTwo() {
     <Panel title={t("student.nav.housing")} icon={ClipboardList}>
       <InfoGrid rows={[
         [t("housing.requested"), app.housing_request?.requested ? t("common.yes") : t("common.no")],
-        [t("application.status"), <StatusPill status={app.housing_request?.status} />],
+        [t("application.status"), <HousingStatus status={summary.housing?.status || app.housing_request?.status} />],
         [t("housing.preferredRoom"), app.housing_request?.preferred_room_type],
         [t("common.notes"), app.housing_request?.notes],
         [t("common.administrationNotes"), app.housing_request?.admin_notes],
       ]} />
-      {summary.checks?.enrollment_issued && !app.housing_request?.requested && (
-        <button onClick={submitHousingRequest} className="px-4 py-2 rounded-xl bg-primary text-white text-xs font-extrabold">
-          {t("housing.requestHousing")}
-        </button>
-      )}
+      <StudentHousing application={app} housing={summary.housing} onSaved={load} />
     </Panel>
   );
 
@@ -784,8 +1031,12 @@ export default function StudentPortalPhaseTwo() {
       <div className="space-y-3">
         {notifications.map((item) => (
           <div key={item.id} className="min-w-0 rounded-2xl border border-gray-100 p-4">
-            <p className="text-xs font-extrabold text-navy break-words">{item.title}</p>
-            <p className="mt-1 text-[11px] font-semibold text-gray-500 break-words">{item.message}</p>
+            <p className="text-xs font-extrabold text-navy break-words">
+              {translateNotificationTitle(item.title, t, hasTranslation)}
+            </p>
+            <p className="mt-1 text-[11px] font-semibold text-gray-500 break-words">
+              {translateNotificationMessage(item.message, t, hasTranslation)}
+            </p>
           </div>
         ))}
       </div>

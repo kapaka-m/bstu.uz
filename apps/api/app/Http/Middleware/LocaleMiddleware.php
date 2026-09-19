@@ -6,7 +6,6 @@ use App\Models\Locale;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
 class LocaleMiddleware
@@ -16,15 +15,6 @@ class LocaleMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (config('app.debug') && ($request->isMethod('PUT') || $request->isMethod('POST'))) {
-            Log::info('Incoming request raw body content', [
-                'url' => $request->fullUrl(),
-                'method' => $request->method(),
-                'parsed' => $request->all(),
-                'raw' => $request->getContent(),
-            ]);
-        }
-
         $locale = $request->input('lang')
             ?? $request->query('locale')
             ?? $request->header('X-Locale')

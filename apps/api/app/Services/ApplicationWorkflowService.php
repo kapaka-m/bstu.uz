@@ -161,7 +161,8 @@ class ApplicationWorkflowService
         $serviceFeeApproved = $application->serviceFeePayments->contains('status', 'APPROVED');
         $telexIssued = in_array($application->visaProcess?->telex_status, ['ISSUED', 'COMPLETED'], true);
         $visaReady = in_array($application->visaProcess?->visa_status, ['APPROVED', 'ISSUED', 'COMPLETED'], true);
-        $housingCompleted = ! $application->housingRequest?->requested || in_array($application->housingRequest?->status, ['APPROVED', 'COMPLETED', 'NOT_REQUIRED'], true);
+        $housing = app(HousingWorkflowService::class)->snapshot($application);
+        $housingCompleted = $housing['completed'];
         $residenceCompleted = in_array($application->residencePermitProcess?->status, ['ISSUED', 'COMPLETED'], true);
 
         $checks = [
@@ -192,6 +193,7 @@ class ApplicationWorkflowService
             'timeline' => $this->timeline($application, $checks),
             'checks' => $checks,
             'completion_percentage' => $completion,
+            'housing' => $housing,
             'next_action' => $this->nextAction($application, $documentCards, $checks),
         ];
     }
@@ -514,7 +516,7 @@ class ApplicationWorkflowService
         $items[] = ['key' => 'service_fee', 'label' => $this->timelineLabel('service_fee'), 'status' => $checks['service_fee_paid'] ? $this->workflowStatus('completed') : ($checks['prikaz_issued'] ? $this->workflowStatus('action_required') : $this->workflowStatus('not_started'))];
         $items[] = ['key' => 'telex', 'label' => $this->timelineLabel('telex'), 'status' => $checks['telex_issued'] ? $this->workflowStatus('issued') : $this->workflowStatus('not_started')];
         $items[] = ['key' => 'visa', 'label' => $this->timelineLabel('visa'), 'status' => $checks['visa_ready'] ? $this->workflowStatus('ready') : $this->workflowStatus('not_started')];
-        $items[] = ['key' => 'housing', 'label' => $this->timelineLabel('housing'), 'status' => $checks['housing_completed'] ? $this->workflowStatus('completed') : $this->workflowStatus('in_progress')];
+        $items[] = ['key' => 'housing', 'label' => $this->timelineLabel('housing'), 'status' => $checks['housing_completed'] ? $this->workflowStatus('completed') : ($application->housingRequest?->requested ? $this->workflowStatus('in_progress') : $this->workflowStatus('not_started'))];
         $items[] = ['key' => 'residence', 'label' => $this->timelineLabel('residence'), 'status' => $checks['residence_completed'] ? $this->workflowStatus('completed') : $this->workflowStatus('not_started')];
 
         return $items;

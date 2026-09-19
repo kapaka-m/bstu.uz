@@ -5,6 +5,21 @@ import { useAuth } from "../../../context/AuthContext";
 import { Loader2, Save, User, FileText, Compass } from "lucide-react";
 import FormError from "../../../components/common/FormError";
 
+const staleEducationValues = new Set([
+  "to be completed",
+  "to be completed in student dashboard",
+  "bachelor",
+  "master",
+  "phd",
+  "doctorate",
+]);
+
+const cleanEducationValue = (value) => {
+  const raw = String(value || "").trim();
+
+  return staleEducationValues.has(raw.toLowerCase()) ? "" : raw;
+};
+
 export default function StudentProfile() {
   const { t } = useLanguage();
   const { user } = useAuth();
@@ -61,10 +76,10 @@ export default function StudentProfile() {
             guardian_email: data.guardians?.[0]?.email || "",
 
             education_institution_name:
-              data.education_backgrounds?.[0]?.institution_name || "",
+              cleanEducationValue(data.education_backgrounds?.[0]?.institution_name),
             education_degree_obtained:
-              data.education_backgrounds?.[0]?.degree_obtained || "",
-            education_gpa: data.education_backgrounds?.[0]?.gpa || "",
+              cleanEducationValue(data.education_backgrounds?.[0]?.degree_obtained),
+            education_gpa: cleanEducationValue(data.education_backgrounds?.[0]?.gpa),
             education_graduation_year:
               data.education_backgrounds?.[0]?.graduation_year || "",
           });

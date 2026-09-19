@@ -5,6 +5,8 @@ import LoadingState from "../../../components/common/LoadingState";
 import FormError from "../../../components/common/FormError";
 import { apanelApplicationsService } from "../../../services/apanelApplicationsService";
 import { useLanguage } from "../../../context/LanguageContext";
+import HousingReview from "../components/HousingReview";
+import HousingStatus from "../../../components/housing/HousingStatus";
 
 const statusClass = (status = "") => {
   const value = String(status).toUpperCase();
@@ -437,16 +439,12 @@ export default function ApanelApplicationsWorkflow() {
     <Panel title={t("apanel.workflow.housing")}>
       <Info rows={[
         [t("apanel.workflow.requested"), app.housing_request?.requested ? t("common.yes") : t("common.no")],
-        [t("apanel.workflow.status"), app.housing_request?.status],
+        [t("apanel.workflow.status"), <HousingStatus status={snapshot.housing?.status || app.housing_request?.status} />],
         [t("apanel.workflow.preferredRoom"), app.housing_request?.preferred_room_type],
         [t("apanel.workflow.studentNotes"), app.housing_request?.notes],
         [t("apanel.workflow.adminNotes"), app.housing_request?.admin_notes],
       ]} />
-      <div className="flex flex-wrap gap-2">
-        <button onClick={() => action(() => apanelApplicationsService.reviewHousing(id, { status: "APPROVED", admin_notes: window.prompt(t("apanel.workflow.housingNotesPrompt")) || "" }), t("apanel.workflow.housingApproved"))} className="px-4 py-2 rounded-xl bg-emerald-600 text-white text-xs font-extrabold">{t("apanel.workflow.approveHousing")}</button>
-        <button onClick={() => action(() => apanelApplicationsService.reviewHousing(id, { status: "REJECTED", admin_notes: window.prompt(t("apanel.workflow.housingRejectionPrompt")) || t("apanel.workflow.housingUnavailable") }), t("apanel.workflow.housingRejected"))} className="px-4 py-2 rounded-xl bg-rose-600 text-white text-xs font-extrabold">{t("apanel.workflow.rejectHousing")}</button>
-        <button onClick={() => action(() => apanelApplicationsService.reviewHousing(id, { status: "NOT_REQUIRED", admin_notes: t("apanel.workflow.housingNotRequiredNote") }), t("apanel.workflow.housingMarkedNotRequired"))} className="px-4 py-2 rounded-xl border border-gray-200 text-navy text-xs font-extrabold">{t("apanel.workflow.notRequired")}</button>
-      </div>
+      <HousingReview application={app} housing={snapshot.housing} onSaved={load} />
     </Panel>
   );
 

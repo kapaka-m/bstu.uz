@@ -1,6 +1,7 @@
 <?php
 
 use App\Console\Commands\OrganizeStorageCommand;
+use App\Console\Commands\SyncUsedMediaImagesCommand;
 use App\Http\Middleware\LocaleMiddleware;
 use App\Http\Middleware\PermissionMiddleware;
 use App\Http\Middleware\RoleMiddleware;
@@ -22,6 +23,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withCommands([
         OrganizeStorageCommand::class,
+        SyncUsedMediaImagesCommand::class,
     ])
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->append(LocaleMiddleware::class);

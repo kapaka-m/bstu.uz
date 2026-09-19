@@ -45,6 +45,8 @@ export default function ApanelMedia() {
         search,
         page,
         per_page: 16,
+        used_only: 1,
+        images_only: 1,
       });
       setMediaList(pageData.items);
       setTotal(pageData.total);
@@ -121,7 +123,7 @@ export default function ApanelMedia() {
           {t("apanel.mediaPage.uploadNewFile")}
           <input
             type="file"
-            accept="image/*,video/*,application/pdf"
+            accept="image/*"
             onChange={handleFileUpload}
             disabled={uploading}
             className="hidden"
@@ -172,8 +174,6 @@ export default function ApanelMedia() {
               className="grow px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold bg-white text-navy"
             >
               <option value="image">{t("apanel.mediaPage.imageType")}</option>
-              <option value="document">{t("apanel.mediaPage.documentType")}</option>
-              <option value="video">{t("apanel.mediaPage.videoType")}</option>
             </select>
             <label className="inline-flex items-center gap-1.5 text-xs font-bold text-navy">
               <input

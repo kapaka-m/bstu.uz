@@ -60,6 +60,7 @@ use App\Models\VideoGallerySetting;
 use App\Models\VideoTranslation;
 use App\Models\WebFooter;
 use App\Rules\LocalizedStaffContent;
+use App\Services\UsedMediaImageService;
 use App\Traits\ApiResponse;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -202,6 +203,17 @@ class AdminCrudController extends Controller
 
         if ($resource === 'news' && $request->boolean('news_events_only')) {
             $query->where('category', '!=', 'blog');
+        }
+
+        if ($resource === 'media') {
+            if ($request->boolean('used_only')) {
+                $usedPaths = app(UsedMediaImageService::class)->collectPublicImagePaths();
+                $query->whereIn('path', $usedPaths ?: ['__no_used_media_images__']);
+            }
+
+            if ($request->boolean('images_only')) {
+                $query->where('type', 'image');
+            }
         }
 
         // 3. Sorting

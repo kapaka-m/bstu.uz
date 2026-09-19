@@ -1685,6 +1685,42 @@
     "Все услуги",
     "عرض جميع الخدمات"
   ],
+  "apanelHeaderLatestAlerts": [
+    "Latest admin alerts",
+    "So‘nggi admin ogohlantirishlari",
+    "Последние уведомления администратора",
+    "آخر تنبيهات الإدارة"
+  ],
+  "apanelHeaderUnreadAlerts": [
+    ":count unread",
+    ":count ta o‘qilmagan",
+    ":count непрочитанных",
+    ":count غير مقروء"
+  ],
+  "apanelHeaderViewAll": [
+    "View all",
+    "Barchasini ko‘rish",
+    "Показать все",
+    "عرض الكل"
+  ],
+  "apanelHeaderLoadingNotifications": [
+    "Loading notifications...",
+    "Bildirishnomalar yuklanmoqda...",
+    "Загрузка уведомлений...",
+    "جارٍ تحميل الإشعارات..."
+  ],
+  "apanelHeaderNoNotifications": [
+    "No notifications",
+    "Bildirishnomalar yo‘q",
+    "Нет уведомлений",
+    "لا توجد إشعارات"
+  ],
+  "apanelHeaderNotificationsEmptyHint": [
+    "New admin alerts will appear here.",
+    "Yangi admin ogohlantirishlari shu yerda ko‘rinadi.",
+    "Новые уведомления администратора появятся здесь.",
+    "ستظهر تنبيهات الإدارة الجديدة هنا."
+  ],
   "textEmail": [
     "Email:",
     "Elektron pochta:",

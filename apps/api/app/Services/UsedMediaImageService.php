@@ -106,7 +106,10 @@ class UsedMediaImageService
 
     private function shouldSkipTable(string $table): bool
     {
-        return in_array($table, [
+        $tableName = Str::afterLast($table, '.');
+
+        return in_array($tableName, [
+            'audit_logs',
             'cache',
             'cache_locks',
             'failed_jobs',
@@ -135,6 +138,11 @@ class UsedMediaImageService
 
         if (! is_string($value) || $value === '') {
             return;
+        }
+
+        $directPath = $this->normalizePublicImagePath($value);
+        if ($directPath !== null) {
+            $paths[$directPath] = true;
         }
 
         $decoded = json_decode($value, true);
@@ -183,6 +191,10 @@ class UsedMediaImageService
 
         $candidate = rawurldecode($candidate);
         $candidate = ltrim(str_replace('\\', '/', $candidate), '/');
+
+        if (strlen($candidate) > 512 || preg_match('/[\r\n\t\0]/', $candidate)) {
+            return null;
+        }
 
         foreach (['storage/', 'public/'] as $prefix) {
             if (str_starts_with($candidate, $prefix)) {

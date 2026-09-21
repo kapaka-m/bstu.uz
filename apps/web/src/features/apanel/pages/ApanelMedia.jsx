@@ -8,6 +8,7 @@ import {
   Trash2,
   Loader2,
   ClipboardCheck,
+  ShieldCheck,
 } from "lucide-react";
 import ConfirmDialog from "../components/ConfirmDialog";
 import Pagination from "../components/Pagination";
@@ -18,8 +19,63 @@ function mediaUrl(path) {
   return publicAssetUrl(path);
 }
 
+function detectMediaType(file, fallback = "document") {
+  const mime = String(file?.type || "");
+  const name = String(file?.name || "");
+  if (mime.startsWith("image/") || /\.(jpe?g|png|webp)$/i.test(name)) {
+    return "image";
+  }
+  if (mime.startsWith("video/") || /\.(mp4|avi|mov)$/i.test(name)) {
+    return "video";
+  }
+  return fallback === "image" ? "document" : fallback;
+}
+
+const pageCopy = {
+  en: {
+    purpose:
+      "This page manages the media library, and files used by the website are synced into it automatically.",
+    protected:
+      "Upload new files, copy their paths, and note which assets are already referenced before deleting.",
+    usedBadge: "Used",
+    libraryBadge: "Library",
+    deleteUsedWarning:
+      "This file is currently used. Deleting it may break an image or file link on the site.",
+  },
+  uz: {
+    purpose:
+      "Bu sahifada media kutubxonasi boshqariladi va saytda ishlatilayotgan fayllar avtomatik qo‘shiladi.",
+    protected:
+      "Yangi fayllarni yuklang, yo‘lini nusxalang va o‘chirishdan oldin qaysilari ishlatilayotganini tekshiring.",
+    usedBadge: "Ishlatilmoqda",
+    libraryBadge: "Kutubxona",
+    deleteUsedWarning:
+      "Bu fayl hozir ishlatilmoqda. Uni o‘chirish saytdagi rasm yoki havolani buzishi mumkin.",
+  },
+  ru: {
+    purpose:
+      "На этой странице управляется медиабиблиотека, а используемые сайтом файлы добавляются автоматически.",
+    protected:
+      "Загружайте новые файлы, копируйте их путь и проверяйте отметку использования перед удалением.",
+    usedBadge: "Используется",
+    libraryBadge: "Библиотека",
+    deleteUsedWarning:
+      "Этот файл сейчас используется. Его удаление может сломать изображение или ссылку на сайте.",
+  },
+  ar: {
+    purpose:
+      "هذه الصفحة لإدارة مكتبة الوسائط، وأي ملف مستخدم فعليًا في الموقع يظهر فيها تلقائيًا.",
+    protected:
+      "يمكنك رفع ملفات جديدة ونسخ مسارها، مع تمييز الملفات المستخدمة قبل حذفها.",
+    usedBadge: "مستخدم",
+    libraryBadge: "مكتبة",
+    deleteUsedWarning:
+      "هذا الملف مستخدم حاليًا. حذفه قد يكسر صورة أو رابط ملف داخل الموقع.",
+  },
+};
+
 export default function ApanelMedia() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [mediaList, setMediaList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
@@ -34,9 +90,8 @@ export default function ApanelMedia() {
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
   const [lastPage, setLastPage] = useState(1);
-
-  // Delete dialog states
   const [deleteTarget, setDeleteTarget] = useState(null);
+  const copy = pageCopy[language] || pageCopy.en;
 
   const fetchMedia = React.useCallback(async () => {
     try {
@@ -45,8 +100,7 @@ export default function ApanelMedia() {
         search,
         page,
         per_page: 16,
-        used_only: 1,
-        images_only: 1,
+        sync_used: 1,
       });
       setMediaList(pageData.items);
       setTotal(pageData.total);
@@ -64,6 +118,7 @@ export default function ApanelMedia() {
 
   const handleFileUpload = async (e) => {
     const file = e.target.files?.[0];
+    e.target.value = "";
     if (!file) return;
 
     try {
@@ -72,8 +127,10 @@ export default function ApanelMedia() {
         ...uploadMeta,
         alt_key: uploadMeta.alt_text || file.name,
         title: uploadMeta.title || file.name,
+        type: detectMediaType(file, uploadMeta.type),
         is_public: uploadMeta.is_public ? "1" : "0",
       });
+      setPage(1);
       fetchMedia();
     } catch {
       alert(t("apanel.mediaPage.uploadFailed"));
@@ -123,7 +180,7 @@ export default function ApanelMedia() {
           {t("apanel.mediaPage.uploadNewFile")}
           <input
             type="file"
-            accept="image/*"
+            accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.webp,.mp4,.avi,.mov"
             onChange={handleFileUpload}
             disabled={uploading}
             className="hidden"
@@ -132,20 +189,33 @@ export default function ApanelMedia() {
       </div>
 
       {/* Toolbar Search */}
-      <div className="bg-white border border-gray-100 p-5 rounded-3xl shadow-xs">
+      <div className="bg-white border border-gray-100 p-5 rounded-3xl shadow-xs space-y-4">
+        <div className="flex items-start gap-3 rounded-2xl border border-primary/10 bg-primary/5 p-4">
+          <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white text-primary shadow-2xs ring-1 ring-primary/10">
+            <ShieldCheck className="h-4.5 w-4.5" />
+          </div>
+          <div className="min-w-0 space-y-1">
+            <p className="text-xs font-extrabold text-navy break-words">
+              {copy.purpose}
+            </p>
+            <p className="text-[11px] font-semibold text-gray-500 break-words">
+              {copy.protected}
+            </p>
+          </div>
+        </div>
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-3">
           <div className="relative lg:col-span-2">
-          <input
-            type="text"
-            placeholder={t("apanel.mediaPage.searchPlaceholder")}
-            value={search}
-            onChange={(e) => {
-              setSearch(e.target.value);
-              setPage(1);
-            }}
-            className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold bg-white text-navy"
-          />
-          <Search className="absolute left-3.5 top-3.5 w-3.5 h-3.5 text-gray-400" />
+            <input
+              type="text"
+              placeholder={t("apanel.mediaPage.searchPlaceholder")}
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+                setPage(1);
+              }}
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold bg-white text-navy"
+            />
+            <Search className="absolute left-3.5 top-3.5 w-3.5 h-3.5 text-gray-400" />
           </div>
           <input
             type="text"
@@ -174,6 +244,8 @@ export default function ApanelMedia() {
               className="grow px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold bg-white text-navy"
             >
               <option value="image">{t("apanel.mediaPage.imageType")}</option>
+              <option value="document">{t("apanel.mediaPage.documentType")}</option>
+              <option value="video">{t("apanel.mediaPage.videoType")}</option>
             </select>
             <label className="inline-flex items-center gap-1.5 text-xs font-bold text-navy">
               <input
@@ -209,16 +281,16 @@ export default function ApanelMedia() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {mediaList.map((media) => {
               const mediaPath = String(
-                media.path || media.url || media.file_path || ""
+                media.path || media.url || media.file_path || "",
               );
               const fileName = String(
-                media.filename || media.title || mediaPath || ""
+                media.filename || media.title || mediaPath || "",
               );
               const mimeType = String(media.mime_type || media.mime || "");
               const fullUrl = mediaUrl(mediaPath);
               const isImg =
                 /\.(jpeg|jpg|gif|png|webp|avif)$/i.test(
-                  mediaPath || fileName
+                  mediaPath || fileName,
                 ) || mimeType.startsWith("image/");
               const isCopied = copiedId === media.id;
 
@@ -229,6 +301,15 @@ export default function ApanelMedia() {
                 >
                   {/* Preview Container */}
                   <div className="h-40 bg-gray-50 flex items-center justify-center relative overflow-hidden shrink-0 border-b border-gray-50">
+                    <span
+                      className={`absolute left-2 top-2 z-10 rounded-full border px-2 py-1 text-[9px] font-black uppercase shadow-2xs ${
+                        media.is_used
+                          ? "border-emerald-100 bg-emerald-50 text-emerald-700"
+                          : "border-gray-100 bg-white text-gray-500"
+                      }`}
+                    >
+                      {media.is_used ? copy.usedBadge : copy.libraryBadge}
+                    </span>
                     {isImg ? (
                       <img
                         src={fullUrl}
@@ -252,7 +333,9 @@ export default function ApanelMedia() {
                         className="text-xs font-extrabold text-navy truncate"
                         title={media.filename}
                       >
-                        {media.filename || mediaPath || t("apanel.mediaPage.untitledAsset")}
+                        {media.filename ||
+                          mediaPath ||
+                          t("apanel.mediaPage.untitledAsset")}
                       </p>
                       {media.title && (
                         <p className="text-[10px] text-gray-500 font-semibold truncate">
@@ -260,7 +343,8 @@ export default function ApanelMedia() {
                         </p>
                       )}
                       <p className="text-[10px] text-gray-400 font-semibold">
-                        {t("apanel.mediaPage.size")} {Math.round((Number(media.size) || 0) / 1024)} KB
+                        {t("apanel.mediaPage.size")}{" "}
+                        {Math.round((Number(media.size) || 0) / 1024)} KB
                       </p>
                     </div>
 
@@ -285,7 +369,6 @@ export default function ApanelMedia() {
                           </>
                         )}
                       </button>
-
                       <button
                         onClick={() => setDeleteTarget(media)}
                         className="p-2 border border-gray-100 hover:border-red-100 hover:bg-red-50 text-gray-400 hover:text-red-600 rounded-xl transition-all cursor-pointer shrink-0"
@@ -310,11 +393,10 @@ export default function ApanelMedia() {
         </div>
       )}
 
-      {/* Confirm Deletion Dialog */}
       <ConfirmDialog
         isOpen={!!deleteTarget}
         title={t("apanel.mediaPage.deleteTitle")}
-        message={`${t("apanel.mediaPage.deleteMessage")} ${deleteTarget?.filename || t("apanel.mediaPage.thisAsset")}`}
+        message={`${deleteTarget?.is_used ? `${copy.deleteUsedWarning} ` : ""}${t("apanel.mediaPage.deleteMessage")} ${deleteTarget?.filename || t("apanel.mediaPage.thisAsset")}`}
         onConfirm={handleDeleteConfirm}
         onCancel={() => setDeleteTarget(null)}
       />

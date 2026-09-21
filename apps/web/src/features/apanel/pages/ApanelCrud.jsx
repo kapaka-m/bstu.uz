@@ -578,6 +578,12 @@ const RESOURCE_SCHEMAS = {
   },
   permissions: {
     title: "apanel.crud.ui.title.securityPermissions",
+    description: {
+      en: "Use this page to define access permissions and describe what each admin role is allowed to manage.",
+      uz: "Bu sahifada kirish huquqlarini belgilang va har bir admin roli nimalarni boshqarishini tavsiflang.",
+      ru: "На этой странице задаются права доступа и описывается, чем может управлять каждая роль администратора.",
+      ar: "استخدم هذه الصفحة لتحديد صلاحيات الوصول وتوضيح ما يمكن لكل دور إداري إدارته.",
+    },
     columns: [
       { key: "name", label: "apanel.crud.ui.label.name", sortable: true },
       { key: "slug", label: "apanel.crud.ui.label.permissionSlug", sortable: true },
@@ -1099,35 +1105,39 @@ const RESOURCE_SCHEMAS = {
   },
 };
 
-const translateSchemaValue = (value, t) => {
+const translateSchemaValue = (value, t, language = "en") => {
+  if (value && typeof value === "object" && !Array.isArray(value)) {
+    return value[language] || value.en || Object.values(value).find(Boolean) || "";
+  }
   if (typeof value !== "string") return value;
   return value.startsWith("apanel.") ? t(value) : value;
 };
 
-const translateSchemaOptions = (options, t) => {
+const translateSchemaOptions = (options, t, language) => {
   if (!Array.isArray(options)) return options;
   return options.map((option) => {
     if (!option || typeof option !== "object") return option;
     return {
       ...option,
-      label: translateSchemaValue(option.label, t),
+      label: translateSchemaValue(option.label, t, language),
     };
   });
 };
 
-const localizeResourceSchema = (schema, t) => ({
+const localizeResourceSchema = (schema, t, language) => ({
   ...schema,
-  title: translateSchemaValue(schema.title, t),
+  title: translateSchemaValue(schema.title, t, language),
+  description: translateSchemaValue(schema.description, t, language),
   columns: (schema.columns || []).map((column) => ({
     ...column,
-    label: translateSchemaValue(column.label, t),
+    label: translateSchemaValue(column.label, t, language),
   })),
   fields: (schema.fields || []).map((field) => ({
     ...field,
-    label: translateSchemaValue(field.label, t),
-    placeholder: translateSchemaValue(field.placeholder, t),
-    description: translateSchemaValue(field.description, t),
-    options: translateSchemaOptions(field.options, t),
+    label: translateSchemaValue(field.label, t, language),
+    placeholder: translateSchemaValue(field.placeholder, t, language),
+    description: translateSchemaValue(field.description, t, language),
+    options: translateSchemaOptions(field.options, t, language),
   })),
 });
 
@@ -1740,7 +1750,7 @@ export default function ApanelCrud() {
       </div>
     );
   }
-  const schema = localizeResourceSchema(rawSchema, t);
+  const schema = localizeResourceSchema(rawSchema, t, language);
   const formFields = schema.fields.map((field) => {
     if (field.options === "__staff_departments__") {
       return {
@@ -2803,7 +2813,7 @@ export default function ApanelCrud() {
             {schema.title}
           </h1>
           <p className="text-gray-400 text-xs font-semibold mt-1">
-            {t("apanel.crud.resourceSlug")} /apanel/{resource}
+            {schema.description || `${t("apanel.crud.resourceSlug")} /apanel/${resource}`}
           </p>
         </div>
 

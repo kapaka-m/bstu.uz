@@ -205,10 +205,18 @@ class AdminCrudController extends Controller
             $query->where('category', '!=', 'blog');
         }
 
+        $usedMediaPaths = null;
         if ($resource === 'media') {
+            $usedMediaService = app(UsedMediaImageService::class);
+
+            if ($request->boolean('sync_used')) {
+                $usedMediaService->syncToMedia();
+            }
+
+            $usedMediaPaths = $usedMediaService->collectPublicImagePaths();
+
             if ($request->boolean('used_only')) {
-                $usedPaths = app(UsedMediaImageService::class)->collectPublicImagePaths();
-                $query->whereIn('path', $usedPaths ?: ['__no_used_media_images__']);
+                $query->whereIn('path', $usedMediaPaths ?: ['__no_used_media_images__']);
             }
 
             if ($request->boolean('images_only')) {
@@ -286,6 +294,15 @@ class AdminCrudController extends Controller
                 $comment->video_url = $video?->slug ? '/video-bdtu?video='.$video->slug : '';
 
                 return $comment;
+            });
+        }
+
+        if ($resource === 'media') {
+            $usedMediaLookup = array_fill_keys($usedMediaPaths ?? [], true);
+            $results->getCollection()->transform(function (Media $media) use ($usedMediaLookup) {
+                $media->is_used = isset($usedMediaLookup[$media->path]);
+
+                return $media;
             });
         }
 
@@ -2637,7 +2654,7 @@ class AdminCrudController extends Controller
                 ];
             case 'media':
                 return [
-                    'file' => ($id ? 'nullable' : 'required').'|file|mimes:pdf,jpg,jpeg,png,webp,mp4,avi,mov|mimetypes:application/pdf,image/jpeg,image/png,image/webp,video/mp4,video/x-msvideo,video/quicktime|max:204800',
+                    'file' => ($id ? 'nullable' : 'required').'|file|mimes:pdf,doc,docx,jpg,jpeg,png,webp,mp4,avi,mov|mimetypes:application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/jpeg,image/png,image/webp,video/mp4,video/x-msvideo,video/quicktime|max:204800',
                     'title' => 'nullable|string',
                     'alt_text' => 'nullable|string',
                     'type' => 'nullable|string|in:image,document,video',

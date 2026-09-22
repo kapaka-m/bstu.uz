@@ -11,7 +11,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import SeoManager from "./components/SeoManager";
 
 import { LocaleProvider } from "./context/LocaleContext";
-import { AuthProvider, useAuth } from "./context/AuthContext";
+import { AuthProvider, hasApanelAccess, useAuth } from "./context/AuthContext";
 import { AppDataProvider } from "./context/AppDataContext";
 import LoadingState from "./components/common/LoadingState";
 
@@ -210,7 +210,7 @@ function StudentRoute({ children }) {
   }
 
   const roles = user?.roles || [];
-  if (roles.includes("apanel")) {
+  if (hasApanelAccess(roles)) {
     return <Navigate to="/apanel/dashboard" replace />;
   }
 
@@ -940,6 +940,7 @@ function AppContent() {
                 }
               />
             ))}
+            <Route path="/apanel/comments" element={<Navigate to="/apanel/blog-comments" replace />} />
             <Route
               path="/apanel/:resource"
               element={

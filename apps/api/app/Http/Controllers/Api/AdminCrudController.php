@@ -63,6 +63,7 @@ use App\Rules\LocalizedStaffContent;
 use App\Services\UsedMediaImageService;
 use App\Traits\ApiResponse;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -106,6 +107,7 @@ class AdminCrudController extends Controller
         'staff' => StaffProfile::class,
         'services' => Service::class,
         'videos' => Video::class,
+        'blog-comments' => BlogComment::class,
         'video-comments' => VideoComment::class,
         'media' => Media::class,
         'users' => User::class,
@@ -140,6 +142,54 @@ class AdminCrudController extends Controller
         }
 
         return $this->whitelist[$resource];
+    }
+
+    protected function isBlogCommentResource(string $resource): bool
+    {
+        return in_array($resource, ['blog-comments', 'comments'], true);
+    }
+
+    protected function validateCommentParent(string $resource, array $validated, ?int $commentId = null): ?JsonResponse
+    {
+        $parentId = $validated['parent_id'] ?? null;
+
+        if (! $parentId) {
+            return null;
+        }
+
+        if ($commentId !== null && (int) $parentId === (int) $commentId) {
+            return $this->errorResponse('A comment cannot be its own parent.', 422, [
+                'parent_id' => ['A comment cannot be its own parent.'],
+            ]);
+        }
+
+        if ($this->isBlogCommentResource($resource)) {
+            $belongsToSamePost = BlogComment::query()
+                ->where('id', $parentId)
+                ->where('blog_id', $validated['blog_id'] ?? null)
+                ->exists();
+
+            if (! $belongsToSamePost) {
+                return $this->errorResponse('Parent comment does not belong to this blog post.', 422, [
+                    'parent_id' => ['Parent comment does not belong to this blog post.'],
+                ]);
+            }
+        }
+
+        if ($resource === 'video-comments') {
+            $belongsToSameVideo = VideoComment::query()
+                ->where('id', $parentId)
+                ->where('video_id', $validated['video_id'] ?? null)
+                ->exists();
+
+            if (! $belongsToSameVideo) {
+                return $this->errorResponse('Parent comment does not belong to this video.', 422, [
+                    'parent_id' => ['Parent comment does not belong to this video.'],
+                ]);
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -249,6 +299,20 @@ class AdminCrudController extends Controller
             $query->with('linkedDepartments.translations');
         }
 
+        if ($resource === 'users') {
+            if ($request->filled('role')) {
+                $role = (string) $request->query('role');
+                $query->whereHas('roles', function ($roleQuery) use ($role) {
+                    $roleQuery->where('slug', $role);
+                    if (is_numeric($role)) {
+                        $roleQuery->orWhere('roles.id', (int) $role);
+                    }
+                });
+            }
+
+            $query->with('roles')->withCount('roles');
+        }
+
         if ($resource === 'roles') {
             $query->with('permissions')->withCount('permissions');
         }
@@ -265,7 +329,7 @@ class AdminCrudController extends Controller
             $query->with('publisher.translations');
         }
 
-        if ($resource === 'comments') {
+        if ($this->isBlogCommentResource($resource)) {
             $query->with('blog.translations');
         }
 
@@ -275,7 +339,7 @@ class AdminCrudController extends Controller
 
         $results = $query->paginate($perPage);
 
-        if ($resource === 'comments') {
+        if ($this->isBlogCommentResource($resource)) {
             $results->getCollection()->transform(function (BlogComment $comment) {
                 $blog = $comment->blog;
                 $englishTranslation = $blog?->translations
@@ -303,6 +367,10 @@ class AdminCrudController extends Controller
 
                 return $comment;
             });
+        }
+
+        if ($resource === 'users') {
+            $results->getCollection()->transform(fn (User $user) => $this->decorateUserForAdmin($user));
         }
 
         if ($resource === 'media') {
@@ -338,7 +406,7 @@ class AdminCrudController extends Controller
                 'contracts.payments',
             ])->find($id);
         } else {
-            if ($resource === 'comments') {
+            if ($this->isBlogCommentResource($resource)) {
                 $record = $modelClass::with('blog.translations')->find($id);
             } elseif ($resource === 'video-comments') {
                 $record = $modelClass::with('video.translations')->find($id);
@@ -352,6 +420,9 @@ class AdminCrudController extends Controller
                 }
                 if ($resource === 'staff') {
                     $relations[] = 'linkedDepartments.translations';
+                }
+                if ($resource === 'users') {
+                    $relations[] = 'roles';
                 }
                 if ($resource === 'roles') {
                     $relations[] = 'permissions';
@@ -370,6 +441,10 @@ class AdminCrudController extends Controller
 
         if ($resource === 'roles') {
             $record->permission_ids = $record->permissions->pluck('id')->values()->all();
+        }
+
+        if ($resource === 'users') {
+            $this->decorateUserForAdmin($record);
         }
 
         return $this->successResponse($record, "{$resource} item retrieved");
@@ -396,6 +471,10 @@ class AdminCrudController extends Controller
         }
 
         $validated = $validator->validated();
+        $commentParentError = $this->validateCommentParent($resource, $validated);
+        if ($commentParentError !== null) {
+            return $commentParentError;
+        }
 
         DB::beginTransaction();
         try {
@@ -422,12 +501,14 @@ class AdminCrudController extends Controller
                 unset($validated['translations']);
                 $secondaryDepartmentIds = $this->extractStaffSecondaryDepartmentIds($resource, $validated);
                 $rolePermissionIds = $this->extractRolePermissionIds($resource, $validated);
+                $userRoleIds = $this->extractUserRoleIds($resource, $validated);
 
                 $validated = $this->prepareValidatedData($resource, $validated);
                 $record = $modelClass::create($validated);
                 $this->handleWorkflowCreated($resource, $record);
                 $this->syncStaffSecondaryDepartments($resource, $record, $secondaryDepartmentIds);
                 $this->syncRolePermissions($resource, $record, $rolePermissionIds);
+                $this->syncUserRoles($resource, $record, $userRoleIds);
 
                 // Save translations
                 if (method_exists($record, 'translations') && ! empty($translations)) {
@@ -443,7 +524,7 @@ class AdminCrudController extends Controller
                 }
             }
 
-            if ($resource === 'comments') {
+            if ($this->isBlogCommentResource($resource)) {
                 $this->syncBlogCommentsCount((int) $record->blog_id);
                 $this->sendBlogReplyEmail($record);
             }
@@ -488,6 +569,11 @@ class AdminCrudController extends Controller
         }
 
         $validated = $validator->validated();
+        $commentParentError = $this->validateCommentParent($resource, $validated, $id);
+        if ($commentParentError !== null) {
+            return $commentParentError;
+        }
+
         $oldValues = $record->toArray();
 
         DB::beginTransaction();
@@ -496,14 +582,25 @@ class AdminCrudController extends Controller
             unset($validated['translations']);
             $secondaryDepartmentIds = $this->extractStaffSecondaryDepartmentIds($resource, $validated);
             $rolePermissionIds = $this->extractRolePermissionIds($resource, $validated);
+            $userRoleIds = $this->extractUserRoleIds($resource, $validated);
+
+            if ($resource === 'users') {
+                $roleGuardError = $this->validateUserRoleChange($record, $userRoleIds);
+                if ($roleGuardError !== null) {
+                    DB::rollBack();
+
+                    return $roleGuardError;
+                }
+            }
 
             $validated = $this->prepareValidatedData($resource, $validated, $record);
             $record->update($validated);
             $this->handleWorkflowSideEffects($resource, $record, $oldValues, $validated, $request);
             $this->syncStaffSecondaryDepartments($resource, $record, $secondaryDepartmentIds);
             $this->syncRolePermissions($resource, $record, $rolePermissionIds);
+            $this->syncUserRoles($resource, $record, $userRoleIds);
 
-            if ($resource === 'comments') {
+            if ($this->isBlogCommentResource($resource)) {
                 $this->syncBlogCommentsCount((int) ($oldValues['blog_id'] ?? $record->blog_id));
                 $this->syncBlogCommentsCount((int) $record->blog_id);
             }
@@ -568,6 +665,24 @@ class AdminCrudController extends Controller
         return $ids;
     }
 
+    protected function extractUserRoleIds(string $resource, array &$validated): array
+    {
+        if ($resource !== 'users') {
+            return [];
+        }
+
+        $ids = collect($validated['role_ids'] ?? [])
+            ->map(fn ($id) => (int) $id)
+            ->filter()
+            ->unique()
+            ->values()
+            ->all();
+
+        unset($validated['role_ids']);
+
+        return $ids;
+    }
+
     protected function syncStaffSecondaryDepartments(string $resource, Model $record, array $departmentIds): void
     {
         if ($resource !== 'staff' || ! method_exists($record, 'linkedDepartments')) {
@@ -598,6 +713,99 @@ class AdminCrudController extends Controller
         }
 
         $record->permissions()->sync($permissionIds);
+    }
+
+    protected function syncUserRoles(string $resource, Model $record, array $roleIds): void
+    {
+        if ($resource !== 'users' || ! method_exists($record, 'roles')) {
+            return;
+        }
+
+        $record->roles()->sync($roleIds);
+    }
+
+    protected function controlPanelRoleSlugs(): array
+    {
+        return ['apanel', 'super_admin', 'admin'];
+    }
+
+    protected function validateUserRoleChange(User $user, array $roleIds): ?JsonResponse
+    {
+        $controlRoleIds = Role::whereIn('slug', $this->controlPanelRoleSlugs())->pluck('id')->all();
+        $nextHasControlRole = count(array_intersect($roleIds, $controlRoleIds)) > 0;
+        $currentHasControlRole = $user->roles()->whereIn('slug', $this->controlPanelRoleSlugs())->exists();
+
+        if ((int) $user->id === (int) $this->currentUserId() && ! $nextHasControlRole) {
+            return $this->errorResponse('You cannot remove your own control panel access.', 422);
+        }
+
+        if ($currentHasControlRole && ! $nextHasControlRole && $this->controlPanelUsersCount() <= 1) {
+            return $this->errorResponse('At least one control panel administrator must remain.', 422);
+        }
+
+        return null;
+    }
+
+    protected function controlPanelUsersCount(): int
+    {
+        return User::whereHas('roles', function ($query) {
+            $query->whereIn('slug', $this->controlPanelRoleSlugs());
+        })->count();
+    }
+
+    protected function decorateUserForAdmin(User $user): User
+    {
+        if (! $user->relationLoaded('roles')) {
+            $user->load('roles');
+        }
+
+        $roleSlugs = $user->roles->pluck('slug')->values();
+        $roleNames = $user->roles->pluck('name')->values();
+
+        $user->role_ids = $user->roles->pluck('id')->values()->all();
+        $user->role_slugs = $roleSlugs->all();
+        $user->role_names = $roleNames->all();
+        $user->role_summary = $roleNames->implode(', ') ?: 'No roles assigned';
+        $user->access_tier = $this->resolveUserAccessTier($roleSlugs->all());
+
+        return $user;
+    }
+
+    protected function resolveUserAccessTier(array $roleSlugs): string
+    {
+        if (in_array('super_admin', $roleSlugs, true)) {
+            return 'Super Admin';
+        }
+
+        if (in_array('apanel', $roleSlugs, true)) {
+            return 'Control Panel';
+        }
+
+        if (in_array('admin', $roleSlugs, true)) {
+            return 'Admin';
+        }
+
+        if (in_array('student', $roleSlugs, true)) {
+            return 'Student';
+        }
+
+        if (in_array('teacher', $roleSlugs, true)) {
+            return 'Teacher';
+        }
+
+        if (collect($roleSlugs)->contains(fn ($slug) => str_contains($slug, 'officer'))) {
+            return 'Officer';
+        }
+
+        if (collect($roleSlugs)->contains(fn ($slug) => str_contains($slug, 'manager'))) {
+            return 'Manager';
+        }
+
+        if (collect($roleSlugs)->contains(fn ($slug) => str_contains($slug, 'staff'))) {
+            return 'Staff';
+        }
+
+        return 'Unassigned';
     }
 
     protected function handleWorkflowSideEffects(string $resource, Model $record, array $oldValues, array $validated, Request $request): void
@@ -927,6 +1135,16 @@ class AdminCrudController extends Controller
             return $this->errorResponse('Record not found', 404);
         }
 
+        if ($resource === 'users') {
+            if ((int) $record->id === (int) $this->currentUserId()) {
+                return $this->errorResponse('You cannot delete your own user account.', 422);
+            }
+
+            if ($record->roles()->whereIn('slug', $this->controlPanelRoleSlugs())->exists() && $this->controlPanelUsersCount() <= 1) {
+                return $this->errorResponse('At least one control panel administrator must remain.', 422);
+            }
+        }
+
         $oldValues = $record->toArray();
 
         DB::beginTransaction();
@@ -938,7 +1156,7 @@ class AdminCrudController extends Controller
 
             $record->delete();
 
-            if ($resource === 'comments') {
+            if ($this->isBlogCommentResource($resource)) {
                 $this->syncBlogCommentsCount((int) ($oldValues['blog_id'] ?? 0));
             }
 
@@ -2350,6 +2568,9 @@ class AdminCrudController extends Controller
             'services',
             'interactive-service-settings',
             'videos',
+            'blog-comments',
+            'comments',
+            'video-comments',
             'media',
             'announcement-settings',
             'green-campus-stats',
@@ -2712,6 +2933,8 @@ class AdminCrudController extends Controller
                     'name' => 'required|string',
                     'email' => 'required|email|unique:users,email,'.$id,
                     'password' => $id ? 'nullable|string|min:6' : 'required|string|min:6',
+                    'role_ids' => 'required|array|min:1',
+                    'role_ids.*' => 'integer|exists:roles,id',
                 ];
             case 'roles':
                 return [
@@ -2828,6 +3051,7 @@ class AdminCrudController extends Controller
                     'priority' => 'string',
                 ];
             case 'comments':
+            case 'blog-comments':
                 return [
                     'blog_id' => 'required|integer|exists:blogs,id',
                     'parent_id' => 'nullable|integer|exists:blog_comments,id',

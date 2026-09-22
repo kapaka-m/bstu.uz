@@ -168,9 +168,9 @@ Route::prefix('v1')->group(function () {
     });
 
     // =========================================================================
-    // 4. APANEL CRUD ROUTES (auth + apanel role required)
+    // 4. APANEL CRUD ROUTES (auth + permission-gated control panel access)
     // =========================================================================
-    Route::middleware(['auth:sanctum', 'role:apanel', 'throttle:apanel-api'])->prefix('apanel')->group(function () {
+    Route::middleware(['auth:sanctum', 'apanel.permission', 'throttle:apanel-api'])->prefix('apanel')->group(function () {
         Route::get('applications-workflow', [ApanelApplicationWorkflowController::class, 'index']);
         Route::get('applications-workflow/{application}', [ApanelApplicationWorkflowController::class, 'show']);
         Route::get('applications-workflow/{application}/documents', [ApanelApplicationWorkflowController::class, 'documents']);

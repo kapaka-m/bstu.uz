@@ -167,32 +167,32 @@ export default function DataTable({
                   })}
 
                   <td className="sticky right-0 shrink-0 border-b border-gray-100 bg-inherit px-5 py-4 text-end align-middle shadow-[-12px_0_18px_-18px_rgba(15,23,42,0.4)]">
-                    <div className="flex justify-end gap-1 rounded-xl border border-gray-100 bg-white p-1 shadow-xs">
+                    <div className="flex justify-end gap-1.5 rounded-xl border border-gray-200 bg-white p-1.5 shadow-sm">
                       {onViewClick && (
                         <button
                           onClick={() => onViewClick(row)}
-                          className="p-2 text-gray-400 hover:text-navy hover:bg-gray-100 rounded-lg cursor-pointer transition-all"
+                          className="flex h-9 w-9 items-center justify-center rounded-lg border border-gray-100 bg-gray-50 text-navy cursor-pointer transition-all hover:border-navy/20 hover:bg-navy hover:text-white"
                           title={t("apanel.dataTable.viewDetails")}
                         >
-                          <Eye className="w-3.5 h-3.5" />
+                          <Eye className="h-4 w-4" />
                         </button>
                       )}
                       {onEditClick && (
                         <button
                           onClick={() => onEditClick(row)}
-                          className="p-2 text-gray-400 hover:text-primary hover:bg-primary-light rounded-lg cursor-pointer transition-all"
+                          className="flex h-9 w-9 items-center justify-center rounded-lg border border-primary/10 bg-primary/5 text-primary cursor-pointer transition-all hover:bg-primary hover:text-white"
                           title={t("button.edit")}
                         >
-                          <Edit2 className="w-3.5 h-3.5" />
+                          <Edit2 className="h-4 w-4" />
                         </button>
                       )}
                       {onDeleteClick && (
                         <button
                           onClick={() => onDeleteClick(row)}
-                          className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg cursor-pointer transition-all"
+                          className="flex h-9 w-9 items-center justify-center rounded-lg border border-rose-100 bg-rose-50 text-rose-600 cursor-pointer transition-all hover:bg-rose-600 hover:text-white"
                           title={t("button.delete")}
                         >
-                          <Trash2 className="w-3.5 h-3.5" />
+                          <Trash2 className="h-4 w-4" />
                         </button>
                       )}
                     </div>

@@ -153,11 +153,12 @@ export default function BlogDetails() {
     if (!post || !isAuthenticated || !commentForm.comment) return;
 
     try {
-      const created = await blogService.postComment(post.slug, {
+      await blogService.postComment(post.slug, {
         content: commentForm.comment,
         parent_id: replyTarget?.id || null,
       });
-      setCommentsList((prev) => [...prev, created]);
+      const approvedComments = await blogService.getComments(post.slug);
+      setCommentsList(approvedComments || []);
       setCommentForm({ name: "", email: "", comment: "" });
       setReplyTarget(null);
     } catch {

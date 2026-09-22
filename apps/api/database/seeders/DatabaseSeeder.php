@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
         try {
             $this->call([
                 CoreSystemSnapshotSeeder::class,
+                RolePermissionMatrixSeeder::class,
                 LocalizationSnapshotSeeder::class,
                 NavigationPageSnapshotSeeder::class,
                 AcademicStructureSnapshotSeeder::class,

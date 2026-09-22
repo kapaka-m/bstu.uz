@@ -221,6 +221,8 @@ export default function FormBuilder({
 
       <div className={`grid grid-cols-1 md:grid-cols-2 ${modalMode ? "gap-4" : "gap-5"}`}>
         {fields.map((field) => {
+          const isRequired = field.required || (!isEdit && field.requiredOnCreate);
+
           // Determine if we should show this field in the active tab context
           if (field.translated) {
             // Render translated input inside the tab
@@ -241,7 +243,7 @@ export default function FormBuilder({
               >
                 <label className="block text-xs font-bold text-navy mb-1.5 uppercase tracking-wider">
                   {field.label} ({activeLocale.toUpperCase()}){" "}
-                  {field.required && <span className="text-red-500">*</span>}
+                  {isRequired && <span className="text-red-500">*</span>}
                 </label>
 
                 {field.type === "textarea" ||
@@ -256,7 +258,7 @@ export default function FormBuilder({
                         e.target.value,
                       )
                     }
-                    required={field.required && activeLocale === primaryLocale}
+                    required={isRequired && activeLocale === primaryLocale}
                     rows={field.type === "json" ? (modalMode ? 7 : 8) : (modalMode ? 4 : 6)}
                     className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold bg-white text-navy"
                   />
@@ -271,7 +273,7 @@ export default function FormBuilder({
                         e.target.value,
                       )
                     }
-                    required={field.required && activeLocale === primaryLocale}
+                    required={isRequired && activeLocale === primaryLocale}
                     className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold bg-white text-navy"
                   />
                 )}
@@ -297,7 +299,7 @@ export default function FormBuilder({
               {field.type !== "boolean" && field.type !== "media" && (
                 <label className="block text-xs font-bold text-navy mb-1.5 uppercase tracking-wider">
                   {field.label}{" "}
-                  {field.required && <span className="text-red-500">*</span>}
+                  {isRequired && <span className="text-red-500">*</span>}
                 </label>
               )}
 
@@ -305,7 +307,7 @@ export default function FormBuilder({
                 <select
                   value={value || ""}
                   onChange={(e) => handleRootChange(field.name, e.target.value)}
-                  required={field.required}
+                  required={isRequired}
                   className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold bg-white text-navy cursor-pointer"
                 >
                   <option value="">{t("apanel.formBuilder.selectOption")}</option>
@@ -409,7 +411,7 @@ export default function FormBuilder({
                   <textarea
                     value={value || ""}
                     onChange={(e) => handleRootChange(field.name, e.target.value)}
-                    required={field.required}
+                    required={isRequired}
                     rows={4}
                     className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold bg-white text-navy"
                   />
@@ -418,7 +420,7 @@ export default function FormBuilder({
                 <textarea
                   value={value || ""}
                   onChange={(e) => handleRootChange(field.name, e.target.value)}
-                  required={field.required}
+                  required={isRequired}
                   rows={field.type === "json" ? (modalMode ? 7 : 8) : 4}
                   className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold bg-white text-navy"
                 />
@@ -436,7 +438,7 @@ export default function FormBuilder({
                         : e.target.value,
                     )
                   }
-                  required={field.required}
+                  required={isRequired}
                   className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary text-xs font-semibold bg-white text-navy"
                 />
               )}

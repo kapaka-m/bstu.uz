@@ -9,11 +9,29 @@ use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
     use ApiResponse;
+
+    protected array $controlPanelRoleSlugs = [
+        'apanel',
+        'super_admin',
+        'admin',
+        'admission_officer',
+        'international_office_staff',
+        'call_center_staff',
+        'faculty_staff',
+        'department_staff',
+        'registrar_office_staff',
+        'dormitory_manager',
+        'teacher',
+        'finance_staff',
+        'document_officer',
+        'content_manager',
+    ];
 
     public function register()
     {
@@ -40,8 +58,9 @@ class AuthController extends Controller
         if ($intendedRole !== '') {
             $roles = $user->roles()->pluck('slug');
             $isWrongStudentPortal = $intendedRole === 'student'
-                && (! $roles->contains('student') || $roles->contains('apanel'));
-            $isWrongApanelPortal = $intendedRole === 'apanel' && ! $roles->contains('apanel');
+                && (! $roles->contains('student') || $this->hasControlPanelAccess($roles->all()));
+            $isWrongApanelPortal = $intendedRole === 'apanel'
+                && ! $this->hasControlPanelAccess($roles->all());
 
             if ($isWrongStudentPortal || $isWrongApanelPortal) {
                 return $this->errorResponse('This account is not allowed to use this login portal.', 403);
@@ -71,9 +90,28 @@ class AuthController extends Controller
 
     protected function userPayload(User $user): array
     {
+        $permissionsAvailable = Schema::hasTable('permissions')
+            && Schema::hasTable('permission_role');
+        $roles = $permissionsAvailable
+            ? $user->roles()->with('permissions')->get()
+            : $user->roles()->get();
+
         return array_merge($user->toArray(), [
-            'roles' => $user->roles()->pluck('slug')->values()->all(),
+            'roles' => $roles->pluck('slug')->values()->all(),
+            'role_names' => $roles->pluck('name')->values()->all(),
+            'permissions' => $permissionsAvailable
+                ? $roles
+                    ->flatMap(fn ($role) => $role->permissions->pluck('slug'))
+                    ->unique()
+                    ->values()
+                    ->all()
+                : [],
         ]);
+    }
+
+    protected function hasControlPanelAccess(array $roles): bool
+    {
+        return count(array_intersect($roles, $this->controlPanelRoleSlugs)) > 0;
     }
 
     public function forgotPassword(Request $request)

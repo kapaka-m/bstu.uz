@@ -1389,12 +1389,19 @@ class PublicApiController extends Controller
             'parent_id' => 'nullable|integer|exists:blog_comments,id',
         ]);
 
+        if (
+            ! empty($validated['parent_id'])
+            && ! BlogComment::where('id', $validated['parent_id'])->where('blog_id', $post->id)->exists()
+        ) {
+            return $this->errorResponse('Parent comment does not belong to this blog post', 422);
+        }
+
         $user = $request->user();
         $comment = BlogComment::create(array_merge($validated, [
             'blog_id' => $post->id,
             'author_name' => $user?->name ?: 'User',
             'email' => $user?->email,
-            'is_approved' => true,
+            'is_approved' => false,
         ]));
 
         $post->update(['comments_count' => $post->comments()->where('is_approved', true)->count()]);
@@ -1807,7 +1814,7 @@ class PublicApiController extends Controller
             'video_id' => $video->id,
             'author_name' => $user?->name ?: 'User',
             'email' => $user?->email,
-            'is_approved' => true,
+            'is_approved' => false,
         ]));
 
         return $this->successResponse([

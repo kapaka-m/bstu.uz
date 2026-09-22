@@ -9,13 +9,18 @@ import Pagination from "../components/Pagination";
 import FormBuilder from "../components/FormBuilder";
 import ConfirmDialog from "../components/ConfirmDialog";
 import {
+  BadgeCheck,
   BookOpen,
+  BriefcaseBusiness,
   Building2,
   CheckCircle2,
   Clock,
+  Crown,
   ExternalLink,
   GraduationCap,
   Hash,
+  IdCard,
+  KeyRound,
   Loader2,
   Mail,
   MessageCircle,
@@ -24,7 +29,10 @@ import {
   Plus,
   Reply,
   ShieldAlert,
+  ShieldCheck,
   Trash2,
+  UserCog,
+  UserRound,
   UsersRound,
   X,
 } from "lucide-react";
@@ -532,10 +540,34 @@ const RESOURCE_SCHEMAS = {
   },
   users: {
     title: "apanel.crud.ui.title.systemUsers",
+    description: {
+      en: "Manage every system account and assign operational roles for admins, staff, teachers, students, and content teams.",
+      uz: "Adminlar, xodimlar, o‘qituvchilar, talabalar va kontent jamoalari uchun tizim hisoblari va rollarini boshqaring.",
+      ru: "Управляйте системными учетными записями и назначайте роли администраторам, сотрудникам, преподавателям, студентам и контент-командам.",
+      ar: "إدارة حسابات النظام وربط كل مستخدم بدوره التشغيلي: الأدمن، الموظفون، المعلمون، الطلاب، وفرق المحتوى.",
+    },
     columns: [
       { key: "id", label: "apanel.crud.ui.label.id", sortable: true },
       { key: "name", label: "apanel.crud.ui.label.name", sortable: true },
       { key: "email", label: "apanel.crud.ui.label.emailAddress", sortable: true },
+      {
+        key: "access_tier",
+        label: {
+          en: "Access type",
+          uz: "Kirish turi",
+          ru: "Тип доступа",
+          ar: "نوع الوصول",
+        },
+      },
+      {
+        key: "role_summary",
+        label: {
+          en: "Roles",
+          uz: "Rollar",
+          ru: "Роли",
+          ar: "الأدوار",
+        },
+      },
     ],
     fields: [
       {
@@ -555,6 +587,20 @@ const RESOURCE_SCHEMAS = {
         label: "apanel.crud.ui.label.accountPassword",
         type: "password",
         required: false,
+        requiredOnCreate: true,
+      },
+      {
+        name: "role_ids",
+        label: {
+          en: "Assigned roles",
+          uz: "Biriktirilgan rollar",
+          ru: "Назначенные роли",
+          ar: "الأدوار المرتبطة",
+        },
+        type: "checkbox-group",
+        options: "__roles__",
+        preserveValues: true,
+        required: true,
       },
     ],
   },
@@ -953,8 +999,9 @@ const RESOURCE_SCHEMAS = {
       },
     ],
   },
-  comments: {
+  "blog-comments": {
     title: "Blog Comments",
+    description: "Moderate article comments, replies, approval state, and public visibility.",
     columns: [
       { key: "blog_id", label: "Blog ID", sortable: true },
       { key: "blog_title_en", label: "Blog Title (EN)" },
@@ -1002,6 +1049,7 @@ const RESOURCE_SCHEMAS = {
   },
   "video-comments": {
     title: "Video Comments",
+    description: "Moderate video comments, replies, approval state, and public visibility.",
     columns: [
       { key: "video_id", label: "Video ID", sortable: true },
       { key: "video_title_en", label: "Video Title (EN)" },
@@ -1215,6 +1263,92 @@ const getInitials = (name) => {
     .toUpperCase();
 };
 
+const roleCategoryMeta = (roleSlugs = []) => {
+  const slugs = roleSlugs.map((slug) => String(slug || ""));
+
+  if (slugs.includes("super_admin")) {
+    return {
+      label: "Super Admin",
+      icon: Crown,
+      tone: "border-violet-100 bg-violet-50 text-violet-700",
+      cardTone: "border-violet-100 bg-violet-50/45",
+    };
+  }
+
+  if (slugs.includes("apanel") || slugs.includes("admin")) {
+    return {
+      label: slugs.includes("apanel") ? "Control Panel" : "Admin",
+      icon: ShieldCheck,
+      tone: "border-primary/10 bg-primary/10 text-primary",
+      cardTone: "border-primary/10 bg-primary/5",
+    };
+  }
+
+  if (slugs.includes("student")) {
+    return {
+      label: "Student",
+      icon: GraduationCap,
+      tone: "border-sky-100 bg-sky-50 text-sky-700",
+      cardTone: "border-sky-100 bg-sky-50/45",
+    };
+  }
+
+  if (slugs.includes("teacher")) {
+    return {
+      label: "Teacher",
+      icon: BookOpen,
+      tone: "border-emerald-100 bg-emerald-50 text-emerald-700",
+      cardTone: "border-emerald-100 bg-emerald-50/45",
+    };
+  }
+
+  if (slugs.some((slug) => slug.includes("finance"))) {
+    return {
+      label: "Finance",
+      icon: BriefcaseBusiness,
+      tone: "border-amber-100 bg-amber-50 text-amber-700",
+      cardTone: "border-amber-100 bg-amber-50/45",
+    };
+  }
+
+  if (slugs.some((slug) => slug.includes("officer") || slug.includes("registrar"))) {
+    return {
+      label: "Officer",
+      icon: BadgeCheck,
+      tone: "border-cyan-100 bg-cyan-50 text-cyan-700",
+      cardTone: "border-cyan-100 bg-cyan-50/45",
+    };
+  }
+
+  if (slugs.some((slug) => slug.includes("manager"))) {
+    return {
+      label: "Manager",
+      icon: UserCog,
+      tone: "border-indigo-100 bg-indigo-50 text-indigo-700",
+      cardTone: "border-indigo-100 bg-indigo-50/45",
+    };
+  }
+
+  if (slugs.some((slug) => slug.includes("staff"))) {
+    return {
+      label: "Staff",
+      icon: IdCard,
+      tone: "border-gray-200 bg-gray-50 text-gray-700",
+      cardTone: "border-gray-100 bg-gray-50/60",
+    };
+  }
+
+  return {
+    label: "Unassigned",
+    icon: ShieldAlert,
+    tone: "border-rose-100 bg-rose-50 text-rose-700",
+    cardTone: "border-rose-100 bg-rose-50/45",
+  };
+};
+
+const COMMENT_RESOURCES = ["blog-comments", "comments", "video-comments"];
+const isCommentResource = (resource) => COMMENT_RESOURCES.includes(resource);
+
 export default function ApanelCrud() {
   const { t, language, locales: availableLocales } = useLanguage();
   const getPrimaryTranslation = (item) => selectTranslation(item, language);
@@ -1271,6 +1405,10 @@ export default function ApanelCrud() {
     loading: false,
   });
   const [permissionOptions, setPermissionOptions] = useState({
+    items: [],
+    loading: false,
+  });
+  const [roleOptions, setRoleOptions] = useState({
     items: [],
     loading: false,
   });
@@ -1378,6 +1516,36 @@ export default function ApanelCrud() {
     };
 
     fetchPermissions();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [resource]);
+
+  useEffect(() => {
+    if (resource !== "users") return;
+
+    let cancelled = false;
+    const fetchRoles = async () => {
+      try {
+        setRoleOptions((prev) => ({ ...prev, loading: true }));
+        const pageData = await apanelService.listPage("roles", {
+          per_page: 500,
+          sort_by: "id",
+          sort_dir: "asc",
+        });
+
+        if (!cancelled) {
+          setRoleOptions({ items: pageData.items, loading: false });
+        }
+      } catch {
+        if (!cancelled) {
+          setRoleOptions({ items: [], loading: false });
+        }
+      }
+    };
+
+    fetchRoles();
 
     return () => {
       cancelled = true;
@@ -1775,7 +1943,51 @@ export default function ApanelCrud() {
       ];
     }
 
-    if (!["comments", "video-comments"].includes(resource)) return [];
+    if (resource === "users") {
+      const controlUsers = dataList.filter((item) =>
+        (item.role_slugs || []).some((slug) => ["apanel", "super_admin", "admin"].includes(slug)),
+      ).length;
+      const students = dataList.filter((item) => (item.role_slugs || []).includes("student")).length;
+      const teachers = dataList.filter((item) => (item.role_slugs || []).includes("teacher")).length;
+      const operational = dataList.filter((item) =>
+        (item.role_slugs || []).some((slug) =>
+          /staff|officer|manager|finance|registrar/.test(String(slug)),
+        ),
+      ).length;
+
+      return [
+        {
+          label: "Users",
+          value: total,
+          hint: "All system accounts",
+          icon: UsersRound,
+          tone: "text-blue-600 bg-blue-50 border-blue-100",
+        },
+        {
+          label: "Control",
+          value: controlUsers,
+          hint: "Admin panel access on this page",
+          icon: ShieldCheck,
+          tone: "text-primary bg-primary/10 border-primary/10",
+        },
+        {
+          label: "Students",
+          value: students,
+          hint: teachers ? `${teachers} teacher accounts` : "Student portal users",
+          icon: GraduationCap,
+          tone: "text-sky-600 bg-sky-50 border-sky-100",
+        },
+        {
+          label: "Operations",
+          value: operational,
+          hint: "Staff, officers, managers, finance",
+          icon: BriefcaseBusiness,
+          tone: "text-amber-600 bg-amber-50 border-amber-100",
+        },
+      ];
+    }
+
+    if (!isCommentResource(resource)) return [];
     const approved = dataList.filter((item) => item.is_approved).length;
     const pending = dataList.filter((item) => !item.is_approved).length;
     const replies = dataList.filter((item) => item.parent_id).length;
@@ -1848,6 +2060,24 @@ export default function ApanelCrud() {
               uz: "Huquqlar yuklanmoqda...",
               ru: "Права загружаются...",
               ar: "جاري تحميل الصلاحيات...",
+            }
+          : field.description,
+      };
+    }
+
+    if (field.options === "__roles__") {
+      return {
+        ...field,
+        options: roleOptions.items.map((role) => ({
+          value: role.id,
+          label: `${role.name || role.slug} (${role.slug})`,
+        })),
+        description: roleOptions.loading
+          ? {
+              en: "Loading roles...",
+              uz: "Rollar yuklanmoqda...",
+              ru: "Роли загружаются...",
+              ar: "جاري تحميل الأدوار...",
             }
           : field.description,
       };
@@ -1973,6 +2203,485 @@ export default function ApanelCrud() {
   const handleFilterChange = (name, value) => {
     setActiveFilters((prev) => ({ ...prev, [name]: value }));
     setPage(1);
+  };
+
+  const renderCommentModerationBoard = () => {
+    if (!isCommentResource(resource)) return null;
+
+    const isVideo = resource === "video-comments";
+    const moderationCopy = {
+      en: {
+        eyebrow: "Comment Moderation",
+        blogTitle: "Blog Comment Queue",
+        videoTitle: "Video Comment Queue",
+        description:
+          "Review public replies before they appear on the website. Use quick approval for clean items, or open the record for deeper edits.",
+        approved: "Approved",
+        pending: "Pending",
+        replies: "Replies",
+        emptyBlog: "No blog comments found",
+        emptyVideo: "No video comments found",
+        emptyHint: "Try changing the search text, status filter, or page.",
+        unknownAuthor: "Unknown author",
+        noEmail: "No email",
+        video: "Video",
+        blog: "Blog",
+        unapprove: "Unapprove",
+        approve: "Approve",
+        review: "Review",
+        open: "Open",
+        delete: "Delete",
+        reply: "Reply",
+      },
+      uz: {
+        eyebrow: "Izohlarni moderatsiya qilish",
+        blogTitle: "Blog izohlari navbati",
+        videoTitle: "Video izohlari navbati",
+        description:
+          "Ommaviy izohlar saytda ko‘rinishidan oldin ularni ko‘rib chiqing. Toza izohlarni tez tasdiqlang yoki yozuvni batafsil tahrirlang.",
+        approved: "Tasdiqlangan",
+        pending: "Kutilmoqda",
+        replies: "Javoblar",
+        emptyBlog: "Blog izohlari topilmadi",
+        emptyVideo: "Video izohlari topilmadi",
+        emptyHint: "Qidiruv matni, status filtri yoki sahifani o‘zgartirib ko‘ring.",
+        unknownAuthor: "Noma’lum muallif",
+        noEmail: "Email yo‘q",
+        video: "Video",
+        blog: "Blog",
+        unapprove: "Tasdiqni olish",
+        approve: "Tasdiqlash",
+        review: "Ko‘rib chiqish",
+        open: "Ochish",
+        delete: "O‘chirish",
+        reply: "Javob",
+      },
+      ru: {
+        eyebrow: "Модерация комментариев",
+        blogTitle: "Очередь комментариев блога",
+        videoTitle: "Очередь комментариев видео",
+        description:
+          "Проверяйте публичные ответы до их появления на сайте. Быстро одобряйте корректные записи или открывайте их для детального редактирования.",
+        approved: "Одобрено",
+        pending: "Ожидает",
+        replies: "Ответы",
+        emptyBlog: "Комментарии блога не найдены",
+        emptyVideo: "Комментарии видео не найдены",
+        emptyHint: "Измените поиск, фильтр статуса или страницу.",
+        unknownAuthor: "Неизвестный автор",
+        noEmail: "Email отсутствует",
+        video: "Видео",
+        blog: "Блог",
+        unapprove: "Снять одобрение",
+        approve: "Одобрить",
+        review: "Проверить",
+        open: "Открыть",
+        delete: "Удалить",
+        reply: "Ответ",
+      },
+      ar: {
+        eyebrow: "مراجعة التعليقات",
+        blogTitle: "قائمة تعليقات المقالات",
+        videoTitle: "قائمة تعليقات الفيديو",
+        description:
+          "راجع الردود العامة قبل ظهورها في الموقع. يمكنك الموافقة السريعة على التعليقات السليمة أو فتح السجل للتعديل التفصيلي.",
+        approved: "مقبول",
+        pending: "قيد المراجعة",
+        replies: "ردود",
+        emptyBlog: "لا توجد تعليقات مقالات",
+        emptyVideo: "لا توجد تعليقات فيديو",
+        emptyHint: "جرّب تغيير البحث أو فلتر الحالة أو الصفحة.",
+        unknownAuthor: "كاتب غير معروف",
+        noEmail: "لا يوجد بريد",
+        video: "فيديو",
+        blog: "مقال",
+        unapprove: "إلغاء القبول",
+        approve: "قبول",
+        review: "مراجعة",
+        open: "فتح",
+        delete: "حذف",
+        reply: "رد",
+      },
+    };
+    const copy = moderationCopy[language] || moderationCopy.en;
+    const emptyTitle = isVideo ? copy.emptyVideo : copy.emptyBlog;
+
+    return (
+      <section className="space-y-4">
+        <div className="rounded-3xl border border-gray-100 bg-white p-4 shadow-xs sm:p-5">
+          <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+            <div className="min-w-0">
+              <p className="text-[10px] font-black uppercase tracking-widest text-primary">
+                {copy.eyebrow}
+              </p>
+              <h2 className="mt-1 text-lg font-black text-navy">
+                {isVideo ? copy.videoTitle : copy.blogTitle}
+              </h2>
+              <p className="mt-1 text-xs font-semibold leading-relaxed text-gray-500">
+                {copy.description}
+              </p>
+            </div>
+            <div className="grid grid-cols-3 gap-2 text-center sm:min-w-80">
+              <div className="rounded-2xl border border-emerald-100 bg-emerald-50 p-3">
+                <p className="text-lg font-black text-emerald-700">
+                  {dataList.filter((item) => item.is_approved).length}
+                </p>
+                <p className="text-[10px] font-black uppercase text-emerald-700">
+                  {copy.approved}
+                </p>
+              </div>
+              <div className="rounded-2xl border border-amber-100 bg-amber-50 p-3">
+                <p className="text-lg font-black text-amber-700">
+                  {dataList.filter((item) => !item.is_approved).length}
+                </p>
+                <p className="text-[10px] font-black uppercase text-amber-700">
+                  {copy.pending}
+                </p>
+              </div>
+              <div className="rounded-2xl border border-violet-100 bg-violet-50 p-3">
+                <p className="text-lg font-black text-violet-700">
+                  {dataList.filter((item) => item.parent_id).length}
+                </p>
+                <p className="text-[10px] font-black uppercase text-violet-700">
+                  {copy.replies}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {dataList.length === 0 ? (
+          <div className="rounded-3xl border border-gray-100 bg-white p-10 text-center shadow-xs">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-gray-50 text-gray-300">
+              <MessageCircle className="h-7 w-7" />
+            </div>
+            <h3 className="mt-4 text-sm font-black text-navy">{emptyTitle}</h3>
+            <p className="mt-1 text-xs font-semibold text-gray-400">
+              {copy.emptyHint}
+            </p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
+            {dataList.map((comment) => {
+              const sourceTitle = isVideo
+                ? comment.video_title_en || `Video #${comment.video_id}`
+                : comment.blog_title_en || `Blog #${comment.blog_id}`;
+              const sourceUrl = isVideo ? comment.video_url : comment.blog_url;
+              const sourceId = isVideo ? comment.video_id : comment.blog_id;
+              const approved = !!comment.is_approved;
+
+              return (
+                <article
+                  key={comment.id}
+                  className={`min-w-0 rounded-3xl border bg-white p-4 shadow-xs transition-all hover:shadow-md ${
+                    approved ? "border-emerald-100" : "border-amber-100"
+                  }`}
+                >
+                  <div className="flex min-w-0 items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span
+                          className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-[10px] font-black uppercase ${
+                            approved
+                              ? "border-emerald-100 bg-emerald-50 text-emerald-700"
+                              : "border-amber-100 bg-amber-50 text-amber-700"
+                          }`}
+                        >
+                          {approved ? (
+                            <CheckCircle2 className="h-3.5 w-3.5" />
+                          ) : (
+                            <ShieldAlert className="h-3.5 w-3.5" />
+                          )}
+                          {approved ? copy.approved : copy.pending}
+                        </span>
+                        {comment.parent_id && (
+                          <span className="inline-flex items-center gap-1 rounded-full border border-violet-100 bg-violet-50 px-2.5 py-1 text-[10px] font-black uppercase text-violet-700">
+                            <Reply className="h-3.5 w-3.5" />
+                            {copy.reply} #{comment.parent_id}
+                          </span>
+                        )}
+                      </div>
+                      <h3 className="mt-3 truncate text-sm font-black text-navy">
+                        {comment.author_name || copy.unknownAuthor}
+                      </h3>
+                      <p className="mt-1 flex min-w-0 items-center gap-1.5 text-[11px] font-bold text-gray-400">
+                        <Mail className="h-3.5 w-3.5 shrink-0" />
+                        <span className="truncate">{comment.email || copy.noEmail}</span>
+                      </p>
+                    </div>
+                    <div className="shrink-0 text-end">
+                      <p className="text-[10px] font-black uppercase tracking-wider text-gray-300">
+                        #{comment.id}
+                      </p>
+                      <p className="mt-1 text-[10px] font-bold text-gray-400">
+                        {comment.created_at ? new Date(comment.created_at).toLocaleString() : ""}
+                      </p>
+                    </div>
+                  </div>
+
+                  <p className="mt-4 line-clamp-4 rounded-2xl border border-gray-100 bg-gray-50/60 p-4 text-sm font-semibold leading-relaxed text-gray-600">
+                    {comment.content}
+                  </p>
+
+                  <div className="mt-4 rounded-2xl border border-gray-100 bg-white p-3">
+                    <p className="text-[10px] font-black uppercase tracking-wider text-gray-400">
+                      {isVideo ? copy.video : copy.blog} #{sourceId}
+                    </p>
+                    <p className="mt-1 truncate text-xs font-black text-navy">
+                      {sourceTitle}
+                    </p>
+                  </div>
+
+                  <div className="mt-4 flex flex-wrap items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => handleStatusToggle(comment.id, "is_approved", !approved)}
+                      className={`inline-flex h-9 items-center gap-1.5 rounded-xl px-3 text-xs font-black transition-all ${
+                        approved
+                          ? "border border-amber-100 bg-amber-50 text-amber-700 hover:bg-amber-100"
+                          : "border border-emerald-100 bg-emerald-50 text-emerald-700 hover:bg-emerald-100"
+                      }`}
+                    >
+                      {approved ? <X className="h-4 w-4" /> : <CheckCircle2 className="h-4 w-4" />}
+                      {approved ? copy.unapprove : copy.approve}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleOpenEdit(comment)}
+                      className="inline-flex h-9 items-center gap-1.5 rounded-xl border border-primary/10 bg-primary/5 px-3 text-xs font-black text-primary transition-all hover:bg-primary hover:text-white"
+                    >
+                      <Pencil className="h-4 w-4" />
+                      {copy.review}
+                    </button>
+                    {sourceUrl && (
+                      <a
+                        href={sourceUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex h-9 items-center gap-1.5 rounded-xl border border-gray-200 bg-white px-3 text-xs font-black text-navy transition-all hover:bg-navy hover:text-white"
+                      >
+                        <ExternalLink className="h-4 w-4" />
+                        {copy.open}
+                      </a>
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => setDeleteTarget(comment)}
+                      className="ms-auto inline-flex h-9 items-center gap-1.5 rounded-xl border border-rose-100 bg-rose-50 px-3 text-xs font-black text-rose-600 transition-all hover:bg-rose-600 hover:text-white"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                      {copy.delete}
+                    </button>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        )}
+      </section>
+    );
+  };
+
+  const renderUserManagementBoard = () => {
+    if (resource !== "users" || loading || dataList.length === 0) return null;
+
+    const controlCount = dataList.filter((user) =>
+      (user.role_slugs || []).some((slug) => ["apanel", "super_admin", "admin"].includes(slug)),
+    ).length;
+    const studentCount = dataList.filter((user) => (user.role_slugs || []).includes("student")).length;
+    const operationalCount = dataList.filter((user) =>
+      (user.role_slugs || []).some((slug) => /staff|officer|manager|finance|registrar/.test(String(slug))),
+    ).length;
+    const usersCopy = {
+      en: {
+        eyebrow: "Access Governance",
+        title: "Users, Roles & Operational Access",
+        description:
+          "Every account should have the right role for its work area: administration, admissions, finance, faculty operations, teaching, student portal access, or content management.",
+        control: "Control",
+        students: "Students",
+        operations: "Operations",
+        userId: "User ID",
+        roles: "Roles",
+        type: "Type",
+        noRoles: "No roles assigned",
+        userNumber: "User",
+      },
+      uz: {
+        eyebrow: "Kirish boshqaruvi",
+        title: "Foydalanuvchilar, rollar va operatsion kirish",
+        description:
+          "Har bir hisob administratsiya, qabul, moliya, fakultet ishlari, o‘qitish, talaba portali yoki kontent boshqaruvi uchun mos rolga ega bo‘lishi kerak.",
+        control: "Boshqaruv",
+        students: "Talabalar",
+        operations: "Amaliyot",
+        userId: "Foydalanuvchi ID",
+        roles: "Rollar",
+        type: "Turi",
+        noRoles: "Rol biriktirilmagan",
+        userNumber: "Foydalanuvchi",
+      },
+      ru: {
+        eyebrow: "Управление доступом",
+        title: "Пользователи, роли и операционный доступ",
+        description:
+          "Каждая учетная запись должна иметь подходящую роль для своей зоны работы: администрирование, прием, финансы, факультеты, преподавание, портал студента или контент.",
+        control: "Панель",
+        students: "Студенты",
+        operations: "Операции",
+        userId: "ID пользователя",
+        roles: "Роли",
+        type: "Тип",
+        noRoles: "Роли не назначены",
+        userNumber: "Пользователь",
+      },
+      ar: {
+        eyebrow: "حوكمة الوصول",
+        title: "المستخدمون والأدوار والوصول التشغيلي",
+        description:
+          "كل حساب يجب أن يمتلك الدور المناسب لمجال عمله: الإدارة، القبول، المالية، عمليات الكليات، التدريس، بوابة الطالب، أو إدارة المحتوى.",
+        control: "التحكم",
+        students: "الطلاب",
+        operations: "التشغيل",
+        userId: "رقم المستخدم",
+        roles: "الأدوار",
+        type: "النوع",
+        noRoles: "لا توجد أدوار مرتبطة",
+        userNumber: "مستخدم",
+      },
+    };
+    const userText = usersCopy[language] || usersCopy.en;
+
+    return (
+      <section className="space-y-4">
+        <div className="flex flex-col gap-3 rounded-3xl border border-gray-100 bg-white p-5 shadow-sm lg:flex-row lg:items-center lg:justify-between">
+          <div className="min-w-0">
+            <p className="text-[10px] font-black uppercase tracking-widest text-primary">
+              {userText.eyebrow}
+            </p>
+            <h2 className="mt-1 text-xl font-black text-navy">
+              {userText.title}
+            </h2>
+            <p className="mt-1 max-w-3xl text-xs font-semibold leading-5 text-gray-500">
+              {userText.description}
+            </p>
+          </div>
+          <div className="grid grid-cols-3 gap-2 text-center">
+            <div className="rounded-2xl border border-gray-100 px-4 py-3">
+              <p className="text-lg font-black text-primary">{controlCount}</p>
+              <p className="text-[10px] font-black uppercase tracking-wider text-gray-400">{userText.control}</p>
+            </div>
+            <div className="rounded-2xl border border-gray-100 px-4 py-3">
+              <p className="text-lg font-black text-sky-600">{studentCount}</p>
+              <p className="text-[10px] font-black uppercase tracking-wider text-gray-400">{userText.students}</p>
+            </div>
+            <div className="rounded-2xl border border-gray-100 px-4 py-3">
+              <p className="text-lg font-black text-amber-600">{operationalCount}</p>
+              <p className="text-[10px] font-black uppercase tracking-wider text-gray-400">{userText.operations}</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
+          {dataList.map((user) => {
+            const roleSlugs = user.role_slugs || [];
+            const roleNames = user.role_names || [];
+            const meta = roleCategoryMeta(roleSlugs);
+            const Icon = meta.icon;
+
+            return (
+              <article
+                key={user.id}
+                className={`rounded-3xl border bg-white p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md ${meta.cardTone}`}
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex min-w-0 items-start gap-3">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-navy text-sm font-black uppercase text-white shadow-sm">
+                      {getInitials(user.name)}
+                    </div>
+                    <div className="min-w-0">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <h3 className="min-w-0 truncate text-base font-black text-navy">
+                          {user.name || `${userText.userNumber} #${user.id}`}
+                        </h3>
+                        <span className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-[10px] font-black uppercase tracking-wider ${meta.tone}`}>
+                          <Icon className="h-3.5 w-3.5" />
+                          {user.access_tier || meta.label}
+                        </span>
+                      </div>
+                      <p className="mt-1 flex min-w-0 items-center gap-1.5 text-xs font-bold text-gray-500">
+                        <Mail className="h-3.5 w-3.5 shrink-0 text-primary" />
+                        <span className="truncate">{user.email}</span>
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex shrink-0 items-center gap-1">
+                    <button
+                      type="button"
+                      onClick={() => handleOpenEdit(user)}
+                      className="rounded-xl border border-gray-100 bg-white p-2 text-gray-500 transition-all hover:border-primary/20 hover:bg-primary-light hover:text-primary"
+                      title={t("button.edit")}
+                    >
+                      <Pencil className="h-4 w-4" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setDeleteTarget(user)}
+                      className="rounded-xl border border-gray-100 bg-white p-2 text-gray-500 transition-all hover:border-rose-100 hover:bg-rose-50 hover:text-rose-600"
+                      title={t("button.delete")}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </button>
+                  </div>
+                </div>
+
+                <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-3">
+                  <div className="rounded-2xl border border-white bg-white/80 p-3">
+                    <div className="flex items-center gap-2 text-gray-400">
+                      <Hash className="h-3.5 w-3.5" />
+                      <span className="text-[10px] font-black uppercase tracking-wider">{userText.userId}</span>
+                    </div>
+                    <p className="mt-2 text-sm font-black text-navy">#{user.id}</p>
+                  </div>
+                  <div className="rounded-2xl border border-white bg-white/80 p-3">
+                    <div className="flex items-center gap-2 text-gray-400">
+                      <KeyRound className="h-3.5 w-3.5" />
+                      <span className="text-[10px] font-black uppercase tracking-wider">{userText.roles}</span>
+                    </div>
+                    <p className="mt-2 text-sm font-black text-navy">{roleNames.length}</p>
+                  </div>
+                  <div className="rounded-2xl border border-white bg-white/80 p-3">
+                    <div className="flex items-center gap-2 text-gray-400">
+                      <UserRound className="h-3.5 w-3.5" />
+                      <span className="text-[10px] font-black uppercase tracking-wider">{userText.type}</span>
+                    </div>
+                    <p className="mt-2 truncate text-sm font-black text-navy">{meta.label}</p>
+                  </div>
+                </div>
+
+                <div className="mt-4 flex flex-wrap gap-2 border-t border-white/80 pt-4">
+                  {roleNames.length > 0 ? (
+                    roleNames.map((roleName, index) => (
+                      <span
+                        key={`${user.id}-${roleSlugs[index] || roleName}`}
+                        className="rounded-full border border-gray-100 bg-white px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-gray-600"
+                      >
+                        {roleName}
+                      </span>
+                    ))
+                  ) : (
+                    <span className="rounded-full border border-rose-100 bg-rose-50 px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-rose-700">
+                      {userText.noRoles}
+                    </span>
+                  )}
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      </section>
+    );
   };
 
   const renderFacultyManagementBoard = () => {
@@ -2940,6 +3649,35 @@ export default function ApanelCrud() {
                   })),
                 },
               ]
+            : resource === "users"
+              ? [
+                  {
+                    name: "role",
+                    label:
+                      language === "ar"
+                        ? "الدور"
+                        : language === "ru"
+                          ? "Роль"
+                          : language === "uz"
+                            ? "Rol"
+                            : "Role",
+                    options: roleOptions.items.map((role) => ({
+                      value: role.slug,
+                      label: role.name || role.slug,
+                    })),
+                  },
+                ]
+              : isCommentResource(resource)
+                ? [
+                    {
+                      name: "is_approved",
+                      label: "Status",
+                      options: [
+                        { value: "1", label: "Approved" },
+                        { value: "0", label: "Pending" },
+                      ],
+                    },
+                  ]
             : []
         }
         activeFilters={activeFilters}
@@ -2972,17 +3710,27 @@ export default function ApanelCrud() {
         </div>
       )}
 
+      {renderUserManagementBoard()}
       {renderFacultyManagementBoard()}
       {renderDepartmentManagementBoard()}
       {renderProgramManagementBoard()}
       {renderCourseManagementBoard()}
       {renderStaffManagementBoard()}
+      {renderCommentModerationBoard()}
 
       {/* Table view */}
       {loading && dataList.length === 0 ? (
         <div className="flex items-center justify-center min-h-75">
           <Loader2 className="w-8 h-8 animate-spin text-primary" />
         </div>
+      ) : isCommentResource(resource) ? (
+        <Pagination
+          currentPage={page}
+          lastPage={lastPage}
+          total={total}
+          perPage={15}
+          onPageChange={setPage}
+        />
       ) : (
         <div className="space-y-6">
           <DataTable

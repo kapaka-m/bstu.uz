@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useLanguage } from "../../../context/LanguageContext";
-import { useAuth } from "../../../context/AuthContext";
+import { hasApanelPermission, useAuth } from "../../../context/AuthContext";
 import { apanelService } from "../../../services/apanelService";
 import {
   LayoutDashboard,
@@ -105,13 +105,24 @@ export default function ApanelLayout({ children }) {
           label: t("apanel.nav.dashboard"),
           icon: LayoutDashboard,
         },
-        { path: "/apanel/settings", label: t("apanel.nav.settings"), icon: Settings },
+        {
+          path: "/apanel/settings",
+          label: t("apanel.nav.settings"),
+          icon: Settings,
+          permission: "manage-settings",
+        },
         {
           path: "/apanel/translations",
           label: t("apanel.nav.translationDict"),
           icon: Languages,
+          permission: "manage-translations",
         },
-        { path: "/apanel/audit-logs", label: t("apanel.nav.auditLogs"), icon: History },
+        {
+          path: "/apanel/audit-logs",
+          label: t("apanel.nav.auditLogs"),
+          icon: History,
+          permission: "view-audit-logs",
+        },
       ],
     },
     {
@@ -121,101 +132,121 @@ export default function ApanelLayout({ children }) {
           path: "/apanel/cms/home",
           label: "Home Page",
           icon: Home,
+          permission: "manage-pages",
         },
         {
           path: "/apanel/cms/about-page",
           label: t("apanel.nav.aboutPage"),
           icon: FileText,
+          permission: "manage-pages",
         },
         {
           path: "/apanel/cms/faculty-page",
           label: "Faculty Page",
           icon: GraduationCap,
+          permission: "manage-pages",
         },
         {
           path: "/apanel/cms/department-page",
           label: "Department Page",
           icon: Building2,
+          permission: "manage-pages",
         },
         {
           path: "/apanel/cms/programs",
           label: "Program Pages",
           icon: GraduationCap,
+          permission: "manage-pages",
         },
         {
           path: "/apanel/cms/apply-page",
           label: "Apply Page",
           icon: ClipboardList,
+          permission: "manage-pages",
         },
         {
           path: "/apanel/cms/contact-page",
           label: t("apanel.nav.contactPage"),
           icon: Mail,
+          permission: "manage-pages",
         },
         {
           path: "/apanel/cms/cms-auth",
           label: "CMS Auth",
           icon: KeyRound,
+          permission: "manage-pages",
         },
         {
           path: "/apanel/cms/header-navbar",
           label: t("apanel.nav.headerNavbar"),
           icon: MenuIcon,
+          permission: "manage-pages",
         },
         {
           path: "/apanel/cms/footer-web",
           label: t("apanel.nav.footerWeb"),
           icon: PanelBottom,
+          permission: "manage-pages",
         },
         {
           path: "/apanel/cms/locales",
           label: t("apanel.nav.locales"),
           icon: Globe,
+          permission: "manage-locales",
         },
         {
           path: "/apanel/cms/news-events",
           label: t("apanel.nav.newsEvents"),
           icon: Newspaper,
+          permission: "manage-news",
         },
         {
           path: "/apanel/cms/announcements",
           label: t("apanel.nav.announcements"),
           icon: Megaphone,
+          permission: "manage-announcements",
         },
         {
           path: "/apanel/cms/blog",
           label: t("apanel.nav.blog"),
           icon: BookOpen,
+          permission: "manage-news",
         },
         {
           path: "/apanel/cms/content-publishers",
           label: "Content Publishers",
           icon: Building2,
+          permission: "manage-news",
         },
         {
           path: "/apanel/cms/video-bdtu",
           label: t("apanel.nav.videoGallery"),
           icon: Video,
+          permission: "manage-news",
         },
         {
           path: "/apanel/cms/green-campus",
           label: t("apanel.nav.greenCampus"),
           icon: Leaf,
+          permission: "manage-pages",
         },
         {
           path: "/apanel/cms/administration",
           label: t("apanel.nav.administration"),
           icon: UsersRound,
+          permission: "manage-pages",
         },
         {
           path: "/apanel/centres-and-departments",
           label: t("apanel.nav.centresDepartments"),
           icon: Building2,
+          permission: "manage-services",
         },
         {
           path: "/apanel/cms/interactive-services",
           label: t("apanel.nav.interactiveServices"),
           icon: Briefcase,
+          permission: "manage-services",
         },
       ],
     },
@@ -226,28 +257,30 @@ export default function ApanelLayout({ children }) {
           path: "/apanel/newsletter/subscriptions",
           label: t("apanel.nav.newsletterSubscriptions"),
           icon: MailPlus,
+          permission: "manage-inquiries",
         },
         {
           path: "/apanel/management/contact",
           label: t("apanel.nav.contactMessages"),
           icon: HelpCircle,
+          permission: "manage-inquiries",
         },
       ],
     },
     {
       title: t("apanel.nav.academicHub"),
       links: [
-        { path: "/apanel/faculties", label: t("apanel.nav.faculties"), icon: GraduationCap },
-        { path: "/apanel/departments", label: t("apanel.nav.departments"), icon: Building2 },
-        { path: "/apanel/programs", label: t("apanel.nav.studyPrograms"), icon: BookOpen },
-        { path: "/apanel/courses", label: t("apanel.nav.courses"), icon: BookOpen },
-        { path: "/apanel/staff", label: t("apanel.nav.staffProfiles"), icon: Contact },
+        { path: "/apanel/faculties", label: t("apanel.nav.faculties"), icon: GraduationCap, permission: "manage-faculties" },
+        { path: "/apanel/departments", label: t("apanel.nav.departments"), icon: Building2, permission: "manage-departments" },
+        { path: "/apanel/programs", label: t("apanel.nav.studyPrograms"), icon: BookOpen, permission: "manage-programs" },
+        { path: "/apanel/courses", label: t("apanel.nav.courses"), icon: BookOpen, permission: "manage-courses" },
+        { path: "/apanel/staff", label: t("apanel.nav.staffProfiles"), icon: Contact, permission: "manage-staff" },
       ],
     },
     {
       title: t("apanel.nav.admissionsStudents"),
       links: [
-        { path: "/apanel/students", label: t("apanel.nav.students"), icon: User },
+        { path: "/apanel/students", label: t("apanel.nav.students"), icon: User, permission: "manage-students" },
       ],
     },
     {
@@ -257,82 +290,101 @@ export default function ApanelLayout({ children }) {
           path: "/apanel/applications",
           label: t("apanel.nav.allApplications"),
           icon: ClipboardList,
+          permission: "manage-applications",
         },
         {
           path: "/apanel/applications?stage=documents",
           label: t("apanel.nav.documentsReview"),
           icon: FileCheck,
+          permission: "manage-applications",
         },
         {
           path: "/apanel/applications?stage=equivalency",
           label: t("apanel.nav.academicReview"),
           icon: GraduationCap,
+          permission: "manage-applications",
         },
         {
           path: "/apanel/applications?stage=payments",
           label: t("apanel.nav.paymentsReview"),
           icon: CreditCard,
+          permission: "manage-applications",
         },
         {
           path: "/apanel/applications?stage=final-review",
           label: t("apanel.nav.finalReview"),
           icon: FileCheck,
+          permission: "manage-applications",
         },
         {
           path: "/apanel/applications?stage=admissions",
           label: t("apanel.nav.admissions"),
           icon: Shield,
+          permission: "manage-applications",
         },
         {
           path: "/apanel/countries",
           label: t("apanel.nav.countries"),
           icon: Globe,
+          permission: "manage-applications",
         },
         {
           path: "/apanel/nationalities",
           label: t("apanel.nav.nationalities"),
           icon: Globe,
+          permission: "manage-applications",
         },
       ],
     },
     {
       title: t("apanel.nav.studentServices"),
       links: [
-        { path: "/apanel/application-documents", label: t("apanel.nav.legacyDocuments"), icon: FileCheck },
-        { path: "/apanel/payments", label: t("apanel.nav.legacyPayments"), icon: CreditCard },
+        { path: "/apanel/application-documents", label: t("apanel.nav.legacyDocuments"), icon: FileCheck, permission: "manage-documents|manage-applications" },
+        { path: "/apanel/payments", label: t("apanel.nav.legacyPayments"), icon: CreditCard, permission: "manage-payments" },
         {
           path: "/apanel/support-tickets",
           label: t("apanel.nav.supportTickets"),
           icon: MessageSquare,
+          permission: "manage-support-tickets",
         },
-        { path: "/apanel/notifications", label: t("apanel.nav.notifications"), icon: Bell },
+        { path: "/apanel/notifications", label: t("apanel.nav.notifications"), icon: Bell, permission: "manage-notifications" },
         {
           path: "/apanel/application-status-histories",
           label: t("apanel.nav.statusHistory"),
           icon: History,
+          permission: "manage-applications",
         },
       ],
     },
     {
       title: t("apanel.nav.commentModeration"),
       links: [
-        { path: "/apanel/comments", label: t("apanel.nav.blogComments"), icon: MessageCircle },
-        { path: "/apanel/video-comments", label: t("apanel.nav.videoComments"), icon: MessageCircle },
+        { path: "/apanel/blog-comments", label: t("apanel.nav.blogComments"), icon: MessageCircle, permission: "manage-comments" },
+        { path: "/apanel/video-comments", label: t("apanel.nav.videoComments"), icon: MessageCircle, permission: "manage-comments" },
       ],
     },
     {
       title: t("apanel.nav.accessControl"),
       links: [
-        { path: "/apanel/users", label: t("apanel.nav.users"), icon: User },
-        { path: "/apanel/roles", label: t("apanel.nav.roles"), icon: Shield },
-        { path: "/apanel/permissions", label: t("apanel.nav.permissions"), icon: Shield },
+        { path: "/apanel/users", label: t("apanel.nav.users"), icon: User, permission: "manage-users" },
+        { path: "/apanel/roles", label: t("apanel.nav.roles"), icon: Shield, permission: "manage-roles" },
+        { path: "/apanel/permissions", label: t("apanel.nav.permissions"), icon: Shield, permission: "manage-permissions" },
       ],
     },
     {
       title: t("apanel.nav.assetsManager"),
-      links: [{ path: "/apanel/media", label: t("apanel.nav.mediaLibrary"), icon: Image }],
+      links: [{ path: "/apanel/media", label: "Media", icon: Image, permission: "manage-media" }],
     },
   ];
+
+  const visibleMenuCategories = menuCategories
+    .map((category) => ({
+      ...category,
+      links: category.links.filter((link) =>
+        hasApanelPermission(user, link.permission)
+      ),
+    }))
+    .filter((category) => category.links.length > 0);
 
   // Helper to determine active link
   const isActive = (path) => {
@@ -351,7 +403,7 @@ export default function ApanelLayout({ children }) {
     return location.pathname === pathName;
   };
 
-  const activeLink = menuCategories
+  const activeLink = visibleMenuCategories
     .flatMap((cat) => cat.links)
     .find((link) => isActive(link.path));
   const activePageLabel = activeLink?.label || t("apanel.nav.dashboard");
@@ -412,7 +464,7 @@ export default function ApanelLayout({ children }) {
 
       {/* Nav List */}
       <div className="grow overflow-y-auto px-4 py-6 space-y-7 scrollbar-thin scrollbar-thumb-navy-dark scrollbar-track-transparent">
-        {menuCategories.map((category) => (
+        {visibleMenuCategories.map((category) => (
           <div key={category.title} className="space-y-2">
             <span className="text-[9px] uppercase font-black text-navy-light/70 tracking-widest px-3 block">
               {category.title}

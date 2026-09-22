@@ -11,6 +11,48 @@ import { authService } from "../services/authService";
 
 const AuthContext = createContext();
 
+export const APANEL_ROLE_SLUGS = [
+  "apanel",
+  "super_admin",
+  "admin",
+  "admission_officer",
+  "international_office_staff",
+  "call_center_staff",
+  "faculty_staff",
+  "department_staff",
+  "registrar_office_staff",
+  "dormitory_manager",
+  "teacher",
+  "finance_staff",
+  "document_officer",
+  "content_manager",
+];
+
+const APANEL_BYPASS_ROLE_SLUGS = ["apanel", "super_admin"];
+
+export function hasApanelAccess(roles = []) {
+  return roles.some((role) => APANEL_ROLE_SLUGS.includes(role));
+}
+
+export function hasApanelPermission(user, permission) {
+  if (!permission) return true;
+
+  const roles = Array.isArray(user?.roles) ? user.roles : [];
+  if (roles.some((role) => APANEL_BYPASS_ROLE_SLUGS.includes(role))) {
+    return true;
+  }
+
+  const permissions = Array.isArray(user?.permissions) ? user.permissions : [];
+  const required = Array.isArray(permission)
+    ? permission
+    : String(permission)
+        .split("|")
+        .map((item) => item.trim())
+        .filter(Boolean);
+
+  return required.some((item) => permissions.includes(item));
+}
+
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(() => authStorage.getUser());
   const [loading, setLoading] = useState(true);
@@ -20,10 +62,14 @@ export function AuthProvider({ children }) {
 
     const baseUser = payload.user || payload;
     const roles = payload.roles || baseUser.roles || [];
+    const permissions = payload.permissions || baseUser.permissions || [];
 
     return {
       ...baseUser,
       roles: Array.isArray(roles) ? roles : Object.values(roles),
+      permissions: Array.isArray(permissions)
+        ? permissions
+        : Object.values(permissions),
     };
   }, []);
 
@@ -80,7 +126,7 @@ export function AuthProvider({ children }) {
       authStorage.setUser(currentUser);
       setUser(currentUser);
       const roles = currentUser?.roles || [];
-      return roles.includes("apanel");
+      return hasApanelAccess(roles);
     } catch {
       return false;
     }

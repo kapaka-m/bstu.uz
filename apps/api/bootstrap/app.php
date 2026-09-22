@@ -2,6 +2,7 @@
 
 use App\Console\Commands\OrganizeStorageCommand;
 use App\Console\Commands\SyncUsedMediaImagesCommand;
+use App\Http\Middleware\ApanelPermissionMiddleware;
 use App\Http\Middleware\LocaleMiddleware;
 use App\Http\Middleware\PermissionMiddleware;
 use App\Http\Middleware\RoleMiddleware;
@@ -30,6 +31,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->redirectGuestsTo(null);
 
         $middleware->alias([
+            'apanel.permission' => ApanelPermissionMiddleware::class,
             'role' => RoleMiddleware::class,
             'permission' => PermissionMiddleware::class,
         ]);

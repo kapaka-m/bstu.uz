@@ -222,11 +222,12 @@ export default function VideoBDTU() {
     if (!activeVideo || !isAuthenticated || !commentForm.comment) return;
 
     try {
-      const created = await videoService.postComment(activeVideo.slug || activeVideo.id, {
+      await videoService.postComment(activeVideo.slug || activeVideo.id, {
         content: commentForm.comment,
         parent_id: replyTarget?.id || null,
       });
-      setCommentsList((current) => [...current, created]);
+      const approvedComments = await videoService.getComments(activeVideo.slug || activeVideo.id);
+      setCommentsList(approvedComments || []);
       setCommentForm({ comment: "" });
       setReplyTarget(null);
     } catch {

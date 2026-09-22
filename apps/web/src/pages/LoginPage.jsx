@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Mail, Lock, LogIn, ArrowRight, Eye, EyeOff } from "lucide-react";
 import { motion } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
-import { useAuth } from "../context/AuthContext";
+import { hasApanelAccess, useAuth } from "../context/AuthContext";
 import FormError from "../components/common/FormError";
 import { authCmsService } from "../services/authCmsService";
 
@@ -93,7 +93,7 @@ export default function LoginPage() {
       setError("");
       const user = await login(formData.email, formData.password, "student");
       const roles = user?.roles || [];
-      if (!roles.includes("student") || roles.includes("apanel")) {
+      if (!roles.includes("student") || hasApanelAccess(roles)) {
         clearSession();
         setError(c.errorMessage);
         return;

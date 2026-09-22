@@ -305,7 +305,7 @@ export const apanelService = {
         this.list("application-documents", { per_page: 1, status: "pending" }).catch(() => ({ total: 0 })),
         this.list("support-tickets", { per_page: 1 }).catch(() => ({ total: 0 })),
         this.list("inquiries", { per_page: 1 }).catch(() => ({ total: 0 })),
-        this.list("comments", { per_page: 1 }).catch(() => ({ total: 0 })),
+        this.list("blog-comments", { per_page: 1 }).catch(() => ({ total: 0 })),
         this.list("audit-logs", { per_page: 5 }).catch(() => ({ data: [] }))
       ]);
 

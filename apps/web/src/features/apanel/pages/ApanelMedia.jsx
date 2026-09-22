@@ -9,6 +9,8 @@ import {
   Loader2,
   ClipboardCheck,
   ShieldCheck,
+  FileText,
+  Film,
 } from "lucide-react";
 import ConfirmDialog from "../components/ConfirmDialog";
 import Pagination from "../components/Pagination";
@@ -19,13 +21,37 @@ function mediaUrl(path) {
   return publicAssetUrl(path);
 }
 
+const ACCEPTED_MEDIA_EXTENSIONS = [
+  ".pdf",
+  ".doc",
+  ".docx",
+  ".xls",
+  ".xlsx",
+  ".csv",
+  ".txt",
+  ".jpg",
+  ".jpeg",
+  ".png",
+  ".webp",
+  ".svg",
+  ".gif",
+  ".avif",
+  ".ico",
+  ".mp4",
+  ".avi",
+  ".mov",
+  ".webm",
+  ".mkv",
+  ".m4v",
+].join(",");
+
 function detectMediaType(file, fallback = "document") {
   const mime = String(file?.type || "");
   const name = String(file?.name || "");
-  if (mime.startsWith("image/") || /\.(jpe?g|png|webp)$/i.test(name)) {
+  if (mime.startsWith("image/") || /\.(avif|gif|ico|jpe?g|png|svg|webp)$/i.test(name)) {
     return "image";
   }
-  if (mime.startsWith("video/") || /\.(mp4|avi|mov)$/i.test(name)) {
+  if (mime.startsWith("video/") || /\.(avi|m4v|mkv|mov|mp4|webm)$/i.test(name)) {
     return "video";
   }
   return fallback === "image" ? "document" : fallback;
@@ -91,11 +117,13 @@ export default function ApanelMedia() {
   const [total, setTotal] = useState(0);
   const [lastPage, setLastPage] = useState(1);
   const [deleteTarget, setDeleteTarget] = useState(null);
+  const [loadError, setLoadError] = useState("");
   const copy = pageCopy[language] || pageCopy.en;
 
   const fetchMedia = React.useCallback(async () => {
     try {
       setLoading(true);
+      setLoadError("");
       const pageData = await apanelService.listPage("media", {
         search,
         page,
@@ -106,11 +134,11 @@ export default function ApanelMedia() {
       setTotal(pageData.total);
       setLastPage(pageData.lastPage);
     } catch {
-      console.warn("Failed to load media assets");
+      setLoadError(t("apanel.crud.fetchFailed"));
     } finally {
       setLoading(false);
     }
-  }, [search, page]);
+  }, [search, page, t]);
 
   useEffect(() => {
     fetchMedia();
@@ -180,7 +208,7 @@ export default function ApanelMedia() {
           {t("apanel.mediaPage.uploadNewFile")}
           <input
             type="file"
-            accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.webp,.mp4,.avi,.mov"
+            accept={ACCEPTED_MEDIA_EXTENSIONS}
             onChange={handleFileUpload}
             disabled={uploading}
             className="hidden"
@@ -269,6 +297,10 @@ export default function ApanelMedia() {
         <div className="flex items-center justify-center min-h-75">
           <Loader2 className="w-8 h-8 animate-spin text-primary" />
         </div>
+      ) : loadError ? (
+        <div className="bg-white border border-rose-100 rounded-3xl p-8 text-center text-xs font-extrabold text-rose-600 shadow-xs">
+          {loadError}
+        </div>
       ) : mediaList.length === 0 ? (
         <div className="bg-white border border-gray-100 rounded-3xl p-12 text-center text-gray-400 font-semibold shadow-xs">
           <div className="flex flex-col items-center gap-3">
@@ -288,10 +320,17 @@ export default function ApanelMedia() {
               );
               const mimeType = String(media.mime_type || media.mime || "");
               const fullUrl = mediaUrl(mediaPath);
+              const extension = String(media.filename || mediaPath || "asset")
+                .split(".")
+                .pop()
+                .toLowerCase();
               const isImg =
-                /\.(jpeg|jpg|gif|png|webp|avif)$/i.test(
+                /\.(avif|gif|ico|jpe?g|png|svg|webp)$/i.test(
                   mediaPath || fileName,
                 ) || mimeType.startsWith("image/");
+              const isVideo =
+                /\.(avi|m4v|mkv|mov|mp4|webm)$/i.test(mediaPath || fileName) ||
+                mimeType.startsWith("video/");
               const isCopied = copiedId === media.id;
 
               return (
@@ -316,12 +355,23 @@ export default function ApanelMedia() {
                         alt={media.alt_text || media.filename || media.title}
                         className="object-cover w-full h-full group-hover:scale-105 transition-all"
                       />
+                    ) : isVideo ? (
+                      <video
+                        src={fullUrl}
+                        className="h-full w-full object-cover"
+                        controls
+                        preload="metadata"
+                      />
                     ) : (
-                      <div className="text-xs font-extrabold text-gray-400 uppercase p-4 text-center break-all">
-                        {String(media.filename || mediaPath || "asset")
-                          .split(".")
-                          .pop()}{" "}
-                        {t("apanel.mediaPage.file")}
+                      <div className="flex flex-col items-center gap-2 p-4 text-center text-gray-400">
+                        {media.type === "video" ? (
+                          <Film className="h-8 w-8 stroke-1.5" />
+                        ) : (
+                          <FileText className="h-8 w-8 stroke-1.5" />
+                        )}
+                        <span className="text-xs font-extrabold uppercase break-all">
+                          {extension} {t("apanel.mediaPage.file")}
+                        </span>
                       </div>
                     )}
                   </div>

@@ -249,6 +249,14 @@ class AdminCrudController extends Controller
             $query->with('linkedDepartments.translations');
         }
 
+        if ($resource === 'roles') {
+            $query->with('permissions')->withCount('permissions');
+        }
+
+        if ($resource === 'permissions') {
+            $query->withCount('roles');
+        }
+
         if ($resource === 'blogs') {
             $query->with('blogDepartment.translations');
         }
@@ -345,6 +353,9 @@ class AdminCrudController extends Controller
                 if ($resource === 'staff') {
                     $relations[] = 'linkedDepartments.translations';
                 }
+                if ($resource === 'roles') {
+                    $relations[] = 'permissions';
+                }
                 $record = $modelClass::with($relations)->find($id);
             }
         }
@@ -355,6 +366,10 @@ class AdminCrudController extends Controller
 
         if ($resource === 'staff') {
             $record->secondary_department_ids = $record->linkedDepartments->pluck('id')->values()->all();
+        }
+
+        if ($resource === 'roles') {
+            $record->permission_ids = $record->permissions->pluck('id')->values()->all();
         }
 
         return $this->successResponse($record, "{$resource} item retrieved");
@@ -406,11 +421,13 @@ class AdminCrudController extends Controller
                 $translations = $request->input('translations', []);
                 unset($validated['translations']);
                 $secondaryDepartmentIds = $this->extractStaffSecondaryDepartmentIds($resource, $validated);
+                $rolePermissionIds = $this->extractRolePermissionIds($resource, $validated);
 
                 $validated = $this->prepareValidatedData($resource, $validated);
                 $record = $modelClass::create($validated);
                 $this->handleWorkflowCreated($resource, $record);
                 $this->syncStaffSecondaryDepartments($resource, $record, $secondaryDepartmentIds);
+                $this->syncRolePermissions($resource, $record, $rolePermissionIds);
 
                 // Save translations
                 if (method_exists($record, 'translations') && ! empty($translations)) {
@@ -478,11 +495,13 @@ class AdminCrudController extends Controller
             $translations = $request->input('translations', []);
             unset($validated['translations']);
             $secondaryDepartmentIds = $this->extractStaffSecondaryDepartmentIds($resource, $validated);
+            $rolePermissionIds = $this->extractRolePermissionIds($resource, $validated);
 
             $validated = $this->prepareValidatedData($resource, $validated, $record);
             $record->update($validated);
             $this->handleWorkflowSideEffects($resource, $record, $oldValues, $validated, $request);
             $this->syncStaffSecondaryDepartments($resource, $record, $secondaryDepartmentIds);
+            $this->syncRolePermissions($resource, $record, $rolePermissionIds);
 
             if ($resource === 'comments') {
                 $this->syncBlogCommentsCount((int) ($oldValues['blog_id'] ?? $record->blog_id));
@@ -531,6 +550,24 @@ class AdminCrudController extends Controller
         return $ids;
     }
 
+    protected function extractRolePermissionIds(string $resource, array &$validated): array
+    {
+        if ($resource !== 'roles') {
+            return [];
+        }
+
+        $ids = collect($validated['permission_ids'] ?? [])
+            ->map(fn ($id) => (int) $id)
+            ->filter()
+            ->unique()
+            ->values()
+            ->all();
+
+        unset($validated['permission_ids']);
+
+        return $ids;
+    }
+
     protected function syncStaffSecondaryDepartments(string $resource, Model $record, array $departmentIds): void
     {
         if ($resource !== 'staff' || ! method_exists($record, 'linkedDepartments')) {
@@ -552,6 +589,15 @@ class AdminCrudController extends Controller
         }
 
         $record->linkedDepartments()->sync($payload);
+    }
+
+    protected function syncRolePermissions(string $resource, Model $record, array $permissionIds): void
+    {
+        if ($resource !== 'roles' || ! method_exists($record, 'permissions')) {
+            return;
+        }
+
+        $record->permissions()->sync($permissionIds);
     }
 
     protected function handleWorkflowSideEffects(string $resource, Model $record, array $oldValues, array $validated, Request $request): void
@@ -2654,7 +2700,7 @@ class AdminCrudController extends Controller
                 ];
             case 'media':
                 return [
-                    'file' => ($id ? 'nullable' : 'required').'|file|mimes:pdf,doc,docx,jpg,jpeg,png,webp,mp4,avi,mov|mimetypes:application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/jpeg,image/png,image/webp,video/mp4,video/x-msvideo,video/quicktime|max:204800',
+                    'file' => ($id ? 'nullable' : 'required').'|file|mimes:pdf,doc,docx,xls,xlsx,csv,txt,jpg,jpeg,png,webp,svg,gif,avif,ico,mp4,avi,mov,webm,mkv,m4v|mimetypes:application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/plain,text/csv,application/csv,image/jpeg,image/png,image/webp,image/svg+xml,image/gif,image/avif,image/x-icon,image/vnd.microsoft.icon,video/mp4,video/x-msvideo,video/quicktime,video/webm,video/x-matroska,video/x-m4v|max:204800',
                     'title' => 'nullable|string',
                     'alt_text' => 'nullable|string',
                     'type' => 'nullable|string|in:image,document,video',
@@ -2672,6 +2718,8 @@ class AdminCrudController extends Controller
                     'name' => 'required|string',
                     'slug' => 'required|string|unique:roles,slug,'.$id,
                     'description' => 'nullable|string',
+                    'permission_ids' => 'nullable|array',
+                    'permission_ids.*' => 'integer|exists:permissions,id',
                 ];
             case 'permissions':
                 return [

@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 
 class UsedMediaImageService
 {
-    private const IMAGE_EXTENSION_PATTERN = '/\.(?:avif|gif|jpe?g|png|svg|webp)(?:[?#].*)?$/i';
+    private const IMAGE_EXTENSION_PATTERN = '/\.(?:avif|gif|ico|jpe?g|png|svg|webp)(?:[?#].*)?$/i';
 
     /**
      * Return public-storage image paths that are referenced by active project data.
@@ -164,7 +164,7 @@ class UsedMediaImageService
     private function extractImageCandidates(string $value): array
     {
         if (! preg_match_all(
-            '!(?:https?://[^\s"\'<>]+|/storage/[^\s"\'<>]+|storage/[^\s"\'<>]+|public/[^\s"\'<>]+|[A-Za-z0-9._~%+\-/]+\.(?:avif|gif|jpe?g|png|svg|webp)(?:[?#][^\s"\'<>]*)?)!i',
+            '!(?:https?://[^\s"\'<>]+|/storage/[^\s"\'<>]+|storage/[^\s"\'<>]+|public/[^\s"\'<>]+|[A-Za-z0-9._~%+\-/]+\.(?:avif|gif|ico|jpe?g|png|svg|webp)(?:[?#][^\s"\'<>]*)?)!i',
             $value,
             $matches
         )) {

@@ -560,9 +560,24 @@ const RESOURCE_SCHEMAS = {
   },
   roles: {
     title: "apanel.crud.ui.title.systemRoles",
+    description: {
+      en: "Create admin roles and attach the permissions that define what each team can manage.",
+      uz: "Admin rollarini yarating va har bir jamoa nimalarni boshqarishini belgilaydigan huquqlarni ulang.",
+      ru: "Создавайте роли администраторов и назначайте права, которые определяют доступ команды.",
+      ar: "أنشئ أدوار لوحة التحكم واربط بها الصلاحيات التي تحدد ما يمكن لكل فريق إدارته.",
+    },
     columns: [
       { key: "name", label: "apanel.crud.ui.label.name", sortable: true },
       { key: "slug", label: "apanel.crud.ui.label.roleCodeSlug", sortable: true },
+      {
+        key: "permissions_count",
+        label: {
+          en: "Permissions",
+          uz: "Huquqlar",
+          ru: "Права",
+          ar: "الصلاحيات",
+        },
+      },
       { key: "description", label: "apanel.crud.ui.label.roleScopeDetails" },
     ],
     fields: [
@@ -574,6 +589,18 @@ const RESOURCE_SCHEMAS = {
       },
       { name: "slug", label: "apanel.crud.ui.label.roleCodeKey", type: "text", required: true },
       { name: "description", label: "apanel.crud.ui.label.roleScopeContext", type: "textarea" },
+      {
+        name: "permission_ids",
+        label: {
+          en: "Role permissions",
+          uz: "Rol huquqlari",
+          ru: "Права роли",
+          ar: "صلاحيات الدور",
+        },
+        type: "checkbox-group",
+        options: "__permissions__",
+        preserveValues: true,
+      },
     ],
   },
   permissions: {
@@ -587,6 +614,15 @@ const RESOURCE_SCHEMAS = {
     columns: [
       { key: "name", label: "apanel.crud.ui.label.name", sortable: true },
       { key: "slug", label: "apanel.crud.ui.label.permissionSlug", sortable: true },
+      {
+        key: "roles_count",
+        label: {
+          en: "Roles",
+          uz: "Rollar",
+          ru: "Роли",
+          ar: "الأدوار",
+        },
+      },
       { key: "description", label: "apanel.crud.ui.label.accessDescription" },
     ],
     fields: [
@@ -1234,6 +1270,10 @@ export default function ApanelCrud() {
     departments: {},
     loading: false,
   });
+  const [permissionOptions, setPermissionOptions] = useState({
+    items: [],
+    loading: false,
+  });
 
   const [toast, setToast] = useState(null);
   const showToast = (message, type = "success") => {
@@ -1313,6 +1353,36 @@ export default function ApanelCrud() {
   useEffect(() => {
     fetchRecords();
   }, [fetchRecords]);
+
+  useEffect(() => {
+    if (resource !== "roles") return;
+
+    let cancelled = false;
+    const fetchPermissions = async () => {
+      try {
+        setPermissionOptions((prev) => ({ ...prev, loading: true }));
+        const pageData = await apanelService.listPage("permissions", {
+          per_page: 500,
+          sort_by: "slug",
+          sort_dir: "asc",
+        });
+
+        if (!cancelled) {
+          setPermissionOptions({ items: pageData.items, loading: false });
+        }
+      } catch {
+        if (!cancelled) {
+          setPermissionOptions({ items: [], loading: false });
+        }
+      }
+    };
+
+    fetchPermissions();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [resource]);
 
   useEffect(() => {
     if (resource !== "faculties") return;
@@ -1762,6 +1832,24 @@ export default function ApanelCrud() {
             label: translation.name || department.slug || `Department #${department.id}`,
           };
         }),
+      };
+    }
+
+    if (field.options === "__permissions__") {
+      return {
+        ...field,
+        options: permissionOptions.items.map((permission) => ({
+          value: permission.id,
+          label: `${permission.name || permission.slug} (${permission.slug})`,
+        })),
+        description: permissionOptions.loading
+          ? {
+              en: "Loading permissions...",
+              uz: "Huquqlar yuklanmoqda...",
+              ru: "Права загружаются...",
+              ar: "جاري تحميل الصلاحيات...",
+            }
+          : field.description,
       };
     }
 

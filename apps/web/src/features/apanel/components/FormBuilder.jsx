@@ -89,6 +89,9 @@ export default function FormBuilder({
         if (field.type === "boolean" && state[field.name] === "") {
           state[field.name] = false;
         }
+        if (field.type === "checkbox-group" && state[field.name] === "") {
+          state[field.name] = [];
+        }
       }
     });
 
@@ -283,7 +286,10 @@ export default function FormBuilder({
             <div
               key={field.name}
             className={
-              field.type === "textarea" || field.type === "json" || field.type === "media"
+              field.type === "textarea" ||
+              field.type === "json" ||
+              field.type === "media" ||
+              field.type === "checkbox-group"
                 ? "md:col-span-2"
                 : "col-span-1"
             }
@@ -346,21 +352,24 @@ export default function FormBuilder({
                   };
 
                   return (
-                    <div className="flex flex-wrap gap-4 py-2">
+                    <div className="grid max-h-72 grid-cols-1 gap-2 overflow-y-auto rounded-2xl border border-gray-100 bg-gray-50/60 p-3 sm:grid-cols-2 lg:grid-cols-3">
                       {(field.options || []).map((opt) => {
                         const optVal = typeof opt === "object" ? opt.value : opt;
                         const optLabel = typeof opt === "object" ? opt.label : opt;
                         const isChecked = selectedValues.includes(String(optVal).toLowerCase());
 
                         return (
-                          <label key={optVal} className="flex items-center gap-2 cursor-pointer">
+                          <label
+                            key={optVal}
+                            className="flex min-w-0 cursor-pointer items-start gap-2 rounded-xl border border-white bg-white px-3 py-2 shadow-2xs transition-all hover:border-primary/20 hover:bg-primary/5"
+                          >
                             <input
                               type="checkbox"
                               checked={isChecked}
                               onChange={(e) => handleCheckboxGroupChange(optVal, e.target.checked)}
-                              className="w-4 h-4 text-primary border-gray-300 rounded-sm focus:ring-primary focus:ring-1"
+                              className="mt-0.5 h-4 w-4 shrink-0 rounded-sm border-gray-300 text-primary focus:ring-1 focus:ring-primary"
                             />
-                            <span className="text-xs font-semibold text-navy">
+                            <span className="min-w-0 break-words text-xs font-semibold text-navy">
                               {optLabel}
                             </span>
                           </label>
